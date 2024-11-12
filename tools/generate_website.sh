@@ -47,6 +47,7 @@ fi
 # Creating /var/www/fungi.local
 mkdir -p /var/www/fungi.local/public
 # Creating info test file
+echo -n "" > /var/www/fungi.local/public/index.php
 sudo echo -e "<?php echo phpinfo();" >> /var/www/fungi.local/public/index.php
 
 # Create sites-available
@@ -66,4 +67,6 @@ echo -e "</VirtualHost>" >> /etc/apache2/sites-available/fungi.local.conf
 cd /etc/apache2/sites-available
 sudo a2ensite fungi.local.conf
 sudo systemctl reload apache2
+echo -e "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 echo -e "${RED}REMEMBER:${NC} configure: ${YELLOW}mysql_secure_installation${NC} with params: n, n, n, n, y"
+echo -e "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
