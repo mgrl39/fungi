@@ -1,9 +1,9 @@
 # 🍄 Fungi
 ## 🔨 Tecnologias
 Bootstrap, MySQL, PHP.
-<img src="public/assets/img/logos/bootstrap.png" width="100" height="100" alt="Bootstrap Logo">
-<img src="public/assets/img/logos/mysql.png" width="100" height="100" alt="MySQL Logo">
-<img src="public/assets/img/logos/php.png" width="100" height="100" alt="PHP Logo">
+<img src="public/assets/img/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">
+<img src="public/assets/img/logos/mysql.png" width="50" height="50" alt="MySQL Logo">
+<img src="public/assets/img/logos/php.png" width="50" height="50" alt="PHP Logo">
 ## 📚 Estructura de codigo 
 ```bash
 ├── composer.json
