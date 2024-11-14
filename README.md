@@ -1,6 +1,6 @@
 # 🍄 Fungi
 ## 🔨 Tecnologias
-<img src="public/assets/img/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">    <img src="public/assets/img/logos/mysql.png" width="50" height="50" alt="MySQL Logo">    <img src="public/assets/img/logos/php.png" width="50" height="50" alt="PHP Logo">
+<img src="public/assets/img/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="public/assets/img/logos/mysql.png" width="50" height="50" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="public/assets/img/logos/php.png" width="50" height="50" alt="PHP Logo">
 ## 📚 Estructura de codigo 
 ```bash
 ├── composer.json
