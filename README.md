@@ -1,7 +1,7 @@
 # fungi
 ## Tecnologias
 Bootstrap, MySQL, PHP.
-## Code Structure
+## Estructura de codigo 
 ```bash
 ├── README.md
 ├── src
