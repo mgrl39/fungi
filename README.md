@@ -1,5 +1,5 @@
 # 🍄 Fungi
-## Tecnologias
+## 🔨 Tecnologias
 Bootstrap, MySQL, PHP.
 ## Estructura de codigo 
 ```bash
