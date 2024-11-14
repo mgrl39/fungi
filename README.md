@@ -1,7 +1,7 @@
 # 🍄 Fungi
 ## 🔨 Tecnologias
 Bootstrap, MySQL, PHP.
-[Bootstrap](public/assets/img/bootstrap.png)
+![Bootstrap](public/assets/img/bootstrap.png)
 ## 📚 Estructura de codigo 
 ```bash
 ├── composer.json
