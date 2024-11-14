@@ -1,4 +1,4 @@
-# fungi
+# 🍄 Fungi
 ## Tecnologias
 Bootstrap, MySQL, PHP.
 ## Estructura de codigo 
