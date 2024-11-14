@@ -1,7 +1,7 @@
 # 🍄 Fungi
 ## 🔨 Tecnologias
 Bootstrap, MySQL, PHP.
-## Estructura de codigo 
+## 📚 Estructura de codigo 
 ```bash
 ├── composer.json
 ├── composer.lock
