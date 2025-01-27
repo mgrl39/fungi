@@ -30,3 +30,6 @@ Scripts hechos en **Python 3** para descargar la informacion de ciertos apartado
 └── UTILS.md
 ```
 
+```shell
+composer install
+```
