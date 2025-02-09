@@ -1,41 +1,66 @@
 <?php
 // public/index.php
 
-// 1. Cargar el autoload de Composer para disponer de las dependencias (Twig, JWT, etc.)
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// 2. Configurar Twig para que lea las plantillas desde la carpeta "public/templates"
+// Configurar Twig
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
 $twig = new \Twig\Environment($loader, [
-	// Desactiva la cache durante el desarrollo; en producción puedes usar una carpeta de cache.
-	'cache' => false,
-	'debug' => true,
+    'cache' => false,
+    'debug' => true,
 ]);
-
-// (Opcional) Habilitar extensión de depuración para Twig.
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
-// 3. Obtener la ruta solicitada
+// Manejar la acción de carga asíncrona (infinite scroll)
+if (isset($_GET['action']) && $_GET['action'] == 'load') {
+    require_once __DIR__ . '/../src/controllers/DatabaseController.php';
+    $db = new DatabaseController();
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 20; // Cantidad de registros por "página"
+    $offset = ($page - 1) * $limit;
+    $fungis = $db->getFungisPaginated($limit, $offset);
+    header('Content-Type: application/json');
+    echo json_encode($fungis);
+    exit;
+}
+
+// Obtener la ruta solicitada
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// 4. Sistema de routing básico
+// Ruteo básico
 switch ($uri) {
-case '/':
-case '/index':
-	// Renderizar la plantilla de la página de inicio
-	echo $twig->render('index.twig', [
-		'title' => 'Página de Inicio'
-	]);
-	break;
-case '/login':
-	echo $twig->render('login.twig', [
-		'title' => 'Iniciar Sesión'
-	]);
-	break;
-default:
-	echo $twig->render('404.twig', [
-		'title' => 'Página no encontrada'
-	]);
-	break;
+    // Página principal (listing de fungis)
+    case '/':
+    case '/index':
+        require_once __DIR__ . '/../src/controllers/DatabaseController.php';
+        $db = new DatabaseController();
+        // Cargar la primera página (20 registros)
+        $fungis = $db->getFungisPaginated(20, 0);
+        echo $twig->render('fungi_list.twig', [
+            'title' => 'Todos los Fungis',
+            'fungis' => $fungis
+        ]);
+        break;
+
+    // Página de detalle para un hongo
+    case '/fungus':
+        require_once __DIR__ . '/../src/controllers/DatabaseController.php';
+        $db = new DatabaseController();
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+        $fungus = $db->getFungusById($id);
+        if (!$fungus) {
+            echo $twig->render('404.twig', ['title' => 'Fungus no encontrado']);
+        } else {
+            echo $twig->render('fungus_detail.twig', [
+                'title' => $fungus['name'],
+                'fungus' => $fungus
+            ]);
+        }
+        break;
+
+    // Otras rutas...
+    default:
+        echo $twig->render('404.twig', ['title' => 'Página no encontrada']);
+        break;
 }
 

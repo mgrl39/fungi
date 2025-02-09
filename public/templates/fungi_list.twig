@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Opcional: estilos para el loader */
+        #loader {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Fungi</a>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>{{ title }}</h1>
+        <div id="fungi-list" class="row">
+            {% for fungus in fungis %}
+                <div class="col-md-4 mb-4 fungus-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ fungus.name }}</h5>
+                            <p class="card-text">Autor: {{ fungus.author }}</p>
+                            <a href="/fungus?id={{ fungus.id }}" class="btn btn-primary">Ver detalles</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="loader">
+            <p>Cargando más fungis...</p>
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 p-3 bg-light">
+        <p>&copy; 2025 Fungi. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- jQuery para AJAX y manejo de scroll -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        let page = 2; // Ya se cargó la página 1 en el render inicial
+        let loading = false;
+
+        function loadMoreFungis() {
+            if (loading) return;
+            loading = true;
+            $("#loader").show();
+            $.ajax({
+                url: "/?action=load&page=" + page,
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    if (data.length > 0) {
+                        data.forEach(function(fungus) {
+                            let html = `
+                            <div class="col-md-4 mb-4 fungus-item">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${fungus.name}</h5>
+                                        <p class="card-text">Autor: ${fungus.author}</p>
+                                        <a href="/fungus?id=${fungus.id}" class="btn btn-primary">Ver detalles</a>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                            $("#fungi-list").append(html);
+                        });
+                        page++;
+                        loading = false;
+                        $("#loader").hide();
+                    } else {
+                        // Si no hay más datos
+                        $("#loader").html("<p>No hay más fungis.</p>");
+                    }
+                },
+                error: function() {
+                    console.error("Error al cargar más fungis.");
+                    loading = false;
+                    $("#loader").hide();
+                }
+            });
+        }
+
+        // Detectar scroll para cargar más
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                loadMoreFungis();
+            }
+        });
+    </script>
+</body>
+</html>
+
