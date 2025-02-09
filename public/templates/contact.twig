@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Google Fonts: Montserrat -->
@@ -15,31 +16,33 @@
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
-    /* Contenedor para centrar el formulario vertical y horizontalmente */
-    .login-container {
+    /* Contenedor para centrar el formulario de contacto */
+    .contact-container {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
-    /* Caja de login con fondo semitransparente y bordes redondeados */
-    .login-box {
-      background: rgba(0, 0, 0, 0.6);
+    /* Caja de contacto con fondo semitransparente y bordes redondeados */
+    .contact-box {
+      background: rgba(0, 0, 0, 0.7);
       padding: 40px;
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
       width: 100%;
-      max-width: 400px;
+      max-width: 500px;
     }
     /* Título del formulario */
-    .login-box h1 {
+    .contact-box h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
       font-weight: 700;
+      text-align: center;
     }
-    /* Estilos para inputs: fondo transparente, borde blanco semi-transparente */
+    /* Estilos para inputs y textarea: fondo transparente y borde blanco semitransparente */
     .form-control {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.7);
@@ -68,25 +71,45 @@
       transform: scale(1.05);
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     }
+    /* Estilo opcional para el aviso de mensaje guardado */
+    .info-text {
+      font-size: 0.9rem;
+      margin-top: 15px;
+      text-align: center;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-box text-center">
+  <div class="contact-container">
+    <div class="contact-box">
       <h1>{{ title }}</h1>
-      <form action="/login" method="post">
-        <div class="form-group text-left">
-          <label for="username">Usuario</label>
-          <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese su usuario" required>
+      <form action="/contact" method="post">
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Tu nombre" required>
         </div>
-        <div class="form-group text-left">
-          <label for="password">Contraseña</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Tu correo electrónico" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        <div class="form-group">
+          <label for="subject">Asunto</label>
+          <input type="text" class="form-control" id="subject" name="subject" placeholder="Asunto del mensaje" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Mensaje</label>
+          <textarea class="form-control" id="message" name="message" rows="5" placeholder="Escribe tu mensaje aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar Mensaje</button>
       </form>
+      <p class="info-text">*Tu mensaje será guardado en nuestro sistema.</p>
     </div>
   </div>
+
+  <footer class="text-center mt-5 p-3" style="background: rgba(0,0,0,0.5);">
+    <p>&copy; 2025 Fungi. Todos los derechos reservados.</p>
+  </footer>
 
   <!-- jQuery y Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

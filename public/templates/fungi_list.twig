@@ -1,102 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        /* Opcional: estilos para el loader */
-        #loader {
-            text-align: center;
-            padding: 20px;
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Google Fonts: Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    /* Fondo épico con gradiente oscuro */
+    body {
+      background: linear-gradient(135deg, #141e30, #243b55);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    /* Contenedor de partículas de fondo */
+    #particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Animación flotante para partículas y, si se desea, otros elementos */
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+    /* Contenedor principal (contenido sobre el fondo) */
+    .epic-container {
+      position: relative;
+      z-index: 1;
+      padding-top: 70px; /* espacio para el navbar */
+      padding-bottom: 30px;
+    }
+    /* Navbar personalizado */
+    .navbar {
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .navbar-brand {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff !important;
+    }
+    /* Estilos para las tarjetas de fungis */
+    .fungus-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 15px;
+      color: #141e30;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .fungus-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+    .card-title {
+      font-weight: 900;
+    }
+    /* Loader personalizado */
+    #loader {
+      text-align: center;
+      padding: 20px;
+      display: none;
+      color: #fff;
+    }
+    /* Footer épico */
+    footer {
+      background: rgba(0, 0, 0, 0.5);
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Fungi</a>
-    </nav>
+  <!-- Contenedor para las partículas de fondo -->
+  <div id="particles-container"></div>
 
-    <div class="container mt-5">
-        <h1>{{ title }}</h1>
-        <div id="fungi-list" class="row">
-            {% for fungus in fungis %}
-                <div class="col-md-4 mb-4 fungus-item">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ fungus.name }}</h5>
-                            <p class="card-text">Autor: {{ fungus.author }}</p>
-                            <a href="/fungus?id={{ fungus.id }}" class="btn btn-primary">Ver detalles</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <div id="loader">
-            <p>Cargando más fungis...</p>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">Fungi Prime</a>
     </div>
+  </nav>
 
-    <footer class="text-center mt-5 p-3 bg-light">
-        <p>&copy; 2025 Fungi. Todos los derechos reservados.</p>
-    </footer>
+  <!-- Contenido principal -->
+  <div class="container epic-container">
+    <h1 class="text-center mb-5">{{ title }}</h1>
+    <div id="fungi-list" class="row">
+      {% for fungus in fungis %}
+      <div class="col-md-4 mb-4">
+        <div class="card fungus-card">
+          <div class="card-body">
+            <h5 class="card-title">{{ fungus.name }}</h5>
+            <p class="card-text">Autor: {{ fungus.author }}</p>
+            <a href="/fungus?id={{ fungus.id }}" class="btn btn-primary">Ver detalles</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div id="loader">
+      <p>Cargando más fungis...</p>
+    </div>
+  </div>
 
-    <!-- jQuery para AJAX y manejo de scroll -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script>
-        let page = 2; // Ya se cargó la página 1 en el render inicial
-        let loading = false;
+  <footer class="text-center mt-5 p-3">
+    <p>&copy; 2025 Fungi Prime. Todos los derechos reservados.</p>
+  </footer>
 
-        function loadMoreFungis() {
-            if (loading) return;
-            loading = true;
-            $("#loader").show();
-            $.ajax({
-                url: "/?action=load&page=" + page,
-                method: "GET",
-                dataType: "json",
-                success: function(data) {
-                    if (data.length > 0) {
-                        data.forEach(function(fungus) {
-                            let html = `
-                            <div class="col-md-4 mb-4 fungus-item">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${fungus.name}</h5>
-                                        <p class="card-text">Autor: ${fungus.author}</p>
-                                        <a href="/fungus?id=${fungus.id}" class="btn btn-primary">Ver detalles</a>
-                                    </div>
-                                </div>
-                            </div>
-                            `;
-                            $("#fungi-list").append(html);
-                        });
-                        page++;
-                        loading = false;
-                        $("#loader").hide();
-                    } else {
-                        // Si no hay más datos
-                        $("#loader").html("<p>No hay más fungis.</p>");
-                    }
-                },
-                error: function() {
-                    console.error("Error al cargar más fungis.");
-                    loading = false;
-                    $("#loader").hide();
-                }
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    // Infinite scroll: carga más fungis cuando se alcanza el fondo
+    let page = 2; // La página 1 ya se cargó en el render inicial
+    let loading = false;
+
+    function loadMoreFungis() {
+      if (loading) return;
+      loading = true;
+      $("#loader").show();
+      $.ajax({
+        url: "/?action=load&page=" + page,
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+          if (data.length > 0) {
+            data.forEach(function(fungus) {
+              let html = `
+              <div class="col-md-4 mb-4">
+                <div class="card fungus-card">
+                  <div class="card-body">
+                    <h5 class="card-title">${fungus.name}</h5>
+                    <p class="card-text">Autor: ${fungus.author}</p>
+                    <a href="/fungus?id=${fungus.id}" class="btn btn-primary">Ver detalles</a>
+                  </div>
+                </div>
+              </div>
+              `;
+              $("#fungi-list").append(html);
             });
+            page++;
+            loading = false;
+            $("#loader").hide();
+          } else {
+            $("#loader").html("<p>No hay más fungis.</p>");
+          }
+        },
+        error: function() {
+          console.error("Error al cargar más fungis.");
+          loading = false;
+          $("#loader").hide();
         }
+      });
+    }
 
-        // Detectar scroll para cargar más
-        $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                loadMoreFungis();
-            }
-        });
-    </script>
+    $(window).scroll(function() {
+      if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+        loadMoreFungis();
+      }
+    });
+
+    // Crear partículas en el fondo al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles-container');
+      const numParticles = 50; // Ajusta el número de partículas
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = '5px';
+        particle.style.height = '5px';
+        particle.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
+        particle.style.borderRadius = '50%';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        const duration = Math.random() * 3 + 2;
+        particle.style.animation = `float ${duration}s ease-in-out infinite`;
+        particlesContainer.appendChild(particle);
+      }
+    });
+  </script>
 </body>
 </html>
-

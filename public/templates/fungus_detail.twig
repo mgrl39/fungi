@@ -1,35 +1,126 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Google Fonts: Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    /* Fondo degradado épico */
+    body {
+      background: linear-gradient(135deg, #141e30, #243b55);
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    /* Contenedor principal con animación */
+    .epic-container {
+      max-width: 900px;
+      margin: 50px auto;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+      animation: fadeIn 1.5s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Estilos para títulos y textos */
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+    h2 {
+      font-size: 2rem;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+    .label-bold {
+      font-weight: 700;
+    }
+    /* Botón épico */
+    .btn-epic {
+      font-size: 1.2rem;
+      padding: 12px 30px;
+      border-radius: 50px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-epic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+    /* Separador estilizado */
+    hr {
+      border-top: 1px solid rgba(255,255,255,0.3);
+      margin: 2rem 0;
+    }
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 20px 0;
+      text-align: center;
+      color: #fff;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Fungi</a>
-    </nav>
-
-    <div class="container mt-5">
-        <h1>{{ fungus.name }}</h1>
-        <p><strong>Autor:</strong> {{ fungus.author }}</p>
-        <p><strong>Comestibilidad:</strong> {{ fungus.edibility }}</p>
-        <p><strong>Nombre común:</strong> {{ fungus.common_name }}</p>
-        <p><strong>Observaciones:</strong> {{ fungus.observations }}</p>
-        <p><strong>Título:</strong> {{ fungus.title }}</p>
-        <!-- Puedes agregar más campos o información adicional -->
-        <a href="/" class="btn btn-secondary">Volver</a>
+  <div class="container epic-container">
+    <h1 class="text-center">{{ fungus.name }}</h1>
+    <p><span class="label-bold">Autor:</span> {{ fungus.author }}</p>
+    <p><span class="label-bold">Comestibilidad:</span> {{ fungus.edibility }}</p>
+    <p><span class="label-bold">Hábitat:</span> {{ fungus.habitat }}</p>
+    <p><span class="label-bold">Observaciones:</span> {{ fungus.observations }}</p>
+    <p><span class="label-bold">Nombre común:</span> {{ fungus.common_name }}</p>
+    <p><span class="label-bold">Sinónimo:</span> {{ fungus.synonym }}</p>
+    <p><span class="label-bold">Título:</span> {{ fungus.title }}</p>
+    
+    {% if taxonomy is defined and taxonomy %}
+      <hr>
+      <h2>Taxonomía</h2>
+      <p><span class="label-bold">División:</span> {{ taxonomy.division }}</p>
+      <p><span class="label-bold">Subdivisión:</span> {{ taxonomy.subdivision }}</p>
+      <p><span class="label-bold">Clase:</span> {{ taxonomy.class }}</p>
+      <p><span class="label-bold">Subclase:</span> {{ taxonomy.subclass }}</p>
+      <p><span class="label-bold">Orden:</span> {{ taxonomy.ordo }}</p>
+      <p><span class="label-bold">Familia:</span> {{ taxonomy.family }}</p>
+    {% endif %}
+    
+    {% if characteristics is defined and characteristics %}
+      <hr>
+      <h2>Características</h2>
+      <p><span class="label-bold">Sombrero (Cap):</span> {{ characteristics.cap }}</p>
+      <p><span class="label-bold">Himenio:</span> {{ characteristics.hymenium }}</p>
+      <p><span class="label-bold">Tallo (Stipe):</span> {{ characteristics.stipe }}</p>
+      <p><span class="label-bold">Carne (Flesh):</span> {{ characteristics.flesh }}</p>
+    {% endif %}
+    
+    <div class="text-center mt-4">
+      <a href="/" class="btn btn-secondary btn-epic">Volver</a>
     </div>
+  </div>
 
-    <footer class="text-center mt-5 p-3 bg-light">
-        <p>&copy; 2025 Fungi. Todos los derechos reservados.</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Fungi. Todos los derechos reservados.</p>
+  </footer>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-

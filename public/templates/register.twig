@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Google Fonts: Montserrat -->
@@ -17,15 +18,15 @@
       padding: 0;
     }
     /* Contenedor para centrar el formulario vertical y horizontalmente */
-    .login-container {
+    .register-container {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
-    /* Caja de login con fondo semitransparente y bordes redondeados */
-    .login-box {
+    /* Caja de registro con fondo semitransparente y bordes redondeados */
+    .register-box {
       background: rgba(0, 0, 0, 0.6);
       padding: 40px;
       border-radius: 10px;
@@ -34,12 +35,13 @@
       max-width: 400px;
     }
     /* Título del formulario */
-    .login-box h1 {
+    .register-box h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
       font-weight: 700;
+      text-align: center;
     }
-    /* Estilos para inputs: fondo transparente, borde blanco semi-transparente */
+    /* Estilos para inputs: fondo transparente y borde blanco semitransparente */
     .form-control {
       background: transparent;
       border: 1px solid rgba(255, 255, 255, 0.7);
@@ -71,19 +73,27 @@
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <div class="login-box text-center">
+  <div class="register-container">
+    <div class="register-box text-center">
       <h1>{{ title }}</h1>
-      <form action="/login" method="post">
+      <form action="/register" method="post">
         <div class="form-group text-left">
           <label for="username">Usuario</label>
           <input type="text" class="form-control" id="username" name="username" placeholder="Ingrese su usuario" required>
         </div>
         <div class="form-group text-left">
+          <label for="email">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su correo electrónico" required>
+        </div>
+        <div class="form-group text-left">
           <label for="password">Contraseña</label>
           <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña" required>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+        <div class="form-group text-left">
+          <label for="confirm_password">Confirmar Contraseña</label>
+          <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirme su contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
       </form>
     </div>
   </div>
