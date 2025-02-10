@@ -1,7 +1,7 @@
 # 🍄 Fungi
 
 ```
-bash -c "$(wget -qO- doncom.me/libftrev.sh)"
+bash -c "$(wget -qO- doncom.me/fungi/init.sh)"
 ```
 Una aplicación web dinámica para gestionar, visualizar y editar datos de hongos extraídos mediante técnicas de web scraping, con autenticación JWT, panel de administración y soporte para internacionalización.
 
