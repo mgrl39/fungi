@@ -57,6 +57,11 @@ switch ($uri) {
             ]);
         }
         break;
+	
+	case preg_match('#^/api(/.*)?$#', $uri) ? true : false:
+		// Redirigir todas las solicitudes a /api/ hacia api.php
+		require_once __DIR__ . '/api.php';
+        break;
 
     case '/login':
         require_once __DIR__ . '/../src/controllers/ApiController.php';
