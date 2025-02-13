@@ -67,42 +67,6 @@ function handleGetRequest($db, $endpoint)
             }
             break;
 
-        case 'taxonomy':
-            $stmt = $db->pdo->query("SELECT * FROM taxonomy");
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-            break;
-
-        case preg_match('/^taxonomy\/(\d+)$/', $endpoint, $matches) ? true : false:
-            $id = $matches[1];
-            $stmt = $db->pdo->prepare("SELECT * FROM taxonomy WHERE fungi_id = ?");
-            $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result) {
-                echo json_encode($result);
-            } else {
-                http_response_code(404);
-                echo json_encode(['error' => 'Taxonomía no encontrada']);
-            }
-            break;
-
-        case 'characteristics':
-            $stmt = $db->pdo->query("SELECT * FROM characteristics");
-            echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
-            break;
-
-        case preg_match('/^characteristics\/(\d+)$/', $endpoint, $matches) ? true : false:
-            $id = $matches[1];
-            $stmt = $db->pdo->prepare("SELECT * FROM characteristics WHERE fungi_id = ?");
-            $stmt->execute([$id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($result) {
-                echo json_encode($result);
-            } else {
-                http_response_code(404);
-                echo json_encode(['error' => 'Características no encontradas']);
-            }
-            break;
-
         case 'users':
             $stmt = $db->pdo->query("SELECT id, username, email, role, created_at FROM users");
             echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
@@ -143,36 +107,8 @@ function handlePostRequest($db, $endpoint)
                 $data['title']
             ]);
 
-            $fungusId = $db->pdo->lastInsertId();
             http_response_code(201); // Created
-            echo json_encode(['id' => $fungusId]);
-
-            // Insertar taxonomía si se proporciona
-            if (isset($data['division']) || isset($data['subdivision']) || isset($data['class'])) {
-                $stmt = $db->pdo->prepare("INSERT INTO taxonomy (fungi_id, division, subdivision, class, subclass, ordo, family) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([
-                    $fungusId,
-                    $data['division'] ?? null,
-                    $data['subdivision'] ?? null,
-                    $data['class'] ?? null,
-                    $data['subclass'] ?? null,
-                    $data['ordo'] ?? null,
-                    $data['family'] ?? null
-                ]);
-            }
-
-            // Insertar características si se proporciona
-            if (isset($data['cap']) || isset($data['hymenium']) || isset($data['stipe'])) {
-                $stmt = $db->pdo->prepare("INSERT INTO characteristics (fungi_id, cap, hymenium, stipe, flesh) VALUES (?, ?, ?, ?, ?)");
-                $stmt->execute([
-                    $fungusId,
-                    $data['cap'] ?? null,
-                    $data['hymenium'] ?? null,
-                    $data['stipe'] ?? null,
-                    $data['flesh'] ?? null
-                ]);
-            }
-
+            echo json_encode(['id' => $db->pdo->lastInsertId()]);
             break;
 
         default:
@@ -228,16 +164,6 @@ function handleDeleteRequest($db, $endpoint)
     switch ($endpoint) {
         case preg_match('/^fungi\/(\d+)$/', $endpoint, $matches) ? true : false:
             $id = $matches[1];
-
-            // Eliminar taxonomía asociada
-            $stmt = $db->pdo->prepare("DELETE FROM taxonomy WHERE fungi_id = ?");
-            $stmt->execute([$id]);
-
-            // Eliminar características asociadas
-            $stmt = $db->pdo->prepare("DELETE FROM characteristics WHERE fungi_id = ?");
-            $stmt->execute([$id]);
-
-            // Eliminar hongo
             $stmt = $db->pdo->prepare("DELETE FROM fungi WHERE id = ?");
             $stmt->execute([$id]);
 
