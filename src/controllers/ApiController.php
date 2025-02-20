@@ -10,10 +10,10 @@ class ApiController
 
 	public function __construct()
 	{
-		$host = 'localhost';
-		$dbname = 'fungidb';
-		$user = 'root';
-		$pass = 'Root@1234';
+		$host = $_ENV['DB_HOST'];
+		$dbname = $_ENV['DB_NAME'];
+		$user = $_ENV['DB_USER'];
+		$pass = $_ENV['DB_PASS'];
 
 		try {
 			$this->pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
