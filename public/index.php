@@ -3,6 +3,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Configuración de internacionalización
+$locale = 'es_ES.UTF-8';
+putenv("LC_ALL=$locale");
+setlocale(LC_ALL, $locale);
+bindtextdomain('messages', __DIR__ . '/../locale');
+textdomain('messages');
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
@@ -40,7 +47,7 @@ switch ($uri) {
         // Cargar la primera página (20 registros)
         $fungis = $db->getFungisPaginated(20, 0);
         echo $twig->render('fungi_list.twig', [
-            'title' => 'Todos los Fungis',
+            'title' => _('Todos los Fungis'),
             'fungis' => $fungis
         ]);
         break;
@@ -52,7 +59,7 @@ switch ($uri) {
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         $fungus = $db->getFungusById($id);
         if (!$fungus) {
-            echo $twig->render('404.twig', ['title' => 'Fungus no encontrado']);
+            echo $twig->render('404.twig', ['title' => _('Fungus no encontrado')]);
         } else {
             echo $twig->render('fungus_detail.twig', [
                 'title' => $fungus['name'],
@@ -65,6 +72,18 @@ switch ($uri) {
 		// Redirigir todas las solicitudes a /api/ hacia api.php
 		require_once __DIR__ . '/api.php';
         break;
+
+    case '/random':
+            require_once __DIR__ . '/../src/controllers/DatabaseController.php';
+            $db = new DatabaseController();
+            $fungus = $db->getRandomFungus();
+        
+            // Debug: Verificar el valor de $fungus
+            echo $twig->render('random_fungi.twig', [
+                'title' => _('Hongo aleatorio'),
+                'fungus' => $fungus
+            ]);
+            break;
 
     case '/login':
         require_once __DIR__ . '/../src/controllers/ApiController.php';
@@ -80,10 +99,10 @@ switch ($uri) {
                 exit;
             }
             http_response_code(401);
-            echo json_encode(['error' => 'Credenciales inválidas']);
+            echo json_encode(['error' => _('Credenciales inválidas')]);
             exit;
         }
-        echo $twig->render('login.twig', ['title' => 'Iniciar sesión']);
+        echo $twig->render('login.twig', ['title' => _('Iniciar sesión')]);
         break;
     case '/logout':
         // Simplemente redirigir a la página de inicio

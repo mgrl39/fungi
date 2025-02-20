@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Google Fonts: Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/random_fungi.css">
+</head>
+<body>
+  {% include 'header.twig' %}
+  <div class="contact-container">
+    <div class="contact-box">
+      <h1>Hongo Aleatorio</h1>
+      
+      {% if fungus %}
+        <div class="fungus-details">
+          <h2>{{ fungus.name }}</h2>
+          <p><strong>Autor:</strong> {{ fungus.author }}</p>
+          <p><strong>Comestibilidad:</strong> {{ fungus.edibility }}</p>
+          <p><strong>Hábitat:</strong> {{ fungus.habitat }}</p>
+          <p><strong>Observaciones:</strong> {{ fungus.observations }}</p>
+          <p><strong>Nombre común:</strong> {{ fungus.common_name }}</p>
+          <p><strong>Sinónimo:</strong> {{ fungus.synonym }}</p>
+        </div>
+        
+        <a href="/random" class="btn btn-primary btn-block mt-4">Ver otro hongo aleatorio</a>
+      {% else %}
+        <p class="text-center">No se encontró ningún hongo</p>
+      {% endif %}
+      
+    </div>
+  </div>
+
+  <!-- jQuery y Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -21,14 +21,25 @@ class DatabaseController {
 
 	// Método para obtener todos los registros (para pruebas o sin paginar)
 	public function getAllData($table) {
-		$stmt = $this->pdo->prepare("SELECT * FROM $table");
+		$stmt = $this->pdo->prepare("
+			SELECT f.*, t.*, c.*
+			FROM $table f
+			LEFT JOIN taxonomy t ON f.id = t.fungi_id
+			LEFT JOIN characteristics c ON f.id = c.fungi_id
+		");
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	// Método para obtener fungis paginados
 	public function getFungisPaginated($limit, $offset) {
-		$stmt = $this->pdo->prepare("SELECT * FROM fungi LIMIT :limit OFFSET :offset");
+		$stmt = $this->pdo->prepare("
+			SELECT f.*, t.*, c.*
+			FROM fungi f
+			LEFT JOIN taxonomy t ON f.id = t.fungi_id
+			LEFT JOIN characteristics c ON f.id = c.fungi_id
+			LIMIT :limit OFFSET :offset
+		");
 		$stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
 		$stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 		$stmt->execute();
@@ -37,10 +48,125 @@ class DatabaseController {
 
 	// Método para obtener los detalles de un fungus por id
 	public function getFungusById($id) {
-		$stmt = $this->pdo->prepare("SELECT * FROM fungi WHERE id = :id");
+		$stmt = $this->pdo->prepare("
+			SELECT f.*, t.*, c.*
+			FROM fungi f
+			LEFT JOIN taxonomy t ON f.id = t.fungi_id
+			LEFT JOIN characteristics c ON f.id = c.fungi_id
+			WHERE f.id = :id
+		");
 		$stmt->bindParam(':id', $id, PDO::PARAM_INT);
 		$stmt->execute();
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function getRandomFungus() {
+		$stmt = $this->pdo->prepare("
+			SELECT f.*, t.*, c.*
+			FROM fungi f
+			LEFT JOIN taxonomy t ON f.id = t.fungi_id
+			LEFT JOIN characteristics c ON f.id = c.fungi_id
+			ORDER BY RAND() LIMIT 1
+		");
+		$stmt->execute();
+		// var_dump($stmt->fetch(PDO::FETCH_ASSOC));
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
+	// Búsqueda avanzada de hongos por múltiples criterios
+    public function searchFungi($criteria = []) {
+        $query = "
+            SELECT f.*, t.*, c.*
+            FROM fungi f
+            LEFT JOIN taxonomy t ON f.id = t.fungi_id
+            LEFT JOIN characteristics c ON f.id = c.fungi_id
+            WHERE 1=1
+        ";
+        $params = [];
+        
+        if (!empty($criteria['edibility'])) {
+            $query .= " AND f.edibility = :edibility";
+            $params[':edibility'] = $criteria['edibility'];
+        }
+        if (!empty($criteria['family'])) {
+            $query .= " AND t.family LIKE :family";
+            $params[':family'] = "%{$criteria['family']}%";
+        }
+        if (!empty($criteria['name'])) {
+            $query .= " AND (f.name LIKE :name OR f.common_name LIKE :name)";
+            $params[':name'] = "%{$criteria['name']}%";
+        }
+
+        $stmt = $this->pdo->prepare($query);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener estadísticas de hongos
+    public function getFungiStats() {
+        $stats = [];
+        
+        // Contar hongos por comestibilidad
+        $stmt = $this->pdo->query("
+            SELECT edibility, COUNT(*) as count 
+            FROM fungi 
+            GROUP BY edibility
+        ");
+        $stats['edibility'] = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+        // Contar hongos por familia
+        $stmt = $this->pdo->query("
+            SELECT family, COUNT(*) as count 
+            FROM taxonomy 
+            WHERE family IS NOT NULL 
+            GROUP BY family 
+            ORDER BY count DESC 
+            LIMIT 10
+        ");
+        $stats['top_families'] = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+        return $stats;
+    }
+
+    // Obtener hongos similares basados en características
+    public function getSimilarFungi($fungiId, $limit = 5) {
+        $stmt = $this->pdo->prepare("
+            SELECT f2.*, t2.*, c2.*,
+            (
+                CASE WHEN f1.edibility = f2.edibility THEN 20 ELSE 0 END +
+                CASE WHEN t1.family = t2.family THEN 30 ELSE 0 END +
+                CASE WHEN t1.ordo = t2.ordo THEN 20 ELSE 0 END
+            ) as similarity_score
+            FROM fungi f1
+            JOIN taxonomy t1 ON f1.id = t1.fungi_id
+            JOIN characteristics c1 ON f1.id = c1.fungi_id
+            JOIN fungi f2
+            JOIN taxonomy t2 ON f2.id = t2.fungi_id
+            JOIN characteristics c2 ON f2.id = c2.fungi_id
+            WHERE f1.id = :id AND f2.id != :id
+            ORDER BY similarity_score DESC
+            LIMIT :limit
+        ");
+        $stmt->bindParam(':id', $fungiId, PDO::PARAM_INT);
+        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Obtener hongos por temporada (basado en observaciones)
+    public function getFungiByHabitat($habitat) {
+        $stmt = $this->pdo->prepare("
+            SELECT f.*, t.*, c.*
+            FROM fungi f
+            LEFT JOIN taxonomy t ON f.id = t.fungi_id
+            LEFT JOIN characteristics c ON f.id = c.fungi_id
+            WHERE f.habitat LIKE :habitat
+        ");
+        $stmt->bindValue(':habitat', "%$habitat%", PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
