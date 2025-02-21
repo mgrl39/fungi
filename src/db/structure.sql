@@ -63,3 +63,27 @@ CREATE TABLE jwt_tokens (
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE image_config (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    config_key VARCHAR(255) UNIQUE NOT NULL COMMENT 'Ej: upload_path, thumbnail_path',
+    path VARCHAR(255) NOT NULL COMMENT 'Ruta base ej: "/uploads/fungi/"',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    filename VARCHAR(255) NOT NULL COMMENT 'Nombre del archivo ej: "amanita-muscaria-1.jpg"',
+    config_key VARCHAR(255) NOT NULL COMMENT 'Clave para obtener la ruta base',
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (config_key) REFERENCES image_config(config_key)
+);
+
+CREATE TABLE fungi_images (
+    fungi_id INT NOT NULL,
+    image_id INT NOT NULL,
+    PRIMARY KEY (fungi_id, image_id),
+    FOREIGN KEY (fungi_id) REFERENCES fungi(id),
+    FOREIGN KEY (image_id) REFERENCES images(id)
+);
