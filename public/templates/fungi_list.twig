@@ -2,64 +2,122 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ title }}</title>
-  <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <!-- Google Fonts: Montserrat -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-  </style>
-</head>
-<body>
-  <!-- Partículas en el fondo -->
-  <div id="particles-container"></div>
-
-  <!-- Incluir el header con navegación extendida -->
-  {% include 'header.twig' %}
-   <!-- Incluir el widget flotante para cambiar la vista -->
-  {% include 'view_toggle.twig' %}
-  <!-- Estilos específicos para la lista de hongos -->
-  <style>
-    .fungus-card {
-      transition: transform 0.3s ease;
-      border: none;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #34495e;
+      --accent-color: #3498db;
+      --text-light: #ecf0f1;
+      --text-dark: #2c3e50;
     }
-    
-    .fungus-card:hover {
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--text-light);
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 60px;
+    }
+
+    .main-container {
+      padding: 2rem 0;
+    }
+
+    .fungi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .fungi-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .fungi-card:hover {
       transform: translateY(-5px);
     }
 
-    .fungus-image {
-      height: 200px;
+    .fungi-card img {
+      width: 100%;
+      height: 250px;
       object-fit: cover;
     }
 
-    .edibility-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      padding: 5px 10px;
-      border-radius: 15px;
+    .card-body {
+      padding: 1.5rem;
+      color: var(--text-dark);
     }
 
-    .edibility-comestible { background-color: #28a745; color: white; }
-    .edibility-toxica { background-color: #dc3545; color: white; }
-    .edibility-mortal { background-color: #000; color: white; }
-    .edibility-precaucion { background-color: #ffc107; }
-  </style>
+    .card-title {
+      color: var(--accent-color);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
 
-  <!-- Contenido principal -->
-  <div class="container epic-container">
-    <h1 class="text-center mb-5">{{ title }}</h1>
-    <div id="fungi-list" class="row">
+    .card-text {
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95) !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: var(--accent-color) !important;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-dark) !important;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1rem 0;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 768px) {
+      .fungi-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include 'header.twig' %}
+  {% include 'view_toggle.twig' %}
+
+  <div class="container main-container">
+    <div class="fungi-header text-center">
+      <h1>{{ title }}</h1>
+    </div>
+
+    <div class="fungi-grid" id="fungi-list">
       {% for fungus in fungis %}
-      <div class="col-md-4 mb-4">
-        <div class="card fungus-card">
+        <div class="fungi-card">
           {% if fungus.image_urls %}
             {% set first_image = fungus.image_urls|split(',')|first %}
-            <img src="{{ first_image }}" alt="{{ fungus.name }}" class="card-img-top fungus-image">
+            <img src="{{ first_image }}" alt="{{ fungus.name }}">
           {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{ fungus.name }}</h5>
@@ -67,28 +125,31 @@
             <a href="/fungus?id={{ fungus.id }}" class="btn btn-primary">Ver detalles</a>
           </div>
         </div>
-      </div>
       {% endfor %}
     </div>
-    <div id="loader">
-      <p>Cargando más fungis...</p>
+    <div id="loader" class="text-center">
+      <p>Cargando más hongos...</p>
     </div>
   </div>
 
-{% include 'footer.twig' %}
+  <footer class="text-center">
+    <div class="container">
+      <p class="mb-0">&copy; {{ "now"|date("Y") }} Fungi Database. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 
-  <!-- jQuery y Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-    // Infinite scroll: carga más fungis cuando se alcanza el fondo
     let page = 2;
     let loading = false;
+    
     function loadMoreFungis() {
       if (loading) return;
       loading = true;
       $("#loader").show();
+      
       $.ajax({
         url: "/?action=load&page=" + page,
         method: "GET",
@@ -97,15 +158,14 @@
           if (data.length > 0) {
             data.forEach(function(fungus) {
               let html = `
-              <div class="col-md-4 mb-4">
-                <div class="card fungus-card">
+                <div class="fungi-card">
+                  ${fungus.image_urls ? `<img src="${fungus.image_urls.split(',')[0]}" alt="${fungus.name}">` : ''}
                   <div class="card-body">
                     <h5 class="card-title">${fungus.name}</h5>
                     <p class="card-text">Autor: ${fungus.author}</p>
                     <a href="/fungus?id=${fungus.id}" class="btn btn-primary">Ver detalles</a>
                   </div>
                 </div>
-              </div>
               `;
               $("#fungi-list").append(html);
             });
@@ -113,36 +173,20 @@
             loading = false;
             $("#loader").hide();
           } else {
-            $("#loader").html("<p>No hay más fungis.</p>");
+            $("#loader").html("<p>No hay más hongos disponibles</p>");
           }
         },
         error: function() {
-          console.error("Error al cargar más fungis.");
+          console.error("Error al cargar más hongos");
           loading = false;
           $("#loader").hide();
         }
       });
     }
+
     $(window).scroll(function() {
       if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
         loadMoreFungis();
-      }
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-      const particlesContainer = document.getElementById('particles-container');
-      const numParticles = 50;
-      for (let i = 0; i < numParticles; i++) {
-        const particle = document.createElement('div');
-        particle.style.position = 'absolute';
-        particle.style.width = '5px';
-        particle.style.height = '5px';
-        particle.style.backgroundColor = 'rgba(255, 255, 255, 0.5)';
-        particle.style.borderRadius = '50%';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        const duration = Math.random() * 3 + 2;
-        particle.style.animation = `float ${duration}s ease-in-out infinite`;
-        particlesContainer.appendChild(particle);
       }
     });
   </script>
