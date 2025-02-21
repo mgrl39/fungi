@@ -77,7 +77,6 @@ switch ($uri) {
             require_once __DIR__ . '/../src/controllers/DatabaseController.php';
             $db = new DatabaseController();
             $fungus = $db->getRandomFungus();
-        
             // Debug: Verificar el valor de $fungus
             echo $twig->render('random_fungi.twig', [
                 'title' => _('Hongo aleatorio'),

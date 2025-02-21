@@ -27,8 +27,24 @@
     <!-- Contenido principal -->
     <main class="container mt-5">
         <h1>{{ title }}</h1>
-        <p>Bienvenido a la página de inicio del proyecto Fungi.</p>
-        <!-- Aquí podrás incluir los datos scrapeados y otros contenidos dinámicos -->
+        <div class="fungi-grid">
+            {% if fungi %}
+                {% for fungus in fungi %}
+                    <div class="fungi-card">
+                        {% if fungus.image_urls %}
+                            {% set first_image = fungus.image_urls|split(',')|first %}
+                            <img src="{{ first_image }}" alt="{{ fungus.name }}" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ fungus.name }}</h5>
+                            <p class="card-text">{{ fungus.common_name }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No se encontraron hongos.</p>
+            {% endif %}
+        </div>
     </main>
 
     <!-- Footer -->

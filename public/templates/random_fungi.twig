@@ -18,6 +18,13 @@
       
       {% if fungus %}
         <div class="fungus-details">
+          {% if fungus.image_urls %}
+            <div class="fungus-images">
+              {% for image_url in fungus.image_urls|split(',') %}
+                <img src="{{ image_url }}" alt="{{ fungus.name }}" class="img-fluid mb-3">
+              {% endfor %}
+            </div>
+          {% endif %}
           <h2>{{ fungus.name }}</h2>
           <p><strong>Autor:</strong> {{ fungus.author }}</p>
           <p><strong>Comestibilidad:</strong> {{ fungus.edibility }}</p>

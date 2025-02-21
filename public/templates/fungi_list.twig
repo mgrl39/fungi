@@ -19,7 +19,36 @@
   {% include 'header.twig' %}
    <!-- Incluir el widget flotante para cambiar la vista -->
   {% include 'view_toggle.twig' %}
-  
+  <!-- Estilos específicos para la lista de hongos -->
+  <style>
+    .fungus-card {
+      transition: transform 0.3s ease;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .fungus-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .fungus-image {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .edibility-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      border-radius: 15px;
+    }
+
+    .edibility-comestible { background-color: #28a745; color: white; }
+    .edibility-toxica { background-color: #dc3545; color: white; }
+    .edibility-mortal { background-color: #000; color: white; }
+    .edibility-precaucion { background-color: #ffc107; }
+  </style>
 
   <!-- Contenido principal -->
   <div class="container epic-container">
@@ -28,6 +57,10 @@
       {% for fungus in fungis %}
       <div class="col-md-4 mb-4">
         <div class="card fungus-card">
+          {% if fungus.image_urls %}
+            {% set first_image = fungus.image_urls|split(',')|first %}
+            <img src="{{ first_image }}" alt="{{ fungus.name }}" class="card-img-top fungus-image">
+          {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{ fungus.name }}</h5>
             <p class="card-text">Autor: {{ fungus.author }}</p>
