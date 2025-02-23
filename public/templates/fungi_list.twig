@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/css/view-toggle.css">
+  <script src="/js/view-toggle.js" defer></script>
   <style>
     :root {
       --primary-color: #2c3e50;
@@ -112,20 +114,18 @@
       <h1>{{ title }}</h1>
     </div>
 
-    <div class="fungi-grid" id="fungi-list">
-      {% for fungus in fungis %}
-        <div class="fungi-card">
-          {% if fungus.image_urls %}
-            {% set first_image = fungus.image_urls|split(',')|first %}
-            <img src="{{ first_image }}" alt="{{ fungus.name }}">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ fungus.name }}</h5>
-            <p class="card-text">Autor: {{ fungus.author }}</p>
-            <a href="/fungus?id={{ fungus.id }}" class="btn btn-primary">Ver detalles</a>
+    <div class="container mt-4">
+      <div id="fungi-container" class="grid-view">
+        {% for fungi in fungis %}
+          <div class="fungi-card card">
+            <img src="{{ fungi.image_urls|split(',')[0] }}" class="card-img-top" alt="{{ fungi.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ fungi.name }}</h5>
+              <p class="card-text">{{ fungi.description }}</p>
+            </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
     <div id="loader" class="text-center">
       <p>Cargando más hongos...</p>
@@ -158,8 +158,8 @@
           if (data.length > 0) {
             data.forEach(function(fungus) {
               let html = `
-                <div class="fungi-card">
-                  ${fungus.image_urls ? `<img src="${fungus.image_urls.split(',')[0]}" alt="${fungus.name}">` : ''}
+                <div class="fungi-card card">
+                  ${fungus.image_urls ? `<img src="${fungus.image_urls.split(',')[0]}" class="card-img-top" alt="${fungus.name}">` : ''}
                   <div class="card-body">
                     <h5 class="card-title">${fungus.name}</h5>
                     <p class="card-text">Autor: ${fungus.author}</p>
@@ -167,7 +167,7 @@
                   </div>
                 </div>
               `;
-              $("#fungi-list").append(html);
+              $("#fungi-container").append(html);
             });
             page++;
             loading = false;
