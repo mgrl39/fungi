@@ -21,6 +21,10 @@ $twig = new \Twig\Environment($loader, [
 ]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
+// Agregar variable global para el tema
+$theme = isset($_COOKIE['theme']) ? $_COOKIE['theme'] : 'light';
+$twig->addGlobal('theme', $theme);
+
 // Manejar la acción de carga asíncrona (infinite scroll)
 if (isset($_GET['action']) && $_GET['action'] == 'load') {
     require_once __DIR__ . '/../src/controllers/DatabaseController.php';
@@ -83,7 +87,11 @@ switch ($uri) {
                 'fungus' => $fungus
             ]);
             break;
-
+    case '/profile':
+        require_once __DIR__ . '/../src/controllers/ApiController.php';
+        $api = new ApiController();
+        $api->profile();
+        break;
     case '/login':
         require_once __DIR__ . '/../src/controllers/ApiController.php';
         $api = new ApiController();
@@ -129,7 +137,7 @@ switch ($uri) {
     case '/reset_password': 
         echo $twig->render('reset_password.twig', ['title' => 'Recuperar contraseña']); 
         break;
-    case '/terms': 
+    case '/terms': // 
         echo $twig->render('terms.twig', ['title' => 'Términos y condiciones']); 
         break;
     case '/faq': 

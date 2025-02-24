@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const gridView = document.getElementById('grid-view');
     const listView = document.getElementById('list-view');
+    const cardsView = document.getElementById('cards-view');
     const fungiContainer = document.getElementById('fungi-container');
 
     gridView.addEventListener('click', function() {
@@ -19,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
         gridView.classList.remove('active');
         // Guardar preferencia en localStorage
         localStorage.setItem('viewPreference', 'list');
+    });
+
+    cardsView.addEventListener('click', function() {
+        fungiContainer.classList.remove('grid-view');
+        fungiContainer.classList.remove('list-view');
+        fungiContainer.classList.add('cards-view');
+        cardsView.classList.add('active');
     });
 
     // Cargar preferencia guardada
