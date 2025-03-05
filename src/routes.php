@@ -1,5 +1,15 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php'; // Asegúrate de que el autoload de Composer esté incluido
+
+// Importar el controlador
+require_once __DIR__ . '/controllers/FungiController.php';
+
+use App\Controllers\FungiController;
+
+// Inicializar el controlador de hongos
+$fungiController = new FungiController($db);
+
 // Obtener la ruta solicitada
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -67,13 +77,26 @@ switch ($uri) {
     case '/fungus':
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         $fungus = $db->getFungusById($id);
+        
         if (!$fungus) {
             echo $twig->render('404.twig', ['title' => _('Fungus no encontrado')]);
         } else {
+            // Incrementar las vistas del hongo
+            $fungiController->incrementFungiViews($id);
+
             echo $twig->render('fungus_detail.twig', [
                 'title' => $fungus['name'],
                 'fungus' => $fungus
             ]);
+        }
+        break;
+
+    case '/fungus/like':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $session->isLoggedIn()) {
+            $fungiId = $_POST['fungi_id'] ?? 0;
+            $fungiController->likeFungi($_SESSION['user_id'], $fungiId);
+            header('Location: /fungus?id=' . $fungiId);
+            exit;
         }
         break;
 
