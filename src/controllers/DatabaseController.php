@@ -268,4 +268,116 @@ class DatabaseController {
         return false;
     }
 
+    public function updateUserTokens($userId, $token, $jwt) {
+        $stmt = $this->pdo->prepare("
+            UPDATE users 
+            SET token = :token, 
+                jwt = :jwt,
+                last_login = CURRENT_TIMESTAMP
+            WHERE id = :id
+        ");
+        
+        return $stmt->execute([
+            ':token' => $token,
+            ':jwt' => $jwt,
+            ':id' => $userId
+        ]);
+    }
+
+    public function verifyUserToken($userId, $token) {
+        $stmt = $this->pdo->prepare("
+            SELECT 1 FROM users 
+            WHERE id = :id AND token = :token
+        ");
+        
+        $stmt->execute([':id' => $userId, ':token' => $token]);
+        return (bool)$stmt->fetch();
+    }
+
+    public function verifyUserJWT($userId, $jwt) {
+        $stmt = $this->pdo->prepare("
+            SELECT 1 FROM users 
+            WHERE id = :id AND jwt = :jwt
+        ");
+        
+        $stmt->execute([':id' => $userId, ':jwt' => $jwt]);
+        return (bool)$stmt->fetch();
+    }
+
+    public function updateUserProfile($userId, $data) {
+        $allowedFields = ['email', 'bio', 'avatar_url'];
+        $updates = [];
+        $params = [':id' => $userId];
+
+        foreach ($data as $field => $value) {
+            if (in_array($field, $allowedFields)) {
+                $updates[] = "$field = :$field";
+                $params[":$field"] = $value;
+            }
+        }
+
+        if (empty($updates)) return false;
+
+        $sql = "UPDATE users SET " . implode(', ', $updates) . " WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    public function addFavorite($userId, $fungiId) {
+        $stmt = $this->pdo->prepare("
+            INSERT IGNORE INTO user_favorites (user_id, fungi_id)
+            VALUES (:user_id, :fungi_id)
+        ");
+        
+        return $stmt->execute([
+            ':user_id' => $userId,
+            ':fungi_id' => $fungiId
+        ]);
+    }
+
+    public function removeFavorite($userId, $fungiId) {
+        $stmt = $this->pdo->prepare("
+            DELETE FROM user_favorites 
+            WHERE user_id = :user_id AND fungi_id = :fungi_id
+        ");
+        
+        return $stmt->execute([
+            ':user_id' => $userId,
+            ':fungi_id' => $fungiId
+        ]);
+    }
+
+    public function getUserFavorites($userId) {
+        $stmt = $this->pdo->prepare("
+            SELECT f.* 
+            FROM fungi f
+            JOIN user_favorites uf ON f.id = uf.fungi_id
+            WHERE uf.user_id = :user_id
+        ");
+        
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function execute($sql, $params = []) {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
+    public function query($sql, $params = []) {
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return $stmt;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
 }

@@ -2,10 +2,12 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/src/controllers/DatabaseController.php';
 require_once __DIR__ . '/src/controllers/AuthController.php';
+require_once __DIR__ . '/src/controllers/SessionController.php';
 
 // Inicializar controladores
 $db = new DatabaseController();
 $authController = new AuthController($db);
+$session = new SessionController($db);
 
 // Configuración de Twig
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/public/templates');
@@ -19,6 +21,14 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Router básico
 switch ($uri) {
+    case '/login':
+        if ($session->isLoggedIn()) {
+            // Si ya está logueado, redirigir al home con mensaje
+            header('Location: /?already_logged=1');
+            exit;
+        }
+        break;
+
     case '/register':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Procesar el formulario de registro
@@ -48,58 +58,26 @@ switch ($uri) {
         }
         break;
 
-    case '/login':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $result = $authController->login(
-                $_POST['username'] ?? '',
-                $_POST['password'] ?? ''
-            );
-            
-            if ($result['success']) {
-                header('Location: /');
-                exit;
-            } else {
-                echo $twig->render('login.twig', [
-                    'title' => 'Iniciar Sesión',
-                    'error' => $result['message']
-                ]);
-            }
-        } else {
-            $registered = isset($_GET['registered']) ? true : false;
-            echo $twig->render('login.twig', [
-                'title' => 'Iniciar Sesión',
-                'success' => $registered ? 'Usuario registrado exitosamente. Por favor inicia sesión.' : null
-            ]);
-        }
-        break;
-
     case '/':
-        // Página principal
+        // Tu código existente para la página principal
         $fungi = $db->getAllData('fungi');
         echo $twig->render('fungi_list.twig', [
             'title' => 'Base de Datos de Hongos',
-            'fungis' => $fungi
+            'fungis' => $fungi,
+            'already_logged' => isset($_GET['already_logged']) ? true : false
         ]);
         break;
 
-    case '/api/fungi':
-        // Ruta para cargar más hongos (AJAX)
-        if (isset($_GET['page'])) {
-            $page = (int)$_GET['page'];
-            $limit = 12;
-            $offset = ($page - 1) * $limit;
-            
-            $fungi = $db->getFungisPaginated($limit, $offset);
-            
-            header('Content-Type: application/json');
-            echo json_encode($fungi);
-            exit;
-        }
-        break;
-
-    default:
-        // 404 - Página no encontrada
-        header("HTTP/1.0 404 Not Found");
-        echo $twig->render('404.twig', ['title' => 'Página no encontrada']);
-        break;
+    // Ruta para cargar más hongos (AJAX)
+    if (isset($_GET['action']) && $_GET['action'] === 'load') {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 12;
+        $offset = ($page - 1) * $limit;
+        
+        $fungi = $db->getFungisPaginated($limit, $offset);
+        
+        header('Content-Type: application/json');
+        echo json_encode($fungi);
+        exit;
+    }
 } 

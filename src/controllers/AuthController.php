@@ -1,10 +1,14 @@
 <?php
 
+require_once __DIR__ . '/SessionController.php';
+
 class AuthController {
     private $db;
+    private $session;
     
     public function __construct(DatabaseController $db) {
         $this->db = $db;
+        $this->session = new SessionController($db);
     }
     
     public function register($username, $email, $password, $confirm_password) {
@@ -51,26 +55,48 @@ class AuthController {
     public function login($username, $password) {
         $user = $this->db->verifyUser($username, $password);
         
-        // Debug logs (solo para desarrollo)
-        error_log('Login attempt for username: ' . $username);
         if (!$user) {
-            error_log('User not found or invalid password');
+            return ['success' => false, 'message' => 'Credenciales inválidas'];
         }
         
-        if ($user) {
-            // Iniciar sesión
-            session_start();
-            $_SESSION['user'] = $user;
-            
-            return ['success' => true, 'user' => $user];
+        // Usar SessionController para manejar la sesión
+        if (!$this->session->createSession($user)) {
+            return ['success' => false, 'message' => 'Error al crear la sesión'];
         }
         
-        return ['success' => false, 'message' => 'Credenciales inválidas'];
+        return ['success' => true, 'user' => $user];
     }
     
     public function logout() {
         session_start();
         session_destroy();
+        
+        // Eliminar cookies
+        setcookie("token", "", time() - 3600, "/");
+        setcookie("jwt", "", time() - 3600, "/");
+        
         return ['success' => true, 'message' => 'Sesión cerrada'];
+    }
+
+    public function verifyToken($token) {
+        try {
+            // Verificar si el token existe y no está revocado
+            $tokenData = $this->db->query(
+                "SELECT * FROM jwt_tokens 
+                 WHERE token = ? AND is_revoked = FALSE 
+                 AND expires_at > NOW()",
+                [$token]
+            )->fetch();
+
+            if (!$tokenData) {
+                return false;
+            }
+
+            // Continuar con la verificación JWT normal
+            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
+            return $decoded;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

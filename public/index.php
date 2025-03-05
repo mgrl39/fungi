@@ -4,6 +4,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/controllers/DatabaseController.php';
 require_once __DIR__ . '/../src/controllers/AuthController.php';
+require_once __DIR__ . '/../src/controllers/SessionController.php';
 
 // Configuración de internacionalización
 $locale = 'es_ES.UTF-8';
@@ -18,6 +19,7 @@ $dotenv->load();
 // Inicializar controladores
 $db = new DatabaseController();
 $authController = new AuthController($db);
+$session = new SessionController($db);
 
 // Configurar Twig
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
@@ -135,9 +137,55 @@ switch ($uri) {
             ]);
             break;
     case '/profile':
-        require_once __DIR__ . '/../src/controllers/ApiController.php';
-        $api = new ApiController();
-        $api->profile();
+        if (!$session->isLoggedIn()) {
+            header('Location: /login');
+            exit;
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = $db->updateUserProfile($_SESSION['user_id'], $_POST);
+            echo $twig->render('profile.twig', [
+                'title' => 'Mi Perfil',
+                'user' => $db->getUserById($_SESSION['user_id']),
+                'message' => $result ? 'Perfil actualizado' : 'Error al actualizar'
+            ]);
+        } else {
+            echo $twig->render('profile.twig', [
+                'title' => 'Mi Perfil',
+                'user' => $db->getUserById($_SESSION['user_id'])
+            ]);
+        }
+        break;
+    case '/favorites':
+        if (!$session->isLoggedIn()) {
+            header('Location: /login');
+            exit;
+        }
+        
+        echo $twig->render('favorites.twig', [
+            'title' => 'Mis Hongos Favoritos',
+            'fungi' => $db->getUserFavorites($_SESSION['user_id'])
+        ]);
+        break;
+    case '/api/favorites':
+        if (!$session->isLoggedIn()) {
+            header('HTTP/1.1 401 Unauthorized');
+            exit;
+        }
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fungiId = $_POST['fungi_id'] ?? 0;
+            $action = $_POST['action'] ?? '';
+            
+            if ($action === 'add') {
+                $result = $db->addFavorite($_SESSION['user_id'], $fungiId);
+            } else if ($action === 'remove') {
+                $result = $db->removeFavorite($_SESSION['user_id'], $fungiId);
+            }
+            
+            header('Content-Type: application/json');
+            echo json_encode(['success' => $result]);
+        }
         break;
     case '/logout':
         session_start();
