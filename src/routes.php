@@ -17,22 +17,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 switch ($uri) {
     case '/register':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $result = $authController->register(
-                $_POST['username'] ?? '',
-                $_POST['email'] ?? '',
-                $_POST['password'] ?? '',
-                $_POST['confirm_password'] ?? ''
-            );
-            
-            if ($result['success']) {
-                header('Location: /login?registered=1');
-                exit;
-            } else {
-                echo $twig->render('register.twig', [
-                    'title' => _('Registro'),
-                    'error' => $result['message']
-                ]);
-            }
+            $result = $authController->handleRegistration($_POST, $twig);
         } else {
             echo $twig->render('register.twig', [
                 'title' => _('Registro')
@@ -67,10 +52,10 @@ switch ($uri) {
 
     case '/':
     case '/index':
-        $fungis = $db->getFungisPaginated(20, 0);
         echo $twig->render('fungi_list.twig', [
             'title' => _('Todos los Fungis'),
-            'fungis' => $fungis
+            'fungis' => $db->getFungisPaginated(20, 0),
+            'session' => $session
         ]);
         break;
 
@@ -106,9 +91,13 @@ switch ($uri) {
 
     case '/random':
         $fungus = $db->getRandomFungus();
+        if ($session->isLoggedIn()) {
+            $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
+        }
         echo $twig->render('random_fungi.twig', [
             'title' => _('Hongo aleatorio'),
-            'fungus' => $fungus
+            'fungus' => $fungus,
+            'session' => $session
         ]);
         break;
 
@@ -195,6 +184,20 @@ switch ($uri) {
 
     case '/faq': 
         echo $twig->render('faq.twig', ['title' => 'Preguntas frecuentes']); 
+        break;
+
+    case '/statistics':
+        $session->isLoggedIn();
+        if (!$session->isLoggedIn()) {
+            header('Location: /login');
+            exit;
+        }
+        
+        $stats = $fungiController->getFungiStats();
+        echo $twig->render('statistics.twig', [
+            'title' => _('Estadísticas'),
+            'stats' => $stats
+        ]);
         break;
 
     default:

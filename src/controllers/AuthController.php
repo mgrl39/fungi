@@ -99,4 +99,23 @@ class AuthController {
             return false;
         }
     }
+
+    public function handleRegistration($postData, $twig) {
+        $result = $this->register(
+            $postData['username'] ?? '',
+            $postData['email'] ?? '',
+            $postData['password'] ?? '',
+            $postData['confirm_password'] ?? ''
+        );
+        
+        if ($result['success']) {
+            header('Location: /login?registered=1');
+            exit;
+        } else {
+            echo $twig->render('register.twig', [
+                'title' => _('Registro'),
+                'error' => $result['message']
+            ]);
+        }
+    }
 }

@@ -16,8 +16,7 @@ class SessionController {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
         
-            // Generar tokens
-            $token = bin2hex(random_bytes(16));
+            // Generar JWT
             $jwt = $this->createJWT($user);
         
             // Guardar token JWT
@@ -33,16 +32,15 @@ class SessionController {
                 return false;
             }
         
-            // Actualizar tokens en users
-            $success = $this->db->updateUserTokens($user['id'], $token, $jwt);
+            // Actualizar JWT en users
+            $success = $this->db->updateUserTokens($user['id'], null, $jwt);
             
             if (!$success) {
-                error_log("Error al actualizar tokens de usuario");
+                error_log("Error al actualizar JWT de usuario");
                 return false;
             }
         
-            // Crear cookies seguras
-            $this->createSecureCookie("token", $token);
+            // Crear cookie segura para JWT
             $this->createSecureCookie("jwt", $jwt);
         
             return true;
@@ -99,34 +97,36 @@ class SessionController {
             ]
         );
     }
-
     public function isLoggedIn() {
-        return isset($_SESSION['user_id']) && 
-               $this->verifyTokenCookie() && 
-               $this->verifyJWTCookie();
+        if (!isset($_COOKIE['jwt'])) {
+            return false;
+        }
+        
+        return $this->verifyJWTCookie();
     }
 
     private function verifyTokenCookie() {
         if (!isset($_COOKIE['token'])) return false;
+        // we need to put something more visual to the user
+        console.log($this->db->verifyUserToken($_SESSION['user_id'], $_COOKIE['token']));
         return $this->db->verifyUserToken($_SESSION['user_id'], $_COOKIE['token']);
     }
-
 
     private function verifyJWTCookie() {
         if (!isset($_COOKIE['jwt'])) return false;
         
-        // Verificar en la tabla jwt_tokens
         $token = $_COOKIE['jwt'];
-        $userId = $_SESSION['user_id'];
-        
         $tokenValid = $this->db->query(
-            "SELECT 1 FROM jwt_tokens 
-             WHERE user_id = ? AND token = ? 
-             AND is_revoked = FALSE 
+            "SELECT user_id FROM jwt_tokens 
+             WHERE token LIKE ? 
              AND expires_at > NOW()",
-            [$userId, $token]
+            [$token]
         )->fetch();
-        
-        return $tokenValid && $this->db->verifyUserJWT($userId, $token);
+
+        if (!$tokenValid) {
+            return false;
+        }
+
+        return $tokenValid['user_id'];
     }
 } 
