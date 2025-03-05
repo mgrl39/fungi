@@ -2,6 +2,8 @@
 // public/index.php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../src/controllers/DatabaseController.php';
+require_once __DIR__ . '/../src/controllers/AuthController.php';
 
 // Configuración de internacionalización
 $locale = 'es_ES.UTF-8';
@@ -12,6 +14,10 @@ textdomain('messages');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
+
+// Inicializar controladores
+$db = new DatabaseController();
+$authController = new AuthController($db);
 
 // Configurar Twig
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/templates');
@@ -27,8 +33,6 @@ $twig->addGlobal('theme', $theme);
 
 // Manejar la acción de carga asíncrona (infinite scroll)
 if (isset($_GET['action']) && $_GET['action'] == 'load') {
-    require_once __DIR__ . '/../src/controllers/DatabaseController.php';
-    $db = new DatabaseController();
     $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $limit = 20; // Cantidad de registros por "página"
     $offset = ($page - 1) * $limit;
@@ -43,12 +47,59 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Ruteo básico
 switch ($uri) {
+    case '/register':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = $authController->register(
+                $_POST['username'] ?? '',
+                $_POST['email'] ?? '',
+                $_POST['password'] ?? '',
+                $_POST['confirm_password'] ?? ''
+            );
+            
+            if ($result['success']) {
+                header('Location: /login?registered=1');
+                exit;
+            } else {
+                echo $twig->render('register.twig', [
+                    'title' => _('Registro'),
+                    'error' => $result['message']
+                ]);
+            }
+        } else {
+            echo $twig->render('register.twig', [
+                'title' => _('Registro')
+            ]);
+        }
+        break;
+
+    case '/login':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = $authController->login(
+                $_POST['username'] ?? '',
+                $_POST['password'] ?? ''
+            );
+            
+            if ($result['success']) {
+                header('Location: /');
+                exit;
+            } else {
+                echo $twig->render('login.twig', [
+                    'title' => _('Iniciar Sesión'),
+                    'error' => $result['message']
+                ]);
+            }
+        } else {
+            $registered = isset($_GET['registered']) ? true : false;
+            echo $twig->render('login.twig', [
+                'title' => _('Iniciar Sesión'),
+                'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
+            ]);
+        }
+        break;
+
     // Página principal (listing de fungis)
     case '/':
     case '/index':
-        require_once __DIR__ . '/../src/controllers/DatabaseController.php';
-        $db = new DatabaseController();
-        // Cargar la primera página (20 registros)
         $fungis = $db->getFungisPaginated(20, 0);
         echo $twig->render('fungi_list.twig', [
             'title' => _('Todos los Fungis'),
@@ -58,8 +109,6 @@ switch ($uri) {
 
     // Página de detalle para un hongo
     case '/fungus':
-        require_once __DIR__ . '/../src/controllers/DatabaseController.php';
-        $db = new DatabaseController();
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         $fungus = $db->getFungusById($id);
         if (!$fungus) {
@@ -78,8 +127,6 @@ switch ($uri) {
         break;
 
     case '/random':
-            require_once __DIR__ . '/../src/controllers/DatabaseController.php';
-            $db = new DatabaseController();
             $fungus = $db->getRandomFungus();
             // Debug: Verificar el valor de $fungus
             echo $twig->render('random_fungi.twig', [
@@ -92,32 +139,11 @@ switch ($uri) {
         $api = new ApiController();
         $api->profile();
         break;
-    case '/login':
-        require_once __DIR__ . '/../src/controllers/ApiController.php';
-        $api = new ApiController();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $username = $data['username'] ?? '';
-            $password = $data['password'] ?? '';
-            $result = $api->login($username, $password);
-            if ($result) {
-                header('Content-Type: application/json');
-                echo json_encode($result);
-                exit;
-            }
-            http_response_code(401);
-            echo json_encode(['error' => _('Credenciales inválidas')]);
-            exit;
-        }
-        echo $twig->render('login.twig', ['title' => _('Iniciar sesión')]);
-        break;
     case '/logout':
-        // Simplemente redirigir a la página de inicio
+        session_start();
+        session_destroy();
         header('Location: /');
-        break;
-    case '/register':
-        // Página de registro
-        echo $twig->render('register.twig', ['title' => 'Registro']);
+        exit;
         break;
     case '/about':
         // Página de "Acerca de"
@@ -128,9 +154,6 @@ switch ($uri) {
         echo $twig->render('contact.twig', ['title' => 'Contacto']);
         break;
     // Otras rutas...
-    case '/profile': 
-        echo $twig->render('profile.twig', ['title' => 'Perfil']); 
-        break;
     case '/admin': 
         echo $twig->render('admin.twig', ['title' => 'Admin']); 
         break;
@@ -144,7 +167,7 @@ switch ($uri) {
         echo $twig->render('faq.twig', ['title' => 'Preguntas frecuentes']); 
         break;
     default:
-        echo $twig->render('404.twig', ['title' => 'Página no encontrada']);
+        echo $twig->render('404.twig', ['title' => _('Página no encontrada')]);
         break;
 }
 

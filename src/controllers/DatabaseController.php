@@ -204,4 +204,68 @@ class DatabaseController {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function createUser($username, $email, $password_hash) {
+        try {
+            $stmt = $this->pdo->prepare("
+                INSERT INTO users (username, email, password_hash)
+                VALUES (:username, :email, :password_hash)
+            ");
+            
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password_hash', $password_hash);
+            
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    // Método para verificar las credenciales del usuario
+    public function verifyUser($username, $password) {
+        // Agregar más logs para depuración
+        error_log("Intentando verificar usuario: " . $username);
+        
+        $stmt = $this->pdo->prepare("
+            SELECT id, username, email, password_hash, role
+            FROM users
+            WHERE username = :username OR email = :username
+        ");
+        
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$user) {
+            error_log("Usuario no encontrado en la base de datos");
+            return false;
+        }
+        
+        // Imprimir todos los datos relevantes
+        error_log("Datos del usuario encontrado:");
+        error_log("Username: " . $user['username']);
+        error_log("Email: " . $user['email']);
+        error_log("Password hash en DB: " . $user['password_hash']);
+        error_log("Password proporcionado: " . $password);
+        error_log("Longitud del password: " . strlen($password));
+        error_log("Longitud del hash: " . strlen($user['password_hash']));
+        
+        // Verificar si hay espacios en blanco
+        if (trim($password) !== $password) {
+            error_log("¡ADVERTENCIA! La contraseña contiene espacios en blanco al inicio o final");
+        }
+        
+        $verify_result = password_verify($password, $user['password_hash']);
+        error_log("Resultado de password_verify: " . ($verify_result ? "TRUE" : "FALSE"));
+        
+        if ($verify_result) {
+            unset($user['password_hash']);
+            return $user;
+        }
+        
+        return false;
+    }
+
 }
