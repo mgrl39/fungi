@@ -15,7 +15,7 @@ class AppInitializer
     public static function initialize()
     {
         // Cargar variables de entorno
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
         // Inicializar controladores
@@ -24,7 +24,7 @@ class AppInitializer
         $session = new SessionController($db);
 
         // Configurar Twig
-        $loader = new FilesystemLoader(__DIR__ . '/../public/templates');
+        $loader = new FilesystemLoader(__DIR__ . '/../../public/templates');
         $twig = new Environment($loader, [
             'cache' => false,
             'debug' => $_ENV['DEBUG_MODE'] === 'true',

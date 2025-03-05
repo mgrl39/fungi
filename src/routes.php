@@ -218,6 +218,18 @@ switch ($uri) {
         echo json_encode($stats);
         break;
 
+    case '/api/load':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            $limit = 20; // Cantidad de registros por "página"
+            $offset = ($page - 1) * $limit;
+            $fungis = $db->getFungisPaginated($limit, $offset);
+            header('Content-Type: application/json');
+            echo json_encode($fungis);
+            exit;
+        }
+        break;
+
     default:
         echo $twig->render('404.twig', ['title' => _('Página no encontrada')]);
         break;
