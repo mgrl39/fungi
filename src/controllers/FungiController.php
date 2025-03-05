@@ -63,43 +63,4 @@ class FungiController
         }
         return $fungus;
     }
-
-    public function getFungiStats()
-    {
-        // Estadísticas de comestibilidad
-        $edibilityStats = $this->db->query(
-            "SELECT edibility, COUNT(*) as count 
-             FROM fungi 
-             GROUP BY edibility 
-             ORDER BY count DESC",
-            []
-        )->fetchAll(\PDO::FETCH_ASSOC);
-
-        // Estadísticas de familias más comunes
-        $familyStats = $this->db->query(
-            "SELECT family, COUNT(*) as count 
-             FROM taxonomy 
-             WHERE family IS NOT NULL 
-             GROUP BY family 
-             ORDER BY count DESC 
-             LIMIT 10",
-            []
-        )->fetchAll(\PDO::FETCH_ASSOC);
-
-        // Hongos más vistos
-        $popularFungi = $this->db->query(
-            "SELECT f.name, fp.views 
-             FROM fungi f 
-             JOIN fungi_popularity fp ON f.id = fp.fungi_id 
-             ORDER BY fp.views DESC 
-             LIMIT 10",
-            []
-        )->fetchAll(\PDO::FETCH_ASSOC);
-
-        return [
-            'edibility' => $edibilityStats,
-            'families' => $familyStats,
-            'popular' => $popularFungi
-        ];
-    }
 } 

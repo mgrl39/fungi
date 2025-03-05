@@ -4,11 +4,14 @@ require_once __DIR__ . '/../vendor/autoload.php'; // Asegúrate de que el autolo
 
 // Importar el controlador
 require_once __DIR__ . '/controllers/FungiController.php';
+require_once __DIR__ . '/controllers/StatsController.php';
 
 use App\Controllers\FungiController;
+use App\Controllers\StatsController;
 
 // Inicializar el controlador de hongos
 $fungiController = new FungiController($db);
+$statsController = new StatsController($db);
 
 // Obtener la ruta solicitada
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -187,17 +190,32 @@ switch ($uri) {
         break;
 
     case '/statistics':
-        $session->isLoggedIn();
         if (!$session->isLoggedIn()) {
             header('Location: /login');
             exit;
         }
         
-        $stats = $fungiController->getFungiStats();
+        $stats = $statsController->getFungiStats();
         echo $twig->render('statistics.twig', [
             'title' => _('Estadísticas'),
             'stats' => $stats
         ]);
+        break;
+
+    case '/api/stats':
+        if (!$session->isLoggedIn()) {
+            header('HTTP/1.1 401 Unauthorized');
+            exit;
+        }
+
+        header('Content-Type: application/json');
+        
+        // Obtener el rango temporal del query parameter
+        $timeRange = $_GET['timeRange'] ?? 'all';
+        
+        // Obtener estadísticas filtradas
+        $stats = $statsController->getFungiStats($timeRange);
+        echo json_encode($stats);
         break;
 
     default:
