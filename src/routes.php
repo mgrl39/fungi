@@ -23,6 +23,27 @@ $statsController = new StatsController($db);
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Ruteo básico
+function getRouteTemplate($route) {
+    $routesMap = [
+        '/' => 'fungi/fungi_list.twig',
+        '/index' => 'fungi/fungi_list.twig', 
+        '/login' => 'auth/login.twig',
+        '/register' => 'auth/register.twig',
+        '/about' => 'about.twig',
+        '/contact' => 'contact.twig',
+        '/terms' => 'terms.twig',
+        '/faq' => 'faq.twig',
+        '/profile' => 'auth/profile.twig',
+        '/favorites' => 'favorites.twig',
+        '/statistics' => 'statistics.twig',
+        '/admin' => 'admin.twig',
+        '/fungus' => 'fungi/fungus_detail.twig',
+        '/random' => 'fungi/random_fungi.twig'
+    ];
+
+    return $routesMap[$route] ?? null;
+}
+
 switch ($uri) {
     case '/register':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -45,7 +66,7 @@ switch ($uri) {
                 header('Location: /');
                 exit;
             } else {
-                echo $twig->render('auth/login.twig', [
+                echo $twig->render(getRouteTemplate('login'), [
                     'title' => _('Iniciar Sesión'),
                     'error' => $result['message']
                 ]);
@@ -73,7 +94,7 @@ switch ($uri) {
         $fungus = $db->getFungusById($id);
         
         if (!$fungus) {
-            echo $twig->render('404.twig', ['title' => _('Fungus no encontrado')]);
+            echo $twig->render(getRouteTemplate('404'), ['title' => _('Fungus no encontrado')]);
         } else {
             // Incrementar las vistas del hongo
             $fungiController->incrementFungiViews($id);
@@ -237,9 +258,9 @@ switch ($uri) {
         break;
 
     default:
-        echo $twig->render('404.twig', ['title' => _('Página no encontrada')]);
+        echo $twig->render(getRouteTemplate('404'), ['title' => _('Página no encontrada')]);
         break;
 }
-
 // Usar el router para manejar las rutas
 $router->handleRequest();
+
