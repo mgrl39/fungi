@@ -1,0 +1,116 @@
+{% block content %}
+<div class="container mt-4">
+    <link rel="stylesheet" href="/assets/css/stats.css">
+    <h1>{{ 'Fungi Statistics' }}</h1>
+    
+    <div class="row">
+        <!-- Gráfica de comestibilidad -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ 'Edibility Distribution' }}</h5>
+                    <canvas id="edibilityChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gráfica de familias -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ 'Top 10 Families' }}</h5>
+                    <canvas id="familyChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hongos más populares -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ 'Most Viewed Fungi' }}</h5>
+                    <canvas id="popularChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Incluir Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Datos para las gráficas
+    const edibilityData = {{ stats.edibility|json_encode|raw }};
+    const familyData = {{ stats.families|json_encode|raw }};
+    const popularData = {{ stats.popular|json_encode|raw }};
+
+    // Gráfica de comestibilidad (Pie chart)
+    new Chart(document.getElementById('edibilityChart'), {
+        type: 'pie',
+        data: {
+            labels: edibilityData.map(item => item.edibility),
+            datasets: [{
+                data: edibilityData.map(item => item.count),
+                backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                    '#FF9F40', '#FF6384', '#36A2EB', '#FFCE56'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+
+    // Gráfica de familias (Bar chart)
+    new Chart(document.getElementById('familyChart'), {
+        type: 'bar',
+        data: {
+            labels: familyData.map(item => item.family),
+            datasets: [{
+                label: '{{ "Number of Species" }}',
+                data: familyData.map(item => item.count),
+                backgroundColor: '#36A2EB'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Gráfica de hongos populares (Horizontal bar chart)
+    new Chart(document.getElementById('popularChart'), {
+        type: 'bar',
+        data: {
+            labels: popularData.map(item => item.name),
+            datasets: [{
+                label: '{{ "Views" }}',
+                data: popularData.map(item => item.views),
+                backgroundColor: '#4BC0C0'
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %} 
