@@ -28,7 +28,7 @@ switch ($uri) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $authController->handleRegistration($_POST, $twig);
         } else {
-            echo $twig->render('register.twig', [
+            echo $twig->render('auth/register.twig', [
                 'title' => _('Registro')
             ]);
         }
@@ -45,14 +45,14 @@ switch ($uri) {
                 header('Location: /');
                 exit;
             } else {
-                echo $twig->render('login.twig', [
+                echo $twig->render('auth/login.twig', [
                     'title' => _('Iniciar Sesión'),
                     'error' => $result['message']
                 ]);
             }
         } else {
             $registered = isset($_GET['registered']) ? true : false;
-            echo $twig->render('login.twig', [
+            echo $twig->render('auth/login.twig', [
                 'title' => _('Iniciar Sesión'),
                 'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
             ]);
@@ -61,7 +61,7 @@ switch ($uri) {
 
     case '/':
     case '/index':
-        echo $twig->render('fungi/fungi_list.twig', [
+            echo $twig->render('fungi/fungi_list.twig', [
             'title' => _('Todos los Fungis'),
             'fungis' => $db->getFungisPaginated(20, 0),
             'session' => $session
@@ -78,7 +78,7 @@ switch ($uri) {
             // Incrementar las vistas del hongo
             $fungiController->incrementFungiViews($id);
 
-            echo $twig->render('fungus_detail.twig', [
+            echo $twig->render('fungi/fungus_detail.twig', [
                 'title' => $fungus['name'],
                 'fungus' => $fungus
             ]);
@@ -103,7 +103,7 @@ switch ($uri) {
         if ($session->isLoggedIn()) {
             $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
         }
-        echo $twig->render('random_fungi.twig', [
+        echo $twig->render('fungi/random_fungi.twig', [
             'title' => _('Hongo aleatorio'),
             'fungus' => $fungus,
             'session' => $session
