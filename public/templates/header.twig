@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="/">Fungi Database</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">{{ _('Inicio') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/random">{{ _('Hongo Aleatorio') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/statistics">{{ _('Estadísticas') }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">{{ _('Acerca de') }}</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        {% if session and session.isLoggedIn() %}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">{{ _('Mi Perfil') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/favorites">{{ _('Favoritos') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">{{ _('Cerrar Sesión') }}</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">{{ _('Iniciar Sesión') }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">{{ _('Registrarse') }}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav> 

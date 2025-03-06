@@ -6,8 +6,14 @@ require_once __DIR__ . '/../vendor/autoload.php'; // Asegúrate de que el autolo
 require_once __DIR__ . '/controllers/FungiController.php';
 require_once __DIR__ . '/controllers/StatsController.php';
 
+require_once __DIR__ . '/config/AppInitializer.php';
+
+use App\Config\AppInitializer;
 use App\Controllers\FungiController;
 use App\Controllers\StatsController;
+
+// Obtener las dependencias inicializadas
+list($db, $authController, $session, $twig) = AppInitializer::initialize();
 
 // Inicializar el controlador de hongos
 $fungiController = new FungiController($db);
@@ -54,17 +60,8 @@ switch ($uri) {
         break;
 
     case '/':
-        if (isset($_GET['action']) && $_GET['action'] == 'load') {
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-            $limit = 20;
-            $offset = ($page - 1) * $limit;
-            $fungis = $db->getFungisPaginated($limit, $offset);
-            header('Content-Type: application/json');
-            echo json_encode($fungis);
-            exit;
-        }
-        
-        echo $twig->render('fungi_list.twig', [
+    case '/index':
+        echo $twig->render('fungi/fungi_list.twig', [
             'title' => _('Todos los Fungis'),
             'fungis' => $db->getFungisPaginated(20, 0),
             'session' => $session
@@ -98,19 +95,7 @@ switch ($uri) {
         break;
 
     case preg_match('#^/api(/.*)?$#', $uri) ? true : false:
-        if (preg_match('#^/api/load$#', $uri)) {
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                $limit = 20; // Cantidad de registros por "página"
-                $offset = ($page - 1) * $limit;
-                $fungis = $db->getFungisPaginated($limit, $offset);
-                header('Content-Type: application/json');
-                echo json_encode($fungis);
-                exit;
-            }
-        } else {
-            require_once __DIR__ . '/../public/api.php';
-        }
+        require_once __DIR__ . '/../public/api.php';
         break;
 
     case '/random':
@@ -239,7 +224,22 @@ switch ($uri) {
         echo json_encode($stats);
         break;
 
+    case '/api/load':
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            $limit = 20; // Cantidad de registros por "página"
+            $offset = ($page - 1) * $limit;
+            $fungis = $db->getFungisPaginated($limit, $offset);
+            header('Content-Type: application/json');
+            echo json_encode($fungis);
+            exit;
+        }
+        break;
+
     default:
         echo $twig->render('404.twig', ['title' => _('Página no encontrada')]);
         break;
 }
+
+// Usar el router para manejar las rutas
+$router->handleRequest();

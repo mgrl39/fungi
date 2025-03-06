@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Config;
 
-use DatabaseController;
-use AuthController;
-use SessionController;
+use App\Controllers\DatabaseController;
+use App\Controllers\AuthController;
+use App\Controllers\SessionController;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
@@ -18,6 +18,11 @@ class AppInitializer
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
 
+        // Verifica que DatabaseController existe antes de instanciarlo
+        if (!class_exists(DatabaseController::class)) {
+            throw new \RuntimeException('La clase DatabaseController no se encuentra. Verifica que el archivo existe en src/Controllers/DatabaseController.php');
+        }
+
         // Inicializar controladores
         $db = new DatabaseController();
         $authController = new AuthController($db);
@@ -30,6 +35,12 @@ class AppInitializer
             'debug' => $_ENV['DEBUG_MODE'] === 'true',
         ]);
         $twig->addExtension(new DebugExtension());
+
+        // Agregar la función de traducción
+        $twig->addFunction(new \Twig\TwigFunction('_', function ($string) {
+            return $string; // Por ahora solo devuelve el string original
+            // Aquí podrías implementar gettext u otro sistema de traducción
+        }));
 
         return [$db, $authController, $session, $twig];
     }

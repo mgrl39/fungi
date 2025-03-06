@@ -2,6 +2,11 @@
 // src/controllers/DatabaseController.php
 // hagamos el .env para la conexión a la base de datos
 
+namespace App\Controllers;
+
+use PDO;
+use PDOException;
+
 class DatabaseController {
     private $pdo;
 
