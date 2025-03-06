@@ -1,4 +1,5 @@
 # 🍄 Fungi
+> Note: This project is under development.
 
 ```
 bash -c "$(wget -qO- doncom.me/fungi/init.sh)"
@@ -16,9 +17,9 @@ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongo
 - **Gettext** (para internacionalización)
 
 <div>
-  <img src="public/assets/img/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
-  <img src="public/assets/img/logos/mysql.png" width="50" height="50" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
-  <img src="public/assets/img/logos/php.png" width="50" height="50" alt="PHP Logo">
+  <img style="text-align: center; border-radius: 50%;" src="public/assets/img/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
+  <img style="text-align: center; border-radius: 50%;" src="public/assets/img/logos/mysql.png" width="50" height="50" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
+  <img style="text-align: center; border-radius: 50%;" src="public/assets/img/logos/php.png" width="50" height="50" alt="PHP Logo">
 </div>
 
 
