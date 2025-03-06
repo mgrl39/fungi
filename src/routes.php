@@ -54,7 +54,16 @@ switch ($uri) {
         break;
 
     case '/':
-    case '/index':
+        if (isset($_GET['action']) && $_GET['action'] == 'load') {
+            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            $limit = 20;
+            $offset = ($page - 1) * $limit;
+            $fungis = $db->getFungisPaginated($limit, $offset);
+            header('Content-Type: application/json');
+            echo json_encode($fungis);
+            exit;
+        }
+        
         echo $twig->render('fungi_list.twig', [
             'title' => _('Todos los Fungis'),
             'fungis' => $db->getFungisPaginated(20, 0),
@@ -89,7 +98,19 @@ switch ($uri) {
         break;
 
     case preg_match('#^/api(/.*)?$#', $uri) ? true : false:
-        require_once __DIR__ . '/../public/api.php';
+        if (preg_match('#^/api/load$#', $uri)) {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                $limit = 20; // Cantidad de registros por "página"
+                $offset = ($page - 1) * $limit;
+                $fungis = $db->getFungisPaginated($limit, $offset);
+                header('Content-Type: application/json');
+                echo json_encode($fungis);
+                exit;
+            }
+        } else {
+            require_once __DIR__ . '/../public/api.php';
+        }
         break;
 
     case '/random':
@@ -216,18 +237,6 @@ switch ($uri) {
         // Obtener estadísticas filtradas
         $stats = $statsController->getFungiStats($timeRange);
         echo json_encode($stats);
-        break;
-
-    case '/api/load':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-            $limit = 20; // Cantidad de registros por "página"
-            $offset = ($page - 1) * $limit;
-            $fungis = $db->getFungisPaginated($limit, $offset);
-            header('Content-Type: application/json');
-            echo json_encode($fungis);
-            exit;
-        }
         break;
 
     default:

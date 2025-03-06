@@ -24,13 +24,3 @@ require_once __DIR__ . '/../src/routes.php';
 $theme = isset($_COOKIE['theme']) ? $_COOKIE['theme'] : 'light';
 $twig->addGlobal('theme', $theme);
 */
-// Manejar la acción de carga asíncrona (infinite scroll)
-if (isset($_GET['action']) && $_GET['action'] == 'load') {
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $limit = 20; // Cantidad de registros por "página"
-    $offset = ($page - 1) * $limit;
-    $fungis = $db->getFungisPaginated($limit, $offset);
-    header('Content-Type: application/json');
-    echo json_encode($fungis);
-    exit;
-}
