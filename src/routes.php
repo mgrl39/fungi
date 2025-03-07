@@ -62,14 +62,21 @@ function renderTemplate($route, $data = []) {
 }
 
 switch ($uri) {
+    case '/api':
+        renderTemplate('/', [
+            'title' => _('Todos los Fungis'),
+            'fungis' => $db->getFungisPaginated(20, 0),
+            'session' => $session
+        ]);
+        break;
     case '/':
-        case '/index':
-            renderTemplate('/', [
-                'title' => _('Todos los Fungis'),
-                'fungis' => $db->getFungisPaginated(20, 0),
-                'session' => $session
-            ]);
-            break;
+    case '/index':
+        renderTemplate('/', [
+            'title' => _('Todos los Fungis'),
+            'fungis' => $db->getFungisPaginated(20, 0),
+            'session' => $session
+        ]);
+        break;
     case '/register':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $authController->handleRegistration($_POST, $twig);
@@ -105,8 +112,6 @@ switch ($uri) {
         }
         break;
 
-
-
     case '/fungus':
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         
@@ -137,101 +142,6 @@ switch ($uri) {
             exit;
         }
         break;
-
-    case preg_match('#^/api(/.*)?$#', $uri) ? true : false:
-        header('Content-Type: application/json');
-        
-        // Extraer la ruta de la API
-        $apiPath = str_replace('/api', '', $uri);
-        
-        // Manejar rutas de la API
-        switch ($apiPath) {
-            // Obtener todos los hongos (paginado)
-            case '/fungi':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
-                    $offset = ($page - 1) * $limit;
-                    
-                    $fungi = $db->getFungisPaginated($limit, $offset);
-                    $total = $db->getTotalFungi();
-                    
-                    echo json_encode([
-                        'data' => $fungi,
-                        'pagination' => [
-                            'total' => $total,
-                            'page' => $page,
-                            'limit' => $limit,
-                            'pages' => ceil($total / $limit)
-                        ]
-                    ]);
-                }
-                break;
-                
-            // Obtener un hongo específico
-            case preg_match('#^/fungi/(\d+)$#', $apiPath, $matches) ? true : false:
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    $id = (int)$matches[1];
-                    $fungus = $db->getFungusById($id);
-                    
-                    if ($fungus) {
-                        echo json_encode([
-                            'data' => $fungus,
-                            'success' => true
-                        ]);
-                    } else {
-                        http_response_code(404);
-                        echo json_encode([
-                            'error' => 'Hongo no encontrado',
-                            'success' => false
-                        ]);
-                    }
-                }
-                break;
-                
-            // Obtener hongo aleatorio
-            case '/fungi/random':
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    $fungus = $db->getRandomFungus();
-                    if ($session->isLoggedIn()) {
-                        $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
-                    }
-                    echo json_encode([
-                        'data' => $fungus,
-                        'success' => true
-                    ]);
-                }
-                break;
-                
-            // Manejar likes de hongos
-            case '/fungi/like':
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && $session->isLoggedIn()) {
-                    $fungiId = $_POST['fungi_id'] ?? 0;
-                    $result = $fungiController->likeFungi($_SESSION['user_id'], $fungiId);
-                    echo json_encode([
-                        'success' => $result,
-                        'message' => $result ? 'Like agregado exitosamente' : 'Error al agregar like'
-                    ]);
-                } else {
-                    http_response_code(401);
-                    echo json_encode([
-                        'error' => 'Usuario no autorizado',
-                        'success' => false
-                    ]);
-                }
-                break;
-                
-            default:
-                http_response_code(404);
-                echo json_encode([
-                    'error' => 'Endpoint no encontrado',
-                    'success' => false
-                ]);
-                break;
-        }
-        exit;
-        break;
-
     case '/random':
         $fungus = $db->getRandomFungus();
         if ($session->isLoggedIn()) {
@@ -277,27 +187,6 @@ switch ($uri) {
         ]);
         break;
 
-    case '/api/favorites':
-        if (!$session->isLoggedIn()) {
-            header('HTTP/1.1 401 Unauthorized');
-            exit;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $fungiId = $_POST['fungi_id'] ?? 0;
-            $action = $_POST['action'] ?? '';
-            
-            if ($action === 'add') {
-                $result = $db->addFavorite($_SESSION['user_id'], $fungiId);
-            } else if ($action === 'remove') {
-                $result = $db->removeFavorite($_SESSION['user_id'], $fungiId);
-            }
-            
-            header('Content-Type: application/json');
-            echo json_encode(['success' => $result]);
-        }
-        break;
-
     case '/logout':
         session_start();
         session_destroy();
@@ -340,34 +229,6 @@ switch ($uri) {
             'title' => _('Estadísticas'),
             'stats' => $stats
         ]);
-        break;
-
-    case '/api/stats':
-        if (!$session->isLoggedIn()) {
-            header('HTTP/1.1 401 Unauthorized');
-            exit;
-        }
-
-        header('Content-Type: application/json');
-        
-        // Obtener el rango temporal del query parameter
-        $timeRange = $_GET['timeRange'] ?? 'all';
-        
-        // Obtener estadísticas filtradas
-        $stats = $statsController->getFungiStats($timeRange);
-        echo json_encode($stats);
-        break;
-
-    case '/api/load':
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-            $limit = 20; // Cantidad de registros por "página"
-            $offset = ($page - 1) * $limit;
-            $fungis = $db->getFungisPaginated($limit, $offset);
-            header('Content-Type: application/json');
-            echo json_encode($fungis);
-            exit;
-        }
         break;
 
     default:
