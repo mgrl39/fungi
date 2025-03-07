@@ -45,6 +45,9 @@ class ApiController
 		if (substr($endpoint, 0, 1) !== '/') {
 			$endpoint = '/' . $endpoint;
 		}
+		
+		// Remover la barra inicial para mantener consistencia con los métodos de manejo
+		$endpoint = ltrim($endpoint, '/');
 
 		// Añadir documentación para el endpoint raíz
 		if ($endpoint === '/' || $endpoint === '') {

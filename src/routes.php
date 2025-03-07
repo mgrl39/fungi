@@ -72,10 +72,9 @@ switch (true) {
         break;
     case '':
     case '/index':
-        renderTemplate('/', [
-            'title' => _('Todos los Fungis'),
-            'fungis' => $db->getFungisPaginated(20, 0),
-            'session' => $session
+        renderTemplate('fungi/fungi_list.twig', [
+            'title' => _('Hongos'),
+            'fungis' => $fungiController->getFungisPaginated(20, 0)
         ]);
         break;
     case '/register':
