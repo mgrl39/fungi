@@ -102,7 +102,7 @@ class ApiController
 	 */
 	private function handleGet($endpoint)
 	{
-		if ($endpoint === 'fungi/all') {
+		if ($endpoint === 'fungi' || $endpoint === 'fungi/all') {
 			$stmt = $this->pdo->query("SELECT * FROM fungi");
 			echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 		} elseif (preg_match('/^fungi\/page\/(\d+)\/limit\/(\d+)$/', $endpoint, $matches)) {
