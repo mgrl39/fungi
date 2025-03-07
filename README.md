@@ -17,9 +17,9 @@ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongo
 - **Gettext** (para internacionalización)
 
 <p align="center">
-  <img style="border-radius: 50%;" src="public/assets/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
-  <img style="border-radius: 50%;" src="public/assets/logos/mysql.png" width="50" height="50" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
-  <img style="border-radius: 50%;" src="public/assets/logos/php.png" width="50" height="50" alt="PHP Logo">
+  <img style="border-radius: 50%;" src="public/assets/logos/bootstrap.png" width="100" height="100" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
+  <img style="border-radius: 50%;" src="public/assets/logos/mysql.png" width="100" height="100" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
+  <img style="border-radius: 50%;" src="public/assets/logos/php.png" width="100" height="100" alt="PHP Logo">
 </p>
 
 
