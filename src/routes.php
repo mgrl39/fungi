@@ -105,36 +105,7 @@ switch ($uri) {
         }
         break;
 
-    case '/fungus':
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        
-        // Consumir la API interna usando la URL base dinámica
-        $baseUrl = getBaseUrl();
-        $apiResponse = file_get_contents("{$baseUrl}/api/fungi/{$id}");
-        $responseData = json_decode($apiResponse, true);
-        
-        if ($responseData['success']) {
-            $fungus = $responseData['data'];
-            // Incrementar las vistas del hongo
-            $fungiController->incrementFungiViews($id);
-            
-            renderTemplate('fungi/fungus_detail.twig', [
-                'title' => $fungus['name'],
-                'fungus' => $fungus
-            ]);
-        } else {
-            renderTemplate('404', ['title' => _('Fungus no encontrado')]);
-        }
-        break;
-
-    case '/fungus/like':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $session->isLoggedIn()) {
-            $fungiId = $_POST['fungi_id'] ?? 0;
-            $fungiController->likeFungi($_SESSION['user_id'], $fungiId);
-            header('Location: /fungus?id=' . $fungiId);
-            exit;
-        }
-        break;
+   
     case '/random':
         $fungus = $db->getRandomFungus();
         if ($session->isLoggedIn()) {
@@ -223,7 +194,6 @@ switch ($uri) {
             'stats' => $stats
         ]);
         break;
-
     default:
         header('HTTP/1.1 404 Not Found');
         renderTemplate('/404', ['title' => _('Página no encontrada')]);

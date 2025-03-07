@@ -37,6 +37,7 @@ class ApiController
 		$method = $_SERVER['REQUEST_METHOD'];
 		$endpoint = $_GET['endpoint'] ?? '';
 
+		print_r($endpoint);
 		// Añadir documentación para el endpoint raíz
 		if (empty($endpoint)) {
 			echo json_encode([
