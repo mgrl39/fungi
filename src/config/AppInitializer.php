@@ -14,9 +14,8 @@ class AppInitializer
 {
     public static function initialize()
     {
-        // Cargar variables de entorno
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
-        $dotenv->load();
+        // Cargar configuración desde defaults.inc.php
+        require_once __DIR__ . '/defaults.inc.php';
 
         // Verifica que DatabaseController existe antes de instanciarlo
         if (!class_exists(DatabaseController::class)) {
@@ -32,7 +31,7 @@ class AppInitializer
         $loader = new FilesystemLoader(__DIR__ . '/../../public/templates');
         $twig = new Environment($loader, [
             'cache' => false,
-            'debug' => $_ENV['DEBUG_MODE'] === 'true',
+            'debug' => DEBUG_MODE,
         ]);
         $twig->addExtension(new DebugExtension());
 

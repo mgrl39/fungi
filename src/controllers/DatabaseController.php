@@ -11,10 +11,10 @@ class DatabaseController {
     private $pdo;
 
     public function __construct() {
-        $host = $_ENV['DB_HOST'];
-        $dbname = $_ENV['DB_NAME'];
-        $user = $_ENV['DB_USER'];
-        $pass = $_ENV['DB_PASS'];
+        $host = defined('DB_HOST') ? DB_HOST : getenv('DB_HOST');
+        $dbname = defined('DB_NAME') ? DB_NAME : getenv('DB_NAME');
+        $user = defined('DB_USER') ? DB_USER : getenv('DB_USER');
+        $pass = defined('DB_PASS') ? DB_PASS : getenv('DB_PASS');
 
         try {
             $this->pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
