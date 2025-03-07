@@ -1,7 +1,7 @@
 <?php
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-// Eliminar la barra final si existe
+
 $uri = rtrim($uri, '/');
 
 function getBaseUrl() {
@@ -28,6 +28,7 @@ function getRouteTemplate($route) {
         '/fungus' => 'fungi/fungus_detail.twig',
         '/random' => 'fungi/random_fungi.twig',
         '/404' => 'errors/404.twig',
+        '/docs/api' => 'docs/api_docs.twig',
     ];
 
     return $routesMap[$route] ?? null;
@@ -48,9 +49,10 @@ function renderTemplate($route, $data = []) {
     
     // Obtener la ruta de la plantilla basada en la ruta proporcionada
     $templatePath = getRouteTemplate($route);
-    
+    print_r($route);
     if ($templatePath) {
         echo $twig->render($templatePath, $data);
+        
     } else {
         // Si la ruta no existe en el mapa, verificar si es una ruta de componente
         $componentPath = getRouteComponents($route);
@@ -74,7 +76,14 @@ switch (true) {
     case '/index':
         renderTemplate('fungi/fungi_list.twig', [
             'title' => _('Hongos'),
-            'fungis' => $fungiController->getFungisPaginated(20, 0)
+            //'fungis' => $fungiController->getFungisPaginated(20, 0)
+        ]);
+        break;
+    case '/docss':
+        print_r('docs');
+        die();
+        renderTemplate('/docs/api', [
+            'title' => _('Documentación de API')
         ]);
         break;
     case '/register':
@@ -190,6 +199,8 @@ switch (true) {
         break;
 
     case '/statistics':
+        print_r('statistics');
+        die();
         if (!$session->isLoggedIn()) {
             header('Location: /login');
             exit;
@@ -201,6 +212,13 @@ switch (true) {
             'stats' => $stats
         ]);
         break;
+
+    case '/docs':
+        renderTemplate('/docs/api', [
+            'title' => _('Documentación de API')
+        ]);
+        break;
+
     default:
         header('HTTP/1.1 404 Not Found');
         renderTemplate('/404', ['title' => _('Página no encontrada')]);
