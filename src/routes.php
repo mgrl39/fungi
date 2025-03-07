@@ -30,7 +30,7 @@ function getRouteTemplate($route) {
         '/login' => 'auth/login.twig',
         '/register' => 'auth/register.twig',
         '/about' => 'pages/about.twig',
-        '/contact' => 'contact.twig',
+        '/contact' => 'pages/contact.twig',
         '/terms' => 'legal/terms.twig',
         '/faq' => 'faq.twig',
         '/profile' => 'auth/profile.twig',
@@ -39,10 +39,39 @@ function getRouteTemplate($route) {
         '/admin' => 'admin.twig',
         '/fungus' => 'fungi/fungus_detail.twig',
         '/random' => 'fungi/random_fungi.twig',
-        '/404' => 'errors/404.twig'
+        '/404' => 'errors/404.twig',
     ];
 
     return $routesMap[$route] ?? null;
+}
+
+function getRouteComponents($route) {
+    $routesMap = [
+        'footer' => 'components/footer.twig',
+        'header' => 'components/header.twig',
+        'random_fungi' => 'fungi/random_fungi.twig',
+    ];
+
+    return $routesMap[$route] ?? null;
+}
+
+function renderTemplate($template, $data = []) {
+    global $twig; // Hacer que la variable $twig sea accesible
+    if (strpos($template, '.twig') !== false) {
+        $templateName = basename($template, '.twig'); // Obtener el nombre del archivo sin .twig
+        print_r($templateName);
+        print_r($template);
+        $templatePath = getRouteTemplate($templateName); // Obtener la ruta usando el nombre
+        die();
+
+        if ($templatePath) {
+            echo $twig->render($templatePath, $data);
+        } else {
+            echo $twig->render(getRouteTemplate('/404'), ['title' => _('Plantilla no encontrada')]);
+        }
+    } else {
+        echo $twig->render(getRouteTemplate('/404'), ['title' => _('Plantilla no válida')]);
+    }
 }
 
 switch ($uri) {
@@ -50,7 +79,7 @@ switch ($uri) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $authController->handleRegistration($_POST, $twig);
         } else {
-            echo $twig->render('auth/register.twig', [
+            renderTemplate('auth/register.twig', [
                 'title' => _('Registro')
             ]);
         }
@@ -67,14 +96,14 @@ switch ($uri) {
                 header('Location: /');
                 exit;
             } else {
-                echo $twig->render(getRouteTemplate('login'), [
+                renderTemplate('auth/login.twig', [
                     'title' => _('Iniciar Sesión'),
                     'error' => $result['message']
                 ]);
             }
         } else {
             $registered = isset($_GET['registered']) ? true : false;
-            echo $twig->render('auth/login.twig', [
+            renderTemplate('auth/login.twig', [
                 'title' => _('Iniciar Sesión'),
                 'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
             ]);
@@ -83,7 +112,7 @@ switch ($uri) {
 
     case '/':
     case '/index':
-            echo $twig->render('fungi/fungi_list.twig', [
+        renderTemplate('fungi/fungi_list.twig', [
             'title' => _('Todos los Fungis'),
             'fungis' => $db->getFungisPaginated(20, 0),
             'session' => $session
@@ -95,12 +124,12 @@ switch ($uri) {
         $fungus = $db->getFungusById($id);
         
         if (!$fungus) {
-            echo $twig->render(getRouteTemplate('404'), ['title' => _('Fungus no encontrado')]);
+            renderTemplate('404', ['title' => _('Fungus no encontrado')]);
         } else {
             // Incrementar las vistas del hongo
             $fungiController->incrementFungiViews($id);
 
-            echo $twig->render('fungi/fungus_detail.twig', [
+            renderTemplate('fungi/fungus_detail.twig', [
                 'title' => $fungus['name'],
                 'fungus' => $fungus
             ]);
@@ -125,7 +154,7 @@ switch ($uri) {
         if ($session->isLoggedIn()) {
             $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
         }
-        echo $twig->render('fungi/random_fungi.twig', [
+        renderTemplate('fungi/random_fungi.twig', [
             'title' => _('Hongo aleatorio'),
             'fungus' => $fungus,
             'session' => $session
@@ -140,13 +169,13 @@ switch ($uri) {
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $db->updateUserProfile($_SESSION['user_id'], $_POST);
-            echo $twig->render('profile.twig', [
+            renderTemplate('profile.twig', [
                 'title' => 'Mi Perfil',
                 'user' => $db->getUserById($_SESSION['user_id']),
                 'message' => $result ? 'Perfil actualizado' : 'Error al actualizar'
             ]);
         } else {
-            echo $twig->render('profile.twig', [
+            renderTemplate('profile.twig', [
                 'title' => 'Mi Perfil',
                 'user' => $db->getUserById($_SESSION['user_id'])
             ]);
@@ -159,7 +188,7 @@ switch ($uri) {
             exit;
         }
         
-        echo $twig->render('favorites.twig', [
+        renderTemplate('favorites.twig', [
             'title' => 'Mis Hongos Favoritos',
             'fungi' => $db->getUserFavorites($_SESSION['user_id'])
         ]);
@@ -194,27 +223,27 @@ switch ($uri) {
         break;
 
     case '/about':
-        echo $twig->render('about.twig', ['title' => 'Acerca de']);
+        renderTemplate('/about', ['title' => 'Acerca de']);
         break;
 
     case '/contact':
-        echo $twig->render('contact.twig', ['title' => 'Contacto']);
+        renderTemplate('/contact', ['title' => 'Contacto']);
         break;
 
     case '/admin': 
-        echo $twig->render('admin.twig', ['title' => 'Admin']); 
+        renderTemplate('admin.twig', ['title' => 'Admin']); 
         break;
 
     case '/reset_password': 
-        echo $twig->render('reset_password.twig', ['title' => 'Recuperar contraseña']); 
+        renderTemplate('reset_password.twig', ['title' => 'Recuperar contraseña']); 
         break;
 
     case '/terms': 
-        echo $twig->render(getRouteTemplate('/terms'), ['title' => 'Términos y condiciones']); 
+        renderTemplate('/terms', ['title' => 'Términos y condiciones']); 
         break;
 
     case '/faq': 
-        echo $twig->render('faq.twig', ['title' => 'Preguntas frecuentes']); 
+        renderTemplate('faq.twig', ['title' => 'Preguntas frecuentes']); 
         break;
 
     case '/statistics':
@@ -224,7 +253,7 @@ switch ($uri) {
         }
         
         $stats = $statsController->getFungiStats();
-        echo $twig->render(getRouteTemplate('/statistics'), [
+        renderTemplate('/statistics', [
             'title' => _('Estadísticas'),
             'stats' => $stats
         ]);
@@ -258,31 +287,8 @@ switch ($uri) {
         }
         break;
 
-        /*
-
-        suario@ubuntu-22:~/fungirepo/public$ php -S 0.0.0.0:5500 -t .
-[Fri Mar  7 15:41:09 2025] PHP 8.1.2-1ubuntu2.19 Development Server (http://0.0.0.0:5500) started
-[Fri Mar  7 15:41:10 2025] 192.168.237.235:47062 Accepted
-[Fri Mar  7 15:41:10 2025] PHP Fatal error:  Uncaught TypeError: Twig\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 343 and defined in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php:288
-Stack trace:
-#0 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(343): Twig\Environment->getTemplateClass()
-#1 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(306): Twig\Environment->load()
-#2 /home/usuario/fungirepo/src/routes.php(262): Twig\Environment->render()
-#3 /home/usuario/fungirepo/public/index.php(23): require_once('...')
-#4 {main}
-  thrown in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 288
-[Fri Mar  7 15:41:10 2025] 192.168.237.235:47062 [200]: GET /aksdsskadj - Uncaught TypeError: Twig\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 343 and defined in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php:288
-Stack trace:
-#0 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(343): Twig\Environment->getTemplateClass()
-#1 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(306): Twig\Environment->load()
-#2 /home/usuario/fungirepo/src/routes.php(262): Twig\Environment->render()
-#3 /home/usuario/fungirepo/public/index.php(23): require_once('...')
-#4 {main}
-  thrown in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 288
-  */
-  
     default:
         header('HTTP/1.1 404 Not Found');
-        echo $twig->render(getRouteTemplate('/404'), ['title' => _('Página no encontrada')]);
+        renderTemplate('/404', ['title' => _('Página no encontrada')]);
         break;
 }
