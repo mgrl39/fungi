@@ -35,9 +35,12 @@ class ApiController
 	{
 		header('Content-Type: application/json');
 		$method = $_SERVER['REQUEST_METHOD'];
-		$endpoint = $_GET['endpoint'] ?? '';
 
-		print_r($endpoint);
+		// Obtener el endpoint de la URL
+		$uri = $_SERVER['REQUEST_URI'];
+		$basePath = '/api/'; // Cambia esto si tu base de URL es diferente
+		$endpoint = str_replace($basePath, '', parse_url($uri, PHP_URL_PATH));
+		
 		// Añadir documentación para el endpoint raíz
 		if (empty($endpoint)) {
 			echo json_encode([
@@ -89,8 +92,11 @@ class ApiController
 	{
 		echo "Endpoint solicitado: " . print_r($endpoint, true) . "\n";
 		if ($endpoint === 'fungi') {
-			$stmt = $this->pdo->query("SELECT * FROM fungi");
-			echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+			$limit = $_GET['limit'] ?? 10; // Número de registros por página
+			$offset = $_GET['offset'] ?? 0; // Desplazamiento para la paginación
+
+			$fungis = $this->db->getFungisPaginated($limit, $offset);
+			echo json_encode(['success' => true, 'data' => $fungis]);
 		} elseif (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
 			$id = $matches[1];
 			$stmt = $this->pdo->prepare("SELECT * FROM fungi WHERE id = ?");
@@ -105,7 +111,7 @@ class ApiController
 			}
 		} elseif ($endpoint === 'users') {
 			$stmt = $this->pdo->query("SELECT id, username, email, role, created_at FROM users");
-			echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+			echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 		} else {
 			http_response_code(404);
 			echo json_encode(['error' => ErrorMessages::HTTP_404]);

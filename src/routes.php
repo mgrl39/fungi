@@ -1,6 +1,8 @@
 <?php
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// Eliminar la barra final si existe
+$uri = rtrim($uri, '/');
 
 function getBaseUrl() {
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
@@ -61,8 +63,14 @@ function renderTemplate($route, $data = []) {
     }
 }
 
-switch ($uri) {
-    case '/':
+// Separar las rutas de API en su propio bloque
+
+switch (true) {
+    case preg_match('#^/api#', $uri):
+        $apiController = new \App\Controllers\ApiController($db);
+        $apiController->handleRequest();
+        break;
+    case '':
     case '/index':
         renderTemplate('/', [
             'title' => _('Todos los Fungis'),
