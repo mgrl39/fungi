@@ -62,13 +62,6 @@ function renderTemplate($route, $data = []) {
 }
 
 switch ($uri) {
-    case '/api':
-        renderTemplate('/', [
-            'title' => _('Todos los Fungis'),
-            'fungis' => $db->getFungisPaginated(20, 0),
-            'session' => $session
-        ]);
-        break;
     case '/':
     case '/index':
         renderTemplate('/', [
