@@ -1,4 +1,5 @@
 <?php
+namespace App\Config;
 
 define('DEFAULT_PAGE_SIZE', 20);
 define('DB_CHARSET', 'utf8');

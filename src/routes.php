@@ -261,6 +261,3 @@ switch ($uri) {
         echo $twig->render(getRouteTemplate('404'), ['title' => _('Página no encontrada')]);
         break;
 }
-// Usar el router para manejar las rutas
-$router->handleRequest();
-
