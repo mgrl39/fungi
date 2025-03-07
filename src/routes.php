@@ -29,16 +29,17 @@ function getRouteTemplate($route) {
         '/index' => 'fungi/fungi_list.twig', 
         '/login' => 'auth/login.twig',
         '/register' => 'auth/register.twig',
-        '/about' => 'about.twig',
+        '/about' => 'pages/about.twig',
         '/contact' => 'contact.twig',
-        '/terms' => 'terms.twig',
+        '/terms' => 'legal/terms.twig',
         '/faq' => 'faq.twig',
         '/profile' => 'auth/profile.twig',
         '/favorites' => 'favorites.twig',
-        '/statistics' => 'statistics.twig',
+        '/statistics' => 'pages/statistics.twig',
         '/admin' => 'admin.twig',
         '/fungus' => 'fungi/fungus_detail.twig',
-        '/random' => 'fungi/random_fungi.twig'
+        '/random' => 'fungi/random_fungi.twig',
+        '/404' => 'errors/404.twig'
     ];
 
     return $routesMap[$route] ?? null;
@@ -209,7 +210,7 @@ switch ($uri) {
         break;
 
     case '/terms': 
-        echo $twig->render('terms.twig', ['title' => 'Términos y condiciones']); 
+        echo $twig->render(getRouteTemplate('/terms'), ['title' => 'Términos y condiciones']); 
         break;
 
     case '/faq': 
@@ -223,7 +224,7 @@ switch ($uri) {
         }
         
         $stats = $statsController->getFungiStats();
-        echo $twig->render('statistics.twig', [
+        echo $twig->render(getRouteTemplate('/statistics'), [
             'title' => _('Estadísticas'),
             'stats' => $stats
         ]);
@@ -257,7 +258,31 @@ switch ($uri) {
         }
         break;
 
+        /*
+
+        suario@ubuntu-22:~/fungirepo/public$ php -S 0.0.0.0:5500 -t .
+[Fri Mar  7 15:41:09 2025] PHP 8.1.2-1ubuntu2.19 Development Server (http://0.0.0.0:5500) started
+[Fri Mar  7 15:41:10 2025] 192.168.237.235:47062 Accepted
+[Fri Mar  7 15:41:10 2025] PHP Fatal error:  Uncaught TypeError: Twig\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 343 and defined in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php:288
+Stack trace:
+#0 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(343): Twig\Environment->getTemplateClass()
+#1 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(306): Twig\Environment->load()
+#2 /home/usuario/fungirepo/src/routes.php(262): Twig\Environment->render()
+#3 /home/usuario/fungirepo/public/index.php(23): require_once('...')
+#4 {main}
+  thrown in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 288
+[Fri Mar  7 15:41:10 2025] 192.168.237.235:47062 [200]: GET /aksdsskadj - Uncaught TypeError: Twig\Environment::getTemplateClass(): Argument #1 ($name) must be of type string, null given, called in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 343 and defined in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php:288
+Stack trace:
+#0 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(343): Twig\Environment->getTemplateClass()
+#1 /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php(306): Twig\Environment->load()
+#2 /home/usuario/fungirepo/src/routes.php(262): Twig\Environment->render()
+#3 /home/usuario/fungirepo/public/index.php(23): require_once('...')
+#4 {main}
+  thrown in /home/usuario/fungirepo/vendor/twig/twig/src/Environment.php on line 288
+  */
+  
     default:
-        echo $twig->render(getRouteTemplate('404'), ['title' => _('Página no encontrada')]);
+        header('HTTP/1.1 404 Not Found');
+        echo $twig->render(getRouteTemplate('/404'), ['title' => _('Página no encontrada')]);
         break;
 }
