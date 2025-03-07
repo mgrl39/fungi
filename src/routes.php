@@ -1,26 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php'; // Asegúrate de que el autoload de Composer esté incluido
-
-// Importar el controlador
-require_once __DIR__ . '/controllers/FungiController.php';
-require_once __DIR__ . '/controllers/StatsController.php';
-
-require_once __DIR__ . '/config/AppInitializer.php';
-
-use App\Config\AppInitializer;
-use App\Controllers\FungiController;
-use App\Controllers\StatsController;
-
-// Obtener las dependencias inicializadas
-list($db, $authController, $session, $twig) = AppInitializer::initialize();
-
-// Inicializar el controlador de hongos
-$fungiController = new FungiController($db);
-$statsController = new StatsController($db);
-
-// Obtener la ruta solicitada
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+function getBaseUrl() {
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    return $protocol . $host;
+}
 
 // Ruteo básico
 function getRouteTemplate($route) {
@@ -55,26 +41,35 @@ function getRouteComponents($route) {
     return $routesMap[$route] ?? null;
 }
 
-function renderTemplate($template, $data = []) {
+function renderTemplate($route, $data = []) {
     global $twig; // Hacer que la variable $twig sea accesible
-    if (strpos($template, '.twig') !== false) {
-        $templateName = basename($template, '.twig'); // Obtener el nombre del archivo sin .twig
-        print_r($templateName);
-        print_r($template);
-        $templatePath = getRouteTemplate($templateName); // Obtener la ruta usando el nombre
-        die();
-
-        if ($templatePath) {
-            echo $twig->render($templatePath, $data);
-        } else {
-            echo $twig->render(getRouteTemplate('/404'), ['title' => _('Plantilla no encontrada')]);
-        }
+    
+    // Obtener la ruta de la plantilla basada en la ruta proporcionada
+    $templatePath = getRouteTemplate($route);
+    
+    if ($templatePath) {
+        echo $twig->render($templatePath, $data);
     } else {
-        echo $twig->render(getRouteTemplate('/404'), ['title' => _('Plantilla no válida')]);
+        // Si la ruta no existe en el mapa, verificar si es una ruta de componente
+        $componentPath = getRouteComponents($route);
+        if ($componentPath) {
+            echo $twig->render($componentPath, $data);
+        } else {
+            // Si no existe ni como ruta ni como componente, mostrar 404
+            echo $twig->render(getRouteTemplate('/404'), ['title' => _('Página no encontrada')]);
+        }
     }
 }
 
 switch ($uri) {
+    case '/':
+        case '/index':
+            renderTemplate('/', [
+                'title' => _('Todos los Fungis'),
+                'fungis' => $db->getFungisPaginated(20, 0),
+                'session' => $session
+            ]);
+            break;
     case '/register':
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $authController->handleRegistration($_POST, $twig);
@@ -96,43 +91,41 @@ switch ($uri) {
                 header('Location: /');
                 exit;
             } else {
-                renderTemplate('auth/login.twig', [
+                renderTemplate('login', [
                     'title' => _('Iniciar Sesión'),
                     'error' => $result['message']
                 ]);
             }
         } else {
             $registered = isset($_GET['registered']) ? true : false;
-            renderTemplate('auth/login.twig', [
+            renderTemplate('login', [
                 'title' => _('Iniciar Sesión'),
                 'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
             ]);
         }
         break;
 
-    case '/':
-    case '/index':
-        renderTemplate('fungi/fungi_list.twig', [
-            'title' => _('Todos los Fungis'),
-            'fungis' => $db->getFungisPaginated(20, 0),
-            'session' => $session
-        ]);
-        break;
+
 
     case '/fungus':
         $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-        $fungus = $db->getFungusById($id);
         
-        if (!$fungus) {
-            renderTemplate('404', ['title' => _('Fungus no encontrado')]);
-        } else {
+        // Consumir la API interna usando la URL base dinámica
+        $baseUrl = getBaseUrl();
+        $apiResponse = file_get_contents("{$baseUrl}/api/fungi/{$id}");
+        $responseData = json_decode($apiResponse, true);
+        
+        if ($responseData['success']) {
+            $fungus = $responseData['data'];
             // Incrementar las vistas del hongo
             $fungiController->incrementFungiViews($id);
-
+            
             renderTemplate('fungi/fungus_detail.twig', [
                 'title' => $fungus['name'],
                 'fungus' => $fungus
             ]);
+        } else {
+            renderTemplate('404', ['title' => _('Fungus no encontrado')]);
         }
         break;
 
@@ -146,7 +139,97 @@ switch ($uri) {
         break;
 
     case preg_match('#^/api(/.*)?$#', $uri) ? true : false:
-        require_once __DIR__ . '/../public/api.php';
+        header('Content-Type: application/json');
+        
+        // Extraer la ruta de la API
+        $apiPath = str_replace('/api', '', $uri);
+        
+        // Manejar rutas de la API
+        switch ($apiPath) {
+            // Obtener todos los hongos (paginado)
+            case '/fungi':
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
+                    $offset = ($page - 1) * $limit;
+                    
+                    $fungi = $db->getFungisPaginated($limit, $offset);
+                    $total = $db->getTotalFungi();
+                    
+                    echo json_encode([
+                        'data' => $fungi,
+                        'pagination' => [
+                            'total' => $total,
+                            'page' => $page,
+                            'limit' => $limit,
+                            'pages' => ceil($total / $limit)
+                        ]
+                    ]);
+                }
+                break;
+                
+            // Obtener un hongo específico
+            case preg_match('#^/fungi/(\d+)$#', $apiPath, $matches) ? true : false:
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    $id = (int)$matches[1];
+                    $fungus = $db->getFungusById($id);
+                    
+                    if ($fungus) {
+                        echo json_encode([
+                            'data' => $fungus,
+                            'success' => true
+                        ]);
+                    } else {
+                        http_response_code(404);
+                        echo json_encode([
+                            'error' => 'Hongo no encontrado',
+                            'success' => false
+                        ]);
+                    }
+                }
+                break;
+                
+            // Obtener hongo aleatorio
+            case '/fungi/random':
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    $fungus = $db->getRandomFungus();
+                    if ($session->isLoggedIn()) {
+                        $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
+                    }
+                    echo json_encode([
+                        'data' => $fungus,
+                        'success' => true
+                    ]);
+                }
+                break;
+                
+            // Manejar likes de hongos
+            case '/fungi/like':
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && $session->isLoggedIn()) {
+                    $fungiId = $_POST['fungi_id'] ?? 0;
+                    $result = $fungiController->likeFungi($_SESSION['user_id'], $fungiId);
+                    echo json_encode([
+                        'success' => $result,
+                        'message' => $result ? 'Like agregado exitosamente' : 'Error al agregar like'
+                    ]);
+                } else {
+                    http_response_code(401);
+                    echo json_encode([
+                        'error' => 'Usuario no autorizado',
+                        'success' => false
+                    ]);
+                }
+                break;
+                
+            default:
+                http_response_code(404);
+                echo json_encode([
+                    'error' => 'Endpoint no encontrado',
+                    'success' => false
+                ]);
+                break;
+        }
+        exit;
         break;
 
     case '/random':
