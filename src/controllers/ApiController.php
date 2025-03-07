@@ -38,28 +38,37 @@ class ApiController
 
 		// Obtener el endpoint de la URL
 		$uri = $_SERVER['REQUEST_URI'];
-		$basePath = '/api/'; // Cambia esto si tu base de URL es diferente
+		$basePath = '/api'; // Cambia esto si tu base de URL es diferente
 		$endpoint = str_replace($basePath, '', parse_url($uri, PHP_URL_PATH));
-		
+
+		// Asegurarse de que el endpoint comience con una barra
+		if (substr($endpoint, 0, 1) !== '/') {
+			$endpoint = '/' . $endpoint;
+		}
+
 		// Añadir documentación para el endpoint raíz
-		if (empty($endpoint)) {
+		if ($endpoint === '/' || $endpoint === '') {
 			echo json_encode([
 				'api_version' => 'v1',
 				'available_endpoints' => [
-					'GET /api/fungi' => 'Obtiene lista de todos los hongos',
-					'GET /api/fungi/{id}' => 'Obtiene un hongo específico por ID',
-					'POST /api/fungi' => 'Crea un nuevo hongo',
-					'PUT /api/fungi/{id}' => 'Actualiza un hongo existente',
-					'DELETE /api/fungi/{id}' => 'Elimina un hongo',
-					'GET /api/users' => 'Obtiene lista de usuarios',
-					'POST /api/users' => 'Crea un nuevo usuario'
+					'Fungi' => [
+						'GET /api/fungi' => 'Obtiene lista de todos los hongos',
+						'GET /api/fungi/{id}' => 'Obtiene un hongo específico por ID',
+						'GET /api/fungi/page/{page}/limit/{limit}' => 'Obtiene hongos paginados',
+						'GET /api/fungi/random' => 'Obtiene un hongo aleatorio',
+						'POST /api/fungi' => 'Crea un nuevo hongo',
+						'PUT /api/fungi/{id}' => 'Actualiza un hongo existente',
+						'DELETE /api/fungi/{id}' => 'Elimina un hongo',
+					],
+					'Users' => [
+						'GET /api/users' => 'Obtiene lista de usuarios',
+						'POST /api/users' => 'Crea un nuevo usuario',
+					]
 				],
 				'documentation' => 'Para más información, visita /docs/api'
 			]);
 			return;
 		}
-
-		echo "Endpoint solicitado: " . print_r($endpoint, true) . "\n";
 		try {
 			switch ($method) {
 			case 'GET':
@@ -90,10 +99,13 @@ class ApiController
 	 */
 	private function handleGet($endpoint)
 	{
-		echo "Endpoint solicitado: " . print_r($endpoint, true) . "\n";
-		if ($endpoint === 'fungi') {
-			$limit = $_GET['limit'] ?? 10; // Número de registros por página
-			$offset = $_GET['offset'] ?? 0; // Desplazamiento para la paginación
+		if ($endpoint === 'fungi/all') {
+			$stmt = $this->pdo->query("SELECT * FROM fungi");
+			echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+		} elseif (preg_match('/^fungi\/page\/(\d+)\/limit\/(\d+)$/', $endpoint, $matches)) {
+			$pageNumber = (int)$matches[1];
+			$limit = (int)$matches[2];
+			$offset = ($pageNumber - 1) * $limit;
 
 			$fungis = $this->db->getFungisPaginated($limit, $offset);
 			echo json_encode(['success' => true, 'data' => $fungis]);
@@ -112,6 +124,14 @@ class ApiController
 		} elseif ($endpoint === 'users') {
 			$stmt = $this->pdo->query("SELECT id, username, email, role, created_at FROM users");
 			echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+		} elseif ($endpoint === 'fungi/random') {
+			$randomFungus = $this->db->getRandomFungus();
+			if ($randomFungus) {
+				echo json_encode(['success' => true, 'data' => $randomFungus]);
+			} else {
+				http_response_code(404);
+				echo json_encode(['error' => ErrorMessages::DB_RECORD_NOT_FOUND]);
+			}
 		} else {
 			http_response_code(404);
 			echo json_encode(['error' => ErrorMessages::HTTP_404]);
