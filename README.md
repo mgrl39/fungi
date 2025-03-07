@@ -16,11 +16,11 @@ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongo
 - **JWT (JSON Web Tokens)**  
 - **Gettext** (para internacionalización)
 
-<div>
-  <img style="text-align: center; border-radius: 50%;" src="public/assets/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
-  <img style="text-align: center; border-radius: 50%;" src="public/assets/logos/mysql.png" width="50" height="50" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
-  <img style="text-align: center; border-radius: 50%;" src="public/assets/logos/php.png" width="50" height="50" alt="PHP Logo">
-</div>
+<p align="center">
+  <img style="border-radius: 50%;" src="public/assets/logos/bootstrap.png" width="50" height="50" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
+  <img style="border-radius: 50%;" src="public/assets/logos/mysql.png" width="50" height="50" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
+  <img style="border-radius: 50%;" src="public/assets/logos/php.png" width="50" height="50" alt="PHP Logo">
+</p>
 
 
 ## 📊 Datos Extraídos
