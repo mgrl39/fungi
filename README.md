@@ -20,6 +20,7 @@ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongo
   <img style="border-radius: 50%;" src="public/assets/logos/bootstrap.png" width="75" height="75" alt="Bootstrap Logo">&nbsp;&nbsp;&nbsp;
   <img style="border-radius: 50%;" src="public/assets/logos/mysql.png" width="75" height="75" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
   <img style="border-radius: 50%;" src="public/assets/logos/php.png" width="75" height="75" alt="PHP Logo">
+  <img style="border-radius: 50%;" src="public/assets/logos/twig.png" width="75" height="75" alt="Twig Logo">
 </p>
 
 
