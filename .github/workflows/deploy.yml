@@ -1,0 +1,86 @@
+name: Deploy to FTP (InfinityFree)
+
+on:
+  push:
+    branches:
+      - auto-deploy
+
+jobs:
+  ftp-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Instalar PHP y Composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install dependencies with Composer
+        run: |
+          composer install --no-dev --optimize-autoloader
+
+      # Instalar LFTP
+      - name: Install LFTP
+        run: sudo apt-get install -y lftp
+
+      # Copiar Bootstrap directamente desde vendor después de composer install
+      - name: Fix Bootstrap path
+        run: |
+          if [ -L "public/assets/lib/twbs" ]; then
+            echo "Removing existing twbs symlink..."
+            unlink public/assets/lib/twbs || rm -f public/assets/lib/twbs
+          elif [ -d "public/assets/lib/twbs" ]; then
+            echo "Removing existing twbs directory..."
+            rm -rf public/assets/lib/twbs
+            sleep 2
+          fi
+          mkdir -p public/assets/lib/twbs
+          cp -R vendor/twbs/* public/assets/lib/twbs/
+
+      # Copiar el .htaccess directamente en /htdocs
+      - name: Create .htaccess file in htdocs
+        run: |
+          cat <<EOL > .htaccess
+          # Activar el motor de reescritura
+          RewriteEngine On
+
+          # Redirigir todas las solicitudes a public/index.php
+          RewriteCond %{REQUEST_URI} !^/public/
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          RewriteRule ^(.*)$ /public/$1 [L]
+
+          # Definir el archivo de inicio
+          DirectoryIndex public/index.php
+
+          # Mostrar errores de PHP (para depurar)
+          php_flag display_errors on
+          php_value error_reporting 32767
+          EOL
+
+      # Subir todos los archivos (incluyendo vendor y .htaccess)
+      - name: Deploy via LFTP
+        run: |
+          lftp -e "
+            set ftp:ssl-allow no;
+            set ftp:passive-mode yes;
+            set net:timeout 30;
+            set net:max-retries 2;
+            set net:reconnect-interval-base 5;
+            open ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@ftpupload.net:21;
+            mirror --reverse --delete --verbose \
+              --exclude .git/ \
+              --exclude .env \
+              --exclude README.md \
+              --exclude composer.lock \
+              --exclude node_modules/ \
+              --exclude tests/ \
+              --no-symlinks \
+              ./ /htdocs/;
+            bye
+          "
+
