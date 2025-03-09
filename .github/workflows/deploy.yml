@@ -23,6 +23,7 @@ jobs:
         run: |
           composer install --no-dev --optimize-autoloader
 
+      # Instalar LFTP
       - name: Install LFTP
         run: sudo apt-get install -y lftp
 
@@ -37,9 +38,31 @@ jobs:
             rm -rf public/assets/lib/twbs
             sleep 2
           fi
-
           mkdir -p public/assets/lib/twbs
           cp -R vendor/twbs/* public/assets/lib/twbs/
+
+      # Copiar el .htaccess directamente en /htdocs
+      - name: Create .htaccess file in htdocs
+        run: |
+          cat <<EOL > .htaccess
+          # Activar el motor de reescritura
+          RewriteEngine On
+
+          # Redirigir todas las solicitudes a public/index.php
+          RewriteCond %{REQUEST_URI} !^/public/
+          RewriteCond %{REQUEST_FILENAME} !-f
+          RewriteCond %{REQUEST_FILENAME} !-d
+          RewriteRule ^(.*)$ /public/$1 [L]
+
+          # Definir el archivo de inicio
+          DirectoryIndex public/index.php
+
+          # Mostrar errores de PHP (para depurar)
+          php_flag display_errors on
+          php_value error_reporting 32767
+          EOL
+
+      # Subir todos los archivos (incluyendo vendor y .htaccess)
       - name: Deploy via LFTP
         run: |
           lftp -e "
@@ -55,7 +78,6 @@ jobs:
               --exclude README.md \
               --exclude composer.lock \
               --exclude node_modules/ \
-              --exclude vendor/ \
               --exclude tests/ \
               --no-symlinks \
               ./ /htdocs/;
