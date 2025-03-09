@@ -15,71 +15,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Clonar el repositorio
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ✅ Instalar Doxygen y Graphviz
       - name: Install Doxygen
         run: sudo apt-get install -y doxygen graphviz
 
-      # ✅ Generar documentación con Doxygen
       - name: Generate documentation with Doxygen
         run: |
-          rm -rf docs/ html/   # Limpiar cualquier resto anterior
+          rm -rf docs/ html/
           doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
-
-      # ✅ Verificar que `docs/` se generó correctamente
-      - name: Check generated docs
-        run: |
-          if [ -d "docs" ] && [ "$(ls -A docs)" ]; then
-            echo "✅ Documentation generated in 'docs/'"
-          elif [ -d "html" ] && [ "$(ls -A html)" ]; then
-            echo "✅ Documentation generated in 'html/'"
-            mv html docs  # Si Doxygen generó en html, lo renombramos a docs
-          else
-            echo "❌ No documentation generated."
-            exit 1
+          
+          # Si Doxygen generó en 'html/', renombrar a 'docs/'
+          if [ -d "html" ]; then
+            mv html docs
           fi
 
-      # ✅ Crear la rama gh-pages si no existe y hacer push
+          # Guardar la documentación en un directorio temporal
+          mkdir -p /tmp/artifacts
+          cp -r docs /tmp/artifacts/
+
       - name: Deploy to GitHub Pages
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Si no existe la rama `gh-pages`, la crea como huérfana
+          # Crear o cambiar a la rama gh-pages
           if ! git ls-remote --exit-code --heads origin gh-pages; then
             git checkout --orphan gh-pages
+            git rm -rf .
           else
             git fetch origin gh-pages
             git checkout gh-pages
           fi
 
-          # 🔥 Eliminar TODO el contenido anterior en gh-pages
-          git rm -rf . || true
-
-          # ✅ Copiar SOLO el contenido de `docs/` (sin la carpeta `docs/`)
-          if [ -d "docs" ]; then
-            shopt -s dotglob
-            cp -r docs/* ./
-            shopt -u dotglob
+          # Copiar la documentación desde el directorio temporal
+          if [ -d "/tmp/artifacts/docs" ]; then
+            cp -r /tmp/artifacts/docs/* .
           else
-            echo "❌ No documentation to copy."
+            echo "❌ No documentation found in /tmp/artifacts/docs"
             exit 1
           fi
 
-          # ✅ Commit y push de los cambios
+          # Commit y push
           git add .
           git commit -m "Deploy Doxygen docs [skip ci]" || echo "✅ No changes to commit"
-          
-          # ✅ Push usando el token personal
           git push --force "https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/fungi.git" gh-pages
 
-      # ✅ Subir la documentación generada como artefacto (opcional)
       - name: Upload documentation artifact
         uses: actions/upload-artifact@v4
         with:
           name: doxygen-docs
-          path: docs/
-
+          path: /tmp/artifacts/docs
