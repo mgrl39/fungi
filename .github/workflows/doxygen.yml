@@ -1,0 +1,59 @@
+name: Generate Doxygen Docs and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Clonar el repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ✅ Instalar Doxygen y Graphviz
+      - name: Install Doxygen
+        run: sudo apt-get install -y doxygen graphviz
+
+      # ✅ Generar documentación con Doxygen
+      - name: Generate documentation with Doxygen
+        run: doxygen Doxyfile
+
+      # ✅ Crear la rama gh-pages si no existe y hacer push
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Si la rama gh-pages no existe, créala como huérfana
+          git fetch origin gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages || git checkout --orphan gh-pages
+          
+          # Eliminar todo el contenido anterior
+          git rm -rf . || true
+          
+          # Copiar el contenido generado de `docs/` a la raíz
+          cp -r docs/* ./
+          
+          # Hacer commit y push de los cambios
+          git add .
+          git commit -m "Deploy Doxygen docs [skip ci]" || echo "No changes to commit"
+          
+          # 🔥 Push usando el token de acceso personal
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/fungi.git gh-pages --force
+
+      # ✅ Subir la documentación generada como artefacto (opcional)
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: doxygen-docs
+          path: docs/
+
