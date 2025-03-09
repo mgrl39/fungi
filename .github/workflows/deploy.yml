@@ -1,9 +1,10 @@
-name: Deploy to FTP
+name: Deploy to FTP (InfinityFree)
 
 on:
   push:
     branches:
-      - auto-deploy
+      - main
+      - test
 
 jobs:
   ftp-deploy:
@@ -14,22 +15,24 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Deploy to FTP (InfinityFree)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: appleboy/ftp-action@v0.1.4
         with:
-          server: ftpupload.net
+          host: ftpupload.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./
-          server-dir: /htdocs/
-          exclude: |
-            **/.git*
-            **/README.md
-            **/.env
-            **/composer.lock
-            **/node_modules
-            **/vendor
-            **/tests
-          protocol: ftp
           port: 21
-          timeout: 600
+          protocol: ftp
+          local_dir: ./
+          remote_dir: /htdocs/
           passive: true
+          debug: true
+          timeout: 600
+          exclude: |
+            .git*
+            README.md
+            .env
+            composer.lock
+            node_modules
+            vendor
+            tests
+
