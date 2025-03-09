@@ -1,0 +1,11 @@
+var classApp_1_1Controllers_1_1FungiController =
+[
+    [ "__construct", "classApp_1_1Controllers_1_1FungiController.html#af7000ed08fe4bc6c08d0b40591e112b7", null ],
+    [ "getFungusWithLikeStatus", "classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451", null ],
+    [ "hasUserLikedFungi", "classApp_1_1Controllers_1_1FungiController.html#a35fbbcc5cad471348611c0e1cfafebd7", null ],
+    [ "incrementFungiViews", "classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12", null ],
+    [ "likeFungi", "classApp_1_1Controllers_1_1FungiController.html#a61834711a6b3748eca87a0644c08babb", null ],
+    [ "unlikeFungi", "classApp_1_1Controllers_1_1FungiController.html#a087b8275e77143716ac62ea228074a20", null ],
+    [ "updateFungiLikes", "classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d", null ],
+    [ "$db", "classApp_1_1Controllers_1_1FungiController.html#ab1b8e71c0976e182854ff195764611c6", null ]
+];

@@ -1,0 +1,66 @@
+\doxysection{App\textbackslash{}Config\textbackslash{}App\+Initializer Class Reference}
+\hypertarget{classApp_1_1Config_1_1AppInitializer}{}\label{classApp_1_1Config_1_1AppInitializer}\index{App\textbackslash{}Config\textbackslash{}AppInitializer@{App\textbackslash{}Config\textbackslash{}AppInitializer}}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca}{initialize}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{AppInitializer_8php_source_l00013}{13}} of file \mbox{\hyperlink{AppInitializer_8php_source}{App\+Initializer.\+php}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca}\label{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca} 
+\index{App\textbackslash{}Config\textbackslash{}AppInitializer@{App\textbackslash{}Config\textbackslash{}AppInitializer}!initialize@{initialize}}
+\index{initialize@{initialize}!App\textbackslash{}Config\textbackslash{}AppInitializer@{App\textbackslash{}Config\textbackslash{}AppInitializer}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily static App\textbackslash{}\+Config\textbackslash{}\+App\+Initializer\+::initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{AppInitializer_8php_source_l00015}{15}} of file \mbox{\hyperlink{AppInitializer_8php_source}{App\+Initializer.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ configuración\ desde\ defaults.inc.php}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ require\_once\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/defaults.inc.php'};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verifica\ que\ DatabaseController\ existe\ antes\ de\ instanciarlo}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!class\_exists(DatabaseController::class))\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\textcolor{stringliteral}{'La\ clase\ DatabaseController\ no\ se\ encuentra.\ Verifica\ que\ el\ archivo\ existe\ en\ src/Controllers/DatabaseController.php'});}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inicializar\ controladores}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \$db\ =\ \textcolor{keyword}{new}\ DatabaseController();}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \$authController\ =\ \textcolor{keyword}{new}\ AuthController(\$db);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \$session\ =\ \textcolor{keyword}{new}\ SessionController(\$db);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ Twig}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{twig_8php_ab832f4c463ee1c9ba2e9464265f7ea3b}{\$loader}}\ =\ \textcolor{keyword}{new}\ FilesystemLoader(\_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../public/templates'});}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{twig_8php_a95b22cf97ae99a402854f5f45a9871bf}{\$twig}}\ =\ \textcolor{keyword}{new}\ Environment(\mbox{\hyperlink{twig_8php_ab832f4c463ee1c9ba2e9464265f7ea3b}{\$loader}},\ [}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'cache'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'debug'}\ =>\ DEBUG\_MODE,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{twig_8php_a95b22cf97ae99a402854f5f45a9871bf}{\$twig}}-\/>addExtension(\textcolor{keyword}{new}\ DebugExtension());}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ de\ traducción}}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{twig_8php_a95b22cf97ae99a402854f5f45a9871bf}{\$twig}}-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{charliteral}{'\_'},\ \textcolor{keyword}{function}\ (\$string)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$string;\ \textcolor{comment}{//\ Por\ ahora\ solo\ devuelve\ el\ string\ original}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Aquí\ podrías\ implementar\ gettext\ u\ otro\ sistema\ de\ traducción}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}));}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\$db,\ \$authController,\ \$session,\ \mbox{\hyperlink{twig_8php_a95b22cf97ae99a402854f5f45a9871bf}{\$twig}}];}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/config/\mbox{\hyperlink{AppInitializer_8php}{App\+Initializer.\+php}}\end{DoxyCompactItemize}

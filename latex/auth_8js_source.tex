@@ -1,0 +1,37 @@
+\doxysection{auth.\+js}
+\hypertarget{auth_8js_source}{}\label{auth_8js_source}\index{public/assets/js/auth.js@{public/assets/js/auth.js}}
+\mbox{\hyperlink{auth_8js}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00001}00001\ document.addEventListener('DOMContentLoaded',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00002}00002\ \ \ \ \ const\ registerForm\ =\ document.querySelector('form[action="{}/register"{}]');}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00003}00003\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00004}00004\ \ \ \ \ if\ (registerForm)\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00005}00005\ \ \ \ \ \ \ \ \ registerForm.addEventListener('submit',\ async\ function(e)\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00006}00006\ \ \ \ \ \ \ \ \ \ \ \ \ e.preventDefault();}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00007}00007\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00008}00008\ \ \ \ \ \ \ \ \ \ \ \ \ const\ formData\ =\ new\ FormData(this);}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ formData.append('action',\ 'register');}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ try\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ response\ =\ await\ fetch('/auth',\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ method:\ 'POST',}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body:\ formData}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ data\ =\ await\ response.json();}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (data.success)\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alert('Registro\ exitoso');}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ window.location.href\ =\ '/login';}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alert(data.message);}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ catch\ (error)\ \{}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ console.error('Error:',\ error);}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alert('Error\ al\ procesar\ el\ registro');}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00029}00029\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{auth_8js_source_l00031}00031\ \});}
+
+\end{DoxyCode}

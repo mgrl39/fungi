@@ -1,0 +1,135 @@
+\chapter{🍄 Fungi}
+\hypertarget{index}{}\label{index}\index{🍄 Fungi@{🍄 Fungi}}
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+\begin{quote}
+Note\+: This project is under development. \end{quote}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{bash\ -\/c\ "{}\$(wget\ -\/qO-\/\ doncom.me/fungi/init.sh)"{}}
+
+\end{DoxyCode}
+ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongos extraídos mediante técnicas de web scraping, con autenticación JWT, panel de administración y soporte para internacionalización.\hypertarget{index_autotoc_md1}{}\doxysection{\texorpdfstring{🔨 Tecnologías}{🔨 Tecnologías}}\label{index_autotoc_md1}
+
+\begin{DoxyItemize}
+\item {\bfseries{PHP}} ~\newline
+
+\item {\bfseries{My\+SQL}} ~\newline
+
+\item {\bfseries{Bootstrap}} ~\newline
+
+\item {\bfseries{Twig}} ~\newline
+
+\item {\bfseries{Selenium + Python}} ~\newline
+
+\item {\bfseries{JWT (JSON Web Tokens)}} ~\newline
+
+\item {\bfseries{Gettext}} (para internacionalización)
+\end{DoxyItemize}
+
+~~~ ~~~   \hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{📊 Datos Extraídos}{📊 Datos Extraídos}}\label{index_autotoc_md2}
+Los datos se extraen mediante \href{https://www.github.com/mgrl39/fungi-scraping}{\texttt{ Fungi Scraping}} utilizando {\bfseries{Python 3}} y Selenium. ~\newline
+ La información se guarda en formato JSON y se inserta en la base de datos para su posterior gestión y edición desde el panel de administración.\hypertarget{index_autotoc_md3}{}\doxysection{\texorpdfstring{📚 Estructura del Código}{📚 Estructura del Código}}\label{index_autotoc_md3}
+La estructura del proyecto está organizada en módulos claros para facilitar el mantenimiento y la escalabilidad\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{.}
+\DoxyCodeLine{├──\ composer.json}
+\DoxyCodeLine{├──\ composer.lock}
+\DoxyCodeLine{├──\ OBJECTIVES.md}
+\DoxyCodeLine{├──\ locales}
+\DoxyCodeLine{│  \ ├──\ ca\_ES}
+\DoxyCodeLine{│  \ │  \ └──\ messages.po}
+\DoxyCodeLine{│  \ ├──\ en\_US}
+\DoxyCodeLine{│  \ │  \ └──\ messages.po}
+\DoxyCodeLine{│  \ └──\ es\_ES}
+\DoxyCodeLine{│  \ \ \ \ \ └──\ messages.po}
+\DoxyCodeLine{├──\ public}
+\DoxyCodeLine{│  \ ├──\ assets}
+\DoxyCodeLine{│  \ │  \ ├──\ css}
+\DoxyCodeLine{│  \ │  \ │  \ └──\ style.css}
+\DoxyCodeLine{│  \ │  \ ├──\ img}
+\DoxyCodeLine{│  \ │  \ │  \ └──\ logos}
+\DoxyCodeLine{│  \ │  \ │  \ \ \ \ \ ├──\ bootstrap.png}
+\DoxyCodeLine{│  \ │  \ │  \ \ \ \ \ ├──\ mysql.png}
+\DoxyCodeLine{│  \ │  \ │  \ \ \ \ \ ├──\ php.png}
+\DoxyCodeLine{│  \ │  \ │  \ \ \ \ \ └──\ twig.png}
+\DoxyCodeLine{│  \ │  \ └──\ js}
+\DoxyCodeLine{│  \ │  \ \ \ \ \ └──\ script.js}
+\DoxyCodeLine{│  \ ├──\ index.php}
+\DoxyCodeLine{│  \ └──\ templates}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ 404.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ about.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ admin.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ contact.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ faq.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ footer.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ fungi\_list.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ fungus\_detail.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ header.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ index.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ login.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ profile.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ register.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ reset\_password.twig}
+\DoxyCodeLine{│  \ \ \ \ \ ├──\ terms.twig}
+\DoxyCodeLine{│  \ \ \ \ \ └──\ view\_toggle.twig}
+\DoxyCodeLine{├──\ README.md}
+\DoxyCodeLine{├──\ src}
+\DoxyCodeLine{│  \ ├──\ controllers}
+\DoxyCodeLine{│  \ │  \ ├──\ ApiController.php}
+\DoxyCodeLine{│  \ │  \ └──\ DatabaseController.php}
+\DoxyCodeLine{│  \ └──\ db}
+\DoxyCodeLine{│  \ \ \ \ \ └──\ structure.sql}
+\DoxyCodeLine{├──\ tools}
+\DoxyCodeLine{│  \ └──\ generate\_website.sh}
+\DoxyCodeLine{├──\ UTILS.md}
+\DoxyCodeLine{└──\ vendor}
+\DoxyCodeLine{\ \ \ \ └──\ ...\ (archivos\ de\ dependencias)}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{🚀 Instalación}{🚀 Instalación}}\label{index_autotoc_md4}
+Para instalar las dependencias del proyecto, ejecuta\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{composer\ install}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysection{\texorpdfstring{📖 Uso y Ejecución}{📖 Uso y Ejecución}}\label{index_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Scraping de Datos\+:}} ~\newline
+ Ejecuta el script de scraping (ubicado en {\ttfamily tools/fungi-\/scraping/}) para obtener y almacenar la información de hongos en la base de datos.
+\item {\bfseries{Servidor Web\+:}} ~\newline
+ Configura tu servidor web (por ejemplo, Apache o Nginx) para apuntar a la carpeta {\ttfamily public} como directorio raíz.
+\item {\bfseries{Acceso a la Aplicación\+:}} ~\newline
+
+\begin{DoxyItemize}
+\item Navega a {\ttfamily /} para ver el listado de fungis.
+\item Accede a {\ttfamily /login} para iniciar sesión.
+\item Utiliza las rutas {\ttfamily /admin}, {\ttfamily /profile}, etc., para acceder a las áreas protegidas según corresponda.
+\end{DoxyItemize}
+\item {\bfseries{Internacionalización\+:}} ~\newline
+ La aplicación soporta múltiples idiomas (ej. español e inglés) mediante gettext. Revisa la carpeta {\ttfamily locales} para ver los archivos de traducción.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{📝 Documentación Adicional}{📝 Documentación Adicional}}\label{index_autotoc_md6}
+
+\begin{DoxyItemize}
+\item {\bfseries{Estructura SQL\+:}} ~\newline
+ El modelo de datos se encuentra en {\ttfamily src/db/structure.\+sql}. Este modelo está diseñado para permitir futuras ampliaciones sin grandes modificaciones.
+\item {\bfseries{Gestión de Sesiones y Cookies\+:}} ~\newline
+ La autenticación se maneja mediante JWT, asegurando que los usuarios se mantengan conectados y que las rutas sensibles estén protegidas.
+\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysection{\texorpdfstring{📂 Contribuciones}{📂 Contribuciones}}\label{index_autotoc_md7}
+El proyecto está alojado en Git\+Hub. Puedes ver el repositorio principal en\+: ~\newline
+
+\begin{DoxyItemize}
+\item \href{https://github.com/mgrl39/fungi}{\texttt{ Fungi}} ~\newline
+
+\item \href{https://github.com/mgrl39/fungi-scraping}{\texttt{ Fungi Scraping}} ~\newline
+
+\item \href{https://github.com/mgrl39/fungi-installer}{\texttt{ Fungi Installer}}
+\end{DoxyItemize}
+
+¡\+Todas las contribuciones son bienvenidas!\hypertarget{index_autotoc_md8}{}\doxysection{\texorpdfstring{📜 Licencia}{📜 Licencia}}\label{index_autotoc_md8}
+Este proyecto se distribuye bajo los términos de la licencia que se especifica en el repositorio. 

@@ -1,0 +1,392 @@
+\doxysection{App\textbackslash{}Controllers\textbackslash{}Session\+Controller Class Reference}
+\hypertarget{classApp_1_1Controllers_1_1SessionController}{}\label{classApp_1_1Controllers_1_1SessionController}\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_abf5568fca079ccb9908b3bb7303b3f60}{\+\_\+\+\_\+construct}} (\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{Database\+Controller}} \$db)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_aa7bed0a2db8207f56064e84ceb8cfe6d}{create\+Session}} (\$user)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a85371c29c7f51815ccc851826b8cb288}{is\+Logged\+In}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a8bee37c91b4969523671e321012be062}{create\+JWT}} (\$user)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_aaa3c21f67d300b5bd148e0d5bf6849d0}{generate\+JWT}} (\$header, \$payload)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452}{base64\+URLEncode}} (\$data)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a03a07cce4b1c478bbc3cfb8cbbbd45f3}{create\+Secure\+Cookie}} (\$name, \$value)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a2bdcf6ca1f5f943eec1384cd56a13898}{verify\+Token\+Cookie}} ()
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_ab38acc8d3f11ff8c05f466c64100d1bc}{verify\+JWTCookie}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_aaedb0252a73bd74b1b6d3640b3bbbd46}{\$db}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_ab312dfdbb29521d8f2978e793a219ff6}{\$secret\+\_\+key}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00006}{6}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_abf5568fca079ccb9908b3bb7303b3f60}\label{classApp_1_1Controllers_1_1SessionController_abf5568fca079ccb9908b3bb7303b3f60} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!\_\_construct@{\_\_construct}}
+\index{\_\_construct@{\_\_construct}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{\_\_construct()}{\_\_construct()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::\+\_\+\+\_\+construct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{Database\+Controller}}}]{\$db }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00010}{10}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_aaedb0252a73bd74b1b6d3640b3bbbd46}{\$db}};}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ self::\$secret\_key\ =\ \$\_ENV[\textcolor{stringliteral}{'JWT\_SECRET\_KEY'}]\ ??\ \textcolor{stringliteral}{'temporal\_key'};}
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452}\label{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!base64URLEncode@{base64URLEncode}}
+\index{base64URLEncode@{base64URLEncode}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{base64URLEncode()}{base64URLEncode()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::base64\+URLEncode (\begin{DoxyParamCaption}\item[{}]{\$data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00084}{84}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str\_replace([\textcolor{charliteral}{'+'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'='}],\ [\textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'\_'},\ \textcolor{stringliteral}{''}],\ base64\_encode(\$data));}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_a8bee37c91b4969523671e321012be062}\label{classApp_1_1Controllers_1_1SessionController_a8bee37c91b4969523671e321012be062} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!createJWT@{createJWT}}
+\index{createJWT@{createJWT}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{createJWT()}{createJWT()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::create\+JWT (\begin{DoxyParamCaption}\item[{}]{\$user }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00055}{55}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \$header\ =\ [}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'alg'}\ =>\ \textcolor{stringliteral}{'HS256'},}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'typ'}\ =>\ \textcolor{stringliteral}{'JWT'}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \$payload\ =\ [}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_id'}\ =>\ \$user[\textcolor{stringliteral}{'id'}],}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$user[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'exp'}\ =>\ time()\ +\ (86400\ *\ 30)}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_aaa3c21f67d300b5bd148e0d5bf6849d0}{generateJWT}}(\$header,\ \$payload);}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_a8bee37c91b4969523671e321012be062_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_a8bee37c91b4969523671e321012be062_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_a03a07cce4b1c478bbc3cfb8cbbbd45f3}\label{classApp_1_1Controllers_1_1SessionController_a03a07cce4b1c478bbc3cfb8cbbbd45f3} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!createSecureCookie@{createSecureCookie}}
+\index{createSecureCookie@{createSecureCookie}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{createSecureCookie()}{createSecureCookie()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::create\+Secure\+Cookie (\begin{DoxyParamCaption}\item[{}]{\$name,  }\item[{}]{\$value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00088}{88}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ setcookie(}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \$name,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \$value,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'expires'}\ =>\ time()\ +\ (86400\ *\ 30),}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{charliteral}{'/'},}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'domain'}\ =>\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'secure'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'httponly'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'samesite'}\ =>\ \textcolor{stringliteral}{'Strict'}}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_a03a07cce4b1c478bbc3cfb8cbbbd45f3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_aa7bed0a2db8207f56064e84ceb8cfe6d}\label{classApp_1_1Controllers_1_1SessionController_aa7bed0a2db8207f56064e84ceb8cfe6d} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!createSession@{createSession}}
+\index{createSession@{createSession}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{createSession()}{createSession()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::create\+Session (\begin{DoxyParamCaption}\item[{}]{\$user }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00015}{15}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$user[\textcolor{stringliteral}{'id'}];}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$user[\textcolor{stringliteral}{'username'}];}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ JWT}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \$jwt\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a8bee37c91b4969523671e321012be062}{createJWT}}(\$user);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ token\ JWT}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \$expiresAt\ =\ date(\textcolor{stringliteral}{'Y-\/m-\/d\ H:i:s'},\ time()\ +\ (86400\ *\ 30));}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \$success\ =\ \$this-\/>db-\/>execute(}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ jwt\_tokens\ (user\_id,\ token,\ expires\_at)\ }}
+\DoxyCodeLine{00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$user[\textcolor{stringliteral}{'id'}],\ \$jwt,\ \$expiresAt]}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$success)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ guardar\ JWT\ token"{}});}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ JWT\ en\ users}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \$success\ =\ \$this-\/>db-\/>updateUserTokens(\$user[\textcolor{stringliteral}{'id'}],\ \textcolor{keyword}{null},\ \$jwt);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$success)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ JWT\ de\ usuario"{}});}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ cookie\ segura\ para\ JWT}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a03a07cce4b1c478bbc3cfb8cbbbd45f3}{createSecureCookie}}(\textcolor{stringliteral}{"{}jwt"{}},\ \$jwt);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ en\ createSession:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_aa7bed0a2db8207f56064e84ceb8cfe6d_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_aaa3c21f67d300b5bd148e0d5bf6849d0}\label{classApp_1_1Controllers_1_1SessionController_aaa3c21f67d300b5bd148e0d5bf6849d0} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!generateJWT@{generateJWT}}
+\index{generateJWT@{generateJWT}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{generateJWT()}{generateJWT()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::generate\+JWT (\begin{DoxyParamCaption}\item[{}]{\$header,  }\item[{}]{\$payload }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00070}{70}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \$header\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452}{base64URLEncode}}(json\_encode(\$header));}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \$payload\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452}{base64URLEncode}}(json\_encode(\$payload));}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ self::\$secret\_key,\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{true}}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \$signature\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a15a75fb60a2c6f562aae8279a9f4c452}{base64URLEncode}}(\$signature);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded.\$signature\_encoded"{}};}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_aaa3c21f67d300b5bd148e0d5bf6849d0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_aaa3c21f67d300b5bd148e0d5bf6849d0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_a85371c29c7f51815ccc851826b8cb288}\label{classApp_1_1Controllers_1_1SessionController_a85371c29c7f51815ccc851826b8cb288} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!isLoggedIn@{isLoggedIn}}
+\index{isLoggedIn@{isLoggedIn}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{isLoggedIn()}{isLoggedIn()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::is\+Logged\+In (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00102}{102}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_ab38acc8d3f11ff8c05f466c64100d1bc}{verifyJWTCookie}}();}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_a85371c29c7f51815ccc851826b8cb288_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_ab38acc8d3f11ff8c05f466c64100d1bc}\label{classApp_1_1Controllers_1_1SessionController_ab38acc8d3f11ff8c05f466c64100d1bc} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!verifyJWTCookie@{verifyJWTCookie}}
+\index{verifyJWTCookie@{verifyJWTCookie}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{verifyJWTCookie()}{verifyJWTCookie()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::verify\+JWTCookie (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00117}{117}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \$token\ =\ \$\_COOKIE[\textcolor{stringliteral}{'jwt'}];}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \$tokenValid\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ user\_id\ FROM\ jwt\_tokens\ }}
+\DoxyCodeLine{00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ token\ LIKE\ ?\ }}
+\DoxyCodeLine{00124\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ AND\ expires\_at\ >\ NOW()"{}},}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ [\$token]}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ )-\/>fetch();}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$tokenValid)\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$tokenValid[\textcolor{stringliteral}{'user\_id'}];}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1SessionController_ab38acc8d3f11ff8c05f466c64100d1bc_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_a2bdcf6ca1f5f943eec1384cd56a13898}\label{classApp_1_1Controllers_1_1SessionController_a2bdcf6ca1f5f943eec1384cd56a13898} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!verifyTokenCookie@{verifyTokenCookie}}
+\index{verifyTokenCookie@{verifyTokenCookie}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{verifyTokenCookie()}{verifyTokenCookie()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::verify\+Token\+Cookie (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00110}{110}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$\_COOKIE[\textcolor{stringliteral}{'token'}]))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we\ need\ to\ put\ something\ more\ visual\ to\ the\ user}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ console.log(\$this-\/>db-\/>verifyUserToken(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}],\ \$\_COOKIE[\textcolor{stringliteral}{'token'}]));}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>verifyUserToken(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}],\ \$\_COOKIE[\textcolor{stringliteral}{'token'}]);}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_aaedb0252a73bd74b1b6d3640b3bbbd46}\label{classApp_1_1Controllers_1_1SessionController_aaedb0252a73bd74b1b6d3640b3bbbd46} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!\$db@{\$db}}
+\index{\$db@{\$db}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{\$db}{\$db}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::\$db\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00007}{7}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+\Hypertarget{classApp_1_1Controllers_1_1SessionController_ab312dfdbb29521d8f2978e793a219ff6}\label{classApp_1_1Controllers_1_1SessionController_ab312dfdbb29521d8f2978e793a219ff6} 
+\index{App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}!\$secret\_key@{\$secret\_key}}
+\index{\$secret\_key@{\$secret\_key}!App\textbackslash{}Controllers\textbackslash{}SessionController@{App\textbackslash{}Controllers\textbackslash{}SessionController}}
+\doxysubsubsection{\texorpdfstring{\$secret\_key}{\$secret\_key}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\+::\$secret\+\_\+key\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{SessionController_8php_source_l00008}{8}} of file \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/controllers/\mbox{\hyperlink{SessionController_8php}{Session\+Controller.\+php}}\end{DoxyCompactItemize}

@@ -1,0 +1,496 @@
+\doxysection{App\textbackslash{}Controllers\textbackslash{}Api\+Controller Class Reference}
+\hypertarget{classApp_1_1Controllers_1_1ApiController}{}\label{classApp_1_1Controllers_1_1ApiController}\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_aec91b084e89fab85ab1d971a765095b7}{\+\_\+\+\_\+construct}} (\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{Database\+Controller}} \$db)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a4739afff6242e9326d420f13fa554d4d}{handle\+Request}} ()
+\begin{DoxyCompactList}\small\item\em Manejador de solicitudes HTTP. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a11a918dc45f469f21cb20e4bd37f1385}{login}} (string \$username, string \$password)
+\begin{DoxyCompactList}\small\item\em Autenticación de usuario. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109}{handle\+Get}} (\$endpoint)
+\begin{DoxyCompactList}\small\item\em Manejador de solicitudes GET. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a8cd77387760dd2cc99af170a4edde2e7}{handle\+Post}} (\$endpoint)
+\begin{DoxyCompactList}\small\item\em Manejador de solicitudes POST. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}{handle\+Put}} (\$endpoint)
+\begin{DoxyCompactList}\small\item\em Manejador de solicitudes PUT. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}{handle\+Delete}} (\$endpoint)
+\begin{DoxyCompactList}\small\item\em Manejador de solicitudes DELETE. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validate\+Required\+Fields}} (array \$data, array \$required\+Fields)
+\begin{DoxyCompactList}\small\item\em Validación de campos requeridos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a238c2811474ff8b2ac7663e101af780e}{\$pdo}}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a0fec7161883f4471edb864e2ab896e16}{\$db}}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_afc1415cdd597324a58a405fc1fd712ce}{\$session}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00009}{9}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_aec91b084e89fab85ab1d971a765095b7}\label{classApp_1_1Controllers_1_1ApiController_aec91b084e89fab85ab1d971a765095b7} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!\_\_construct@{\_\_construct}}
+\index{\_\_construct@{\_\_construct}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{\_\_construct()}{\_\_construct()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::\+\_\+\+\_\+construct (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{Database\+Controller}}}]{\$db }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00015}{15}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a0fec7161883f4471edb864e2ab896e16}{\$db}};}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \$host\ =\ defined(\textcolor{stringliteral}{'DB\_HOST'})\ ?\ DB\_HOST\ :\ getenv(\textcolor{stringliteral}{'DB\_HOST'});}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \$dbname\ =\ defined(\textcolor{stringliteral}{'DB\_NAME'})\ ?\ DB\_NAME\ :\ getenv(\textcolor{stringliteral}{'DB\_NAME'});}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \$user\ =\ defined(\textcolor{stringliteral}{'DB\_USER'})\ ?\ DB\_USER\ :\ getenv(\textcolor{stringliteral}{'DB\_USER'});}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \$pass\ =\ defined(\textcolor{stringliteral}{'DB\_PASS'})\ ?\ DB\_PASS\ :\ getenv(\textcolor{stringliteral}{'DB\_PASS'});}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>pdo\ =\ \textcolor{keyword}{new}\ PDO(\textcolor{stringliteral}{"{}mysql:host=\$host;dbname=\$dbname;charset=utf8"{}},\ \$user,\ \$pass);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>pdo-\/>setAttribute(PDO::ATTR\_ERRMODE,\ PDO::ERRMODE\_EXCEPTION);}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ die(ErrorMessages::format(ErrorMessages::DB\_CONNECTION\_ERROR,\ \$e-\/>getMessage()));}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}\label{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!handleDelete@{handleDelete}}
+\index{handleDelete@{handleDelete}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{handleDelete()}{handleDelete()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::handle\+Delete (\begin{DoxyParamCaption}\item[{}]{\$endpoint }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Manejador de solicitudes DELETE. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00217}{217}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00218\ \ \ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1];}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}DELETE\ FROM\ fungi\ WHERE\ id\ =\ ?"{}});}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$id]);}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt-\/>rowCount()\ >\ 0)\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true}]);}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::DB\_RECORD\_NOT\_FOUND]);}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404]);}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109}\label{classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!handleGet@{handleGet}}
+\index{handleGet@{handleGet}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{handleGet()}{handleGet()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::handle\+Get (\begin{DoxyParamCaption}\item[{}]{\$endpoint }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Manejador de solicitudes GET. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00103}{103}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00104\ \ \ \ \ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$endpoint\ ===\ \textcolor{stringliteral}{'fungi'}\ ||\ \$endpoint\ ===\ \textcolor{stringliteral}{'fungi/all'})\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi"{}});}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(PDO::FETCH\_ASSOC)]);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}\ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/page\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/limit\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \$pageNumber\ =\ (int)\$matches[1];}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \$limit\ =\ (int)\$matches[2];}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \$offset\ =\ (\$pageNumber\ -\/\ 1)\ *\ \$limit;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungis\ =\ \$this-\/>db-\/>getFungisPaginated(\$limit,\ \$offset);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'data'}\ =>\ \$fungis]);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}\ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1];}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ WHERE\ id\ =\ ?"{}});}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$id]);}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$stmt-\/>fetch(PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$fungus)\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'data'}\ =>\ \$fungus]);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::DB\_RECORD\_NOT\_FOUND]);}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \}\ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'users'})\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>query(\textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at\ FROM\ users"{}});}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(PDO::FETCH\_ASSOC)]);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}\ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'fungi/random'})\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \$randomFungus\ =\ \$this-\/>db-\/>getRandomFungus();}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$randomFungus)\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'data'}\ =>\ \$randomFungus]);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::DB\_RECORD\_NOT\_FOUND]);}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404]);}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a8cd77387760dd2cc99af170a4edde2e7}\label{classApp_1_1Controllers_1_1ApiController_a8cd77387760dd2cc99af170a4edde2e7} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!handlePost@{handlePost}}
+\index{handlePost@{handlePost}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{handlePost()}{handlePost()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::handle\+Post (\begin{DoxyParamCaption}\item[{}]{\$endpoint }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Manejador de solicitudes POST. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00147}{147}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00148\ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$endpoint\ ===\ \textcolor{stringliteral}{'fungi'})\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \$requiredFields\ =\ [\textcolor{stringliteral}{'name'},\ \textcolor{stringliteral}{'edibility'},\ \textcolor{stringliteral}{'habitat'}];}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\$data,\ \$requiredFields))\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::format(ErrorMessages::VALIDATION\_REQUIRED\_FIELD,\ \textcolor{stringliteral}{'name,\ edibility,\ habitat'})]);}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\ (name,\ edibility,\ habitat,\ observations,\ common\_name,\ synonym,\ title)\ VALUES\ (?,\ ?,\ ?,\ ?,\ ?,\ ?,\ ?)"{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'name'}],}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'edibility'}],}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'habitat'}],}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'observations'}],}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'common\_name'}],}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'synonym'}],}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'title'}]}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'id'}\ =>\ \$this-\/>pdo-\/>lastInsertId()]);}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \}\ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'users'})\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \$requiredFields\ =\ [\textcolor{stringliteral}{'username'},\ \textcolor{stringliteral}{'email'},\ \textcolor{stringliteral}{'password'}];}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\$data,\ \$requiredFields))\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::format(ErrorMessages::VALIDATION\_REQUIRED\_FIELD,\ \textcolor{stringliteral}{'username,\ email,\ password'})]);}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \$passwordHash\ =\ password\_hash(\$data[\textcolor{stringliteral}{'password'}],\ PASSWORD\_BCRYPT);}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash)\ VALUES\ (?,\ ?,\ ?)"{}});}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$data[\textcolor{stringliteral}{'username'}],\ \$data[\textcolor{stringliteral}{'email'}],\ \$passwordHash]);}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'id'}\ =>\ \$this-\/>pdo-\/>lastInsertId()]);}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404]);}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_a8cd77387760dd2cc99af170a4edde2e7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_a8cd77387760dd2cc99af170a4edde2e7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}\label{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!handlePut@{handlePut}}
+\index{handlePut@{handlePut}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{handlePut()}{handlePut()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::handle\+Put (\begin{DoxyParamCaption}\item[{}]{\$endpoint }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Manejador de solicitudes PUT. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00193}{193}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00194\ \ \ \ \ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1];}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}UPDATE\ fungi\ SET\ name\ =\ ?,\ edibility\ =\ ?,\ habitat\ =\ ?\ WHERE\ id\ =\ ?"{}});}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$data[\textcolor{stringliteral}{'name'}],\ \$data[\textcolor{stringliteral}{'edibility'}],\ \$data[\textcolor{stringliteral}{'habitat'}],\ \$id]);}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt-\/>rowCount()\ >\ 0)\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true}]);}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::DB\_RECORD\_NOT\_FOUND]);}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404]);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a4739afff6242e9326d420f13fa554d4d}\label{classApp_1_1Controllers_1_1ApiController_a4739afff6242e9326d420f13fa554d4d} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!handleRequest@{handleRequest}}
+\index{handleRequest@{handleRequest}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{handleRequest()}{handleRequest()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::handle\+Request (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Manejador de solicitudes HTTP. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00034}{34}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00035\ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \$method\ =\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}];}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ endpoint\ de\ la\ URL}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}\ =\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}];}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \$basePath\ =\ \textcolor{stringliteral}{'/api'};\ \textcolor{comment}{//\ Cambia\ esto\ si\ tu\ base\ de\ URL\ es\ diferente}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \$endpoint\ =\ str\_replace(\$basePath,\ \textcolor{stringliteral}{''},\ parse\_url(\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}},\ PHP\_URL\_PATH));}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Asegurarse\ de\ que\ el\ endpoint\ comience\ con\ una\ barra}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (substr(\$endpoint,\ 0,\ 1)\ !==\ \textcolor{charliteral}{'/'})\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \$endpoint\ =\ \textcolor{charliteral}{'/'}\ .\ \$endpoint;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Remover\ la\ barra\ inicial\ para\ mantener\ consistencia\ con\ los\ métodos\ de\ manejo}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \$endpoint\ =\ ltrim(\$endpoint,\ \textcolor{charliteral}{'/'});}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ documentación\ para\ el\ endpoint\ raíz}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$endpoint\ ===\ \textcolor{charliteral}{'/'}\ ||\ \$endpoint\ ===\ \textcolor{stringliteral}{''})\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_version'}\ =>\ \textcolor{stringliteral}{'v1'},}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'available\_endpoints'}\ =>\ [}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'Fungi'}\ =>\ [}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'GET\ /api/fungi'}\ =>\ \textcolor{stringliteral}{'Obtiene\ lista\ de\ todos\ los\ hongos'},}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'GET\ /api/fungi/\{id\}'}\ =>\ \textcolor{stringliteral}{'Obtiene\ un\ hongo\ específico\ por\ ID'},}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'GET\ /api/fungi/page/\{page\}/limit/\{limit\}'}\ =>\ \textcolor{stringliteral}{'Obtiene\ hongos\ paginados'},}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'GET\ /api/fungi/random'}\ =>\ \textcolor{stringliteral}{'Obtiene\ un\ hongo\ aleatorio'},}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'POST\ /api/fungi'}\ =>\ \textcolor{stringliteral}{'Crea\ un\ nuevo\ hongo'},}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'PUT\ /api/fungi/\{id\}'}\ =>\ \textcolor{stringliteral}{'Actualiza\ un\ hongo\ existente'},}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'DELETE\ /api/fungi/\{id\}'}\ =>\ \textcolor{stringliteral}{'Elimina\ un\ hongo'},}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'Users'}\ =>\ [}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'GET\ /api/users'}\ =>\ \textcolor{stringliteral}{'Obtiene\ lista\ de\ usuarios'},}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'POST\ /api/users'}\ =>\ \textcolor{stringliteral}{'Crea\ un\ nuevo\ usuario'},}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'documentation'}\ =>\ \textcolor{stringliteral}{'Para\ más\ información,\ visita\ /docs/api'}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\$method)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'GET'}:}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109}{handleGet}}(\$endpoint);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'POST'}:}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a8cd77387760dd2cc99af170a4edde2e7}{handlePost}}(\$endpoint);}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'PUT'}:}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}{handlePut}}(\$endpoint);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'DELETE'}:}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}{handleDelete}}(\$endpoint);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(405);\ \textcolor{comment}{//\ Método\ no\ permitido}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_405]);}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);\ \textcolor{comment}{//\ Error\ interno\ del\ servidor}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::format(ErrorMessages::DB\_QUERY\_ERROR,\ \$e-\/>getMessage())]);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_a4739afff6242e9326d420f13fa554d4d_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a11a918dc45f469f21cb20e4bd37f1385}\label{classApp_1_1Controllers_1_1ApiController_a11a918dc45f469f21cb20e4bd37f1385} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!login@{login}}
+\index{login@{login}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::login (\begin{DoxyParamCaption}\item[{string}]{\$username,  }\item[{string}]{\$password }\end{DoxyParamCaption})}
+
+
+
+Autenticación de usuario. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00252}{252}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ ?array}
+\DoxyCodeLine{00253\ \ \ \ \ \{}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ password\_hash,\ role\ FROM\ users\ WHERE\ username\ =\ ?"{}});}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$username]);}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \$user\ =\ \$stmt-\/>fetch(PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00257\ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user\ \&\&\ password\_verify(\$password,\ \$user[\textcolor{stringliteral}{'password\_hash'}]))\ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ unset(\$user[\textcolor{stringliteral}{'password\_hash'}]);\ \textcolor{comment}{//\ No\ devolvemos\ el\ hash\ de\ la\ contraseña}}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$user;}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00264\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}\label{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!validateRequiredFields@{validateRequiredFields}}
+\index{validateRequiredFields@{validateRequiredFields}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{validateRequiredFields()}{validateRequiredFields()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::validate\+Required\+Fields (\begin{DoxyParamCaption}\item[{array}]{\$data,  }\item[{array}]{\$required\+Fields }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Validación de campos requeridos. 
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00239}{239}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{00240\ \ \ \ \ \{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$requiredFields\ as\ \$field)\ \{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$data[\$field])\ ||\ empty(\$data[\$field]))\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00247\ \ \ \ \ \}}
+
+\end{DoxyCode}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a0fec7161883f4471edb864e2ab896e16}\label{classApp_1_1Controllers_1_1ApiController_a0fec7161883f4471edb864e2ab896e16} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!\$db@{\$db}}
+\index{\$db@{\$db}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{\$db}{\$db}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::\$db\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00012}{12}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_a238c2811474ff8b2ac7663e101af780e}\label{classApp_1_1Controllers_1_1ApiController_a238c2811474ff8b2ac7663e101af780e} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!\$pdo@{\$pdo}}
+\index{\$pdo@{\$pdo}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{\$pdo}{\$pdo}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::\$pdo\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00011}{11}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+\Hypertarget{classApp_1_1Controllers_1_1ApiController_afc1415cdd597324a58a405fc1fd712ce}\label{classApp_1_1Controllers_1_1ApiController_afc1415cdd597324a58a405fc1fd712ce} 
+\index{App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}!\$session@{\$session}}
+\index{\$session@{\$session}!App\textbackslash{}Controllers\textbackslash{}ApiController@{App\textbackslash{}Controllers\textbackslash{}ApiController}}
+\doxysubsubsection{\texorpdfstring{\$session}{\$session}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\+::\$session\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definition at line \mbox{\hyperlink{ApiController_8php_source_l00013}{13}} of file \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/controllers/\mbox{\hyperlink{ApiController_8php}{Api\+Controller.\+php}}\end{DoxyCompactItemize}
