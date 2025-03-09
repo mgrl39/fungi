@@ -5,6 +5,11 @@ on:
     branches:
       - auto-deploy
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
@@ -42,8 +47,8 @@ jobs:
           git add .
           git commit -m "Deploy Doxygen docs [skip ci]" || echo "No changes to commit"
           
-          # 🔥 Push con el token de acceso
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/mgrl39/fungi.git gh-pages --force
+          # 🔥 Push usando el token de acceso personal
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/fungi.git gh-pages --force
 
       # ✅ Subir la documentación generada como artefacto (opcional)
       - name: Upload documentation artifact
