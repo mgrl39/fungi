@@ -13,8 +13,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Instalar PHP y Composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install dependencies with Composer
+        run: |
+          composer install --no-dev --optimize-autoloader
+
       - name: Install LFTP
         run: sudo apt-get install -y lftp
+
+      # Copiar Bootstrap directamente desde vendor después de composer install
+      - name: Fix Bootstrap path
+        run: |
+          mkdir -p public/assets/lib/twbs
+          cp -R vendor/twbs/* public/assets/lib/twbs/
 
       - name: Deploy via LFTP
         run: |
@@ -33,6 +49,7 @@ jobs:
               --exclude node_modules/ \
               --exclude vendor/ \
               --exclude tests/ \
+              --no-symlinks \
               ./ /htdocs/;
             bye
           "
