@@ -3,7 +3,8 @@ name: Deploy to FTP (InfinityFree)
 on:
   push:
     branches:
-      - auto-deploy
+      - main
+      - test
 
 jobs:
   ftp-deploy:
@@ -13,25 +14,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to FTP (InfinityFree)
-        uses: appleboy/ftp-action@v0.1.4
-        with:
-          host: ftpupload.net
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftp
-          local_dir: ./
-          remote_dir: /htdocs/
-          passive: true
-          debug: true
-          timeout: 600
-          exclude: |
-            .git*
-            README.md
-            .env
-            composer.lock
-            node_modules
-            vendor
-            tests
+      - name: Install LFTP
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy via LFTP
+        run: |
+          lftp -e "
+            set ftp:ssl-allow no;
+            set ftp:passive-mode yes;
+            set net:timeout 30;
+            set net:max-retries 2;
+            set net:reconnect-interval-base 5;
+            open ftp://${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}@ftpupload.net:21;
+            mirror --reverse --delete --verbose \
+              --exclude .git/ \
+              --exclude .env \
+              --exclude README.md \
+              --exclude composer.lock \
+              --exclude node_modules/ \
+              --exclude vendor/ \
+              --exclude tests/ \
+              ./ /htdocs/;
+            bye
+          "
 
