@@ -1,0 +1,43 @@
+name: Generate Doxygen Docs and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # O la rama que quieras usar para generar la documentación
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Clonar el repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ✅ Instalar Doxygen
+      - name: Install Doxygen
+        run: sudo apt-get install -y doxygen graphviz
+
+      # ✅ Generar documentación con Doxygen
+      - name: Generate documentation with Doxygen
+        run: doxygen Doxyfile
+
+      # ✅ Subir la documentación generada a la rama `gh-pages`
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Clonar el repositorio en la rama gh-pages
+          git fetch origin gh-pages || git checkout --orphan gh-pages
+          git checkout gh-pages
+          git rm -rf . || true
+
+          # Copiar el contenido generado por Doxygen a la rama gh-pages
+          cp -r docs/* ./
+
+          # Añadir, commit y push de los cambios
+          git add .
+          git commit -m "Deploy Doxygen docs [skip ci]" || echo "No changes to commit"
+          git push origin gh-pages --force
+
