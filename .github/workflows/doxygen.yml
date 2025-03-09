@@ -25,7 +25,16 @@ jobs:
 
       # ✅ Generar documentación con Doxygen
       - name: Generate documentation with Doxygen
-        run: doxygen Doxyfile
+        run: |
+          doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
+
+      # ✅ Verificar que `docs/` se generó correctamente
+      - name: Check generated docs
+        run: |
+          if [ ! -d "docs" ] || [ -z "$(ls -A docs)" ]; then
+            echo "❌ No documentation generated in docs/ folder."
+            exit 1
+          fi
 
       # ✅ Crear la rama gh-pages si no existe y hacer push
       - name: Deploy to GitHub Pages
@@ -33,22 +42,30 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Si la rama gh-pages no existe, créala como huérfana
-          git fetch origin gh-pages || git checkout --orphan gh-pages
-          git checkout gh-pages || git checkout --orphan gh-pages
+          # Crear la rama gh-pages si no existe
+          if ! git ls-remote --exit-code --heads origin gh-pages; then
+            git checkout --orphan gh-pages
+          else
+            git fetch origin gh-pages
+            git checkout gh-pages
+          fi
           
-          # Eliminar todo el contenido anterior
-          git rm -rf . || true
+          # Eliminar todo el contenido anterior si existe
+          if [ "$(git ls-files)" ]; then
+            git rm -rf . || true
+          fi
           
-          # Copiar el contenido generado de `docs/` a la raíz
+          # ✅ Copiar SOLO el contenido de `docs/` (sin la carpeta `docs/`)
+          shopt -s dotglob
           cp -r docs/* ./
-          
-          # Hacer commit y push de los cambios
+          shopt -u dotglob
+
+          # ✅ Hacer commit y push de los cambios
           git add .
-          git commit -m "Deploy Doxygen docs [skip ci]" || echo "No changes to commit"
+          git commit -m "Deploy Doxygen docs [skip ci]" || echo "✅ No changes to commit"
           
-          # 🔥 Push usando el token de acceso personal
-          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/fungi.git gh-pages --force
+          # ✅ Push usando el token de acceso personal
+          git push --force "https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/fungi.git" gh-pages
 
       # ✅ Subir la documentación generada como artefacto (opcional)
       - name: Upload documentation artifact
