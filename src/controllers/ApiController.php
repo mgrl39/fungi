@@ -6,12 +6,29 @@ use PDO;
 use PDOException;
 use App\Config\ErrorMessages;
 
+/**
+ * @class ApiController
+ * @brief Controlador para manejar las solicitudes de la API RESTful.
+ * 
+ * Esta clase proporciona endpoints para acceder y manipular datos de hongos y usuarios
+ * a través de una interfaz API RESTful, implementando métodos para las operaciones CRUD.
+ *
+ * @package App\Controllers
+ */
 class ApiController
 {
 	private $pdo;
 	private $db;
 	private $session;
 
+	/**
+	 * @brief Constructor del controlador de API.
+	 * 
+	 * Inicializa la conexión a la base de datos usando PDO.
+	 *
+	 * @param DatabaseController $db Instancia del controlador de base de datos
+	 * @throws PDOException Si ocurre un error en la conexión a la base de datos
+	 */
 	public function __construct(DatabaseController $db)
 	{
 		$this->db = $db;
@@ -29,7 +46,13 @@ class ApiController
 	}
 
 	/**
-	 * Manejador de solicitudes HTTP.
+	 * @brief Manejador de solicitudes HTTP.
+	 * 
+	 * Procesa las solicitudes entrantes, identifica el método HTTP y el endpoint,
+	 * y dirige la solicitud al manejador apropiado.
+	 *
+	 * @return void
+	 * @throws PDOException Si ocurre un error en la consulta a la base de datos
 	 */
 	public function handleRequest()
 	{
@@ -98,7 +121,14 @@ class ApiController
 	}
 
 	/**
-	 * Manejador de solicitudes GET.
+	 * @brief Manejador de solicitudes GET.
+	 * 
+	 * Procesa solicitudes HTTP GET para varios endpoints, incluyendo
+	 * listado de hongos, consulta por ID, paginación y obtención de usuarios.
+	 *
+	 * @param string $endpoint El endpoint solicitado sin la base de la URL
+	 * @return void Salida JSON directamente impresa
+	 * @throws PDOException Si ocurre un error en la consulta a la base de datos
 	 */
 	private function handleGet($endpoint)
 	{
@@ -152,7 +182,14 @@ class ApiController
 	}
 
 	/**
-	 * Manejador de solicitudes POST.
+	 * @brief Manejador de solicitudes POST.
+	 * 
+	 * Procesa solicitudes HTTP POST para crear nuevos recursos como
+	 * hongos y usuarios en la base de datos.
+	 *
+	 * @param string $endpoint El endpoint solicitado sin la base de la URL
+	 * @return void Salida JSON directamente impresa
+	 * @throws PDOException Si ocurre un error en la inserción a la base de datos
 	 */
 	private function handlePost($endpoint)
 	{
@@ -198,7 +235,14 @@ class ApiController
 	}
 
 	/**
-	 * Manejador de solicitudes PUT.
+	 * @brief Manejador de solicitudes PUT.
+	 * 
+	 * Procesa solicitudes HTTP PUT para actualizar recursos existentes,
+	 * principalmente información de hongos.
+	 *
+	 * @param string $endpoint El endpoint solicitado sin la base de la URL
+	 * @return void Salida JSON directamente impresa
+	 * @throws PDOException Si ocurre un error en la actualización en la base de datos
 	 */
 	private function handlePut($endpoint)
 	{
@@ -222,7 +266,14 @@ class ApiController
 	}
 
 	/**
-	 * Manejador de solicitudes DELETE.
+	 * @brief Manejador de solicitudes DELETE.
+	 * 
+	 * Procesa solicitudes HTTP DELETE para eliminar recursos,
+	 * principalmente registros de hongos.
+	 *
+	 * @param string $endpoint El endpoint solicitado sin la base de la URL
+	 * @return void Salida JSON directamente impresa
+	 * @throws PDOException Si ocurre un error en la eliminación en la base de datos
 	 */
 	private function handleDelete($endpoint)
 	{
@@ -244,7 +295,14 @@ class ApiController
 	}
 
 	/**
-	 * Validación de campos requeridos.
+	 * @brief Validación de campos requeridos.
+	 * 
+	 * Verifica que todos los campos requeridos estén presentes y no vacíos
+	 * en los datos proporcionados.
+	 *
+	 * @param array $data Los datos a validar
+	 * @param array $requiredFields Lista de campos requeridos
+	 * @return bool Verdadero si todos los campos requeridos están presentes y no vacíos
 	 */
 	private function validateRequiredFields(array $data, array $requiredFields): bool
 	{
@@ -257,7 +315,14 @@ class ApiController
 	}
 
 	/**
-	 * Autenticación de usuario.
+	 * @brief Autenticación de usuario.
+	 * 
+	 * Verifica las credenciales del usuario contra la base de datos.
+	 *
+	 * @param string $username Nombre de usuario
+	 * @param string $password Contraseña en texto plano
+	 * @return array|null Datos del usuario si la autenticación es exitosa, null en caso contrario
+	 * @throws PDOException Si ocurre un error en la consulta a la base de datos
 	 */
 	public function login(string $username, string $password): ?array
 	{
