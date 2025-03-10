@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .fungi-list {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+
+        .col-md-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+            padding: 10px;
+        }
+
+        .col-md-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+            padding: 10px;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {% include 'components/navbar.twig' %}
+    </header>
+
+    <main class="container">
+        <h1>{{ title }}</h1>
+        
+        {% if error %}
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-8">
+                <section class="fungi-list">
+                    <h2>Hongos Destacados</h2>
+                    {% if fungis is defined and fungis|length > 0 %}
+                        <div class="row">
+                            {% for fungi in fungis %}
+                                <div class="col-md-4 mb-4">
+                                    {% include 'components/fungi/card.twig' with {'fungi': fungi} %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p>{{ _('No hay hongos disponibles en este momento.') }}</p>
+                    {% endif %}
+                </section>
+            </div>
+
+            <div class="col-md-4">
+                {% include 'components/sidebar.twig' %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        {% include 'components/footer.twig' %}
+    </footer>
+</body>
+</html>
