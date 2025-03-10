@@ -160,6 +160,7 @@ $routes = [
         'title' => _('Acerca de'),
         'auth_required' => false
     ],
+
     '/profile' => [
         'template' => 'pages/profile.twig',
         'title' => _('Mi Perfil'),
@@ -178,17 +179,6 @@ $routes = [
                     'user' => $db->getUserById($_SESSION['user_id'])
                 ];
             }
-        }
-    ],
-    '/favorites' => [
-        'template' => 'pages/favorites.twig',
-        'title' => _('Mis Hongos Favoritos'),
-        'auth_required' => true,
-        'handler' => function($twig, $db, $session) {
-            return [
-                'title' => _('Mis Hongos Favoritos'),
-                'fungi' => $db->getUserFavorites($_SESSION['user_id']) ?? []
-            ];
         }
     ],
     '/logout' => [
@@ -227,20 +217,23 @@ $routes = [
             ];
         }
     ],
-    '/random' => [
-        'template' => 'pages/random_fungi.twig',
+    '/fungi/random' => [
+        'template' => 'pages/fungi_detail.twig',
         'title' => _('Hongo aleatorio'),
         'auth_required' => false,
         'handler' => function($twig, $db, $session, $fungiController = null) {
             $fungus = $db->getRandomFungus();
-            
             if ($session->isLoggedIn() && method_exists($fungiController, 'getFungusWithLikeStatus')) {
                 $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
             }
-            
+            if (DEBUG_MODE) {
+                echo "<pre>";
+                var_dump($fungus);
+                echo "</pre>";
+            }
             return [
                 'title' => _('Hongo aleatorio'),
-                'fungus' => $fungus
+                'fungi' => $fungus
             ];
         }
     ],
@@ -304,7 +297,55 @@ $routes = [
                 'api_docs' => $apiDocs
             ];
         }
-    ]
+    ],
+    '/fungi/(\d+)' => [
+        'template' => 'pages/fungi_detail.twig',
+        'title' => _('Detalles del Hongo'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $fungiController = null) {
+            // Obtener el ID desde la URL actual
+            $uri = $_SERVER['REQUEST_URI'];
+            preg_match('/\/fungi\/(\d+)/', $uri, $matches);
+            $id = (int)$matches[1];
+            
+            // Log para depuración
+            error_log("Intentando acceder al hongo con ID: " . $id);
+            
+            $fungus = $db->getFungusById($id);
+            
+            // Log para verificar si se encontró el hongo
+            error_log("Resultado de búsqueda: " . ($fungus ? "Encontrado" : "No encontrado"));
+            
+            if (!$fungus) {
+                error_log("Redirigiendo a 404 porque no se encontró el hongo ID: " . $id);
+                header('Location: /404');
+                exit;
+            }
+            
+            // Añadir información de favorito si el usuario está logueado
+            if ($session->isLoggedIn() && $fungiController) {
+                $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
+            }
+            
+            // Intentar obtener hongos similares
+            $similarFungi = [];
+            try {
+                $similarFungi = $db->getSimilarFungi($id, 4);
+            } catch (Exception $e) {
+                // Si falla, simplemente no mostraremos hongos similares
+            }
+            
+            return [
+                'title' => $fungus['name'] ?? _('Detalles del Hongo'),
+                'fungi' => $fungus,
+                'similar_fungi' => $similarFungi
+            ];
+        }
+    ],
+    '/random' => [
+        'template' => null,
+        'redirect' => '/fungi/random'
+    ],
 ];
 
 // Manejo de rutas de API
