@@ -114,7 +114,17 @@ class ApiController
 			echo json_encode(['success' => true, 'data' => $fungis]);
 		} elseif (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
 			$id = $matches[1];
-			$stmt = $this->pdo->prepare("SELECT * FROM fungi WHERE id = ?");
+			$stmt = $this->pdo->prepare("
+				SELECT f.*, c.*, t.*, 
+					   GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+				FROM fungi f 
+				LEFT JOIN characteristics c ON f.id = c.fungi_id 
+				LEFT JOIN taxonomy t ON f.id = t.fungi_id
+				LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+				LEFT JOIN images i ON fi.image_id = i.id 
+				LEFT JOIN image_config ic ON i.config_key = ic.config_key
+				WHERE f.id = ? 
+				GROUP BY f.id");
 			$stmt->execute([$id]);
 			$fungus = $stmt->fetch(PDO::FETCH_ASSOC);
 			
