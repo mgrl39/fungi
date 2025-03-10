@@ -3,24 +3,57 @@ namespace App\Config;
 
 use App\Config\ErrorMessages;
 
+/**
+ * @file
+ * Archivo de configuración por defecto para la aplicación.
+ * 
+ * Este archivo define las constantes de configuración por defecto
+ * para la aplicación, incluyendo la configuración de la base de datos,
+ * seguridad y entorno.
+ */
+
 // Verificar si las constantes ya están definidas para evitar redefiniciones
 if (!defined('DEFAULT_PAGE_SIZE')) {
-    // Configuración general
+    /**
+     * @defgroup ConfiguraciónGeneral Configuración General
+     * @{
+     */
+    /** Tamaño de página por defecto para la paginación. */
     define('DEFAULT_PAGE_SIZE', 20);
-    
-    // Configuración de la base de datos
+    /** @} */
+
+    /**
+     * @defgroup ConfiguraciónBaseDatos Configuración de la Base de Datos
+     * @{
+     */
+    /** Conjunto de caracteres por defecto para la base de datos. */
     define('DB_CHARSET', 'utf8');
+    /** Host de la base de datos. */
     define('DB_HOST', 'localhost');
+    /** Nombre de la base de datos. */
     define('DB_NAME', 'fungidb');
+    /** Usuario de la base de datos. */
     define('DB_USER', 'root');
+    /** Contraseña de la base de datos. */
     define('DB_PASS', 'Root@1234');
-    
-    // Configuración de seguridad
+    /** @} */
+
+    /**
+     * @defgroup ConfiguraciónSeguridad Configuración de Seguridad
+     * @{
+     */
+    /** Clave secreta para JWT. */
     define('JWT_SECRET_KEY', 'fungi_secret_key');
-    
-    // Configuración del entorno
+    /** @} */
+
+    /**
+     * @defgroup ConfiguraciónEntorno Configuración del Entorno
+     * @{
+     */
+    /** Modo de depuración. */
     define('DEBUG_MODE', true);
-    
+    /** @} */
+
     // Asegurarse de que las constantes están disponibles globalmente
     if (!getenv('DB_HOST')) {
         putenv("DB_HOST=" . DB_HOST);
