@@ -27,7 +27,7 @@ var NAVTREE =
   [ "Fungi", "index.html", [
     [ "🍄 Fungi", "index.html", "index" ],
     [ "Namespaces", "namespaces.html", [
-      [ "Namespace List", "namespaces.html", null ]
+      [ "Namespace List", "namespaces.html", "namespaces_dup" ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -51,7 +51,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"404_8css.html"
+"404_8css.html",
+"classApp_1_1Controllers_1_1StatsController.html#aa29167da3f341e9199c640b102e5fc97"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

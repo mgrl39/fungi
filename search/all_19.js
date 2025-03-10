@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📚_20estructura_20del_20código_0',['📚 Estructura del Código',['../index.html#autotoc_md3',1,'']]]
+  ['📊_20datos_20extraídos_0',['📊 Datos Extraídos',['../index.html#autotoc_md2',1,'']]]
 ];

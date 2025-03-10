@@ -11,5 +11,6 @@ var searchData=
   ['db_5fupdate_5ferror_8',['DB_UPDATE_ERROR',['../classApp_1_1Config_1_1ErrorMessages.html#ad81380e72ffb4de7598bd7be6661285b',1,'App::Config::ErrorMessages']]],
   ['defaults_2einc_2ephp_9',['defaults.inc.php',['../defaults_8inc_8php.html',1,'']]],
   ['del_20código_10',['📚 Estructura del Código',['../index.html#autotoc_md3',1,'']]],
-  ['documentación_20adicional_11',['📝 Documentación Adicional',['../index.html#autotoc_md6',1,'']]]
+  ['detail_2ecss_11',['detail.css',['../detail_8css.html',1,'']]],
+  ['documentación_20adicional_12',['📝 Documentación Adicional',['../index.html#autotoc_md6',1,'']]]
 ];

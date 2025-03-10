@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['📝_20documentación_20adicional_0',['📝 Documentación Adicional',['../index.html#autotoc_md6',1,'']]]
+  ['📚_20estructura_20del_20código_0',['📚 Estructura del Código',['../index.html#autotoc_md3',1,'']]]
 ];

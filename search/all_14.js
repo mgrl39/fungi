@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['y_20ejecución_0',['📖 Uso y Ejecución',['../index.html#autotoc_md5',1,'']]]
+  ['unlikefungi_0',['unlikeFungi',['../classApp_1_1Controllers_1_1FungiController.html#a087b8275e77143716ac62ea228074a20',1,'App::Controllers::FungiController']]],
+  ['updatefungilikes_1',['updateFungiLikes',['../classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d',1,'App::Controllers::FungiController']]],
+  ['updateuserprofile_2',['updateUserProfile',['../classApp_1_1Controllers_1_1DatabaseController.html#adfab1a7f425071be6d467c32e095c29d',1,'App::Controllers::DatabaseController']]],
+  ['updateusertokens_3',['updateUserTokens',['../classApp_1_1Controllers_1_1DatabaseController.html#a17aa5391f86f8b72f67fae23146e1d4d',1,'App::Controllers::DatabaseController']]],
+  ['usercontroller_4',['UserController',['../classApp_1_1Controllers_1_1UserController.html',1,'App::Controllers']]],
+  ['usercontroller_2ephp_5',['UserController.php',['../UserController_8php.html',1,'']]],
+  ['uso_20y_20ejecución_6',['📖 Uso y Ejecución',['../index.html#autotoc_md5',1,'']]]
 ];

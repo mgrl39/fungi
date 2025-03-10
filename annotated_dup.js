@@ -1,6 +1,6 @@
 var annotated_dup =
 [
-    [ "App", null, [
+    [ "App", "namespaceApp.html", [
       [ "Config", "namespaceApp_1_1Config.html", [
         [ "AppInitializer", "classApp_1_1Config_1_1AppInitializer.html", "classApp_1_1Config_1_1AppInitializer" ],
         [ "ErrorMessages", "classApp_1_1Config_1_1ErrorMessages.html", "classApp_1_1Config_1_1ErrorMessages" ]
