@@ -346,6 +346,10 @@ $routes = [
         'template' => null,
         'redirect' => '/fungi/random'
     ],
+    '/home' => [
+        'template' => null,
+        'redirect' => '/'
+    ],
 ];
 
 // Manejo de rutas de API
