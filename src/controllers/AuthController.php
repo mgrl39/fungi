@@ -4,15 +4,38 @@ namespace App\Controllers;
 
 require_once __DIR__ . '/SessionController.php';
 
+/**
+ * @class AuthController
+ * @brief Controlador para gestionar la autenticación de usuarios
+ * 
+ * Esta clase maneja el registro, inicio de sesión, cierre de sesión
+ * y verificación de tokens para los usuarios del sistema.
+ */
 class AuthController {
     private $db;
     private $session;
     
+    /**
+     * @brief Constructor del controlador de autenticación
+     * 
+     * @param DatabaseController $db Instancia del controlador de base de datos
+     */
     public function __construct(DatabaseController $db) {
         $this->db = $db;
         $this->session = new SessionController($db);
     }
     
+    /**
+     * @brief Registra un nuevo usuario en el sistema
+     * 
+     * @param string $username Nombre de usuario
+     * @param string $email Correo electrónico del usuario
+     * @param string $password Contraseña del usuario
+     * @param string $confirm_password Confirmación de la contraseña
+     * 
+     * @return array Arreglo con el resultado de la operación
+     *         ['success' => bool, 'message' => string]
+     */
     public function register($username, $email, $password, $confirm_password) {
         // Validaciones básicas
         if (empty($username) || empty($email) || empty($password)) {
@@ -54,6 +77,15 @@ class AuthController {
         }
     }
     
+    /**
+     * @brief Inicia sesión de un usuario
+     * 
+     * @param string $username Nombre de usuario
+     * @param string $password Contraseña del usuario
+     * 
+     * @return array Arreglo con el resultado de la operación
+     *         ['success' => bool, 'message' => string] o ['success' => true, 'user' => array]
+     */
     public function login($username, $password) {
         $user = $this->db->verifyUser($username, $password);
         
@@ -69,6 +101,12 @@ class AuthController {
         return ['success' => true, 'user' => $user];
     }
     
+    /**
+     * @brief Cierra la sesión del usuario actual
+     * 
+     * @return array Arreglo con el resultado de la operación
+     *         ['success' => bool, 'message' => string]
+     */
     public function logout() {
         session_start();
         session_destroy();
@@ -80,6 +118,13 @@ class AuthController {
         return ['success' => true, 'message' => 'Sesión cerrada'];
     }
 
+    /**
+     * @brief Verifica la validez de un token JWT
+     * 
+     * @param string $token Token JWT a verificar
+     * 
+     * @return mixed Objeto decodificado si el token es válido, false en caso contrario
+     */
     public function verifyToken($token) {
         try {
             // Verificar si el token existe y no está revocado
@@ -102,6 +147,14 @@ class AuthController {
         }
     }
 
+    /**
+     * @brief Procesa el formulario de registro
+     * 
+     * @param array $postData Datos enviados en el formulario
+     * @param Twig $twig Instancia del motor de plantillas Twig
+     * 
+     * @return void Redirige al usuario o muestra el formulario con errores
+     */
     public function handleRegistration($postData, $twig) {
         $result = $this->register(
             $postData['username'] ?? '',
