@@ -228,7 +228,7 @@ $routes = [
             }
             // Añadir esta línea para depuración
             error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
-            
+            // print_r($fungus);
             return [
                 'title' => _('Hongo aleatorio'),
                 'fungi' => $fungus
