@@ -1,8 +1,9 @@
 <?php
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-$uri = rtrim($uri, '/');
+// Obtenemos la URI desde la solicitud
+$uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+// Si la URI está vacía, la tratamos como la raíz
+$uri = $uri === '' ? '/' : $uri;
 
 function getBaseUrl() {
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
@@ -10,215 +11,329 @@ function getBaseUrl() {
     return $protocol . $host;
 }
 
-// Ruteo básico
-function getRouteTemplate($route) {
-    $routesMap = [
-        '/' => 'pages/home.twig',
-        '/index' => 'pages/home.twig',
-        '/login' => 'components/auth/login_form.twig',
-        '/register' => 'components/auth/register_form.twig',
-        '/about' => 'pages/about.twig',
-        '/contact' => 'pages/contact.twig',
-        '/terms' => 'pages/terms.twig',
-        '/faq' => 'pages/faq.twig',
-        '/profile' => 'pages/profile.twig',
-        '/favorites' => 'pages/favorites.twig',
-        '/statistics' => 'pages/statistics.twig',
-        '/admin' => 'layouts/admin.twig',
-        '/fungus' => 'components/fungi/detail.twig',
-        '/random' => 'pages/random_fungi.twig',
-        '/404' => 'pages/404.twig',
-        '/docs/api' => 'pages/docs/api_docs.twig',
-    ];
+// Lista de componentes reutilizables
+$components = [
+    'footer' => 'components/footer.twig',
+    'header' => 'components/header.twig',
+    'navbar' => 'components/navbar.twig',
+    'sidebar' => 'components/sidebar.twig',
+    'fungi/card' => 'components/fungi/card.twig',
+    'fungi/form' => 'components/fungi/form.twig',
+    'ui/alert' => 'components/ui/alert.twig',
+    'ui/modal' => 'components/ui/modal.twig',
+    'ui/pagination' => 'components/ui/pagination.twig'
+];
 
-    return $routesMap[$route] ?? null;
+/**
+ * Obtiene un componente por su nombre
+ * 
+ * @param string $componentName Nombre del componente
+ * @return string|null Ruta de la plantilla del componente o null si no existe
+ */
+function getComponent($componentName) {
+    global $components;
+    return $components[$componentName] ?? null;
 }
 
-function getRouteComponents($route) {
-    $routesMap = [
-        'footer' => 'components/footer.twig',
-        'header' => 'components/header.twig',
-        'navbar' => 'components/navbar.twig',
-        'sidebar' => 'components/sidebar.twig',
-        'fungi/card' => 'components/fungi/card.twig',
-        'fungi/form' => 'components/fungi/form.twig',
-        'ui/alert' => 'components/ui/alert.twig',
-        'ui/modal' => 'components/ui/modal.twig',
-        'ui/pagination' => 'components/ui/pagination.twig'
-    ];
-
-    return $routesMap[$route] ?? null;
-}
-
-function renderTemplate($route, $data = []) {
-    global $twig; // Hacer que la variable $twig sea accesible
+/**
+ * Renderiza una plantilla con los datos proporcionados
+ * 
+ * @param string $templatePath Ruta de la plantilla
+ * @param array $data Datos para pasar a la plantilla
+ * @return void
+ */
+function renderTemplate($templatePath, $data = []) {
+    global $twig, $uri, $components, $session;
     
-    // Obtener la ruta de la plantilla basada en la ruta proporcionada
-    $templatePath = getRouteTemplate($route);
-    print_r($route);
-    if ($templatePath) {
-        echo $twig->render($templatePath, $data);
-        
+    // Aseguramos que los componentes estén disponibles en todas las plantillas
+    $data['components'] = $components;
+    
+    // Agregamos información sobre la sesión actual si está disponible
+    if (isset($session)) {
+        $data['is_logged_in'] = $session->isLoggedIn();
+        if ($session->isLoggedIn()) {
+            $data['user'] = $session->getUserData();
+        }
     } else {
-        // Si la ruta no existe en el mapa, verificar si es una ruta de componente
-        $componentPath = getRouteComponents($route);
-        if ($componentPath) {
-            echo $twig->render($componentPath, $data);
-        } else {
-            // Si no existe ni como ruta ni como componente, mostrar 404
-            echo $twig->render(getRouteTemplate('/404'), ['title' => _('Página no encontrada')]);
+        $data['is_logged_in'] = false;
+    }
+    
+    // Añadimos la ruta actual para poder marcar elementos activos en el menú
+    $data['current_route'] = $uri;
+    
+    // Renderizamos la plantilla
+    try {
+        echo $twig->render($templatePath, $data);
+    } catch (Exception $e) {
+        // Si hay un error al renderizar, mostramos un mensaje de error
+        echo "<h1>Error al renderizar la plantilla</h1>";
+        echo "<p>{$e->getMessage()}</p>";
+        
+        // En modo desarrollo, mostramos información detallada del error
+        if (defined('DEBUG_MODE') && DEBUG_MODE) {
+            echo "<pre>";
+            print_r($e);
+            echo "</pre>";
         }
     }
 }
 
-// Separar las rutas de API en su propio bloque
-
-switch (true) {
-    case preg_match('#^/api#', $uri):
-        $apiController = new \App\Controllers\ApiController($db);
-        $apiController->handleRequest();
-        break;
-    case '':
-    case '/index':
-        renderTemplate('/', [
-            'title' => _('Hongos'),
-            //'fungis' => $fungiController->getFungisPaginated(20, 0)
-        ]);
-        break;
-    case '/docs':
-        renderTemplate('/docs/api', [
-            'title' => _('Documentación de API')
-        ]);
-        break;
-    case '/register':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $result = $authController->handleRegistration($_POST, $twig);
-        } else {
-            renderTemplate('/register', [
-                'title' => _('Registro')
-            ]);
+// Definición de rutas y sus plantillas correspondientes
+$routes = [
+    '/' => [
+        'template' => 'pages/home.twig',
+        'title' => _('Hongos'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $fungiController = null) {
+            // Obtener hongos para mostrar en la página principal
+            return [
+                'title' => _('Hongos'),
+                'fungi' => $db->getFungisPaginated(12, 0) ?? []
+            ];
         }
-        break;
-
-    case '/login':
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $result = $authController->login(
-                $_POST['username'] ?? '',
-                $_POST['password'] ?? ''
-            );
+    ],
+    '/index' => [
+        'template' => 'pages/home.twig',
+        'redirect' => '/'
+    ],
+    '/login' => [
+        'template' => 'components/auth/login_form.twig',
+        'title' => _('Iniciar Sesión'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $authController) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $result = $authController->login(
+                    $_POST['username'] ?? '',
+                    $_POST['password'] ?? ''
+                );
+                
+                if ($result['success']) {
+                    header('Location: /');
+                    exit;
+                } else {
+                    return [
+                        'title' => _('Iniciar Sesión'),
+                        'error' => $result['message']
+                    ];
+                }
+            } else {
+                $registered = isset($_GET['registered']) ? true : false;
+                return [
+                    'title' => _('Iniciar Sesión'),
+                    'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
+                ];
+            }
+        }
+    ],
+    '/register' => [
+        'template' => 'components/auth/register_form.twig',
+        'title' => _('Registro'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $authController) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $result = $authController->register(
+                    $_POST['username'] ?? '',
+                    $_POST['email'] ?? '',
+                    $_POST['password'] ?? '',
+                    $_POST['confirm_password'] ?? ''
+                );
+                
+                if ($result['success']) {
+                    header('Location: /login?registered=1');
+                    exit;
+                } else {
+                    return [
+                        'title' => _('Registro'),
+                        'error' => $result['message']
+                    ];
+                }
+            } else {
+                return [
+                    'title' => _('Registro')
+                ];
+            }
+        }
+    ],
+    '/about' => [
+        'template' => 'pages/about.twig',
+        'title' => _('Acerca de'),
+        'auth_required' => false
+    ],
+    '/contact' => [
+        'template' => 'pages/contact.twig',
+        'title' => _('Contacto'),
+        'auth_required' => false
+    ],
+    '/terms' => [
+        'template' => 'pages/terms.twig',
+        'title' => _('Términos y condiciones'),
+        'auth_required' => false
+    ],
+    '/faq' => [
+        'template' => 'pages/faq.twig',
+        'title' => _('Preguntas frecuentes'),
+        'auth_required' => false
+    ],
+    '/profile' => [
+        'template' => 'pages/profile.twig',
+        'title' => _('Mi Perfil'),
+        'auth_required' => true,
+        'handler' => function($twig, $db, $session) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $result = $db->updateUserProfile($_SESSION['user_id'], $_POST);
+                return [
+                    'title' => _('Mi Perfil'),
+                    'user' => $db->getUserById($_SESSION['user_id']),
+                    'message' => $result ? _('Perfil actualizado') : _('Error al actualizar')
+                ];
+            } else {
+                return [
+                    'title' => _('Mi Perfil'),
+                    'user' => $db->getUserById($_SESSION['user_id'])
+                ];
+            }
+        }
+    ],
+    '/favorites' => [
+        'template' => 'pages/favorites.twig',
+        'title' => _('Mis Hongos Favoritos'),
+        'auth_required' => true,
+        'handler' => function($twig, $db, $session) {
+            return [
+                'title' => _('Mis Hongos Favoritos'),
+                'fungi' => $db->getUserFavorites($_SESSION['user_id']) ?? []
+            ];
+        }
+    ],
+    '/logout' => [
+        'template' => null,
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $authController) {
+            session_start();
+            session_destroy();
+            setcookie("token", "", time() - 3600, "/");
+            header('Location: /');
+            exit;
+        }
+    ],
+    '/statistics' => [
+        'template' => 'pages/statistics.twig',
+        'title' => _('Estadísticas'),
+        'auth_required' => true,
+        'handler' => function($twig, $db, $session, $statsController = null) {
+            // Verificar si existe la clase StatsController
+            if (class_exists('\App\Controllers\StatsController')) {
+                if (!$statsController) {
+                    $statsController = new \App\Controllers\StatsController($db);
+                }
+                $stats = $statsController->getFungiStats();
+            } else {
+                // Datos de ejemplo si no existe el controlador
+                $stats = [
+                    'total' => $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
+                    'by_category' => []
+                ];
+            }
             
-            if ($result['success']) {
+            return [
+                'title' => _('Estadísticas'),
+                'stats' => $stats
+            ];
+        }
+    ],
+    '/random' => [
+        'template' => 'pages/random_fungi.twig',
+        'title' => _('Hongo aleatorio'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $fungiController = null) {
+            $fungus = $db->getRandomFungus();
+            
+            if ($session->isLoggedIn() && method_exists($fungiController, 'getFungusWithLikeStatus')) {
+                $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
+            }
+            
+            return [
+                'title' => _('Hongo aleatorio'),
+                'fungus' => $fungus
+            ];
+        }
+    ],
+    '/admin' => [
+        'template' => 'layouts/admin.twig',
+        'title' => _('Administración'),
+        'auth_required' => true,
+        'admin_required' => true,
+        'handler' => function($twig, $db, $session) {
+            // Verificar si el usuario es administrador
+            if (!$session->isAdmin()) {
                 header('Location: /');
                 exit;
-            } else {
-                renderTemplate('/login', [
-                    'title' => _('Iniciar Sesión'),
-                    'error' => $result['message']
-                ]);
             }
-        } else {
-            $registered = isset($_GET['registered']) ? true : false;
-            renderTemplate('/login', [
-                'title' => _('Iniciar Sesión'),
-                'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
-            ]);
+            
+            return [
+                'title' => _('Panel de Administración'),
+                'stats' => [
+                    'total_fungi' => $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
+                    'total_users' => $db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0
+                ]
+            ];
         }
-        break;
+    ],
+    '/404' => [
+        'template' => 'pages/404.twig',
+        'title' => _('Página no encontrada'),
+        'auth_required' => false
+    ]
+];
 
-   
-    case '/random':
-        $fungus = $db->getRandomFungus();
-        if ($session->isLoggedIn()) {
-            $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
-        }
-        renderTemplate('/random', [
-            'title' => _('Hongo aleatorio'),
-            'fungus' => $fungus,
-            'session' => $session
-        ]);
-        break;
+// Manejo de rutas de API
+if (preg_match('#^/api#', $uri)) {
+    if (class_exists('\App\Controllers\ApiController')) {
+        $apiController = new \App\Controllers\ApiController($db);
+        $apiController->handleRequest();
+    } else {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'API no implementada']);
+    }
+    exit;
+}
 
-    case '/profile':
-        if (!$session->isLoggedIn()) {
-            header('Location: /login');
-            exit;
-        }
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $result = $db->updateUserProfile($_SESSION['user_id'], $_POST);
-            renderTemplate('/profile', [
-                'title' => 'Mi Perfil',
-                'user' => $db->getUserById($_SESSION['user_id']),
-                'message' => $result ? 'Perfil actualizado' : 'Error al actualizar'
-            ]);
-        } else {
-            renderTemplate('/profile', [
-                'title' => 'Mi Perfil',
-                'user' => $db->getUserById($_SESSION['user_id'])
-            ]);
-        }
-        break;
-
-    case '/favorites':
-        if (!$session->isLoggedIn()) {
-            header('Location: /login');
-            exit;
-        }
-        
-        renderTemplate('/favorites', [
-            'title' => 'Mis Hongos Favoritos',
-            'fungi' => $db->getUserFavorites($_SESSION['user_id'])
-        ]);
-        break;
-
-    case '/logout':
-        session_start();
-        session_destroy();
+// Procesamiento de rutas normales
+if (isset($routes[$uri])) {
+    $route = $routes[$uri];
+    
+    // Si la ruta tiene una redirección configurada
+    if (isset($route['redirect'])) {
+        header('Location: ' . $route['redirect']);
+        exit;
+    }
+    
+    // Verificar si se requiere autenticación para esta ruta
+    if (isset($route['auth_required']) && $route['auth_required'] && !$session->isLoggedIn()) {
+        header('Location: /login');
+        exit;
+    }
+    
+    // Verificar si se requiere rol de administrador
+    if (isset($route['admin_required']) && $route['admin_required'] && !$session->isAdmin()) {
         header('Location: /');
         exit;
-        break;
-
-    case '/about':
-        renderTemplate('/about', ['title' => 'Acerca de']);
-        break;
-
-    case '/contact':
-        renderTemplate('/contact', ['title' => 'Contacto']);
-        break;
-
-    case '/admin': 
-        renderTemplate('/admin', ['title' => 'Admin']); 
-        break;
-
-    case '/reset_password': 
-        renderTemplate('/reset_password', ['title' => 'Recuperar contraseña']); 
-        break;
-
-    case '/terms': 
-        renderTemplate('/terms', ['title' => 'Términos y condiciones']); 
-        break;
-
-    case '/faq': 
-        renderTemplate('/faq', ['title' => 'Preguntas frecuentes']); 
-        break;
-
-    case '/statistics':
-        print_r('statistics');
-        die();
-        if (!$session->isLoggedIn()) {
-            header('Location: /login');
-            exit;
-        }
-        
-        $stats = $statsController->getFungiStats();
-        renderTemplate('/statistics', [
-            'title' => _('Estadísticas'),
-            'stats' => $stats
-        ]);
-        break;
-
-    default:
-        header('HTTP/1.1 404 Not Found');
-        renderTemplate('/404', ['title' => _('Página no encontrada')]);
-        break;
+    }
+    
+    // Obtener datos para la vista usando el manejador personalizado
+    $data = isset($route['handler']) ? $route['handler']($twig, $db, $session, $authController ?? null) : [];
+    
+    // Si no hay datos pero hay título, usar el título como datos
+    if (empty($data) && isset($route['title'])) {
+        $data = ['title' => $route['title']];
+    }
+    
+    // Renderizar la plantilla
+    if (isset($route['template']) && $route['template'] !== null) {
+        renderTemplate($route['template'], $data);
+    }
+} else {
+    // Ruta no encontrada
+    header('HTTP/1.1 404 Not Found');
+    renderTemplate('pages/404.twig', ['title' => _('Página no encontrada')]);
 }

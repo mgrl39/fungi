@@ -38,7 +38,7 @@ class AppInitializer
         $session = new SessionController($db);
 
         // Configurar Twig
-        $templatesDir = __DIR__ . '/../../public/templatess';
+        $templatesDir = __DIR__ . '/../../public/templates';
         
         // Verificar que el directorio de templates exista
         if (!is_dir($templatesDir)) {
