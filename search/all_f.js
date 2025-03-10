@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['pagination_2ecss_0',['pagination.css',['../pagination_8css.html',1,'']]],
-  ['profile_2ecss_1',['profile.css',['../profile_8css.html',1,'']]]
+  ['query_0',['query',['../classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496',1,'App::Controllers::DatabaseController']]]
 ];

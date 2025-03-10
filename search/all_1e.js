@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🔨_20tecnologías_0',['🔨 Tecnologías',['../index.html#autotoc_md1',1,'']]]
+  ['📧_20contacto_0',['📧 Contacto',['../index.html#autotoc_md14',1,'']]]
 ];

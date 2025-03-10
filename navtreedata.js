@@ -26,6 +26,7 @@ var NAVTREE =
 [
   [ "Fungi", "index.html", [
     [ "🍄 Fungi", "index.html", "index" ],
+    [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ]
     ] ],
@@ -51,7 +52,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"404_8css.html",
+"ApiController_8php.html",
 "classApp_1_1Controllers_1_1StatsController.html#aa29167da3f341e9199c640b102e5fc97"
 ];
 

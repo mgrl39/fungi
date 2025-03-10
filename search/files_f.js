@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['theme_2dswitcher_2ejs_0',['theme-switcher.js',['../theme-switcher_8js.html',1,'']]]
+  ['usercontroller_2ephp_0',['UserController.php',['../UserController_8php.html',1,'']]]
 ];

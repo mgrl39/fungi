@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['404_2ecss_0',['404.css',['../404_8css.html',1,'']]]
+  ['_5f_5fconstruct_0',['__construct',['../classApp_1_1Controllers_1_1ApiController.html#aec91b084e89fab85ab1d971a765095b7',1,'App\Controllers\ApiController\__construct()'],['../classApp_1_1Controllers_1_1AuthController.html#a695f556152eb441e50be47d1d92cbe83',1,'App\Controllers\AuthController\__construct()'],['../classApp_1_1Controllers_1_1DatabaseController.html#ad13ac3423d5797dd6f7757acb009b512',1,'App\Controllers\DatabaseController\__construct()'],['../classApp_1_1Controllers_1_1FungiController.html#af7000ed08fe4bc6c08d0b40591e112b7',1,'App\Controllers\FungiController\__construct()'],['../classApp_1_1Controllers_1_1SessionController.html#abf5568fca079ccb9908b3bb7303b3f60',1,'App\Controllers\SessionController\__construct()'],['../classApp_1_1Controllers_1_1StatsController.html#aa29167da3f341e9199c640b102e5fc97',1,'App\Controllers\StatsController\__construct()'],['../classApp_1_1Controllers_1_1UserController.html#acf44ad6786ecd0464536a765ce037258',1,'App\Controllers\UserController\__construct()']]]
 ];

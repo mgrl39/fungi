@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['card_2ecss_0',['card.css',['../card_8css.html',1,'']]],
-  ['charts_2ecss_1',['charts.css',['../charts_8css.html',1,'']]]
+  ['databasecontroller_2ephp_0',['DatabaseController.php',['../DatabaseController_8php.html',1,'']]],
+  ['defaults_2einc_2ephp_1',['defaults.inc.php',['../defaults_8inc_8php.html',1,'']]],
+  ['detail_2ecss_2',['detail.css',['../detail_8css.html',1,'']]]
 ];

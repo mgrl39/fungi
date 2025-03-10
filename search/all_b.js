@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['i18n_2ephp_0',['i18n.php',['../i18n_8php.html',1,'']]],
-  ['incrementfungiviews_1',['incrementFungiViews',['../classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12',1,'App::Controllers::FungiController']]],
-  ['index_2ephp_2',['index.php',['../index_8php.html',1,'']]],
-  ['initialize_3',['initialize',['../classApp_1_1Config_1_1AppInitializer.html#ac4c6c6c6ac6e86604e29238199e42fca',1,'App::Config::AppInitializer']]],
-  ['instalación_4',['🚀 Instalación',['../index.html#autotoc_md4',1,'']]],
-  ['isloggedin_5',['isLoggedIn',['../classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288',1,'App::Controllers::SessionController']]]
+  ['la_20base_20de_20datos_0',['Configuración de la Base de Datos',['../group__Configuraci_xC3_xB3nBaseDatos.html',1,'']]],
+  ['licencia_1',['📄 Licencia',['../index.html#autotoc_md13',1,'']]],
+  ['likefungi_2',['likeFungi',['../classApp_1_1Controllers_1_1FungiController.html#a61834711a6b3748eca87a0644c08babb',1,'App::Controllers::FungiController']]],
+  ['login_3',['login',['../classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385',1,'App\Controllers\ApiController\login()'],['../classApp_1_1Controllers_1_1AuthController.html#af4914b619824cf44e74a5c7c625cab73',1,'App\Controllers\AuthController\login()']]],
+  ['login_5fform_2ecss_4',['login_form.css',['../login__form_8css.html',1,'']]],
+  ['logout_5',['logout',['../classApp_1_1Controllers_1_1AuthController.html#a4dcca8154953e71c03799ebd9ae20ed0',1,'App::Controllers::AuthController']]]
 ];
