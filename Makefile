@@ -17,7 +17,14 @@ else
 	OPEN := xdg-open
 endif
 
-.PHONY: help init save-db repos install clean test log status
+# Variables para verificación de rutas
+SERVER_HOST := localhost
+PORT := 8080
+SERVER_URL := http://$(SERVER_HOST):$(PORT)
+ROUTES_TO_CHECK := / /index /login /register /about /contact /terms /faq /profile /favorites /statistics /admin /fungus /random /docs/api
+TIMEOUT := 3
+
+.PHONY: help init save-db repos install clean test log status check-routes check-routes-port
 
 # Comando predeterminado al ejecutar solo 'make'
 help:
@@ -29,6 +36,8 @@ help:
 	@echo "$(YELLOW)make repos$(RESET)     - Abre los repositorios de GitHub del usuario"
 	@echo "$(YELLOW)make install$(RESET)   - Instala las dependencias del proyecto"
 	@echo "$(YELLOW)make status$(RESET)    - Muestra el estado actual del proyecto"
+	@echo "$(YELLOW)make check-routes$(RESET) - Verifica rutas (pregunta por el puerto)"
+	@echo "$(YELLOW)make check-routes-port p=XXXX$(RESET) - Verifica rutas en puerto específico"
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 
 # Inicializa el entorno
@@ -72,3 +81,47 @@ status:
 	@echo "$(YELLOW)Apache: $(RESET)$(shell systemctl is-active apache2 2>/dev/null || echo 'no instalado')"
 	@echo "$(YELLOW)MySQL: $(RESET)$(shell systemctl is-active mysql 2>/dev/null || echo 'no instalado')"
 	@echo "$(YELLOW)Espacio de disco: $(RESET)$(shell df -h . | grep -v Filesystem | awk '{print $$4 " disponible"}')"
+
+# Verifica las rutas de la página
+check-routes:
+	@echo "$(YELLOW)¿En qué puerto está ejecutándose la aplicación? [$(PORT)]: $(RESET)" && read input_port && \
+	PORT_TO_USE=$${input_port:-$(PORT)} && \
+	SERVER_URL_FINAL="http://$(SERVER_HOST):$$PORT_TO_USE" && \
+	echo "$(GREEN)Verificando rutas en $$SERVER_URL_FINAL ...$(RESET)" && \
+	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
+	echo "$(YELLOW)RUTA$(RESET)                      $(YELLOW)ESTADO$(RESET)        $(YELLOW)TIEMPO$(RESET)         $(YELLOW)RESULTADO$(RESET)" && \
+	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
+	for route in $(ROUTES_TO_CHECK); do \
+		HTTP_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --max-time $(TIMEOUT) $$SERVER_URL_FINAL$$route); \
+		TIME=$$(curl -o /dev/null -s -w "%{time_total}" --max-time $(TIMEOUT) $$SERVER_URL_FINAL$$route); \
+		if [ $$HTTP_CODE -eq 200 ]; then \
+			printf "$(YELLOW)%-25s$(RESET) $(GREEN)%-10s$(RESET) $(CYAN)%-10s$(RESET) $(GREEN)✓ OK$(RESET)\n" $$route $$HTTP_CODE $$TIME; \
+		else \
+			printf "$(YELLOW)%-25s$(RESET) $(RED)%-10s$(RESET) $(CYAN)%-10s$(RESET) $(RED)✗ ERROR$(RESET)\n" $$route $$HTTP_CODE $$TIME; \
+		fi \
+	done && \
+	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
+	echo "$(GREEN)Verificación de rutas completada.$(RESET)"
+
+# También puedes especificar el puerto directamente al ejecutar el comando
+check-routes-port:
+	@if [ -z "$(p)" ]; then \
+		echo "$(RED)Debes especificar un puerto. Ejemplo: make check-routes-port p=8000$(RESET)"; \
+		exit 1; \
+	fi; \
+	SERVER_URL_FINAL="http://$(SERVER_HOST):$(p)" && \
+	echo "$(GREEN)Verificando rutas en $$SERVER_URL_FINAL ...$(RESET)" && \
+	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
+	echo "$(YELLOW)RUTA$(RESET)                      $(YELLOW)ESTADO$(RESET)        $(YELLOW)TIEMPO$(RESET)         $(YELLOW)RESULTADO$(RESET)" && \
+	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
+	for route in $(ROUTES_TO_CHECK); do \
+		HTTP_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --max-time $(TIMEOUT) $$SERVER_URL_FINAL$$route); \
+		TIME=$$(curl -o /dev/null -s -w "%{time_total}" --max-time $(TIMEOUT) $$SERVER_URL_FINAL$$route); \
+		if [ $$HTTP_CODE -eq 200 ]; then \
+			printf "$(YELLOW)%-25s$(RESET) $(GREEN)%-10s$(RESET) $(CYAN)%-10s$(RESET) $(GREEN)✓ OK$(RESET)\n" $$route $$HTTP_CODE $$TIME; \
+		else \
+			printf "$(YELLOW)%-25s$(RESET) $(RED)%-10s$(RESET) $(CYAN)%-10s$(RESET) $(RED)✗ ERROR$(RESET)\n" $$route $$HTTP_CODE $$TIME; \
+		fi \
+	done && \
+	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
+	echo "$(GREEN)Verificación de rutas completada.$(RESET)"
