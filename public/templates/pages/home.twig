@@ -4,29 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <!-- Estilos generales -->
-    <link rel="stylesheet" href="/assets/styles/generic.css">
     
-    <!-- Estilos de componentes -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    
+    <!-- Estilos personalizados mínimos -->
+    <link rel="stylesheet" href="/assets/styles/generic.css">
     <link rel="stylesheet" href="/assets/styles/components/navbar.css">
     <link rel="stylesheet" href="/assets/styles/components/footer.css">
-    <link rel="stylesheet" href="/assets/styles/components/sidebar.css">
-    <link rel="stylesheet" href="/assets/styles/components/ui/alert.css">
-    <link rel="stylesheet" href="/assets/styles/components/ui/modal.css">
-    <link rel="stylesheet" href="/assets/styles/components/ui/pagination.css">
-    <link rel="stylesheet" href="/assets/styles/components/fungi/card.css">
-    <link rel="stylesheet" href="/assets/styles/components/fungi/form.css">
-    <link rel="stylesheet" href="/assets/styles/components/auth/login_form.css">
-    <link rel="stylesheet" href="/assets/styles/components/auth/register_form.css">
-    <link rel="stylesheet" href="/assets/styles/components/charts.css">
-    
-    <!-- Estilos de páginas -->
     <link rel="stylesheet" href="/assets/styles/pages/home.css">
-    <link rel="stylesheet" href="/assets/styles/pages/profile.css">
-    <link rel="stylesheet" href="/assets/styles/pages/fungi_detail.css">
-    <link rel="stylesheet" href="/assets/styles/pages/admin.css">
-    <link rel="stylesheet" href="/assets/styles/pages/404.css">
-
+    
+    <!-- Font Awesome para iconos (versión local) -->
+    <link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
 </head>
 <body>
     <header>
@@ -46,17 +35,9 @@
             <div class="col-md-8">
                 <section class="fungi-list">
                     <h2>Hongos Destacados</h2>
-                    {% if fungis is defined and fungis|length > 0 %}
-                        <div class="row">
-                            {% for fungi in fungis %}
-                                <div class="col-md-4 mb-4">
-                                    {% include 'components/fungi/card.twig' with {'fungi': fungi} %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <p>{{ _('No hay hongos disponibles en este momento.') }}</p>
-                    {% endif %}
+                    <div id="fungi-container" class="row">
+                        <p class="text-center w-100">Cargando hongos...</p>
+                    </div>
                 </section>
             </div>
 
@@ -69,5 +50,58 @@
     <footer>
         {% include 'components/footer.twig' %}
     </footer>
+
+    <!-- Scripts -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+    {% if use_ajax %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener hongos desde la API
+            fetch('{{ api_url }}')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data.length > 0) {
+                        const fungiContainer = document.getElementById('fungi-container');
+                        fungiContainer.innerHTML = ''; // Limpiar mensaje de carga
+                        
+                        // Generar HTML para cada hongo
+                        data.data.forEach(fungi => {
+                            // Crear elemento para el hongo
+                            const fungiElement = document.createElement('div');
+                            fungiElement.className = 'col-md-4 mb-4';
+                            
+                            // Obtener la primera imagen (si existe)
+                            const imageUrls = fungi.image_urls ? fungi.image_urls.split(',') : [];
+                            const imageUrl = imageUrls.length > 0 ? imageUrls[0] : '/assets/images/placeholder.jpg';
+                            
+                            // Generar el HTML para la tarjeta
+                            fungiElement.innerHTML = `
+                                <div class="card h-100">
+                                    <img src="${imageUrl}" class="card-img-top" alt="${fungi.name}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${fungi.name}</h5>
+                                        <p class="card-text">${fungi.edibility.replace(/-/g, ' ')}</p>
+                                        <a href="/fungi/${fungi.id}" class="btn btn-primary">Ver detalles</a>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            fungiContainer.appendChild(fungiElement);
+                        });
+                    } else {
+                        document.getElementById('fungi-container').innerHTML = 
+                            '<p class="text-center w-100">{{ _("No hay hongos disponibles en este momento.") }}</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al cargar los hongos:', error);
+                    document.getElementById('fungi-container').innerHTML = 
+                        '<p class="text-center w-100 text-danger">Error al cargar los hongos. Intente nuevamente.</p>';
+                });
+        });
+    </script>
+    {% endif %}
 </body>
 </html>

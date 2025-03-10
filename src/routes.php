@@ -85,10 +85,11 @@ $routes = [
         'title' => _('Hongos'),
         'auth_required' => false,
         'handler' => function($twig, $db, $session, $fungiController = null) {
-            // Obtener hongos para mostrar en la página principal
+            // Ya no obtenemos los hongos directamente, se cargarán vía AJAX
             return [
                 'title' => _('Hongos'),
-                'fungi' => $db->getFungisPaginated(12, 0) ?? []
+                'api_url' => getBaseUrl() . '/api/fungi/page/1/limit/12', // URL para la solicitud AJAX
+                'use_ajax' => true  // Indicador para la plantilla
             ];
         }
     ],
