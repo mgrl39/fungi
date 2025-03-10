@@ -24,6 +24,13 @@ class AppInitializer
         // Cargar configuración desde defaults.inc.php
         require_once __DIR__ . '/defaults.inc.php';
 
+        // Configuración de internacionalización
+        $locale = 'es_ES.UTF-8';
+        putenv("LC_ALL=$locale");
+        setlocale(LC_ALL, $locale);
+        bindtextdomain('messages', __DIR__ . '/../../locale');
+        textdomain('messages');
+
         // Verifica que DatabaseController existe antes de instanciarlo
         if (!class_exists(DatabaseController::class)) {
             throw new \RuntimeException(ErrorMessages::format(
