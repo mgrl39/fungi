@@ -1,103 +1,183 @@
-{% extends "layouts/base.twig" %}
-
-{% block title %}{{ fungi.name|title|replace({'-': ' '}) }}{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="/assets/styles/generic.css">
+    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
+    <link rel="stylesheet" href="/assets/styles/components/footer.css">
     <link rel="stylesheet" href="/assets/styles/pages/fungi_detail.css">
-{% endblock %}
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
+</head>
+<body>
+    <header>
+        {% include 'components/navbar.twig' %}
+    </header>
 
-{% block content %}
-<div class="container">
-    <nav aria-label="breadcrumb" class="mt-3">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">{{ _('Inicio') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ fungi.name|title|replace({'-': ' '}) }}</li>
-        </ol>
-    </nav>
+    <main>
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mt-3">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">{{ _('Inicio') }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</li>
+                </ol>
+            </nav>
 
-    <div class="fungi-detail">
-        <div class="fungi-detail-images">
-            {% if fungi.image_urls %}
-                {% set images = fungi.image_urls|split(',') %}
-                <img src="{{ images[0] }}" alt="{{ fungi.name }}" class="fungi-main-image" id="mainImage">
+            <div class="fungi-detail">
+                <div class="fungi-detail-images">
+                    {% if fungi.image_urls is defined and fungi.image_urls %}
+                        {% set images = fungi.image_urls|split(',') %}
+                        <img src="{{ images[0] }}" alt="{{ fungi.name|default('Hongo') }}" class="fungi-main-image" id="mainImage">
+                        
+                        {% if images|length > 1 %}
+                            <div class="fungi-thumbnails">
+                                {% for image in images %}
+                                    <img src="{{ image }}" 
+                                         alt="{{ fungi.name|default('Hongo') }}" 
+                                         class="fungi-thumbnail {% if loop.first %}active{% endif %}"
+                                         onclick="updateMainImage(this.src)">
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <img src="/assets/images/placeholder.jpg" alt="Imagen no disponible" class="fungi-main-image">
+                    {% endif %}
+                </div>
                 
-                {% if images|length > 1 %}
-                    <div class="fungi-thumbnails">
-                        {% for image in images %}
-                            <img src="{{ image }}" 
-                                 alt="{{ fungi.name }}" 
-                                 class="fungi-thumbnail {% if loop.first %}active{% endif %}"
-                                 onclick="updateMainImage(this.src)">
-                        {% endfor %}
+                <div class="fungi-detail-info">
+                    <h1 class="fungi-detail-title">{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</h1>
+                    {% if fungi.taxonomy is defined and fungi.taxonomy.scientific_name is defined %}
+                        <p class="fungi-detail-subtitle">{{ fungi.taxonomy.scientific_name }}</p>
+                    {% endif %}
+                    
+                    <div class="fungi-detail-card">
+                        <h2>Información General</h2>
+                        <div class="fungi-detail-row">
+                            <strong>Comestibilidad:</strong>
+                            <span class="badge {% if fungi.edibility == 'comestible' %}bg-success{% elseif fungi.edibility == 'venenoso' %}bg-danger{% else %}bg-warning{% endif %}">
+                                {{ fungi.edibility|default('Desconocido')|title }}
+                            </span>
+                        </div>
+                        
+                        {% if fungi.habitat is defined and fungi.habitat %}
+                            <div class="fungi-detail-row">
+                                <strong>Hábitat:</strong>
+                                <span>{{ fungi.habitat }}</span>
+                            </div>
+                        {% endif %}
+                        
+                        {% if fungi.characteristics is defined %}
+                            {% if fungi.characteristics.color is defined and fungi.characteristics.color %}
+                                <div class="fungi-detail-row">
+                                    <strong>Color:</strong>
+                                    <span>{{ fungi.characteristics.color }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if fungi.characteristics.shape is defined and fungi.characteristics.shape %}
+                                <div class="fungi-detail-row">
+                                    <strong>Forma:</strong>
+                                    <span>{{ fungi.characteristics.shape }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if fungi.characteristics.size is defined and fungi.characteristics.size %}
+                                <div class="fungi-detail-row">
+                                    <strong>Tamaño:</strong>
+                                    <span>{{ fungi.characteristics.size }}</span>
+                                </div>
+                            {% endif %}
+                        {% endif %}
                     </div>
-                {% endif %}
-            {% endif %}
+                    
+                    {% if fungi.taxonomy is defined %}
+                        <div class="fungi-detail-card">
+                            <h2>Taxonomía</h2>
+                            {% if fungi.taxonomy.kingdom is defined and fungi.taxonomy.kingdom %}
+                                <div class="fungi-detail-row">
+                                    <strong>Reino:</strong>
+                                    <span>{{ fungi.taxonomy.kingdom }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if fungi.taxonomy.family is defined and fungi.taxonomy.family %}
+                                <div class="fungi-detail-row">
+                                    <strong>Familia:</strong>
+                                    <span>{{ fungi.taxonomy.family }}</span>
+                                </div>
+                            {% endif %}
+                            
+                            {% if fungi.taxonomy.genus is defined and fungi.taxonomy.genus %}
+                                <div class="fungi-detail-row">
+                                    <strong>Género:</strong>
+                                    <span>{{ fungi.taxonomy.genus }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    
+                    {% if fungi.observations is defined and fungi.observations %}
+                        <div class="fungi-detail-card">
+                            <h2>Observaciones</h2>
+                            <p>{{ fungi.observations }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    {% if similar_fungi is defined and similar_fungi|length > 0 %}
+                        <div class="fungi-detail-card">
+                            <h2>Hongos similares</h2>
+                            <div class="row">
+                                {% for similar in similar_fungi %}
+                                    <div class="col-md-3 col-6">
+                                        <a href="/fungi/{{ similar.id }}" class="similar-fungi-card">
+                                            {% if similar.image_urls %}
+                                                {% set similar_images = similar.image_urls|split(',') %}
+                                                <img src="{{ similar_images[0] }}" alt="{{ similar.name }}">
+                                            {% else %}
+                                                <img src="/assets/images/placeholder.jpg" alt="Imagen no disponible">
+                                            {% endif %}
+                                            <div class="similar-fungi-name">{{ similar.name|title|replace({'-': ' '}) }}</div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
+    </main>
 
-        <div class="fungi-detail-info">
-            <h1 class="fungi-detail-title">{{ fungi.name|title|replace({'-': ' '}) }}</h1>
-            <p class="fungi-detail-subtitle">{{ fungi.taxonomy.scientific_name }}</p>
+    <footer>
+        {% include 'components/footer.twig' %}
+    </footer>
 
-            <div class="fungi-detail-meta">
-                <div class="fungi-meta-item">
-                    <span class="fungi-meta-icon">
-                        <i class="fas fa-utensils"></i>
-                    </span>
-                    <div class="fungi-meta-content">
-                        <span class="fungi-meta-label">{{ _('Comestibilidad') }}</span>
-                        <span class="fungi-meta-value">{{ fungi.edibility|title|replace({'-': ' '}) }}</span>
-                    </div>
-                </div>
-
-                <div class="fungi-meta-item">
-                    <span class="fungi-meta-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </span>
-                    <div class="fungi-meta-content">
-                        <span class="fungi-meta-label">{{ _('Hábitat') }}</span>
-                        <span class="fungi-meta-value">{{ fungi.habitat }}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="fungi-properties">
-                <div class="fungi-property">
-                    <h3>{{ _('Características') }}</h3>
-                    <ul>
-                        <li><strong>{{ _('Color') }}:</strong> {{ fungi.characteristics.color }}</li>
-                        <li><strong>{{ _('Forma') }}:</strong> {{ fungi.characteristics.shape }}</li>
-                        <li><strong>{{ _('Tamaño') }}:</strong> {{ fungi.characteristics.size }}</li>
-                    </ul>
-                </div>
-
-                <div class="fungi-property">
-                    <h3>{{ _('Taxonomía') }}</h3>
-                    <ul>
-                        <li><strong>{{ _('Reino') }}:</strong> {{ fungi.taxonomy.kingdom }}</li>
-                        <li><strong>{{ _('Familia') }}:</strong> {{ fungi.taxonomy.family }}</li>
-                        <li><strong>{{ _('Género') }}:</strong> {{ fungi.taxonomy.genus }}</li>
-                    </ul>
-                </div>
-            </div>
-
-            {% if fungi.observations %}
-            <div class="fungi-observations">
-                <h3>{{ _('Observaciones') }}</h3>
-                <p>{{ fungi.observations }}</p>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-<script>
-function updateMainImage(src) {
-    document.getElementById('mainImage').src = src;
-    document.querySelectorAll('.fungi-thumbnail').forEach(thumb => {
-        thumb.classList.remove('active');
-        if (thumb.src === src) thumb.classList.add('active');
-    });
-}
-</script>
-{% endblock %} 
+    <!-- Scripts -->
+    <script src="/assets/lib/jquery.min.js"></script>
+    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function updateMainImage(src) {
+            document.getElementById('mainImage').src = src;
+            
+            // Actualizar clase activa en miniaturas
+            const thumbnails = document.querySelectorAll('.fungi-thumbnail');
+            thumbnails.forEach(thumb => {
+                if (thumb.src === src) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -226,11 +226,9 @@ $routes = [
             if ($session->isLoggedIn() && method_exists($fungiController, 'getFungusWithLikeStatus')) {
                 $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
             }
-            if (DEBUG_MODE) {
-                echo "<pre>";
-                var_dump($fungus);
-                echo "</pre>";
-            }
+            // Añadir esta línea para depuración
+            error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
+            
             return [
                 'title' => _('Hongo aleatorio'),
                 'fungi' => $fungus
@@ -409,4 +407,53 @@ if (isset($routes[$uri])) {
         
     // Renderizar la plantilla 404
     renderTemplate($routes['/404']['template'], $data);
+}
+
+// Usar expresión regular para capturar rutas de tipo /fungi/123
+if (preg_match('#^/fungi/(\d+)$#', $uri, $matches)) {
+    $id = $matches[1];
+    $templatePath = 'pages/fungi_detail.twig';
+    
+    // Obtener datos del hongo específico
+    $fungus = $db->getFungusById($id);
+    
+    // Log para verificar si se encontró el hongo
+    error_log("Resultado de búsqueda: " . ($fungus ? "Encontrado" : "No encontrado"));
+    
+    if (!$fungus) {
+        error_log("Redirigiendo a 404 porque no se encontró el hongo ID: " . $id);
+        header('Location: /404');
+        exit;
+    }
+    
+    // Añadir información de favorito si el usuario está logueado
+    if ($session->isLoggedIn() && $fungiController) {
+        $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
+    }
+    
+    // Intentar obtener hongos similares
+    $similarFungi = [];
+    try {
+        $similarFungi = $db->getSimilarFungi($id, 4);
+    } catch (Exception $e) {
+        // Si falla, simplemente no mostraremos hongos similares
+        error_log("Error al obtener hongos similares: " . $e->getMessage());
+    }
+    
+    // Asegurar que la estructura de datos sea consistente
+    if (!isset($fungus['taxonomy'])) $fungus['taxonomy'] = [];
+    if (!isset($fungus['characteristics'])) $fungus['characteristics'] = [];
+    
+    // Depuración para verificar datos
+    error_log("Renderizando detalles del hongo ID $id: " . json_encode($fungus['name'] ?? 'Sin nombre'));
+    
+    // Renderizar la plantilla con los datos obtenidos
+    $data = [
+        'title' => $fungus['name'] ?? _('Detalles del Hongo'),
+        'fungi' => $fungus,
+        'similar_fungi' => $similarFungi
+    ];
+    
+    renderTemplate($templatePath, $data);
+    exit;
 }
