@@ -160,21 +160,6 @@ $routes = [
         'title' => _('Acerca de'),
         'auth_required' => false
     ],
-    '/contact' => [
-        'template' => 'pages/contact.twig',
-        'title' => _('Contacto'),
-        'auth_required' => false
-    ],
-    '/terms' => [
-        'template' => 'pages/terms.twig',
-        'title' => _('Términos y condiciones'),
-        'auth_required' => false
-    ],
-    '/faq' => [
-        'template' => 'pages/faq.twig',
-        'title' => _('Preguntas frecuentes'),
-        'auth_required' => false
-    ],
     '/profile' => [
         'template' => 'pages/profile.twig',
         'title' => _('Mi Perfil'),
@@ -284,6 +269,41 @@ $routes = [
         'template' => 'pages/404.twig',
         'title' => _('Página no encontrada'),
         'auth_required' => false
+    ],
+    '/docs/api' => [
+        'template' => 'pages/api_docs.twig',
+        'title' => _('Documentación de la API'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session) {
+            // Obtener la documentación de la API directamente desde el endpoint /api
+            $apiUrl = getBaseUrl() . '/api';
+            
+            // Configurar opciones para la petición
+            $context = stream_context_create([
+                'http' => [
+                    'timeout' => 3, // Timeout de 3 segundos
+                    'ignore_errors' => true
+                ]
+            ]);
+            
+            $apiResponse = @file_get_contents($apiUrl, false, $context);
+            $apiDocs = json_decode($apiResponse, true);
+            
+            if (!$apiDocs) {
+                // Si hay un error al obtener los datos, usar información básica
+                $apiDocs = [
+                    'api_version' => 'v1',
+                    'available_endpoints' => [
+                        'Error' => ['GET /api' => 'No se pudo obtener la documentación de la API. Por favor, intente más tarde.']
+                    ]
+                ];
+            }
+            
+            return [
+                'title' => _('Documentación de la API'),
+                'api_docs' => $apiDocs
+            ];
+        }
     ]
 ];
 
@@ -334,7 +354,14 @@ if (isset($routes[$uri])) {
         renderTemplate($route['template'], $data);
     }
 } else {
-    // Ruta no encontrada
+    // Ruta no encontrada - usamos la ruta definida para 404
     header('HTTP/1.1 404 Not Found');
-    renderTemplate('pages/404.twig', ['title' => _('Página no encontrada')]);
+    
+    // Obtener datos para la página 404
+    $data = isset($routes['/404']['handler']) 
+        ? $routes['/404']['handler']($twig, $db, $session, $authController ?? null) 
+        : ['title' => _('Página no encontrada')];
+        
+    // Renderizar la plantilla 404
+    renderTemplate($routes['/404']['template'], $data);
 }

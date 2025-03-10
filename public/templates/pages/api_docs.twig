@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    
+    <!-- Font Awesome para iconos (versión local) -->
+    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+    
+    <!-- Estilos específicos para documentación -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+        }
+        .api-header {
+            background-color: #343a40;
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        .endpoint-card {
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+        .method {
+            font-weight: bold;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            margin-right: 1rem;
+            min-width: 80px;
+            text-align: center;
+        }
+        .get { background-color: #61affe; color: white; }
+        .post { background-color: #49cc90; color: white; }
+        .put { background-color: #fca130; color: white; }
+        .delete { background-color: #f93e3e; color: white; }
+        .endpoint-body {
+            padding: 1rem;
+            background-color: #fff;
+        }
+        .category-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .api-version {
+            background-color: #e9ecef;
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="api-header text-center">
+        <div class="container">
+            <h1>{{ title }}</h1>
+            <p class="lead">Referencia completa de endpoints disponibles</p>
+            <div class="api-version">Versión: {{ api_docs.api_version }}</div>
+        </div>
+    </header>
+    
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Barra lateral de navegación -->
+                <div class="sticky-top pt-3">
+                    <div class="list-group">
+                        {% for category, endpoints in api_docs.available_endpoints %}
+                            <a href="#{{ category|lower }}" class="list-group-item list-group-item-action">{{ category }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <!-- Contenido principal -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2>Introducción</h2>
+                        <p>Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code>/api</code>.</p>
+                        <p>Las respuestas están en formato JSON y generalmente incluyen un campo <code>success</code> para indicar si la solicitud fue exitosa.</p>
+                    </div>
+                </div>
+                
+                {% for category, endpoints in api_docs.available_endpoints %}
+                    <h2 id="{{ category|lower }}" class="category-title">{{ category }}</h2>
+                    
+                    {% for endpoint, description in endpoints %}
+                        <div class="endpoint-card">
+                            <div class="endpoint-header">
+                                {% set method = endpoint|split(' ')|first %}
+                                <span class="method {{ method|lower }}">{{ method }}</span>
+                                <span class="url">{{ endpoint|split(' ')|last }}</span>
+                            </div>
+                            <div class="endpoint-body">
+                                <p>{{ description }}</p>
+                                
+                                <!-- Ejemplos de respuesta para algunos endpoints -->
+                                {% if endpoint == 'GET /api/fungi' %}
+                                    <h5>Ejemplo de respuesta:</h5>
+                                    <pre class="bg-light p-3 rounded"><code>{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "russula-heterophylla",
+      "edibility": "buen-comestible",
+      "habitat": "...",
+      "observations": "...",
+      "image_urls": "/assets/images/russula-heterophylla_1.jpg,..."
+    },
+    // Más hongos...
+  ]
+}</code></pre>
+                                {% endif %}
+                                
+                                {% if endpoint == 'GET /api/fungi/{id}' %}
+                                    <h5>Ejemplo de respuesta:</h5>
+                                    <pre class="bg-light p-3 rounded"><code>{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "russula-heterophylla",
+    "edibility": "buen-comestible",
+    "habitat": "...",
+    "observations": "..."
+  }
+}</code></pre>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>© {{ "now"|date("Y") }} Aplicación de Hongos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
