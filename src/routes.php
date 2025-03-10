@@ -13,22 +13,22 @@ function getBaseUrl() {
 // Ruteo básico
 function getRouteTemplate($route) {
     $routesMap = [
-        '/' => 'fungi/fungi_list.twig',
-        '/index' => 'fungi/fungi_list.twig', 
-        '/login' => 'auth/login.twig',
-        '/register' => 'auth/register.twig',
+        '/' => 'pages/home.twig',
+        '/index' => 'pages/home.twig',
+        '/login' => 'components/auth/login_form.twig',
+        '/register' => 'components/auth/register_form.twig',
         '/about' => 'pages/about.twig',
         '/contact' => 'pages/contact.twig',
-        '/terms' => 'legal/terms.twig',
-        '/faq' => 'faq.twig',
-        '/profile' => 'auth/profile.twig',
-        '/favorites' => 'favorites.twig',
+        '/terms' => 'pages/terms.twig',
+        '/faq' => 'pages/faq.twig',
+        '/profile' => 'pages/profile.twig',
+        '/favorites' => 'pages/favorites.twig',
         '/statistics' => 'pages/statistics.twig',
-        '/admin' => 'admin.twig',
-        '/fungus' => 'fungi/fungus_detail.twig',
-        '/random' => 'fungi/random_fungi.twig',
-        '/404' => 'errors/404.twig',
-        '/docs/api' => 'docs/api_docs.twig',
+        '/admin' => 'layouts/admin.twig',
+        '/fungus' => 'components/fungi/detail.twig',
+        '/random' => 'pages/random_fungi.twig',
+        '/404' => 'pages/404.twig',
+        '/docs/api' => 'pages/docs/api_docs.twig',
     ];
 
     return $routesMap[$route] ?? null;
@@ -38,7 +38,13 @@ function getRouteComponents($route) {
     $routesMap = [
         'footer' => 'components/footer.twig',
         'header' => 'components/header.twig',
-        'random_fungi' => 'fungi/random_fungi.twig',
+        'navbar' => 'components/navbar.twig',
+        'sidebar' => 'components/sidebar.twig',
+        'fungi/card' => 'components/fungi/card.twig',
+        'fungi/form' => 'components/fungi/form.twig',
+        'ui/alert' => 'components/ui/alert.twig',
+        'ui/modal' => 'components/ui/modal.twig',
+        'ui/pagination' => 'components/ui/pagination.twig'
     ];
 
     return $routesMap[$route] ?? null;
@@ -74,14 +80,12 @@ switch (true) {
         break;
     case '':
     case '/index':
-        renderTemplate('fungi/fungi_list.twig', [
+        renderTemplate('/', [
             'title' => _('Hongos'),
             //'fungis' => $fungiController->getFungisPaginated(20, 0)
         ]);
         break;
-    case '/docss':
-        print_r('docs');
-        die();
+    case '/docs':
         renderTemplate('/docs/api', [
             'title' => _('Documentación de API')
         ]);
@@ -90,7 +94,7 @@ switch (true) {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $authController->handleRegistration($_POST, $twig);
         } else {
-            renderTemplate('auth/register.twig', [
+            renderTemplate('/register', [
                 'title' => _('Registro')
             ]);
         }
@@ -107,14 +111,14 @@ switch (true) {
                 header('Location: /');
                 exit;
             } else {
-                renderTemplate('login', [
+                renderTemplate('/login', [
                     'title' => _('Iniciar Sesión'),
                     'error' => $result['message']
                 ]);
             }
         } else {
             $registered = isset($_GET['registered']) ? true : false;
-            renderTemplate('login', [
+            renderTemplate('/login', [
                 'title' => _('Iniciar Sesión'),
                 'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
             ]);
@@ -127,7 +131,7 @@ switch (true) {
         if ($session->isLoggedIn()) {
             $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
         }
-        renderTemplate('fungi/random_fungi.twig', [
+        renderTemplate('/random', [
             'title' => _('Hongo aleatorio'),
             'fungus' => $fungus,
             'session' => $session
@@ -142,13 +146,13 @@ switch (true) {
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $db->updateUserProfile($_SESSION['user_id'], $_POST);
-            renderTemplate('profile.twig', [
+            renderTemplate('/profile', [
                 'title' => 'Mi Perfil',
                 'user' => $db->getUserById($_SESSION['user_id']),
                 'message' => $result ? 'Perfil actualizado' : 'Error al actualizar'
             ]);
         } else {
-            renderTemplate('profile.twig', [
+            renderTemplate('/profile', [
                 'title' => 'Mi Perfil',
                 'user' => $db->getUserById($_SESSION['user_id'])
             ]);
@@ -161,7 +165,7 @@ switch (true) {
             exit;
         }
         
-        renderTemplate('favorites.twig', [
+        renderTemplate('/favorites', [
             'title' => 'Mis Hongos Favoritos',
             'fungi' => $db->getUserFavorites($_SESSION['user_id'])
         ]);
@@ -183,11 +187,11 @@ switch (true) {
         break;
 
     case '/admin': 
-        renderTemplate('admin.twig', ['title' => 'Admin']); 
+        renderTemplate('/admin', ['title' => 'Admin']); 
         break;
 
     case '/reset_password': 
-        renderTemplate('reset_password.twig', ['title' => 'Recuperar contraseña']); 
+        renderTemplate('/reset_password', ['title' => 'Recuperar contraseña']); 
         break;
 
     case '/terms': 
@@ -195,7 +199,7 @@ switch (true) {
         break;
 
     case '/faq': 
-        renderTemplate('faq.twig', ['title' => 'Preguntas frecuentes']); 
+        renderTemplate('/faq', ['title' => 'Preguntas frecuentes']); 
         break;
 
     case '/statistics':
@@ -210,12 +214,6 @@ switch (true) {
         renderTemplate('/statistics', [
             'title' => _('Estadísticas'),
             'stats' => $stats
-        ]);
-        break;
-
-    case '/docs':
-        renderTemplate('/docs/api', [
-            'title' => _('Documentación de API')
         ]);
         break;
 

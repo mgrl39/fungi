@@ -1,0 +1,223 @@
+{# public/templates/header.twig #}
+<style>
+.navbar {
+  background: linear-gradient(120deg, rgba(20, 30, 48, 0.98), rgba(36, 59, 85, 0.98));
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  padding: 1rem 0;
+  backdrop-filter: blur(15px);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 0.8rem;
+}
+
+.navbar-brand:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: #3498db;
+  border-radius: 2px;
+}
+
+.navbar-brand:hover {
+  color: #3498db;
+  text-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+}
+
+.navbar-nav {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.95) !important;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem !important;
+  transition: all 0.3s ease;
+  position: relative;
+  border-radius: 4px;
+}
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: 0;
+  left: 50%;
+  background: #3498db;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 3px;
+}
+
+.nav-link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link:hover:after {
+  width: 80%;
+}
+
+.nav-item.active .nav-link:after {
+  width: 80%;
+}
+
+.dropdown-menu {
+  background: rgba(22, 33, 46, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  padding: 0.8rem;
+  margin-top: 0.7rem;
+  animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.dropdown-item:hover {
+  background: rgba(52, 152, 219, 0.15);
+  color: #3498db;
+  transform: translateX(5px);
+}
+
+.dropdown-item i {
+  margin-right: 10px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover i {
+  transform: scale(1.2);
+}
+
+.dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.15);
+  margin: 0.7rem 0;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 12px;
+  border: 2px solid rgba(52, 152, 219, 0.3);
+  transition: all 0.3s ease;
+  object-fit: cover;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.user-avatar:hover {
+  border-color: #3498db;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.6rem;
+  background: rgba(52, 152, 219, 0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler:hover {
+  background: rgba(52, 152, 219, 0.3);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background: rgba(20, 30, 48, 0.98);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nav-item {
+    margin-bottom: 0.5rem;
+  }
+}
+
+body {
+  padding-top: 76px;
+}
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="/">Base de Datos de Hongos</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item {{ current_route == 'home' ? 'active' : '' }}">
+          <a class="nav-link" href="/">Inicio</a>
+        </li>
+        <li class="nav-item {{ current_route == 'about' ? 'active' : '' }}">
+          <a class="nav-link" href="/about">Acerca de</a>
+        </li>
+        <li class="nav-item {{ current_route == 'contact' ? 'active' : '' }}">
+          <a class="nav-link" href="/contact">Contacto</a>
+        </li>
+        {% if is_logged_in %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="{{ user.avatar|default('/assets/img/default-avatar.png') }}" alt="Avatar" class="user-avatar">
+              <span>{{ user.username }}</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+              <a class="dropdown-item" href="/perfil"><i class="fas fa-user mr-2"></i>Mi Perfil</a>
+              <a class="dropdown-item" href="/configuracion"><i class="fas fa-cog mr-2"></i>Configuración</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión</a>
+            </div>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link btn btn-outline-light btn-sm ml-2 px-3" href="/login">
+              <i class="fas fa-sign-in-alt mr-1"></i> Iniciar Sesión
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

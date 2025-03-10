@@ -4,15 +4,36 @@ namespace App\Controllers;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+/**
+ * @class StatsController
+ * @brief Controlador para generar estadísticas de hongos
+ * 
+ * Esta clase proporciona métodos para recuperar diferentes tipos de estadísticas
+ * relacionadas con los hongos en la base de datos.
+ */
 class StatsController
 {
+    /**
+     * @var \PDO $db Conexión a la base de datos
+     */
     private $db;
 
+    /**
+     * @brief Constructor del controlador de estadísticas
+     * 
+     * @param \PDO $db Instancia de la conexión a la base de datos
+     */
     public function __construct($db)
     {
         $this->db = $db;
     }
 
+    /**
+     * @brief Obtiene todas las estadísticas relacionadas con hongos
+     * 
+     * @param string $timeRange Período de tiempo para las estadísticas ('all', 'week', 'month', 'year')
+     * @return array Conjunto completo de estadísticas organizadas por categorías
+     */
     public function getFungiStats($timeRange = 'all')
     {
         return [
@@ -26,6 +47,12 @@ class StatsController
         ];
     }
 
+    /**
+     * @brief Genera la condición SQL para filtrar por rango de tiempo
+     * 
+     * @param string $timeRange Período de tiempo ('week', 'month', 'year', 'all')
+     * @return string Cláusula WHERE SQL para el filtrado por tiempo
+     */
     private function getTimeRangeCondition($timeRange)
     {
         switch ($timeRange) {
@@ -40,6 +67,12 @@ class StatsController
         }
     }
 
+    /**
+     * @brief Obtiene estadísticas sobre la comestibilidad de los hongos
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Datos de comestibilidad agrupados y contados
+     */
     private function getEdibilityStats($timeRange)
     {
         $timeCondition = $this->getTimeRangeCondition($timeRange);
@@ -53,6 +86,12 @@ class StatsController
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @brief Obtiene estadísticas sobre las familias de hongos más comunes
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Las 10 familias de hongos más comunes con sus recuentos
+     */
     private function getFamilyStats($timeRange)
     {
         $timeCondition = $this->getTimeRangeCondition($timeRange);
@@ -69,6 +108,12 @@ class StatsController
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @brief Obtiene los hongos más populares basados en vistas
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Los 10 hongos más vistos con sus contadores de vistas
+     */
     private function getPopularFungi($timeRange)
     {
         $timeCondition = str_replace('created_at', 'fp.last_view', $this->getTimeRangeCondition($timeRange));
@@ -83,6 +128,12 @@ class StatsController
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @brief Obtiene estadísticas sobre las divisiones taxonómicas de hongos
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Datos de divisiones agrupados y contados
+     */
     private function getDivisionStats($timeRange)
     {
         $timeCondition = $this->getTimeRangeCondition($timeRange);
@@ -96,6 +147,12 @@ class StatsController
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @brief Obtiene estadísticas sobre las clases taxonómicas de hongos
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Las 10 clases más comunes con sus recuentos
+     */
     private function getClassStats($timeRange) 
     {
         $timeCondition = $this->getTimeRangeCondition($timeRange);
@@ -110,6 +167,12 @@ class StatsController
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @brief Obtiene estadísticas sobre los órdenes taxonómicos de hongos
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Los 10 órdenes más comunes con sus recuentos
+     */
     private function getOrderStats($timeRange)
     {
         $timeCondition = $this->getTimeRangeCondition($timeRange);
@@ -124,6 +187,12 @@ class StatsController
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    /**
+     * @brief Obtiene estadísticas sobre la actividad de los usuarios
+     * 
+     * @param string $timeRange Período de tiempo para filtrar los resultados
+     * @return array Datos de actividad de usuario agrupados por acción y fecha
+     */
     private function getUserActivityStats($timeRange)
     {
         $interval = match($timeRange) {
