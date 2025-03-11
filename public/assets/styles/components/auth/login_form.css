@@ -1,101 +1,173 @@
+/* Contenedor principal - ocupa toda la pantalla y centra el contenido */
 .auth-container {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 120px);
+  justify-content: center;
   padding: 2rem;
-}
-
-.auth-card {
-  background-color: var(--card-bg);
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 420px;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.auth-header {
-  padding: 1.5rem;
-  background-color: var(--tertiary-bg);
-  border-bottom: 1px solid var(--border-color);
-  text-align: center;
-}
-
-.auth-header h2 {
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.auth-header p {
-  color: var(--text-secondary);
-  margin-bottom: 0;
-}
-
-.auth-form {
-  padding: 2rem;
-}
-
-.auth-form .form-group:last-child {
-  margin-bottom: 0;
-}
-
-.auth-form .btn {
-  margin-top: 1rem;
-}
-
-.auth-footer {
-  padding: 1.5rem;
-  background-color: var(--tertiary-bg);
-  border-top: 1px solid var(--border-color);
-  text-align: center;
-}
-
-.auth-footer p {
-  margin-bottom: 0;
-  color: var(--text-secondary);
-}
-
-.auth-footer a {
-  font-weight: 600;
-}
-
-/* Animated background */
-.auth-container {
   position: relative;
   overflow: hidden;
 }
 
+/* Efecto de ondas en el fondo, similar al de la página principal */
 .auth-container::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 70%);
-  animation: rotate 30s linear infinite;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/assets/images/pattern-bg.svg');
+  background-size: cover;
+  opacity: 0.05;
+  z-index: 0;
+  animation: move-bg 20s linear infinite;
 }
 
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+@keyframes move-bg {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Tarjeta principal */
+.auth-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  position: relative;
+  z-index: 1;
+  transform: translateY(0);
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
+.auth-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Cabecera de la tarjeta */
+.auth-header {
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 50% 50% 0 0;
+  opacity: 0.1;
+}
+
+.auth-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+/* Contenido principal */
+.auth-body {
+  padding: 2.5rem 2rem;
+}
+
+/* Formulario y controles */
+.auth-body .form-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.auth-body .form-control {
+  height: 3.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.auth-body .form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.auth-body .form-control::placeholder {
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+/* Botón de login */
+.btn-login {
+  height: 3.25rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  border: none;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+  padding: 0 1.5rem;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+
+
+/* Alertas */
+.alert {
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  border: none;
+  font-size: 0.95rem;
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.alert-success {
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
 /* Responsive */
 @media (max-width: 576px) {
   .auth-container {
-    padding: 1rem;
+      padding: 1rem;
   }
-
-  .auth-form {
-    padding: 1.5rem;
+  
+  .auth-card {
+      max-width: 100%;
+  }
+  
+  .auth-header {
+      padding: 1.5rem;
+  }
+  
+  .auth-body {
+      padding: 1.5rem 1.25rem;
+  }
+  
+  .auth-footer {
+      padding: 1.25rem;
   }
 }
