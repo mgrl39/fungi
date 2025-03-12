@@ -1,0 +1,96 @@
+\doxysection{App\textbackslash{}Controllers\textbackslash{}Lang\+Controller Class Reference}
+\hypertarget{classApp_1_1Controllers_1_1LangController}{}\label{classApp_1_1Controllers_1_1LangController}\index{App\textbackslash{}Controllers\textbackslash{}LangController@{App\textbackslash{}Controllers\textbackslash{}LangController}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_ad665455fab964cc78b301960f255548c}{\+\_\+\+\_\+construct}} ()
+\begin{DoxyCompactList}\small\item\em Constructor del controlador de idioma. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_a13fbc690481f06279c66dd4e168bbc14}{change\+Language}} ()
+\begin{DoxyCompactList}\small\item\em Cambia el idioma de la aplicación. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{LangController_8php_source_l00005}{5}} of file \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1LangController_ad665455fab964cc78b301960f255548c}\label{classApp_1_1Controllers_1_1LangController_ad665455fab964cc78b301960f255548c} 
+\index{App\textbackslash{}Controllers\textbackslash{}LangController@{App\textbackslash{}Controllers\textbackslash{}LangController}!\_\_construct@{\_\_construct}}
+\index{\_\_construct@{\_\_construct}!App\textbackslash{}Controllers\textbackslash{}LangController@{App\textbackslash{}Controllers\textbackslash{}LangController}}
+\doxysubsubsection{\texorpdfstring{\_\_construct()}{\_\_construct()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\+::\+\_\+\+\_\+construct (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Constructor del controlador de idioma. 
+
+
+
+Definition at line \mbox{\hyperlink{LangController_8php_source_l00010}{10}} of file \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00011\ \ \ \ \ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inicialización\ si\ es\ necesaria}}
+\DoxyCodeLine{00013\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classApp_1_1Controllers_1_1LangController_a13fbc690481f06279c66dd4e168bbc14}\label{classApp_1_1Controllers_1_1LangController_a13fbc690481f06279c66dd4e168bbc14} 
+\index{App\textbackslash{}Controllers\textbackslash{}LangController@{App\textbackslash{}Controllers\textbackslash{}LangController}!changeLanguage@{changeLanguage}}
+\index{changeLanguage@{changeLanguage}!App\textbackslash{}Controllers\textbackslash{}LangController@{App\textbackslash{}Controllers\textbackslash{}LangController}}
+\doxysubsubsection{\texorpdfstring{changeLanguage()}{changeLanguage()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\+::change\+Language (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cambia el idioma de la aplicación. 
+
+\begin{DoxyReturn}{Returns}
+array Respuesta con el resultado del cambio de idioma 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{LangController_8php_source_l00020}{20}} of file \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ idioma\ seleccionado}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \$lang\ =\ \$\_POST[\textcolor{stringliteral}{'lang'}]\ ??\ \textcolor{stringliteral}{'es'};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ que\ el\ idioma\ esté\ entre\ los\ soportados}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \$idiomasSoportados\ =\ [\textcolor{stringliteral}{'es'},\ \textcolor{stringliteral}{'en'},\ \textcolor{stringliteral}{'ca'},\ \textcolor{stringliteral}{'fr'},\ \textcolor{stringliteral}{'de'}];}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in\_array(\$lang,\ \$idiomasSoportados))\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ el\ idioma\ en\ la\ sesión}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ =\ \$lang;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ una\ solicitud\ AJAX}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \$isAjax\ =\ !empty(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_X\_REQUESTED\_WITH'}])\ \&\&\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strtolower(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_X\_REQUESTED\_WITH'}])\ ==\ \textcolor{stringliteral}{'xmlhttprequest'};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$isAjax)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ es\ AJAX,\ devolvemos\ un\ JSON\ con\ estado\ de\ éxito}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'language'}\ =>\ \$lang]);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ es\ AJAX,\ redirigir\ a\ la\ página\ anterior\ o\ principal}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \$redirect\ =\ \$\_POST[\textcolor{stringliteral}{'redirect'}]\ ??\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ '}\ .\ \$redirect);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/controllers/\mbox{\hyperlink{LangController_8php}{Lang\+Controller.\+php}}\end{DoxyCompactItemize}
