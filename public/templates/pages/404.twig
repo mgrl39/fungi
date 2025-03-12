@@ -1,269 +1,55 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ idioma_actual }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página no encontrada</title>
-    
-    <!-- Bootstrap CSS -->
+    <title>{{ _('Página no encontrada') }}</title>
     <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
-    
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="/assets/styles/generic.css">
-    <link rel="stylesheet" href="/assets/styles/components/auth/login_form.css">
-    
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
-    
-    <!-- Animate.css para animaciones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <!-- AOS para efectos de scroll -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <style>
-        .error-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .error-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(18, 24, 39, 0.8), rgba(18, 24, 39, 0.9)), url('/assets/images/hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.1;
-            z-index: 0;
-            animation: move-bg 20s linear infinite;
-        }
-        
-        @keyframes move-bg {
-            0% { background-position: 0 0; }
-            100% { background-position: 100% 100%; }
-        }
-        
-        .error-card {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 550px;
-            position: relative;
-            z-index: 1;
-            transform: translateY(0);
-            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
-            text-align: center;
-            padding-bottom: 2rem;
-        }
-        
-        .error-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-        }
-        
-        .error-header {
-            background: linear-gradient(to right, #3b82f6, #2563eb);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            margin-bottom: 2rem;
-        }
-        
-        .error-header::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: #ffffff;
-            border-radius: 50% 50% 0 0;
-            opacity: 0.1;
-        }
-        
-        .error-icon {
-            font-size: 4rem;
-            margin-bottom: 0.5rem;
-            color: white;
-        }
-        
-        .error-code {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .error-title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #1f2937;
-        }
-        
-        .error-message {
-            font-size: 1.1rem;
-            color: #6b7280;
-            margin-bottom: 2rem;
-            padding: 0 2rem;
-        }
-        
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(to right, #3b82f6, #2563eb);
-            border: none;
-            color: white;
-            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3);
-            background: linear-gradient(to right, #2563eb, #1d4ed8);
-        }
-        
-        .btn-outline-secondary {
-            border: 2px solid #9ca3af;
-            color: #4b5563;
-            background: transparent;
-        }
-        
-        .btn-outline-secondary:hover {
-            background-color: #f9fafb;
-            color: #1f2937;
-            border-color: #6b7280;
-            transform: translateY(-3px);
-        }
-        
-        .btn::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(45deg);
-            top: -60px;
-            left: -100px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover::after {
-            left: 120%;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        /* Mushroom animations */
-        .mushroom-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 0;
-            pointer-events: none;
-        }
-        
-        .mushroom {
-            position: absolute;
-            bottom: -10px;
-            font-size: 2rem;
-            opacity: 0.5;
-            animation: float 8s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-    </style>
 </head>
-<body>
-    <div class="error-container">
-        <!-- Hongos decorativos flotantes -->
-        <div class="mushroom-container">
-            <i class="fas fa-mushroom mushroom animate__animated animate__fadeIn" style="left: 10%; animation-delay: 0.2s; font-size: 1.5rem;"></i>
-            <i class="fas fa-mushroom mushroom animate__animated animate__fadeIn" style="left: 20%; animation-delay: 1.5s; font-size: 2.5rem;"></i>
-            <i class="fas fa-mushroom mushroom animate__animated animate__fadeIn" style="left: 35%; animation-delay: 0.8s; font-size: 1.8rem;"></i>
-            <i class="fas fa-mushroom mushroom animate__animated animate__fadeIn" style="left: 60%; animation-delay: 2s; font-size: 3rem;"></i>
-            <i class="fas fa-mushroom mushroom animate__animated animate__fadeIn" style="left: 75%; animation-delay: 1.2s; font-size: 2rem;"></i>
-            <i class="fas fa-mushroom mushroom animate__animated animate__fadeIn" style="left: 90%; animation-delay: 0.5s; font-size: 1.7rem;"></i>
-        </div>
-        
-        <div class="error-card animate__animated animate__fadeIn" data-aos="fade-up">
-            <div class="error-header">
-                <i class="fas fa-exclamation-triangle error-icon animate__animated animate__tada animate__delay-1s"></i>
-                <h1 class="error-code animate__animated animate__bounceIn animate__delay-1s">404</h1>
+<body style="background-color: #131828;">
+    
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center py-5">
+        <div class="card animate__animated animate__fadeInUp border-0 rounded-4 text-center shadow-lg" style="max-width: 550px">
+            <div class="card-header bg-primary bg-gradient text-white p-4 border-0">
+                <i class="fas fa-exclamation-triangle display-1 animate__animated animate__tada animate__delay-1s mb-3"></i>
+                <h1 class="display-4 fw-bold animate__animated animate__bounceIn animate__delay-1s">404</h1>
             </div>
             
-            <h2 class="error-title" data-aos="fade-up" data-aos-delay="200">
-                {{ _('Página no encontrada') }}
-            </h2>
+            <div class="card-body p-4 p-lg-5">
+                <h2 class="fs-2 fw-semibold mb-4 text-primary">
+                    {{ _('Página no encontrada') }}
+                </h2>
+                
+                <p class="text-secondary fs-5 mb-4">
+                    {{ _('Lo sentimos, la página que buscas no existe o ha sido movida a otra ubicación.') }}
+                </p>
+                
+                <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+                    <a href="/" class="btn btn-primary btn-lg fw-semibold animate__animated animate__pulse animate__infinite animate__slower">
+                        <i class="fas fa-home me-2"></i> {{ _('Volver al inicio') }}
+                    </a>
+                    <a href="/contact" class="btn btn-outline-primary btn-lg fw-semibold">
+                        <i class="fas fa-envelope me-2"></i> {{ _('Contactar') }}
+                    </a>
+                </div>
+                
+                <div class="alert alert-info my-4" role="alert">
+                    <i class="fas fa-info-circle me-2"></i> 
+                    {{ _('Si crees que esto es un error, por favor contacta con nuestro equipo de soporte.') }}
+                </div>
+            </div>
             
-            <p class="error-message" data-aos="fade-up" data-aos-delay="400">
-                {{ _('Lo sentimos, la página que buscas no existe o ha sido movida a otra ubicación.') }}
-            </p>
-            
-            <div class="action-buttons" data-aos="fade-up" data-aos-delay="600">
-                <a href="/" class="btn btn-primary animate__animated animate__pulse animate__infinite animate__slower">
-                    <i class="fas fa-home"></i> {{ _('Volver al inicio') }}
-                </a>
-                <a href="/contact" class="btn btn-outline-secondary">
-                    <i class="fas fa-envelope"></i> {{ _('Contactar') }}
+            <div class="card-footer py-3 bg-light border-0">
+                <a href="javascript:history.back()" class="btn btn-link text-decoration-none">
+                    <i class="fas fa-arrow-left me-1"></i> {{ _('Volver atrás') }}
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts de Bootstrap -->
     <script src="/assets/lib/jquery.min.js"></script>
     <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        // Inicializar AOS
-        AOS.init({
-            duration: 800,
-            once: true
-        });
-        
-        // Función para posicionar los hongos aleatoriamente
-        document.addEventListener('DOMContentLoaded', function() {
-            const mushrooms = document.querySelectorAll('.mushroom');
-            mushrooms.forEach(mushroom => {
-                // Animación con duración aleatoria
-                const duration = 5 + Math.random() * 10;
-                mushroom.style.animationDuration = duration + 's';
-                
-                // Retraso aleatorio
-                const delay = Math.random() * 3;
-                mushroom.style.animationDelay = delay + 's';
-            });
-        });
-    </script>
 </body>
 </html>

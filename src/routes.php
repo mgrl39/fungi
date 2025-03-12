@@ -340,13 +340,15 @@ $routes = [
             ];
         }
     ],
-    '/random' => [
+    '/random' => ['template' => null, 'redirect' => '/fungi/random'],
+    '/home' => ['template' => null, 'redirect' => '/'],
+    '/change-language' => [
         'template' => null,
-        'redirect' => '/fungi/random'
-    ],
-    '/home' => [
-        'template' => null,
-        'redirect' => '/'
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session) {
+            $langController = new \App\Controllers\LangController();
+            return $langController->changeLanguage();
+        }
     ],
 ];
 
