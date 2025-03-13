@@ -11,8 +11,29 @@ use Twig\Extension\DebugExtension;
 use Dotenv\Dotenv;
 use App\Config\ErrorMessages;
 
+/**
+ * @class AppInitializer
+ * @brief Clase responsable de la inicialización de la aplicación
+ * 
+ * Esta clase maneja la configuración inicial de la aplicación, incluyendo:
+ * - Carga de variables de entorno
+ * - Inicialización de sesiones
+ * - Configuración de internacionalización (i18n)
+ * - Inicialización de controladores
+ * - Configuración del motor de plantillas Twig
+ */
 class AppInitializer
 {
+    /**
+     * @brief Inicializa todos los componentes necesarios de la aplicación
+     * 
+     * @return array Array conteniendo las instancias inicializadas en el siguiente orden:
+     *               [DatabaseController, AuthController, SessionController, Twig\Environment]
+     * 
+     * @throws \RuntimeException Si no se encuentra el directorio de traducciones
+     * @throws \RuntimeException Si no se encuentra el directorio de templates
+     * @throws \RuntimeException Si no se encuentra la clase DatabaseController
+     */
     public static function initialize()
     {
         // Cargar variables de entorno si existe un archivo .env
