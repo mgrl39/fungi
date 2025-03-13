@@ -27,12 +27,19 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                {% if is_logged_in %}
-                <li class="nav-item dropdown">
+                <li id="auth-status" class="d-none">
+                    <span class="nav-link">
+                        <div class="spinner-border spinner-border-sm text-light" role="status">
+                            <span class="visually-hidden">{{ _('Cargando...') }}</span>
+                        </div>
+                    </span>
+                </li>
+                
+                <li id="user-dropdown" class="nav-item dropdown d-none">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle"></i>
-                        {{ user.username }}
+                        <span id="username-display"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/profile">
@@ -41,25 +48,24 @@
                         <a class="dropdown-item" href="/favorites">
                             <i class="fas fa-heart"></i> {{ _('Favoritos') }}
                         </a>
-                        {% if user.is_admin %}
-                        <a class="dropdown-item" href="/admin">
-                            <i class="fas fa-cogs"></i> {{ _('Administración') }}
-                        </a>
-                        {% endif %}
+                        <li id="admin-option" class="d-none">
+                            <a class="dropdown-item" href="/admin">
+                                <i class="fas fa-cogs"></i> {{ _('Administración') }}
+                            </a>
+                        </li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/logout">
+                        <a class="dropdown-item" href="#" onclick="logout(); return false;">
                             <i class="fas fa-sign-out-alt"></i> {{ _('Cerrar sesión') }}
                         </a>
                     </ul>
                 </li>
-                {% else %}
-                <li class="nav-item">
+                
+                <li id="login-button" class="nav-item d-none">
                     <a class="nav-link btn btn-outline-light btn-sm me-2" href="/login">{{ _('Iniciar sesión') }}</a>
                 </li>
-                <li class="nav-item">
+                <li id="register-button" class="nav-item d-none">
                     <a class="nav-link btn btn-primary btn-sm" href="/register">{{ _('Registrarse') }}</a>
                 </li>
-                {% endif %}
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
@@ -97,3 +103,56 @@
 </nav>
 
 <script src="/assets/scripts/lang_switch.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('jwt_token');
+        const loadingIndicator = document.getElementById('auth-status');
+        const userDropdown = document.getElementById('user-dropdown');
+        const loginButton = document.getElementById('login-button');
+        const registerButton = document.getElementById('register-button');
+        const adminOption = document.getElementById('admin-option');
+        const usernameDisplay = document.getElementById('username-display');
+        
+        loadingIndicator.classList.remove('d-none');
+        
+        async function checkAuthentication() {
+            try {
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                const response = await fetch('/api/auth/verify', { 
+                    method: 'GET',
+                    headers: headers
+                });
+                
+                const data = await response.json();
+                
+                loadingIndicator.classList.add('d-none');
+                
+                if (data.success && data.authenticated) {
+                    userDropdown.classList.remove('d-none');
+                    usernameDisplay.textContent = data.user.username;
+                    
+                    if (data.user.role === 'admin') {
+                        adminOption.classList.remove('d-none');
+                    }
+                } else {
+                    loginButton.classList.remove('d-none');
+                    registerButton.classList.remove('d-none');
+                }
+            } catch (error) {
+                console.error('Error al verificar autenticación:', error);
+                loadingIndicator.classList.add('d-none');
+                
+                loginButton.classList.remove('d-none');
+                registerButton.classList.remove('d-none');
+            }
+        }
+        
+        window.logout = function() {
+            localStorage.removeItem('jwt_token');
+            window.location.href = '/';
+        }
+        
+        checkAuthentication();
+    });
+</script>

@@ -132,6 +132,39 @@ class ApiController
 	 */
 	private function handleGet($endpoint)
 	{
+		// Verificar el token de autenticación si se ha enviado
+		$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+		$token = null;
+		$user = null;
+		
+		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+			$token = $matches[1];
+			$payload = $this->verifyJwtToken($token);
+			if ($payload) {
+				$user = [
+					'id' => $payload['sub'],
+					'username' => $payload['username'],
+					'role' => $payload['role']
+				];
+			}
+		}
+
+		if ($endpoint === 'auth/verify') {
+			if ($user) {
+				echo json_encode([
+					'success' => true,
+					'authenticated' => true,
+					'user' => $user
+				]);
+			} else {
+				echo json_encode([
+					'success' => true,
+					'authenticated' => false
+				]);
+			}
+			return;
+		}
+
 		if ($endpoint === 'fungi' || $endpoint === 'fungi/all') {
 			$stmt = $this->pdo->query("SELECT * FROM fungi");
 			echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
