@@ -16,8 +16,7 @@ var searchData=
   ['configuración_20de_20seguridad_13',['Configuración de Seguridad',['../group__Configuraci_xC3_xB3nSeguridad.html',1,'']]],
   ['configuración_20del_20entorno_14',['Configuración del Entorno',['../group__Configuraci_xC3_xB3nEntorno.html',1,'']]],
   ['contacto_15',['📧 Contacto',['../index.html#autotoc_md14',1,'']]],
-  ['createjwt_16',['createjwt',['../classApp_1_1Controllers_1_1SessionController.html#a8bee37c91b4969523671e321012be062',1,'App\Controllers\SessionController\createJWT()'],['../classApp_1_1Controllers_1_1AuthController.html#acbdad71780d5fdd8b8245739664aba6b',1,'App\Controllers\AuthController\createJWT($user)']]],
-  ['createsecurecookie_17',['createsecurecookie',['../classApp_1_1Controllers_1_1AuthController.html#a722aae18417e35bad00c945dd381da08',1,'App\Controllers\AuthController\createSecureCookie()'],['../classApp_1_1Controllers_1_1SessionController.html#a03a07cce4b1c478bbc3cfb8cbbbd45f3',1,'App\Controllers\SessionController\createSecureCookie($name, $value)']]],
-  ['createsession_18',['createSession',['../classApp_1_1Controllers_1_1SessionController.html#aa7bed0a2db8207f56064e84ceb8cfe6d',1,'App::Controllers::SessionController']]],
-  ['createuser_19',['createUser',['../classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be',1,'App::Controllers::DatabaseController']]]
+  ['createjwt_16',['createjwt',['../classApp_1_1Controllers_1_1SessionController.html#a9c77e52cb1354b1771887b0c16ad2707',1,'App\Controllers\SessionController\createJWT()'],['../classApp_1_1Controllers_1_1AuthController.html#acbdad71780d5fdd8b8245739664aba6b',1,'App\Controllers\AuthController\createJWT($user)']]],
+  ['createsecurecookie_17',['createsecurecookie',['../classApp_1_1Controllers_1_1AuthController.html#a722aae18417e35bad00c945dd381da08',1,'App\Controllers\AuthController\createSecureCookie()'],['../classApp_1_1Controllers_1_1SessionController.html#af4957965f46e78ac86c6bb6b57b2923b',1,'App\Controllers\SessionController\createSecureCookie()']]],
+  ['createuser_18',['createUser',['../classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be',1,'App::Controllers::DatabaseController']]]
 ];

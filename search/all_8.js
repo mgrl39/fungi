@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['generatejwt_0',['generatejwt',['../classApp_1_1Controllers_1_1AuthController.html#ab06917fbe57ab9b399e1d66d81807c4f',1,'App\Controllers\AuthController\generateJWT()'],['../classApp_1_1Controllers_1_1SessionController.html#aaa3c21f67d300b5bd148e0d5bf6849d0',1,'App\Controllers\SessionController\generateJWT()']]],
+  ['generatejwt_0',['generatejwt',['../classApp_1_1Controllers_1_1AuthController.html#ab06917fbe57ab9b399e1d66d81807c4f',1,'App\Controllers\AuthController\generateJWT()'],['../classApp_1_1Controllers_1_1SessionController.html#a6470d3ef78fcc052c47033950d37d3ea',1,'App\Controllers\SessionController\generateJWT()']]],
   ['generatejwttoken_1',['generateJwtToken',['../classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd',1,'App::Controllers::ApiController']]],
-  ['generatesessiontoken_2',['generateSessionToken',['../classApp_1_1Controllers_1_1AuthController.html#a239c918cc9affeb44f560d762bdf61ce',1,'App::Controllers::AuthController']]],
+  ['generatesessiontoken_2',['generatesessiontoken',['../classApp_1_1Controllers_1_1AuthController.html#a239c918cc9affeb44f560d762bdf61ce',1,'App\Controllers\AuthController\generateSessionToken()'],['../classApp_1_1Controllers_1_1SessionController.html#ae3933775c8869c5a51ad9d8504efcec1',1,'App\Controllers\SessionController\generateSessionToken()']]],
   ['generic_2ecss_3',['generic.css',['../generic_8css.html',1,'']]],
   ['getalldata_4',['getAllData',['../classApp_1_1Controllers_1_1DatabaseController.html#ab9b86cbe38e56fc4238c77fb3bec08f5',1,'App::Controllers::DatabaseController']]],
   ['getbaseurl_5',['getBaseUrl',['../routes_8php.html#ae1ca0d2444e3cca6b147445348f686de',1,'routes.php']]],
@@ -13,16 +13,17 @@ var searchData=
   ['getfamilystats_10',['getFamilyStats',['../classApp_1_1Controllers_1_1StatsController.html#a9e0cdd48bfd132bccade19031dca3c25',1,'App::Controllers::StatsController']]],
   ['getfungibyhabitat_11',['getFungiByHabitat',['../classApp_1_1Controllers_1_1DatabaseController.html#a7ae23aa03545698a1423afd45ceebe36',1,'App::Controllers::DatabaseController']]],
   ['getfungispaginated_12',['getFungisPaginated',['../classApp_1_1Controllers_1_1DatabaseController.html#aa8e8c47fed6b4abaa5694f72f09b25c5',1,'App::Controllers::DatabaseController']]],
-  ['getfungistats_13',['getfungistats',['../classApp_1_1Controllers_1_1StatsController.html#a944a68a075295dfdc85e7e403b469358',1,'App\Controllers\StatsController\getFungiStats()'],['../classApp_1_1Controllers_1_1DatabaseController.html#ab352d18b617d4ef96132460f807f8c9f',1,'App\Controllers\DatabaseController\getFungiStats()']]],
+  ['getfungistats_13',['getfungistats',['../classApp_1_1Controllers_1_1DatabaseController.html#ab352d18b617d4ef96132460f807f8c9f',1,'App\Controllers\DatabaseController\getFungiStats()'],['../classApp_1_1Controllers_1_1StatsController.html#a944a68a075295dfdc85e7e403b469358',1,'App\Controllers\StatsController\getFungiStats()']]],
   ['getfungusbyid_14',['getFungusById',['../classApp_1_1Controllers_1_1DatabaseController.html#a1d82a75b80139deb6f83dcf6de0cd808',1,'App::Controllers::DatabaseController']]],
   ['getfunguswithlikestatus_15',['getFungusWithLikeStatus',['../classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451',1,'App::Controllers::FungiController']]],
   ['getorderstats_16',['getOrderStats',['../classApp_1_1Controllers_1_1StatsController.html#a2ff7db3ac8f173dbccfbbb9d61b9412f',1,'App::Controllers::StatsController']]],
   ['getpopularfungi_17',['getPopularFungi',['../classApp_1_1Controllers_1_1StatsController.html#a9e81a77bff8dcf7481dbc58a4265ebe8',1,'App::Controllers::StatsController']]],
   ['getrandomfungus_18',['getRandomFungus',['../classApp_1_1Controllers_1_1DatabaseController.html#aadf93af3dbc66496d286d96274403d05',1,'App::Controllers::DatabaseController']]],
-  ['getsecretkey_19',['getSecretKey',['../classApp_1_1Controllers_1_1AuthController.html#a303b63d25aff7ffc1fdc5b8dfef00f73',1,'App::Controllers::AuthController']]],
+  ['getsecretkey_19',['getsecretkey',['../classApp_1_1Controllers_1_1AuthController.html#a303b63d25aff7ffc1fdc5b8dfef00f73',1,'App\Controllers\AuthController\getSecretKey()'],['../classApp_1_1Controllers_1_1SessionController.html#a3b17420266868d8c5927e8527e91ce89',1,'App\Controllers\SessionController\getSecretKey()']]],
   ['getsimilarfungi_20',['getSimilarFungi',['../classApp_1_1Controllers_1_1DatabaseController.html#a3c76de5ae84b5d0f77ccb1a31234301d',1,'App::Controllers::DatabaseController']]],
   ['gettimerangecondition_21',['getTimeRangeCondition',['../classApp_1_1Controllers_1_1StatsController.html#acbcc9cd24df7ea83bb72e818e3cf4ebe',1,'App::Controllers::StatsController']]],
   ['getuseractivitystats_22',['getUserActivityStats',['../classApp_1_1Controllers_1_1StatsController.html#a35b229bcab9985c40a2c2b2a26d8b774',1,'App::Controllers::StatsController']]],
-  ['getuserfavorites_23',['getUserFavorites',['../classApp_1_1Controllers_1_1DatabaseController.html#a1a99badc73eadc529fa7f88fc2d5dccb',1,'App::Controllers::DatabaseController']]],
-  ['guía_20de_20inicio_20rápido_24',['🚀 Guía de Inicio Rápido',['../index.html#autotoc_md6',1,'']]]
+  ['getuserdata_23',['getUserData',['../classApp_1_1Controllers_1_1SessionController.html#a7fc8763bff5246f1b5c90bfb73d616b1',1,'App::Controllers::SessionController']]],
+  ['getuserfavorites_24',['getUserFavorites',['../classApp_1_1Controllers_1_1DatabaseController.html#a1a99badc73eadc529fa7f88fc2d5dccb',1,'App::Controllers::DatabaseController']]],
+  ['guía_20de_20inicio_20rápido_25',['🚀 Guía de Inicio Rápido',['../index.html#autotoc_md6',1,'']]]
 ];
