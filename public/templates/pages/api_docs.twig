@@ -6,159 +6,565 @@
     <title>{{ title }}</title>
     
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
+    
+    <!-- CSS Personalizados -->
+    <link rel="stylesheet" href="/assets/styles/generic.css">
+    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
+    <link rel="stylesheet" href="/assets/styles/components/footer.css">
+    <link rel="stylesheet" href="/assets/styles/pages/home.css">
     
     <!-- Font Awesome para iconos (versión local) -->
-    <link rel="stylesheet" href="../assets/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
     
-    <!-- Estilos específicos para documentación -->
+    <!-- Estilos personalizados mínimos -->
+    <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/assets/lib/aos/aos.css">
+    
     <style>
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            font-family: 'Roboto', sans-serif;
-        }
-        .api-header {
-            background-color: #343a40;
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        .endpoint-card {
-            margin-bottom: 1rem;
-            border-radius: 0.25rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .endpoint-header {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,.125);
-        }
+        /* Estilos específicos para la documentación de API */
         .method {
-            font-weight: bold;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            margin-right: 1rem;
-            min-width: 80px;
-            text-align: center;
+            padding: 0.35rem 0.65rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
         }
-        .get { background-color: #61affe; color: white; }
-        .post { background-color: #49cc90; color: white; }
-        .put { background-color: #fca130; color: white; }
-        .delete { background-color: #f93e3e; color: white; }
-        .endpoint-body {
-            padding: 1rem;
-            background-color: #fff;
+        .method.get { background-color: #61affe; color: white; }
+        .method.post { background-color: #49cc90; color: white; }
+        .method.put { background-color: #fca130; color: white; }
+        .method.delete { background-color: #f93e3e; color: white; }
+        
+        /* Personalizaciones de contraste para mejorar la legibilidad */
+        .card {
+            background-color: var(--secondary-bg);
+            border: 1px solid var(--border-color);
         }
-        .category-title {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #dee2e6;
+        
+        .card-header {
+            background-color: var(--tertiary-bg);
         }
-        .api-version {
-            background-color: #e9ecef;
-            border-radius: 4px;
-            padding: 0.5rem 1rem;
-            display: inline-block;
-            margin-bottom: 1rem;
+        
+        .card-body {
+            color: var(--text-primary);
+        }
+        
+        .bg-light {
+            background-color: var(--tertiary-bg) !important;
+        }
+        
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        pre code {
+            color: #f8f9fa;
+        }
+        
+        .list-group-item {
+            background-color: var(--tertiary-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        
+        .list-group-item:hover, .list-group-item.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-hover);
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .badge.bg-light {
+            background-color: var(--tertiary-bg) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        /* Estilos para la sección interactiva */
+        .api-playground {
+            margin-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+        
+        .api-response {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .json-formatter {
+            font-family: monospace;
+            white-space: pre;
+        }
+        
+        .param-input {
+            background-color: var(--input-bg);
+            color: var(--input-color);
+            border: 1px solid var(--input-border);
+        }
+        
+        .param-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem var(--focus-ring);
         }
     </style>
 </head>
 <body>
-    <header class="api-header text-center">
-        <div class="container">
-            <h1>{{ title }}</h1>
-            <p class="lead">Referencia completa de endpoints disponibles</p>
-            <div class="api-version">Versión: {{ api_docs.api_version }}</div>
-        </div>
+    <header>
+        {% include 'components/navbar.twig' %}
     </header>
-    
-    <div class="container mb-5">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- Barra lateral de navegación -->
-                <div class="sticky-top pt-3">
-                    <div class="list-group">
-                        {% for category, endpoints in api_docs.available_endpoints %}
-                            <a href="#{{ category|lower }}" class="list-group-item list-group-item-action">{{ category }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
+
+    <main>
+        <section class="bg-primary text-white text-center py-5 animate__animated animate__fadeIn">
+            <div class="container">
+                <h1 class="display-4 animate__animated animate__pulse animate__infinite animate__slower">{{ title }}</h1>
+                <p class="lead">Referencia completa de endpoints disponibles</p>
+                <div class="badge bg-light">Versión: v1</div>
             </div>
-            
-            <div class="col-md-9">
-                <!-- Contenido principal -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2>Introducción</h2>
-                        <p>Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code>/api</code>.</p>
-                        <p>Las respuestas están en formato JSON y generalmente incluyen un campo <code>success</code> para indicar si la solicitud fue exitosa.</p>
+        </section>
+        
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-md-3">
+                    <!-- Barra lateral de navegación -->
+                    <div class="sticky-top pt-3" data-aos="fade-right">
+                        <div class="list-group">
+                            <a href="#fungi" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <i class="fas fa-mushroom me-2"></i> Fungi
+                            </a>
+                            <a href="#users" class="list-group-item list-group-item-action d-flex align-items-center">
+                                <i class="fas fa-users me-2"></i> Users
+                            </a>
+                        </div>
                     </div>
                 </div>
                 
-                {% for category, endpoints in api_docs.available_endpoints %}
-                    <h2 id="{{ category|lower }}" class="category-title">{{ category }}</h2>
+                <div class="col-md-9">
+                    <!-- Contenido principal -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up">
+                        <div class="card-body">
+                            <h2 class="card-title"><i class="fas fa-info-circle me-2 text-primary"></i> Introducción</h2>
+                            <p class="card-text">Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code>/api</code>.</p>
+                            <p class="card-text">Las respuestas están en formato JSON y generalmente incluyen un campo <code>success</code> para indicar si la solicitud fue exitosa.</p>
+                            <p class="card-text"><strong>¡Prueba los endpoints directamente desde esta documentación!</strong> Puedes enviar solicitudes reales y ver las respuestas sin salir de esta página.</p>
+                        </div>
+                    </div>
                     
-                    {% for endpoint, description in endpoints %}
-                        <div class="endpoint-card">
-                            <div class="endpoint-header">
-                                {% set method = endpoint|split(' ')|first %}
-                                <span class="method {{ method|lower }}">{{ method }}</span>
-                                <span class="url">{{ endpoint|split(' ')|last }}</span>
-                            </div>
-                            <div class="endpoint-body">
-                                <p>{{ description }}</p>
+                    <!-- Sección Fungi -->
+                    <h2 id="fungi" class="border-bottom pb-2 mb-4 mt-5" data-aos="fade-up">
+                        <i class="fas fa-mushroom me-2 text-primary"></i> Fungi
+                    </h2>
+                    
+                    <!-- GET /api/fungi -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method get me-3">GET</span>
+                            <span class="fw-bold text-break">/api/fungi</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Obtiene la lista completa de todos los hongos disponibles en la base de datos.</p>
+                            
+                            <div class="api-playground">
+                                <button class="btn btn-primary btn-sm test-api" data-method="GET" data-endpoint="/api/fungi">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
                                 
-                                <!-- Ejemplos de respuesta para algunos endpoints -->
-                                {% if endpoint == 'GET /api/fungi' %}
-                                    <h5>Ejemplo de respuesta:</h5>
-                                    <pre class="bg-light p-3 rounded"><code>{
-  "success": true,
-  "data": [
-    {
-      "id": 1,
-      "name": "russula-heterophylla",
-      "edibility": "buen-comestible",
-      "habitat": "...",
-      "observations": "...",
-      "image_urls": "/assets/images/russula-heterophylla_1.jpg,..."
-    },
-    // Más hongos...
-  ]
-}</code></pre>
-                                {% endif %}
-                                
-                                {% if endpoint == 'GET /api/fungi/{id}' %}
-                                    <h5>Ejemplo de respuesta:</h5>
-                                    <pre class="bg-light p-3 rounded"><code>{
-  "success": true,
-  "data": {
-    "id": 1,
-    "name": "russula-heterophylla",
-    "edibility": "buen-comestible",
-    "habitat": "...",
-    "observations": "..."
-  }
-}</code></pre>
-                                {% endif %}
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    {% endfor %}
-                {% endfor %}
+                    </div>
+                    
+                    <!-- GET /api/fungi/{id} -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method get me-3">GET</span>
+                            <span class="fw-bold text-break">/api/fungi/{id}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Obtiene información detallada de un hongo específico por su ID.</p>
+                            
+                            <div class="api-playground">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fungi-id" class="form-label">ID del hongo:</label>
+                                            <input type="number" class="form-control param-input" id="fungi-id" value="1" min="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-sm test-api" data-method="GET" data-endpoint="/api/fungi/{id}" data-param-id="fungi-id">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GET /api/fungi/page/{page}/limit/{limit} -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method get me-3">GET</span>
+                            <span class="fw-bold text-break">/api/fungi/page/{page}/limit/{limit}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Obtiene una lista paginada de hongos.</p>
+                            
+                            <div class="api-playground">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="page-number" class="form-label">Número de página:</label>
+                                            <input type="number" class="form-control param-input" id="page-number" value="1" min="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="limit-number" class="form-label">Límite por página:</label>
+                                            <input type="number" class="form-control param-input" id="limit-number" value="10" min="1" max="50">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-sm test-api" data-method="GET" data-endpoint="/api/fungi/page/{page}/limit/{limit}" data-param-page="page-number" data-param-limit="limit-number">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- GET /api/fungi/random -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method get me-3">GET</span>
+                            <span class="fw-bold text-break">/api/fungi/random</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Obtiene información de un hongo aleatorio de la base de datos.</p>
+                            
+                            <div class="api-playground">
+                                <button class="btn btn-primary btn-sm test-api" data-method="GET" data-endpoint="/api/fungi/random">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- POST /api/fungi -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="500">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method post me-3">POST</span>
+                            <span class="fw-bold text-break">/api/fungi</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Crea un nuevo registro de hongo en la base de datos.</p>
+                            
+                            <div class="api-playground">
+                                <div class="mb-3">
+                                    <label for="fungi-post-body" class="form-label">Datos del hongo (JSON):</label>
+                                    <textarea class="form-control param-input" id="fungi-post-body" rows="8">{
+  "name": "lactarius-deliciosus",
+  "edibility": "buen-comestible",
+  "habitat": "Pinares",
+  "observations": "Níscalo comestible muy apreciado", 
+  "common_name": "Níscalo",
+  "synonym": "Lactarius sanguifluus",
+  "title": "Lactarius deliciosus"
+}</textarea>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-sm test-api" data-method="POST" data-endpoint="/api/fungi" data-body="fungi-post-body">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PUT /api/fungi/{id} -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="600">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method put me-3">PUT</span>
+                            <span class="fw-bold text-break">/api/fungi/{id}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Actualiza la información de un hongo existente por su ID.</p>
+                            
+                            <div class="api-playground">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fungi-put-id" class="form-label">ID del hongo:</label>
+                                            <input type="number" class="form-control param-input" id="fungi-put-id" value="1" min="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="fungi-put-body" class="form-label">Datos a actualizar (JSON):</label>
+                                    <textarea class="form-control param-input" id="fungi-put-body" rows="6">{
+  "name": "boletus-edulis",
+  "edibility": "excelente-comestible",
+  "habitat": "Bosques mixtos y de coníferas"
+}</textarea>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-sm test-api" data-method="PUT" data-endpoint="/api/fungi/{id}" data-param-id="fungi-put-id" data-body="fungi-put-body">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DELETE /api/fungi/{id} -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="700">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method delete me-3">DELETE</span>
+                            <span class="fw-bold text-break">/api/fungi/{id}</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Elimina un hongo de la base de datos por su ID.</p>
+                            
+                            <div class="api-playground">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="fungi-delete-id" class="form-label">ID del hongo:</label>
+                                            <input type="number" class="form-control param-input" id="fungi-delete-id" value="1" min="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-sm test-api" data-method="DELETE" data-endpoint="/api/fungi/{id}" data-param-id="fungi-delete-id">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sección Users -->
+                    <h2 id="users" class="border-bottom pb-2 mb-4 mt-5" data-aos="fade-up">
+                        <i class="fas fa-users me-2 text-primary"></i> Users
+                    </h2>
+                    
+                    <!-- GET /api/users -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method get me-3">GET</span>
+                            <span class="fw-bold text-break">/api/users</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Obtiene la lista de usuarios registrados (sin información sensible como contraseñas).</p>
+                            
+                            <div class="api-playground">
+                                <button class="btn btn-primary btn-sm test-api" data-method="GET" data-endpoint="/api/users">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- POST /api/users -->
+                    <div class="card mb-4 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-header d-flex align-items-center">
+                            <span class="method post me-3">POST</span>
+                            <span class="fw-bold text-break">/api/users</span>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Crea un nuevo usuario en el sistema.</p>
+                            
+                            <div class="api-playground">
+                                <div class="mb-3">
+                                    <label for="users-post-body" class="form-label">Datos del usuario (JSON):</label>
+                                    <textarea class="form-control param-input" id="users-post-body" rows="5">{
+  "username": "nuevo_usuario",
+  "email": "nuevo@example.com",
+  "password": "contraseña_segura"
+}</textarea>
+                                </div>
+                                
+                                <button class="btn btn-primary btn-sm test-api" data-method="POST" data-endpoint="/api/users" data-body="users-post-body">
+                                    <i class="fas fa-play me-1"></i> Probar endpoint
+                                </button>
+                                
+                                <div class="api-response mt-3" style="display: none;">
+                                    <h6><i class="fas fa-exchange-alt me-2"></i> Respuesta:</h6>
+                                    <div class="bg-light p-3 rounded">
+                                        <pre class="response-content mb-0"></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
     
-    <footer class="bg-dark text-white py-4">
-        <div class="container text-center">
-            <p>© {{ "now"|date("Y") }} Aplicación de Hongos. Todos los derechos reservados.</p>
-        </div>
+    <footer>
+        {% include 'components/footer.twig' %}
     </footer>
 
     <!-- Scripts -->
-    <script src="/assets/js/jquery.min.js"></script>
-    <script src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/lib/jquery.min.js"></script>
+    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Resaltar la navegación al hacer scroll
+        window.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('h2[id]');
+            const navLinks = document.querySelectorAll('.list-group-item');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // Función para formatear JSON
+            function formatJSON(json) {
+                try {
+                    return JSON.stringify(JSON.parse(json), null, 2);
+                } catch (e) {
+                    return json;
+                }
+            }
+            
+            // Manejador para los botones de prueba de API
+            document.querySelectorAll('.test-api').forEach(button => {
+                button.addEventListener('click', async function() {
+                    const method = this.getAttribute('data-method');
+                    let endpoint = this.getAttribute('data-endpoint');
+                    const responseContainer = this.parentElement.querySelector('.api-response');
+                    const responseContent = responseContainer.querySelector('.response-content');
+                    
+                    // Mostrar el contenedor de respuesta
+                    responseContainer.style.display = 'block';
+                    responseContent.textContent = 'Cargando...';
+                    
+                    // Reemplazar parámetros en la URL si existen
+                    if (endpoint.includes('{id}')) {
+                        const paramId = this.getAttribute('data-param-id');
+                        const idValue = document.getElementById(paramId).value;
+                        endpoint = endpoint.replace('{id}', idValue);
+                    }
+                    
+                    if (endpoint.includes('{page}') && endpoint.includes('{limit}')) {
+                        const pageValue = document.getElementById(this.getAttribute('data-param-page')).value;
+                        const limitValue = document.getElementById(this.getAttribute('data-param-limit')).value;
+                        endpoint = endpoint.replace('{page}', pageValue).replace('{limit}', limitValue);
+                    }
+                    
+                    // Configurar opciones de fetch
+                    const options = {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    };
+                    
+                    // Añadir body para POST y PUT
+                    if (method === 'POST' || method === 'PUT') {
+                        const bodyId = this.getAttribute('data-body');
+                        options.body = document.getElementById(bodyId).value;
+                    }
+                    
+                    try {
+                        const response = await fetch(endpoint, options);
+                        const data = await response.text();
+                        
+                        // Mostrar la respuesta formateada
+                        responseContent.textContent = formatJSON(data);
+                        
+                        // Añadir clase de estado HTTP
+                        if (response.ok) {
+                            responseContent.classList.add('text-success');
+                            responseContent.classList.remove('text-danger');
+                        } else {
+                            responseContent.classList.add('text-danger');
+                            responseContent.classList.remove('text-success');
+                        }
+                    } catch (error) {
+                        responseContent.textContent = `Error: ${error.message}`;
+                        responseContent.classList.add('text-danger');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html> 
