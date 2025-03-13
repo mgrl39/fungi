@@ -30,10 +30,10 @@ class AppInitializer
         }
 
         // Configuración de internacionalización
-        $idiomasSoportados = ['es', 'en', 'ca', 'fr', 'de'];
+        $lang_supported = ['es', 'en', 'ca'];
         
         // Detectar idioma desde la URL (para cambios de idioma)
-        if (isset($_GET['lang']) && in_array($_GET['lang'], $idiomasSoportados)) {
+        if (isset($_GET['lang']) && in_array($_GET['lang'], $lang_supported)) {
             $_SESSION['idioma'] = $_GET['lang'];
         }
         
@@ -43,17 +43,28 @@ class AppInitializer
             'es' => 'es_ES',
             'en' => 'en_US',
             'ca' => 'ca_ES',
-            'fr' => 'fr_FR',
-            'de' => 'de_DE'
         ];
         $locale = $localeMap[$idioma] . ".UTF-8";
         
         // Configurar `gettext` para usar el idioma seleccionado
+        putenv("LANG=$locale");
+        putenv("LANGUAGE=$locale");
         putenv("LC_ALL=$locale");
         setlocale(LC_ALL, $locale);
-        
-        // Ruta de los archivos de traducción
+
+        // Verificar que existe el directorio de traducciones
         $localeDir = __DIR__ . '/../../locales';
+        if (!is_dir($localeDir)) {
+            error_log("Error: No existe el directorio de traducciones: $localeDir");
+            throw new \RuntimeException("El directorio de traducciones no existe: $localeDir");
+        }
+
+        // Verificar que existe el archivo .mo
+        $moFile = "$localeDir/{$localeMap[$idioma]}/LC_MESSAGES/messages.mo";
+        if (!file_exists($moFile)) {
+            error_log("Error: No se encuentra el archivo de traducciones: $moFile");
+        }
+
         bindtextdomain("messages", $localeDir);
         bind_textdomain_codeset("messages", "UTF-8");
         textdomain("messages");
@@ -96,7 +107,7 @@ class AppInitializer
         
         // Agregar variables globales para el sistema de plantillas
         $twig->addGlobal('idioma_actual', $idioma);
-        $twig->addGlobal('idiomas_soportados', $idiomasSoportados);
+        $twig->addGlobal('idiomas_soportados', $lang_supported);
 
         return [$db, $authController, $session, $twig];
     }
