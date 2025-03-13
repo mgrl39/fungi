@@ -11,6 +11,8 @@ var classApp_1_1Controllers_1_1DatabaseController =
     [ "getFungusById", "classApp_1_1Controllers_1_1DatabaseController.html#a1d82a75b80139deb6f83dcf6de0cd808", null ],
     [ "getRandomFungus", "classApp_1_1Controllers_1_1DatabaseController.html#aadf93af3dbc66496d286d96274403d05", null ],
     [ "getSimilarFungi", "classApp_1_1Controllers_1_1DatabaseController.html#a3c76de5ae84b5d0f77ccb1a31234301d", null ],
+    [ "getUserById", "classApp_1_1Controllers_1_1DatabaseController.html#acc8a7191562a9d9585f3ddfdbbe6946d", null ],
+    [ "getUserByUsername", "classApp_1_1Controllers_1_1DatabaseController.html#a61937e4e7c8a455b28ff2592a4c7e24f", null ],
     [ "getUserFavorites", "classApp_1_1Controllers_1_1DatabaseController.html#a1a99badc73eadc529fa7f88fc2d5dccb", null ],
     [ "query", "classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496", null ],
     [ "removeFavorite", "classApp_1_1Controllers_1_1DatabaseController.html#aee28f9b5cb0775746708443e8f706ad8", null ],

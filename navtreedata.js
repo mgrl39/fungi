@@ -53,7 +53,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "ApiController_8php.html",
-"classApp_1_1Controllers_1_1LangController.html#a13fbc690481f06279c66dd4e168bbc14"
+"classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

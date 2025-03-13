@@ -14,7 +14,5 @@ var searchData=
   ['verifytokencookie_11',['verifyTokenCookie',['../classApp_1_1Controllers_1_1SessionController.html#a2bdcf6ca1f5f943eec1384cd56a13898',1,'App::Controllers::SessionController']]],
   ['verifyuser_12',['verifyUser',['../classApp_1_1Controllers_1_1DatabaseController.html#a83936bdd6709373e150fb1bea5c9b210',1,'App::Controllers::DatabaseController']]],
   ['verifyuserjwt_13',['verifyUserJWT',['../classApp_1_1Controllers_1_1DatabaseController.html#a648c11f04ce02f0ce59363a746b9a096',1,'App::Controllers::DatabaseController']]],
-  ['verifyusertoken_14',['verifyUserToken',['../classApp_1_1Controllers_1_1DatabaseController.html#af748519b484536a19b6fb40b2888d3dc',1,'App::Controllers::DatabaseController']]],
-  ['view_2dtoggle_2ejs_15',['view-toggle.js',['../view-toggle_8js.html',1,'']]],
-  ['view_5ftoggle_2ejs_16',['view_toggle.js',['../view__toggle_8js.html',1,'']]]
+  ['verifyusertoken_14',['verifyUserToken',['../classApp_1_1Controllers_1_1DatabaseController.html#af748519b484536a19b6fb40b2888d3dc',1,'App::Controllers::DatabaseController']]]
 ];

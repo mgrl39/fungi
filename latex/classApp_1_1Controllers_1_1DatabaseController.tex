@@ -42,6 +42,10 @@
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ade5dabf08c2a064b4383b803726c7a64}{execute}} (\$sql, \$params=\mbox{[}$\,$\mbox{]})
 \item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{query}} (\$sql, \$params=\mbox{[}$\,$\mbox{]})
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_a61937e4e7c8a455b28ff2592a4c7e24f}{get\+User\+By\+Username}} (\$username)
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_acc8a7191562a9d9585f3ddfdbbe6946d}{get\+User\+By\+Id}} (\$user\+Id)
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -397,6 +401,57 @@ Definition at line \mbox{\hyperlink{DatabaseController_8php_source_l00165}{165}}
 \DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
 \DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetchAll(PDO::FETCH\_ASSOC);}
 \DoxyCodeLine{00192\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_acc8a7191562a9d9585f3ddfdbbe6946d}\label{classApp_1_1Controllers_1_1DatabaseController_acc8a7191562a9d9585f3ddfdbbe6946d} 
+\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!getUserById@{getUserById}}
+\index{getUserById@{getUserById}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
+\doxysubsubsection{\texorpdfstring{getUserById()}{getUserById()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::get\+User\+By\+Id (\begin{DoxyParamCaption}\item[{}]{\$user\+Id }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{DatabaseController_8php_source_l00398}{398}} of file \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
+\DoxyCodeLine{00401\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SELECT\ id,\ username,\ email,\ role,\ created\_at,\ bio,\ avatar\_url,\ location,\ website,\ phone}}
+\DoxyCodeLine{00402\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ users\ }}
+\DoxyCodeLine{00403\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ id\ =\ :user\_id}}
+\DoxyCodeLine{00404\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}});}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\textcolor{stringliteral}{':user\_id'}\ =>\ \$userId]);}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetch(PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuario\ por\ ID:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00411\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_a61937e4e7c8a455b28ff2592a4c7e24f}\label{classApp_1_1Controllers_1_1DatabaseController_a61937e4e7c8a455b28ff2592a4c7e24f} 
+\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!getUserByUsername@{getUserByUsername}}
+\index{getUserByUsername@{getUserByUsername}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
+\doxysubsubsection{\texorpdfstring{getUserByUsername()}{getUserByUsername()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::get\+User\+By\+Username (\begin{DoxyParamCaption}\item[{}]{\$username }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{DatabaseController_8php_source_l00388}{388}} of file \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
+\DoxyCodeLine{00390\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ id,\ username,\ email,\ role,\ created\_at,\ bio,\ avatar\_url,\ location,\ website,\ phone}}
+\DoxyCodeLine{00391\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ users\ }}
+\DoxyCodeLine{00392\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ WHERE\ username\ =\ :username}}
+\DoxyCodeLine{00393\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}});}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\textcolor{stringliteral}{':username'}\ =>\ \$username]);}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetch(PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00396\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1DatabaseController_a1a99badc73eadc529fa7f88fc2d5dccb}\label{classApp_1_1Controllers_1_1DatabaseController_a1a99badc73eadc529fa7f88fc2d5dccb} 

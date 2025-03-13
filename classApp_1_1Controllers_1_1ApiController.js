@@ -1,6 +1,7 @@
 var classApp_1_1Controllers_1_1ApiController =
 [
     [ "__construct", "classApp_1_1Controllers_1_1ApiController.html#aec91b084e89fab85ab1d971a765095b7", null ],
+    [ "base64URLEncode", "classApp_1_1Controllers_1_1ApiController.html#a04bb28eb734ab17814e5695e2056d5b1", null ],
     [ "generateJwtToken", "classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd", null ],
     [ "handleDelete", "classApp_1_1Controllers_1_1ApiController.html#a42d236c3d92bd345648219584a384e3e", null ],
     [ "handleGet", "classApp_1_1Controllers_1_1ApiController.html#ada189fa85b1c852d7deb9f5d59f16109", null ],

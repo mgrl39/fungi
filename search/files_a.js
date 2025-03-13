@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['navbar_2ecss_0',['navbar.css',['../navbar_8css.html',1,'']]]
+  ['profile_2ecss_0',['profile.css',['../profile_8css.html',1,'']]]
 ];

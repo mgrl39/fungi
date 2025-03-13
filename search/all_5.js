@@ -17,7 +17,6 @@ var searchData=
   ['defaults_2einc_2ephp_14',['defaults.inc.php',['../defaults_8inc_8php.html',1,'']]],
   ['del_20entorno_15',['Configuración del Entorno',['../group__Configuraci_xC3_xB3nEntorno.html',1,'']]],
   ['del_20proyecto_16',['🏗️ Arquitectura del Proyecto',['../index.html#autotoc_md5',1,'']]],
-  ['detail_2ecss_17',['detail.css',['../detail_8css.html',1,'']]],
-  ['docker_18',['Instalación con Docker',['../index.html#autotoc_md9',1,'']]],
-  ['doncom_20me_20fungi_20fungi_20project_20com_20a_19',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]]
+  ['docker_17',['Instalación con Docker',['../index.html#autotoc_md9',1,'']]],
+  ['doncom_20me_20fungi_20fungi_20project_20com_20a_18',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]]
 ];

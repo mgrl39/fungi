@@ -2,7 +2,7 @@ var searchData=
 [
   ['generatejwt_0',['generatejwt',['../classApp_1_1Controllers_1_1AuthController.html#ab06917fbe57ab9b399e1d66d81807c4f',1,'App\Controllers\AuthController\generateJWT()'],['../classApp_1_1Controllers_1_1SessionController.html#a6470d3ef78fcc052c47033950d37d3ea',1,'App\Controllers\SessionController\generateJWT()']]],
   ['generatejwttoken_1',['generateJwtToken',['../classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd',1,'App::Controllers::ApiController']]],
-  ['generatesessiontoken_2',['generatesessiontoken',['../classApp_1_1Controllers_1_1AuthController.html#a239c918cc9affeb44f560d762bdf61ce',1,'App\Controllers\AuthController\generateSessionToken()'],['../classApp_1_1Controllers_1_1SessionController.html#ae3933775c8869c5a51ad9d8504efcec1',1,'App\Controllers\SessionController\generateSessionToken()']]],
+  ['generatesessiontoken_2',['generateSessionToken',['../classApp_1_1Controllers_1_1AuthController.html#a239c918cc9affeb44f560d762bdf61ce',1,'App::Controllers::AuthController']]],
   ['generic_2ecss_3',['generic.css',['../generic_8css.html',1,'']]],
   ['getalldata_4',['getAllData',['../classApp_1_1Controllers_1_1DatabaseController.html#ab9b86cbe38e56fc4238c77fb3bec08f5',1,'App::Controllers::DatabaseController']]],
   ['getbaseurl_5',['getBaseUrl',['../routes_8php.html#ae1ca0d2444e3cca6b147445348f686de',1,'routes.php']]],
@@ -23,7 +23,9 @@ var searchData=
   ['getsimilarfungi_20',['getSimilarFungi',['../classApp_1_1Controllers_1_1DatabaseController.html#a3c76de5ae84b5d0f77ccb1a31234301d',1,'App::Controllers::DatabaseController']]],
   ['gettimerangecondition_21',['getTimeRangeCondition',['../classApp_1_1Controllers_1_1StatsController.html#acbcc9cd24df7ea83bb72e818e3cf4ebe',1,'App::Controllers::StatsController']]],
   ['getuseractivitystats_22',['getUserActivityStats',['../classApp_1_1Controllers_1_1StatsController.html#a35b229bcab9985c40a2c2b2a26d8b774',1,'App::Controllers::StatsController']]],
-  ['getuserdata_23',['getUserData',['../classApp_1_1Controllers_1_1SessionController.html#a7fc8763bff5246f1b5c90bfb73d616b1',1,'App::Controllers::SessionController']]],
-  ['getuserfavorites_24',['getUserFavorites',['../classApp_1_1Controllers_1_1DatabaseController.html#a1a99badc73eadc529fa7f88fc2d5dccb',1,'App::Controllers::DatabaseController']]],
-  ['guía_20de_20inicio_20rápido_25',['🚀 Guía de Inicio Rápido',['../index.html#autotoc_md6',1,'']]]
+  ['getuserbyid_23',['getUserById',['../classApp_1_1Controllers_1_1DatabaseController.html#acc8a7191562a9d9585f3ddfdbbe6946d',1,'App::Controllers::DatabaseController']]],
+  ['getuserbyusername_24',['getUserByUsername',['../classApp_1_1Controllers_1_1DatabaseController.html#a61937e4e7c8a455b28ff2592a4c7e24f',1,'App::Controllers::DatabaseController']]],
+  ['getuserdata_25',['getUserData',['../classApp_1_1Controllers_1_1SessionController.html#a7fc8763bff5246f1b5c90bfb73d616b1',1,'App::Controllers::SessionController']]],
+  ['getuserfavorites_26',['getUserFavorites',['../classApp_1_1Controllers_1_1DatabaseController.html#a1a99badc73eadc529fa7f88fc2d5dccb',1,'App::Controllers::DatabaseController']]],
+  ['guía_20de_20inicio_20rápido_27',['🚀 Guía de Inicio Rápido',['../index.html#autotoc_md6',1,'']]]
 ];
