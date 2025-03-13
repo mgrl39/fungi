@@ -163,22 +163,42 @@ $routes = [
 
     '/profile' => [
         'template' => 'pages/profile.twig',
-        'title' => _('Mi Perfil'),
+        'title' => _('Perfil de Usuario'),
         'auth_required' => true,
-        'handler' => function($twig, $db, $session) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $result = $db->updateUserProfile($_SESSION['user_id'], $_POST);
-                return [
-                    'title' => _('Mi Perfil'),
-                    'user' => $db->getUserById($_SESSION['user_id']),
-                    'message' => $result ? _('Perfil actualizado') : _('Error al actualizar')
-                ];
-            } else {
-                return [
-                    'title' => _('Mi Perfil'),
-                    'user' => $db->getUserById($_SESSION['user_id'])
-                ];
+        'handler' => function($twig, $db, $session, $authController = null) {
+            // Obtener datos del usuario actual desde la sesión
+            $userId = $_SESSION['user_id'] ?? null;
+            
+            if (!$userId) {
+                header('Location: /login');
+                exit;
             }
+            
+            // Obtener datos completos del usuario
+            $userData = $db->getUserById($userId);
+            
+            if (!$userData) {
+                header('Location: /404');
+                exit;
+            }
+            
+            // Obtener los hongos favoritos del usuario
+            $favoriteFungi = $db->getUserFavorites($userId);
+            
+            // Obtener contribuciones del usuario
+            $contributions = $db->getUserContributions($userId);
+            
+            // Obtener actividad reciente
+            $recentActivity = $db->getUserRecentActivity($userId);
+            
+            return [
+                'title' => sprintf(_('Perfil de %s'), $userData['username']),
+                'user' => $userData,
+                'favorite_fungi' => $favoriteFungi,
+                'contributions' => $contributions,
+                'recent_activity' => $recentActivity,
+                'is_own_profile' => true // Es el perfil del usuario actual
+            ];
         }
     ],
     '/logout' => [
@@ -348,6 +368,45 @@ $routes = [
         'handler' => function($twig, $db, $session) {
             $langController = new \App\Controllers\LangController();
             return $langController->changeLanguage();
+        }
+    ],
+    // Ruta para ver perfil de otro usuario
+    '/profile/([0-9]+)' => [
+        'template' => 'pages/profile.twig',
+        'title' => _('Perfil de Usuario'),
+        'auth_required' => false,
+        'handler' => function($twig, $db, $session, $authController = null) {
+            // Obtener el ID del usuario desde la URL
+            preg_match('#^/profile/([0-9]+)$#', $uri, $matches);
+            $profileUserId = $matches[1] ?? null;
+            
+            if (!$profileUserId) {
+                header('Location: /404');
+                exit;
+            }
+            
+            // Obtener datos del usuario solicitado
+            $profileUserData = $db->getUserById($profileUserId);
+            
+            if (!$profileUserData) {
+                header('Location: /404');
+                exit;
+            }
+            
+            // Obtener el ID del usuario actual (si está autenticado)
+            $currentUserId = $session->isLoggedIn() ? $_SESSION['user_id'] : null;
+            
+            // Obtener datos públicos del perfil
+            $favoriteFungi = $db->getUserFavorites($profileUserId);
+            $contributions = $db->getUserContributions($profileUserId);
+            
+            return [
+                'title' => sprintf(_('Perfil de %s'), $profileUserData['username']),
+                'user' => $profileUserData,
+                'favorite_fungi' => $favoriteFungi,
+                'contributions' => $contributions,
+                'is_own_profile' => ($currentUserId == $profileUserId)
+            ];
         }
     ],
 ];

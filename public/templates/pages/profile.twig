@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Perfil de Usuario</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="/assets/styles/generic.css">
+    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
+    <link rel="stylesheet" href="/assets/styles/components/footer.css">
+    <link rel="stylesheet" href="/assets/styles/pages/profile.css">
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
+    
+    <!-- Animate.css para animaciones -->
+    <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
+    
+    <!-- AOS - Animate On Scroll -->
+    <link rel="stylesheet" href="/assets/lib/aos/aos.css">
+    
+    <style>
+        .profile-header {
+            background: linear-gradient(to right, #2c3e50, #4a6572);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 15px 15px;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .profile-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .profile-card-header {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 123, 255, 0.2);
+            font-weight: bold;
+        }
+        
+        .activity-item {
+            border-left: 3px solid #007bff;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #007bff;
+            left: -7px;
+            top: 0;
+        }
+        
+        .badge-contribution {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .profile-tab-content {
+            padding: 1.5rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-color: rgba(0, 123, 255, 0.2);
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {% include 'components/navbar.twig' %}
+    </header>
+
+    <main>
+        <!-- Cabecera del perfil -->
+        <section class="profile-header animate__animated animate__fadeIn">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
+                        <img src="{{ user.avatar_url|default('/assets/images/default-avatar.jpg') }}" alt="Avatar de {{ user.username }}" class="profile-avatar animate__animated animate__pulse animate__slow animate__infinite">
+                    </div>
+                    <div class="col-md-9">
+                        <h1 class="display-4">{{ user.username }}</h1>
+                        <p class="lead">{{ user.bio|default('Este usuario todavía no ha añadido una biografía.') }}</p>
+                        <div class="d-flex flex-wrap">
+                            <span class="badge bg-primary me-2 mb-2"><i class="fas fa-calendar-alt me-1"></i> Miembro desde {{ user.created_at|date("d/m/Y") }}</span>
+                            <span class="badge bg-success me-2 mb-2"><i class="fas fa-upload me-1"></i> {{ user.contributions|default(0) }} Contribuciones</span>
+                            <span class="badge bg-info me-2 mb-2"><i class="fas fa-map-marker-alt me-1"></i> {{ user.location|default('Sin ubicación') }}</span>
+                        </div>
+                        {% if is_own_profile %}
+                        <div class="mt-3">
+                            <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                                <i class="fas fa-edit me-1"></i> Editar perfil
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            {% if error %}
+                <div class="alert alert-danger animate__animated animate__headShake">
+                    <i class="fas fa-exclamation-circle me-2"></i> {{ error }}
+                </div>
+            {% endif %}
+
+            {% if success %}
+                <div class="alert alert-success animate__animated animate__bounceIn">
+                    <i class="fas fa-check-circle me-2"></i> {{ success }}
+                </div>
+            {% endif %}
+
+            <!-- Contenido principal -->
+            <div class="row">
+                <!-- Columna lateral izquierda -->
+                <div class="col-lg-4 mb-4">
+                    <!-- Información de contacto -->
+                    <div class="card profile-card" data-aos="fade-right">
+                        <div class="card-header profile-card-header">
+                            <i class="fas fa-address-card me-2"></i> Información de contacto
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-envelope me-2"></i> Email:</span>
+                                    <span>{{ user.email|default('No disponible') }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-phone me-2"></i> Teléfono:</span>
+                                    <span>{{ user.phone|default('No disponible') }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="fas fa-globe me-2"></i> Web:</span>
+                                    <span>{{ user.website|default('No disponible') }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Estadísticas -->
+                    <div class="card profile-card" data-aos="fade-right" data-aos-delay="100">
+                        <div class="card-header profile-card-header">
+                            <i class="fas fa-chart-bar me-2"></i> Estadísticas
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <h3 class="text-primary">{{ user.views|default(0) }}</h3>
+                                    <small>Visitas</small>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-success">{{ user.likes|default(0) }}</h3>
+                                    <small>Me gusta</small>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-info">{{ user.comments|default(0) }}</h3>
+                                    <small>Comentarios</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Insignias y logros -->
+                    <div class="card profile-card" data-aos="fade-right" data-aos-delay="200">
+                        <div class="card-header profile-card-header">
+                            <i class="fas fa-trophy me-2"></i> Insignias y logros
+                        </div>
+                        <div class="card-body">
+                            {% if user.badges and user.badges|length > 0 %}
+                                <div class="d-flex flex-wrap">
+                                    {% for badge in user.badges %}
+                                        <div class="badge-item text-center me-2 mb-2" data-bs-toggle="tooltip" title="{{ badge.description }}">
+                                            <i class="fas fa-{{ badge.icon }} fa-2x text-{{ badge.color }}"></i>
+                                            <div><small>{{ badge.name }}</small></div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="text-muted">Este usuario aún no ha obtenido insignias.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna principal derecha -->
+                <div class="col-lg-8">
+                    <!-- Pestañas de navegación -->
+                    <ul class="nav nav-tabs mb-3" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="contributions-tab" data-bs-toggle="tab" data-bs-target="#contributions" type="button" role="tab" aria-controls="contributions" aria-selected="true">
+                                <i class="fas fa-upload me-1"></i> Contribuciones
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab" aria-controls="activity" aria-selected="false">
+                                <i class="fas fa-history me-1"></i> Actividad
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="favorites-tab" data-bs-toggle="tab" data-bs-target="#favorites" type="button" role="tab" aria-controls="favorites" aria-selected="false">
+                                <i class="fas fa-heart me-1"></i> Favoritos
+                            </button>
+                        </li>
+                        {% if is_own_profile %}
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">
+                                <i class="fas fa-cog me-1"></i> Configuración
+                            </button>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <!-- Contenido de las pestañas -->
+                    <div class="tab-content" id="profileTabsContent">
+                        <!-- Pestaña de Contribuciones -->
+                        <div class="tab-pane fade show active profile-tab-content" id="contributions" role="tabpanel" aria-labelledby="contributions-tab">
+                            <h3 class="mb-4">Mis contribuciones</h3>
+                            
+                            {% if user.contributions_data and user.contributions_data|length > 0 %}
+                                <div class="row" data-aos="fade-up">
+                                    {% for contribution in user.contributions_data %}
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card h-100">
+                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                    <span>{{ contribution.name }}</span>
+                                                    <span class="badge badge-contribution">{{ contribution.type }}</span>
+                                                </div>
+                                                <div class="card-body">
+                                                    {% if contribution.image_url %}
+                                                        <img src="{{ contribution.image_url }}" alt="{{ contribution.name }}" class="img-fluid mb-3 rounded">
+                                                    {% endif %}
+                                                    <p>{{ contribution.description }}</p>
+                                                    <small class="text-muted">Añadido el {{ contribution.created_at|date("d/m/Y") }}</small>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="/fungi/{{ contribution.id }}" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-eye me-1"></i> Ver detalles
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info" data-aos="fade-up">
+                                    <i class="fas fa-info-circle me-2"></i> Aún no hay contribuciones para mostrar.
+                                </div>
+                                <a href="/fungi/add" class="btn btn-primary" data-aos="fade-up">
+                                    <i class="fas fa-plus-circle me-1"></i> Añadir nueva contribución
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        <!-- Pestaña de Actividad -->
+                        <div class="tab-pane fade profile-tab-content" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                            <h3 class="mb-4">Actividad reciente</h3>
+                            
+                            {% if user.activity and user.activity|length > 0 %}
+                                <div class="timeline" data-aos="fade-up">
+                                    {% for activity in user.activity %}
+                                        <div class="activity-item">
+                                            <div class="d-flex justify-content-between">
+                                                <h5>{{ activity.title }}</h5>
+                                                <small class="text-muted">{{ activity.date|date("d/m/Y H:i") }}</small>
+                                            </div>
+                                            <p>{{ activity.description }}</p>
+                                            {% if activity.link %}
+                                                <a href="{{ activity.link }}" class="btn btn-sm btn-outline-info">
+                                                    <i class="fas fa-link me-1"></i> Ver más
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info" data-aos="fade-up">
+                                    <i class="fas fa-info-circle me-2"></i> No hay actividad reciente para mostrar.
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Pestaña de Favoritos -->
+                        <div class="tab-pane fade profile-tab-content" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
+                            <h3 class="mb-4">Mis hongos favoritos</h3>
+                            
+                            {% if user.favorites and user.favorites|length > 0 %}
+                                <div class="row" data-aos="fade-up">
+                                    {% for favorite in user.favorites %}
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card h-100">
+                                                <img src="{{ favorite.image_url }}" class="card-img-top" alt="{{ favorite.name }}">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{ favorite.name }}</h5>
+                                                    <p class="card-text">{{ favorite.description|slice(0, 100) }}...</p>
+                                                    <p><span class="badge bg-info">{{ favorite.edibility }}</span></p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <a href="/fungi/{{ favorite.id }}" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-eye me-1"></i> Ver detalles
+                                                    </a>
+                                                    <button class="btn btn-outline-danger btn-sm remove-favorite" data-id="{{ favorite.id }}">
+                                                        <i class="fas fa-heart-broken me-1"></i> Eliminar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info" data-aos="fade-up">
+                                    <i class="fas fa-info-circle me-2"></i> No has marcado ningún hongo como favorito.
+                                </div>
+                                <a href="/" class="btn btn-primary" data-aos="fade-up">
+                                    <i class="fas fa-search me-1"></i> Explorar hongos
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        <!-- Pestaña de Configuración -->
+                        {% if is_own_profile %}
+                        <div class="tab-pane fade profile-tab-content" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                            <h3 class="mb-4">Configuración de la cuenta</h3>
+                            
+                            <div class="card mb-4" data-aos="fade-up">
+                                <div class="card-header profile-card-header">
+                                    <i class="fas fa-lock me-2"></i> Seguridad
+                                </div>
+                                <div class="card-body">
+                                    <form id="passwordForm">
+                                        <div class="mb-3">
+                                            <label for="current_password" class="form-label">Contraseña actual</label>
+                                            <input type="password" class="form-control" id="current_password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="new_password" class="form-label">Nueva contraseña</label>
+                                            <input type="password" class="form-control" id="new_password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirm_password" class="form-label">Confirmar contraseña</label>
+                                            <input type="password" class="form-control" id="confirm_password" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-1"></i> Cambiar contraseña
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card mb-4" data-aos="fade-up" data-aos-delay="100">
+                                <div class="card-header profile-card-header">
+                                    <i class="fas fa-bell me-2"></i> Notificaciones
+                                </div>
+                                <div class="card-body">
+                                    <form id="notificationsForm">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="emailNotifications" {% if user.settings.email_notifications %}checked{% endif %}>
+                                            <label class="form-check-label" for="emailNotifications">
+                                                Recibir notificaciones por correo electrónico
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="commentNotifications" {% if user.settings.comment_notifications %}checked{% endif %}>
+                                            <label class="form-check-label" for="commentNotifications">
+                                                Notificarme sobre nuevos comentarios
+                                            </label>
+                                        </div>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="checkbox" id="activityDigest" {% if user.settings.activity_digest %}checked{% endif %}>
+                                            <label class="form-check-label" for="activityDigest">
+                                                Recibir resumen semanal de actividad
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-1"></i> Guardar preferencias
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                                <div class="card-header profile-card-header text-danger">
+                                    <i class="fas fa-exclamation-triangle me-2"></i> Zona de peligro
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-danger">Las siguientes acciones son irreversibles. Procede con precaución.</p>
+                                    <button id="exportData" class="btn btn-warning mb-3">
+                                        <i class="fas fa-file-export me-1"></i> Exportar mis datos
+                                    </button>
+                                    <button id="deleteAccount" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                        <i class="fas fa-user-slash me-1"></i> Eliminar mi cuenta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        {% include 'components/footer.twig' %}
+    </footer>
+
+    <!-- Modal de edición de perfil -->
+    {% if is_own_profile %}
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProfileModalLabel"><i class="fas fa-user-edit me-2"></i>Editar perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Nombre de usuario</label>
+                            <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                            <small class="text-muted">El nombre de usuario no se puede cambiar.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Avatar</label>
+                            <input type="file" class="form-control" id="avatar" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" value="{{ user.email }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bio" class="form-label">Biografía</label>
+                            <textarea class="form-control" id="bio" rows="3">{{ user.bio }}</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="location" class="form-label">Ubicación</label>
+                                <input type="text" class="form-control" id="location" value="{{ user.location }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="website" class="form-label">Sitio web</label>
+                                <input type="url" class="form-control" id="website" value="{{ user.website }}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" id="phone" value="{{ user.phone }}">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveProfile">
+                        <i class="fas fa-save me-1"></i> Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar cuenta -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="deleteAccountModalLabel">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Eliminar cuenta
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer y perderás todos tus datos.</p>
+                    <div class="mb-3">
+                        <label for="delete_confirmation" class="form-label">Escribe "ELIMINAR" para confirmar:</label>
+                        <input type="text" class="form-control" id="delete_confirmation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteAccount" disabled>
+                        <i class="fas fa-user-slash me-1"></i> Eliminar permanentemente
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Scripts -->
+    <script src="/assets/lib/jquery.min.js"></script>
+    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Inicializar AOS (Animate On Scroll)
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
+        // Inicializar tooltips de Bootstrap
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+        
+        {% if is_own_profile %}
+        // Habilitar botón de eliminar cuenta solo cuando se escribe "ELIMINAR"
+        document.getElementById('delete_confirmation').addEventListener('input', function() {
+            const deleteBtn = document.getElementById('confirmDeleteAccount');
+            deleteBtn.disabled = this.value !== 'ELIMINAR';
+        });
+        
+        // Guardar cambios del perfil
+        document.getElementById('saveProfile').addEventListener('click', function() {
+            // Simulación de actualización del perfil (aquí iría una llamada AJAX real)
+            const formData = new FormData();
+            formData.append('email', document.getElementById('email').value);
+            formData.append('bio', document.getElementById('bio').value);
+            formData.append('location', document.getElementById('location').value);
+            formData.append('website', document.getElementById('website').value);
+            formData.append('phone', document.getElementById('phone').value);
+            
+            const avatarInput = document.getElementById('avatar');
+            if (avatarInput.files.length > 0) {
+                formData.append('avatar', avatarInput.files[0]);
+            }
+            
+            // En una aplicación real, aquí enviarías los datos al servidor
+            console.log('Actualizando perfil con estos datos:', {
+                email: document.getElementById('email').value,
+                bio: document.getElementById('bio').value,
+                location: document.getElementById('location').value,
+                website: document.getElementById('website').value,
+                phone: document.getElementById('phone').value,
+                avatar: avatarInput.files.length > 0 ? avatarInput.files[0].name : 'No cambiado'
+            });
+            
+            // Cerrar modal y mostrar mensaje de éxito
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
+            modal.hide();
+            
+            // Simular recarga de la página o actualización de datos
+            alert('Perfil actualizado correctamente');
+        });
+        
+        // Eliminar favorito
+        document.querySelectorAll('.remove-favorite').forEach(button => {
+            button.addEventListener('click', function() {
+                const fungiId = this.getAttribute('data-id');
+                // Aquí iría la lógica para eliminar el favorito (mediante AJAX)
+                console.log('Eliminando favorito con ID:', fungiId);
+                // Eliminar el elemento del DOM (para demostración)
+                this.closest('.col-md-6').remove();
+            });
+        });
+        {% endif %}
+    </script>
+</body>
+</html>
