@@ -219,15 +219,98 @@ class ApiController
 			$requiredFields = ['username', 'email', 'password'];
 			if (!$this->validateRequiredFields($data, $requiredFields)) {
 				http_response_code(400);
-				echo json_encode(['error' => ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, 'username, email, password')]);
+				echo json_encode([
+					'success' => false,
+					'error' => ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, 'username, email, password')
+				]);
+				return;
+			}
+			
+			// Validación de formato de email
+			if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+				http_response_code(400);
+				echo json_encode([
+					'success' => false,
+					'error' => ErrorMessages::VALIDATION_INVALID_EMAIL
+				]);
+				return;
+			}
+			
+			// Verificar que el nombre de usuario no exista
+			$stmt = $this->pdo->prepare("SELECT id FROM users WHERE username = ?");
+			$stmt->execute([$data['username']]);
+			if ($stmt->fetch()) {
+				http_response_code(409); // Conflict
+				echo json_encode([
+					'success' => false,
+					'error' => ErrorMessages::format(ErrorMessages::VALIDATION_VALUE_ALREADY_EXISTS, 'username')
+				]);
+				return;
+			}
+			
+			// Verificar que el email no exista
+			$stmt = $this->pdo->prepare("SELECT id FROM users WHERE email = ?");
+			$stmt->execute([$data['email']]);
+			if ($stmt->fetch()) {
+				http_response_code(409); // Conflict
+				echo json_encode([
+					'success' => false,
+					'error' => ErrorMessages::format(ErrorMessages::VALIDATION_VALUE_ALREADY_EXISTS, 'email')
+				]);
+				return;
+			}
+			
+			// Generar hash de la contraseña
+			$passwordHash = password_hash($data['password'], PASSWORD_BCRYPT);
+			
+			// Insertar el nuevo usuario
+			$stmt = $this->pdo->prepare("INSERT INTO users (username, email, password_hash, role, created_at) VALUES (?, ?, ?, 'user', NOW())");
+			$stmt->execute([$data['username'], $data['email'], $passwordHash]);
+			
+			$userId = $this->pdo->lastInsertId();
+			
+			// Devolver respuesta exitosa
+			echo json_encode([
+				'success' => true,
+				'id' => $userId,
+				'message' => 'Usuario registrado exitosamente'
+			]);
+		} elseif ($endpoint === 'auth/login') {
+			// Manejo de autenticación y generación de JWT
+			$requiredFields = ['username', 'password'];
+			if (!$this->validateRequiredFields($data, $requiredFields)) {
+				http_response_code(400);
+				echo json_encode([
+					'success' => false, 
+					'error' => ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, 'username, password')
+				]);
 				return;
 			}
 
-			$passwordHash = password_hash($data['password'], PASSWORD_BCRYPT);
-			$stmt = $this->pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
-			$stmt->execute([$data['username'], $data['email'], $passwordHash]);
-
-			echo json_encode(['id' => $this->pdo->lastInsertId()]);
+			// Autenticar usuario
+			$user = $this->login($data['username'], $data['password']);
+			
+			if ($user) {
+				// Generar token JWT
+				$token = $this->generateJwtToken($user);
+				
+				echo json_encode([
+					'success' => true, 
+					'token' => $token,
+					'user' => [
+						'id' => $user['id'],
+						'username' => $user['username'],
+						'email' => $user['email'],
+						'role' => $user['role']
+					]
+				]);
+			} else {
+				http_response_code(401);
+				echo json_encode([
+					'success' => false, 
+					'error' => ErrorMessages::AUTH_INVALID_CREDENTIALS
+				]);
+			}
 		} else {
 			http_response_code(404);
 			echo json_encode(['error' => ErrorMessages::HTTP_404]);
@@ -336,5 +419,79 @@ class ApiController
 		}
 
 		return null;
+	}
+
+	/**
+	 * @brief Genera un token JWT para el usuario autenticado.
+	 * 
+	 * Crea un token JWT con la información del usuario y un tiempo de expiración.
+	 *
+	 * @param array $user Datos del usuario autenticado
+	 * @return string Token JWT generado
+	 */
+	private function generateJwtToken(array $user): string
+	{
+		$secretKey = defined('JWT_SECRET') ? JWT_SECRET : getenv('JWT_SECRET');
+		if (!$secretKey) {
+			$secretKey = 'default_jwt_secret_key'; // ¡Solo como respaldo! Configurar siempre una clave segura
+		}
+		
+		$issuedAt = time();
+		$expire = $issuedAt + 3600; // Token válido por 1 hora
+		
+		$payload = [
+			'iat' => $issuedAt,      // Tiempo en que fue emitido el token
+			'exp' => $expire,        // Tiempo de expiración
+			'sub' => $user['id'],    // ID del usuario como subject
+			'username' => $user['username'],
+			'role' => $user['role']
+		];
+		
+		// Codificación simple del token - en producción usar una biblioteca JWT adecuada
+		$header = base64_encode(json_encode(['typ' => 'JWT', 'alg' => 'HS256']));
+		$payloadEncoded = base64_encode(json_encode($payload));
+		$signature = hash_hmac('sha256', "$header.$payloadEncoded", $secretKey, true);
+		$signatureEncoded = base64_encode($signature);
+		
+		return "$header.$payloadEncoded.$signatureEncoded";
+	}
+
+	/**
+	 * @brief Verifica un token JWT recibido.
+	 * 
+	 * Valida que el token sea auténtico y no haya expirado.
+	 *
+	 * @param string $token El token JWT a verificar
+	 * @return array|bool Datos del payload si el token es válido, false en caso contrario
+	 */
+	public function verifyJwtToken(string $token)
+	{
+		$secretKey = defined('JWT_SECRET') ? JWT_SECRET : getenv('JWT_SECRET');
+		if (!$secretKey) {
+			$secretKey = 'default_jwt_secret_key'; // ¡Solo como respaldo!
+		}
+		
+		$parts = explode('.', $token);
+		if (count($parts) != 3) {
+			return false;
+		}
+		
+		list($header, $payload, $signature) = $parts;
+		
+		$valid = hash_hmac('sha256', "$header.$payload", $secretKey, true);
+		$validEncoded = base64_encode($valid);
+		
+		if ($signature !== $validEncoded) {
+			return false;
+		}
+		
+		$payload = json_decode(base64_decode($payload), true);
+		
+		// Verificar expiración
+		if (isset($payload['exp']) && $payload['exp'] < time()) {
+			return false;
+		}
+		
+		return $payload;
 	}
 }

@@ -87,7 +87,7 @@
                 </div>
                 {% endif %}
 
-                <form method="POST" action="/login" id="loginForm" onsubmit="return validateForm()" data-aos="fade-up" data-aos-delay="200">
+                <form id="loginForm" onsubmit="return handleLogin(event)" data-aos="fade-up" data-aos-delay="200">
                     <div class="mb-4">
                         <label for="username" class="form-label"><i class="fas fa-user me-2"></i> {{ _('Usuario') }}</label>
                         <input type="text" class="form-control form-control-lg" id="username" name="username" required placeholder="{{ _('Introduce tu nombre de usuario') }}">
@@ -102,6 +102,10 @@
                         <a href="#" class="text-info text-decoration-none" data-bs-toggle="modal" data-bs-target="#contactAdminModal">
                             <i class="fas fa-question-circle me-1"></i> {{ _('¿Olvidaste tu contraseña?') }}
                         </a>
+                    </div>
+
+                    <div id="loginError" class="alert alert-danger d-none animate__animated animate__headShake">
+                        <i class="fas fa-exclamation-circle me-2"></i> <span id="errorMessage"></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 py-2 animate__animated animate__pulse animate__infinite animate__slow">
@@ -176,6 +180,59 @@
         document.getElementById('password').addEventListener('input', function() {
             this.classList.remove('shake-animation', 'is-invalid');
         });
+        
+        // Nueva función para manejar el login con JWT
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return false;
+            }
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Ocultar mensaje de error previo
+            errorDiv.classList.add('d-none');
+            
+            // Realizar petición a la API
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Guardar el token JWT en localStorage
+                    localStorage.setItem('jwt_token', data.token);
+                    
+                    // Guardar datos básicos del usuario
+                    localStorage.setItem('user_data', JSON.stringify(data.user));
+                    
+                    // Redirigir al usuario a la página principal
+                    window.location.href = '/';
+                } else {
+                    // Mostrar mensaje de error
+                    errorMessage.textContent = data.error || '{{ _('Credenciales inválidas') }}';
+                    errorDiv.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = '{{ _('Error de conexión. Inténtalo de nuevo más tarde.') }}';
+                errorDiv.classList.remove('d-none');
+            });
+            
+            return false;
+        }
     </script>
 </body>
 </html>

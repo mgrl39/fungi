@@ -56,6 +56,7 @@ class ErrorMessages
     const SYSTEM_DEPENDENCY_ERROR = '⛓️ Error de dependencia: %s ⛓️';
     const SYSTEM_MAINTENANCE_MODE = '🛠️ El sistema se encuentra en mantenimiento 🛠️';
     
+    const VALIDATION_VALUE_ALREADY_EXISTS = 'El valor de %s ya existe en el sistema';
     /**
      * Formatea un mensaje de error con los parámetros proporcionados
      *

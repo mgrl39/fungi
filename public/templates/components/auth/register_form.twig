@@ -76,7 +76,15 @@
                 </div>
                 {% endif %}
 
-                <form method="POST" action="/register" id="loginForm" onsubmit="return validateForm()" data-aos="fade-up" data-aos-delay="200">
+                <div id="registerError" class="alert alert-danger d-none animate__animated animate__headShake">
+                    <i class="fas fa-exclamation-circle me-2"></i> <span id="errorMessage"></span>
+                </div>
+
+                <div id="registerSuccess" class="alert alert-success d-none animate__animated animate__bounceIn">
+                    <i class="fas fa-check-circle me-2"></i> <span id="successMessage">{{ _('Registro exitoso. Serás redirigido al inicio de sesión...') }}</span>
+                </div>
+
+                <form id="registerForm" onsubmit="return handleRegister(event)" data-aos="fade-up" data-aos-delay="200">
                     <div class="mb-4">
                         <label for="username" class="form-label"><i class="fas fa-user me-2"></i> {{ _('Usuario') }}</label>
                         <input type="text" class="form-control form-control-lg" id="username" name="username" required placeholder="{{ _('Elige un nombre de usuario') }}">
@@ -179,6 +187,71 @@
         document.getElementById('confirm_password').addEventListener('input', function() {
             this.classList.remove('shake-animation', 'is-invalid');
         });
+        
+        // Nueva función para manejar el registro con API
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return false;
+            }
+            
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('registerError');
+            const errorMessage = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('registerSuccess');
+            
+            // Ocultar mensajes previos
+            errorDiv.classList.add('d-none');
+            successDiv.classList.add('d-none');
+            
+            // Realizar petición a la API
+            fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.id) {
+                    // Registro exitoso, mostrar mensaje
+                    successDiv.classList.remove('d-none');
+                    
+                    // Desactivar el formulario
+                    document.getElementById('registerForm').querySelectorAll('input, button').forEach(element => {
+                        element.disabled = true;
+                    });
+                    
+                    // Redirigir a login después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = '/login?registered=true';
+                    }, 2000);
+                } else if (data.error) {
+                    // Error en el registro
+                    errorMessage.textContent = data.error;
+                    errorDiv.classList.remove('d-none');
+                } else {
+                    // Error desconocido
+                    errorMessage.textContent = '{{ _('Error en el registro. Inténtalo nuevamente.') }}';
+                    errorDiv.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = '{{ _('Error de conexión. Inténtalo de nuevo más tarde.') }}';
+                errorDiv.classList.remove('d-none');
+            });
+            
+            return false;
+        }
     </script>
 </body>
 </html>

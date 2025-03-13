@@ -10,6 +10,7 @@ RESET := \033[0m
 # Variables del proyecto
 GITHUB_USER := mgrl39
 GITHUB_URL := https://github.com/$(GITHUB_USER)
+API_TEST_SCRIPT := tools/test_api.sh
 
 # Comando para abrir URLs según el sistema operativo
 ifeq ($(shell uname), Darwin)
@@ -32,7 +33,7 @@ LC_MESSAGES := LC_MESSAGES
 PO_FILES := $(foreach lang,$(LANGUAGES),$(LOCALES_DIR)/$(lang)/$(LC_MESSAGES)/messages.po)
 MO_FILES := $(PO_FILES:.po=.mo)
 
-.PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations
+.PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations test-api
 
 help:
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
@@ -46,6 +47,8 @@ help:
 	@echo "$(YELLOW)make check-routes$(RESET) - Verifica rutas (pregunta por el puerto)"
 	@echo "$(YELLOW)make check-routes-port p=XXXX$(RESET) - Verifica rutas en puerto específico"
 	@echo "$(YELLOW)make translations$(RESET) - Genera los archivos .mo de las traducciones"
+	@echo "$(YELLOW)make test-api$(RESET)  - Ejecuta el script de pruebas de la API"
+	@echo "$(YELLOW)make test-api p=XXXX$(RESET) - Ejecuta pruebas de API en puerto específico"
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 
 # Inicializa el entorno
@@ -149,3 +152,22 @@ check-routes-port:
 	done && \
 	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
 	echo "$(GREEN)Verificación de rutas completada.$(RESET)"
+
+# Ejecuta pruebas de la API
+test-api:
+	@echo "$(GREEN)Ejecutando pruebas de la API...$(RESET)"
+	@if [ ! -f "./$(API_TEST_SCRIPT)" ]; then \
+		echo "$(RED)Error: Script de prueba de API no encontrado en $(API_TEST_SCRIPT)$(RESET)"; \
+		exit 1; \
+	fi
+	@if [ ! -x "./$(API_TEST_SCRIPT)" ]; then \
+		echo "$(YELLOW)Haciendo ejecutable el script de prueba...$(RESET)"; \
+		chmod +x ./$(API_TEST_SCRIPT); \
+	fi
+	@if [ -z "$(p)" ]; then \
+		echo "$(YELLOW)¿En qué puerto está ejecutándose la aplicación? [$(PORT)]: $(RESET)" && read input_port && \
+		PORT_TO_USE=$${input_port:-$(PORT)}; \
+		./$(API_TEST_SCRIPT) $$PORT_TO_USE; \
+	else \
+		./$(API_TEST_SCRIPT) $(p); \
+	fi
