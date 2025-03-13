@@ -14,6 +14,7 @@ require_once __DIR__ . '/SessionController.php';
 class AuthController {
     private $db;
     private $session;
+    private $secretKey;
     
     /**
      * @brief Constructor del controlador de autenticación
@@ -23,6 +24,7 @@ class AuthController {
     public function __construct(DatabaseController $db) {
         $this->db = $db;
         $this->session = new SessionController($db);
+        $this->secretKey = $this->getSecretKey();
     }
     
     /**
@@ -80,73 +82,299 @@ class AuthController {
     /**
      * @brief Inicia sesión de un usuario
      * 
-     * @param string $username Nombre de usuario
-     * @param string $password Contraseña del usuario
+     * @param string $username Nombre de usuario o correo
+     * @param string $password Contraseña
      * 
      * @return array Arreglo con el resultado de la operación
-     *         ['success' => bool, 'message' => string] o ['success' => true, 'user' => array]
+     *         ['success' => bool, 'message' => string, 'user' => object|null]
      */
     public function login($username, $password) {
-        $user = $this->db->verifyUser($username, $password);
+        // Verificar si es un nombre de usuario o correo
+        $field = filter_var($username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         
-        if (!$user) {
-            return ['success' => false, 'message' => 'Credenciales inválidas'];
+        try {
+            // Buscar usuario
+            $user = $this->db->query(
+                "SELECT * FROM users WHERE $field = ?",
+                [$username]
+            )->fetch();
+            
+            if (!$user) {
+                return ['success' => false, 'message' => 'Credenciales inválidas', 'user' => null];
+            }
+            
+            // Verificar contraseña
+            if (!password_verify($password, $user['password_hash'])) {
+                return ['success' => false, 'message' => 'Credenciales inválidas', 'user' => null];
+            }
+            
+            // Iniciar sesión
+            session_start();
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            
+            // Generar token de sesión
+            $token = $this->generateSessionToken($user);
+            
+            // Generar JWT y almacenarlo
+            $jwt = $this->createJWT($user);
+            
+            // Actualizar último login
+            $this->db->query(
+                "UPDATE users SET last_login = NOW() WHERE id = ?",
+                [$user['id']]
+            );
+            
+            return [
+                'success' => true, 
+                'message' => 'Sesión iniciada correctamente',
+                'user' => $user
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false, 
+                'message' => 'Error al iniciar sesión: ' . $e->getMessage(),
+                'user' => null
+            ];
         }
-        
-        // Usar SessionController para manejar la sesión
-        if (!$this->session->createSession($user)) {
-            return ['success' => false, 'message' => 'Error al crear la sesión'];
-        }
-        
-        return ['success' => true, 'user' => $user];
     }
     
     /**
-     * @brief Cierra la sesión del usuario actual
+     * @brief Cierra la sesión del usuario
      * 
-     * @return array Arreglo con el resultado de la operación
-     *         ['success' => bool, 'message' => string]
+     * @return array Resultado de la operación
      */
     public function logout() {
         session_start();
-        session_destroy();
+        
+        // Revocar token si existe
+        if (isset($_SESSION['user_id'])) {
+            $this->db->query(
+                "UPDATE users SET token = NULL, jwt = NULL WHERE id = ?", 
+                [$_SESSION['user_id']]
+            );
+        }
         
         // Eliminar cookies
         setcookie("token", "", time() - 3600, "/");
         setcookie("jwt", "", time() - 3600, "/");
         
-        return ['success' => true, 'message' => 'Sesión cerrada'];
+        // Destruir sesión
+        session_destroy();
+        
+        return ['success' => true, 'message' => 'Sesión cerrada correctamente'];
     }
-
+    
     /**
-     * @brief Verifica la validez de un token JWT
+     * @brief Genera un token de sesión para el usuario
      * 
-     * @param string $token Token JWT a verificar
-     * 
-     * @return mixed Objeto decodificado si el token es válido, false en caso contrario
+     * @param array $user Datos del usuario
+     * @return string Token generado
      */
-    public function verifyToken($token) {
+    private function generateSessionToken($user) {
+        // Generar token aleatorio
+        $token = bin2hex(random_bytes(16));
+        
+        // Guardar en cookie
+        $this->createSecureCookie("token", $token, time() + (86400 * 30), "/");
+        
+        // Guardar en base de datos
+        $this->db->query(
+            "UPDATE users SET token = ? WHERE id = ?",
+            [$token, $user['id']]
+        );
+        
+        return $token;
+    }
+    
+    /**
+     * @brief Crea un token JWT para el usuario
+     * 
+     * @param array $user Datos del usuario
+     * @return string Token JWT
+     */
+    private function createJWT($user) {
+        // Datos para el JWT
+        $header = [
+            'alg' => 'HS256',
+            'typ' => 'JWT'
+        ];
+        
+        $payload = [
+            'user_id' => $user['id'],
+            'username' => $user['username'],
+            'exp' => time() + (86400 * 30) // 30 días
+        ];
+        
+        // Generar JWT
+        $jwt = $this->generateJWT($header, $payload);
+        
+        // Guardar en cookie
+        $this->createSecureCookie("jwt", $jwt, time() + (86400 * 30), "/");
+        
+        // Guardar en base de datos
+        $this->db->query(
+            "UPDATE users SET jwt = ? WHERE id = ?",
+            [$jwt, $user['id']]
+        );
+        
+        return $jwt;
+    }
+    
+    /**
+     * @brief Genera un token JWT
+     * 
+     * @param array $header Cabecera del token
+     * @param array $payload Datos del token
+     * @return string Token JWT generado
+     */
+    private function generateJWT($header, $payload) {
+        // Codificar header y payload
+        $header_encoded = $this->base64URLEncode(json_encode($header));
+        $payload_encoded = $this->base64URLEncode(json_encode($payload));
+        
+        // Crear firma
+        $signature = hash_hmac('sha256', "$header_encoded.$payload_encoded", $this->secretKey, true);
+        $signature_encoded = $this->base64URLEncode($signature);
+        
+        // Crear JWT
+        return "$header_encoded.$payload_encoded.$signature_encoded";
+    }
+    
+    /**
+     * @brief Verifica un token JWT
+     * 
+     * @param string $jwt Token JWT a verificar
+     * @return mixed Datos decodificados o false
+     */
+    public function verifyToken($jwt) {
         try {
-            // Verificar si el token existe y no está revocado
+            // Verificar si el token existe en la base de datos
             $tokenData = $this->db->query(
-                "SELECT * FROM jwt_tokens 
-                 WHERE token = ? AND is_revoked = FALSE 
-                 AND expires_at > NOW()",
-                [$token]
+                "SELECT * FROM users WHERE jwt = ?",
+                [$jwt]
             )->fetch();
-
+            
             if (!$tokenData) {
                 return false;
             }
-
-            // Continuar con la verificación JWT normal
-            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
-            return $decoded;
+            
+            // Verificar estructura del token
+            list($header_encoded, $payload_encoded, $signature_encoded) = explode('.', $jwt);
+            
+            // Verificar firma
+            $signature = hash_hmac('sha256', "$header_encoded.$payload_encoded", $this->secretKey, true);
+            $signature_check = $this->base64URLEncode($signature);
+            
+            if ($signature_encoded !== $signature_check) {
+                return false;
+            }
+            
+            // Verificar expiración
+            $payload = json_decode(base64_decode($payload_encoded), true);
+            if (isset($payload['exp']) && $payload['exp'] < time()) {
+                return false; // Expirado
+            }
+            
+            return $payload;
         } catch (Exception $e) {
             return false;
         }
     }
-
+    
+    /**
+     * @brief Codifica en Base64 URL seguro
+     * 
+     * @param string $data Datos a codificar
+     * @return string Datos codificados
+     */
+    private function base64URLEncode($data) {
+        return str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($data));
+    }
+    
+    /**
+     * @brief Crea una cookie segura
+     * 
+     * @param string $name Nombre de la cookie
+     * @param string $value Valor de la cookie
+     * @param int $expires Tiempo de expiración
+     * @param string $path Ruta de la cookie
+     * @return bool Resultado de la operación
+     */
+    private function createSecureCookie($name, $value, $expires, $path) {
+        $domain = '';
+        $secure = false; // Cambiar a true en producción con HTTPS
+        $httponly = true;
+        
+        return setcookie(
+            $name,
+            $value,
+            $expires,
+            $path,
+            $domain,
+            $secure,
+            $httponly
+        );
+    }
+    
+    /**
+     * @brief Obtiene la clave secreta para JWT
+     * 
+     * @return string Clave secreta
+     */
+    private function getSecretKey() {
+        // Cargar desde .env o usar una clave predeterminada
+        if (function_exists('getenv') && getenv('JWT_SECRET_KEY')) {
+            return getenv('JWT_SECRET_KEY');
+        }
+        
+        // Clave predeterminada (¡cambiar en producción!)
+        return 'tu_clave_secreta_segura_para_jwt';
+    }
+    
+    /**
+     * @brief Verifica si el usuario está autenticado
+     * 
+     * @return bool Resultado de la verificación
+     */
+    public function isLoggedIn() {
+        session_start();
+        
+        // Verificar sesión
+        if (isset($_SESSION['user_id'])) {
+            return true;
+        }
+        
+        // Verificar token de cookie
+        if (isset($_COOKIE['token'])) {
+            $token = $_COOKIE['token'];
+            $user = $this->db->query(
+                "SELECT * FROM users WHERE token = ?",
+                [$token]
+            )->fetch();
+            
+            if ($user) {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
+                return true;
+            }
+        }
+        
+        // Verificar JWT
+        if (isset($_COOKIE['jwt'])) {
+            $jwt = $_COOKIE['jwt'];
+            $payload = $this->verifyToken($jwt);
+            
+            if ($payload && isset($payload['user_id'])) {
+                $_SESSION['user_id'] = $payload['user_id'];
+                $_SESSION['username'] = $payload['username'];
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     /**
      * @brief Procesa el formulario de registro
      * 

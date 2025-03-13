@@ -23,17 +23,6 @@
                     <a class="nav-link" href="/about">{{ _('Acerca de') }}</a>
                 </li>
             </ul>
-
-            <form class="d-flex my-2 my-lg-0 mx-auto" action="/search" method="GET">
-                <div class="input-group">
-                    <input class="form-control" type="search" name="q" placeholder="{{ _('Buscar hongos...') }}"
-                        aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
-
             <ul class="navbar-nav ms-auto">
                 {% if is_logged_in %}
                 <li class="nav-item dropdown">
@@ -79,36 +68,22 @@
                             <span class="d-none d-md-inline ml-1">EN</span>
                         {% elseif idioma_actual == 'ca' %}
                             <span class="d-none d-md-inline ml-1">CA</span>
-                        {% elseif idioma_actual == 'fr' %}
-                            <span class="d-none d-md-inline ml-1">FR</span>
-                        {% elseif idioma_actual == 'de' %}
-                            <span class="d-none d-md-inline ml-1">DE</span>
                         {% endif %}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                         <li>
                             <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'es' %}active{% endif %}" data-lang="es">
-                                <img src="/assets/images/flags/es.png" alt="Español" width="20" class="me-2">Español
+                                🇪🇸 Español
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'en' %}active{% endif %}" data-lang="en">
-                                <img src="/assets/images/flags/en.png" alt="English" width="20" class="me-2">English
+                                🇬🇧 English
                             </button>
                         </li>
                         <li>
                             <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'ca' %}active{% endif %}" data-lang="ca">
-                                <img src="/assets/images/flags/ca.png" alt="Català" width="20" class="me-2">Català
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'fr' %}active{% endif %}" data-lang="fr">
-                                <img src="/assets/images/flags/fr.png" alt="Français" width="20" class="me-2">Français
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'de' %}active{% endif %}" data-lang="de">
-                                <img src="/assets/images/flags/de.png" alt="Deutsch" width="20" class="me-2">Deutsch
+                                🐱 Català
                             </button>
                         </li>
                     </ul>
@@ -118,36 +93,4 @@
     </div>
 </nav>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Obtener todos los botones de cambio de idioma
-    const langButtons = document.querySelectorAll('.lang-switch');
-    
-    // Añadir listener a cada botón
-    langButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const lang = this.getAttribute('data-lang');
-            
-            // Crear una solicitud AJAX
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/change-language', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            
-            // Manejar la respuesta
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    // Recargar los componentes de la página sin recargar completamente
-                    // Esto se puede mejorar con una respuesta JSON más detallada
-                    location.reload();
-                }
-            };
-            
-            // Enviar la solicitud
-            xhr.send('lang=' + lang);
-        });
-    });
-});
-</script>
-
-<!-- Bootstrap 5 no requiere inicialización manual de los dropdowns -->
+<script src="/assets/scripts/lang_switch.js"></script>

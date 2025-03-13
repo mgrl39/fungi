@@ -4,6 +4,7 @@
 GREEN := \033[0;32m
 YELLOW := \033[1;33m
 CYAN := \033[0;36m
+RED := \033[0;31m
 RESET := \033[0m
 
 # Variables del proyecto
@@ -24,9 +25,15 @@ SERVER_URL := http://$(SERVER_HOST):$(PORT)
 ROUTES_TO_CHECK := / /index /login /register /about /contact /terms /faq /profile /favorites /statistics /admin /fungus /random /docs/api
 TIMEOUT := 3
 
-.PHONY: help init save-db repos install clean test log status check-routes check-routes-port
+# Variables para gettext
+LOCALES_DIR := locales
+LANGUAGES := es_ES ca_ES en_US
+LC_MESSAGES := LC_MESSAGES
+PO_FILES := $(foreach lang,$(LANGUAGES),$(LOCALES_DIR)/$(lang)/$(LC_MESSAGES)/messages.po)
+MO_FILES := $(PO_FILES:.po=.mo)
 
-# Comando predeterminado al ejecutar solo 'make'
+.PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations
+
 help:
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 	@echo "                      COMANDOS DISPONIBLES                          "
@@ -38,6 +45,7 @@ help:
 	@echo "$(YELLOW)make status$(RESET)    - Muestra el estado actual del proyecto"
 	@echo "$(YELLOW)make check-routes$(RESET) - Verifica rutas (pregunta por el puerto)"
 	@echo "$(YELLOW)make check-routes-port p=XXXX$(RESET) - Verifica rutas en puerto específico"
+	@echo "$(YELLOW)make translations$(RESET) - Genera los archivos .mo de las traducciones"
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 
 # Inicializa el entorno
@@ -63,11 +71,13 @@ save-db:
 github:
 	@echo "$(GREEN)Abriendo Github de $(GITHUB_USER)...$(RESET)"
 	@$(OPEN) $(GITHUB_URL)
+
 # Instala dependencias
 install:
 	@echo "$(GREEN)Instalando dependencias del proyecto...$(RESET)"
 	@echo "Esta funcionalidad aún no está implementada"
 	@echo "$(GREEN)Instalación completada.$(RESET)"
+
 # Ejecuta pruebas
 test:
 	@echo "$(GREEN)Ejecutando pruebas...$(RESET)"
@@ -81,6 +91,20 @@ status:
 	@echo "$(YELLOW)Apache: $(RESET)$(shell systemctl is-active apache2 2>/dev/null || echo 'no instalado')"
 	@echo "$(YELLOW)MySQL: $(RESET)$(shell systemctl is-active mysql 2>/dev/null || echo 'no instalado')"
 	@echo "$(YELLOW)Espacio de disco: $(RESET)$(shell df -h . | grep -v Filesystem | awk '{print $$4 " disponible"}')"
+
+# Genera los archivos .mo de las traducciones
+translations:
+	@echo "$(GREEN)Generando archivos de traducción .mo...$(RESET)"
+	@for lang in $(LANGUAGES); do \
+		if [ -f "$(LOCALES_DIR)/$$lang/$(LC_MESSAGES)/messages.po" ]; then \
+			echo "$(GREEN)Procesando $$lang...$(RESET)"; \
+			msgfmt -o "$(LOCALES_DIR)/$$lang/$(LC_MESSAGES)/messages.mo" "$(LOCALES_DIR)/$$lang/$(LC_MESSAGES)/messages.po"; \
+			echo "$(GREEN)Archivo .mo generado correctamente para $$lang$(RESET)"; \
+		else \
+			echo "$(YELLOW)Advertencia: No se encontró el archivo messages.po para $$lang$(RESET)"; \
+		fi; \
+	done
+	@echo "$(GREEN)Proceso de traducción completado.$(RESET)"
 
 # Verifica las rutas de la página
 check-routes:

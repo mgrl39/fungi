@@ -1,156 +1,184 @@
-
-{% block content %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
+      <!-- Animate.css para animaciones -->
+    <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
+    <!-- AOS - Animate On Scroll -->
+    <link rel="stylesheet" href="/assets/lib/aos/aos.css">
     
-    <!-- Estilos personalizados mínimos -->
-    <link rel="stylesheet" href="/assets/styles/generic.css">
-    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
-    <link rel="stylesheet" href="/assets/styles/components/footer.css">
-    <link rel="stylesheet" href="/assets/styles/pages/home.css">
-    <link rel="stylesheet" href="/assets/styles/components/auth/register_form.css">
-    
-    <!-- Font Awesome para iconos (versión local) -->
-    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
-    <!-- Animate.css para animaciones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <!-- AOS para efectos de scroll -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .shake-animation {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        body {
+            background-color: #131828;
+            background-image: linear-gradient(to bottom right, #131828, #1a2035);
+            height: 100vh;
+            color: #f8f9fa;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-body, .card-footer {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .form-control:focus {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .card-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card animate__animated animate__fadeIn" data-aos="fade-up">
-            <div class="auth-header">
-                <h2 class="animate__animated animate__slideInDown"><i class="fas fa-user-plus"></i> {{ _('Crear cuenta') }}</h2>
-                <p>{{ _('Únete para explorar la base de datos de hongos') }}</p>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card shadow-lg col-md-6 col-lg-5 col-xl-4 border-0 animate__animated animate__fadeIn" data-aos="zoom-in">
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h2 class="mb-0 animate__animated animate__pulse animate__infinite animate__slower"><i class="fas fa-user-plus me-2"></i> {{ _('Registro') }}</h2>
             </div>
-            
-            <form method="POST" action="/register" class="auth-form" id="registerForm" onsubmit="return validateForm()">
+            <div class="card-body p-4">
                 {% if error %}
-                <div class="alert alert-danger animate__animated animate__shakeX">
-                    <i class="fas fa-exclamation-circle"></i> {{ error }}
+                <div class="alert alert-danger animate__animated animate__headShake">
+                    <i class="fas fa-exclamation-circle me-2"></i> {{ error }}
                 </div>
                 {% endif %}
 
-                <div class="form-group" data-aos="fade-right" data-aos-delay="100">
-                    <label for="username"><i class="fas fa-user"></i> {{ _('Nombre de usuario') }}</label>
-                    <input type="text" class="form-control" id="username" name="username" required placeholder="{{ _('Elige un nombre de usuario único') }}">
+                {% if success %}
+                <div class="alert alert-success animate__animated animate__bounceIn">
+                    <i class="fas fa-check-circle me-2"></i> {{ success }}
                 </div>
+                {% endif %}
 
-                <div class="form-group" data-aos="fade-right" data-aos-delay="200">
-                    <label for="email"><i class="fas fa-envelope"></i> {{ _('Correo electrónico') }}</label>
-                    <input type="email" class="form-control" id="email" name="email" required placeholder="{{ _('Introduce tu correo electrónico') }}">
-                </div>
+                <form method="POST" action="/register" id="loginForm" onsubmit="return validateForm()" data-aos="fade-up" data-aos-delay="200">
+                    <div class="mb-4">
+                        <label for="username" class="form-label"><i class="fas fa-user me-2"></i> {{ _('Usuario') }}</label>
+                        <input type="text" class="form-control form-control-lg" id="username" name="username" required placeholder="{{ _('Elige un nombre de usuario') }}">
+                    </div>
 
-                <div class="form-group" data-aos="fade-right" data-aos-delay="300">
-                    <label for="password"><i class="fas fa-lock"></i> {{ _('Contraseña') }}</label>
-                    <input type="password" class="form-control" id="password" name="password" required placeholder="{{ _('Crea una contraseña segura') }}">
-                    <small class="form-text text-muted">{{ _('Mínimo 8 caracteres, incluyendo mayúsculas, minúsculas y números') }}</small>
-                </div>
+                    <div class="mb-4">
+                        <label for="email" class="form-label"><i class="fas fa-envelope me-2"></i> {{ _('Correo electrónico') }}</label>
+                        <input type="email" class="form-control form-control-lg" id="email" name="email" required placeholder="{{ _('Introduce tu correo electrónico') }}">
+                    </div>
 
-                <div class="form-group" data-aos="fade-right" data-aos-delay="400">
-                    <label for="confirm_password"><i class="fas fa-lock"></i> {{ _('Confirmar contraseña') }}</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required placeholder="{{ _('Repite tu contraseña') }}">
-                </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label"><i class="fas fa-lock me-2"></i> {{ _('Contraseña') }}</label>
+                        <input type="password" class="form-control form-control-lg" id="password" name="password" required placeholder="{{ _('Elige una contraseña') }}">
+                    </div>
 
-                <div class="form-check" data-aos="fade-up" data-aos-delay="500">
-                    <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
-                    <label class="form-check-label" for="terms">
-                        {{ _('Acepto los') }} <a href="/terms">{{ _('términos y condiciones') }}</a>
-                    </label>
-                </div>
+                    <div class="mb-4">
+                        <label for="confirm_password" class="form-label"><i class="fas fa-lock me-2"></i> {{ _('Confirmar Contraseña') }}</label>
+                        <input type="password" class="form-control form-control-lg" id="confirm_password" name="confirm_password" required placeholder="{{ _('Repite tu contraseña') }}">
+                    </div>
 
-                <button type="submit" class="btn btn-primary btn-block" data-aos="zoom-in" data-aos-delay="600">
-                    <i class="fas fa-user-plus"></i> {{ _('Registrarse') }}
-                </button>
-            </form>
-
-            <div class="auth-footer" data-aos="fade-up" data-aos-delay="700">
-                <p><i class="fas fa-sign-in-alt"></i> {{ _('¿Ya tienes una cuenta?') }} <a href="/login">{{ _('Inicia sesión') }}</a></p>
+                    <button type="submit" class="btn btn-primary w-100 py-2 animate__animated animate__pulse animate__infinite animate__slow">
+                        <i class="fas fa-user-plus me-2"></i> {{ _('Registrarse') }}
+                    </button>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3">
+                <p class="mb-0 text-white"><i class="fas fa-sign-in-alt me-2"></i> {{ _('¿Ya tienes una cuenta?') }} <a href="/login" class="text-decoration-none text-info">{{ _('Inicia sesión') }}</a></p>
             </div>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Inicializar AOS
         AOS.init({
-            duration: 800,
-            once: true
+            duration: 500,
+            easing: 'ease-in-out'
         });
-
+        
         function validateForm() {
             const username = document.getElementById('username').value.trim();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm_password').value;
-            const terms = document.getElementById('terms').checked;
-            
-            let isValid = true;
+            const usernameInput = document.getElementById('username');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm_password');
 
-            // Validar nombre de usuario
             if (username === '') {
-                shakeElement('username');
-                isValid = false;
-            }
-
-            // Validar email
-            if (email === '' || !isValidEmail(email)) {
-                shakeElement('email');
-                isValid = false;
-            }
-
-            // Validar contraseña
-            if (password === '' || password.length < 8) {
-                shakeElement('password');
-                isValid = false;
-            }
-
-            // Validar confirmación de contraseña
-            if (confirmPassword === '' || confirmPassword !== password) {
-                shakeElement('confirm_password');
-                isValid = false;
-            }
-
-            // Validar términos
-            if (!terms) {
-                document.getElementById('terms').classList.add('animate__animated', 'animate__heartBeat');
+                usernameInput.classList.add('shake-animation', 'is-invalid');
                 setTimeout(() => {
-                    document.getElementById('terms').classList.remove('animate__animated', 'animate__heartBeat');
-                }, 1000);
-                isValid = false;
+                    usernameInput.classList.remove('shake-animation');
+                }, 500);
+                return false;
             }
 
-            return isValid;
+            if (email === '' || !email.includes('@')) {
+                emailInput.classList.add('shake-animation', 'is-invalid');
+                setTimeout(() => {
+                    emailInput.classList.remove('shake-animation');
+                }, 500);
+                return false;
+            }
+
+            if (password === '') {
+                passwordInput.classList.add('shake-animation', 'is-invalid');
+                setTimeout(() => {
+                    passwordInput.classList.remove('shake-animation');
+                }, 500);
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                passwordInput.classList.add('shake-animation', 'is-invalid');
+                confirmPasswordInput.classList.add('shake-animation', 'is-invalid');
+                setTimeout(() => {
+                    passwordInput.classList.remove('shake-animation');
+                    confirmPasswordInput.classList.remove('shake-animation');
+                }, 500);
+                return false;
+            }
+
+            return true;
         }
 
-        function shakeElement(elementId) {
-            const element = document.getElementById(elementId);
-            element.classList.add('animate__animated', 'animate__shakeX');
-            setTimeout(() => {
-                element.classList.remove('animate__animated', 'animate__shakeX');
-            }, 1000);
-        }
+        // Eliminar la clase de animación cuando el usuario empiece a escribir
+        document.getElementById('username').addEventListener('input', function() {
+            this.classList.remove('shake-animation', 'is-invalid');
+        });
 
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
+        document.getElementById('email').addEventListener('input', function() {
+            this.classList.remove('shake-animation', 'is-invalid');
+        });
 
-        // Remover animaciones al escribir
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', function() {
-                this.classList.remove('animate__animated', 'animate__shakeX');
-            });
+        document.getElementById('password').addEventListener('input', function() {
+            this.classList.remove('shake-animation', 'is-invalid');
+        });
+
+        document.getElementById('confirm_password').addEventListener('input', function() {
+            this.classList.remove('shake-animation', 'is-invalid');
         });
     </script>
 </body>
 </html>
-{% endblock %}
