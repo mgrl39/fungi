@@ -238,33 +238,33 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>string Token JWT generado </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00432">432</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  432</span>                                                  : <span class="keywordtype">string</span></div>
-<div class="line"><span class="lineno">  433</span>    {</div>
-<div class="line"><span class="lineno">  434</span>        $secretKey = defined(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>) ? JWT_SECRET : getenv(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>);</div>
-<div class="line"><span class="lineno">  435</span>        <span class="keywordflow">if</span> (!$secretKey) {</div>
-<div class="line"><span class="lineno">  436</span>            $secretKey = <span class="stringliteral">&#39;default_jwt_secret_key&#39;</span>; <span class="comment">// ¡Solo como respaldo! Configurar siempre una clave segura</span></div>
-<div class="line"><span class="lineno">  437</span>        }</div>
-<div class="line"><span class="lineno">  438</span>        </div>
-<div class="line"><span class="lineno">  439</span>        $issuedAt = time();</div>
-<div class="line"><span class="lineno">  440</span>        $expire = $issuedAt + 3600; <span class="comment">// Token válido por 1 hora</span></div>
-<div class="line"><span class="lineno">  441</span>        </div>
-<div class="line"><span class="lineno">  442</span>        $payload = [</div>
-<div class="line"><span class="lineno">  443</span>            <span class="stringliteral">&#39;iat&#39;</span> =&gt; $issuedAt,      <span class="comment">// Tiempo en que fue emitido el token</span></div>
-<div class="line"><span class="lineno">  444</span>            <span class="stringliteral">&#39;exp&#39;</span> =&gt; $expire,        <span class="comment">// Tiempo de expiración</span></div>
-<div class="line"><span class="lineno">  445</span>            <span class="stringliteral">&#39;sub&#39;</span> =&gt; $user[<span class="stringliteral">&#39;id&#39;</span>],    <span class="comment">// ID del usuario como subject</span></div>
-<div class="line"><span class="lineno">  446</span>            <span class="stringliteral">&#39;username&#39;</span> =&gt; $user[<span class="stringliteral">&#39;username&#39;</span>],</div>
-<div class="line"><span class="lineno">  447</span>            <span class="stringliteral">&#39;role&#39;</span> =&gt; $user[<span class="stringliteral">&#39;role&#39;</span>]</div>
-<div class="line"><span class="lineno">  448</span>        ];</div>
-<div class="line"><span class="lineno">  449</span>        </div>
-<div class="line"><span class="lineno">  450</span>        <span class="comment">// Codificación simple del token - en producción usar una biblioteca JWT adecuada</span></div>
-<div class="line"><span class="lineno">  451</span>        $header = base64_encode(json_encode([<span class="stringliteral">&#39;typ&#39;</span> =&gt; <span class="stringliteral">&#39;JWT&#39;</span>, <span class="stringliteral">&#39;alg&#39;</span> =&gt; <span class="stringliteral">&#39;HS256&#39;</span>]));</div>
-<div class="line"><span class="lineno">  452</span>        $payloadEncoded = base64_encode(json_encode($payload));</div>
-<div class="line"><span class="lineno">  453</span>        $signature = hash_hmac(<span class="stringliteral">&#39;sha256&#39;</span>, <span class="stringliteral">&quot;$header.$payloadEncoded&quot;</span>, $secretKey, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  454</span>        $signatureEncoded = base64_encode($signature);</div>
-<div class="line"><span class="lineno">  455</span>        </div>
-<div class="line"><span class="lineno">  456</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;$header.$payloadEncoded.$signatureEncoded&quot;</span>;</div>
-<div class="line"><span class="lineno">  457</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00465">465</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  465</span>                                                  : <span class="keywordtype">string</span></div>
+<div class="line"><span class="lineno">  466</span>    {</div>
+<div class="line"><span class="lineno">  467</span>        $secretKey = defined(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>) ? JWT_SECRET : getenv(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>);</div>
+<div class="line"><span class="lineno">  468</span>        <span class="keywordflow">if</span> (!$secretKey) {</div>
+<div class="line"><span class="lineno">  469</span>            $secretKey = <span class="stringliteral">&#39;default_jwt_secret_key&#39;</span>; <span class="comment">// ¡Solo como respaldo! Configurar siempre una clave segura</span></div>
+<div class="line"><span class="lineno">  470</span>        }</div>
+<div class="line"><span class="lineno">  471</span>        </div>
+<div class="line"><span class="lineno">  472</span>        $issuedAt = time();</div>
+<div class="line"><span class="lineno">  473</span>        $expire = $issuedAt + 3600; <span class="comment">// Token válido por 1 hora</span></div>
+<div class="line"><span class="lineno">  474</span>        </div>
+<div class="line"><span class="lineno">  475</span>        $payload = [</div>
+<div class="line"><span class="lineno">  476</span>            <span class="stringliteral">&#39;iat&#39;</span> =&gt; $issuedAt,      <span class="comment">// Tiempo en que fue emitido el token</span></div>
+<div class="line"><span class="lineno">  477</span>            <span class="stringliteral">&#39;exp&#39;</span> =&gt; $expire,        <span class="comment">// Tiempo de expiración</span></div>
+<div class="line"><span class="lineno">  478</span>            <span class="stringliteral">&#39;sub&#39;</span> =&gt; $user[<span class="stringliteral">&#39;id&#39;</span>],    <span class="comment">// ID del usuario como subject</span></div>
+<div class="line"><span class="lineno">  479</span>            <span class="stringliteral">&#39;username&#39;</span> =&gt; $user[<span class="stringliteral">&#39;username&#39;</span>],</div>
+<div class="line"><span class="lineno">  480</span>            <span class="stringliteral">&#39;role&#39;</span> =&gt; $user[<span class="stringliteral">&#39;role&#39;</span>]</div>
+<div class="line"><span class="lineno">  481</span>        ];</div>
+<div class="line"><span class="lineno">  482</span>        </div>
+<div class="line"><span class="lineno">  483</span>        <span class="comment">// Codificación simple del token - en producción usar una biblioteca JWT adecuada</span></div>
+<div class="line"><span class="lineno">  484</span>        $header = base64_encode(json_encode([<span class="stringliteral">&#39;typ&#39;</span> =&gt; <span class="stringliteral">&#39;JWT&#39;</span>, <span class="stringliteral">&#39;alg&#39;</span> =&gt; <span class="stringliteral">&#39;HS256&#39;</span>]));</div>
+<div class="line"><span class="lineno">  485</span>        $payloadEncoded = base64_encode(json_encode($payload));</div>
+<div class="line"><span class="lineno">  486</span>        $signature = hash_hmac(<span class="stringliteral">&#39;sha256&#39;</span>, <span class="stringliteral">&quot;$header.$payloadEncoded&quot;</span>, $secretKey, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  487</span>        $signatureEncoded = base64_encode($signature);</div>
+<div class="line"><span class="lineno">  488</span>        </div>
+<div class="line"><span class="lineno">  489</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;$header.$payloadEncoded.$signatureEncoded&quot;</span>;</div>
+<div class="line"><span class="lineno">  490</span>    }</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -320,24 +320,24 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00361">361</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  362</span>    {</div>
-<div class="line"><span class="lineno">  363</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  364</span>            $id = $matches[1];</div>
-<div class="line"><span class="lineno">  365</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;DELETE FROM fungi WHERE id = ?&quot;</span>);</div>
-<div class="line"><span class="lineno">  366</span>            $stmt-&gt;execute([$id]);</div>
-<div class="line"><span class="lineno">  367</span> </div>
-<div class="line"><span class="lineno">  368</span>            <span class="keywordflow">if</span> ($stmt-&gt;rowCount() &gt; 0) {</div>
-<div class="line"><span class="lineno">  369</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>]);</div>
-<div class="line"><span class="lineno">  370</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  371</span>                http_response_code(404);</div>
-<div class="line"><span class="lineno">  372</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
-<div class="line"><span class="lineno">  373</span>            }</div>
-<div class="line"><span class="lineno">  374</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  375</span>            http_response_code(404);</div>
-<div class="line"><span class="lineno">  376</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
-<div class="line"><span class="lineno">  377</span>        }</div>
-<div class="line"><span class="lineno">  378</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00394">394</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  395</span>    {</div>
+<div class="line"><span class="lineno">  396</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  397</span>            $id = $matches[1];</div>
+<div class="line"><span class="lineno">  398</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;DELETE FROM fungi WHERE id = ?&quot;</span>);</div>
+<div class="line"><span class="lineno">  399</span>            $stmt-&gt;execute([$id]);</div>
+<div class="line"><span class="lineno">  400</span> </div>
+<div class="line"><span class="lineno">  401</span>            <span class="keywordflow">if</span> ($stmt-&gt;rowCount() &gt; 0) {</div>
+<div class="line"><span class="lineno">  402</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>]);</div>
+<div class="line"><span class="lineno">  403</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  404</span>                http_response_code(404);</div>
+<div class="line"><span class="lineno">  405</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
+<div class="line"><span class="lineno">  406</span>            }</div>
+<div class="line"><span class="lineno">  407</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  408</span>            http_response_code(404);</div>
+<div class="line"><span class="lineno">  409</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
+<div class="line"><span class="lineno">  410</span>        }</div>
+<div class="line"><span class="lineno">  411</span>    }</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -393,55 +393,99 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00133">133</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  134</span>    {</div>
-<div class="line"><span class="lineno">  135</span>        <span class="keywordflow">if</span> ($endpoint === <span class="stringliteral">&#39;fungi&#39;</span> || $endpoint === <span class="stringliteral">&#39;fungi/all&#39;</span>) {</div>
-<div class="line"><span class="lineno">  136</span>            $stmt = $this-&gt;pdo-&gt;query(<span class="stringliteral">&quot;SELECT * FROM fungi&quot;</span>);</div>
-<div class="line"><span class="lineno">  137</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $stmt-&gt;fetchAll(PDO::FETCH_ASSOC)]);</div>
-<div class="line"><span class="lineno">  138</span>        } elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/page\/(\d+)\/limit\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  139</span>            $pageNumber = (int)$matches[1];</div>
-<div class="line"><span class="lineno">  140</span>            $limit = (int)$matches[2];</div>
-<div class="line"><span class="lineno">  141</span>            $offset = ($pageNumber - 1) * $limit;</div>
-<div class="line"><span class="lineno">  142</span> </div>
-<div class="line"><span class="lineno">  143</span>            $fungis = $this-&gt;db-&gt;getFungisPaginated($limit, $offset);</div>
-<div class="line"><span class="lineno">  144</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungis]);</div>
-<div class="line"><span class="lineno">  145</span>        } elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  146</span>            $id = $matches[1];</div>
-<div class="line"><span class="lineno">  147</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;</span></div>
-<div class="line"><span class="lineno">  148</span><span class="stringliteral">                SELECT f.*, c.*, t.*, </span></div>
-<div class="line"><span class="lineno">  149</span><span class="stringliteral">                       GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  150</span><span class="stringliteral">                FROM fungi f </span></div>
-<div class="line"><span class="lineno">  151</span><span class="stringliteral">                LEFT JOIN characteristics c ON f.id = c.fungi_id </span></div>
-<div class="line"><span class="lineno">  152</span><span class="stringliteral">                LEFT JOIN taxonomy t ON f.id = t.fungi_id</span></div>
-<div class="line"><span class="lineno">  153</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  154</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
-<div class="line"><span class="lineno">  155</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  156</span><span class="stringliteral">                WHERE f.id = ? </span></div>
-<div class="line"><span class="lineno">  157</span><span class="stringliteral">                GROUP BY f.id&quot;</span>);</div>
-<div class="line"><span class="lineno">  158</span>            $stmt-&gt;execute([$id]);</div>
-<div class="line"><span class="lineno">  159</span>            $fungus = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  160</span>            </div>
-<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">if</span> ($fungus) {</div>
-<div class="line"><span class="lineno">  162</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungus]);</div>
-<div class="line"><span class="lineno">  163</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  164</span>                http_response_code(404);</div>
-<div class="line"><span class="lineno">  165</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
-<div class="line"><span class="lineno">  166</span>            }</div>
-<div class="line"><span class="lineno">  167</span>        } elseif ($endpoint === <span class="stringliteral">&#39;users&#39;</span>) {</div>
-<div class="line"><span class="lineno">  168</span>            $stmt = $this-&gt;pdo-&gt;query(<span class="stringliteral">&quot;SELECT id, username, email, role, created_at FROM users&quot;</span>);</div>
-<div class="line"><span class="lineno">  169</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $stmt-&gt;fetchAll(PDO::FETCH_ASSOC)]);</div>
-<div class="line"><span class="lineno">  170</span>        } elseif ($endpoint === <span class="stringliteral">&#39;fungi/random&#39;</span>) {</div>
-<div class="line"><span class="lineno">  171</span>            $randomFungus = $this-&gt;db-&gt;getRandomFungus();</div>
-<div class="line"><span class="lineno">  172</span>            <span class="keywordflow">if</span> ($randomFungus) {</div>
-<div class="line"><span class="lineno">  173</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $randomFungus]);</div>
-<div class="line"><span class="lineno">  174</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  175</span>                http_response_code(404);</div>
-<div class="line"><span class="lineno">  176</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
-<div class="line"><span class="lineno">  177</span>            }</div>
-<div class="line"><span class="lineno">  178</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  179</span>            http_response_code(404);</div>
-<div class="line"><span class="lineno">  180</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
-<div class="line"><span class="lineno">  181</span>        }</div>
-<div class="line"><span class="lineno">  182</span>    }</div>
+<div class="line"><span class="lineno">  135</span>        <span class="comment">// Verificar el token de autenticación si se ha enviado</span></div>
+<div class="line"><span class="lineno">  136</span>        $authHeader = isset($_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>]) ? $_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>] : <span class="stringliteral">&#39;&#39;</span>;</div>
+<div class="line"><span class="lineno">  137</span>        $token = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  138</span>        $user = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  139</span>        </div>
+<div class="line"><span class="lineno">  140</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/Bearer\s(\S+)/&#39;</span>, $authHeader, $matches)) {</div>
+<div class="line"><span class="lineno">  141</span>            $token = $matches[1];</div>
+<div class="line"><span class="lineno">  142</span>            $payload = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a68f0af9a2dfcb25d955d8fdb3b79375a">verifyJwtToken</a>($token);</div>
+<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">if</span> ($payload) {</div>
+<div class="line"><span class="lineno">  144</span>                $user = [</div>
+<div class="line"><span class="lineno">  145</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;sub&#39;</span>],</div>
+<div class="line"><span class="lineno">  146</span>                    <span class="stringliteral">&#39;username&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;username&#39;</span>],</div>
+<div class="line"><span class="lineno">  147</span>                    <span class="stringliteral">&#39;role&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;role&#39;</span>]</div>
+<div class="line"><span class="lineno">  148</span>                ];</div>
+<div class="line"><span class="lineno">  149</span>            }</div>
+<div class="line"><span class="lineno">  150</span>        }</div>
+<div class="line"><span class="lineno">  151</span> </div>
+<div class="line"><span class="lineno">  152</span>        <span class="keywordflow">if</span> ($endpoint === <span class="stringliteral">&#39;auth/verify&#39;</span>) {</div>
+<div class="line"><span class="lineno">  153</span>            <span class="keywordflow">if</span> ($user) {</div>
+<div class="line"><span class="lineno">  154</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  155</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  156</span>                    <span class="stringliteral">&#39;authenticated&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  157</span>                    <span class="stringliteral">&#39;user&#39;</span> =&gt; $user</div>
+<div class="line"><span class="lineno">  158</span>                ]);</div>
+<div class="line"><span class="lineno">  159</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  160</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  161</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  162</span>                    <span class="stringliteral">&#39;authenticated&#39;</span> =&gt; <span class="keyword">false</span></div>
+<div class="line"><span class="lineno">  163</span>                ]);</div>
+<div class="line"><span class="lineno">  164</span>            }</div>
+<div class="line"><span class="lineno">  165</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  166</span>        }</div>
+<div class="line"><span class="lineno">  167</span> </div>
+<div class="line"><span class="lineno">  168</span>        <span class="keywordflow">if</span> ($endpoint === <span class="stringliteral">&#39;fungi&#39;</span> || $endpoint === <span class="stringliteral">&#39;fungi/all&#39;</span>) {</div>
+<div class="line"><span class="lineno">  169</span>            $stmt = $this-&gt;pdo-&gt;query(<span class="stringliteral">&quot;SELECT * FROM fungi&quot;</span>);</div>
+<div class="line"><span class="lineno">  170</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $stmt-&gt;fetchAll(PDO::FETCH_ASSOC)]);</div>
+<div class="line"><span class="lineno">  171</span>        } elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/page\/(\d+)\/limit\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  172</span>            $pageNumber = (int)$matches[1];</div>
+<div class="line"><span class="lineno">  173</span>            $limit = (int)$matches[2];</div>
+<div class="line"><span class="lineno">  174</span>            $offset = ($pageNumber - 1) * $limit;</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>            $fungis = $this-&gt;db-&gt;getFungisPaginated($limit, $offset);</div>
+<div class="line"><span class="lineno">  177</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungis]);</div>
+<div class="line"><span class="lineno">  178</span>        } elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  179</span>            $id = $matches[1];</div>
+<div class="line"><span class="lineno">  180</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;</span></div>
+<div class="line"><span class="lineno">  181</span><span class="stringliteral">                SELECT f.*, c.*, t.*, </span></div>
+<div class="line"><span class="lineno">  182</span><span class="stringliteral">                       GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  183</span><span class="stringliteral">                FROM fungi f </span></div>
+<div class="line"><span class="lineno">  184</span><span class="stringliteral">                LEFT JOIN characteristics c ON f.id = c.fungi_id </span></div>
+<div class="line"><span class="lineno">  185</span><span class="stringliteral">                LEFT JOIN taxonomy t ON f.id = t.fungi_id</span></div>
+<div class="line"><span class="lineno">  186</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  187</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  188</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  189</span><span class="stringliteral">                WHERE f.id = ? </span></div>
+<div class="line"><span class="lineno">  190</span><span class="stringliteral">                GROUP BY f.id&quot;</span>);</div>
+<div class="line"><span class="lineno">  191</span>            $stmt-&gt;execute([$id]);</div>
+<div class="line"><span class="lineno">  192</span>            $fungus = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  193</span>            </div>
+<div class="line"><span class="lineno">  194</span>            <span class="keywordflow">if</span> ($fungus) {</div>
+<div class="line"><span class="lineno">  195</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungus]);</div>
+<div class="line"><span class="lineno">  196</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  197</span>                http_response_code(404);</div>
+<div class="line"><span class="lineno">  198</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
+<div class="line"><span class="lineno">  199</span>            }</div>
+<div class="line"><span class="lineno">  200</span>        } elseif ($endpoint === <span class="stringliteral">&#39;users&#39;</span>) {</div>
+<div class="line"><span class="lineno">  201</span>            $stmt = $this-&gt;pdo-&gt;query(<span class="stringliteral">&quot;SELECT id, username, email, role, created_at FROM users&quot;</span>);</div>
+<div class="line"><span class="lineno">  202</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $stmt-&gt;fetchAll(PDO::FETCH_ASSOC)]);</div>
+<div class="line"><span class="lineno">  203</span>        } elseif ($endpoint === <span class="stringliteral">&#39;fungi/random&#39;</span>) {</div>
+<div class="line"><span class="lineno">  204</span>            $randomFungus = $this-&gt;db-&gt;getRandomFungus();</div>
+<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">if</span> ($randomFungus) {</div>
+<div class="line"><span class="lineno">  206</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;data&#39;</span> =&gt; $randomFungus]);</div>
+<div class="line"><span class="lineno">  207</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  208</span>                http_response_code(404);</div>
+<div class="line"><span class="lineno">  209</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
+<div class="line"><span class="lineno">  210</span>            }</div>
+<div class="line"><span class="lineno">  211</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  212</span>            http_response_code(404);</div>
+<div class="line"><span class="lineno">  213</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
+<div class="line"><span class="lineno">  214</span>        }</div>
+<div class="line"><span class="lineno">  215</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a68f0af9a2dfcb25d955d8fdb3b79375a"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a68f0af9a2dfcb25d955d8fdb3b79375a">App\Controllers\ApiController\verifyJwtToken</a></div><div class="ttdeci">verifyJwtToken(string $token)</div><div class="ttdoc">Verifica un token JWT recibido.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00500">ApiController.php:500</a></div></div>
 </div><!-- fragment --><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_cgraph.png" border="0" usemap="#aclassApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_cgraph" alt=""/></div>
+<map name="aclassApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_cgraph" id="aclassApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_cgraph">
+<area shape="rect" title="Manejador de solicitudes GET." alt="" coords="5,5,216,45"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a68f0af9a2dfcb25d955d8fdb3b79375a" title="Verifica un token JWT recibido." alt="" coords="264,5,475,45"/>
+<area shape="poly" title=" " alt="" coords="216,23,251,23,251,28,216,28"/>
+</map>
+</div>
+<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_icgraph.png" border="0" usemap="#aclassApp_1_1Controllers_1_1ApiController_ada189fa85b1c852d7deb9f5d59f16109_icgraph" alt=""/></div>
@@ -494,134 +538,134 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00194">194</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  195</span>    {</div>
-<div class="line"><span class="lineno">  196</span>        <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a> = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>        <span class="keywordflow">if</span> ($endpoint === <span class="stringliteral">&#39;fungi&#39;</span>) {</div>
-<div class="line"><span class="lineno">  199</span>            $requiredFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>];</div>
-<div class="line"><span class="lineno">  200</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
-<div class="line"><span class="lineno">  201</span>                http_response_code(400);</div>
-<div class="line"><span class="lineno">  202</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;name, edibility, habitat&#39;</span>)]);</div>
-<div class="line"><span class="lineno">  203</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  204</span>            }</div>
-<div class="line"><span class="lineno">  205</span> </div>
-<div class="line"><span class="lineno">  206</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;INSERT INTO fungi (name, edibility, habitat, observations, common_name, synonym, title) VALUES (?, ?, ?, ?, ?, ?, ?)&quot;</span>);</div>
-<div class="line"><span class="lineno">  207</span>            $stmt-&gt;execute([</div>
-<div class="line"><span class="lineno">  208</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;name&#39;</span>],</div>
-<div class="line"><span class="lineno">  209</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;edibility&#39;</span>],</div>
-<div class="line"><span class="lineno">  210</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;habitat&#39;</span>],</div>
-<div class="line"><span class="lineno">  211</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;observations&#39;</span>],</div>
-<div class="line"><span class="lineno">  212</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;common_name&#39;</span>],</div>
-<div class="line"><span class="lineno">  213</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;synonym&#39;</span>],</div>
-<div class="line"><span class="lineno">  214</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;title&#39;</span>]</div>
-<div class="line"><span class="lineno">  215</span>            ]);</div>
-<div class="line"><span class="lineno">  216</span> </div>
-<div class="line"><span class="lineno">  217</span>            echo json_encode([<span class="stringliteral">&#39;id&#39;</span> =&gt; $this-&gt;pdo-&gt;lastInsertId()]);</div>
-<div class="line"><span class="lineno">  218</span>        } elseif ($endpoint === <span class="stringliteral">&#39;users&#39;</span>) {</div>
-<div class="line"><span class="lineno">  219</span>            $requiredFields = [<span class="stringliteral">&#39;username&#39;</span>, <span class="stringliteral">&#39;email&#39;</span>, <span class="stringliteral">&#39;password&#39;</span>];</div>
-<div class="line"><span class="lineno">  220</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
-<div class="line"><span class="lineno">  221</span>                http_response_code(400);</div>
-<div class="line"><span class="lineno">  222</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  223</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  224</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;username, email, password&#39;</span>)</div>
-<div class="line"><span class="lineno">  225</span>                ]);</div>
-<div class="line"><span class="lineno">  226</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  227</span>            }</div>
-<div class="line"><span class="lineno">  228</span>            </div>
-<div class="line"><span class="lineno">  229</span>            <span class="comment">// Validación de formato de email</span></div>
-<div class="line"><span class="lineno">  230</span>            <span class="keywordflow">if</span> (!filter_var(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>], FILTER_VALIDATE_EMAIL)) {</div>
-<div class="line"><span class="lineno">  231</span>                http_response_code(400);</div>
-<div class="line"><span class="lineno">  232</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  233</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  234</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::VALIDATION_INVALID_EMAIL</div>
-<div class="line"><span class="lineno">  235</span>                ]);</div>
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00227">227</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  228</span>    {</div>
+<div class="line"><span class="lineno">  229</span>        <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a> = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  230</span> </div>
+<div class="line"><span class="lineno">  231</span>        <span class="keywordflow">if</span> ($endpoint === <span class="stringliteral">&#39;fungi&#39;</span>) {</div>
+<div class="line"><span class="lineno">  232</span>            $requiredFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>];</div>
+<div class="line"><span class="lineno">  233</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
+<div class="line"><span class="lineno">  234</span>                http_response_code(400);</div>
+<div class="line"><span class="lineno">  235</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;name, edibility, habitat&#39;</span>)]);</div>
 <div class="line"><span class="lineno">  236</span>                <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  237</span>            }</div>
-<div class="line"><span class="lineno">  238</span>            </div>
-<div class="line"><span class="lineno">  239</span>            <span class="comment">// Verificar que el nombre de usuario no exista</span></div>
-<div class="line"><span class="lineno">  240</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id FROM users WHERE username = ?&quot;</span>);</div>
-<div class="line"><span class="lineno">  241</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>]]);</div>
-<div class="line"><span class="lineno">  242</span>            <span class="keywordflow">if</span> ($stmt-&gt;fetch()) {</div>
-<div class="line"><span class="lineno">  243</span>                http_response_code(409); <span class="comment">// Conflict</span></div>
-<div class="line"><span class="lineno">  244</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  245</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  246</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_VALUE_ALREADY_EXISTS, <span class="stringliteral">&#39;username&#39;</span>)</div>
-<div class="line"><span class="lineno">  247</span>                ]);</div>
-<div class="line"><span class="lineno">  248</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  249</span>            }</div>
-<div class="line"><span class="lineno">  250</span>            </div>
-<div class="line"><span class="lineno">  251</span>            <span class="comment">// Verificar que el email no exista</span></div>
-<div class="line"><span class="lineno">  252</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id FROM users WHERE email = ?&quot;</span>);</div>
-<div class="line"><span class="lineno">  253</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>]]);</div>
-<div class="line"><span class="lineno">  254</span>            <span class="keywordflow">if</span> ($stmt-&gt;fetch()) {</div>
-<div class="line"><span class="lineno">  255</span>                http_response_code(409); <span class="comment">// Conflict</span></div>
-<div class="line"><span class="lineno">  256</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  257</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  258</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_VALUE_ALREADY_EXISTS, <span class="stringliteral">&#39;email&#39;</span>)</div>
-<div class="line"><span class="lineno">  259</span>                ]);</div>
-<div class="line"><span class="lineno">  260</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  261</span>            }</div>
-<div class="line"><span class="lineno">  262</span>            </div>
-<div class="line"><span class="lineno">  263</span>            <span class="comment">// Generar hash de la contraseña</span></div>
-<div class="line"><span class="lineno">  264</span>            $passwordHash = password_hash(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;password&#39;</span>], PASSWORD_BCRYPT);</div>
-<div class="line"><span class="lineno">  265</span>            </div>
-<div class="line"><span class="lineno">  266</span>            <span class="comment">// Insertar el nuevo usuario</span></div>
-<div class="line"><span class="lineno">  267</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;INSERT INTO users (username, email, password_hash, role, created_at) VALUES (?, ?, ?, &#39;user&#39;, NOW())&quot;</span>);</div>
-<div class="line"><span class="lineno">  268</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>], $passwordHash]);</div>
-<div class="line"><span class="lineno">  269</span>            </div>
-<div class="line"><span class="lineno">  270</span>            $userId = $this-&gt;pdo-&gt;lastInsertId();</div>
+<div class="line"><span class="lineno">  238</span> </div>
+<div class="line"><span class="lineno">  239</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;INSERT INTO fungi (name, edibility, habitat, observations, common_name, synonym, title) VALUES (?, ?, ?, ?, ?, ?, ?)&quot;</span>);</div>
+<div class="line"><span class="lineno">  240</span>            $stmt-&gt;execute([</div>
+<div class="line"><span class="lineno">  241</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;name&#39;</span>],</div>
+<div class="line"><span class="lineno">  242</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;edibility&#39;</span>],</div>
+<div class="line"><span class="lineno">  243</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;habitat&#39;</span>],</div>
+<div class="line"><span class="lineno">  244</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;observations&#39;</span>],</div>
+<div class="line"><span class="lineno">  245</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;common_name&#39;</span>],</div>
+<div class="line"><span class="lineno">  246</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;synonym&#39;</span>],</div>
+<div class="line"><span class="lineno">  247</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;title&#39;</span>]</div>
+<div class="line"><span class="lineno">  248</span>            ]);</div>
+<div class="line"><span class="lineno">  249</span> </div>
+<div class="line"><span class="lineno">  250</span>            echo json_encode([<span class="stringliteral">&#39;id&#39;</span> =&gt; $this-&gt;pdo-&gt;lastInsertId()]);</div>
+<div class="line"><span class="lineno">  251</span>        } elseif ($endpoint === <span class="stringliteral">&#39;users&#39;</span>) {</div>
+<div class="line"><span class="lineno">  252</span>            $requiredFields = [<span class="stringliteral">&#39;username&#39;</span>, <span class="stringliteral">&#39;email&#39;</span>, <span class="stringliteral">&#39;password&#39;</span>];</div>
+<div class="line"><span class="lineno">  253</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
+<div class="line"><span class="lineno">  254</span>                http_response_code(400);</div>
+<div class="line"><span class="lineno">  255</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  256</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  257</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;username, email, password&#39;</span>)</div>
+<div class="line"><span class="lineno">  258</span>                ]);</div>
+<div class="line"><span class="lineno">  259</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  260</span>            }</div>
+<div class="line"><span class="lineno">  261</span>            </div>
+<div class="line"><span class="lineno">  262</span>            <span class="comment">// Validación de formato de email</span></div>
+<div class="line"><span class="lineno">  263</span>            <span class="keywordflow">if</span> (!filter_var(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>], FILTER_VALIDATE_EMAIL)) {</div>
+<div class="line"><span class="lineno">  264</span>                http_response_code(400);</div>
+<div class="line"><span class="lineno">  265</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  266</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  267</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::VALIDATION_INVALID_EMAIL</div>
+<div class="line"><span class="lineno">  268</span>                ]);</div>
+<div class="line"><span class="lineno">  269</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  270</span>            }</div>
 <div class="line"><span class="lineno">  271</span>            </div>
-<div class="line"><span class="lineno">  272</span>            <span class="comment">// Devolver respuesta exitosa</span></div>
-<div class="line"><span class="lineno">  273</span>            echo json_encode([</div>
-<div class="line"><span class="lineno">  274</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  275</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $userId,</div>
-<div class="line"><span class="lineno">  276</span>                <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Usuario registrado exitosamente&#39;</span></div>
-<div class="line"><span class="lineno">  277</span>            ]);</div>
-<div class="line"><span class="lineno">  278</span>        } elseif ($endpoint === <span class="stringliteral">&#39;auth/login&#39;</span>) {</div>
-<div class="line"><span class="lineno">  279</span>            <span class="comment">// Manejo de autenticación y generación de JWT</span></div>
-<div class="line"><span class="lineno">  280</span>            $requiredFields = [<span class="stringliteral">&#39;username&#39;</span>, <span class="stringliteral">&#39;password&#39;</span>];</div>
-<div class="line"><span class="lineno">  281</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
-<div class="line"><span class="lineno">  282</span>                http_response_code(400);</div>
-<div class="line"><span class="lineno">  283</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  284</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
-<div class="line"><span class="lineno">  285</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;username, password&#39;</span>)</div>
-<div class="line"><span class="lineno">  286</span>                ]);</div>
-<div class="line"><span class="lineno">  287</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  288</span>            }</div>
-<div class="line"><span class="lineno">  289</span> </div>
-<div class="line"><span class="lineno">  290</span>            <span class="comment">// Autenticar usuario</span></div>
-<div class="line"><span class="lineno">  291</span>            $user = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385">login</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;password&#39;</span>]);</div>
-<div class="line"><span class="lineno">  292</span>            </div>
-<div class="line"><span class="lineno">  293</span>            <span class="keywordflow">if</span> ($user) {</div>
-<div class="line"><span class="lineno">  294</span>                <span class="comment">// Generar token JWT</span></div>
-<div class="line"><span class="lineno">  295</span>                $token = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd">generateJwtToken</a>($user);</div>
-<div class="line"><span class="lineno">  296</span>                </div>
-<div class="line"><span class="lineno">  297</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  298</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, </div>
-<div class="line"><span class="lineno">  299</span>                    <span class="stringliteral">&#39;token&#39;</span> =&gt; $token,</div>
-<div class="line"><span class="lineno">  300</span>                    <span class="stringliteral">&#39;user&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  301</span>                        <span class="stringliteral">&#39;id&#39;</span> =&gt; $user[<span class="stringliteral">&#39;id&#39;</span>],</div>
-<div class="line"><span class="lineno">  302</span>                        <span class="stringliteral">&#39;username&#39;</span> =&gt; $user[<span class="stringliteral">&#39;username&#39;</span>],</div>
-<div class="line"><span class="lineno">  303</span>                        <span class="stringliteral">&#39;email&#39;</span> =&gt; $user[<span class="stringliteral">&#39;email&#39;</span>],</div>
-<div class="line"><span class="lineno">  304</span>                        <span class="stringliteral">&#39;role&#39;</span> =&gt; $user[<span class="stringliteral">&#39;role&#39;</span>]</div>
-<div class="line"><span class="lineno">  305</span>                    ]</div>
-<div class="line"><span class="lineno">  306</span>                ]);</div>
-<div class="line"><span class="lineno">  307</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  308</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  309</span>                echo json_encode([</div>
-<div class="line"><span class="lineno">  310</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
-<div class="line"><span class="lineno">  311</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_INVALID_CREDENTIALS</div>
-<div class="line"><span class="lineno">  312</span>                ]);</div>
-<div class="line"><span class="lineno">  313</span>            }</div>
-<div class="line"><span class="lineno">  314</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  315</span>            http_response_code(404);</div>
-<div class="line"><span class="lineno">  316</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
-<div class="line"><span class="lineno">  317</span>        }</div>
-<div class="line"><span class="lineno">  318</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a11a918dc45f469f21cb20e4bd37f1385"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385">App\Controllers\ApiController\login</a></div><div class="ttdeci">login(string $username, string $password)</div><div class="ttdoc">Autenticación de usuario.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00410">ApiController.php:410</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a148e8164c069528736151080114f05d3"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">App\Controllers\ApiController\validateRequiredFields</a></div><div class="ttdeci">validateRequiredFields(array $data, array $requiredFields)</div><div class="ttdoc">Validación de campos requeridos.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00390">ApiController.php:390</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a28647c8018a767756a70c078ff3f42cd"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd">App\Controllers\ApiController\generateJwtToken</a></div><div class="ttdeci">generateJwtToken(array $user)</div><div class="ttdoc">Genera un token JWT para el usuario autenticado.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00432">ApiController.php:432</a></div></div>
+<div class="line"><span class="lineno">  272</span>            <span class="comment">// Verificar que el nombre de usuario no exista</span></div>
+<div class="line"><span class="lineno">  273</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id FROM users WHERE username = ?&quot;</span>);</div>
+<div class="line"><span class="lineno">  274</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>]]);</div>
+<div class="line"><span class="lineno">  275</span>            <span class="keywordflow">if</span> ($stmt-&gt;fetch()) {</div>
+<div class="line"><span class="lineno">  276</span>                http_response_code(409); <span class="comment">// Conflict</span></div>
+<div class="line"><span class="lineno">  277</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  278</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  279</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_VALUE_ALREADY_EXISTS, <span class="stringliteral">&#39;username&#39;</span>)</div>
+<div class="line"><span class="lineno">  280</span>                ]);</div>
+<div class="line"><span class="lineno">  281</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  282</span>            }</div>
+<div class="line"><span class="lineno">  283</span>            </div>
+<div class="line"><span class="lineno">  284</span>            <span class="comment">// Verificar que el email no exista</span></div>
+<div class="line"><span class="lineno">  285</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id FROM users WHERE email = ?&quot;</span>);</div>
+<div class="line"><span class="lineno">  286</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>]]);</div>
+<div class="line"><span class="lineno">  287</span>            <span class="keywordflow">if</span> ($stmt-&gt;fetch()) {</div>
+<div class="line"><span class="lineno">  288</span>                http_response_code(409); <span class="comment">// Conflict</span></div>
+<div class="line"><span class="lineno">  289</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  290</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  291</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_VALUE_ALREADY_EXISTS, <span class="stringliteral">&#39;email&#39;</span>)</div>
+<div class="line"><span class="lineno">  292</span>                ]);</div>
+<div class="line"><span class="lineno">  293</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  294</span>            }</div>
+<div class="line"><span class="lineno">  295</span>            </div>
+<div class="line"><span class="lineno">  296</span>            <span class="comment">// Generar hash de la contraseña</span></div>
+<div class="line"><span class="lineno">  297</span>            $passwordHash = password_hash(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;password&#39;</span>], PASSWORD_BCRYPT);</div>
+<div class="line"><span class="lineno">  298</span>            </div>
+<div class="line"><span class="lineno">  299</span>            <span class="comment">// Insertar el nuevo usuario</span></div>
+<div class="line"><span class="lineno">  300</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;INSERT INTO users (username, email, password_hash, role, created_at) VALUES (?, ?, ?, &#39;user&#39;, NOW())&quot;</span>);</div>
+<div class="line"><span class="lineno">  301</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>], $passwordHash]);</div>
+<div class="line"><span class="lineno">  302</span>            </div>
+<div class="line"><span class="lineno">  303</span>            $userId = $this-&gt;pdo-&gt;lastInsertId();</div>
+<div class="line"><span class="lineno">  304</span>            </div>
+<div class="line"><span class="lineno">  305</span>            <span class="comment">// Devolver respuesta exitosa</span></div>
+<div class="line"><span class="lineno">  306</span>            echo json_encode([</div>
+<div class="line"><span class="lineno">  307</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  308</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $userId,</div>
+<div class="line"><span class="lineno">  309</span>                <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Usuario registrado exitosamente&#39;</span></div>
+<div class="line"><span class="lineno">  310</span>            ]);</div>
+<div class="line"><span class="lineno">  311</span>        } elseif ($endpoint === <span class="stringliteral">&#39;auth/login&#39;</span>) {</div>
+<div class="line"><span class="lineno">  312</span>            <span class="comment">// Manejo de autenticación y generación de JWT</span></div>
+<div class="line"><span class="lineno">  313</span>            $requiredFields = [<span class="stringliteral">&#39;username&#39;</span>, <span class="stringliteral">&#39;password&#39;</span>];</div>
+<div class="line"><span class="lineno">  314</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
+<div class="line"><span class="lineno">  315</span>                http_response_code(400);</div>
+<div class="line"><span class="lineno">  316</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  317</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
+<div class="line"><span class="lineno">  318</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;username, password&#39;</span>)</div>
+<div class="line"><span class="lineno">  319</span>                ]);</div>
+<div class="line"><span class="lineno">  320</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  321</span>            }</div>
+<div class="line"><span class="lineno">  322</span> </div>
+<div class="line"><span class="lineno">  323</span>            <span class="comment">// Autenticar usuario</span></div>
+<div class="line"><span class="lineno">  324</span>            $user = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385">login</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;password&#39;</span>]);</div>
+<div class="line"><span class="lineno">  325</span>            </div>
+<div class="line"><span class="lineno">  326</span>            <span class="keywordflow">if</span> ($user) {</div>
+<div class="line"><span class="lineno">  327</span>                <span class="comment">// Generar token JWT</span></div>
+<div class="line"><span class="lineno">  328</span>                $token = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd">generateJwtToken</a>($user);</div>
+<div class="line"><span class="lineno">  329</span>                </div>
+<div class="line"><span class="lineno">  330</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  331</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, </div>
+<div class="line"><span class="lineno">  332</span>                    <span class="stringliteral">&#39;token&#39;</span> =&gt; $token,</div>
+<div class="line"><span class="lineno">  333</span>                    <span class="stringliteral">&#39;user&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  334</span>                        <span class="stringliteral">&#39;id&#39;</span> =&gt; $user[<span class="stringliteral">&#39;id&#39;</span>],</div>
+<div class="line"><span class="lineno">  335</span>                        <span class="stringliteral">&#39;username&#39;</span> =&gt; $user[<span class="stringliteral">&#39;username&#39;</span>],</div>
+<div class="line"><span class="lineno">  336</span>                        <span class="stringliteral">&#39;email&#39;</span> =&gt; $user[<span class="stringliteral">&#39;email&#39;</span>],</div>
+<div class="line"><span class="lineno">  337</span>                        <span class="stringliteral">&#39;role&#39;</span> =&gt; $user[<span class="stringliteral">&#39;role&#39;</span>]</div>
+<div class="line"><span class="lineno">  338</span>                    ]</div>
+<div class="line"><span class="lineno">  339</span>                ]);</div>
+<div class="line"><span class="lineno">  340</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  341</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  342</span>                echo json_encode([</div>
+<div class="line"><span class="lineno">  343</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
+<div class="line"><span class="lineno">  344</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_INVALID_CREDENTIALS</div>
+<div class="line"><span class="lineno">  345</span>                ]);</div>
+<div class="line"><span class="lineno">  346</span>            }</div>
+<div class="line"><span class="lineno">  347</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  348</span>            http_response_code(404);</div>
+<div class="line"><span class="lineno">  349</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
+<div class="line"><span class="lineno">  350</span>        }</div>
+<div class="line"><span class="lineno">  351</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a11a918dc45f469f21cb20e4bd37f1385"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385">App\Controllers\ApiController\login</a></div><div class="ttdeci">login(string $username, string $password)</div><div class="ttdoc">Autenticación de usuario.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00443">ApiController.php:443</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a148e8164c069528736151080114f05d3"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">App\Controllers\ApiController\validateRequiredFields</a></div><div class="ttdeci">validateRequiredFields(array $data, array $requiredFields)</div><div class="ttdoc">Validación de campos requeridos.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00423">ApiController.php:423</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a28647c8018a767756a70c078ff3f42cd"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd">App\Controllers\ApiController\generateJwtToken</a></div><div class="ttdeci">generateJwtToken(array $user)</div><div class="ttdoc">Genera un token JWT para el usuario autenticado.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00465">ApiController.php:465</a></div></div>
 <div class="ttc" id="aroutes_8php_html_a6efc15b5a2314dd4b5aaa556a375c6d6"><div class="ttname"><a href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a></div><div class="ttdeci">$data</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00406">routes.php:406</a></div></div>
 </div><!-- fragment --><div class="dynheader">
 Here is the call graph for this function:</div>
@@ -690,26 +734,26 @@ Here is the caller graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00330">330</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  331</span>    {</div>
-<div class="line"><span class="lineno">  332</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  333</span>            $id = $matches[1];</div>
-<div class="line"><span class="lineno">  334</span>            <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a> = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  335</span> </div>
-<div class="line"><span class="lineno">  336</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;UPDATE fungi SET name = ?, edibility = ?, habitat = ? WHERE id = ?&quot;</span>);</div>
-<div class="line"><span class="lineno">  337</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;name&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;edibility&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;habitat&#39;</span>], $id]);</div>
-<div class="line"><span class="lineno">  338</span> </div>
-<div class="line"><span class="lineno">  339</span>            <span class="keywordflow">if</span> ($stmt-&gt;rowCount() &gt; 0) {</div>
-<div class="line"><span class="lineno">  340</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>]);</div>
-<div class="line"><span class="lineno">  341</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  342</span>                http_response_code(404);</div>
-<div class="line"><span class="lineno">  343</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
-<div class="line"><span class="lineno">  344</span>            }</div>
-<div class="line"><span class="lineno">  345</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  346</span>            http_response_code(404);</div>
-<div class="line"><span class="lineno">  347</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
-<div class="line"><span class="lineno">  348</span>        }</div>
-<div class="line"><span class="lineno">  349</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00363">363</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  364</span>    {</div>
+<div class="line"><span class="lineno">  365</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  366</span>            $id = $matches[1];</div>
+<div class="line"><span class="lineno">  367</span>            <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a> = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  368</span> </div>
+<div class="line"><span class="lineno">  369</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;UPDATE fungi SET name = ?, edibility = ?, habitat = ? WHERE id = ?&quot;</span>);</div>
+<div class="line"><span class="lineno">  370</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;name&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;edibility&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;habitat&#39;</span>], $id]);</div>
+<div class="line"><span class="lineno">  371</span> </div>
+<div class="line"><span class="lineno">  372</span>            <span class="keywordflow">if</span> ($stmt-&gt;rowCount() &gt; 0) {</div>
+<div class="line"><span class="lineno">  373</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>]);</div>
+<div class="line"><span class="lineno">  374</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  375</span>                http_response_code(404);</div>
+<div class="line"><span class="lineno">  376</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::DB_RECORD_NOT_FOUND]);</div>
+<div class="line"><span class="lineno">  377</span>            }</div>
+<div class="line"><span class="lineno">  378</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  379</span>            http_response_code(404);</div>
+<div class="line"><span class="lineno">  380</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404]);</div>
+<div class="line"><span class="lineno">  381</span>        }</div>
+<div class="line"><span class="lineno">  382</span>    }</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -813,9 +857,9 @@ Here is the caller graph for this function:</div>
 <div class="line"><span class="lineno">  119</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::DB_QUERY_ERROR, $e-&gt;getMessage())]);</div>
 <div class="line"><span class="lineno">  120</span>        }</div>
 <div class="line"><span class="lineno">  121</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a42d236c3d92bd345648219584a384e3e"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a42d236c3d92bd345648219584a384e3e">App\Controllers\ApiController\handleDelete</a></div><div class="ttdeci">handleDelete($endpoint)</div><div class="ttdoc">Manejador de solicitudes DELETE.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00361">ApiController.php:361</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a44716cc151011ed147d461835bdd8c17"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a44716cc151011ed147d461835bdd8c17">App\Controllers\ApiController\handlePut</a></div><div class="ttdeci">handlePut($endpoint)</div><div class="ttdoc">Manejador de solicitudes PUT.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00330">ApiController.php:330</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a8cd77387760dd2cc99af170a4edde2e7"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7">App\Controllers\ApiController\handlePost</a></div><div class="ttdeci">handlePost($endpoint)</div><div class="ttdoc">Manejador de solicitudes POST.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00194">ApiController.php:194</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a42d236c3d92bd345648219584a384e3e"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a42d236c3d92bd345648219584a384e3e">App\Controllers\ApiController\handleDelete</a></div><div class="ttdeci">handleDelete($endpoint)</div><div class="ttdoc">Manejador de solicitudes DELETE.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00394">ApiController.php:394</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a44716cc151011ed147d461835bdd8c17"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a44716cc151011ed147d461835bdd8c17">App\Controllers\ApiController\handlePut</a></div><div class="ttdeci">handlePut($endpoint)</div><div class="ttdoc">Manejador de solicitudes PUT.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00363">ApiController.php:363</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a8cd77387760dd2cc99af170a4edde2e7"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7">App\Controllers\ApiController\handlePost</a></div><div class="ttdeci">handlePost($endpoint)</div><div class="ttdoc">Manejador de solicitudes POST.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00227">ApiController.php:227</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_ada189fa85b1c852d7deb9f5d59f16109"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#ada189fa85b1c852d7deb9f5d59f16109">App\Controllers\ApiController\handleGet</a></div><div class="ttdeci">handleGet($endpoint)</div><div class="ttdoc">Manejador de solicitudes GET.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00133">ApiController.php:133</a></div></div>
 <div class="ttc" id="aroutes_8php_html_a653b5458163d338546c47271b4fb81b7"><div class="ttname"><a href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a></div><div class="ttdeci">$uri</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00004">routes.php:4</a></div></div>
 </div><!-- fragment --><div class="dynheader">
@@ -832,12 +876,14 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="216,132,251,136,250,141,216,137"/>
 <area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a44716cc151011ed147d461835bdd8c17" title="Manejador de solicitudes PUT." alt="" coords="264,197,475,237"/>
 <area shape="poly" title=" " alt="" coords="158,139,265,183,287,191,286,196,263,188,156,144"/>
-<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd" title="Genera un token JWT para el usuario autenticado." alt="" coords="523,69,733,109"/>
-<area shape="poly" title=" " alt="" coords="450,131,533,110,534,115,452,136"/>
-<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385" title="Autenticación de usuario." alt="" coords="523,133,733,173"/>
-<area shape="poly" title=" " alt="" coords="475,151,509,151,509,156,475,156"/>
-<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3" title="Validación de campos requeridos." alt="" coords="523,197,733,237"/>
-<area shape="poly" title=" " alt="" coords="452,171,534,191,533,197,450,176"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a68f0af9a2dfcb25d955d8fdb3b79375a" title="Verifica un token JWT recibido." alt="" coords="523,37,733,77"/>
+<area shape="poly" title=" " alt="" coords="474,74,509,69,510,75,475,79"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a28647c8018a767756a70c078ff3f42cd" title="Genera un token JWT para el usuario autenticado." alt="" coords="523,101,733,141"/>
+<area shape="poly" title=" " alt="" coords="474,138,509,133,510,139,475,143"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385" title="Autenticación de usuario." alt="" coords="523,165,733,205"/>
+<area shape="poly" title=" " alt="" coords="475,164,510,168,509,173,474,169"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3" title="Validación de campos requeridos." alt="" coords="523,229,733,269"/>
+<area shape="poly" title=" " alt="" coords="447,171,476,183,500,199,524,215,540,222,538,227,521,220,497,204,473,188,445,176"/>
 </map>
 </div>
 
@@ -886,20 +932,20 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00410">410</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  410</span>                                                             : ?array</div>
-<div class="line"><span class="lineno">  411</span>    {</div>
-<div class="line"><span class="lineno">  412</span>        $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id, username, email, password_hash, role FROM users WHERE username = ?&quot;</span>);</div>
-<div class="line"><span class="lineno">  413</span>        $stmt-&gt;execute([$username]);</div>
-<div class="line"><span class="lineno">  414</span>        $user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  415</span> </div>
-<div class="line"><span class="lineno">  416</span>        <span class="keywordflow">if</span> ($user &amp;&amp; password_verify($password, $user[<span class="stringliteral">&#39;password_hash&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  417</span>            unset($user[<span class="stringliteral">&#39;password_hash&#39;</span>]); <span class="comment">// No devolvemos el hash de la contraseña</span></div>
-<div class="line"><span class="lineno">  418</span>            <span class="keywordflow">return</span> $user;</div>
-<div class="line"><span class="lineno">  419</span>        }</div>
-<div class="line"><span class="lineno">  420</span> </div>
-<div class="line"><span class="lineno">  421</span>        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  422</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00443">443</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  443</span>                                                             : ?array</div>
+<div class="line"><span class="lineno">  444</span>    {</div>
+<div class="line"><span class="lineno">  445</span>        $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id, username, email, password_hash, role FROM users WHERE username = ?&quot;</span>);</div>
+<div class="line"><span class="lineno">  446</span>        $stmt-&gt;execute([$username]);</div>
+<div class="line"><span class="lineno">  447</span>        $user = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  448</span> </div>
+<div class="line"><span class="lineno">  449</span>        <span class="keywordflow">if</span> ($user &amp;&amp; password_verify($password, $user[<span class="stringliteral">&#39;password_hash&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  450</span>            unset($user[<span class="stringliteral">&#39;password_hash&#39;</span>]); <span class="comment">// No devolvemos el hash de la contraseña</span></div>
+<div class="line"><span class="lineno">  451</span>            <span class="keywordflow">return</span> $user;</div>
+<div class="line"><span class="lineno">  452</span>        }</div>
+<div class="line"><span class="lineno">  453</span> </div>
+<div class="line"><span class="lineno">  454</span>        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  455</span>    }</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -960,16 +1006,16 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool Verdadero si todos los campos requeridos están presentes y no vacíos </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00390">390</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  390</span>                                                                               : <span class="keywordtype">bool</span></div>
-<div class="line"><span class="lineno">  391</span>    {</div>
-<div class="line"><span class="lineno">  392</span>        <span class="keywordflow">foreach</span> ($requiredFields as $field) {</div>
-<div class="line"><span class="lineno">  393</span>            <span class="keywordflow">if</span> (!isset(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[$field]) || empty(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[$field])) {</div>
-<div class="line"><span class="lineno">  394</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  395</span>            }</div>
-<div class="line"><span class="lineno">  396</span>        }</div>
-<div class="line"><span class="lineno">  397</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  398</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00423">423</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  423</span>                                                                               : <span class="keywordtype">bool</span></div>
+<div class="line"><span class="lineno">  424</span>    {</div>
+<div class="line"><span class="lineno">  425</span>        <span class="keywordflow">foreach</span> ($requiredFields as $field) {</div>
+<div class="line"><span class="lineno">  426</span>            <span class="keywordflow">if</span> (!isset(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[$field]) || empty(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[$field])) {</div>
+<div class="line"><span class="lineno">  427</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  428</span>            }</div>
+<div class="line"><span class="lineno">  429</span>        }</div>
+<div class="line"><span class="lineno">  430</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  431</span>    }</div>
 </div><!-- fragment --><div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1011,37 +1057,49 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>array|bool Datos del payload si el token es válido, false en caso contrario </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00467">467</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  468</span>    {</div>
-<div class="line"><span class="lineno">  469</span>        $secretKey = defined(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>) ? JWT_SECRET : getenv(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>);</div>
-<div class="line"><span class="lineno">  470</span>        <span class="keywordflow">if</span> (!$secretKey) {</div>
-<div class="line"><span class="lineno">  471</span>            $secretKey = <span class="stringliteral">&#39;default_jwt_secret_key&#39;</span>; <span class="comment">// ¡Solo como respaldo!</span></div>
-<div class="line"><span class="lineno">  472</span>        }</div>
-<div class="line"><span class="lineno">  473</span>        </div>
-<div class="line"><span class="lineno">  474</span>        $parts = explode(<span class="charliteral">&#39;.&#39;</span>, $token);</div>
-<div class="line"><span class="lineno">  475</span>        <span class="keywordflow">if</span> (count($parts) != 3) {</div>
-<div class="line"><span class="lineno">  476</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  477</span>        }</div>
-<div class="line"><span class="lineno">  478</span>        </div>
-<div class="line"><span class="lineno">  479</span>        list($header, $payload, $signature) = $parts;</div>
-<div class="line"><span class="lineno">  480</span>        </div>
-<div class="line"><span class="lineno">  481</span>        $valid = hash_hmac(<span class="stringliteral">&#39;sha256&#39;</span>, <span class="stringliteral">&quot;$header.$payload&quot;</span>, $secretKey, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  482</span>        $validEncoded = base64_encode($valid);</div>
-<div class="line"><span class="lineno">  483</span>        </div>
-<div class="line"><span class="lineno">  484</span>        <span class="keywordflow">if</span> ($signature !== $validEncoded) {</div>
-<div class="line"><span class="lineno">  485</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  486</span>        }</div>
-<div class="line"><span class="lineno">  487</span>        </div>
-<div class="line"><span class="lineno">  488</span>        $payload = json_decode(base64_decode($payload), <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  489</span>        </div>
-<div class="line"><span class="lineno">  490</span>        <span class="comment">// Verificar expiración</span></div>
-<div class="line"><span class="lineno">  491</span>        <span class="keywordflow">if</span> (isset($payload[<span class="stringliteral">&#39;exp&#39;</span>]) &amp;&amp; $payload[<span class="stringliteral">&#39;exp&#39;</span>] &lt; time()) {</div>
-<div class="line"><span class="lineno">  492</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  493</span>        }</div>
-<div class="line"><span class="lineno">  494</span>        </div>
-<div class="line"><span class="lineno">  495</span>        <span class="keywordflow">return</span> $payload;</div>
-<div class="line"><span class="lineno">  496</span>    }</div>
-</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="ApiController_8php_source.html#l00500">500</a> of file <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  501</span>    {</div>
+<div class="line"><span class="lineno">  502</span>        $secretKey = defined(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>) ? JWT_SECRET : getenv(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>);</div>
+<div class="line"><span class="lineno">  503</span>        <span class="keywordflow">if</span> (!$secretKey) {</div>
+<div class="line"><span class="lineno">  504</span>            $secretKey = <span class="stringliteral">&#39;default_jwt_secret_key&#39;</span>; <span class="comment">// ¡Solo como respaldo!</span></div>
+<div class="line"><span class="lineno">  505</span>        }</div>
+<div class="line"><span class="lineno">  506</span>        </div>
+<div class="line"><span class="lineno">  507</span>        $parts = explode(<span class="charliteral">&#39;.&#39;</span>, $token);</div>
+<div class="line"><span class="lineno">  508</span>        <span class="keywordflow">if</span> (count($parts) != 3) {</div>
+<div class="line"><span class="lineno">  509</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  510</span>        }</div>
+<div class="line"><span class="lineno">  511</span>        </div>
+<div class="line"><span class="lineno">  512</span>        list($header, $payload, $signature) = $parts;</div>
+<div class="line"><span class="lineno">  513</span>        </div>
+<div class="line"><span class="lineno">  514</span>        $valid = hash_hmac(<span class="stringliteral">&#39;sha256&#39;</span>, <span class="stringliteral">&quot;$header.$payload&quot;</span>, $secretKey, <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  515</span>        $validEncoded = base64_encode($valid);</div>
+<div class="line"><span class="lineno">  516</span>        </div>
+<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">if</span> ($signature !== $validEncoded) {</div>
+<div class="line"><span class="lineno">  518</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  519</span>        }</div>
+<div class="line"><span class="lineno">  520</span>        </div>
+<div class="line"><span class="lineno">  521</span>        $payload = json_decode(base64_decode($payload), <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  522</span>        </div>
+<div class="line"><span class="lineno">  523</span>        <span class="comment">// Verificar expiración</span></div>
+<div class="line"><span class="lineno">  524</span>        <span class="keywordflow">if</span> (isset($payload[<span class="stringliteral">&#39;exp&#39;</span>]) &amp;&amp; $payload[<span class="stringliteral">&#39;exp&#39;</span>] &lt; time()) {</div>
+<div class="line"><span class="lineno">  525</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  526</span>        }</div>
+<div class="line"><span class="lineno">  527</span>        </div>
+<div class="line"><span class="lineno">  528</span>        <span class="keywordflow">return</span> $payload;</div>
+<div class="line"><span class="lineno">  529</span>    }</div>
+</div><!-- fragment --><div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classApp_1_1Controllers_1_1ApiController_a68f0af9a2dfcb25d955d8fdb3b79375a_icgraph.png" border="0" usemap="#aclassApp_1_1Controllers_1_1ApiController_a68f0af9a2dfcb25d955d8fdb3b79375a_icgraph" alt=""/></div>
+<map name="aclassApp_1_1Controllers_1_1ApiController_a68f0af9a2dfcb25d955d8fdb3b79375a_icgraph" id="aclassApp_1_1Controllers_1_1ApiController_a68f0af9a2dfcb25d955d8fdb3b79375a_icgraph">
+<area shape="rect" title="Verifica un token JWT recibido." alt="" coords="523,5,733,45"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#ada189fa85b1c852d7deb9f5d59f16109" title="Manejador de solicitudes GET." alt="" coords="264,5,475,45"/>
+<area shape="poly" title=" " alt="" coords="509,28,475,28,475,23,509,23"/>
+<area shape="rect" href="classApp_1_1Controllers_1_1ApiController.html#a4739afff6242e9326d420f13fa554d4d" title="Manejador de solicitudes HTTP." alt="" coords="5,5,216,45"/>
+<area shape="poly" title=" " alt="" coords="250,28,216,28,216,23,250,23"/>
+</map>
+</div>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>

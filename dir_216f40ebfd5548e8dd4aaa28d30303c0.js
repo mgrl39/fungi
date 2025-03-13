@@ -5,7 +5,6 @@ var dir_216f40ebfd5548e8dd4aaa28d30303c0 =
     [ "ui", "dir_5cbc1d6ef07d390e1cbc73bf855064a5.html", "dir_5cbc1d6ef07d390e1cbc73bf855064a5" ],
     [ "charts.css", "charts_8css.html", null ],
     [ "footer.css", "footer_8css.html", null ],
-    [ "header.css", "header_8css.html", null ],
     [ "navbar.css", "navbar_8css.html", null ],
     [ "sidebar.css", "sidebar_8css.html", null ]
 ];
