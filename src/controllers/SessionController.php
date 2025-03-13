@@ -8,12 +8,15 @@ class SessionController {
         $this->db = $db;
     }
 
+    /**
+     * Registra un nuevo usuario
+     */
     public function userSignUp($username, $email, $password) {
-        // Verificar si el usuario o email ya existe
+        // Verificar si el usuario ya existe
         if ($this->userExists($username, $email)) {
             return [
                 'success' => false,
-                'message' => 'El nombre de usuario o correo electrónico ya existe'
+                'message' => 'El nombre de usuario o correo ya existe'
             ];
         }
         
@@ -31,9 +34,8 @@ class SessionController {
                 ':jwt' => ''
             ];
             
-            $stmt = $this->db->query($sql, $params);
-            
-            if ($stmt) {
+            $result = $this->db->query($sql, $params);
+            if ($result) {
                 return [
                     'success' => true,
                     'message' => 'Usuario registrado exitosamente'
@@ -44,86 +46,73 @@ class SessionController {
                     'message' => 'Error al registrar usuario'
                 ];
             }
-        } catch(\PDOException $e) {
-            error_log("Error en registro: " . $e->getMessage());
+        } catch(\Exception $e) {
             return [
                 'success' => false,
-                'message' => 'Error interno del servidor'
+                'message' => 'Error interno: ' . $e->getMessage()
             ];
         }
     }
 
+    /**
+     * Autentica un usuario y crea su sesión
+     */
     public function userLogin($username, $password) {
-        if (!$this->userExists($username)) {
-            return [
-                'success' => false,
-                'message' => 'Nombre de usuario o contraseña incorrectos'
-            ];
-        } 
-        
         try {
             $sql = "SELECT id, username, password_hash, role FROM users WHERE username = :username";
-            $params = [':username' => $username];
-            $stmt = $this->db->query($sql, $params);
-            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $user = $this->db->query($sql, [':username' => $username])->fetch(\PDO::FETCH_ASSOC);
             
             if ($user && password_verify($password, $user['password_hash'])) {
-                // Iniciar sesión
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
+                session_start();
                 
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 
                 // Generar token de sesión
-                $this->generateSessionToken($user['id']);
-                
-                // Crear JWT y guardar en cookie
-                $jwt = $this->createJWT($user['id'], $user['username'], $user['role']);
-                
-                // Actualizar last_login
+                $token = bin2hex(random_bytes(16));
                 $this->db->query(
-                    "UPDATE users SET last_login = NOW() WHERE id = :id",
-                    [':id' => $user['id']]
+                    "UPDATE users SET token = :token WHERE id = :id",
+                    [':token' => $token, ':id' => $user['id']]
                 );
+                
+                // Crear cookie segura para el token
+                setcookie("token", $token, time() + (86400 * 30), "/");
+                
+                // Generar JWT
+                $jwt = $this->createJWT($user['id'], $user['username'], $user['role']);
                 
                 return [
                     'success' => true,
                     'message' => 'Login exitoso'
                 ];
-            } else {
-                return [
-                    'success' => false,
-                    'message' => 'Nombre de usuario o contraseña incorrectos'
-                ];
             }
-        } catch(\PDOException $e) {
-            error_log("Error en login: " . $e->getMessage());
+            
             return [
                 'success' => false,
-                'message' => 'Error interno del servidor'
+                'message' => 'Credenciales inválidas'
+            ];
+        } catch(\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Error interno: ' . $e->getMessage()
             ];
         }
     }
 
+    /**
+     * Cierra la sesión del usuario
+     */
     public function userLogout() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        // Eliminar token de base de datos si existe
         if (isset($_SESSION['user_id'])) {
+            // Eliminar token de la base de datos
             $this->db->query(
-                "UPDATE users SET token = NULL WHERE id = :id",
+                "UPDATE users SET token = NULL, jwt = NULL WHERE id = :id",
                 [':id' => $_SESSION['user_id']]
-            );
-            
-            // Invalidar JWT en la tabla jwt_tokens
-            $this->db->query(
-                "UPDATE jwt_tokens SET expires_at = NOW() WHERE user_id = :user_id AND expires_at > NOW()",
-                [':user_id' => $_SESSION['user_id']]
             );
         }
         
@@ -140,24 +129,10 @@ class SessionController {
         ];
     }
 
-    private function generateSessionToken($userId) {
-        // Generar token aleatorio
-        $token = bin2hex(random_bytes(16));
-        
-        // Guardar en la base de datos
-        $this->db->query(
-            "UPDATE users SET token = :token WHERE id = :id",
-            [':token' => $token, ':id' => $userId]
-        );
-        
-        // Establecer cookie
-        $this->createSecureCookie("token", $token, time() + (86400 * 30), "/");
-        
-        return $token;
-    }
-
+    /**
+     * Crea un JWT para el usuario
+     */
     private function createJWT($userId, $username, $role) {
-        // Crear header y payload
         $header = [
             'alg' => 'HS256',
             'typ' => 'JWT'
@@ -176,22 +151,41 @@ class SessionController {
         $secretKey = $this->getSecretKey();
         $jwt = $this->generateJWT($header, $payload, $secretKey);
         
-        // Guardar en la tabla jwt_tokens
+        // Guardar en la base de datos
         $this->db->query(
-            "INSERT INTO jwt_tokens (user_id, token, expires_at) VALUES (:user_id, :token, FROM_UNIXTIME(:expires_at))",
-            [
-                ':user_id' => $userId,
-                ':token' => $jwt,
-                ':expires_at' => $expirationTime
-            ]
+            "UPDATE users SET jwt = :jwt WHERE id = :id",
+            [':jwt' => $jwt, ':id' => $userId]
         );
         
         // Establecer cookie JWT
-        $this->createSecureCookie("jwt", $jwt, $expirationTime, "/");
+        setcookie("jwt", $jwt, $expirationTime, "/");
         
         return $jwt;
     }
 
+    /**
+     * Verifica si un usuario existe
+     */
+    public function userExists($username, $email = null) {
+        try {
+            if ($email === null) {
+                $sql = "SELECT id FROM users WHERE username = :username";
+                $params = [':username' => $username];
+            } else {
+                $sql = "SELECT id FROM users WHERE username = :username OR email = :email";
+                $params = [':username' => $username, ':email' => $email];
+            }
+            
+            $result = $this->db->query($sql, $params);
+            return $result->rowCount() > 0;
+        } catch(\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Verifica si el usuario tiene sesión activa
+     */
     public function isLoggedIn() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -204,13 +198,32 @@ class SessionController {
         // Verificar por cookies
         return $this->verifyTokenCookie() || $this->verifyJWTCookie();
     }
-    
-    public function isAdmin() {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+
+    /**
+     * Genera un JWT
+     */
+    private function generateJWT($header, $payload, $secretKey) {
+        $headerEncoded = $this->base64URLEncode(json_encode($header));
+        $payloadEncoded = $this->base64URLEncode(json_encode($payload));
         
-        return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+        $signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
+        $signatureEncoded = $this->base64URLEncode($signature);
+        
+        return "$headerEncoded.$payloadEncoded.$signatureEncoded";
+    }
+
+    /**
+     * Codifica en Base64 URL seguro
+     */
+    private function base64URLEncode($data) {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    /**
+     * Obtiene la clave secreta para JWT
+     */
+    private function getSecretKey() {
+        return $_ENV['JWT_SECRET'] ?? 'mi_clave_secreta_por_defecto';
     }
 
     public function verifyTokenCookie() {
@@ -295,38 +308,6 @@ class SessionController {
         }
     }
 
-    public function userExists($username, $email = null) {
-        try {
-            if ($email === null) {
-                $sql = "SELECT id FROM users WHERE username = :username";
-                $params = [':username' => $username];
-            } else {
-                $sql = "SELECT id FROM users WHERE username = :username OR email = :email";
-                $params = [':username' => $username, ':email' => $email];
-            }
-            
-            $stmt = $this->db->query($sql, $params);
-            return $stmt->rowCount() > 0;
-        } catch(\PDOException $e) {
-            error_log("Error verificando existencia de usuario: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    private function getSecretKey() {
-        return $_ENV['JWT_SECRET_KEY'] ?? 'your_default_secret_key';
-    }
-
-    private function generateJWT($header, $payload, $secretKey) {
-        $headerEncoded = $this->base64URLEncode(json_encode($header));
-        $payloadEncoded = $this->base64URLEncode(json_encode($payload));
-        
-        $signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
-        $signatureEncoded = $this->base64URLEncode($signature);
-        
-        return "$headerEncoded.$payloadEncoded.$signatureEncoded";
-    }
-
     public function verifyJWT($jwt, $secretKey) {
         $tokenParts = explode('.', $jwt);
         
@@ -358,31 +339,8 @@ class SessionController {
         return true;
     }
 
-    private function base64URLEncode($data) {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-    }
-    
     private function base64URLDecode($data) {
         return base64_decode(strtr($data, '-_', '+/'));
-    }
-
-    public function createSecureCookie($cookieName, $cookieValue, $expirationTime, $path) {
-        $domain = '';
-        $secure = isset($_SERVER['HTTPS']); // true en HTTPS
-        $httpOnly = true;
-        
-        setcookie(
-            $cookieName,
-            $cookieValue,
-            [
-                'expires' => $expirationTime,
-                'path' => $path,
-                'domain' => $domain,
-                'secure' => $secure,
-                'httponly' => $httpOnly,
-                'samesite' => 'Strict'
-            ]
-        );
     }
 
     /**
@@ -432,5 +390,38 @@ class SessionController {
             
             return null;
         }
+    }
+
+    /**
+     * Verifica si el usuario actual tiene permisos de administrador
+     * 
+     * @return bool True si el usuario es administrador, false en caso contrario
+     */
+    public function isAdmin() {
+        if (!$this->isLoggedIn()) {
+            return false;
+        }
+        
+        // Verificar si el rol está en la sesión
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            return true;
+        }
+        
+        // Verificar en la base de datos si no está en sesión
+        try {
+            $sql = "SELECT role FROM users WHERE id = :user_id";
+            $result = $this->db->query($sql, [':user_id' => $_SESSION['user_id']]);
+            $userData = $result->fetch(\PDO::FETCH_ASSOC);
+            
+            if ($userData && $userData['role'] === 'admin') {
+                // Actualizar la sesión con el rol correcto
+                $_SESSION['role'] = 'admin';
+                return true;
+            }
+        } catch(\Exception $e) {
+            error_log("Error verificando permisos de administrador: " . $e->getMessage());
+        }
+        
+        return false;
     }
 }

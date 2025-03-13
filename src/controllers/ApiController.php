@@ -137,6 +137,7 @@ class ApiController
 		$token = null;
 		$user = null;
 		
+		// Verificar si hay un token Bearer en el encabezado
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
 			$payload = $this->verifyJwtToken($token);
@@ -146,6 +147,63 @@ class ApiController
 					'username' => $payload['username'],
 					'role' => $payload['role']
 				];
+			}
+		}
+		
+		// Si no hay usuario autenticado por token Bearer, verificar sesión PHP
+		if (!$user && session_status() === PHP_SESSION_ACTIVE) {
+			if (isset($_SESSION['user_id'])) {
+				$user = [
+					'id' => $_SESSION['user_id'],
+					'username' => $_SESSION['username'] ?? 'Usuario',
+					'role' => $_SESSION['role'] ?? 'user'
+				];
+			}
+		}
+		
+		// Si aún no hay usuario, iniciar sesión y verificar cookies
+		if (!$user) {
+			if (session_status() === PHP_SESSION_NONE) {
+				session_start();
+			}
+			
+			// Verificar cookie de token
+			if (isset($_COOKIE['token'])) {
+				$tokenCookie = $_COOKIE['token'];
+				$stmt = $this->pdo->prepare("SELECT id, username, role FROM users WHERE token = ?");
+				$stmt->execute([$tokenCookie]);
+				$userData = $stmt->fetch(PDO::FETCH_ASSOC);
+				
+				if ($userData) {
+					$_SESSION['user_id'] = $userData['id'];
+					$_SESSION['username'] = $userData['username'];
+					$_SESSION['role'] = $userData['role'];
+					
+					$user = [
+						'id' => $userData['id'],
+						'username' => $userData['username'],
+						'role' => $userData['role']
+					];
+				}
+			}
+			
+			// Verificar cookie JWT si aún no hay usuario
+			if (!$user && isset($_COOKIE['jwt'])) {
+				$jwtCookie = $_COOKIE['jwt'];
+				$payload = $this->verifyJwtToken($jwtCookie);
+				
+				if ($payload) {
+					$user = [
+						'id' => $payload['sub'],
+						'username' => $payload['username'],
+						'role' => $payload['role']
+					];
+					
+					// Establecer sesión
+					$_SESSION['user_id'] = $payload['sub'];
+					$_SESSION['username'] = $payload['username'];
+					$_SESSION['role'] = $payload['role'];
+				}
 			}
 		}
 
@@ -344,6 +402,29 @@ class ApiController
 					'error' => ErrorMessages::AUTH_INVALID_CREDENTIALS
 				]);
 			}
+		} elseif ($endpoint === 'auth/logout') {
+			// Implementar el endpoint de logout
+			if (session_status() === PHP_SESSION_NONE) {
+				session_start();
+			}
+			
+			// Limpiar sesión
+			$_SESSION = array();
+			
+			// Eliminar cookies
+			if (isset($_COOKIE[session_name()])) {
+				setcookie(session_name(), '', time() - 42000, '/');
+			}
+			setcookie('token', '', time() - 42000, '/');
+			setcookie('jwt', '', time() - 42000, '/');
+			
+			// Destruir sesión
+			session_destroy();
+			
+			echo json_encode([
+				'success' => true,
+				'message' => 'Sesión cerrada correctamente'
+			]);
 		} else {
 			http_response_code(404);
 			echo json_encode(['error' => ErrorMessages::HTTP_404]);
@@ -469,24 +550,44 @@ class ApiController
 			$secretKey = 'default_jwt_secret_key'; // ¡Solo como respaldo! Configurar siempre una clave segura
 		}
 		
+		// Datos para el JWT
+		$header = [
+			'typ' => 'JWT',
+			'alg' => 'HS256'
+		];
+		
 		$issuedAt = time();
 		$expire = $issuedAt + 3600; // Token válido por 1 hora
 		
 		$payload = [
-			'iat' => $issuedAt,      // Tiempo en que fue emitido el token
-			'exp' => $expire,        // Tiempo de expiración
-			'sub' => $user['id'],    // ID del usuario como subject
+			'iat' => $issuedAt,     // Tiempo en que fue emitido el token
+			'exp' => $expire,       // Tiempo de expiración
+			'sub' => $user['id'],   // ID del usuario como subject
 			'username' => $user['username'],
 			'role' => $user['role']
 		];
 		
-		// Codificación simple del token - en producción usar una biblioteca JWT adecuada
-		$header = base64_encode(json_encode(['typ' => 'JWT', 'alg' => 'HS256']));
-		$payloadEncoded = base64_encode(json_encode($payload));
-		$signature = hash_hmac('sha256', "$header.$payloadEncoded", $secretKey, true);
-		$signatureEncoded = base64_encode($signature);
+		// Codificar header y payload
+		$headerEncoded = $this->base64URLEncode(json_encode($header));
+		$payloadEncoded = $this->base64URLEncode(json_encode($payload));
 		
-		return "$header.$payloadEncoded.$signatureEncoded";
+		// Crear firma
+		$signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
+		$signatureEncoded = $this->base64URLEncode($signature);
+		
+		// Crear JWT
+		return "$headerEncoded.$payloadEncoded.$signatureEncoded";
+	}
+	
+	/**
+	 * Codifica en Base64 URL seguro
+	 * 
+	 * @param string $data Datos a codificar
+	 * @return string Datos codificados
+	 */
+	private function base64URLEncode($data): string
+	{
+		return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
 	}
 
 	/**

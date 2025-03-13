@@ -9,64 +9,7 @@
     <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
     <!-- AOS - Animate On Scroll -->
     <link rel="stylesheet" href="/assets/lib/aos/aos.css">
-    
-    <style>
-        .shake-animation {
-            animation: shake 0.5s;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-        
-        body {
-            background-color: #131828;
-            background-image: linear-gradient(to bottom right, #131828, #1a2035);
-            height: 100vh;
-            color: #f8f9fa;
-        }
-        
-        .card {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .card-body, .card-footer {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        .form-control {
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        
-        .form-control:focus {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: white;
-        }
-        
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .card-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-content {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        .modal-header, .modal-footer {
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/styles/pages/auth.css">
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
@@ -181,7 +124,7 @@
             this.classList.remove('shake-animation', 'is-invalid');
         });
         
-        // Nueva función para manejar el login con JWT
+        // Nueva función para manejar el login sin localStorage
         function handleLogin(event) {
             event.preventDefault();
             
@@ -206,18 +149,14 @@
                 body: JSON.stringify({
                     username: username,
                     password: password
-                })
+                }),
+                credentials: 'include' // Importante: incluir cookies en la solicitud
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Guardar el token JWT en localStorage
-                    localStorage.setItem('jwt_token', data.token);
-                    
-                    // Guardar datos básicos del usuario
-                    localStorage.setItem('user_data', JSON.stringify(data.user));
-                    
                     // Redirigir al usuario a la página principal
+                    // No guardamos nada en localStorage porque ya tenemos cookies
                     window.location.href = '/';
                 } else {
                     // Mostrar mensaje de error

@@ -385,4 +385,29 @@ class DatabaseController {
         }
     }
 
+    public function getUserByUsername($username) {
+        $stmt = $this->pdo->prepare("
+            SELECT id, username, email, role, created_at, bio, avatar_url, location, website, phone
+            FROM users 
+            WHERE username = :username
+        ");
+        $stmt->execute([':username' => $username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getUserById($userId) {
+        try {
+            $stmt = $this->pdo->prepare("
+                SELECT id, username, email, role, created_at, bio, avatar_url, location, website, phone
+                FROM users 
+                WHERE id = :user_id
+            ");
+            $stmt->execute([':user_id' => $userId]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error al obtener usuario por ID: " . $e->getMessage());
+            return null;
+        }
+    }
+
 }

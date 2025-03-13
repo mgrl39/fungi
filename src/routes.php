@@ -166,9 +166,10 @@ $routes = [
         'title' => _('Perfil de Usuario'),
         'auth_required' => true,
         'handler' => function($twig, $db, $session, $authController = null) {
-            // Obtener datos del usuario actual desde la sesión
+            // Obtener datos del usuario actual de la sesión
             $userId = $_SESSION['user_id'] ?? null;
             
+            // Si no hay usuario en sesión, redirigir al login
             if (!$userId) {
                 header('Location: /login');
                 exit;
@@ -177,19 +178,17 @@ $routes = [
             // Obtener datos completos del usuario
             $userData = $db->getUserById($userId);
             
-            if (!$userData) {
-                header('Location: /404');
-                exit;
-            }
-            
             // Obtener los hongos favoritos del usuario
-            $favoriteFungi = $db->getUserFavorites($userId);
+            $favoriteFungi = method_exists($db, 'getUserFavorites') ? 
+                $db->getUserFavorites($userId) : [];
             
             // Obtener contribuciones del usuario
-            $contributions = $db->getUserContributions($userId);
+            $contributions = method_exists($db, 'getUserContributions') ? 
+                $db->getUserContributions($userId) : [];
             
             // Obtener actividad reciente
-            $recentActivity = $db->getUserRecentActivity($userId);
+            $recentActivity = method_exists($db, 'getUserRecentActivity') ? 
+                $db->getUserRecentActivity($userId) : [];
             
             return [
                 'title' => sprintf(_('Perfil de %s'), $userData['username']),
@@ -197,7 +196,7 @@ $routes = [
                 'favorite_fungi' => $favoriteFungi,
                 'contributions' => $contributions,
                 'recent_activity' => $recentActivity,
-                'is_own_profile' => true // Es el perfil del usuario actual
+                'is_own_profile' => true
             ];
         }
     ],
@@ -216,24 +215,20 @@ $routes = [
         'template' => 'pages/statistics.twig',
         'title' => _('Estadísticas'),
         'auth_required' => true,
-        'handler' => function($twig, $db, $session, $statsController = null) {
-            // Verificar si existe la clase StatsController
-            if (class_exists('\App\Controllers\StatsController')) {
-                if (!$statsController) {
-                    $statsController = new \App\Controllers\StatsController($db);
-                }
-                $stats = $statsController->getFungiStats();
-            } else {
-                // Datos de ejemplo si no existe el controlador
-                $stats = [
-                    'total' => $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
-                    'by_category' => []
-                ];
-            }
+        'handler' => function($twig, $db, $session, $controller = null) {
+            // Crear una instancia específica de StatsController
+            $statsController = new \App\Controllers\StatsController($db);
+            
+            // Obtener el rango de tiempo desde la URL si existe
+            $timeRange = $_GET['time_range'] ?? 'all';
+            
+            // Llamar al método con el rango de tiempo
+            $stats = $statsController->getFungiStats($timeRange);
             
             return [
                 'title' => _('Estadísticas'),
-                'stats' => $stats
+                'stats' => $stats,
+                'current_time_range' => $timeRange
             ];
         }
     ],
@@ -370,42 +365,41 @@ $routes = [
             return $langController->changeLanguage();
         }
     ],
-    // Ruta para ver perfil de otro usuario
-    '/profile/([0-9]+)' => [
+    // Ruta para ver perfil por nombre de usuario
+    '/profile/([^/]+)' => [
         'template' => 'pages/profile.twig',
         'title' => _('Perfil de Usuario'),
         'auth_required' => false,
         'handler' => function($twig, $db, $session, $authController = null) {
-            // Obtener el ID del usuario desde la URL
-            preg_match('#^/profile/([0-9]+)$#', $uri, $matches);
-            $profileUserId = $matches[1] ?? null;
+            // Obtener el nombre de usuario desde la URL
+            preg_match('#^/profile/([^/]+)$#', $_SERVER['REQUEST_URI'], $matches);
+            $username = $matches[1] ?? null;
             
-            if (!$profileUserId) {
-                header('Location: /404');
-                exit;
-            }
+            // Obtener datos del usuario solicitado por nombre de usuario
+            $profileUserData = $db->getUserByUsername($username);
             
-            // Obtener datos del usuario solicitado
-            $profileUserData = $db->getUserById($profileUserId);
-            
+            // Si no se encuentra el usuario, mostrar mensaje de error
             if (!$profileUserData) {
-                header('Location: /404');
-                exit;
+                return [
+                    'title' => _('Usuario no encontrado'),
+                    'error' => _('El usuario solicitado no existe'),
+                    'user_not_found' => true
+                ];
             }
             
             // Obtener el ID del usuario actual (si está autenticado)
             $currentUserId = $session->isLoggedIn() ? $_SESSION['user_id'] : null;
             
             // Obtener datos públicos del perfil
-            $favoriteFungi = $db->getUserFavorites($profileUserId);
-            $contributions = $db->getUserContributions($profileUserId);
+            $favoriteFungi = $db->getUserFavorites($profileUserData['id']);
+            $contributions = $db->getUserContributions($profileUserData['id']);
             
             return [
                 'title' => sprintf(_('Perfil de %s'), $profileUserData['username']),
                 'user' => $profileUserData,
                 'favorite_fungi' => $favoriteFungi,
                 'contributions' => $contributions,
-                'is_own_profile' => ($currentUserId == $profileUserId)
+                'is_own_profile' => ($currentUserId == $profileUserData['id'])
             ];
         }
     ],

@@ -106,7 +106,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('jwt_token');
         const loadingIndicator = document.getElementById('auth-status');
         const userDropdown = document.getElementById('user-dropdown');
         const loginButton = document.getElementById('login-button');
@@ -118,10 +117,9 @@
         
         async function checkAuthentication() {
             try {
-                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
                 const response = await fetch('/api/auth/verify', { 
                     method: 'GET',
-                    headers: headers
+                    credentials: 'include'
                 });
                 
                 const data = await response.json();
@@ -149,8 +147,18 @@
         }
         
         window.logout = function() {
-            localStorage.removeItem('jwt_token');
-            window.location.href = '/';
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = '/';
+            })
+            .catch(error => {
+                console.error('Error en logout:', error);
+                window.location.href = '/';
+            });
         }
         
         checkAuthentication();
