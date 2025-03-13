@@ -18,10 +18,7 @@ $components = [
     'navbar' => 'components/navbar.twig',
     'sidebar' => 'components/sidebar.twig',
     'fungi/card' => 'components/fungi/card.twig',
-    'fungi/form' => 'components/fungi/form.twig',
-    'ui/alert' => 'components/ui/alert.twig',
-    'ui/modal' => 'components/ui/modal.twig',
-    'ui/pagination' => 'components/ui/pagination.twig'
+    'fungi/form' => 'components/fungi/form.twig'
 ];
 
 /**
