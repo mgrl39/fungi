@@ -251,7 +251,7 @@ $routes = [
         }
     ],
     '/admin' => [
-        'template' => 'layouts/admin.twig',
+        'template' => 'pages/admin.twig',
         'title' => _('Administración'),
         'auth_required' => true,
         'admin_required' => true,
