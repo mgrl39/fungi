@@ -11,119 +11,305 @@
 \DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00014}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{00014}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}\ \{}
 \DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00015}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{00015}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}};}
 \DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00016}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a14e4702d0832b0c6ebffd00f21fef46d}{00016}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a14e4702d0832b0c6ebffd00f21fef46d}{\$session}};}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00017}00017\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00023}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a695f556152eb441e50be47d1d92cbe83}{00023}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a695f556152eb441e50be47d1d92cbe83}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{DatabaseController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}})\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00024}00024\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}};}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00025}00025\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{SessionController}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}});}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00026}00026\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00027}00027\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00039}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a667c9941898e5f7ecd35eb2112fcdc20}{00039}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \textcolor{keyword}{register}(\$username,\ \$email,\ \$password,\ \$confirm\_password)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validaciones\ básicas}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$username)\ ||\ empty(\$email)\ ||\ empty(\$password))\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Todos\ los\ campos\ son\ requeridos'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ longitud\ del\ username}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strlen(\$username)\ <\ 3\ ||\ strlen(\$username)\ >\ 50)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'El\ nombre\ de\ usuario\ debe\ tener\ entre\ 3\ y\ 50\ caracteres'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$password\ !==\ \$confirm\_password)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Las\ contraseñas\ no\ coinciden'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00053}00053\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ longitud\ del\ password}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strlen(\$password)\ <\ 8)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'La\ contraseña\ debe\ tener\ al\ menos\ 8\ caracteres'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00058}00058\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filter\_var(\$email,\ FILTER\_VALIDATE\_EMAIL))\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Email\ inválido'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hash\ del\ password\ antes\ de\ guardarlo}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ \$hashed\_password\ =\ password\_hash(\$password,\ PASSWORD\_DEFAULT);}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00065}00065\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pasar\ el\ password\ ya\ hasheado}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$this-\/>db-\/>createUser(\$username,\ \$email,\ \$hashed\_password))\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Usuario\ registrado\ exitosamente'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'El\ usuario\ o\ email\ ya\ existe'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Log\ del\ error\ para\ el\ administrador}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Error\ al\ registrar\ el\ usuario'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00078}00078\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00079}00079\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00089}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{00089}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{login}}(\$username,\ \$password)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>db-\/>verifyUser(\$username,\ \$password);}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Credenciales\ inválidas'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ SessionController\ para\ manejar\ la\ sesión}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>createSession(\$user))\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Error\ al\ crear\ la\ sesión'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'user'}\ =>\ \$user];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00102}00102\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00103}00103\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00110}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{00110}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{logout}}()\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00111}00111\ \ \ \ \ \ \ \ \ session\_start();}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00112}00112\ \ \ \ \ \ \ \ \ session\_destroy();}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00113}00113\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ cookies}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00115}00115\ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}token"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}jwt"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00117}00117\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Sesión\ cerrada'}];}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00119}00119\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00120}00120\ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00128}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a8895adbdc7c431bb0ef1b92431036998}{00128}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a8895adbdc7c431bb0ef1b92431036998}{verifyToken}}(\$token)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ token\ existe\ y\ no\ está\ revocado}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \$tokenData\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ jwt\_tokens\ }}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00133}00133\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ token\ =\ ?\ AND\ is\_revoked\ =\ FALSE\ }}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00134}00134\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AND\ expires\_at\ >\ NOW()"{}},}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$token]}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00137}00137\ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$tokenData)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00141}00141\ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Continuar\ con\ la\ verificación\ JWT\ normal}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \$decoded\ =\ JWT::decode(\$token,\ \textcolor{keyword}{new}\ Key(\$this-\/>secretKey,\ \textcolor{stringliteral}{'HS256'}));}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$decoded;}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00145}00145\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00147}00147\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00148}00148\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00149}00149\ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00158}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a134412735e4c54b6f15df957dce3b867}{00158}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a134412735e4c54b6f15df957dce3b867}{handleRegistration}}(\$postData,\ \$twig)\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00159}00159\ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\textcolor{keyword}{register}(}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'confirm\_password'}]\ ??\ \textcolor{stringliteral}{''}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00164}00164\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00165}00165\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?registered=1'});}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00169}00169\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \$twig-\/>render(\textcolor{stringliteral}{'register.twig'},\ [}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Registro'}),}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00174}00174\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00175}00175\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00176}00176\ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00017}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af616276e8a28a39a17283cbb7b2e021c}{00017}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af616276e8a28a39a17283cbb7b2e021c}{\$secretKey}};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00018}00018\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00024}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a695f556152eb441e50be47d1d92cbe83}{00024}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a695f556152eb441e50be47d1d92cbe83}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{DatabaseController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}})\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00025}00025\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00026}00026\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{SessionController}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a465b9cef5ddf7ccf230d87780229ded3}{\$db}});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00027}00027\ \ \ \ \ \ \ \ \ \$this-\/>secretKey\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a303b63d25aff7ffc1fdc5b8dfef00f73}{getSecretKey}}();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00029}00029\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00041}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a667c9941898e5f7ecd35eb2112fcdc20}{00041}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \textcolor{keyword}{register}(\$username,\ \$email,\ \$password,\ \$confirm\_password)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validaciones\ básicas}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$username)\ ||\ empty(\$email)\ ||\ empty(\$password))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Todos\ los\ campos\ son\ requeridos'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ longitud\ del\ username}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strlen(\$username)\ <\ 3\ ||\ strlen(\$username)\ >\ 50)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'El\ nombre\ de\ usuario\ debe\ tener\ entre\ 3\ y\ 50\ caracteres'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$password\ !==\ \$confirm\_password)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Las\ contraseñas\ no\ coinciden'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00054}00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ longitud\ del\ password}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strlen(\$password)\ <\ 8)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'La\ contraseña\ debe\ tener\ al\ menos\ 8\ caracteres'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filter\_var(\$email,\ FILTER\_VALIDATE\_EMAIL))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Email\ inválido'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00063}00063\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hash\ del\ password\ antes\ de\ guardarlo}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \$hashed\_password\ =\ password\_hash(\$password,\ PASSWORD\_DEFAULT);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pasar\ el\ password\ ya\ hasheado}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$this-\/>db-\/>createUser(\$username,\ \$email,\ \$hashed\_password))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Usuario\ registrado\ exitosamente'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'El\ usuario\ o\ email\ ya\ existe'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Log\ del\ error\ para\ el\ administrador}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Error\ al\ registrar\ el\ usuario'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00079}00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00080}00080\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00081}00081\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00091}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{00091}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{login}}(\$username,\ \$password)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ un\ nombre\ de\ usuario\ o\ correo}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \$field\ =\ filter\_var(\$username,\ FILTER\_VALIDATE\_EMAIL)\ ?\ \textcolor{stringliteral}{'email'}\ :\ \textcolor{stringliteral}{'username'};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Buscar\ usuario}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ \$field\ =\ ?"{}},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$username]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Credenciales\ inválidas'},\ \textcolor{stringliteral}{'user'}\ =>\ \textcolor{keyword}{null}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ contraseña}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!password\_verify(\$password,\ \$user[\textcolor{stringliteral}{'password\_hash'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Credenciales\ inválidas'},\ \textcolor{stringliteral}{'user'}\ =>\ \textcolor{keyword}{null}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Iniciar\ sesión}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$user[\textcolor{stringliteral}{'id'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$user[\textcolor{stringliteral}{'username'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ token\ de\ sesión}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a239c918cc9affeb44f560d762bdf61ce}{generateSessionToken}}(\$user);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ JWT\ y\ almacenarlo}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \$jwt\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_acbdad71780d5fdd8b8245739664aba6b}{createJWT}}(\$user);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ último\ login}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ last\_login\ =\ NOW()\ WHERE\ id\ =\ ?"{}},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$user[\textcolor{stringliteral}{'id'}]]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Sesión\ iniciada\ correctamente'},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$user}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00133}00133\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Error\ al\ iniciar\ sesión:\ '}\ .\ \$e-\/>getMessage(),}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ null}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00141}00141\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00147}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{00147}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{logout}}()\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00148}00148\ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00149}00149\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Revocar\ token\ si\ existe}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ token\ =\ NULL,\ jwt\ =\ NULL\ WHERE\ id\ =\ ?"{}},\ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00156}00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00157}00157\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ cookies}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00159}00159\ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}token"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00160}00160\ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}jwt"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00161}00161\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Destruir\ sesión}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00163}00163\ \ \ \ \ \ \ \ \ session\_destroy();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00164}00164\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Sesión\ cerrada\ correctamente'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00166}00166\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00167}00167\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00174}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a239c918cc9affeb44f560d762bdf61ce}{00174}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a239c918cc9affeb44f560d762bdf61ce}{generateSessionToken}}(\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ token\ aleatorio}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00176}00176\ \ \ \ \ \ \ \ \ \$token\ =\ bin2hex(random\_bytes(16));}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00177}00177\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ cookie}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00179}00179\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\textcolor{stringliteral}{"{}token"{}},\ \$token,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00180}00180\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ base\ de\ datos}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00182}00182\ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ token\ =\ ?\ WHERE\ id\ =\ ?"{}},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ [\$token,\ \$user[\textcolor{stringliteral}{'id'}]]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00185}00185\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00186}00186\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$token;}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00188}00188\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00189}00189\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00196}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_acbdad71780d5fdd8b8245739664aba6b}{00196}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_acbdad71780d5fdd8b8245739664aba6b}{createJWT}}(\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ para\ el\ JWT}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00198}00198\ \ \ \ \ \ \ \ \ \$header\ =\ [}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'alg'}\ =>\ \textcolor{stringliteral}{'HS256'},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'typ'}\ =>\ \textcolor{stringliteral}{'JWT'}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00201}00201\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00202}00202\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00203}00203\ \ \ \ \ \ \ \ \ \$payload\ =\ [}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_id'}\ =>\ \$user[\textcolor{stringliteral}{'id'}],}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$user[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'exp'}\ =>\ time()\ +\ (86400\ *\ 30)\ \textcolor{comment}{//\ 30\ días}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ JWT}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00210}00210\ \ \ \ \ \ \ \ \ \$jwt\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ab06917fbe57ab9b399e1d66d81807c4f}{generateJWT}}(\$header,\ \$payload);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00211}00211\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ cookie}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00213}00213\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\textcolor{stringliteral}{"{}jwt"{}},\ \$jwt,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00214}00214\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ base\ de\ datos}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00216}00216\ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ jwt\ =\ ?\ WHERE\ id\ =\ ?"{}},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ [\$jwt,\ \$user[\textcolor{stringliteral}{'id'}]]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$jwt;}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00222}00222\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00223}00223\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00231}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ab06917fbe57ab9b399e1d66d81807c4f}{00231}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ab06917fbe57ab9b399e1d66d81807c4f}{generateJWT}}(\$header,\ \$payload)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Codificar\ header\ y\ payload}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00233}00233\ \ \ \ \ \ \ \ \ \$header\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(json\_encode(\$header));}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00234}00234\ \ \ \ \ \ \ \ \ \$payload\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(json\_encode(\$payload));}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00235}00235\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ firma}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00237}00237\ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ \$this-\/>secretKey,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00238}00238\ \ \ \ \ \ \ \ \ \$signature\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\$signature);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00239}00239\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ JWT}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded.\$signature\_encoded"{}};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00242}00242\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00243}00243\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00250}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4fd64293b9488b0ec68a243b7cdd6d0}{00250}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4fd64293b9488b0ec68a243b7cdd6d0}{verifyToken}}(\$jwt)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ token\ existe\ en\ la\ base\ de\ datos}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \$tokenData\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ jwt\ =\ ?"{}},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$jwt]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$tokenData)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ estructura\ del\ token}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ list(\$header\_encoded,\ \$payload\_encoded,\ \$signature\_encoded)\ =\ explode(\textcolor{charliteral}{'.'},\ \$jwt);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ firma}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ \$this-\/>secretKey,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \$signature\_check\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\$signature);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$signature\_encoded\ !==\ \$signature\_check)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ expiración}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ json\_decode(base64\_decode(\$payload\_encoded),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$payload[\textcolor{stringliteral}{'exp'}])\ \&\&\ \$payload[\textcolor{stringliteral}{'exp'}]\ <\ time())\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Expirado}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$payload;}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00280}00280\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00282}00282\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00283}00283\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00284}00284\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00291}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{00291}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}})\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str\_replace([\textcolor{charliteral}{'+'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'='}],\ [\textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'\_'},\ \textcolor{stringliteral}{''}],\ base64\_encode(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}));}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00293}00293\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00294}00294\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00304}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{00304}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\$name,\ \$value,\ \$expires,\ \$path)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00305}00305\ \ \ \ \ \ \ \ \ \$domain\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00306}00306\ \ \ \ \ \ \ \ \ \$secure\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Cambiar\ a\ true\ en\ producción\ con\ HTTPS}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00307}00307\ \ \ \ \ \ \ \ \ \$httponly\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00308}00308\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ setcookie(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \$name,}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \$value,}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \$expires,}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \$path,}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \$domain,}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \$secure,}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \$httponly}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00317}00317\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00318}00318\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00319}00319\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00325}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a303b63d25aff7ffc1fdc5b8dfef00f73}{00325}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a303b63d25aff7ffc1fdc5b8dfef00f73}{getSecretKey}}()\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ desde\ .env\ o\ usar\ una\ clave\ predeterminada}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (function\_exists(\textcolor{stringliteral}{'getenv'})\ \&\&\ getenv(\textcolor{stringliteral}{'JWT\_SECRET\_KEY'}))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ getenv(\textcolor{stringliteral}{'JWT\_SECRET\_KEY'});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00329}00329\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00330}00330\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Clave\ predeterminada\ (¡cambiar\ en\ producción!)}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{'tu\_clave\_secreta\_segura\_para\_jwt'};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00333}00333\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00334}00334\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00340}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_aa0db53139c1ebc5414b5e4985a46b4ae}{00340}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_aa0db53139c1ebc5414b5e4985a46b4ae}{isLoggedIn}}()\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00341}00341\ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00342}00342\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ sesión}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00344}00344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00346}00346\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00347}00347\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ cookie}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'token'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$\_COOKIE[\textcolor{stringliteral}{'token'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ token\ =\ ?"{}},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$token]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$user[\textcolor{stringliteral}{'id'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$user[\textcolor{stringliteral}{'username'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00361}00361\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00362}00362\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ JWT}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \$jwt\ =\ \$\_COOKIE[\textcolor{stringliteral}{'jwt'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4fd64293b9488b0ec68a243b7cdd6d0}{verifyToken}}(\$jwt);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload\ \&\&\ isset(\$payload[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$payload[\textcolor{stringliteral}{'user\_id'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$payload[\textcolor{stringliteral}{'username'}];}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00373}00373\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00374}00374\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00375}00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00376}00376\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00377}00377\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00386}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a134412735e4c54b6f15df957dce3b867}{00386}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a134412735e4c54b6f15df957dce3b867}{handleRegistration}}(\$postData,\ \$twig)\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00387}00387\ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\textcolor{keyword}{register}(}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \$postData[\textcolor{stringliteral}{'confirm\_password'}]\ ??\ \textcolor{stringliteral}{''}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00392}00392\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00393}00393\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?registered=1'});}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00397}00397\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \$twig-\/>render(\textcolor{stringliteral}{'register.twig'},\ [}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Registro'}),}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00402}00402\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00403}00403\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AuthController_8php_source_l00404}00404\ \}}
 
 \end{DoxyCode}

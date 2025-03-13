@@ -1,0 +1,35 @@
+\doxysection{lang\+\_\+switch.\+js}
+\hypertarget{lang__switch_8js_source}{}\label{lang__switch_8js_source}\index{public/assets/scripts/lang\_switch.js@{public/assets/scripts/lang\_switch.js}}
+\mbox{\hyperlink{lang__switch_8js}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00001}00001\ document.addEventListener('DOMContentLoaded',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00002}00002\ \ \ \ \ //\ Obtener\ todos\ los\ botones\ de\ cambio\ de\ idioma}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00003}00003\ \ \ \ \ const\ langButtons\ =\ document.querySelectorAll('.lang-\/switch');}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00004}00004\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00005}00005\ \ \ \ \ //\ Añadir\ listener\ a\ cada\ botón}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00006}00006\ \ \ \ \ langButtons.forEach(button\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00007}00007\ \ \ \ \ \ \ \ \ button.addEventListener('click',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00008}00008\ \ \ \ \ \ \ \ \ \ \ \ \ const\ lang\ =\ this.getAttribute('data-\/lang');}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Crear\ una\ solicitud\ AJAX}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ const\ xhr\ =\ new\ XMLHttpRequest();}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ xhr.open('POST',\ '/change-\/language',\ true);}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ xhr.setRequestHeader('Content-\/Type',\ 'application/x-\/www-\/form-\/urlencoded');}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ xhr.setRequestHeader('X-\/Requested-\/With',\ 'XMLHttpRequest');}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Manejar\ la\ respuesta}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ xhr.onload\ =\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (xhr.status\ ===\ 200)\ \{}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Recargar\ los\ componentes\ de\ la\ página\ sin\ recargar\ completamente}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Esto\ se\ puede\ mejorar\ con\ una\ respuesta\ JSON\ más\ detallada}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ location.reload();}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Enviar\ la\ solicitud}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ xhr.send('lang='\ +\ lang);}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00027}00027\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00028}00028\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{lang__switch_8js_source_l00029}00029\ \});}
+
+\end{DoxyCode}

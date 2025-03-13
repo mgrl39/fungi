@@ -7,5 +7,5 @@ var searchData=
   ['instalación_20con_20docker_4',['Instalación con Docker',['../index.html#autotoc_md9',1,'']]],
   ['instalación_20manual_5',['Instalación manual',['../index.html#autotoc_md8',1,'']]],
   ['instalación_20rápida_6',['🚀 Instalación Rápida',['../index.html#autotoc_md1',1,'']]],
-  ['isloggedin_7',['isLoggedIn',['../classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288',1,'App::Controllers::SessionController']]]
+  ['isloggedin_7',['isloggedin',['../classApp_1_1Controllers_1_1AuthController.html#aa0db53139c1ebc5414b5e4985a46b4ae',1,'App\Controllers\AuthController\isLoggedIn()'],['../classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288',1,'App\Controllers\SessionController\isLoggedIn()']]]
 ];
