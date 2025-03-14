@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acerca de Nosotros</title>
+    <title>{{ _('Acerca de Nosotros') }}</title>
     
-    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/generic.css">
-    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
-    <link rel="stylesheet" href="/assets/styles/components/footer.css">
-    
-    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    {% set styles = [
+        '/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css',
+        '/assets/styles/generic.css',
+        '/assets/styles/components/navbar.css', 
+        '/assets/styles/components/footer.css',
+        '/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+        'https://unpkg.com/aos@2.3.1/dist/aos.css'
+    ] %}
 
+    {% for style in styles %}
+        <link rel="stylesheet" href="{{ style }}">
+    {% endfor %}
 </head>
 <body class="bg-dark text-light">
     <header>
@@ -31,108 +34,84 @@
         </div>
 
         <div class="container py-5">
+            {% set mission_cards = [
+                {
+                    'icon': 'database',
+                    'title': _('Recopilación de Datos'),
+                    'text': _('Los datos se extraen mediante técnicas avanzadas de web scraping y se procesan para garantizar información precisa y consistente sobre cada especie de hongo.')
+                },
+                {
+                    'text_only': true,
+                    'lead': _('Una aplicación web dinámica para gestionar, visualizar y editar datos de hongos extraídos mediante técnicas de web scraping, con autenticación JWT, panel de administración y soporte para internacionalización.'),
+                    'text': _('Nuestro objetivo es proporcionar una plataforma educativa completa sobre hongos, facilitando el acceso a información detallada y actualizada a través de una interfaz intuitiva y visualmente atractiva.')
+                },
+                {
+                    'icon': 'code-branch',
+                    'title': _('Estructura del Código'),
+                    'text': _('La estructura del proyecto está organizada en módulos claros para facilitar el mantenimiento y la escalabilidad.')
+                },
+                {
+                    'text_only': true,
+                    'text': _('Los datos se extraen mediante') ~ ' <a href="https://www.github.com/mgrl39/fungi-scraping" class="link-primary animate__animated animate__pulse animate__infinite animate__slower">Fungi Scraping</a> ' ~ _('utilizando Python 3 y Selenium. La información se guarda en formato JSON y se inserta en la base de datos para su posterior gestión y edición desde el panel de administración.')
+                }
+            ] %}
+
             <!-- Introducción -->
             <section class="mb-5" data-aos="fade-up">
                 <h2 class="h2 text-primary mb-4"><i class="fas fa-info-circle"></i> {{ _('Nuestra Misión') }}</h2>
-                <div class="row g-4">
-                    <div class="col-md-6" data-aos="fade-left" data-aos-delay="200">
-                        <div class="card bg-white text-dark h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-database fa-3x mb-3 text-primary animate__animated animate__pulse animate__infinite animate__slower"></i>
-                                <h3 class="h4">{{ _('Recopilación de Datos') }}</h3>
-                                <p class="card-text">{{ _('Los datos se extraen mediante técnicas avanzadas de web scraping y se procesan para garantizar información precisa y consistente sobre cada especie de hongo.') }}</p>
+                {% for i in range(0, mission_cards|length - 1, 2) %}
+                    <div class="row g-4 {% if not loop.first %}mt-4{% endif %}">
+                        {% for j in [i, i + 1]|filter(j => j < mission_cards|length) %}
+                            <div class="col-md-6" data-aos="{{ loop.index is odd ? 'fade-left' : 'fade-right' }}" data-aos-delay="{{ loop.index * 100 }}">
+                                <div class="card bg-white text-dark h-100">
+                                    <div class="card-body {% if not mission_cards[j].text_only %}text-center{% endif %}">
+                                        {% if not mission_cards[j].text_only %}
+                                            <i class="fas fa-{{ mission_cards[j].icon }} fa-3x mb-3 text-primary animate__animated animate__pulse animate__infinite animate__slower"></i>
+                                            <h3 class="h4">{{ mission_cards[j].title }}</h3>
+                                        {% endif %}
+                                        {% if mission_cards[j].lead is defined %}
+                                            <p class="lead">{{ mission_cards[j].lead }}</p>
+                                        {% endif %}
+                                        <p {% if not mission_cards[j].text_only %}class="card-text"{% endif %}>{{ mission_cards[j].text|raw }}</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
-                        <div class="card bg-white text-dark h-100">
-                            <div class="card-body">
-                                <p class="lead">{{ _('Una aplicación web dinámica para gestionar, visualizar y editar datos de hongos extraídos mediante técnicas de web scraping, con autenticación JWT, panel de administración y soporte para internacionalización.') }}</p>
-                                <p>{{ _('Nuestro objetivo es proporcionar una plataforma educativa completa sobre hongos, facilitando el acceso a información detallada y actualizada a través de una interfaz intuitiva y visualmente atractiva.') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-4 mt-4">
-                    <div class="col-md-6" data-aos="fade-left" data-aos-delay="200">
-                        <div class="card bg-white text-dark h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-code-branch fa-3x mb-3 text-primary animate__animated animate__pulse animate__infinite animate__slower"></i>
-                                <h3 class="h4">{{ _('Estructura del Código') }}</h3>
-                                <p class="card-text">{{ _('La estructura del proyecto está organizada en módulos claros para facilitar el mantenimiento y la escalabilidad.') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6" data-aos="fade-right" data-aos-delay="100">
-                        <div class="card bg-white text-dark h-100">
-                            <div class="card-body">
-                                <p>{{ _('Los datos se extraen mediante') }} <a href="https://www.github.com/mgrl39/fungi-scraping" class="link-primary animate__animated animate__pulse animate__infinite animate__slower">Fungi Scraping</a> {{ _('utilizando Python 3 y Selenium. La información se guarda en formato JSON y se inserta en la base de datos para su posterior gestión y edición desde el panel de administración.') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </section>
+
+            {% set technologies = [
+                {'icon': 'fab fa-php', 'name': 'PHP'},
+                {'icon': 'fas fa-database', 'name': 'MySQL'},
+                {'icon': 'fab fa-bootstrap', 'name': 'Bootstrap'},
+                {'icon': 'fas fa-code', 'name': 'Twig'},
+                {'icon': 'fab fa-python', 'name': 'Selenium + Python'},
+                {'icon': 'fas fa-key', 'name': 'JWT'},
+                {'icon': 'fas fa-language', 'name': 'Gettext'},
+                {'icon': 'fas fa-terminal', 'name': 'Makefile'}
+            ] %}
 
             <section class="mb-5" data-aos="fade-up">
                 <h2 class="h2 text-primary mb-4"><i class="fas fa-tools"></i> {{ _('Tecnologías') }}</h2>
                 <p class="mb-4">{{ _('Nuestra plataforma está construida con las siguientes tecnologías:') }}</p>
                 
                 <div class="row row-cols-2 row-cols-md-4 g-4">
-                    <div class="col" data-aos="flip-left" data-aos-delay="100">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fab fa-php fa-3x mb-2 text-primary"></i>
-                            <span>PHP</span>
+                    {% for tech in technologies %}
+                        <div class="col" data-aos="flip-left" data-aos-delay="{{ loop.index * 100 }}">
+                            <div class="card bg-white text-dark text-center h-100 p-3">
+                                <i class="{{ tech.icon }} fa-3x mb-2 text-primary"></i>
+                                <span>{{ tech.name }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="200">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fas fa-database fa-3x mb-2 text-primary"></i>
-                            <span>MySQL</span>
-                        </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="300">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fab fa-bootstrap fa-3x mb-2 text-primary"></i>
-                            <span>Bootstrap</span>
-                        </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="400">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fas fa-code fa-3x mb-2 text-primary"></i>
-                            <span>Twig</span>
-                        </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="500">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fab fa-python fa-3x mb-2 text-primary"></i>
-                            <span>Selenium + Python</span>
-                        </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="600">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fas fa-key fa-3x mb-2 text-primary"></i>
-                            <span>JWT</span>
-                        </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="700">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fas fa-language fa-3x mb-2 text-primary"></i>
-                            <span>Gettext</span>
-                        </div>
-                    </div>
-                    <div class="col" data-aos="flip-left" data-aos-delay="800">
-                        <div class="card bg-white text-dark text-center h-100 p-3">
-                            <i class="fas fa-terminal fa-3x mb-2 text-primary"></i>
-                            <span>Makefile</span>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </section>
-    </section>
+
             <section class="mb-5" data-aos="fade-up">
                 <h2 class="h2 text-primary mb-4"><i class="fas fa-database"></i> {{ _('Datos Extraídos') }}</h2>
             </section>
+
             <section class="text-center py-5" data-aos="zoom-in">
                 <div class="card bg-white text-dark">
                     <div class="card-body p-5">
@@ -151,9 +130,15 @@
         {% include 'components/footer.twig' %}
     </footer>
 
-    <script src="/assets/lib/jquery.min.js"></script>
-    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/lib/aos/aos.js"></script>
-    <script src="/assets/scripts/aos_init.js"></script>
+    {% set scripts = [
+        '/assets/lib/jquery.min.js',
+        '/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js',
+        '/assets/lib/aos/aos.js',
+        '/assets/scripts/aos_init.js'
+    ] %}
+
+    {% for script in scripts %}
+        <script src="{{ script }}"></script>
+    {% endfor %}
 </body>
 </html>
