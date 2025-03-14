@@ -6,16 +6,14 @@
     <title>{{ title }}</title>
     
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/styles/generic.css">
     <link rel="stylesheet" href="/assets/styles/components/navbar.css">
     <link rel="stylesheet" href="/assets/styles/components/footer.css">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <!-- Animate.css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -36,22 +34,6 @@
                     <div class="col-lg-8">
                         <h1 class="display-4 fw-bold animate__animated animate__slideInDown">{{ _('Estadísticas') }}</h1>
                         <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">{{ _('Análisis de datos sobre hongos en nuestra base de datos') }}</p>
-                        
-                        <!-- Selectores de rango de tiempo -->
-                        <div class="btn-group shadow-sm" role="group">
-                            <a href="/statistics?time_range=last_week" class="btn btn-lg {% if current_time_range == 'last_week' %}btn-light{% else %}btn-outline-light{% endif %}">
-                                <i class="fas fa-calendar-week me-2"></i>{{ _('Última semana') }}
-                            </a>
-                            <a href="/statistics?time_range=last_month" class="btn btn-lg {% if current_time_range == 'last_month' %}btn-light{% else %}btn-outline-light{% endif %}">
-                                <i class="fas fa-calendar-alt me-2"></i>{{ _('Último mes') }}
-                            </a>
-                            <a href="/statistics?time_range=last_year" class="btn btn-lg {% if current_time_range == 'last_year' %}btn-light{% else %}btn-outline-light{% endif %}">
-                                <i class="fas fa-calendar me-2"></i>{{ _('Último año') }}
-                            </a>
-                            <a href="/statistics?time_range=all_time" class="btn btn-lg {% if current_time_range == 'all_time' %}btn-light{% else %}btn-outline-light{% endif %}">
-                                <i class="fas fa-infinity me-2"></i>{{ _('Todo el tiempo') }}
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -60,75 +42,81 @@
         <div class="container py-5">
             <!-- Resumen de estadísticas -->
             <div class="row g-4 mb-5" data-aos="fade-up">
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm text-center hover-lift">
-                        <div class="card-body p-4">
-                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
-                                <i class="fas fa-mushroom fa-2x text-primary"></i>
+                {% set stat_cards = [
+                    {
+                        'icon': 'mushroom',
+                        'color': 'primary',
+                        'value': stats.total_fungi,
+                        'text': _('Hongos totales')
+                    },
+                    {
+                        'icon': 'utensils',
+                        'color': 'success', 
+                        'value': stats.edible_fungi,
+                        'text': _('Hongos comestibles')
+                    },
+                    {
+                        'icon': 'skull-crossbones',
+                        'color': 'danger',
+                        'value': stats.toxic_fungi,
+                        'text': _('Hongos tóxicos')
+                    },
+                    {
+                        'icon': 'users',
+                        'color': 'info',
+                        'value': stats.total_users,
+                        'text': _('Usuarios registrados')
+                    }
+                ] %}
+
+                {% for card in stat_cards %}
+                    <div class="col-md-3">
+                        <div class="card h-100 border-0 shadow-sm text-center hover-lift">
+                            <div class="card-body p-4">
+                                <div class="rounded-circle bg-{{ card.color }} bg-opacity-10 p-3 d-inline-block mb-3">
+                                    <i class="fas fa-{{ card.icon }} fa-2x text-{{ card.color }}"></i>
+                                </div>
+                                <h3 class="display-6 fw-bold mb-2">{{ card.value }}</h3>
+                                <p class="text-muted mb-0">{{ card.text }}</p>
                             </div>
-                            <h3 class="display-6 fw-bold mb-2">{{ stats.total_fungi }}</h3>
-                            <p class="text-muted mb-0">{{ _('Hongos totales') }}</p>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm text-center hover-lift">
-                        <div class="card-body p-4">
-                            <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-3">
-                                <i class="fas fa-utensils fa-2x text-success"></i>
-                            </div>
-                            <h3 class="display-6 fw-bold mb-2">{{ stats.edible_fungi }}</h3>
-                            <p class="text-muted mb-0">{{ _('Hongos comestibles') }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm text-center hover-lift">
-                        <div class="card-body p-4">
-                            <div class="rounded-circle bg-danger bg-opacity-10 p-3 d-inline-block mb-3">
-                                <i class="fas fa-skull-crossbones fa-2x text-danger"></i>
-                            </div>
-                            <h3 class="display-6 fw-bold mb-2">{{ stats.toxic_fungi }}</h3>
-                            <p class="text-muted mb-0">{{ _('Hongos tóxicos') }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm text-center hover-lift">
-                        <div class="card-body p-4">
-                            <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-3">
-                                <i class="fas fa-users fa-2x text-info"></i>
-                            </div>
-                            <h3 class="display-6 fw-bold mb-2">{{ stats.total_users }}</h3>
-                            <p class="text-muted mb-0">{{ _('Usuarios registrados') }}</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             
             <!-- Gráficos de estadísticas -->
+            {% set charts = [
+                {
+                    'col': 'col-lg-6',
+                    'animation': 'fade-right',
+                    'header_bg': 'primary',
+                    'icon': 'chart-pie',
+                    'title': _('Distribución por comestibilidad'),
+                    'id': 'edibilityChart'
+                },
+                {
+                    'col': 'col-lg-6',
+                    'animation': 'fade-left',
+                    'header_bg': 'success',
+                    'icon': 'chart-bar',
+                    'title': _('Principales familias'),
+                    'id': 'familyChart'
+                }
+            ] %}
+
             <div class="row g-4 mb-5">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-primary bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>{{ _('Distribución por comestibilidad') }}</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <canvas id="edibilityChart" height="250"></canvas>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-success bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>{{ _('Principales familias') }}</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <canvas id="familyChart" height="250"></canvas>
+                {% for chart in charts %}
+                    <div class="{{ chart.col }}" data-aos="{{ chart.animation }}">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-{{ chart.header_bg }} bg-gradient text-white py-3">
+                                <h5 class="mb-0"><i class="fas fa-{{ chart.icon }} me-2"></i>{{ chart.title }}</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <canvas id="{{ chart.id }}" height="250"></canvas>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
             </div>
             
             <div class="row g-4">
