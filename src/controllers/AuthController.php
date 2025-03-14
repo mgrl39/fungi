@@ -72,7 +72,7 @@ class AuthController {
             } else {
                 return ['success' => false, 'message' => 'El usuario o email ya existe'];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Log del error para el administrador
             error_log($e->getMessage());
             return ['success' => false, 'message' => 'Error al registrar el usuario'];
@@ -130,7 +130,7 @@ class AuthController {
                 'message' => 'Sesión iniciada correctamente',
                 'user' => $user
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return [
                 'success' => false, 
                 'message' => 'Error al iniciar sesión: ' . $e->getMessage(),
@@ -277,7 +277,7 @@ class AuthController {
             }
             
             return $payload;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
