@@ -1,0 +1,140 @@
+\doxysection{register.\+js}
+\hypertarget{register_8js_source}{}\label{register_8js_source}\index{public/assets/scripts/register.js@{public/assets/scripts/register.js}}
+\mbox{\hyperlink{register_8js}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00001}00001\ //\ Inicializar\ AOS}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00002}00002\ \ AOS.init(\{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00003}00003\ \ \ \ \ duration:\ 500,}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00004}00004\ \ \ \ \ easing:\ 'ease-\/in-\/out'}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00005}00005\ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00007}00007\ function\ validateForm()\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00008}00008\ \ \ \ \ const\ username\ =\ document.getElementById('username').value.trim();}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00009}00009\ \ \ \ \ const\ email\ =\ document.getElementById('email').value.trim();}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00010}00010\ \ \ \ \ const\ password\ =\ document.getElementById('password').value;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00011}00011\ \ \ \ \ const\ confirmPassword\ =\ document.getElementById('confirm\_password').value;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00012}00012\ \ \ \ \ const\ usernameInput\ =\ document.getElementById('username');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00013}00013\ \ \ \ \ const\ emailInput\ =\ document.getElementById('email');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00014}00014\ \ \ \ \ const\ passwordInput\ =\ document.getElementById('password');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00015}00015\ \ \ \ \ const\ confirmPasswordInput\ =\ document.getElementById('confirm\_password');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00017}00017\ \ \ \ \ if\ (username\ ===\ '')\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00018}00018\ \ \ \ \ \ \ \ \ usernameInput.classList.add('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00019}00019\ \ \ \ \ \ \ \ \ setTimeout(()\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ usernameInput.classList.remove('shake-\/animation');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00021}00021\ \ \ \ \ \ \ \ \ \},\ 500);}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00022}00022\ \ \ \ \ \ \ \ \ return\ false;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00025}00025\ \ \ \ \ if\ (email\ ===\ ''\ ||\ !email.includes('@'))\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00026}00026\ \ \ \ \ \ \ \ \ emailInput.classList.add('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00027}00027\ \ \ \ \ \ \ \ \ setTimeout(()\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ emailInput.classList.remove('shake-\/animation');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00029}00029\ \ \ \ \ \ \ \ \ \},\ 500);}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00030}00030\ \ \ \ \ \ \ \ \ return\ false;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00033}00033\ \ \ \ \ if\ (password\ ===\ '')\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00034}00034\ \ \ \ \ \ \ \ \ passwordInput.classList.add('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00035}00035\ \ \ \ \ \ \ \ \ setTimeout(()\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ passwordInput.classList.remove('shake-\/animation');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00037}00037\ \ \ \ \ \ \ \ \ \},\ 500);}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00038}00038\ \ \ \ \ \ \ \ \ return\ false;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00041}00041\ \ \ \ \ if\ (password\ !==\ confirmPassword)\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00042}00042\ \ \ \ \ \ \ \ \ passwordInput.classList.add('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00043}00043\ \ \ \ \ \ \ \ \ confirmPasswordInput.classList.add('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00044}00044\ \ \ \ \ \ \ \ \ setTimeout(()\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ passwordInput.classList.remove('shake-\/animation');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ confirmPasswordInput.classList.remove('shake-\/animation');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00047}00047\ \ \ \ \ \ \ \ \ \},\ 500);}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00048}00048\ \ \ \ \ \ \ \ \ return\ false;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00051}00051\ \ \ \ \ return\ true;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00052}00052\ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00054}00054\ //\ Eliminar\ la\ clase\ de\ animación\ cuando\ el\ usuario\ empiece\ a\ escribir}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00055}00055\ document.getElementById('username').addEventListener('input',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00056}00056\ \ \ \ \ this.classList.remove('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00057}00057\ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00059}00059\ document.getElementById('email').addEventListener('input',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00060}00060\ \ \ \ \ this.classList.remove('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00061}00061\ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00063}00063\ document.getElementById('password').addEventListener('input',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00064}00064\ \ \ \ \ this.classList.remove('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00065}00065\ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00067}00067\ document.getElementById('confirm\_password').addEventListener('input',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00068}00068\ \ \ \ \ this.classList.remove('shake-\/animation',\ 'is-\/invalid');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00069}00069\ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00071}00071\ //\ Nueva\ función\ para\ manejar\ el\ registro\ con\ API}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00072}00072\ function\ handleRegister(event)\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00073}00073\ \ \ \ \ event.preventDefault();}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00074}00074\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00075}00075\ \ \ \ \ if\ (!validateForm())\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00076}00076\ \ \ \ \ \ \ \ \ return\ false;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00078}00078\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00079}00079\ \ \ \ \ const\ username\ =\ document.getElementById('username').value.trim();}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00080}00080\ \ \ \ \ const\ email\ =\ document.getElementById('email').value.trim();}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00081}00081\ \ \ \ \ const\ password\ =\ document.getElementById('password').value;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00082}00082\ \ \ \ \ const\ errorDiv\ =\ document.getElementById('registerError');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00083}00083\ \ \ \ \ const\ errorMessage\ =\ document.getElementById('errorMessage');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00084}00084\ \ \ \ \ const\ successDiv\ =\ document.getElementById('registerSuccess');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00085}00085\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00086}00086\ \ \ \ \ //\ Ocultar\ mensajes\ previos}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00087}00087\ \ \ \ \ errorDiv.classList.add('d-\/none');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00088}00088\ \ \ \ \ successDiv.classList.add('d-\/none');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00089}00089\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00090}00090\ \ \ \ \ //\ Realizar\ petición\ a\ la\ API}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00091}00091\ \ \ \ \ fetch('/api/users',\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00092}00092\ \ \ \ \ \ \ \ \ method:\ 'POST',}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00093}00093\ \ \ \ \ \ \ \ \ headers:\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ 'Content-\/Type':\ 'application/json'}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00095}00095\ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00096}00096\ \ \ \ \ \ \ \ \ body:\ JSON.stringify(\{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ username:\ username,}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ email:\ email,}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ password:\ password}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00100}00100\ \ \ \ \ \ \ \ \ \})}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00101}00101\ \ \ \ \ \})}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00102}00102\ \ \ \ \ .then(response\ =>\ response.json())}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00103}00103\ \ \ \ \ .then(data\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00104}00104\ \ \ \ \ \ \ \ \ if\ (data.id)\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Registro\ exitoso,\ mostrar\ mensaje}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ successDiv.classList.remove('d-\/none');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Desactivar\ el\ formulario}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ document.getElementById('registerForm').querySelectorAll('input,\ button').forEach(element\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ element.disabled\ =\ true;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Redirigir\ a\ login\ después\ de\ 2\ segundos}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ setTimeout(()\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ window.location.href\ =\ '/login?registered=true';}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \},\ 2000);}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00117}00117\ \ \ \ \ \ \ \ \ \}\ else\ if\ (data.error)\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Error\ en\ el\ registro}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ errorMessage.textContent\ =\ data.error;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ errorDiv.classList.remove('d-\/none');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00121}00121\ \ \ \ \ \ \ \ \ \}\ else\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Error\ desconocido}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ errorMessage.textContent\ =\ 'Error\ en\ el\ registro.\ Inténtalo\ nuevamente.';}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ errorDiv.classList.remove('d-\/none');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00125}00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00126}00126\ \ \ \ \ \})}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00127}00127\ \ \ \ \ .catch(error\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00128}00128\ \ \ \ \ \ \ \ \ console.error('Error:',\ error);}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00129}00129\ \ \ \ \ \ \ \ \ errorMessage.textContent\ =\ 'Error\ de\ conexión.\ Inténtalo\ de\ nuevo\ más\ tarde.';}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00130}00130\ \ \ \ \ \ \ \ \ errorDiv.classList.remove('d-\/none');}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00131}00131\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00132}00132\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00133}00133\ \ \ \ \ return\ false;}
+\DoxyCodeLine{\Hypertarget{register_8js_source_l00134}00134\ \}}
+
+\end{DoxyCode}
