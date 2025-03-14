@@ -124,14 +124,12 @@
         {% include 'components/footer.twig' %}
     </footer>
 
-    <!-- Scripts -->
     <script src="/assets/lib/jquery.min.js"></script>
     <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     
     {% if use_ajax %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Obtener hongos desde la API
             fetch('{{ api_url }}')
                 .then(response => response.json())
                 .then(data => {
@@ -139,13 +137,10 @@
                         const fungiContainer = document.getElementById('fungi-container');
                         fungiContainer.innerHTML = ''; // Limpiar mensaje de carga
                         
-                        // Generar HTML para cada hongo
                         data.data.forEach(fungi => {
-                            // Obtener la primera imagen (si existe)
                             const imageUrls = fungi.image_urls ? fungi.image_urls.split(',') : [];
                             const imageUrl = imageUrls.length > 0 ? imageUrls[0] : '/assets/images/placeholder.jpg';
                             
-                            // Generar el HTML para la tarjeta
                             const fungiCard = document.createElement('div');
                             fungiCard.className = 'card h-100';
                             fungiCard.innerHTML = `
