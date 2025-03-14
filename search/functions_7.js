@@ -5,6 +5,6 @@ var searchData=
   ['handlepost_2',['handlePost',['../classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7',1,'App::Controllers::ApiController']]],
   ['handleput_3',['handlePut',['../classApp_1_1Controllers_1_1ApiController.html#a44716cc151011ed147d461835bdd8c17',1,'App::Controllers::ApiController']]],
   ['handleregistration_4',['handleRegistration',['../classApp_1_1Controllers_1_1AuthController.html#a134412735e4c54b6f15df957dce3b867',1,'App::Controllers::AuthController']]],
-  ['handlerequest_5',['handlerequest',['../classApp_1_1Controllers_1_1ApiController.html#a4739afff6242e9326d420f13fa554d4d',1,'App\Controllers\ApiController\handleRequest()'],['../classApp_1_1Controllers_1_1UserController.html#a680742ad7d3950078f52747097120880',1,'App\Controllers\UserController\handleRequest()']]],
+  ['handlerequest_5',['handleRequest',['../classApp_1_1Controllers_1_1ApiController.html#a4739afff6242e9326d420f13fa554d4d',1,'App::Controllers::ApiController']]],
   ['hasuserlikedfungi_6',['hasUserLikedFungi',['../classApp_1_1Controllers_1_1FungiController.html#a35fbbcc5cad471348611c0e1cfafebd7',1,'App::Controllers::FungiController']]]
 ];
