@@ -1,8 +1,23 @@
+{% set nav_items = [
+    {'route': '/', 'name': _('Inicio')},
+    {'route': '/random', 'name': _('Aleatorio')},
+    {'route': '/statistics', 'name': _('Estadísticas')},
+    {'route': '/about', 'name': _('Acerca de')},
+    {'route': '/docs/api', 'name': _('Api')}
+] %}
+
+{% set languages = {
+    'es': {'icon': '🇪🇸', 'name': 'Español'},
+    'en': {'icon': '🇬🇧', 'name': 'English'}, 
+    'ca': {'icon': '🐱', 'name': 'Català'}
+} %}
+
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">
             <i class="fas fa-mushroom"></i> {{ _('FungiDB') }}
         </a>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
             aria-controls="navbarMain" aria-expanded="false" aria-label="{{ _('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
@@ -10,23 +25,15 @@
 
         <div class="collapse navbar-collapse" id="navbarMain">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item {{ current_route == '/' ? 'active' : '' }}">
-                    <a class="nav-link" href="/">{{ _('Inicio') }}</a>
-                </li>
-                <li class="nav-item {{ current_route == '/random' ? 'active' : '' }}">
-                    <a class="nav-link" href="/random">{{ _('Aleatorio') }}</a>
-                </li>
-                <li class="nav-item {{ current_route == '/statistics' ? 'active' : '' }}">
-                    <a class="nav-link" href="/statistics">{{ _('Estadísticas') }}</a>
-                </li>
-                <li class="nav-item {{ current_route == '/about' ? 'active' : '' }}">
-                    <a class="nav-link" href="/about">{{ _('Acerca de') }}</a>
-                </li>
-                <li class="nav-item {{ current_route == '/docs/api' ? 'active' : '' }}">
-                    <a class="nav-link" href="/docs/api">{{ _('Api') }}</a>
-                </li>
+                {% for item in nav_items %}
+                    <li class="nav-item {{ current_route == item.route ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ item.route }}">{{ item.name }}</a>
+                    </li>
+                {% endfor %}
             </ul>
+
             <ul class="navbar-nav ms-auto">
+                {# Estado de autenticación #}
                 <li id="auth-status" class="d-none">
                     <span class="nav-link">
                         <div class="spinner-border spinner-border-sm text-light" role="status">
@@ -35,6 +42,7 @@
                     </span>
                 </li>
                 
+                {# Menú desplegable de usuario #}
                 <li id="user-dropdown" class="nav-item dropdown d-none">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -57,6 +65,7 @@
                     </ul>
                 </li>
                 
+                {# Botones de login/registro #}
                 <li id="login-button" class="nav-item d-none">
                     <a class="nav-link btn btn-outline-light btn-sm me-2" href="/login">{{ _('Iniciar sesión') }}</a>
                 </li>
@@ -64,34 +73,28 @@
                     <a class="nav-link btn btn-primary btn-sm" href="/register">{{ _('Registrarse') }}</a>
                 </li>
 
+                {# Selector de idioma #}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-globe"></i>
-                        {% if idioma_actual == 'es' %}
-                            <span class="d-none d-md-inline ml-1">ES</span>
-                        {% elseif idioma_actual == 'en' %}
-                            <span class="d-none d-md-inline ml-1">EN</span>
-                        {% elseif idioma_actual == 'ca' %}
-                            <span class="d-none d-md-inline ml-1">CA</span>
-                        {% endif %}
+                        {% set lang_code = {
+                            'es': 'ES',
+                            'en': 'EN',
+                            'ca': 'CA'
+                        } %}
+                        <span class="d-none d-md-inline ml-1">{{ lang_code[idioma_actual] }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        <li>
-                            <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'es' %}active{% endif %}" data-lang="es">
-                                🇪🇸 Español
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'en' %}active{% endif %}" data-lang="en">
-                                🇬🇧 English
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="dropdown-item lang-switch {% if idioma_actual == 'ca' %}active{% endif %}" data-lang="ca">
-                                🐱 Català
-                            </button>
-                        </li>
+                        {% for code, lang in languages %}
+                            <li>
+                                <button type="button" 
+                                        class="dropdown-item lang-switch {{ idioma_actual == code ? 'active' }}" 
+                                        data-lang="{{ code }}">
+                                    {{ lang.icon }} {{ lang.name }}
+                                </button>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </li>
             </ul>
