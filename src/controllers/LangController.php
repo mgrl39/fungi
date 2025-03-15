@@ -117,7 +117,7 @@ class LangController
         textdomain("messages");
         
         // NUEVO: Cargar dominios adicionales de forma predeterminada
-        $default_domains = ['navbar', 'about'];
+        $default_domains = ['navbar', 'about', 'home'];
         foreach ($default_domains as $domain) {
             $this->loadTextDomain($domain);
         }
@@ -189,7 +189,7 @@ class LangController
         bind_textdomain_codeset($domain, "UTF-8");
         
         // AÑADIR LÍNEA CLAVE: De forma temporal, activar este dominio para verificar que funciona
-        if ($domain === 'navbar' || $domain === 'about') {
+        if ($domain === 'navbar' || $domain === 'about' || $domain === 'home') {
             textdomain($domain); // Esto cambia el dominio activo para gettext()
         }
         

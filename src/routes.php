@@ -67,17 +67,6 @@ $components = [
 ];
 
 /**
- * Obtiene un componente por su nombre
- * 
- * @param string $componentName Nombre del componente
- * @return string|null Ruta de la plantilla del componente o null si no existe
- */
-function getComponent($componentName) {
-    global $components;
-    return $components[$componentName] ?? null;
-}
-
-/**
  * Renderiza una plantilla con los datos proporcionados
  * 
  * @param string $templatePath Ruta de la plantilla
@@ -85,7 +74,18 @@ function getComponent($componentName) {
  * @return void
  */
 function renderTemplate($templatePath, $data = []) {
-    global $twig, $uri, $components, $session;
+    global $twig, $uri, $components, $session, $langController;
+    
+    // NUEVO: Determinar qué dominio usar según la plantilla
+    $originalDomain = textdomain(NULL);
+    
+    if (strpos($templatePath, 'navbar') !== false) {
+        textdomain('navbar');
+    } else if (strpos($templatePath, 'about') !== false) {
+        textdomain('about');
+    } else {
+        textdomain('messages');
+    }
     
     // Aseguramos que los componentes estén disponibles en todas las plantillas
     $data['components'] = $components;
@@ -103,9 +103,17 @@ function renderTemplate($templatePath, $data = []) {
     // Añadimos la ruta actual para poder marcar elementos activos en el menú
     $data['current_route'] = $uri;
     
+    // NUEVO: Asegurar que se pase el idioma actual a todas las plantillas
+    $data['idioma_actual'] = $_SESSION['idioma'] ?? 'es';
+    
     // Renderizamos la plantilla
     try {
-        echo $twig->render($templatePath, $data);
+        $result = $twig->render($templatePath, $data);
+        
+        // Restaurar el dominio original
+        textdomain($originalDomain);
+        
+        echo $result;
     } catch (Exception $e) {
         // Si hay un error al renderizar, mostramos un mensaje de error
         echo "<h1>Error al renderizar la plantilla</h1>";
@@ -139,10 +147,11 @@ $routes = [
             ];
         }
     ],
-    '/index' => [
-        'template' => 'pages/home.twig',
-        'redirect' => '/'
-    ],
+    '/index' => ['template' => 'pages/home.twig', 'redirect' => '/'],
+    '/about' => ['template' => 'pages/about.twig', 'title' => _('Acerca de'), 'auth_required' => false],
+    '/404' => ['template' => 'pages/404.twig', 'title' => _('Página no encontrada'), 'auth_required' => false],
+    '/random' => ['template' => null, 'redirect' => '/fungi/random'],
+    '/home' => ['template' => null, 'redirect' => '/'],
     '/login' => [
         'template' => 'components/auth/login_form.twig',
         'title' => _('Iniciar Sesión'),
@@ -201,12 +210,7 @@ $routes = [
             }
         }
     ],
-    '/about' => [
-        'template' => 'pages/about.twig',
-        'title' => _('Acerca de'),
-        'auth_required' => false
-    ],
-
+    
     '/profile' => [
         'template' => 'pages/profile.twig',
         'title' => _('Perfil de Usuario'),
@@ -337,11 +341,6 @@ $routes = [
             ];
         }
     ],
-    '/404' => [
-        'template' => 'pages/404.twig',
-        'title' => _('Página no encontrada'),
-        'auth_required' => false
-    ],
     '/docs/api' => [
         'template' => 'pages/api/api_docs.twig',
         'title' => _('Documentación de la API'),
@@ -414,8 +413,6 @@ $routes = [
             ];
         }
     ],
-    '/random' => ['template' => null, 'redirect' => '/fungi/random'],
-    '/home' => ['template' => null, 'redirect' => '/'],
     '/change-language' => [
         'template' => null,
         'auth_required' => false,
@@ -465,15 +462,8 @@ $routes = [
 ];
 
 // Rutas relacionadas con usuarios
-$routes['/profile'] = [
-    'handler' => [$userController, 'profileHandler'],
-    'template' => 'pages/profile.twig'
-];
-
-$routes['/admin/users'] = [
-    'handler' => [$userController, 'adminUsersHandler'],
-    'template' => 'admin/users.twig'
-];
+$routes['/profile'] = [ 'handler' => [$userController, 'profileHandler'], 'template' => 'pages/profile.twig' ];
+$routes['/admin/users'] = [ 'handler' => [$userController, 'adminUsersHandler'], 'template' => 'admin/users.twig' ];
 
 // Manejo de rutas de API
 if (preg_match('#^/api#', $uri)) {
