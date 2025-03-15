@@ -289,47 +289,58 @@
     {% if is_own_profile %}
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
                     <h5 class="modal-title" id="editProfileModalLabel"><i class="fas fa-user-edit me-2"></i>Editar perfil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="profileForm">
+                        <!-- Username (deshabilitado) -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de usuario</label>
-                            <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
-                            <small class="text-muted">El nombre de usuario no se puede cambiar.</small>
+                            <input type="text" class="form-control bg-dark text-light border-secondary" id="username" value="{{ user.username }}" disabled>
+                            <div class="form-text text-muted">El nombre de usuario no se puede cambiar.</div>
                         </div>
+                        
+                        <!-- Avatar -->
                         <div class="mb-3">
                             <label for="avatar" class="form-label">Avatar</label>
-                            <input type="file" class="form-control" id="avatar" accept="image/*">
+                            <input type="file" class="form-control bg-dark text-light border-secondary" id="avatar" accept="image/*">
                         </div>
+                        
+                        <!-- Email -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" value="{{ user.email }}">
+                            <input type="email" class="form-control bg-dark text-light border-secondary" id="email" value="{{ user.email }}">
                         </div>
+                        
+                        <!-- Biografía -->
                         <div class="mb-3">
                             <label for="bio" class="form-label">Biografía</label>
-                            <textarea class="form-control" id="bio" rows="3">{{ user.bio }}</textarea>
+                            <textarea class="form-control bg-dark text-light border-secondary" id="bio" rows="3">{{ user.bio }}</textarea>
                         </div>
+                        
+                        <!-- Fila con ubicación y sitio web -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="location" class="form-label">Ubicación</label>
-                                <input type="text" class="form-control" id="location" value="{{ user.location }}">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-dark text-light border-secondary"><i class="fas fa-map-marker-alt"></i></span>
+                                    <input type="text" class="form-control bg-dark text-light border-secondary" id="location" value="{{ user.location }}">
+                                </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="website" class="form-label">Sitio web</label>
-                                <input type="url" class="form-control" id="website" value="{{ user.website }}">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-dark text-light border-secondary"><i class="fas fa-globe"></i></span>
+                                    <input type="url" class="form-control bg-dark text-light border-secondary" id="website" value="{{ user.website }}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" id="phone" value="{{ user.phone }}">
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer border-secondary">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" id="saveProfile">
                         <i class="fas fa-save me-1"></i> Guardar cambios
@@ -342,21 +353,23 @@
     <!-- Modal de confirmación para eliminar cuenta -->
     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
                     <h5 class="modal-title text-danger" id="deleteAccountModalLabel">
                         <i class="fas fa-exclamation-triangle me-2"></i>Eliminar cuenta
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer y perderás todos tus datos.</p>
+                    <div class="alert alert-danger">
+                        <p>¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer y perderás todos tus datos.</p>
+                    </div>
                     <div class="mb-3">
                         <label for="delete_confirmation" class="form-label">Escribe "ELIMINAR" para confirmar:</label>
-                        <input type="text" class="form-control" id="delete_confirmation" required>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="delete_confirmation" required>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer border-secondary">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteAccount" disabled>
                         <i class="fas fa-user-slash me-1"></i> Eliminar permanentemente
