@@ -259,11 +259,30 @@ $routes = [
                 exit;
             }
             
+            // Crear instancia del controlador de estadísticas
+            $statsController = new \App\Controllers\StatsController($db);
+            
+            // Obtener actividad reciente de usuarios desde la base de datos
+            $recentActivity = $db->query(
+                "SELECT u.username, a.action, a.item, a.access_time as date 
+                 FROM access_logs a
+                 JOIN users u ON a.user_id = u.id
+                 ORDER BY a.access_time DESC
+                 LIMIT 10"
+            )->fetchAll(\PDO::FETCH_ASSOC);
+            
+            // Obtener estadísticas generales
+            $fungiStats = $statsController->getFungiStats('all');
+            
             return [
                 'title' => _('Panel de Administración'),
                 'stats' => [
                     'total_fungi' => $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
-                    'total_users' => $db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0
+                    'total_users' => $db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
+                    'recent_activity' => $recentActivity,
+                    'popular_fungi' => $fungiStats['popular'] ?? [],
+                    'edibility_stats' => $fungiStats['edibility'] ?? [],
+                    'family_stats' => $fungiStats['families'] ?? []
                 ]
             ];
         }

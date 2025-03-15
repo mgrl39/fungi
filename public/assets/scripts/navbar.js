@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (data.user.role === 'admin') {
                     adminOption.classList.remove('d-none');
+                } else {
+                    adminOption.classList.add('d-none');
                 }
             } else {
                 loginButton.classList.remove('d-none');
