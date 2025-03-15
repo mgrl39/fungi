@@ -536,39 +536,6 @@ if (preg_match('#^/fungi/(\d+)$#', $uri, $matches)) {
     exit;
 }
 
-// Modificar la sección de configuración de internacionalización
-$lang_supported = ['es', 'en', 'ca'];
-
-// Detectar idioma desde la URL (para cambios de idioma)
-if (isset($_GET['lang']) && in_array($_GET['lang'], $lang_supported)) {
-    $_SESSION['idioma'] = $_GET['lang'];
-}
-
-// Detectar idioma desde la sesión, cookie, navegador o asignar uno predeterminado
-$idioma = $_SESSION['idioma'] 
-    ?? $_COOKIE['idioma'] 
-    ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'es', 0, 2);
-
-if (!in_array($idioma, $lang_supported)) {
-    $idioma = 'es';
-}
-
-$localeMap = [
-    'es' => 'es_ES',
-    'en' => 'en_US',
-    'ca' => 'ca_ES',
-];
-
-$locale = $localeMap[$idioma] . '.UTF-8';
-
-// Configurar gettext
-putenv("LANG=$locale");
-putenv("LANGUAGE=$locale");
-putenv("LC_ALL=$locale");
-setlocale(LC_ALL, $locale);
-
-// Asegurarse de que el directorio de traducciones existe y tiene los permisos correctos
-$localeDir = __DIR__ . '/../locales';
-bindtextdomain("messages", $localeDir);
-bind_textdomain_codeset("messages", "UTF-8");
-textdomain("messages");
+// Inicializar controlador de idiomas y configurar el idioma actual
+$langController = new \App\Controllers\LangController();
+$currentLanguage = $langController->initializeLanguage();
