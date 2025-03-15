@@ -130,43 +130,72 @@
     {% if use_ajax %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            fetch('{{ api_url }}')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success && data.data.length > 0) {
-                        const fungiContainer = document.getElementById('fungi-container');
-                        fungiContainer.innerHTML = ''; // Limpiar mensaje de carga
-                        
-                        data.data.forEach(fungi => {
-                            const imageUrls = fungi.image_urls ? fungi.image_urls.split(',') : [];
-                            const imageUrl = imageUrls.length > 0 ? imageUrls[0] : '/assets/images/placeholder.jpg';
-                            
-                            const fungiCard = document.createElement('div');
-                            fungiCard.className = 'card h-100';
-                            fungiCard.innerHTML = `
-                                <img src="${imageUrl}" class="card-img-top" alt="${fungi.name}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${fungi.name.replace(/-/g, ' ')}</h5>
-                                    <p class="card-text">${fungi.edibility.replace(/-/g, ' ')}</p>
-                                    <a href="/fungi/${fungi.id}" class="btn btn-primary">Ver detalles</a>
-                                </div>
-                            `;
-                            
-                            // Crear el contenedor y añadir la tarjeta
-                            const cardContainer = document.createElement('div');
-                            cardContainer.appendChild(fungiCard);
-                            fungiContainer.appendChild(cardContainer);
-                        });
+            // Carga inicial de hongos
+            cargarHongos('/api/fungi/page/1/limit/12');
+            
+            // Configurar el formulario de búsqueda
+            const searchForm = document.querySelector('.search-form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const nameInput = document.getElementById('search-name');
+                    const edibilitySelect = document.getElementById('search-edibility');
+                    
+                    // Priorizar búsqueda por nombre si está presente
+                    if (nameInput.value.trim()) {
+                        cargarHongos('/api/fungi/search/name/' + encodeURIComponent(nameInput.value.trim()));
+                    } else if (edibilitySelect.value) {
+                        cargarHongos('/api/fungi/search/edibility/' + encodeURIComponent(edibilitySelect.value));
                     } else {
-                        document.getElementById('fungi-container').innerHTML = 
-                            '<p class="text-center w-100">{{ _("No hay hongos disponibles en este momento.") }}</p>';
+                        // Si no hay criterios, mostrar todos
+                        cargarHongos('/api/fungi/page/1/limit/12');
                     }
-                })
-                .catch(error => {
-                    console.error('Error al cargar los hongos:', error);
-                    document.getElementById('fungi-container').innerHTML = 
-                        '<p class="text-center w-100 text-danger">Error al cargar los hongos. Intente nuevamente.</p>';
                 });
+            }
+            
+            // Función para cargar hongos desde la API
+            function cargarHongos(apiUrl) {
+                const fungiContainer = document.getElementById('fungi-container');
+                fungiContainer.innerHTML = '<p class="text-center w-100">Cargando hongos...</p>';
+                
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.data && data.data.length > 0) {
+                            fungiContainer.innerHTML = ''; // Limpiar mensaje de carga
+                            
+                            data.data.forEach(fungi => {
+                                const imageUrls = fungi.image_urls ? fungi.image_urls.split(',') : [];
+                                const imageUrl = imageUrls.length > 0 ? imageUrls[0] : '/assets/images/placeholder.jpg';
+                                
+                                const fungiCard = document.createElement('div');
+                                fungiCard.className = 'card h-100';
+                                fungiCard.innerHTML = `
+                                    <img src="${imageUrl}" class="card-img-top" alt="${fungi.name}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${fungi.name.replace(/-/g, ' ')}</h5>
+                                        <p class="card-text">${fungi.edibility ? fungi.edibility.replace(/-/g, ' ') : ''}</p>
+                                        <a href="/fungi/${fungi.id}" class="btn btn-primary">Ver detalles</a>
+                                    </div>
+                                `;
+                                
+                                // Crear el contenedor y añadir la tarjeta
+                                const cardContainer = document.createElement('div');
+                                cardContainer.appendChild(fungiCard);
+                                fungiContainer.appendChild(cardContainer);
+                            });
+                        } else {
+                            fungiContainer.innerHTML = 
+                                '<p class="text-center w-100">No hay hongos disponibles con los criterios seleccionados.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar los hongos:', error);
+                        fungiContainer.innerHTML = 
+                            '<p class="text-center w-100 text-danger">Error al cargar los hongos. Intente nuevamente.</p>';
+                    });
+            }
         });
     </script>
     {% endif %}

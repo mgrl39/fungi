@@ -223,7 +223,52 @@ class ApiController
 			return;
 		}
 
-		if ($endpoint === 'fungi' || $endpoint === 'fungi/all') {
+		// Endpoint de búsqueda de hongos
+		else if (preg_match('/^fungi\/search\/(\w+)\/(.+)$/', $endpoint, $matches)) {
+			$param = $matches[1];
+			$value = urldecode($matches[2]);
+			
+			$allowedParams = ['name', 'edibility', 'habitat', 'common_name'];
+			
+			if (!in_array($param, $allowedParams)) {
+				http_response_code(400);
+				echo json_encode([
+					'success' => false,
+					'error' => 'Parámetro de búsqueda no válido. Parámetros permitidos: ' . implode(', ', $allowedParams)
+				]);
+				return;
+			}
+			
+			try {
+				// Construir la consulta de búsqueda
+				$sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+						FROM fungi f 
+						LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+						LEFT JOIN images i ON fi.image_id = i.id 
+						LEFT JOIN image_config ic ON i.config_key = ic.config_key
+						WHERE f.{$param} LIKE :value 
+						GROUP BY f.id
+						LIMIT 50";
+				
+				$stmt = $this->pdo->prepare($sql);
+				$stmt->execute([':value' => '%' . $value . '%']);
+				$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				
+				echo json_encode([
+					'success' => true,
+					'count' => count($results),
+					'data' => $results
+				]);
+			} catch (\PDOException $e) {
+				http_response_code(500);
+				echo json_encode([
+					'success' => false,
+					'error' => 'Error en la búsqueda: ' . $e->getMessage()
+				]);
+			}
+		}
+
+		else if ($endpoint === 'fungi' || $endpoint === 'fungi/all') {
 			$stmt = $this->pdo->query("SELECT * FROM fungi");
 			echo json_encode(['success' => true, 'data' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 		} elseif (preg_match('/^fungi\/page\/(\d+)\/limit\/(\d+)$/', $endpoint, $matches)) {
@@ -545,7 +590,7 @@ class ApiController
 	 */
 	private function generateJwtToken(array $user): string
 	{
-		$secretKey = defined('JWT_SECRET') ? JWT_SECRET : getenv('JWT_SECRET');
+		$secretKey = defined('\JWT_SECRET') ? \JWT_SECRET : getenv('JWT_SECRET');
 		if (!$secretKey) {
 			$secretKey = 'default_jwt_secret_key'; // ¡Solo como respaldo! Configurar siempre una clave segura
 		}
@@ -600,7 +645,7 @@ class ApiController
 	 */
 	public function verifyJwtToken(string $token)
 	{
-		$secretKey = defined('JWT_SECRET') ? JWT_SECRET : getenv('JWT_SECRET');
+		$secretKey = defined('\JWT_SECRET') ? \JWT_SECRET : getenv('JWT_SECRET');
 		if (!$secretKey) {
 			$secretKey = 'default_jwt_secret_key'; // ¡Solo como respaldo!
 		}
