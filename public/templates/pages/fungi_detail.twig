@@ -5,77 +5,310 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</title>
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
-    
-    <link rel="stylesheet" href="/assets/styles/generic.css">
-    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
-    <link rel="stylesheet" href="/assets/styles/components/footer.css">
-    <link rel="stylesheet" href="/assets/styles/pages/fungi_detail.css">
-    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
-    
+    {% set styles = [
+        '/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css',
+        '/assets/styles/generic.css',
+        '/assets/styles/components/navbar.css', 
+        '/assets/styles/components/footer.css',
+        '/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css'
+    ] %}
+
+    {% for style in styles %}
+        <link rel="stylesheet" href="{{ style }}">
+    {% endfor %}
+
     <style>
-        /* Estilos para cursor de imagen y modal */
-        .fungi-main-image, .fungi-thumbnail {
-            cursor: pointer;
+        /* Estilos generales */
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
         }
         
-        .modal-fullscreen-image {
-            max-height: 90vh;
-            max-width: 100%;
-            margin: 0 auto;
-            display: block;
+        /* Hero y cabecera */
+        .fungi-hero {
+            position: relative;
+            height: 380px;
+            overflow: hidden;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
         }
         
-        .modal-content {
-            background-color: rgba(0,0,0,0.8);
-        }
-        
-        .btn-close-white {
-            background-color: white;
-            opacity: 0.7;
-        }
-        
-        .btn-close-white:hover {
-            opacity: 1;
-        }
-        
-        .modal-header, .modal-footer {
-            border: none;
-        }
-        
-        .modal-title {
-            color: white;
-        }
-        
-        /* Botones de navegación en el modal */
-        .modal-prev-next {
+        .fungi-hero-image {
             position: absolute;
-            top: 50%;
             width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0 15px;
-            z-index: 1050;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7);
+            z-index: 1;
         }
         
-        .modal-nav-btn {
-            background-color: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+        .fungi-hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+        }
+        
+        .fungi-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .fungi-latin {
+            font-style: italic;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        /* Contenido principal */
+        .info-card {
+            background-color: var(--secondary-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .info-card-header {
+            background-color: rgba(255,255,255,0.05);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-card-header i {
+            margin-right: 12px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .info-card-title {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .info-card-body {
+            padding: 20px;
+        }
+        
+        /* Galería de imágenes */
+        .gallery-container {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        
+        .gallery-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        .gallery-thumbnail {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-thumbnail:hover, .gallery-thumbnail.active {
+            transform: scale(1.05);
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Características */
+        .feature-item {
+            display: flex;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .feature-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--tertiary-bg) 0%, var(--secondary-bg) 100%);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s;
+            margin-right: 16px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .feature-icon i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-content {
+            flex: 1;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .feature-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        /* Taxonomía */
+        .taxonomy-group {
+            margin-bottom: 16px;
+        }
+        
+        .taxonomy-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .taxonomy-value {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        /* Badges y etiquetas */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .status-badge i {
+            margin-right: 6px;
+        }
+        
+        .badge-edible {
+            background-color: #22c55e;
+            color: white;
+        }
+        
+        .badge-poisonous {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        .badge-unknown {
+            background-color: #f59e0b;
+            color: white;
+        }
+        
+        /* Modal de imagen */
+        .modal-dark .modal-content {
+            background-color: rgba(0,0,0,0.95);
+            border: none;
+            border-radius: 12px;
+        }
+        
+        .modal-fullscreen-image {
+            max-height: 85vh;
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+        
+        .modal-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1060;
+            width: 44px;
+            height: 44px;
+            background-color: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: all 0.2s;
         }
         
         .modal-nav-btn:hover {
-            background-color: rgba(255,255,255,0.4);
+            background-color: rgba(255,255,255,0.3);
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        #prevImageBtn {
+            left: 20px;
+        }
+        
+        #nextImageBtn {
+            right: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .fungi-hero {
+                height: 300px;
+            }
+            
+            .fungi-title {
+                font-size: 2rem;
+            }
+            
+            .feature-item {
+                margin-bottom: 14px;
+                padding-bottom: 14px;
+            }
+            
+            .feature-icon {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
@@ -85,192 +318,261 @@
     </header>
 
     <main>
-        <div class="container">
-            <nav aria-label="breadcrumb" class="mt-3">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">{{ _('Inicio') }}</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</li>
-                </ol>
-            </nav>
+        <!-- Hero Section -->
+        {% if fungi.image_urls is defined and fungi.image_urls %}
+            {% set images = fungi.image_urls|split(',') %}
+            <div class="fungi-hero">
+                <img src="{{ images[0] }}" alt="{{ fungi.name|default('Hongo') }}" class="fungi-hero-image" id="mainHeroImage">
+                <div class="fungi-hero-content">
+                    <div class="container">
+                        <h1 class="fungi-title">{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</h1>
+                        {% if fungi.scientific_name is defined and fungi.scientific_name %}
+                            <p class="fungi-latin">{{ fungi.scientific_name }}</p>
+                        {% endif %}
+                        <div class="d-flex flex-wrap align-items-center">
+                            <span class="status-badge {% if fungi.edibility == 'comestible' %}badge-edible{% elseif fungi.edibility == 'venenoso' %}badge-poisonous{% else %}badge-unknown{% endif %}">
+                                <i class="fas {% if fungi.edibility == 'comestible' %}fa-utensils{% elseif fungi.edibility == 'venenoso' %}fa-skull{% else %}fa-question-circle{% endif %}"></i>
+                                {{ fungi.edibility|default('Desconocido')|title|replace({'-': ' '}) }}
+                            </span>
+                            
+                            {% if is_logged_in %}
+                            <div class="ms-2">
+                                <button id="likeButton" onclick="toggleLike('{{ fungi.id }}')" 
+                                    class="btn {% if fungi.liked %}btn-danger{% else %}btn-outline-light{% endif %} btn-sm">
+                                    <i class="fas fa-heart"></i>
+                                    <span id="likeText" class="d-none d-sm-inline ms-1">
+                                        {% if fungi.liked %}{{ _('Quitar me gusta') }}{% else %}{{ _('Me gusta') }}{% endif %}
+                                    </span>
+                                </button>
+                                
+                                <button id="favoriteButton" onclick="toggleFavorite('{{ fungi.id }}')" 
+                                    class="btn {% if fungi.favorite %}btn-warning{% else %}btn-outline-light{% endif %} btn-sm">
+                                    <i class="fas fa-star"></i>
+                                    <span class="d-none d-sm-inline ms-1">
+                                        {% if fungi.favorite %}{{ _('Guardado') }}{% else %}{{ _('Guardar') }}{% endif %}
+                                    </span>
+                                </button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
-            <div class="fungi-detail">
-                <div class="fungi-detail-images">
+        <div class="container pb-5">
+            <div class="row">
+                <!-- Columna izquierda -->
+                <div class="col-lg-8">
+                    <!-- Galería -->
                     {% if fungi.image_urls is defined and fungi.image_urls %}
                         {% set images = fungi.image_urls|split(',') %}
-                        <img src="{{ images[0] }}" 
-                             alt="{{ fungi.name|default('Hongo') }}" 
-                             class="fungi-main-image" 
-                             id="mainImage"
-                             onclick="openImageModal(this.src, 0)">
-                        
                         {% if images|length > 1 %}
-                            <div class="fungi-thumbnails">
-                                {% for image in images %}
-                                    <img src="{{ image }}" 
-                                         alt="{{ fungi.name|default('Hongo') }}" 
-                                         class="fungi-thumbnail {% if loop.first %}active{% endif %}"
-                                         onclick="updateMainImage(this.src); openImageModal(this.src, {{ loop.index0 }});">
-                                {% endfor %}
+                            <div class="info-card mb-4">
+                                <div class="info-card-header">
+                                    <i class="fas fa-images"></i>
+                                    <h3 class="info-card-title">{{ _('Galería de imágenes') }}</h3>
+                                </div>
+                                <div class="info-card-body">
+                                    <div class="gallery-container">
+                                        {% for image in images %}
+                                            <img src="{{ image }}" 
+                                                alt="{{ fungi.name|default('Hongo') }} - {{ loop.index }}" 
+                                                class="gallery-thumbnail {% if loop.first %}active{% endif %}" 
+                                                onclick="updateHeroImage(this.src, {{ loop.index0 }})">
+                                        {% endfor %}
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <button class="btn btn-primary btn-sm" onclick="openImageModal('{{ images[0] }}', 0)">
+                                            <i class="fas fa-expand"></i> Ver a pantalla completa
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}
-                    {% else %}
-                        <img src="/assets/images/placeholder.jpg" alt="Imagen no disponible" class="fungi-main-image">
                     {% endif %}
                     
-                    {% if is_logged_in %}
-                        <div class="fungi-actions mt-2">
-                            <button id="likeButton" class="btn {% if fungi.is_liked is defined and fungi.is_liked %}btn-danger{% else %}btn-outline-danger{% endif %}" 
-                                    onclick="toggleLike({{ fungi.id }})">
-                                <i class="fas fa-heart"></i> 
-                                <span id="likeText">{% if fungi.is_liked is defined and fungi.is_liked %}Quitar me gusta{% else %}Me gusta{% endif %}</span>
-                            </button>
-                            
-                            <button id="favoriteButton" class="btn btn-outline-warning" onclick="toggleFavorite({{ fungi.id }})">
-                                <i class="fas fa-star"></i> Favorito
-                            </button>
+                    <!-- Descripción -->
+                    {% if fungi.description is defined and fungi.description %}
+                    <div class="info-card mb-4">
+                        <div class="info-card-header">
+                            <i class="fas fa-book-open"></i>
+                            <h3 class="info-card-title">{{ _('Descripción') }}</h3>
                         </div>
+                        <div class="info-card-body">
+                            <p>{{ fungi.description }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Características -->
+                    <div class="info-card mb-4">
+                        <div class="info-card-header">
+                            <i class="fas fa-list"></i>
+                            <h3 class="info-card-title">{{ _('Características') }}</h3>
+                        </div>
+                        <div class="info-card-body">
+                            {% if fungi.cap is defined and fungi.cap %}
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-circle"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4 class="feature-title">{{ _('Sombrero') }}</h4>
+                                    <p class="feature-text">{{ fungi.cap }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if fungi.gills is defined and fungi.gills %}
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-grip-lines"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4 class="feature-title">{{ _('Láminas') }}</h4>
+                                    <p class="feature-text">{{ fungi.gills }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if fungi.stem is defined and fungi.stem %}
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-grip-lines-vertical"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4 class="feature-title">{{ _('Pie') }}</h4>
+                                    <p class="feature-text">{{ fungi.stem }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if fungi.flesh is defined and fungi.flesh %}
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h4 class="feature-title">{{ _('Carne') }}</h4>
+                                    <p class="feature-text">{{ fungi.flesh }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Observaciones -->
+                    {% if fungi.observations is defined and fungi.observations %}
+                    <div class="info-card mb-4">
+                        <div class="info-card-header">
+                            <i class="fas fa-comment-alt"></i>
+                            <h3 class="info-card-title">{{ _('Observaciones') }}</h3>
+                        </div>
+                        <div class="info-card-body">
+                            <p>{{ fungi.observations }}</p>
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
                 
-                <div class="fungi-detail-info">
-                    <h1 class="fungi-detail-title">{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</h1>
-                    
-                    {% if fungi.common_name is defined and fungi.common_name %}
-                        <p class="fungi-detail-common-name">Nombre común: {{ fungi.common_name }}</p>
-                    {% endif %}
-                    
-                    {% if fungi.author is defined and fungi.author %}
-                        <p class="fungi-detail-author">Autor: {{ fungi.author }}</p>
-                    {% endif %}
-                    
-                    {% if fungi.synonym is defined and fungi.synonym %}
-                        <p class="fungi-detail-synonym">Sinónimo: {{ fungi.synonym }}</p>
-                    {% endif %}
-                    
-                    <div class="fungi-detail-card">
-                        <h2>Información General</h2>
-                        <div class="fungi-detail-row">
-                            <strong>Comestibilidad:</strong>
-                            <span class="badge {% if fungi.edibility == 'comestible' %}bg-success{% elseif fungi.edibility == 'venenoso' %}bg-danger{% else %}bg-warning{% endif %}">
-                                {{ fungi.edibility|default('Desconocido')|title|replace({'-': ' '}) }}
-                            </span>
-                        </div>
-                        
-                        {% if fungi.habitat is defined and fungi.habitat %}
-                            <div class="fungi-detail-row">
-                                <strong>Hábitat:</strong>
-                                <span>{{ fungi.habitat }}</span>
-                            </div>
-                        {% endif %}
-                    </div>
-                    
+                <!-- Columna derecha -->
+                <div class="col-lg-4">
                     <!-- Taxonomía -->
-                    <div class="fungi-detail-card">
-                        <h2>Taxonomía</h2>
-                        
-                        {% if fungi.division is defined and fungi.division %}
-                            <div class="fungi-detail-row">
-                                <strong>División:</strong>
-                                <span>{{ fungi.division }}</span>
+                    <div class="info-card mb-4">
+                        <div class="info-card-header">
+                            <i class="fas fa-sitemap"></i>
+                            <h3 class="info-card-title">{{ _('Taxonomía') }}</h3>
+                        </div>
+                        <div class="info-card-body">
+                            {% if fungi.kingdom is defined and fungi.kingdom %}
+                            <div class="taxonomy-group">
+                                <div class="taxonomy-label">{{ _('Reino') }}</div>
+                                <p class="taxonomy-value">{{ fungi.kingdom }}</p>
                             </div>
-                        {% endif %}
-                        
-                        {% if fungi.subdivision is defined and fungi.subdivision %}
-                            <div class="fungi-detail-row">
-                                <strong>Subdivisión:</strong>
-                                <span>{{ fungi.subdivision }}</span>
+                            {% endif %}
+                            
+                            {% if fungi.phylum is defined and fungi.phylum %}
+                            <div class="taxonomy-group">
+                                <div class="taxonomy-label">{{ _('Filo') }}</div>
+                                <p class="taxonomy-value">{{ fungi.phylum }}</p>
                             </div>
-                        {% endif %}
-                        
-                        {% if fungi.class is defined and fungi.class %}
-                            <div class="fungi-detail-row">
-                                <strong>Clase:</strong>
-                                <span>{{ fungi.class }}</span>
+                            {% endif %}
+                            
+                            {% if fungi.class is defined and fungi.class %}
+                            <div class="taxonomy-group">
+                                <div class="taxonomy-label">{{ _('Clase') }}</div>
+                                <p class="taxonomy-value">{{ fungi.class }}</p>
                             </div>
-                        {% endif %}
-                        
-                        {% if fungi.subclass is defined and fungi.subclass %}
-                            <div class="fungi-detail-row">
-                                <strong>Subclase:</strong>
-                                <span>{{ fungi.subclass }}</span>
+                            {% endif %}
+                            
+                            {% if fungi.order is defined and fungi.order %}
+                            <div class="taxonomy-group">
+                                <div class="taxonomy-label">{{ _('Orden') }}</div>
+                                <p class="taxonomy-value">{{ fungi.order }}</p>
                             </div>
-                        {% endif %}
-                        
-                        {% if fungi.ordo is defined and fungi.ordo %}
-                            <div class="fungi-detail-row">
-                                <strong>Orden:</strong>
-                                <span>{{ fungi.ordo }}</span>
+                            {% endif %}
+                            
+                            {% if fungi.family is defined and fungi.family %}
+                            <div class="taxonomy-group">
+                                <div class="taxonomy-label">{{ _('Familia') }}</div>
+                                <p class="taxonomy-value">{{ fungi.family }}</p>
                             </div>
-                        {% endif %}
-                        
-                        {% if fungi.family is defined and fungi.family %}
-                            <div class="fungi-detail-row">
-                                <strong>Familia:</strong>
-                                <span>{{ fungi.family }}</span>
+                            {% endif %}
+                            
+                            {% if fungi.genus is defined and fungi.genus %}
+                            <div class="taxonomy-group">
+                                <div class="taxonomy-label">{{ _('Género') }}</div>
+                                <p class="taxonomy-value">{{ fungi.genus }}</p>
                             </div>
-                        {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
                     
-                    <!-- Características morfológicas -->
-                    <div class="fungi-detail-card">
-                        <h2>Características morfológicas</h2>
-                        
-                        {% if fungi.cap is defined and fungi.cap %}
-                            <div class="fungi-detail-row">
-                                <strong>Sombrero:</strong>
-                                <span>{{ fungi.cap }}</span>
-                            </div>
-                        {% endif %}
-                        
-                        {% if fungi.hymenium is defined and fungi.hymenium %}
-                            <div class="fungi-detail-row">
-                                <strong>Láminas/Himenio:</strong>
-                                <span>{{ fungi.hymenium }}</span>
-                            </div>
-                        {% endif %}
-                        
-                        {% if fungi.stipe is defined and fungi.stipe %}
-                            <div class="fungi-detail-row">
-                                <strong>Pie:</strong>
-                                <span>{{ fungi.stipe }}</span>
-                            </div>
-                        {% endif %}
-                        
-                        {% if fungi.flesh is defined and fungi.flesh %}
-                            <div class="fungi-detail-row">
-                                <strong>Carne:</strong>
-                                <span>{{ fungi.flesh }}</span>
-                            </div>
-                        {% endif %}
+                    <!-- Hábitat -->
+                    {% if fungi.habitat is defined and fungi.habitat %}
+                    <div class="info-card mb-4">
+                        <div class="info-card-header">
+                            <i class="fas fa-tree"></i>
+                            <h3 class="info-card-title">{{ _('Hábitat') }}</h3>
+                        </div>
+                        <div class="info-card-body">
+                            <p>{{ fungi.habitat }}</p>
+                        </div>
                     </div>
-                    
-                    {% if fungi.observations is defined and fungi.observations %}
-                        <div class="fungi-detail-card">
-                            <h2>Observaciones</h2>
-                            <p>{{ fungi.observations }}</p>
-                        </div>
                     {% endif %}
                     
-                    {% if similar_fungi is defined and similar_fungi|length > 0 %}
-                        <div class="fungi-detail-card">
-                            <h2>Hongos similares</h2>
-                            <div class="row">
-                                {% for similar in similar_fungi %}
-                                    <div class="col-md-3 col-6">
-                                        <a href="/fungi/{{ similar.id }}" class="similar-fungi-card">
-                                            {% if similar.image_urls %}
-                                                {% set similar_images = similar.image_urls|split(',') %}
-                                                <img src="{{ similar_images[0] }}" alt="{{ similar.name }}">
-                                            {% else %}
-                                                <img src="/assets/images/placeholder.jpg" alt="Imagen no disponible">
-                                            {% endif %}
-                                            <div class="similar-fungi-name">{{ similar.name|title|replace({'-': ' '}) }}</div>
-                                        </a>
-                                    </div>
-                                {% endfor %}
-                            </div>
+                    <!-- Temporada -->
+                    {% if fungi.season is defined and fungi.season %}
+                    <div class="info-card mb-4">
+                        <div class="info-card-header">
+                            <i class="fas fa-calendar-alt"></i>
+                            <h3 class="info-card-title">{{ _('Temporada') }}</h3>
                         </div>
+                        <div class="info-card-body">
+                            <p>{{ fungi.season }}</p>
+                        </div>
+                    </div>
                     {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de imagen -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dark">
+                <div class="modal-content">
+                    <div class="modal-body text-center position-relative p-4">
+                        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <img id="modalImage" src="" alt="{{ fungi.name|default('Hongo') }}" class="modal-fullscreen-image">
+                        
+                        <button class="modal-nav-btn" id="prevImageBtn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="modal-nav-btn" id="nextImageBtn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -280,41 +582,24 @@
         {% include 'components/footer.twig' %}
     </footer>
 
-    <!-- Modal para imágenes en grande -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">{{ fungi.name|default('Hongo')|title|replace({'-': ' '}) }}</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center p-0">
-                    <img src="" id="modalImage" class="modal-fullscreen-image" alt="{{ fungi.name|default('Hongo') }}">
-                    
-                    <div class="modal-prev-next">
-                        <button type="button" class="modal-nav-btn" id="prevImageBtn">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button type="button" class="modal-nav-btn" id="nextImageBtn">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% set scripts = [
+        '/assets/lib/jquery.min.js',
+        '/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js'
+    ] %}
 
-    <!-- Scripts -->
-    <script src="/assets/lib/jquery.min.js"></script>
-    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    {% for script in scripts %}
+        <script src="{{ script }}"></script>
+    {% endfor %}
     
     <script>
-        // Variables para el modal de imágenes
-        let currentImageIndex = 0;
-        let allImages = [];
-        
+        // Preparar todas las imágenes para la navegación modal
         {% if fungi.image_urls is defined and fungi.image_urls %}
-            allImages = [{% for image in fungi.image_urls|split(',') %}'{{ image }}'{% if not loop.last %},{% endif %}{% endfor %}];
+            {% set images = fungi.image_urls|split(',') %}
+            const allImages = [{% for image in images %}'{{ image }}'{% if not loop.last %},{% endif %}{% endfor %}];
+            let currentImageIndex = 0;
+        {% else %}
+            const allImages = [];
+            let currentImageIndex = 0;
         {% endif %}
         
         // Inicializar el modal
@@ -327,15 +612,35 @@
             imageModal.show();
         }
         
+        // Función para actualizar la imagen hero
+        function updateHeroImage(src, index) {
+            document.getElementById('mainHeroImage').src = src;
+            
+            // Actualizar clase activa en miniaturas
+            const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+            thumbnails.forEach((thumb, i) => {
+                if (i === index) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+            
+            // Actualizar el índice actual
+            currentImageIndex = index;
+        }
+        
         // Gestionar navegación de imágenes
-        document.getElementById('prevImageBtn').addEventListener('click', function() {
+        document.getElementById('prevImageBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
             if (allImages.length <= 1) return;
             
             currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
             document.getElementById('modalImage').src = allImages[currentImageIndex];
         });
         
-        document.getElementById('nextImageBtn').addEventListener('click', function() {
+        document.getElementById('nextImageBtn').addEventListener('click', function(e) {
+            e.stopPropagation();
             if (allImages.length <= 1) return;
             
             currentImageIndex = (currentImageIndex + 1) % allImages.length;
@@ -344,7 +649,7 @@
         
         // Permitir usar teclas de flecha para navegar
         document.addEventListener('keydown', function(event) {
-            if (!imageModal._isShown) return;
+            if (!document.getElementById('imageModal').classList.contains('show')) return;
             
             if (event.key === 'ArrowLeft') {
                 document.getElementById('prevImageBtn').click();
@@ -355,22 +660,6 @@
             }
         });
         
-        // Función para actualizar la imagen principal
-        function updateMainImage(src) {
-            document.getElementById('mainImage').src = src;
-            
-            // Actualizar clase activa en miniaturas
-            const thumbnails = document.querySelectorAll('.fungi-thumbnail');
-            thumbnails.forEach((thumb, index) => {
-                if (thumb.src === src) {
-                    thumb.classList.add('active');
-                    currentImageIndex = index;
-                } else {
-                    thumb.classList.remove('active');
-                }
-            });
-        }
-        
         {% if is_logged_in %}
         function toggleLike(fungiId) {
             const likeButton = document.getElementById('likeButton');
@@ -378,10 +667,10 @@
             
             // Optimistic UI update
             if (isLiked) {
-                likeButton.classList.replace('btn-danger', 'btn-outline-danger');
+                likeButton.classList.replace('btn-danger', 'btn-outline-light');
                 document.getElementById('likeText').textContent = 'Me gusta';
             } else {
-                likeButton.classList.replace('btn-outline-danger', 'btn-danger');
+                likeButton.classList.replace('btn-outline-light', 'btn-danger');
                 document.getElementById('likeText').textContent = 'Quitar me gusta';
             }
             
@@ -397,10 +686,10 @@
                 if (!response.ok) {
                     // Revert UI change if API call fails
                     if (isLiked) {
-                        likeButton.classList.replace('btn-outline-danger', 'btn-danger');
+                        likeButton.classList.replace('btn-outline-light', 'btn-danger');
                         document.getElementById('likeText').textContent = 'Quitar me gusta';
                     } else {
-                        likeButton.classList.replace('btn-danger', 'btn-outline-danger');
+                        likeButton.classList.replace('btn-danger', 'btn-outline-light');
                         document.getElementById('likeText').textContent = 'Me gusta';
                     }
                     throw new Error('Error en la respuesta del servidor');
@@ -418,9 +707,9 @@
             
             // Optimistic UI update
             if (isFavorite) {
-                favoriteButton.classList.replace('btn-warning', 'btn-outline-warning');
+                favoriteButton.classList.replace('btn-warning', 'btn-outline-light');
             } else {
-                favoriteButton.classList.replace('btn-outline-warning', 'btn-warning');
+                favoriteButton.classList.replace('btn-outline-light', 'btn-warning');
             }
             
             // API call
@@ -435,9 +724,9 @@
                 if (!response.ok) {
                     // Revert UI change if API call fails
                     if (isFavorite) {
-                        favoriteButton.classList.replace('btn-outline-warning', 'btn-warning');
+                        favoriteButton.classList.replace('btn-outline-light', 'btn-warning');
                     } else {
-                        favoriteButton.classList.replace('btn-warning', 'btn-outline-warning');
+                        favoriteButton.classList.replace('btn-warning', 'btn-outline-light');
                     }
                     throw new Error('Error en la respuesta del servidor');
                 }
