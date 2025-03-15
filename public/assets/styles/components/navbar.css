@@ -211,38 +211,61 @@
 /* Responsive design */
 @media (max-width: 992px) {
   .navbar-collapse {
-    position: fixed;
-    top: 60px;
+    position: absolute;
+    top: 100%;
     left: 0;
     width: 100%;
     height: auto;
     background-color: var(--secondary-bg);
     padding: 1rem;
     transform: translateY(-100%);
-    transition: transform 0.3s ease;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.2s ease;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1);
     display: block;
+    z-index: 999;
+    visibility: hidden;
   }
 
   .navbar-collapse.show {
     transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
   }
 
   .navbar-nav {
     flex-direction: column;
+    width: 100%;
   }
 
   .nav-item {
     margin: 0.5rem 0;
-  }
-
-  .form-inline {
     width: 100%;
-    margin: 1rem 0;
+  }
+  
+  .nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    width: 100%;
   }
 
-  .navbar-nav.ml-auto {
-    margin-top: 1rem;
+  .dropdown-menu {
+    position: static;
+    float: none;
+    width: 100%;
+    box-shadow: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .navbar-nav.ms-auto, 
+  .navbar-nav.me-auto {
+    margin: 0.5rem 0;
+  }
+  
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 
@@ -387,6 +410,14 @@
 /* Clases responsive para la navbar */
 @media (max-width: 768px) {
   .container {
-    padding: 10px;
+    padding: 10px 15px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+  
+  .navbar-brand i {
+    font-size: 1.5rem;
   }
 }
