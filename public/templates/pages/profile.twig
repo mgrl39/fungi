@@ -296,11 +296,13 @@
                 </div>
                 <div class="modal-body">
                     <form id="profileForm">
-                        <!-- Username (deshabilitado) -->
                         <div class="mb-3">
                             <label for="username" class="form-label">Nombre de usuario</label>
-                            <input type="text" class="form-control bg-dark text-light border-secondary" id="username" value="{{ user.username }}" disabled>
-                            <div class="form-text text-muted">El nombre de usuario no se puede cambiar.</div>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark text-light border-secondary"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control bg-dark text-light border-secondary" id="username" value="{{ user.username }}">
+                            </div>
+                            <div class="form-text text-warning">El nombre de usuario debe ser único. Si lo cambias, tendrás que iniciar sesión con el nuevo nombre.</div>
                         </div>
                         
                         <!-- Avatar -->
@@ -312,7 +314,10 @@
                         <!-- Email -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control bg-dark text-light border-secondary" id="email" value="{{ user.email }}">
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark text-light border-secondary"><i class="fas fa-envelope"></i></span>
+                                <input type="email" class="form-control bg-dark text-light border-secondary" id="email" value="{{ user.email }}">
+                            </div>
                         </div>
                         
                         <!-- Biografía -->
@@ -406,20 +411,46 @@
             deleteBtn.disabled = this.value !== 'ELIMINAR';
         });
         
-        // Guardar perfil
+        // Guardar perfil (actualizado para incluir username)
         document.getElementById('saveProfile').addEventListener('click', function() {
             const formData = new FormData();
+            formData.append('username', document.getElementById('username').value);
             formData.append('email', document.getElementById('email').value);
             formData.append('bio', document.getElementById('bio').value);
             formData.append('location', document.getElementById('location').value);
+            formData.append('website', document.getElementById('website').value);
             
             const avatarInput = document.getElementById('avatar');
             if (avatarInput.files.length > 0) {
                 formData.append('avatar', avatarInput.files[0]);
             }
             
-            // Simulación
+            // Aquí puedes añadir el código para enviar los datos al servidor
+            // Por ejemplo, usando fetch:
+            /*
+            fetch('/api/profile/update', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Perfil actualizado correctamente');
+                    // Recargar la página para mostrar los cambios
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al actualizar el perfil');
+            });
+            */
+            
+            // Simulación (reemplazar por el código real)
             console.log('Actualizando perfil...');
+            console.log('Nuevo username:', document.getElementById('username').value);
             
             const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
             modal.hide();
