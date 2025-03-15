@@ -31,8 +31,11 @@ TIMEOUT := 3
 LOCALES_DIR := locales
 LANGUAGES := es_ES ca_ES en_US
 LC_MESSAGES := LC_MESSAGES
-PO_FILES := $(foreach lang,$(LANGUAGES),$(LOCALES_DIR)/$(lang)/$(LC_MESSAGES)/messages.po)
-MO_FILES := $(PO_FILES:.po=.mo)
+
+# Usar wildcard para encontrar todos los archivos .po existentes
+PO_FILES := $(wildcard $(LOCALES_DIR)/*/$(LC_MESSAGES)/*.po)
+# Generar nombres de archivos .mo correspondientes
+MO_FILES := $(patsubst %.po,%.mo,$(PO_FILES))
 
 .PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations test-api
 
@@ -98,17 +101,18 @@ status:
 
 # Genera los archivos .mo de las traducciones
 translations:
+	@echo "$(GREEN)Eliminando archivos .mo existentes...$(RESET)"
+	@find $(LOCALES_DIR) -name "*.mo" -type f -delete
+	@echo "$(GREEN)Archivos .mo eliminados correctamente.$(RESET)"
+	
 	@echo "$(GREEN)Generando archivos de traducción .mo...$(RESET)"
-	@for lang in $(LANGUAGES); do \
-		if [ -f "$(LOCALES_DIR)/$$lang/$(LC_MESSAGES)/messages.po" ]; then \
-			echo "$(GREEN)Procesando $$lang...$(RESET)"; \
-			msgfmt -o "$(LOCALES_DIR)/$$lang/$(LC_MESSAGES)/messages.mo" "$(LOCALES_DIR)/$$lang/$(LC_MESSAGES)/messages.po"; \
-			echo "$(GREEN)Archivo .mo generado correctamente para $$lang$(RESET)"; \
-		else \
-			echo "$(YELLOW)Advertencia: No se encontró el archivo messages.po para $$lang$(RESET)"; \
-		fi; \
+	@for po_file in $(PO_FILES); do \
+		mo_file=$${po_file%.po}.mo; \
+		echo "$(GREEN)Procesando $$po_file...$(RESET)"; \
+		msgfmt -o "$$mo_file" "$$po_file"; \
+		echo "$(GREEN)Archivo .mo generado correctamente para $$(basename $$po_file .po)$(RESET)"; \
 	done
-	@echo "$(GREEN)Proceso de traducción completado.$(RESET)"
+	@echo "$(GREEN)Proceso de traducción completado. Total: $$(echo $(PO_FILES) | wc -w) archivos procesados.$(RESET)"
 
 # Verifica las rutas de la página
 check-routes:

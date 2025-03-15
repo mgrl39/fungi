@@ -5,6 +5,7 @@ namespace App\Config;
 use App\Controllers\DatabaseController;
 use App\Controllers\AuthController;
 use App\Controllers\SessionController;
+use App\Controllers\LangController;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
@@ -28,7 +29,7 @@ class AppInitializer
      * @brief Inicializa todos los componentes necesarios de la aplicación
      * 
      * @return array Array conteniendo las instancias inicializadas en el siguiente orden:
-     *               [DatabaseController, AuthController, SessionController, Twig\Environment]
+     *               [DatabaseController, AuthController, SessionController, Twig\Environment, LangController]
      * 
      * @throws \RuntimeException Si no se encuentra el directorio de traducciones
      * @throws \RuntimeException Si no se encuentra el directorio de templates
@@ -50,45 +51,17 @@ class AppInitializer
             session_start();
         }
 
-        // Configuración de internacionalización
-        $lang_supported = ['es', 'en', 'ca'];
+        // IMPORTANTE: Usar LangController en lugar de configuración directa
+        $langController = new LangController();
+        $currentLanguage = $langController->initializeLanguage();
         
-        // Detectar idioma desde la URL (para cambios de idioma)
-        if (isset($_GET['lang']) && in_array($_GET['lang'], $lang_supported)) {
-            $_SESSION['idioma'] = $_GET['lang'];
-        }
-        
-        // Detectar idioma desde la sesión o asignar uno predeterminado
-        $idioma = $_SESSION['idioma'] ?? 'es';
-        $localeMap = [
-            'es' => 'es_ES',
-            'en' => 'en_US',
-            'ca' => 'ca_ES',
-        ];
-        $locale = $localeMap[$idioma] . ".UTF-8";
-        
-        // Configurar `gettext` para usar el idioma seleccionado
-        putenv("LANG=$locale");
-        putenv("LANGUAGE=$locale");
-        putenv("LC_ALL=$locale");
-        setlocale(LC_ALL, $locale);
-
-        // Verificar que existe el directorio de traducciones
-        $localeDir = __DIR__ . '/../../locales';
-        if (!is_dir($localeDir)) {
-            error_log("Error: No existe el directorio de traducciones: $localeDir");
-            throw new \RuntimeException("El directorio de traducciones no existe: $localeDir");
-        }
-
-        // Verificar que existe el archivo .mo
-        $moFile = "$localeDir/{$localeMap[$idioma]}/LC_MESSAGES/messages.mo";
-        if (!file_exists($moFile)) {
-            error_log("Error: No se encuentra el archivo de traducciones: $moFile");
-        }
-
-        bindtextdomain("messages", $localeDir);
-        bind_textdomain_codeset("messages", "UTF-8");
-        textdomain("messages");
+        // Cargar dominios adicionales
+        $langController->loadTextDomain('navbar');
+        $langController->loadTextDomain('about');
+        $langController->loadTextDomain('fungi');
+        $langController->loadTextDomain('admin');
+        $langController->loadTextDomain('user');
+        $langController->loadTextDomain('api');
 
         // Verifica que DatabaseController existe antes de instanciarlo
         if (!class_exists(DatabaseController::class)) {
@@ -126,10 +99,20 @@ class AppInitializer
             return gettext($string);
         }));
         
+        // IMPORTANTE: Agregar la función para traducciones con dominio específico
+        $twig->addFunction(new \Twig\TwigFunction('__d', function ($text, $domain = 'messages') use ($langController) {
+            $traduccion = $langController->gettext($text, $domain);
+            if ($traduccion === $text && $domain !== 'messages') {
+                // Si la traducción es igual al texto original, puede ser un problema
+                error_log("Falla traducción [$domain]: $text");
+            }
+            return $traduccion;
+        }));
+        
         // Agregar variables globales para el sistema de plantillas
-        $twig->addGlobal('idioma_actual', $idioma);
-        $twig->addGlobal('idiomas_soportados', $lang_supported);
+        $twig->addGlobal('idioma_actual', $currentLanguage);
+        $twig->addGlobal('idiomas_soportados', $langController->getSupportedLanguages());
 
-        return [$db, $authController, $session, $twig];
+        return [$db, $authController, $session, $twig, $langController];
     }
 } 

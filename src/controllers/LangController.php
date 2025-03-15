@@ -111,10 +111,16 @@ class LangController
         putenv("LC_ALL=$locale");
         setlocale(LC_ALL, $locale);
         
-        // Asegurarse de que el directorio de traducciones existe y tiene los permisos correctos
+        // Configurar dominio de mensajes principal
         bindtextdomain("messages", $this->localeDir);
         bind_textdomain_codeset("messages", "UTF-8");
         textdomain("messages");
+        
+        // NUEVO: Cargar dominios adicionales de forma predeterminada
+        $default_domains = ['navbar', 'about'];
+        foreach ($default_domains as $domain) {
+            $this->loadTextDomain($domain);
+        }
     }
     
     /**
@@ -161,5 +167,50 @@ class LangController
     public function getCurrentLanguage()
     {
         return $_SESSION['idioma'] ?? 'es';
+    }
+    
+    /**
+     * Carga un dominio de texto adicional para gettext
+     * 
+     * @param string $domain Nombre del dominio de texto
+     * @return bool Éxito de la operación
+     */
+    public function loadTextDomain($domain)
+    {
+        // Verificar si el archivo de traducción existe
+        $moFile = $this->localeDir . '/' . $this->localeMap[$_SESSION['idioma'] ?? 'es'] . '/LC_MESSAGES/' . $domain . '.mo';
+        
+        if (!file_exists($moFile)) {
+            error_log("No se encuentra el archivo de traducciones: $moFile");
+            return false;
+        }
+        
+        bindtextdomain($domain, $this->localeDir);
+        bind_textdomain_codeset($domain, "UTF-8");
+        
+        // AÑADIR LÍNEA CLAVE: De forma temporal, activar este dominio para verificar que funciona
+        if ($domain === 'navbar' || $domain === 'about') {
+            textdomain($domain); // Esto cambia el dominio activo para gettext()
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Obtiene un texto traducido de un dominio específico
+     * 
+     * @param string $text Texto a traducir
+     * @param string $domain Dominio de texto
+     * @return string Texto traducido
+     */
+    public function gettext($text, $domain = 'messages')
+    {
+        $traduccion = dgettext($domain, $text);
+        if ($traduccion === $text && $domain !== 'messages') {
+            error_log("Error de traducción: '$text' no encontrado en dominio '$domain'");
+            // Intenta buscar en el dominio messages como último recurso
+            $traduccion = dgettext('messages', $text);
+        }
+        return $traduccion;
     }
 }

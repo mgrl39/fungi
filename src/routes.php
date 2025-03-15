@@ -6,10 +6,49 @@ require_once __DIR__ . '/controllers/StatsController.php';
 // O asegúrate de que el autoloader está configurado correctamente
 // require_once __DIR__ . '/../vendor/autoload.php';
 
+// IMPORTANTE: Detectar si es una solicitud API y evitar imprimir HTML
+$isApiRequest = preg_match('#^/api#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+
+// IMPORTANTE: Inicializar el controlador de idiomas ANTES de definir las rutas
+$langController = new \App\Controllers\LangController();
+$currentLanguage = $langController->initializeLanguage();
+
+// Cargar dominios adicionales para diferentes secciones
+$langController->loadTextDomain('navbar');
+$langController->loadTextDomain('about');
+$langController->loadTextDomain('fungi');
+$langController->loadTextDomain('admin');
+$langController->loadTextDomain('user');
+$langController->loadTextDomain('api');
+
 // Obtenemos la URI desde la solicitud
 $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 // Si la URI está vacía, la tratamos como la raíz
 $uri = $uri === '' ? '/' : $uri;
+
+// SOLO mostrar depuración si NO es una solicitud API
+if (!$isApiRequest) {
+    // Al inicio del archivo, después de las primeras líneas
+    // Depuración de archivos de traducción
+    $idioma_actual = $_SESSION['idioma'] ?? 'ca';
+    $dominios = ['messages', 'navbar', 'about'];
+    echo "<!-- DEBUG TRADUCCIONES: -->\n";
+    echo "<!-- Idioma actual: $idioma_actual -->\n";
+
+    foreach ($dominios as $dominio) {
+        $ruta_po = __DIR__ . "/../locales/{$idioma_actual}_ES/LC_MESSAGES/{$dominio}.po";
+        $ruta_mo = __DIR__ . "/../locales/{$idioma_actual}_ES/LC_MESSAGES/{$dominio}.mo";
+        
+        echo "<!-- Dominio $dominio: -->\n";
+        echo "<!--   .po: " . (file_exists($ruta_po) ? "EXISTE" : "NO EXISTE") . " -->\n";
+        echo "<!--   .mo: " . (file_exists($ruta_mo) ? "EXISTE" : "NO EXISTE") . " -->\n";
+        
+        if (file_exists($ruta_mo)) {
+            // Prueba la traducción
+            echo "<!--   Prueba: " . dgettext($dominio, $dominio === 'navbar' ? 'Inicio' : 'Acerca de Nosotros') . " -->\n";
+        }
+    }
+}
 
 function getBaseUrl() {
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
@@ -438,6 +477,8 @@ $routes['/admin/users'] = [
 
 // Manejo de rutas de API
 if (preg_match('#^/api#', $uri)) {
+    // IMPORTANTE: Asegurarse de que no hay salidas previas antes del JSON
+    ob_clean(); // Limpia el buffer de salida
     header('Content-Type: application/json');
     
     if (class_exists('\App\Controllers\Api\ApiRequestHandler')) {
@@ -542,7 +583,3 @@ if (isset($routes[$uri])) {
         renderTemplate($routes['/404']['template'], $data);
     }
 }
-
-// Inicializar controlador de idiomas y configurar el idioma actual
-$langController = new \App\Controllers\LangController();
-$currentLanguage = $langController->initializeLanguage();
