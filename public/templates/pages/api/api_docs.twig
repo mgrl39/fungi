@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/assets/lib/animatecss/animate.min.css">
     <link rel="stylesheet" href="/assets/lib/aos/aos.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="/assets/styles/pages/api_docs.css">
-    
+    <link rel="stylesheet" href="/assets/styles/generic.css">
     <!-- Estilos para la documentación de la API -->
     <style>
         :root {
@@ -38,7 +38,6 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: #334155;
-            background-color: #f8fafc;
         }
         
         .api-docs-container {
@@ -48,7 +47,6 @@
         
         .api-sidebar {
             width: var(--sidebar-width);
-            background-color: #fff;
             border-right: 1px solid var(--border-color);
             overflow-y: auto;
             position: fixed;
@@ -364,22 +362,31 @@
             <!-- Área de contenido del endpoint -->
             <div id="endpointContent">
                 <!-- El contenido se cargará dinámicamente por JavaScript -->
-                
-                <!-- Contenido por defecto - GET /api/fungi -->
-                {% include 'pages/api/endpoints/fungi-get-all.twig' %}
             </div>
         </main>
     </div>
     
     <!-- Plantillas para endpoints dinámicos -->
-    {% include 'pages/api/endpoints/fungi-get-id.twig' %}
-    {% include 'pages/api/endpoints/fungi-get-all.twig' %}
-   {# {% include 'pages/api/endpoints/fungi-search.twig' %} #}
-    <!-- Incluir otros endpoints aquí -->
+    <div style="display:none">
+        <template id="template-fungi-get-all">
+            {% include 'pages/api/endpoints/fungi-get-all.twig' %}
+        </template>
+        <template id="template-fungi-get-id">
+            {% include 'pages/api/endpoints/fungi-get-id.twig' %}
+        </template>
+        <!-- Incluir otros endpoints aquí como templates ocultos -->
+    </div>
     
     <!-- Script de carga optimizada -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+          // Cargar endpoint predeterminado al inicio
+          const defaultTemplate = document.getElementById('template-fungi-get-all');
+          if (defaultTemplate) {
+              document.getElementById('endpointContent').innerHTML = defaultTemplate.innerHTML;
+              initializeTestButtons();
+          }
+          
           // Cargar endpoints de manera perezosa
           const endpointLinks = document.querySelectorAll('.endpoint-link');
           const endpointContent = document.getElementById('endpointContent');
@@ -417,8 +424,6 @@
                   }
               });
           });
-          
-          // Resto del código JavaScript...
       });
     </script>
     
@@ -426,5 +431,6 @@
     <script src="/assets/lib/jquery.min.js" defer></script>
     <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
     <script src="/assets/lib/aos/aos.js" defer></script>
+    <script src="/assets/scripts/api_docs.js"></script>
 </body>
 </html> 

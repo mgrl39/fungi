@@ -1,73 +1,203 @@
- :root {
-            --bs-primary: #3b82f6;
-            --bs-primary-rgb: 59, 130, 246;
-            --bs-body-bg: #121827;
-            --bs-body-color: #f8f9fa;
-            --bs-dark: #1e293b;
-            --bs-dark-rgb: 30, 41, 59;
-            --bs-secondary: #283447;
-            --bs-secondary-rgb: 40, 52, 71;
-            --bs-border-color: #374151;
-        }
-        
-        body {
-            background-color: var(--bs-body-bg);
-            color: var(--bs-body-color);
-        }
-        
-        .method {
-            padding: 0.35rem 0.65rem;
-            border-radius: 0.25rem;
-            font-weight: 600;
-        }
-        .method.get { background-color: #61affe; color: white; }
-        .method.post { background-color: #49cc90; color: white; }
-        .method.put { background-color: #fca130; color: white; }
-        .method.delete { background-color: #f93e3e; color: white; }
-        
-        .bg-dark {
-            background-color: var(--bs-dark) !important;
-        }
-        
-        .bg-secondary {
-            background-color: var(--bs-secondary) !important;
-        }
-        
-        .border-custom {
-            border-color: var(--bs-border-color) !important;
-        }
-        
-        .card {
-            background-color: var(--bs-dark);
-            border-color: var(--bs-border-color);
-        }
-        
-        .card-header {
-            background-color: var(--bs-secondary);
-            border-bottom-color: var(--bs-border-color);
-        }
-        
-        .list-group-item {
-            background-color: var(--bs-secondary);
-            color: var(--bs-body-color);
-            border-color: var(--bs-border-color);
-        }
-        
-        .list-group-item:hover, .list-group-item.active {
-            background-color: var(--bs-primary);
-            color: white;
-            border-color: var(--bs-primary);
-        }
-        
-        .form-control {
-            background-color: var(--bs-secondary);
-            color: var(--bs-body-color);
-            border-color: var(--bs-border-color);
-        }
-        
-        .form-control:focus {
-            background-color: var(--bs-secondary);
-            color: var(--bs-body-color);
-            border-color: var(--bs-primary);
-            box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
-        }
+/* Estilos para la documentación de la API */
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --primary-color: #0e7490;
+    --primary-light: #0e749020;
+    --border-color: #e2e8f0;
+    --code-bg: #1e293b;
+    --method-get: #22c55e;
+    --method-post: #3b82f6;
+    --method-put: #f59e0b;
+    --method-delete: #ef4444;
+}
+
+/* Estructura básica */
+.api-docs-container {
+    display: flex;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.api-sidebar {
+    width: var(--sidebar-width);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    z-index: 100;
+    background-color: #ffffff;
+}
+
+.api-content {
+    flex: 1;
+    margin-left: var(--sidebar-width);
+    padding: 2rem;
+}
+
+/* Estilos de la barra lateral */
+.api-group-title {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #64748b;
+    margin: 1.5rem 0 0.5rem 1rem;
+}
+
+.api-sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.api-sidebar-nav a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    color: #475569;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.api-sidebar-nav a:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.api-sidebar-nav a.active {
+    border-left-color: var(--primary-color);
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.api-sidebar-method {
+    display: inline-block;
+    width: 50px;
+    margin-right: 0.75rem;
+    padding: 0.125rem 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 0.25rem;
+    color: white;
+}
+
+.method-get { background-color: var(--method-get); }
+.method-post { background-color: var(--method-post); }
+.method-put { background-color: var(--method-put); }
+.method-delete { background-color: var(--method-delete); }
+
+/* Estilos para tarjetas de endpoint */
+.endpoint-card {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.endpoint-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #f8fafc;
+}
+
+.endpoint-method {
+    display: inline-block;
+    width: 80px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 0.25rem;
+    color: white;
+    margin-right: 1rem;
+}
+
+.endpoint-path {
+    font-family: monospace;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.endpoint-content {
+    padding: 1.5rem;
+}
+
+.endpoint-description {
+    margin-bottom: 1.5rem;
+}
+
+.endpoint-parameters, .endpoint-responses, .endpoint-request-body {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.parameter-name, .response-code {
+    font-family: monospace;
+    font-weight: 600;
+}
+
+.code-block {
+    background-color: var(--code-bg);
+    color: #f1f5f9;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    font-family: monospace;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+
+.param-required {
+    color: var(--method-delete);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.response-wrapper {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #f8fafc;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border-color);
+}
+
+/* Estilos para áreas de prueba de endpoint */
+.try-api {
+    background-color: #f8fafc;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.success-response {
+    border-left: 4px solid var(--method-get);
+}
+
+.error-response {
+    border-left: 4px solid var(--method-delete);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .api-sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+        max-height: 300px;
+    }
+    
+    .api-content {
+        margin-left: 0;
+    }
+    
+    .api-docs-container {
+        flex-direction: column;
+    }
+}
