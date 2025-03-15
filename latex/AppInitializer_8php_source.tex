@@ -9,112 +9,95 @@
 \DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00005}00005\ use\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{App\(\backslash\)Controllers\(\backslash\)DatabaseController}};}
 \DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00006}00006\ use\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{App\(\backslash\)Controllers\(\backslash\)AuthController}};}
 \DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00007}00007\ use\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{App\(\backslash\)Controllers\(\backslash\)SessionController}};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00008}00008\ use\ Twig\(\backslash\)Loader\(\backslash\)FilesystemLoader;}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00009}00009\ use\ Twig\(\backslash\)Environment;}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00010}00010\ use\ Twig\(\backslash\)Extension\(\backslash\)DebugExtension;}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00011}00011\ use\ Dotenv\(\backslash\)Dotenv;}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00012}00012\ use\ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages}{App\(\backslash\)Config\(\backslash\)ErrorMessages}};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00013}00013\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00025}\mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer}{00025}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer}{AppInitializer}}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00026}00026\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00037}\mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca}{00037}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca}{initialize}}()}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00038}00038\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ variables\ de\ entorno\ si\ existe\ un\ archivo\ .env}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_exists(\_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../.env'}))\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \$dotenv\ =\ Dotenv::createImmutable(\_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../'});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \$dotenv-\/>load();}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00044}00044\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ configuración\ desde\ defaults.inc.php}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ require\_once\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/defaults.inc.php'};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00047}00047\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Iniciar\ la\ sesión\ si\ aún\ no\ está\ activa}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (session\_status()\ ===\ PHP\_SESSION\_NONE)\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00052}00052\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configuración\ de\ internacionalización}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00054}00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a238796c756223eafc7603dfd47dfc960}{\$lang\_supported}}\ =\ [\textcolor{stringliteral}{'es'},\ \textcolor{stringliteral}{'en'},\ \textcolor{stringliteral}{'ca'}];}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Detectar\ idioma\ desde\ la\ URL\ (para\ cambios\ de\ idioma)}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'lang'}])\ \&\&\ in\_array(\$\_GET[\textcolor{stringliteral}{'lang'}],\ \mbox{\hyperlink{routes_8php_a238796c756223eafc7603dfd47dfc960}{\$lang\_supported}}))\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ =\ \$\_GET[\textcolor{stringliteral}{'lang'}];}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Detectar\ idioma\ desde\ la\ sesión\ o\ asignar\ uno\ predeterminado}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_ae385bc02131c1f5dc7d83535decf8969}{\$idioma}}\ =\ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ ??\ \textcolor{stringliteral}{'es'};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00063}00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a4deb6e469d240e705a41f80c771433b3}{\$localeMap}}\ =\ [}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'es'}\ =>\ \textcolor{stringliteral}{'es\_ES'},}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'en'}\ =>\ \textcolor{stringliteral}{'en\_US'},}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'ca'}\ =>\ \textcolor{stringliteral}{'ca\_ES'},}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a3b392f5a691b803e728f1fb42b35f6e1}{\$locale}}\ =\ \mbox{\hyperlink{routes_8php_a4deb6e469d240e705a41f80c771433b3}{\$localeMap}}[\mbox{\hyperlink{routes_8php_ae385bc02131c1f5dc7d83535decf8969}{\$idioma}}]\ .\ \textcolor{stringliteral}{"{}.UTF-\/8"{}};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ \`{}gettext`\ para\ usar\ el\ idioma\ seleccionado}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LANG=\$locale"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LANGUAGE=\$locale"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LC\_ALL=\$locale"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ setlocale(LC\_ALL,\ \mbox{\hyperlink{routes_8php_a3b392f5a691b803e728f1fb42b35f6e1}{\$locale}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00075}00075\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ existe\ el\ directorio\ de\ traducciones}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00077}00077\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_ae5310bca79ea74fb01f5d12f5da6aa40}{\$localeDir}}\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../locales'};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_dir(\mbox{\hyperlink{routes_8php_ae5310bca79ea74fb01f5d12f5da6aa40}{\$localeDir}}))\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error:\ No\ existe\ el\ directorio\ de\ traducciones:\ \$localeDir"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\textcolor{stringliteral}{"{}El\ directorio\ de\ traducciones\ no\ existe:\ \$localeDir"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00081}00081\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00082}00082\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ existe\ el\ archivo\ .mo}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00084}00084\ \ \ \ \ \ \ \ \ \$moFile\ =\ \textcolor{stringliteral}{"{}\$localeDir/\{\$localeMap[\$idioma]\}/LC\_MESSAGES/messages.mo"{}};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$moFile))\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error:\ No\ se\ encuentra\ el\ archivo\ de\ traducciones:\ \$moFile"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00088}00088\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ bindtextdomain(\textcolor{stringliteral}{"{}messages"{}},\ \mbox{\hyperlink{routes_8php_ae5310bca79ea74fb01f5d12f5da6aa40}{\$localeDir}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ bind\_textdomain\_codeset(\textcolor{stringliteral}{"{}messages"{}},\ \textcolor{stringliteral}{"{}UTF-\/8"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ textdomain(\textcolor{stringliteral}{"{}messages"{}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00092}00092\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verifica\ que\ DatabaseController\ existe\ antes\ de\ instanciarlo}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!class\_exists(DatabaseController::class))\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_ab3ff5b284c081326f60ceb5f19aa35c3}{ErrorMessages::SYSTEM\_DEPENDENCY\_ERROR}},\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'La\ clase\ DatabaseController\ no\ se\ encuentra.\ Verifica\ que\ el\ archivo\ existe\ en\ src/Controllers/DatabaseController.php'}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00100}00100\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inicializar\ controladores}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ \$db\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{DatabaseController}}();}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00103}00103\ \ \ \ \ \ \ \ \ \$authController\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}(\$db);}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00104}00104\ \ \ \ \ \ \ \ \ \$session\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{SessionController}}(\$db);}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00105}00105\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ Twig}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00107}00107\ \ \ \ \ \ \ \ \ \$templatesDir\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../public/templates'};}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00108}00108\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ el\ directorio\ de\ templates\ exista}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_dir(\$templatesDir))\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a355a53722aedfc8b66ae12dbb4696961}{ErrorMessages::FILE\_NOT\_FOUND}},\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'El\ directorio\ de\ templates\ no\ existe:\ '}\ .\ \$templatesDir}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00115}00115\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00117}00117\ \ \ \ \ \ \ \ \ \$loader\ =\ \textcolor{keyword}{new}\ FilesystemLoader(\$templatesDir);}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \$twig\ =\ \textcolor{keyword}{new}\ Environment(\$loader,\ [}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'cache'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'debug'}\ =>\ DEBUG\_MODE,}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00121}00121\ \ \ \ \ \ \ \ \ ]);}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00122}00122\ \ \ \ \ \ \ \ \ \$twig-\/>addExtension(\textcolor{keyword}{new}\ DebugExtension());}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00123}00123\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ de\ traducción\ usando\ gettext}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00125}00125\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{charliteral}{'\_'},\ \textcolor{keyword}{function}\ (\$string)\ \{}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ gettext(\$string);}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00127}00127\ \ \ \ \ \ \ \ \ \}));}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00128}00128\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ variables\ globales\ para\ el\ sistema\ de\ plantillas}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00130}00130\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idioma\_actual'},\ \mbox{\hyperlink{routes_8php_ae385bc02131c1f5dc7d83535decf8969}{\$idioma}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00131}00131\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idiomas\_soportados'},\ \mbox{\hyperlink{routes_8php_a238796c756223eafc7603dfd47dfc960}{\$lang\_supported}});}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00132}00132\ }
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00133}00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\$db,\ \$authController,\ \$session,\ \$twig];}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00134}00134\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00135}00135\ \}\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00008}00008\ use\ \mbox{\hyperlink{classApp_1_1Controllers_1_1LangController}{App\(\backslash\)Controllers\(\backslash\)LangController}};}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00009}00009\ use\ Twig\(\backslash\)Loader\(\backslash\)FilesystemLoader;}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00010}00010\ use\ Twig\(\backslash\)Environment;}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00011}00011\ use\ Twig\(\backslash\)Extension\(\backslash\)DebugExtension;}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00012}00012\ use\ Dotenv\(\backslash\)Dotenv;}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00013}00013\ use\ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages}{App\(\backslash\)Config\(\backslash\)ErrorMessages}};}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00026}\mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer}{00026}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer}{AppInitializer}}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00038}\mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca}{00038}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Config_1_1AppInitializer_ac4c6c6c6ac6e86604e29238199e42fca}{initialize}}()}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00039}00039\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ variables\ de\ entorno\ si\ existe\ un\ archivo\ .env}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_exists(\_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../.env'}))\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \$dotenv\ =\ Dotenv::createImmutable(\_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \$dotenv-\/>load();}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ configuración\ desde\ defaults.inc.php}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ require\_once\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/defaults.inc.php'};}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Iniciar\ la\ sesión\ si\ aún\ no\ está\ activa}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (session\_status()\ ===\ PHP\_SESSION\_NONE)\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ IMPORTANTE:\ Usar\ LangController\ en\ lugar\ de\ configuración\ directa}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1LangController}{LangController}}();}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_aa7753ddc64027082ab7fe80236611d00}{\$currentLanguage}}\ =\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>initializeLanguage();}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ dominios\ adicionales}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'navbar'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'about'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'fungi'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'admin'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00063}00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'user'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'api'});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verifica\ que\ DatabaseController\ existe\ antes\ de\ instanciarlo}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!class\_exists(DatabaseController::class))\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_ab3ff5b284c081326f60ceb5f19aa35c3}{ErrorMessages::SYSTEM\_DEPENDENCY\_ERROR}},\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'La\ clase\ DatabaseController\ no\ se\ encuentra.\ Verifica\ que\ el\ archivo\ existe\ en\ src/Controllers/DatabaseController.php'}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inicializar\ controladores}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \$db\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{DatabaseController}}();}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ \$authController\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}(\$db);}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00077}00077\ \ \ \ \ \ \ \ \ \$session\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{SessionController}}(\$db);}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ Twig}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00080}00080\ \ \ \ \ \ \ \ \ \$templatesDir\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../public/templates'};}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00081}00081\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ el\ directorio\ de\ templates\ exista}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_dir(\$templatesDir))\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a355a53722aedfc8b66ae12dbb4696961}{ErrorMessages::FILE\_NOT\_FOUND}},\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'El\ directorio\ de\ templates\ no\ existe:\ '}\ .\ \$templatesDir}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00088}00088\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ \$loader\ =\ \textcolor{keyword}{new}\ FilesystemLoader(\$templatesDir);}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ \$twig\ =\ \textcolor{keyword}{new}\ Environment(\$loader,\ [}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'cache'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'debug'}\ =>\ DEBUG\_MODE,}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \$twig-\/>addExtension(\textcolor{keyword}{new}\ DebugExtension());}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ de\ traducción\ usando\ gettext}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{charliteral}{'\_'},\ \textcolor{keyword}{function}\ (\$string)\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ gettext(\$string);}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ \}));}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ IMPORTANTE:\ Agregar\ la\ función\ para\ traducciones\ con\ dominio\ específico}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00103}00103\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{stringliteral}{'\_\_d'},\ \textcolor{keyword}{function}\ (\$text,\ \$domain\ =\ \textcolor{stringliteral}{'messages'})\ use\ (\mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}})\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \$traduccion\ =\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>gettext(\$text,\ \$domain);}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$traduccion\ ===\ \$text\ \&\&\ \$domain\ !==\ \textcolor{stringliteral}{'messages'})\ \{}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ la\ traducción\ es\ igual\ al\ texto\ original,\ puede\ ser\ un\ problema}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Falla\ traducción\ [\$domain]:\ \$text"{}});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$traduccion;}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00110}00110\ \ \ \ \ \ \ \ \ \}));}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00111}00111\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ variables\ globales\ para\ el\ sistema\ de\ plantillas}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00113}00113\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idioma\_actual'},\ \mbox{\hyperlink{routes_8php_aa7753ddc64027082ab7fe80236611d00}{\$currentLanguage}});}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00114}00114\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idiomas\_soportados'},\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>getSupportedLanguages());}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\$db,\ \$authController,\ \$session,\ \$twig,\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}];}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00117}00117\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{AppInitializer_8php_source_l00118}00118\ \}\ }
 
 \end{DoxyCode}

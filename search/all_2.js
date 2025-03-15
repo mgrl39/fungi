@@ -1,10 +1,10 @@
 var searchData=
 [
   ['a_20href_20https_3a_20doncom_20me_20fungi_20fungi_20project_20com_20a_0',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]],
-  ['about_2ecss_1',['about.css',['../about_8css.html',1,'']]],
-  ['addfavorite_2',['addFavorite',['../classApp_1_1Controllers_1_1DatabaseController.html#af3d0b3155819211d656e5e9357cf7313',1,'App::Controllers::DatabaseController']]],
-  ['admin_2ecss_3',['admin.css',['../admin_8css.html',1,'']]],
-  ['admin_5fpanel_2ecss_4',['admin_panel.css',['../admin__panel_8css.html',1,'']]],
+  ['addfavorite_1',['addFavorite',['../classApp_1_1Controllers_1_1DatabaseController.html#af3d0b3155819211d656e5e9357cf7313',1,'App::Controllers::DatabaseController']]],
+  ['admin_2ecss_2',['admin.css',['../admin_8css.html',1,'']]],
+  ['admin_5fpanel_2ecss_3',['admin_panel.css',['../admin__panel_8css.html',1,'']]],
+  ['adminusershandler_4',['adminUsersHandler',['../classApp_1_1Controllers_1_1UserController.html#a852373bef5708efdfa174376def5921c',1,'App::Controllers::UserController']]],
   ['aos_2ecss_5',['aos.css',['../aos_8css.html',1,'']]],
   ['aos_2ejs_6',['aos.js',['../aos_8js.html',1,'']]],
   ['aos_5finit_2ejs_7',['aos_init.js',['../aos__init_8js.html',1,'']]],

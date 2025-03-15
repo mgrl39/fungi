@@ -141,14 +141,10 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00636}{636}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{string}}
 \DoxyCodeLine{00637\ \ \ \ \ \{}
-\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rtrim(strtr(base64\_encode(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}),\ \textcolor{stringliteral}{'+/'},\ \textcolor{stringliteral}{'-\/\_'}),\ \textcolor{charliteral}{'='});}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rtrim(strtr(base64\_encode(\$data),\ \textcolor{stringliteral}{'+/'},\ \textcolor{stringliteral}{'-\/\_'}),\ \textcolor{charliteral}{'='});}
 \DoxyCodeLine{00639\ \ \ \ \ \}}
 
 \end{DoxyCode}
-
-
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00482}{\$data}}.
-
 
 
 Referenciado por \mbox{\hyperlink{ApiController_8php_source_l00594}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}generate\+Jwt\+Token()}}.
@@ -584,11 +580,11 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00334\ \ \ \ \ \{}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
 \DoxyCodeLine{00336\ }
 \DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$endpoint\ ===\ \textcolor{stringliteral}{'fungi'})\ \{}
 \DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \$requiredFields\ =\ [\textcolor{stringliteral}{'name'},\ \textcolor{stringliteral}{'edibility'},\ \textcolor{stringliteral}{'habitat'}];}
-\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}},\ \$requiredFields))\ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\$data,\ \$requiredFields))\ \{}
 \DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
 \DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::format(ErrorMessages::VALIDATION\_REQUIRED\_FIELD,\ \textcolor{stringliteral}{'name,\ edibility,\ habitat'})]);}
 \DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
@@ -596,19 +592,19 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00344\ }
 \DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\ (name,\ edibility,\ habitat,\ observations,\ common\_name,\ synonym,\ title)\ VALUES\ (?,\ ?,\ ?,\ ?,\ ?,\ ?,\ ?)"{}});}
 \DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'name'}],}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'edibility'}],}
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'habitat'}],}
-\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'observations'}],}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'common\_name'}],}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'synonym'}],}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'title'}]}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'name'}],}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'edibility'}],}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'habitat'}],}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'observations'}],}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'common\_name'}],}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'synonym'}],}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'title'}]}
 \DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
 \DoxyCodeLine{00355\ }
 \DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'id'}\ =>\ \$this-\/>pdo-\/>lastInsertId()]);}
 \DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \}\ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'users'})\ \{}
 \DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \$requiredFields\ =\ [\textcolor{stringliteral}{'username'},\ \textcolor{stringliteral}{'email'},\ \textcolor{stringliteral}{'password'}];}
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}},\ \$requiredFields))\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\$data,\ \$requiredFields))\ \{}
 \DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
 \DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
 \DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
@@ -618,7 +614,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validación\ de\ formato\ de\ email}}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filter\_var(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'email'}],\ FILTER\_VALIDATE\_EMAIL))\ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!filter\_var(\$data[\textcolor{stringliteral}{'email'}],\ FILTER\_VALIDATE\_EMAIL))\ \{}
 \DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
 \DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
 \DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
@@ -629,7 +625,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ el\ nombre\ de\ usuario\ no\ exista}}
 \DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ username\ =\ ?"{}});}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'username'}]]);}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$data[\textcolor{stringliteral}{'username'}]]);}
 \DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt-\/>fetch())\ \{}
 \DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(409);\ \textcolor{comment}{//\ Conflict}}
 \DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
@@ -641,7 +637,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ el\ email\ no\ exista}}
 \DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ email\ =\ ?"{}});}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'email'}]]);}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$data[\textcolor{stringliteral}{'email'}]]);}
 \DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt-\/>fetch())\ \{}
 \DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(409);\ \textcolor{comment}{//\ Conflict}}
 \DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
@@ -652,11 +648,11 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ hash\ de\ la\ contraseña}}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \$passwordHash\ =\ password\_hash(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'password'}],\ PASSWORD\_BCRYPT);}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \$passwordHash\ =\ password\_hash(\$data[\textcolor{stringliteral}{'password'}],\ PASSWORD\_BCRYPT);}
 \DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ el\ nuevo\ usuario}}
 \DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash,\ role,\ created\_at)\ VALUES\ (?,\ ?,\ ?,\ 'user',\ NOW())"{}});}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'username'}],\ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'email'}],\ \$passwordHash]);}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$data[\textcolor{stringliteral}{'username'}],\ \$data[\textcolor{stringliteral}{'email'}],\ \$passwordHash]);}
 \DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ \$this-\/>pdo-\/>lastInsertId();}
 \DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ }
@@ -669,7 +665,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \}\ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'auth/login'})\ \{}
 \DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Manejo\ de\ autenticación\ y\ generación\ de\ JWT}}
 \DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \$requiredFields\ =\ [\textcolor{stringliteral}{'username'},\ \textcolor{stringliteral}{'password'}];}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}},\ \$requiredFields))\ \{}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a148e8164c069528736151080114f05d3}{validateRequiredFields}}(\$data,\ \$requiredFields))\ \{}
 \DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
 \DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
 \DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ }
@@ -679,7 +675,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00428\ }
 \DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Autenticar\ usuario}}
-\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a11a918dc45f469f21cb20e4bd37f1385}{login}}(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'username'}],\ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'password'}]);}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a11a918dc45f469f21cb20e4bd37f1385}{login}}(\$data[\textcolor{stringliteral}{'username'}],\ \$data[\textcolor{stringliteral}{'password'}]);}
 \DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user)\ \{}
 \DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ token\ JWT}}
@@ -734,7 +730,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00333}{333}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00482}{\$data}}, \mbox{\hyperlink{ApiController_8php_source_l00594}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}generate\+Jwt\+Token()}}, \mbox{\hyperlink{ApiController_8php_source_l00572}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}login()}} y \mbox{\hyperlink{ApiController_8php_source_l00552}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}validate\+Required\+Fields()}}.
+Hace referencia a \mbox{\hyperlink{ApiController_8php_source_l00594}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}generate\+Jwt\+Token()}}, \mbox{\hyperlink{ApiController_8php_source_l00572}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}login()}} y \mbox{\hyperlink{ApiController_8php_source_l00552}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}validate\+Required\+Fields()}}.
 
 
 
@@ -790,10 +786,10 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00492}{492}
 \DoxyCodeLine{00493\ \ \ \ \ \{}
 \DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
 \DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1];}
-\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
 \DoxyCodeLine{00497\ }
 \DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}UPDATE\ fungi\ SET\ name\ =\ ?,\ edibility\ =\ ?,\ habitat\ =\ ?\ WHERE\ id\ =\ ?"{}});}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'name'}],\ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'edibility'}],\ \mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\textcolor{stringliteral}{'habitat'}],\ \$id]);}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$data[\textcolor{stringliteral}{'name'}],\ \$data[\textcolor{stringliteral}{'edibility'}],\ \$data[\textcolor{stringliteral}{'habitat'}],\ \$id]);}
 \DoxyCodeLine{00500\ }
 \DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt-\/>rowCount()\ >\ 0)\ \{}
 \DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true}]);}
@@ -808,10 +804,6 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00492}{492}
 \DoxyCodeLine{00511\ \ \ \ \ \}}
 
 \end{DoxyCode}
-
-
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00482}{\$data}}.
-
 
 
 Referenciado por \mbox{\hyperlink{ApiController_8php_source_l00057}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Request()}}.
@@ -921,7 +913,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00057}{57}}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00004}{\$uri}}, \mbox{\hyperlink{ApiController_8php_source_l00523}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Delete()}}, \mbox{\hyperlink{ApiController_8php_source_l00136}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Get()}}, \mbox{\hyperlink{ApiController_8php_source_l00333}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Post()}} y \mbox{\hyperlink{ApiController_8php_source_l00492}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Put()}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00025}{\$uri}}, \mbox{\hyperlink{ApiController_8php_source_l00523}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Delete()}}, \mbox{\hyperlink{ApiController_8php_source_l00136}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Get()}}, \mbox{\hyperlink{ApiController_8php_source_l00333}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Post()}} y \mbox{\hyperlink{ApiController_8php_source_l00492}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Put()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -1022,7 +1014,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00552}{552}
 \DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{bool}}
 \DoxyCodeLine{00553\ \ \ \ \ \{}
 \DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$requiredFields\ as\ \$field)\ \{}
-\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\$field])\ ||\ empty(\mbox{\hyperlink{routes_8php_a6efc15b5a2314dd4b5aaa556a375c6d6}{\$data}}[\$field]))\ \{}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$data[\$field])\ ||\ empty(\$data[\$field]))\ \{}
 \DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \}}
@@ -1030,10 +1022,6 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00552}{552}
 \DoxyCodeLine{00560\ \ \ \ \ \}}
 
 \end{DoxyCode}
-
-
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00482}{\$data}}.
-
 
 
 Referenciado por \mbox{\hyperlink{ApiController_8php_source_l00333}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Post()}}.

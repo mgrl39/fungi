@@ -2,107 +2,552 @@
 \hypertarget{api__docs_8js_source}{}\label{api__docs_8js_source}\index{public/assets/scripts/api\_docs.js@{public/assets/scripts/api\_docs.js}}
 \mbox{\hyperlink{api__docs_8js}{Ir a la documentación de este archivo.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00001}00001\ \ \ \ \ \ \ \ \ //\ Inicializar\ AOS}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00002}00002\ \ \ \ \ \ \ \ \ AOS.init(\{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00003}00003\ \ \ \ \ \ \ \ \ \ \ \ \ duration:\ 800,}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00004}00004\ \ \ \ \ \ \ \ \ \ \ \ \ easing:\ 'ease-\/in-\/out',}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00005}00005\ \ \ \ \ \ \ \ \ \ \ \ \ once:\ true}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00006}00006\ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00007}00007\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00008}00008\ \ \ \ \ \ \ \ \ //\ Resaltar\ la\ navegación\ al\ hacer\ scroll}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00009}00009\ \ \ \ \ \ \ \ \ window.addEventListener('DOMContentLoaded',\ ()\ =>\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ const\ sections\ =\ document.querySelectorAll('h2[id]');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ const\ navLinks\ =\ document.querySelectorAll('.list-\/group-\/item');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ window.addEventListener('scroll',\ ()\ =>\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ let\ current\ =\ '';}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sections.forEach(section\ =>\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ sectionTop\ =\ section.offsetTop;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ sectionHeight\ =\ section.clientHeight;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (pageYOffset\ >=\ sectionTop\ -\/\ 200)\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ section.getAttribute('id');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ navLinks.forEach(link\ =>\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link.classList.remove('active');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (link.getAttribute('href')\ ===\ \`{}\#\$\{current\}`)\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link.classList.add('active');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Función\ para\ formatear\ JSON}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ function\ formatJSON(json)\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ try\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ JSON.stringify(JSON.parse(json),\ null,\ 2);}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ catch\ (e)\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ json;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Manejador\ para\ los\ botones\ de\ prueba\ de\ API}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ document.querySelectorAll('.test-\/api').forEach(button\ =>\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ button.addEventListener('click',\ async\ function()\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ method\ =\ this.getAttribute('data-\/method');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ let\ endpoint\ =\ this.getAttribute('data-\/endpoint');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ responseContainer\ =\ this.parentElement.querySelector('.api-\/response');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ responseContent\ =\ responseContainer.querySelector('.response-\/content');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Mostrar\ el\ contenedor\ de\ respuesta}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.remove('d-\/none');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.textContent\ =\ 'Cargando...';}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Reemplazar\ parámetros\ en\ la\ URL\ si\ existen}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpoint.includes('\{id\}'))\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ paramId\ =\ this.getAttribute('data-\/param-\/id');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ idValue\ =\ document.getElementById(paramId).value;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ endpoint\ =\ endpoint.replace('\{id\}',\ idValue);}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpoint.includes('\{page\}')\ \&\&\ endpoint.includes('\{limit\}'))\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ pageValue\ =\ document.getElementById(this.getAttribute('data-\/param-\/page')).value;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ limitValue\ =\ document.getElementById(this.getAttribute('data-\/param-\/limit')).value;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ endpoint\ =\ endpoint.replace('\{page\}',\ pageValue).replace('\{limit\}',\ limitValue);}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Configurar\ opciones\ de\ fetch}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ options\ =\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ method:\ method,}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ headers:\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'Content-\/Type':\ 'application/json',}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'Accept':\ 'application/json'}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Añadir\ body\ para\ POST\ y\ PUT}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (method\ ===\ 'POST'\ ||\ method\ ===\ 'PUT')\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ bodyId\ =\ this.getAttribute('data-\/body');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options.body\ =\ document.getElementById(bodyId).value;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ try\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ response\ =\ await\ fetch(endpoint,\ options);}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ data\ =\ await\ response.text();}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Mostrar\ la\ respuesta\ formateada}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.textContent\ =\ formatJSON(data);}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Añadir\ clase\ de\ estado\ HTTP}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (response.ok)\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.classList.add('text-\/success');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.classList.remove('text-\/danger');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.classList.add('text-\/danger');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.classList.remove('text-\/success');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ catch\ (error)\ \{}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.textContent\ =\ \`{}Error:\ \$\{error.message\}`;}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.classList.add('text-\/danger');}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
-\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00102}00102\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00001}00001\ /**}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00002}00002\ \ *\ Script\ para\ la\ documentación\ de\ la\ API}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00003}00003\ \ *\ Maneja\ la\ interactividad\ y\ las\ pruebas\ de\ endpoints}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00004}00004\ \ */}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00005}00005\ document.addEventListener('DOMContentLoaded',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00006}00006\ \ \ \ \ //\ Referencias\ a\ elementos\ del\ DOM}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00007}00007\ \ \ \ \ const\ endpointLinks\ =\ document.querySelectorAll('.endpoint-\/link');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00008}00008\ \ \ \ \ const\ endpointContent\ =\ document.getElementById('endpointContent');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00009}00009\ \ \ \ \ const\ searchInput\ =\ document.getElementById('apiSearchInput');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00010}00010\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00011}00011\ \ \ \ \ //\ Inicializar\ búsqueda\ de\ endpoints}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00012}00012\ \ \ \ \ if\ (searchInput)\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00013}00013\ \ \ \ \ \ \ \ \ searchInput.addEventListener('input',\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ const\ searchTerm\ =\ this.value.toLowerCase();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ document.querySelectorAll('.endpoint-\/link').forEach(link\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ method\ =\ link.querySelector('.api-\/sidebar-\/method').textContent.toLowerCase();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ path\ =\ link.querySelector('.endpoint-\/label').textContent.toLowerCase();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ isVisible\ =\ method.includes(searchTerm)\ ||\ path.includes(searchTerm);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ link.parentElement.style.display\ =\ isVisible\ ?\ 'block'\ :\ 'none';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00021}00021\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00023}00023\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00024}00024\ \ \ \ \ //\ Manejar\ clics\ en\ los\ enlaces\ de\ endpoints}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00025}00025\ \ \ \ \ endpointLinks.forEach(link\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00026}00026\ \ \ \ \ \ \ \ \ link.addEventListener('click',\ function(e)\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ e.preventDefault();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ const\ endpointId\ =\ this.getAttribute('data-\/endpoint');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Actualizar\ clase\ active}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ document.querySelector('.endpoint-\/link.active')?.classList.remove('active');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ this.classList.add('active');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ //\ Mostrar\ contenido\ del\ endpoint\ seleccionado}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ showEndpointContent(endpointId,\ this);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00037}00037\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00038}00038\ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00039}00039\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00040}00040\ \ \ \ \ //\ Función\ para\ mostrar\ el\ contenido\ del\ endpoint}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00041}00041\ \ \ \ \ function\ showEndpointContent(endpointId,\ linkElement)\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00042}00042\ \ \ \ \ \ \ \ \ //\ Construir\ contenido\ basado\ en\ el\ endpoint\ seleccionado}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00043}00043\ \ \ \ \ \ \ \ \ const\ method\ =\ linkElement.querySelector('.api-\/sidebar-\/method').textContent;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00044}00044\ \ \ \ \ \ \ \ \ const\ path\ =\ linkElement.querySelector('.endpoint-\/label').textContent;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00045}00045\ \ \ \ \ \ \ \ \ const\ methodClass\ =\ linkElement.querySelector('.api-\/sidebar-\/method').classList[1];}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00046}00046\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00047}00047\ \ \ \ \ \ \ \ \ //\ Generar\ descripción\ basada\ en\ el\ ID\ del\ endpoint}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00048}00048\ \ \ \ \ \ \ \ \ let\ description\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00049}00049\ \ \ \ \ \ \ \ \ if\ (endpointId.includes('get'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Obtiene';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00051}00051\ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('post'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Crea';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00053}00053\ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('put'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Actualiza';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00055}00055\ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('delete'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Elimina';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00057}00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00058}00058\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00059}00059\ \ \ \ \ \ \ \ \ let\ resourceType\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00060}00060\ \ \ \ \ \ \ \ \ if\ (endpointId.includes('fungi'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'hongos';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId.includes('id'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'un\ hongo\ específico\ por\ ID';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('random'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'un\ hongo\ aleatorio';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('page'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'hongos\ de\ forma\ paginada';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('search'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'hongos\ que\ coinciden\ con\ criterios\ de\ búsqueda';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00071}00071\ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('users'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'usuarios';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00073}00073\ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('auth'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId.includes('login'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Autentica';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'un\ usuario\ y\ devuelve\ un\ token\ JWT';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('logout'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Cierra';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'la\ sesión\ actual\ del\ usuario';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId.includes('verify'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ description\ =\ 'Verifica';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ resourceType\ =\ 'si\ un\ usuario\ está\ autenticado';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00084}00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00085}00085\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00086}00086\ \ \ \ \ \ \ \ \ //\ Generar\ código\ de\ ejemplo\ JSON\ para\ cada\ tipo\ de\ endpoint}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00087}00087\ \ \ \ \ \ \ \ \ let\ requestExample\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00088}00088\ \ \ \ \ \ \ \ \ let\ responseExample\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00089}00089\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00090}00090\ \ \ \ \ \ \ \ \ switch\ (endpointId)\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ case\ 'fungi-\/post':}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ requestExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00093}00093\ \ \ "{}name"{}:\ "{}Amanita\ muscaria"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00094}00094\ \ \ "{}edibility"{}:\ "{}Tóxico"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00095}00095\ \ \ "{}habitat"{}:\ "{}Bosques\ de\ coníferas"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00096}00096\ \ \ "{}observations"{}:\ "{}Seta\ característica\ por\ su\ sombrero\ rojo\ con\ manchas\ blancas"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00097}00097\ \ \ "{}common\_name"{}:\ "{}Matamoscas"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00098}00098\ \ \ "{}synonym"{}:\ "{}Agaricus\ muscarius"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00099}00099\ \ \ "{}title"{}:\ "{}Falsa\ oronja"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00100}00100\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00102}00102\ \ \ "{}id"{}:\ 123,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00103}00103\ \ \ "{}success"{}:\ true}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00104}00104\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ case\ 'fungi-\/put':}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ requestExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00108}00108\ \ \ "{}name"{}:\ "{}Amanita\ muscaria\ var.\ flavivolvata"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00109}00109\ \ \ "{}edibility"{}:\ "{}Tóxico"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00110}00110\ \ \ "{}habitat"{}:\ "{}Bosques\ mixtos"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00111}00111\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00113}00113\ \ \ "{}success"{}:\ true}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00114}00114\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ case\ 'auth-\/login':}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ requestExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00118}00118\ \ \ "{}username"{}:\ "{}usuario\_ejemplo"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00119}00119\ \ \ "{}password"{}:\ "{}contraseña\_segura"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00120}00120\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00122}00122\ \ \ "{}success"{}:\ true,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00123}00123\ \ \ "{}token"{}:\ "{}eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00124}00124\ \ \ "{}user"{}:\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00125}00125\ \ \ \ \ "{}id"{}:\ 42,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00126}00126\ \ \ \ \ "{}username"{}:\ "{}usuario\_ejemplo"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00127}00127\ \ \ \ \ "{}email"{}:\ "{}usuario@ejemplo.com"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00128}00128\ \ \ \ \ "{}role"{}:\ "{}user"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00129}00129\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00130}00130\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ case\ 'users-\/post':}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ requestExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00134}00134\ \ \ "{}username"{}:\ "{}nuevo\_usuario"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00135}00135\ \ \ "{}email"{}:\ "{}nuevo@ejemplo.com"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00136}00136\ \ \ "{}password"{}:\ "{}contraseña\_segura"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00137}00137\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseExample\ =\ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00139}00139\ \ \ "{}success"{}:\ true,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00140}00140\ \ \ "{}id"{}:\ 43,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00141}00141\ \ \ "{}message"{}:\ "{}Usuario\ registrado\ exitosamente"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00142}00142\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ default:}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId.includes('get'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseExample\ =\ endpointId.includes('id')\ ||\ endpointId.includes('random')\ ?\ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00148}00148\ \ \ "{}success"{}:\ true,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00149}00149\ \ \ "{}data"{}:\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00150}00150\ \ \ \ \ "{}id"{}:\ 42,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00151}00151\ \ \ \ \ "{}name"{}:\ "{}Amanita\ muscaria"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00152}00152\ \ \ \ \ "{}edibility"{}:\ "{}Tóxico"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00153}00153\ \ \ \ \ "{}habitat"{}:\ "{}Bosques\ de\ coníferas"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00154}00154\ \ \ \ \ "{}image\_urls"{}:\ "{}/assets/images/fungi/amanita\_muscaria\_1.jpg,/assets/images/fungi/amanita\_muscaria\_2.jpg"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00155}00155\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00156}00156\ \}`\ :\ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \`{}\{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00158}00158\ \ \ "{}success"{}:\ true,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00159}00159\ \ \ "{}data"{}:\ [}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00160}00160\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00161}00161\ \ \ \ \ \ \ "{}id"{}:\ 42,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00162}00162\ \ \ \ \ \ \ "{}name"{}:\ "{}Amanita\ muscaria"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00163}00163\ \ \ \ \ \ \ "{}edibility"{}:\ "{}Tóxico"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00164}00164\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00165}00165\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00166}00166\ \ \ \ \ \ \ "{}id"{}:\ 43,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00167}00167\ \ \ \ \ \ \ "{}name"{}:\ "{}Boletus\ edulis"{},}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00168}00168\ \ \ \ \ \ \ "{}edibility"{}:\ "{}Comestible"{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00169}00169\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00170}00170\ \ \ ]}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00171}00171\ \}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00174}00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00175}00175\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00176}00176\ \ \ \ \ \ \ \ \ //\ Generar\ parámetros\ si\ es\ necesario}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00177}00177\ \ \ \ \ \ \ \ \ let\ parametersSection\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00178}00178\ \ \ \ \ \ \ \ \ if\ (path.includes('\{id\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ parametersSection\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/parameters"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Parámetros</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <table\ class="{}table\ table-\/striped"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Nombre</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Ubicación</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Tipo</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Descripción</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>id</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>path</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>integer</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>ID\ único\ del\ hongo</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </table>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00201}00201\ \ \ \ \ \ \ \ \ \}\ else\ if\ (path.includes('\{page\}')\ \&\&\ path.includes('\{limit\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ parametersSection\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/parameters"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Parámetros</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <table\ class="{}table\ table-\/striped"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Nombre</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Ubicación</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Tipo</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Descripción</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>page</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>path</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>integer</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Número\ de\ página</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>limit</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>path</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>integer</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Número\ de\ elementos\ por\ página</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </table>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00230}00230\ \ \ \ \ \ \ \ \ \}\ else\ if\ (path.includes('\{param\}')\ \&\&\ path.includes('\{value\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ parametersSection\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/parameters"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Parámetros</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <table\ class="{}table\ table-\/striped"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Nombre</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Ubicación</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Tipo</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Descripción</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>param</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>path</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>string</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Campo\ de\ búsqueda\ (name,\ edibility,\ habitat,\ common\_name)</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>value</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>path</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>string</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Valor\ a\ buscar</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </table>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00259}00259\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00260}00260\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00261}00261\ \ \ \ \ \ \ \ \ //\ Generar\ sección\ de\ cuerpo\ de\ solicitud\ si\ es\ necesario}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00262}00262\ \ \ \ \ \ \ \ \ let\ requestBodySection\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00263}00263\ \ \ \ \ \ \ \ \ if\ (method\ ===\ 'POST'\ ||\ method\ ===\ 'PUT')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ requestBodySection\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/request-\/body"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Cuerpo\ de\ la\ solicitud</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}code-\/block"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <pre>\$\{requestExample\}</pre>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00271}00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00272}00272\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00273}00273\ \ \ \ \ \ \ \ \ //\ Construir\ el\ formulario\ de\ prueba}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00274}00274\ \ \ \ \ \ \ \ \ let\ testFormFields\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00275}00275\ \ \ \ \ \ \ \ \ if\ (path.includes('\{id\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/id-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>ID</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}number"{}\ class="{}form-\/control"{}\ id="{}param-\/id-\/\$\{endpointId\}"{}\ placeholder="{}Ingrese\ ID"{}\ value="{}1"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00281}00281\ \ \ \ \ \ \ \ \ \}\ else\ if\ (path.includes('\{page\}')\ \&\&\ path.includes('\{limit\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/page-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Página</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}number"{}\ class="{}form-\/control"{}\ id="{}param-\/page-\/\$\{endpointId\}"{}\ placeholder="{}Número\ de\ página"{}\ value="{}1"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/limit-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Límite</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}number"{}\ class="{}form-\/control"{}\ id="{}param-\/limit-\/\$\{endpointId\}"{}\ placeholder="{}Elementos\ por\ página"{}\ value="{}10"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00291}00291\ \ \ \ \ \ \ \ \ \}\ else\ if\ (path.includes('\{param\}')\ \&\&\ path.includes('\{value\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/type-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Parámetro</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <select\ class="{}form-\/control"{}\ id="{}param-\/type-\/\$\{endpointId\}"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}name"{}>name</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}edibility"{}>edibility</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}habitat"{}>habitat</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}common\_name"{}>common\_name</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </select>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/value-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Valor</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}text"{}\ class="{}form-\/control"{}\ id="{}param-\/value-\/\$\{endpointId\}"{}\ placeholder="{}Valor\ a\ buscar"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00306}00306\ \ \ \ \ \ \ \ \ \}\ else\ if\ (method\ ===\ 'POST'\ ||\ method\ ===\ 'PUT')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId\ ===\ 'auth-\/login')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/username-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Usuario</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}text"{}\ class="{}form-\/control"{}\ id="{}param-\/username-\/\$\{endpointId\}"{}\ placeholder="{}Nombre\ de\ usuario"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/password-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Contraseña</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}password"{}\ class="{}form-\/control"{}\ id="{}param-\/password-\/\$\{endpointId\}"{}\ placeholder="{}Contraseña"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId\ ===\ 'users-\/post')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/username-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Usuario</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}text"{}\ class="{}form-\/control"{}\ id="{}param-\/username-\/\$\{endpointId\}"{}\ placeholder="{}Nombre\ de\ usuario"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/email-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Email</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}email"{}\ class="{}form-\/control"{}\ id="{}param-\/email-\/\$\{endpointId\}"{}\ placeholder="{}Correo\ electrónico"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/password-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Contraseña</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}password"{}\ class="{}form-\/control"{}\ id="{}param-\/password-\/\$\{endpointId\}"{}\ placeholder="{}Contraseña"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId\ ===\ 'fungi-\/post'\ ||\ endpointId\ ===\ 'fungi-\/put')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/name-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Nombre</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}text"{}\ class="{}form-\/control"{}\ id="{}param-\/name-\/\$\{endpointId\}"{}\ placeholder="{}Nombre\ científico"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/edibility-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Comestibilidad</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <select\ class="{}form-\/control"{}\ id="{}param-\/edibility-\/\$\{endpointId\}"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}Comestible"{}>Comestible</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}No\ comestible"{}>No\ comestible</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}Tóxico"{}>Tóxico</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <option\ value="{}Mortal"{}>Mortal</option>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </select>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/habitat-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>Hábitat</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}text"{}\ class="{}form-\/control"{}\ id="{}param-\/habitat-\/\$\{endpointId\}"{}\ placeholder="{}Hábitat"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId\ ===\ 'fungi-\/put')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ testFormFields\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <label\ for="{}param-\/id-\/\$\{endpointId\}"{}\ class="{}form-\/label"{}>ID</label>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <input\ type="{}number"{}\ class="{}form-\/control"{}\ id="{}param-\/id-\/\$\{endpointId\}"{}\ placeholder="{}ID\ del\ hongo"{}\ value="{}1"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>`\ +\ testFormFields;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00359}00359\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00360}00360\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00361}00361\ \ \ \ \ \ \ \ \ //\ Construir\ contenido\ completo\ del\ endpoint}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00362}00362\ \ \ \ \ \ \ \ \ const\ endpointHtml\ =\ \`{}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00363}00363\ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/card"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/header"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <span\ class="{}endpoint-\/method\ \$\{methodClass\}"{}>\$\{method\}</span>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <span\ class="{}endpoint-\/path"{}>/api\$\{path\}</span>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/content"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/description"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Descripción</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <p>\$\{description\}\ \$\{resourceType\}.</p>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\{parametersSection\}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\{requestBodySection\}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}endpoint-\/responses"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Respuestas</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <table\ class="{}table\ table-\/striped"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Código</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <th>Descripción</th>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </thead>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>200</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Éxito</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\{method\ ===\ 'POST'\ ?\ '<tr><td>201</td><td>Creado\ correctamente</td></tr>'\ :\ ''\}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>400</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Solicitud\ incorrecta</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>404</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <td>Recurso\ no\ encontrado</td>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tr>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\{endpointId.includes('auth')\ ?\ '<tr><td>401</td><td>No\ autorizado</td></tr>'\ :\ ''\}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </tbody>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </table>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h4>Ejemplo\ de\ respuesta</h4>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}code-\/block"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <pre>\$\{responseExample\}</pre>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}try-\/api"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h3>Probar\ API</h3>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <form\ id="{}form-\/\$\{endpointId\}"{}\ class="{}mb-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\{testFormFields\}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <button\ type="{}button"{}\ class="{}btn\ btn-\/primary\ test-\/api"{}\ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data-\/method="{}\$\{method\}"{}\ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data-\/endpoint="{}/api\$\{path\}"{}\ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data-\/endpoint-\/id="{}\$\{endpointId\}"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Ejecutar}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </button>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </form>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}api-\/response\ d-\/none\ mt-\/3"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <h4>Respuesta</h4>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <div\ class="{}code-\/block"{}>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <pre\ class="{}response-\/content"{}>Esperando\ respuesta...</pre>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ </div>}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00431}00431\ \ \ \ \ \ \ \ \ </div>`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00432}00432\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00433}00433\ \ \ \ \ \ \ \ \ //\ Actualizar\ el\ contenido}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00434}00434\ \ \ \ \ \ \ \ \ endpointContent.innerHTML\ =\ endpointHtml;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00435}00435\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00436}00436\ \ \ \ \ \ \ \ \ //\ Inicializar\ botones\ de\ prueba}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00437}00437\ \ \ \ \ \ \ \ \ initializeTestButtons();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00438}00438\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00440}00440\ \ \ \ \ /**}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00441}00441\ \ \ \ \ \ *\ Inicializa\ los\ botones\ de\ prueba\ de\ la\ API}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00442}00442\ \ \ \ \ \ */}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00443}00443\ \ \ \ \ function\ initializeTestButtons()\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00444}00444\ \ \ \ \ \ \ \ \ const\ testButtons\ =\ document.querySelectorAll('.test-\/api');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00445}00445\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00446}00446\ \ \ \ \ \ \ \ \ testButtons.forEach(button\ =>\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ button.addEventListener('click',\ async\ function()\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ endpointId\ =\ this.getAttribute('data-\/endpoint-\/id');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ method\ =\ this.getAttribute('data-\/method');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ let\ endpoint\ =\ this.getAttribute('data-\/endpoint');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ form\ =\ document.getElementById(`form-\/\$\{endpointId\}`);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ responseContainer\ =\ this.closest('.try-\/api').querySelector('.api-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00453}00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ responseContent\ =\ responseContainer.querySelector('.response-\/content');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Mostrar\ el\ contenedor\ de\ respuesta}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.remove('d-\/none');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.textContent\ =\ 'Procesando\ solicitud...';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ try\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Reemplazar\ parámetros\ en\ la\ URL\ si\ existen}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpoint.includes('\{id\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ idValue\ =\ document.getElementById(`param-\/id-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ endpoint\ =\ endpoint.replace('\{id\}',\ idValue);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpoint.includes('\{page\}')\ \&\&\ endpoint.includes('\{limit\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ pageValue\ =\ document.getElementById(`param-\/page-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ limitValue\ =\ document.getElementById(`param-\/limit-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ endpoint\ =\ endpoint.replace('\{page\}',\ pageValue).replace('\{limit\}',\ limitValue);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Para\ endpoints\ de\ búsqueda}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpoint.includes('\{param\}')\ \&\&\ endpoint.includes('\{value\}'))\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ paramValue\ =\ document.getElementById(`param-\/type-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ searchValue\ =\ document.getElementById(`param-\/value-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ endpoint\ =\ endpoint.replace('\{param\}',\ paramValue).replace('\{value\}',\ searchValue);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Configurar\ opciones\ de\ fetch}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ options\ =\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ method:\ method,}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ headers:\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 'Accept':\ 'application/json'}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Para\ métodos\ que\ requieren\ cuerpo}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (method\ ===\ 'POST'\ ||\ method\ ===\ 'PUT')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options.headers['Content-\/Type']\ =\ 'application/json';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Construir\ el\ cuerpo\ de\ la\ solicitud\ según\ el\ endpoint}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ let\ body\ =\ \{\};}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId\ ===\ 'auth-\/login')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ username\ =\ document.getElementById(`param-\/username-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ password\ =\ document.getElementById(`param-\/password-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body\ =\ \{\ username,\ password\ \};}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId\ ===\ 'users-\/post')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ username\ =\ document.getElementById(`param-\/username-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ email\ =\ document.getElementById(`param-\/email-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ password\ =\ document.getElementById(`param-\/password-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body\ =\ \{\ username,\ email,\ password\ \};}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ if\ (endpointId\ ===\ 'fungi-\/post'\ ||\ endpointId\ ===\ 'fungi-\/put')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ name\ =\ document.getElementById(`param-\/name-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ edibility\ =\ document.getElementById(`param-\/edibility-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ habitat\ =\ document.getElementById(`param-\/habitat-\/\$\{endpointId\}`).value;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body\ =\ \{\ name,\ edibility,\ habitat\ \};}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Añadir\ campos\ adicionales\ para\ fungi-\/post}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (endpointId\ ===\ 'fungi-\/post')\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body.observations\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body.common\_name\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body.synonym\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ body.title\ =\ '';}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options.body\ =\ JSON.stringify(body);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Ejecutar\ la\ solicitud}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ response\ =\ await\ fetch(endpoint,\ options);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ data\ =\ await\ response.json();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Mostrar\ la\ respuesta\ formateada}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.textContent\ =\ JSON.stringify(data,\ null,\ 2);}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Cambiar\ el\ color\ según\ el\ código\ de\ respuesta}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (response.ok)\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.add('success-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.remove('error-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ else\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.add('error-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.remove('success-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ catch\ (error)\ \{}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContent.textContent\ =\ \`{}Error:\ \$\{error.message\}`;}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.add('error-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ responseContainer.classList.remove('success-\/response');}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00542}00542\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00543}00543\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00544}00544\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00545}00545\ \ \ \ \ //\ Inicializar\ botones\ de\ prueba\ para\ el\ contenido\ inicial}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00546}00546\ \ \ \ \ initializeTestButtons();}
+\DoxyCodeLine{\Hypertarget{api__docs_8js_source_l00547}00547\ \});}
 
 \end{DoxyCode}

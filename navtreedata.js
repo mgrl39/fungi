@@ -53,7 +53,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "ApiController_8php.html",
-"classApp_1_1Controllers_1_1LangController.html"
+"classApp_1_1Controllers_1_1LangController.html#a13fbc690481f06279c66dd4e168bbc14"
 ];
 
 var SYNCONMSG = 'pulsar para deshabilitar sincronización';

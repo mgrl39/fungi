@@ -102,40 +102,146 @@ $(document).ready(function(){initNavTree('UserController_8php_source.html',''); 
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceApp_1_1Controllers.html">App\Controllers</a>;</div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>use PDO;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>use <a class="code hl_class" href="classApp_1_1Config_1_1ErrorMessages.html">App\Config\ErrorMessages</a>;</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>use App\Repositories\UserRepository;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="classApp_1_1Controllers_1_1UserController.html">UserController</a></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a040e078cc147a9dd0b72c80792066651">   11</a></span>    <span class="keyword">private</span> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a040e078cc147a9dd0b72c80792066651">$pdo</a>;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#abe3b20d3a2656a568d0ed978919facfd">   12</a></span>    <span class="keyword">private</span> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#abe3b20d3a2656a568d0ed978919facfd">$repository</a>;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    </div>
-<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#acf44ad6786ecd0464536a765ce037258">   14</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#acf44ad6786ecd0464536a765ce037258">__construct</a>(PDO <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a040e078cc147a9dd0b72c80792066651">$pdo</a>)</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        $this-&gt;pdo = <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a040e078cc147a9dd0b72c80792066651">$pdo</a>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        $this-&gt;repository = <span class="keyword">new</span> UserRepository(<a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a040e078cc147a9dd0b72c80792066651">$pdo</a>);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    }</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="classApp_1_1Controllers_1_1UserController.html">UserController</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a52d440c58786943b440bad35f3a38ca6">   13</a></span>    <span class="keyword">private</span> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a52d440c58786943b440bad35f3a38ca6">$db</a>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a306a90e334b0318afd0b65af792eb3a7">   14</a></span>    <span class="keyword">private</span> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a306a90e334b0318afd0b65af792eb3a7">$session</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#ae6a680f1ece5b780b453ca40b6f75553">   15</a></span>    <span class="keyword">private</span> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#ae6a680f1ece5b780b453ca40b6f75553">$auth</a>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a0fc457be5e0deb25ce6cc80040a51680">   24</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#a0fc457be5e0deb25ce6cc80040a51680">__construct</a>(<a class="code hl_class" href="classApp_1_1Controllers_1_1DatabaseController.html">DatabaseController</a> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a52d440c58786943b440bad35f3a38ca6">$db</a>, <a class="code hl_class" href="classApp_1_1Controllers_1_1SessionController.html">SessionController</a> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a306a90e334b0318afd0b65af792eb3a7">$session</a>, <a class="code hl_class" href="classApp_1_1Controllers_1_1AuthController.html">AuthController</a> <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#ae6a680f1ece5b780b453ca40b6f75553">$auth</a> = <span class="keyword">null</span>) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        $this-&gt;db = <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a52d440c58786943b440bad35f3a38ca6">$db</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        $this-&gt;session = <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a306a90e334b0318afd0b65af792eb3a7">$session</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        $this-&gt;auth = <a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#ae6a680f1ece5b780b453ca40b6f75553">$auth</a> ?? <span class="keyword">new</span> <a class="code hl_class" href="classApp_1_1Controllers_1_1AuthController.html">AuthController</a>(<a class="code hl_variable" href="classApp_1_1Controllers_1_1UserController.html#a52d440c58786943b440bad35f3a38ca6">$db</a>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
 </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    </div>
-<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a680742ad7d3950078f52747097120880">   20</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#a680742ad7d3950078f52747097120880">handleRequest</a>($method, $endpoint)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="comment">// Implementación similar a FungiController</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a9b1cee33c89323576b5df64d7d093d5b">   36</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#a9b1cee33c89323576b5df64d7d093d5b">profileHandler</a>($params = []) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="comment">// Verificar si el usuario está autenticado</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordflow">if</span> (!$this-&gt;session-&gt;isLoggedIn()) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            header(<span class="stringliteral">&#39;Location: /login?redirect=/profile&#39;</span>);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            exit;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        $userData = $this-&gt;session-&gt;getUserData();</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        $errors = [];</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        $success = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="comment">// Procesar formulario de actualización de perfil</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">if</span> ($_SERVER[<span class="stringliteral">&#39;REQUEST_METHOD&#39;</span>] === <span class="stringliteral">&#39;POST&#39;</span> &amp;&amp; isset($_POST[<span class="stringliteral">&#39;update_profile&#39;</span>])) {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            $errors = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb">validateProfileUpdate</a>($_POST);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keywordflow">if</span> (empty($errors)) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                $success = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78">updateUserProfile</a>($userData[<span class="stringliteral">&#39;id&#39;</span>], $_POST);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                <span class="keywordflow">if</span> ($success) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                    $userData = $this-&gt;session-&gt;getUserData(); <span class="comment">// Recargar datos actualizados</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Mi Perfil&#39;</span>),</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="stringliteral">&#39;user&#39;</span> =&gt; $userData,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="stringliteral">&#39;errors&#39;</span> =&gt; $errors,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; $success</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        ];</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
 </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// Métodos específicos para manejar usuarios</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>} </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    </div>
+<div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb">   73</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb">validateProfileUpdate</a>($data) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        $errors = [];</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="comment">// Validar email</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">if</span> (isset($data[<span class="stringliteral">&#39;email&#39;</span>]) &amp;&amp; !filter_var($data[<span class="stringliteral">&#39;email&#39;</span>], FILTER_VALIDATE_EMAIL)) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            $errors[<span class="stringliteral">&#39;email&#39;</span>] = _(<span class="stringliteral">&#39;El formato del email no es válido&#39;</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="comment">// Otras validaciones según necesidades</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="comment">// ...</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">return</span> $errors;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
 </div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html">App\Config\ErrorMessages</a></div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00010">ErrorMessages.php:11</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html">App\Controllers\UserController</a></div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00009">UserController.php:10</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a040e078cc147a9dd0b72c80792066651"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a040e078cc147a9dd0b72c80792066651">App\Controllers\UserController\$pdo</a></div><div class="ttdeci">$pdo</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00011">UserController.php:11</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a680742ad7d3950078f52747097120880"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a680742ad7d3950078f52747097120880">App\Controllers\UserController\handleRequest</a></div><div class="ttdeci">handleRequest($method, $endpoint)</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00020">UserController.php:20</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_abe3b20d3a2656a568d0ed978919facfd"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#abe3b20d3a2656a568d0ed978919facfd">App\Controllers\UserController\$repository</a></div><div class="ttdeci">$repository</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00012">UserController.php:12</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_acf44ad6786ecd0464536a765ce037258"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#acf44ad6786ecd0464536a765ce037258">App\Controllers\UserController\__construct</a></div><div class="ttdeci">__construct(PDO $pdo)</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00014">UserController.php:14</a></div></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    </div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="}">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78">   94</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78">updateUserProfile</a>($userId, $data) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            $fields = [];</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            $params = [];</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="comment">// Determinar qué campos actualizar</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">if</span> (!empty($data[<span class="stringliteral">&#39;email&#39;</span>])) {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                $fields[] = <span class="stringliteral">&quot;email = :email&quot;</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                $params[<span class="stringliteral">&#39;:email&#39;</span>] = $data[<span class="stringliteral">&#39;email&#39;</span>];</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keywordflow">if</span> (!empty($data[<span class="stringliteral">&#39;display_name&#39;</span>])) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                $fields[] = <span class="stringliteral">&quot;display_name = :display_name&quot;</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                $params[<span class="stringliteral">&#39;:display_name&#39;</span>] = $data[<span class="stringliteral">&#39;display_name&#39;</span>];</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="comment">// Solo actualizar si hay campos para actualizar</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            <span class="keywordflow">if</span> (!empty($fields)) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                $params[<span class="stringliteral">&#39;:id&#39;</span>] = $userId;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                $sql = <span class="stringliteral">&quot;UPDATE users SET &quot;</span> . implode(<span class="stringliteral">&quot;, &quot;</span>, $fields) . <span class="stringliteral">&quot; WHERE id = :id&quot;</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                <span class="keywordflow">return</span> $this-&gt;db-&gt;query($sql, $params);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            }</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            error_log(<span class="stringliteral">&quot;Error al actualizar perfil: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    }</div>
+</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    </div>
+<div class="foldopen" id="foldopen00129" data-start="{" data-end="}">
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a852373bef5708efdfa174376def5921c">  129</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#a852373bef5708efdfa174376def5921c">adminUsersHandler</a>() {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="comment">// Verificar si es administrador</span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keywordflow">if</span> (!$this-&gt;session-&gt;isAdmin()) {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            exit;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="comment">// Obtener lista de usuarios</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        $users = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b">getAllUsers</a>();</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Administración de Usuarios&#39;</span>),</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            <span class="stringliteral">&#39;users&#39;</span> =&gt; $users</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        ];</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    }</div>
+</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    </div>
+<div class="foldopen" id="foldopen00150" data-start="{" data-end="}">
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b">  150</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b">getAllUsers</a>() {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            $sql = <span class="stringliteral">&quot;SELECT id, username, email, role, created_at, last_login FROM users ORDER BY id DESC&quot;</span>;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            $result = $this-&gt;db-&gt;query($sql);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            error_log(<span class="stringliteral">&quot;Error al obtener usuarios: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        }</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    }</div>
+</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>} </div>
+</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html">App\Controllers\AuthController</a></div><div class="ttdoc">Controlador para gestionar la autenticación de usuarios.</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00014">AuthController.php:14</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html">App\Controllers\DatabaseController</a></div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00010">DatabaseController.php:10</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1SessionController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1SessionController.html">App\Controllers\SessionController</a></div><div class="ttdef"><b>Definition</b> <a href="SessionController_8php_source.html#l00004">SessionController.php:4</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html">App\Controllers\UserController</a></div><div class="ttdoc">Controlador para gestionar operaciones relacionadas con usuarios.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00012">UserController.php:12</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a0fc457be5e0deb25ce6cc80040a51680"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a0fc457be5e0deb25ce6cc80040a51680">App\Controllers\UserController\__construct</a></div><div class="ttdeci">__construct(DatabaseController $db, SessionController $session, AuthController $auth=null)</div><div class="ttdoc">Constructor del controlador de usuarios.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00024">UserController.php:24</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a306a90e334b0318afd0b65af792eb3a7"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a306a90e334b0318afd0b65af792eb3a7">App\Controllers\UserController\$session</a></div><div class="ttdeci">$session</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00014">UserController.php:14</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a52d440c58786943b440bad35f3a38ca6"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a52d440c58786943b440bad35f3a38ca6">App\Controllers\UserController\$db</a></div><div class="ttdeci">$db</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00013">UserController.php:13</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a58df8b576c286304387b3f6fa8cec35b"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b">App\Controllers\UserController\getAllUsers</a></div><div class="ttdeci">getAllUsers()</div><div class="ttdoc">Obtiene todos los usuarios de la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00150">UserController.php:150</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a852373bef5708efdfa174376def5921c"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a852373bef5708efdfa174376def5921c">App\Controllers\UserController\adminUsersHandler</a></div><div class="ttdeci">adminUsersHandler()</div><div class="ttdoc">Maneja la página de administración de usuarios.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00129">UserController.php:129</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_a9b1cee33c89323576b5df64d7d093d5b"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#a9b1cee33c89323576b5df64d7d093d5b">App\Controllers\UserController\profileHandler</a></div><div class="ttdeci">profileHandler($params=[])</div><div class="ttdoc">Maneja la visualización y edición del perfil del usuario.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00036">UserController.php:36</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_aafbbbe1bc02d5f9ec10780422a6d2fcb"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb">App\Controllers\UserController\validateProfileUpdate</a></div><div class="ttdeci">validateProfileUpdate($data)</div><div class="ttdoc">Valida los datos de actualización de perfil.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00073">UserController.php:73</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_ac56e6d2c7a043410095917d7ac362a78"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78">App\Controllers\UserController\updateUserProfile</a></div><div class="ttdeci">updateUserProfile($userId, $data)</div><div class="ttdoc">Actualiza el perfil del usuario en la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00094">UserController.php:94</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1UserController_html_ae6a680f1ece5b780b453ca40b6f75553"><div class="ttname"><a href="classApp_1_1Controllers_1_1UserController.html#ae6a680f1ece5b780b453ca40b6f75553">App\Controllers\UserController\$auth</a></div><div class="ttdeci">$auth</div><div class="ttdef"><b>Definition</b> <a href="UserController_8php_source.html#l00015">UserController.php:15</a></div></div>
 <div class="ttc" id="anamespaceApp_1_1Controllers_html"><div class="ttname"><a href="namespaceApp_1_1Controllers.html">App\Controllers</a></div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00003">ApiController.php:3</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -143,7 +249,7 @@ $(document).ready(function(){initNavTree('UserController_8php_source.html',''); 
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bbd6674d859f4cefaacb708974cac240.html">controllers</a></li><li class="navelem"><a class="el" href="UserController_8php.html">UserController.php</a></li>
-    <li class="footer">Generado el Viernes, 14 de marzo de 2025 22:29:22 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Sábado, 15 de marzo de 2025 22:45:54 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -394,11 +394,11 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="foldopen" id="foldopen00333" data-start="{" data-end="}">
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7">  333</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7">handlePost</a>($endpoint)</div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    {</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a> = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        $data = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>        <span class="keywordflow">if</span> ($endpoint === <span class="stringliteral">&#39;fungi&#39;</span>) {</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>            $requiredFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>];</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>($data, $requiredFields)) {</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                http_response_code(400);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>                echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, <span class="stringliteral">&#39;name, edibility, habitat&#39;</span>)]);</div>
 <div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>                <span class="keywordflow">return</span>;</div>
@@ -406,19 +406,19 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
 <div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;INSERT INTO fungi (name, edibility, habitat, observations, common_name, synonym, title) VALUES (?, ?, ?, ?, ?, ?, ?)&quot;</span>);</div>
 <div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>            $stmt-&gt;execute([</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;name&#39;</span>],</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;edibility&#39;</span>],</div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;habitat&#39;</span>],</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;observations&#39;</span>],</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;common_name&#39;</span>],</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;synonym&#39;</span>],</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;title&#39;</span>]</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>                $data[<span class="stringliteral">&#39;name&#39;</span>],</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>                $data[<span class="stringliteral">&#39;edibility&#39;</span>],</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                $data[<span class="stringliteral">&#39;habitat&#39;</span>],</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>                $data[<span class="stringliteral">&#39;observations&#39;</span>],</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>                $data[<span class="stringliteral">&#39;common_name&#39;</span>],</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>                $data[<span class="stringliteral">&#39;synonym&#39;</span>],</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>                $data[<span class="stringliteral">&#39;title&#39;</span>]</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            ]);</div>
 <div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span> </div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>            echo json_encode([<span class="stringliteral">&#39;id&#39;</span> =&gt; $this-&gt;pdo-&gt;lastInsertId()]);</div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        } elseif ($endpoint === <span class="stringliteral">&#39;users&#39;</span>) {</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>            $requiredFields = [<span class="stringliteral">&#39;username&#39;</span>, <span class="stringliteral">&#39;email&#39;</span>, <span class="stringliteral">&#39;password&#39;</span>];</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>($data, $requiredFields)) {</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>                http_response_code(400);</div>
 <div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>                echo json_encode([</div>
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
@@ -428,7 +428,7 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>            }</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>            </div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>            <span class="comment">// Validación de formato de email</span></div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>            <span class="keywordflow">if</span> (!filter_var(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>], FILTER_VALIDATE_EMAIL)) {</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>            <span class="keywordflow">if</span> (!filter_var($data[<span class="stringliteral">&#39;email&#39;</span>], FILTER_VALIDATE_EMAIL)) {</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>                http_response_code(400);</div>
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>                echo json_encode([</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
@@ -439,7 +439,7 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>            </div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            <span class="comment">// Verificar que el nombre de usuario no exista</span></div>
 <div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id FROM users WHERE username = ?&quot;</span>);</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>]]);</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>            $stmt-&gt;execute([$data[<span class="stringliteral">&#39;username&#39;</span>]]);</div>
 <div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>            <span class="keywordflow">if</span> ($stmt-&gt;fetch()) {</div>
 <div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>                http_response_code(409); <span class="comment">// Conflict</span></div>
 <div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>                echo json_encode([</div>
@@ -451,7 +451,7 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            </div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            <span class="comment">// Verificar que el email no exista</span></div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;SELECT id FROM users WHERE email = ?&quot;</span>);</div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>]]);</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            $stmt-&gt;execute([$data[<span class="stringliteral">&#39;email&#39;</span>]]);</div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>            <span class="keywordflow">if</span> ($stmt-&gt;fetch()) {</div>
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                http_response_code(409); <span class="comment">// Conflict</span></div>
 <div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>                echo json_encode([</div>
@@ -462,11 +462,11 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>            }</div>
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>            </div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>            <span class="comment">// Generar hash de la contraseña</span></div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>            $passwordHash = password_hash(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;password&#39;</span>], PASSWORD_BCRYPT);</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>            $passwordHash = password_hash($data[<span class="stringliteral">&#39;password&#39;</span>], PASSWORD_BCRYPT);</div>
 <div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>            </div>
 <div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>            <span class="comment">// Insertar el nuevo usuario</span></div>
 <div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;INSERT INTO users (username, email, password_hash, role, created_at) VALUES (?, ?, ?, &#39;user&#39;, NOW())&quot;</span>);</div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;email&#39;</span>], $passwordHash]);</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>            $stmt-&gt;execute([$data[<span class="stringliteral">&#39;username&#39;</span>], $data[<span class="stringliteral">&#39;email&#39;</span>], $passwordHash]);</div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>            </div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>            $userId = $this-&gt;pdo-&gt;lastInsertId();</div>
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>            </div>
@@ -479,7 +479,7 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>        } elseif ($endpoint === <span class="stringliteral">&#39;auth/login&#39;</span>) {</div>
 <div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            <span class="comment">// Manejo de autenticación y generación de JWT</span></div>
 <div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>            $requiredFields = [<span class="stringliteral">&#39;username&#39;</span>, <span class="stringliteral">&#39;password&#39;</span>];</div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, $requiredFields)) {</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>($data, $requiredFields)) {</div>
 <div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                http_response_code(400);</div>
 <div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>                echo json_encode([</div>
 <div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
@@ -489,7 +489,7 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>            }</div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span> </div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>            <span class="comment">// Autenticar usuario</span></div>
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            $user = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385">login</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;username&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;password&#39;</span>]);</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            $user = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a11a918dc45f469f21cb20e4bd37f1385">login</a>($data[<span class="stringliteral">&#39;username&#39;</span>], $data[<span class="stringliteral">&#39;password&#39;</span>]);</div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>            </div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>            <span class="keywordflow">if</span> ($user) {</div>
 <div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>                <span class="comment">// Generar token JWT</span></div>
@@ -547,10 +547,10 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>    {</div>
 <div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>            $id = $matches[1];</div>
-<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>            <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a> = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>            $data = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span> </div>
 <div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;UPDATE fungi SET name = ?, edibility = ?, habitat = ? WHERE id = ?&quot;</span>);</div>
-<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>            $stmt-&gt;execute([<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;name&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;edibility&#39;</span>], <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[<span class="stringliteral">&#39;habitat&#39;</span>], $id]);</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>            $stmt-&gt;execute([$data[<span class="stringliteral">&#39;name&#39;</span>], $data[<span class="stringliteral">&#39;edibility&#39;</span>], $data[<span class="stringliteral">&#39;habitat&#39;</span>], $id]);</div>
 <div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span> </div>
 <div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>            <span class="keywordflow">if</span> ($stmt-&gt;rowCount() &gt; 0) {</div>
 <div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>                echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>]);</div>
@@ -587,10 +587,10 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 </div>
 <div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span> </div>
 <div class="foldopen" id="foldopen00552" data-start="{" data-end="}">
-<div class="line"><a id="l00552" name="l00552"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">  552</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(array <a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>, array $requiredFields): bool</div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">  552</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3">validateRequiredFields</a>(array $data, array $requiredFields): bool</div>
 <div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>    {</div>
 <div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>        <span class="keywordflow">foreach</span> ($requiredFields as $field) {</div>
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>            <span class="keywordflow">if</span> (!isset(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[$field]) || empty(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>[$field])) {</div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>            <span class="keywordflow">if</span> (!isset($data[$field]) || empty($data[$field])) {</div>
 <div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>            }</div>
 <div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>        }</div>
@@ -653,9 +653,9 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 </div>
 <div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>    </div>
 <div class="foldopen" id="foldopen00636" data-start="{" data-end="}">
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1ApiController.html#a04bb28eb734ab17814e5695e2056d5b1">  636</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a04bb28eb734ab17814e5695e2056d5b1">base64URLEncode</a>(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>): string</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1ApiController.html#a04bb28eb734ab17814e5695e2056d5b1">  636</a></span>    <span class="keyword">private</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1ApiController.html#a04bb28eb734ab17814e5695e2056d5b1">base64URLEncode</a>($data): string</div>
 <div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>    {</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>        <span class="keywordflow">return</span> rtrim(strtr(base64_encode(<a class="code hl_variable" href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a>), <span class="stringliteral">&#39;+/&#39;</span>, <span class="stringliteral">&#39;-_&#39;</span>), <span class="charliteral">&#39;=&#39;</span>);</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>        <span class="keywordflow">return</span> rtrim(strtr(base64_encode($data), <span class="stringliteral">&#39;+/&#39;</span>, <span class="stringliteral">&#39;-_&#39;</span>), <span class="charliteral">&#39;=&#39;</span>);</div>
 <div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>    }</div>
 </div>
 <div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span> </div>
@@ -711,15 +711,14 @@ $(document).ready(function(){initNavTree('ApiController_8php_source.html',''); i
 <div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_afc1415cdd597324a58a405fc1fd712ce"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#afc1415cdd597324a58a405fc1fd712ce">App\Controllers\ApiController\$session</a></div><div class="ttdeci">$session</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00022">ApiController.php:22</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html">App\Controllers\DatabaseController</a></div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00010">DatabaseController.php:10</a></div></div>
 <div class="ttc" id="anamespaceApp_1_1Controllers_html"><div class="ttname"><a href="namespaceApp_1_1Controllers.html">App\Controllers</a></div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00003">ApiController.php:3</a></div></div>
-<div class="ttc" id="aroutes_8php_html_a653b5458163d338546c47271b4fb81b7"><div class="ttname"><a href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a></div><div class="ttdeci">$uri</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00004">routes.php:4</a></div></div>
-<div class="ttc" id="aroutes_8php_html_a6efc15b5a2314dd4b5aaa556a375c6d6"><div class="ttname"><a href="routes_8php.html#a6efc15b5a2314dd4b5aaa556a375c6d6">$data</a></div><div class="ttdeci">$data</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00482">routes.php:482</a></div></div>
+<div class="ttc" id="aroutes_8php_html_a653b5458163d338546c47271b4fb81b7"><div class="ttname"><a href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a></div><div class="ttdeci">$uri</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00025">routes.php:25</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bbd6674d859f4cefaacb708974cac240.html">controllers</a></li><li class="navelem"><a class="el" href="ApiController_8php.html">ApiController.php</a></li>
-    <li class="footer">Generado el Sábado, 15 de marzo de 2025 20:21:33 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Sábado, 15 de marzo de 2025 22:45:54 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['validaterequiredfields_0',['validateRequiredFields',['../classApp_1_1Controllers_1_1ApiController.html#a148e8164c069528736151080114f05d3',1,'App::Controllers::ApiController']]],
-  ['verifyjwt_1',['verifyJWT',['../classApp_1_1Controllers_1_1SessionController.html#aeb485b5bb6111a9a69831bf477f5e2a7',1,'App::Controllers::SessionController']]],
-  ['verifyjwtcookie_2',['verifyJWTCookie',['../classApp_1_1Controllers_1_1SessionController.html#ab38acc8d3f11ff8c05f466c64100d1bc',1,'App::Controllers::SessionController']]],
-  ['verifyjwttoken_3',['verifyJwtToken',['../classApp_1_1Controllers_1_1ApiController.html#a68f0af9a2dfcb25d955d8fdb3b79375a',1,'App::Controllers::ApiController']]],
-  ['verifytoken_4',['verifyToken',['../classApp_1_1Controllers_1_1AuthController.html#af4fd64293b9488b0ec68a243b7cdd6d0',1,'App::Controllers::AuthController']]],
-  ['verifytokencookie_5',['verifyTokenCookie',['../classApp_1_1Controllers_1_1SessionController.html#a2bdcf6ca1f5f943eec1384cd56a13898',1,'App::Controllers::SessionController']]],
-  ['verifyuser_6',['verifyUser',['../classApp_1_1Controllers_1_1DatabaseController.html#a83936bdd6709373e150fb1bea5c9b210',1,'App::Controllers::DatabaseController']]],
-  ['verifyuserjwt_7',['verifyUserJWT',['../classApp_1_1Controllers_1_1DatabaseController.html#a648c11f04ce02f0ce59363a746b9a096',1,'App::Controllers::DatabaseController']]],
-  ['verifyusertoken_8',['verifyUserToken',['../classApp_1_1Controllers_1_1DatabaseController.html#af748519b484536a19b6fb40b2888d3dc',1,'App::Controllers::DatabaseController']]]
+  ['unlikefungi_0',['unlikeFungi',['../classApp_1_1Controllers_1_1FungiController.html#a087b8275e77143716ac62ea228074a20',1,'App::Controllers::FungiController']]],
+  ['updatefungilikes_1',['updateFungiLikes',['../classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d',1,'App::Controllers::FungiController']]],
+  ['updateuserprofile_2',['updateuserprofile',['../classApp_1_1Controllers_1_1DatabaseController.html#adfab1a7f425071be6d467c32e095c29d',1,'App\Controllers\DatabaseController\updateUserProfile()'],['../classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78',1,'App\Controllers\UserController\updateUserProfile()']]],
+  ['updateusertokens_3',['updateUserTokens',['../classApp_1_1Controllers_1_1DatabaseController.html#a17aa5391f86f8b72f67fae23146e1d4d',1,'App::Controllers::DatabaseController']]],
+  ['userexists_4',['userExists',['../classApp_1_1Controllers_1_1SessionController.html#a430b2b9763dc8b73bc7e402d2a95665c',1,'App::Controllers::SessionController']]],
+  ['userlogin_5',['userLogin',['../classApp_1_1Controllers_1_1SessionController.html#a58a314410d1412f289fa012306ebac8c',1,'App::Controllers::SessionController']]],
+  ['userlogout_6',['userLogout',['../classApp_1_1Controllers_1_1SessionController.html#a293d4ec9f9eacc62717390c69d7c6432',1,'App::Controllers::SessionController']]],
+  ['usersignup_7',['userSignUp',['../classApp_1_1Controllers_1_1SessionController.html#a560902abc82f5bedb5dc569030eb47ed',1,'App::Controllers::SessionController']]]
 ];
