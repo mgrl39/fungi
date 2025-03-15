@@ -8,6 +8,7 @@ use App\Config\ErrorMessages;
 use App\Controllers\Api\ApiInfoController;
 use App\Controllers\Api\ApiPutController;
 use App\Controllers\Api\ApiAuthController;
+use App\Controllers\Api\ApiPostController;
 
 /**
  * @class ApiController
@@ -60,28 +61,14 @@ class ApiController
 	{
 		header('Content-Type: application/json');
 		$method = $_SERVER['REQUEST_METHOD'];
-
-		// Obtener el endpoint de la URL
 		$uri = $_SERVER['REQUEST_URI'];
-		$basePath = '/api'; // Cambia esto si tu base de URL es diferente
-		
-		// Usar expresión regular para asegurar que solo se elimina el primer /api
-		// en lugar de usar str_replace que reemplazaría todas las ocurrencias
+		$basePath = '/api';
 		$endpoint = preg_replace('#^' . $basePath . '#', '', parse_url($uri, PHP_URL_PATH));
-
-		// Asegurarse de que el endpoint comience con una barra
-		if (substr($endpoint, 0, 1) !== '/') {
-			$endpoint = '/' . $endpoint;
-		}
 		
-		// Remover la barra inicial para mantener consistencia con los métodos de manejo
+		if (substr($endpoint, 0, 1) !== '/') $endpoint = '/' . $endpoint;
 		$endpoint = ltrim($endpoint, '/');
 
-		// Añadir documentación para el endpoint raíz
-		if ($endpoint === '/' || $endpoint === '') {
-			ApiInfoController::show();
-			return;
-		}
+		if ($endpoint === '/' || $endpoint === '') return ApiInfoController::show();
 		try {
 			switch ($method) {
 			case 'GET':
@@ -128,7 +115,8 @@ class ApiController
 		// Verificar si hay un token Bearer en el encabezado
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
-			$user = $apiGetController->verifyAuthToken($token, [$this, 'verifyJwtToken']);
+			$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+			$user = $apiGetController->verifyAuthToken($token, [$apiAuthController, 'verifyJwtToken']);
 		}
 		
 		// Si no hay usuario autenticado por token Bearer, verificar sesión PHP
@@ -144,10 +132,7 @@ class ApiController
 		
 		// Si aún no hay usuario, iniciar sesión y verificar cookies
 		if (!$user) {
-			if (session_status() === PHP_SESSION_NONE) {
-				session_start();
-			}
-			
+			if (session_status() === PHP_SESSION_NONE) session_start();
 			// Verificar cookie de token o JWT
 			if (isset($_COOKIE['token']) || isset($_COOKIE['jwt'])) {
 				// Código de verificación de cookies...
@@ -157,21 +142,13 @@ class ApiController
 
 		$result = null;
 
-		if ($endpoint === 'auth/verify') {
-			$result = $apiGetController->verifyAuth($user);
-		}
-		
-		// Endpoint de búsqueda de hongos
+		if ($endpoint === 'auth/verify') $result = $apiGetController->verifyAuth($user);
+		else if ($endpoint === 'fungi' || $endpoint === 'fungi/all') $result = $apiGetController->getAllFungi();
 		else if (preg_match('/^fungi\/search\/(\w+)\/(.+)$/', $endpoint, $matches)) {
 			$param = $matches[1];
 			$value = urldecode($matches[2]);
 			$result = $apiGetController->searchFungi($param, $value);
-		}
-		
-		else if ($endpoint === 'fungi' || $endpoint === 'fungi/all') {
-			$result = $apiGetController->getAllFungi();
-		} 
-		
+		}		
 		else if (preg_match('/^fungi\/page\/(\d+)\/limit\/(\d+)$/', $endpoint, $matches)) {
 			$pageNumber = (int)$matches[1];
 			$limit = (int)$matches[2];
@@ -282,29 +259,20 @@ class ApiController
 			echo json_encode($result);
 			return;
 		}
-
-		// Otros endpoints
-		if ($endpoint === 'fungi') {
-			$result = $apiPostController->createFungi($data);
-		} 
-		elseif ($endpoint === 'users') {
-			$result = $apiPostController->registerUser($data);
-		} 
+		if ($endpoint === 'fungi') $result = $apiPostController->createFungi($data);
+		elseif ($endpoint === 'users') $result = $apiPostController->registerUser($data);
+		elseif ($endpoint === 'auth/logout') $result = $apiPostController->handleLogout();
 		elseif ($endpoint === 'auth/login') {
 			$result = $apiPostController->handleLogin(
 				$data,
 				[$this, 'login'],
 				[$this, 'generateJwtToken']
 			);
-		} 
-		elseif ($endpoint === 'auth/logout') {
-			$result = $apiPostController->handleLogout();
-		} 
+		}
 		else {
 			http_response_code(404);
 			$result = ['error' => ErrorMessages::HTTP_404];
 		}
-		
 		echo json_encode($result);
 	}
 
@@ -327,11 +295,7 @@ class ApiController
 		$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
 		$token = null;
 		$user = null;
-		
-		// Crear instancia del controlador de autenticación
 		$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
-		
-		// Verificar token de sesión o JWT
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
 			$payload = $apiAuthController->verifyJwtToken($token);
@@ -399,7 +363,8 @@ class ApiController
 		// Verificar token de sesión o JWT
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
-			$payload = $this->verifyJwtToken($token);
+			$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+			$payload = $apiAuthController->verifyJwtToken($token);
 			if ($payload) {
 				$user = [
 					'id' => $payload['sub'],
@@ -472,135 +437,4 @@ class ApiController
 		echo json_encode($result);
 	}
 
-	/**
-	 * @brief Validación de campos requeridos.
-	 * 
-	 * Verifica que todos los campos requeridos estén presentes y no vacíos
-	 * en los datos proporcionados.
-	 *
-	 * @param array $data Los datos a validar
-	 * @param array $requiredFields Lista de campos requeridos
-	 * @return bool Verdadero si todos los campos requeridos están presentes y no vacíos
-	 */
-	private function validateRequiredFields(array $data, array $requiredFields): bool
-	{
-		foreach ($requiredFields as $field) {
-			if (!isset($data[$field]) || empty($data[$field])) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * @brief Autenticación de usuario.
-	 * 
-	 * Verifica las credenciales del usuario contra la base de datos.
-	 *
-	 * @param string $username Nombre de usuario
-	 * @param string $password Contraseña en texto plano
-	 * @return array|null Datos del usuario si la autenticación es exitosa, null en caso contrario
-	 * @throws PDOException Si ocurre un error en la consulta a la base de datos
-	 */
-	public function login(string $username, string $password): ?array
-	{
-		$stmt = $this->pdo->prepare("SELECT id, username, email, password_hash, role FROM users WHERE username = ?");
-		$stmt->execute([$username]);
-		$user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		if ($user && password_verify($password, $user['password_hash'])) {
-			unset($user['password_hash']); // No devolvemos el hash de la contraseña
-			return $user;
-		}
-
-		return null;
-	}
-
-	/**
-	 * @brief Genera un token JWT para el usuario autenticado.
-	 * 
-	 * Crea un token JWT con la información del usuario y un tiempo de expiración.
-	 *
-	 * @param array $user Datos del usuario autenticado
-	 * @return string Token JWT generado
-	 */
-	private function generateJwtToken(array $user): string
-	{
-		$secretKey = (defined('\JWT_SECRET') ? \JWT_SECRET : getenv('JWT_SECRET')) ?? 'default_jwt_secret_key';
-		
-		// Datos para el JWT
-		$header = [
-			'typ' => 'JWT',
-			'alg' => 'HS256'
-		];
-		
-		$issuedAt = time();
-		$expire = $issuedAt + 3600; // Token válido por 1 hora
-		
-		$payload = [
-			'iat' => $issuedAt,     // Tiempo en que fue emitido el token
-			'exp' => $expire,       // Tiempo de expiración
-			'sub' => $user['id'],   // ID del usuario como subject
-			'username' => $user['username'],
-			'role' => $user['role']
-		];
-		
-		// Codificar header y payload
-		$headerEncoded = $this->base64URLEncode(json_encode($header));
-		$payloadEncoded = $this->base64URLEncode(json_encode($payload));
-		
-		// Crear firma
-		$signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
-		$signatureEncoded = $this->base64URLEncode($signature);
-		
-		// Crear JWT
-		return "$headerEncoded.$payloadEncoded.$signatureEncoded";
-	}
-	
-	/**
-	 * Codifica en Base64 URL seguro
-	 * 
-	 * @param string $data Datos a codificar
-	 * @return string Datos codificados
-	 */
-	private function base64URLEncode($data): string
-	{
-		return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-	}
-
-	/**
-	 * @brief Verifica un token JWT recibido.
-	 * 
-	 * Valida que el token sea auténtico y no haya expirado.
-	 *
-	 * @param string $token El token JWT a verificar
-	 * @return array|bool Datos del payload si el token es válido, false en caso contrario
-	 */
-	public function verifyJwtToken(string $token)
-	{
-		$secretKey = (defined('\JWT_SECRET') ? \JWT_SECRET : getenv('JWT_SECRET')) ?? 'default_jwt_secret_key';
-		
-		$parts = explode('.', $token);
-		if (count($parts) != 3) {
-			return false;
-		}
-		
-		list($header, $payload, $signature) = $parts;
-		
-		$valid = hash_hmac('sha256', "$header.$payload", $secretKey, true);
-		$validEncoded = base64_encode($valid);
-		
-		if ($signature !== $validEncoded) {
-			return false;
-		}
-		
-		$payload = json_decode(base64_decode($payload), true);
-		
-		// Verificar expiración
-		if (isset($payload['exp']) && $payload['exp'] < time()) {
-			return false;
-		}
-		
-		return $payload;
-	}
 }
