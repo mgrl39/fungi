@@ -404,11 +404,17 @@ $routes = [
 
 // Manejo de rutas de API
 if (preg_match('#^/api#', $uri)) {
-    if (class_exists('\App\Controllers\ApiController')) {
+    header('Content-Type: application/json');
+    
+    if (class_exists('\App\Controllers\Api\ApiRequestHandler')) {
+        $db = new \App\Controllers\DatabaseController();
+        $apiHandler = new \App\Controllers\Api\ApiRequestHandler($db);
+        $apiHandler->handleRequest();
+    } else if (class_exists('\App\Controllers\ApiController')) {
+        // Fallback al controlador original si el nuevo no está disponible
         $apiController = new \App\Controllers\ApiController($db);
         $apiController->handleRequest();
     } else {
-        header('Content-Type: application/json');
         echo json_encode(['error' => 'API no implementada']);
     }
     exit;

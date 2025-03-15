@@ -62,7 +62,10 @@ class ApiController
 		// Obtener el endpoint de la URL
 		$uri = $_SERVER['REQUEST_URI'];
 		$basePath = '/api'; // Cambia esto si tu base de URL es diferente
-		$endpoint = str_replace($basePath, '', parse_url($uri, PHP_URL_PATH));
+		
+		// Usar expresión regular para asegurar que solo se elimina el primer /api
+		// en lugar de usar str_replace que reemplazaría todas las ocurrencias
+		$endpoint = preg_replace('#^' . $basePath . '#', '', parse_url($uri, PHP_URL_PATH));
 
 		// Asegurarse de que el endpoint comience con una barra
 		if (substr($endpoint, 0, 1) !== '/') {
