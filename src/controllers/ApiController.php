@@ -6,6 +6,8 @@ use PDO;
 use PDOException;
 use App\Config\ErrorMessages;
 use App\Controllers\Api\ApiInfoController;
+use App\Controllers\Api\ApiPutController;
+use App\Controllers\Api\ApiAuthController;
 
 /**
  * @class ApiController
@@ -318,119 +320,156 @@ class ApiController
 	 */
 	private function handlePut($endpoint)
 	{
+		// Crear instancia del controlador PUT
+		$apiPutController = new \App\Controllers\Api\ApiPutController($this->pdo, $this->db);
+		
+		// Verificar autenticación
+		$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+		$token = null;
+		$user = null;
+		
+		// Crear instancia del controlador de autenticación
+		$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+		
+		// Verificar token de sesión o JWT
+		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+			$token = $matches[1];
+			$payload = $apiAuthController->verifyJwtToken($token);
+			if ($payload) {
+				$user = [
+					'id' => $payload['sub'],
+					'username' => $payload['username'],
+					'role' => $payload['role']
+				];
+			}
+		} else if (isset($_SESSION['user_id'])) {
+			// Usar sesión PHP si existe
+			$user = [
+				'id' => $_SESSION['user_id'],
+				'username' => $_SESSION['username'] ?? 'Usuario',
+				'role' => $_SESSION['role'] ?? 'user'
+			];
+		}
+		
+		// Datos de la solicitud
+		$data = json_decode(file_get_contents('php://input'), true);
+		$result = null;
+		
 		if (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
-			$id = $matches[1];
-			$data = json_decode(file_get_contents('php://input'), true);
-
-			$stmt = $this->pdo->prepare("UPDATE fungi SET name = ?, edibility = ?, habitat = ? WHERE id = ?");
-			$stmt->execute([$data['name'], $data['edibility'], $data['habitat'], $id]);
-
-			if ($stmt->rowCount() > 0) {
-				echo json_encode(['success' => true]);
+			$fungiId = $matches[1];
+			
+			if (!$user) {
+				http_response_code(401);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				];
 			} else {
-				http_response_code(404);
-				echo json_encode(['error' => ErrorMessages::DB_RECORD_NOT_FOUND]);
+				$result = $apiPutController->updateFungi($fungiId, $data, $user);
 			}
 		} else {
 			http_response_code(404);
-			echo json_encode(['error' => ErrorMessages::HTTP_404]);
+			$result = [
+				'success' => false,
+				'error' => ErrorMessages::HTTP_404
+			];
 		}
+		
+		echo json_encode($result);
 	}
 
 	/**
 	 * @brief Manejador de solicitudes DELETE.
 	 * 
-	 * Procesa solicitudes HTTP DELETE para eliminar recursos,
-	 * principalmente registros de hongos.
+	 * Procesa solicitudes HTTP DELETE delegando a ApiDeleteController
 	 *
 	 * @param string $endpoint El endpoint solicitado sin la base de la URL
 	 * @return void Salida JSON directamente impresa
-	 * @throws PDOException Si ocurre un error en la eliminación en la base de datos
 	 */
 	private function handleDelete($endpoint)
 	{
-		// Verificar autenticación para endpoints que requieren usuario
-		if (preg_match('/^fungi\/(\d+)\/like$/', $endpoint, $matches) || preg_match('/^user\/favorites\/(\d+)$/', $endpoint, $matches)) {
-			// Verificar autenticación
-			$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
-			$token = null;
-			$user = null;
-			
-			// Verificar token de sesión o JWT
-			if (preg_match('/Bearer\s(\S+)/', $authHeader, $tokenMatches)) {
-				$token = $tokenMatches[1];
-				$payload = $this->verifyJwtToken($token);
-				if ($payload) {
-					$user = [
-						'id' => $payload['sub'],
-						'username' => $payload['username'],
-						'role' => $payload['role']
-					];
-				}
-			} else if (isset($_SESSION['user_id'])) {
-				// Usar sesión PHP si existe
+		// Crear instancia del controlador DELETE
+		$apiDeleteController = new \App\Controllers\Api\ApiDeleteController($this->pdo, $this->db);
+		
+		// Verificar autenticación
+		$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+		$token = null;
+		$user = null;
+		
+		// Verificar token de sesión o JWT
+		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+			$token = $matches[1];
+			$payload = $this->verifyJwtToken($token);
+			if ($payload) {
 				$user = [
-					'id' => $_SESSION['user_id'],
-					'username' => $_SESSION['username'],
-					'role' => $_SESSION['role'] ?? 'user'
+					'id' => $payload['sub'],
+					'username' => $payload['username'],
+					'role' => $payload['role']
 				];
 			}
+		} else if (isset($_SESSION['user_id'])) {
+			// Usar sesión PHP si existe
+			$user = [
+				'id' => $_SESSION['user_id'],
+				'username' => $_SESSION['username'] ?? 'Usuario',
+				'role' => $_SESSION['role'] ?? 'user'
+			];
+		}
+		
+		// Resultado de la operación
+		$result = null;
+		
+		if (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
+			// Eliminar hongo (requiere admin)
+			$fungiId = $matches[1];
 			
 			if (!$user) {
 				http_response_code(401);
-				echo json_encode([
+				$result = [
 					'success' => false,
 					'error' => ErrorMessages::AUTH_REQUIRED
-				]);
-				return;
+				];
+			} else {
+				$result = $apiDeleteController->deleteFungi($fungiId, $user);
 			}
-			
+		} 
+		else if (preg_match('/^fungi\/(\d+)\/like$/', $endpoint, $matches)) {
+			// Quitar like a un hongo
 			$fungiId = $matches[1];
 			
-			// Procesar unlike
-			if (strpos($endpoint, '/like') !== false) {
-				$fungiController = new \App\Controllers\FungiController($this->db);
-				$result = $fungiController->unlikeFungi($user['id'], $fungiId);
-				
-				if ($result) {
-					echo json_encode([
-						'success' => true,
-						'message' => 'Se ha quitado el "me gusta" del hongo'
-					]);
-				} else {
-					http_response_code(500);
-					echo json_encode([
-						'success' => false,
-						'error' => ErrorMessages::DB_QUERY_ERROR
-					]);
-				}
-				return;
-			}
-			
-			// Procesar eliminar de favoritos
-			if (strpos($endpoint, 'user/favorites') !== false) {
-				$stmt = $this->pdo->prepare("DELETE FROM user_favorites WHERE user_id = ? AND fungi_id = ?");
-				$result = $stmt->execute([$user['id'], $fungiId]);
-				
-				if ($result) {
-					echo json_encode([
-						'success' => true,
-						'message' => 'Hongo eliminado de favoritos'
-					]);
-				} else {
-					http_response_code(500);
-					echo json_encode([
-						'success' => false,
-						'error' => ErrorMessages::DB_QUERY_ERROR
-					]);
-				}
-				return;
+			if (!$user) {
+				http_response_code(401);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				];
+			} else {
+				$result = $apiDeleteController->unlikeFungi($user['id'], $fungiId);
 			}
 		}
+		else if (preg_match('/^user\/favorites\/(\d+)$/', $endpoint, $matches)) {
+			// Quitar un hongo de favoritos
+			$fungiId = $matches[1];
+			
+			if (!$user) {
+				http_response_code(401);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				];
+			} else {
+				$result = $apiDeleteController->removeFavorite($user['id'], $fungiId);
+			}
+		}
+		else {
+			http_response_code(404);
+			$result = [
+				'success' => false,
+				'error' => ErrorMessages::HTTP_404
+			];
+		}
 		
-		// Si no se encuentra un endpoint válido
-		http_response_code(404);
-		echo json_encode(['error' => ErrorMessages::HTTP_404]);
+		echo json_encode($result);
 	}
 
 	/**
