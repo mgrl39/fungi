@@ -1,5 +1,11 @@
 <?php
 
+// Añadir en la parte superior del archivo
+require_once __DIR__ . '/controllers/StatsController.php';
+
+// O asegúrate de que el autoloader está configurado correctamente
+// require_once __DIR__ . '/../vendor/autoload.php';
+
 // Obtenemos la URI desde la solicitud
 $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 // Si la URI está vacía, la tratamos como la raíz
@@ -75,7 +81,11 @@ function renderTemplate($templatePath, $data = []) {
     }
 }
 
-// Definición de rutas y sus plantillas correspondientes
+// Inicializar controladores
+$userController = new \App\Controllers\UserController($db, $session, $authController);
+$fungiController = new \App\Controllers\FungiController($db);
+
+// Definir rutas
 $routes = [
     '/' => [
         'template' => 'pages/home.twig',
@@ -330,24 +340,16 @@ $routes = [
     ],
     '/fungi/(\d+)' => [
         'template' => 'pages/fungi_detail.twig',
-        'title' => _('Detalles del Hongo'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $fungiController = null) {
-            // Obtener el ID desde la URL actual
-            $uri = $_SERVER['REQUEST_URI'];
-            preg_match('/\/fungi\/(\d+)/', $uri, $matches);
-            $id = (int)$matches[1];
+        'handler' => function($twig, $db, $session, $authController = null) use ($fungiController) {
+            // Obtener el ID del hongo desde la URL
+            preg_match('#^/fungi/(\d+)$#', $_SERVER['REQUEST_URI'], $matches);
+            $id = $matches[1] ?? null;
             
-            // Log para depuración
-            error_log("Intentando acceder al hongo con ID: " . $id);
-            
+            // Obtener datos del hongo específico
             $fungus = $db->getFungusById($id);
             
-            // Log para verificar si se encontró el hongo
-            error_log("Resultado de búsqueda: " . ($fungus ? "Encontrado" : "No encontrado"));
-            
+            // Si no se encuentra el hongo, redirigir a 404
             if (!$fungus) {
-                error_log("Redirigiendo a 404 porque no se encontró el hongo ID: " . $id);
                 header('Location: /404');
                 exit;
             }
@@ -368,7 +370,8 @@ $routes = [
             return [
                 'title' => $fungus['name'] ?? _('Detalles del Hongo'),
                 'fungi' => $fungus,
-                'similar_fungi' => $similarFungi
+                'similar_fungi' => $similarFungi,
+                'is_logged_in' => $session->isLoggedIn()
             ];
         }
     ],
@@ -422,6 +425,17 @@ $routes = [
     ],
 ];
 
+// Rutas relacionadas con usuarios
+$routes['/profile'] = [
+    'handler' => [$userController, 'profileHandler'],
+    'template' => 'pages/profile.twig'
+];
+
+$routes['/admin/users'] = [
+    'handler' => [$userController, 'adminUsersHandler'],
+    'template' => 'admin/users.twig'
+];
+
 // Manejo de rutas de API
 if (preg_match('#^/api#', $uri)) {
     header('Content-Type: application/json');
@@ -440,7 +454,9 @@ if (preg_match('#^/api#', $uri)) {
     exit;
 }
 
-// Procesamiento de rutas normales
+// Procesamiento de rutas
+
+// 1. Intentar coincidencia exacta primero
 if (isset($routes[$uri])) {
     $route = $routes[$uri];
     
@@ -475,65 +491,56 @@ if (isset($routes[$uri])) {
         renderTemplate($route['template'], $data);
     }
 } else {
-    // Ruta no encontrada - usamos la ruta definida para 404
-    header('HTTP/1.1 404 Not Found');
+    // 2. Intentar coincidencia con patrones
+    $patternMatched = false;
     
-    // Obtener datos para la página 404
-    $data = isset($routes['/404']['handler']) 
-        ? $routes['/404']['handler']($twig, $db, $session, $authController ?? null) 
-        : ['title' => _('Página no encontrada')];
+    foreach ($routes as $pattern => $route) {
+        // Si el patrón contiene caracteres especiales como paréntesis (indicando expresión regular)
+        if (strpos($pattern, '(') !== false) {
+            if (preg_match('#^' . $pattern . '$#', $uri, $matches)) {
+                // Verificar si se requiere autenticación para esta ruta
+                if (isset($route['auth_required']) && $route['auth_required'] && !$session->isLoggedIn()) {
+                    header('Location: /login');
+                    exit;
+                }
+                
+                // Verificar si se requiere rol de administrador
+                if (isset($route['admin_required']) && $route['admin_required'] && !$session->isAdmin()) {
+                    header('Location: /');
+                    exit;
+                }
+                
+                // Obtener datos para la vista usando el manejador personalizado
+                $data = isset($route['handler']) ? $route['handler']($twig, $db, $session, $authController ?? null) : [];
+                
+                // Si no hay datos pero hay título, usar el título como datos
+                if (empty($data) && isset($route['title'])) {
+                    $data = ['title' => $route['title']];
+                }
+                
+                // Renderizar la plantilla
+                if (isset($route['template']) && $route['template'] !== null) {
+                    renderTemplate($route['template'], $data);
+                }
+                
+                $patternMatched = true;
+                break;
+            }
+        }
+    }
+    
+    // 3. Si no se encontró ninguna coincidencia, mostrar 404
+    if (!$patternMatched) {
+        header('HTTP/1.1 404 Not Found');
         
-    // Renderizar la plantilla 404
-    renderTemplate($routes['/404']['template'], $data);
-}
-
-// Usar expresión regular para capturar rutas de tipo /fungi/123
-if (preg_match('#^/fungi/(\d+)$#', $uri, $matches)) {
-    $id = $matches[1];
-    $templatePath = 'pages/fungi_detail.twig';
-    
-    // Obtener datos del hongo específico
-    $fungus = $db->getFungusById($id);
-    
-    // Log para verificar si se encontró el hongo
-    error_log("Resultado de búsqueda: " . ($fungus ? "Encontrado" : "No encontrado"));
-    
-    if (!$fungus) {
-        error_log("Redirigiendo a 404 porque no se encontró el hongo ID: " . $id);
-        header('Location: /404');
-        exit;
+        // Obtener datos para la página 404
+        $data = isset($routes['/404']['handler']) 
+            ? $routes['/404']['handler']($twig, $db, $session, $authController ?? null) 
+            : ['title' => _('Página no encontrada')];
+            
+        // Renderizar la plantilla 404
+        renderTemplate($routes['/404']['template'], $data);
     }
-    
-    // Añadir información de favorito si el usuario está logueado
-    if ($session->isLoggedIn() && $fungiController) {
-        $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
-    }
-    
-    // Intentar obtener hongos similares
-    $similarFungi = [];
-    try {
-        $similarFungi = $db->getSimilarFungi($id, 4);
-    } catch (Exception $e) {
-        // Si falla, simplemente no mostraremos hongos similares
-        error_log("Error al obtener hongos similares: " . $e->getMessage());
-    }
-    
-    // Asegurar que la estructura de datos sea consistente
-    if (!isset($fungus['taxonomy'])) $fungus['taxonomy'] = [];
-    if (!isset($fungus['characteristics'])) $fungus['characteristics'] = [];
-    
-    // Depuración para verificar datos
-    error_log("Renderizando detalles del hongo ID $id: " . json_encode($fungus['name'] ?? 'Sin nombre'));
-    
-    // Renderizar la plantilla con los datos obtenidos
-    $data = [
-        'title' => $fungus['name'] ?? _('Detalles del Hongo'),
-        'fungi' => $fungus,
-        'similar_fungi' => $similarFungi
-    ];
-    
-    renderTemplate($templatePath, $data);
-    exit;
 }
 
 // Inicializar controlador de idiomas y configurar el idioma actual
