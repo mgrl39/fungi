@@ -274,7 +274,7 @@ $routes = [
         'auth_required' => false
     ],
     '/docs/api' => [
-        'template' => 'pages/api_docs.twig',
+        'template' => 'pages/api/api_docs.twig',
         'title' => _('Documentación de la API'),
         'auth_required' => false,
         'handler' => function($twig, $db, $session) {

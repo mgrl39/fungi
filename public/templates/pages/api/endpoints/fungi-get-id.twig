@@ -1,0 +1,88 @@
+<template id="template-fungi-get-id">
+    <div class="endpoint-card">
+        <div class="endpoint-header">
+            <span class="endpoint-method method-get">GET</span>
+            <span class="endpoint-path">/api/fungi/{id}</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="endpoint-description">
+                <h3>Obtiene un hongo específico por ID</h3>
+                <p>Este endpoint devuelve información detallada de un hongo basado en su ID único.</p>
+            </div>
+            
+            <div class="endpoint-parameters">
+                <h4>Parámetros</h4>
+                
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Ubicación</th>
+                            <th>Descripción</th>
+                            <th>Requerido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="parameter-name">id</td>
+                            <td>Path</td>
+                            <td>ID único del hongo</td>
+                            <td><span class="param-required">Requerido</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="try-api">
+                <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+                
+                <div class="mb-3">
+                    <label for="fungi-id-input" class="form-label">ID del hongo:</label>
+                    <input type="number" class="form-control" id="fungi-id-input" value="1" min="1">
+                </div>
+                
+                <button class="btn btn-primary test-api-btn" data-method="GET" data-endpoint="/api/fungi/{id}" data-param-id="fungi-id-input">
+                    Ejecutar solicitud
+                </button>
+                
+                <div class="response-wrapper mt-3 d-none">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="response">Respuesta</div>
+                        <div class="tab" data-tab="headers">Cabeceras</div>
+                    </div>
+                    <div class="tab-content">
+                        <pre class="response-content"></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="endpoint-responses mt-4">
+                <h4>Respuestas</h4>
+                
+                <div class="response-code">200 - OK</div>
+                <p>La solicitud se completó correctamente.</p>
+                <div class="code-block">
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "amanita-muscaria",
+    "edibility": "tóxico",
+    "habitat": "Bosques de coníferas y abedules",
+    "observations": "Seta llamativa de color rojo con manchas blancas",
+    "image_urls": "path/to/image1.jpg,path/to/image2.jpg"
+  }
+}
+                </div>
+                
+                <div class="response-code mt-3">404 - Not Found</div>
+                <p>El hongo con el ID especificado no existe.</p>
+                <div class="code-block">
+{
+  "error": "No se encontró el registro solicitado"
+}
+                </div>
+            </div>
+        </div>
+    </div>
+</template> 
