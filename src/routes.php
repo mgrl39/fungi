@@ -291,21 +291,36 @@ $routes = [
     '/statistics' => [
         'template' => 'pages/statistics.twig',
         'title' => _('Estadísticas'),
-        'auth_required' => true,
-        'handler' => function($twig, $db, $session, $controller = null) {
-            // Crear una instancia específica de StatsController
+        'handler' => function($twig, $db, $session) {
             $statsController = new \App\Controllers\StatsController($db);
             
-            // Obtener el rango de tiempo desde la URL si existe
-            $timeRange = $_GET['time_range'] ?? 'all';
+            // Obtener datos para cada sección de estadísticas
+            $generalStats = $statsController->getGeneralStats();
+            $edibilityStats = $statsController->getEdibilityStats();
+            $topFamilies = $statsController->getTopFamilies(10);
+            $mostViewed = $statsController->getMostViewedFungi(5);
+            $topFavorites = $statsController->getTopFavorites(5);
+            $topLiked = $statsController->getTopLiked(5);
+            $trends = $statsController->getAdditionTrends();
+            $habitats = $statsController->getHabitatDistribution();
             
-            // Llamar al método con el rango de tiempo
-            $stats = $statsController->getFungiStats($timeRange);
-            
+            // Combinar todos los datos para la plantilla
             return [
                 'title' => _('Estadísticas'),
-                'stats' => $stats,
-                'current_time_range' => $timeRange
+                'stats' => [
+                    'total_fungi' => $generalStats['total_fungi'],
+                    'edible_fungi' => $edibilityStats['edible'],
+                    'non_edible_fungi' => $edibilityStats['non_edible'],
+                    'toxic_fungi' => $edibilityStats['toxic'],
+                    'unknown_edibility_fungi' => $edibilityStats['unknown'],
+                    'total_users' => $generalStats['total_users'],
+                    'top_families' => $topFamilies,
+                    'most_viewed' => $mostViewed,
+                    'top_favorites' => $topFavorites,
+                    'top_liked' => $topLiked,
+                    'trends' => $trends,
+                    'habitats' => $habitats
+                ]
             ];
         }
     ],

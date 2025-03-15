@@ -43,7 +43,6 @@ class StatsController
             'divisions' => $this->getDivisionStats($timeRange),
             'classes' => $this->getClassStats($timeRange),
             'orders' => $this->getOrderStats($timeRange),
-            'userActivity' => $this->getUserActivityStats($timeRange)
         ];
     }
 
@@ -211,5 +210,92 @@ class StatsController
              ORDER BY date ASC",
             []
         )->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Obtiene los hongos más visitados
+     * 
+     * @param int $limit Número máximo de hongos a retornar
+     * @return array Lista de hongos más visitados
+     */
+    public function getMostViewedFungi($limit = 5)
+    {
+        return $this->db->query(
+            "SELECT f.id, f.name, COUNT(av.id) as views,
+             CONCAT(ic.path, i.filename) as image_url
+             FROM fungi f
+             JOIN access_logs av ON f.id = av.item AND av.action = 'view_fungi'
+             LEFT JOIN fungi_images fi ON f.id = fi.fungi_id AND fi.is_primary = 1
+             LEFT JOIN images i ON fi.image_id = i.id
+             LEFT JOIN image_config ic ON i.config_key = ic.config_key
+             GROUP BY f.id
+             ORDER BY views DESC
+             LIMIT ?",
+            [$limit]
+        );
+    }
+
+    /**
+     * Obtiene los hongos más favoritos
+     * 
+     * @param int $limit Número máximo de hongos a retornar
+     * @return array Lista de hongos más añadidos a favoritos
+     */
+    public function getTopFavorites($limit = 5)
+    {
+        return $this->db->query(
+            "SELECT f.id, f.name, COUNT(uf.id) as favorites,
+             CONCAT(ic.path, i.filename) as image_url
+             FROM fungi f
+             JOIN user_favorites uf ON f.id = uf.fungi_id
+             LEFT JOIN fungi_images fi ON f.id = fi.fungi_id AND fi.is_primary = 1
+             LEFT JOIN images i ON fi.image_id = i.id
+             LEFT JOIN image_config ic ON i.config_key = ic.config_key
+             GROUP BY f.id
+             ORDER BY favorites DESC
+             LIMIT ?",
+            [$limit]
+        );
+    }
+
+    /**
+     * Obtiene los hongos más likeados
+     * 
+     * @param int $limit Número máximo de hongos a retornar
+     * @return array Lista de hongos con más likes
+     */
+    public function getTopLiked($limit = 5)
+    {
+        return $this->db->query(
+            "SELECT f.id, f.name, COUNT(ul.id) as likes,
+             CONCAT(ic.path, i.filename) as image_url
+             FROM fungi f
+             JOIN user_likes ul ON f.id = ul.fungi_id
+             LEFT JOIN fungi_images fi ON f.id = fi.fungi_id AND fi.is_primary = 1
+             LEFT JOIN images i ON fi.image_id = i.id
+             LEFT JOIN image_config ic ON i.config_key = ic.config_key
+             GROUP BY f.id
+             ORDER BY likes DESC
+             LIMIT ?",
+            [$limit]
+        );
+    }
+
+    /**
+     * Obtiene la distribución de hongos por hábitat
+     * 
+     * @return array Estadísticas de distribución por hábitat
+     */
+    public function getHabitatDistribution()
+    {
+        return $this->db->query(
+            "SELECT habitat as name, COUNT(*) as count
+             FROM fungi
+             WHERE habitat IS NOT NULL AND habitat != ''
+             GROUP BY habitat
+             ORDER BY count DESC
+             LIMIT 10",
+            []
+        );
     }
 } 

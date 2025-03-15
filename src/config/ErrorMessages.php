@@ -23,6 +23,8 @@ class ErrorMessages
     const AUTH_TOKEN_INVALID = '🚫 Token inválido 🚫';
     const AUTH_UNAUTHORIZED = '🚷 No autorizado para realizar esta acción 🚷';
     const AUTH_SESSION_EXPIRED = '⌛ La sesión ha expirado ⌛';
+
+    const AUTH_REQUIRED = '🔐 Debes estar autenticado para realizar esta acción 🔐';
     
     // Errores de Validación
     const VALIDATION_REQUIRED_FIELD = '📝 El campo %s es obligatorio 📝';

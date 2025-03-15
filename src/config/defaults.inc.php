@@ -36,6 +36,7 @@ if (!defined('DEFAULT_PAGE_SIZE')) {
     define('DB_USER', 'root');
     /** Contraseña de la base de datos. */
     define('DB_PASS', 'Root@1234');
+    define('JWT_SECRET', 'fungi_secret_key');
     /** @} */
 
     /**
