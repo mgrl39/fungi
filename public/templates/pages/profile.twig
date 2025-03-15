@@ -14,13 +14,11 @@
     <link rel="stylesheet" href="/assets/styles/components/footer.css">
     <link rel="stylesheet" href="/assets/styles/pages/profile.css">
     
-    <!-- Font Awesome para iconos -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
     
-    <!-- Animate.css para animaciones -->
+    <!-- Animate.css y AOS -->
     <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
-    
-    <!-- AOS - Animate On Scroll -->
     <link rel="stylesheet" href="/assets/lib/aos/aos.css">    
 </head>
 <body>
@@ -34,10 +32,10 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-4 text-center">
-                        <div class="profile-avatar-container border border-3 border-primary rounded shadow-lg p-1 mb-3">
+                        <div class="rounded-circle overflow-hidden mx-auto mb-3" style="width: 200px; height: 200px;">
                             <img src="{{ user.avatar_url|default('/assets/users/default-avatar.png') }}" 
                                  alt="Avatar de {{ user.username }}" 
-                                 class="profile-avatar img-fluid animate__animated animate__pulse animate__slow">
+                                 class="w-100 h-100 object-fit-cover">
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-8">
@@ -265,11 +263,8 @@
                                             <i class="fas fa-exclamation-triangle me-2"></i> Zona de peligro
                                         </div>
                                         <div class="card-body">
-                                            <p class="text-danger">Las siguientes acciones son irreversibles. Procede con precaución.</p>
+                                            <p class="text-danger">La siguiente accion es irreversible. Procede con precaución.</p>
                                             <div class="d-flex flex-column gap-3">
-                                                <button id="exportData" class="btn btn-warning">
-                                                    <i class="fas fa-file-export me-1"></i> Exportar mis datos
-                                                </button>
                                                 <button id="deleteAccount" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
                                                     <i class="fas fa-user-slash me-1"></i> Eliminar mi cuenta
                                                 </button>
@@ -378,29 +373,28 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
     <script>
-        // Inicializar AOS (Animate On Scroll)
+        // Inicializar AOS y tooltips
         AOS.init({
             duration: 800,
             easing: 'ease-in-out',
             once: true
         });
         
-        // Inicializar tooltips de Bootstrap
+        // Tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         });
         
         {% if is_own_profile %}
-        // Habilitar botón de eliminar cuenta solo cuando se escribe "ELIMINAR"
+        // Código para usuarios autenticados
         document.getElementById('delete_confirmation').addEventListener('input', function() {
             const deleteBtn = document.getElementById('confirmDeleteAccount');
             deleteBtn.disabled = this.value !== 'ELIMINAR';
         });
         
-        // Guardar cambios del perfil
+        // Guardar perfil
         document.getElementById('saveProfile').addEventListener('click', function() {
-            // Simulación de actualización del perfil (aquí iría una llamada AJAX real)
             const formData = new FormData();
             formData.append('email', document.getElementById('email').value);
             formData.append('bio', document.getElementById('bio').value);
@@ -411,19 +405,12 @@
                 formData.append('avatar', avatarInput.files[0]);
             }
             
-            // En una aplicación real, aquí enviarías los datos al servidor
-            console.log('Actualizando perfil con estos datos:', {
-                email: document.getElementById('email').value,
-                bio: document.getElementById('bio').value,
-                location: document.getElementById('location').value,
-                avatar: avatarInput.files.length > 0 ? avatarInput.files[0].name : 'No cambiado'
-            });
+            // Simulación
+            console.log('Actualizando perfil...');
             
-            // Cerrar modal y mostrar mensaje de éxito
             const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
             modal.hide();
             
-            // Simular recarga de la página o actualización de datos
             alert('Perfil actualizado correctamente');
         });
         
@@ -431,9 +418,7 @@
         document.querySelectorAll('.remove-favorite').forEach(button => {
             button.addEventListener('click', function() {
                 const fungiId = this.getAttribute('data-id');
-                // Aquí iría la lógica para eliminar el favorito (mediante AJAX)
                 console.log('Eliminando favorito con ID:', fungiId);
-                // Eliminar el elemento del DOM (para demostración)
                 this.closest('.col-md-6').remove();
             });
         });
@@ -443,29 +428,12 @@
 </html>
 
 <style>
-    .profile-avatar-container {
-        overflow: hidden;
-        transition: all 0.3s ease;
-        max-width: 250px;
-        margin: 0 auto;
-        border-radius: 8px !important;
-    }
-    
-    .profile-avatar-container:hover {
-        transform: scale(1.03);
-        box-shadow: 0 8px 25px rgba(13, 110, 253, 0.5) !important;
-    }
-    
-    .profile-avatar {
-        width: 100%;
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        transition: all 0.3s ease;
-    }
-    
-    .badge {
-        font-weight: 500;
-        letter-spacing: 0.5px;
+    .profile-header {
+        background: linear-gradient(135deg, #2c3e50, #4a5568);
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        border-radius: 0 0 15px 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
     .card {
@@ -475,13 +443,5 @@
     .card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-    
-    .profile-header {
-        background: linear-gradient(135deg, #2c3e50, #4a5568);
-        padding: 2rem 0;
-        margin-bottom: 2rem;
-        border-radius: 0 0 15px 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 </style>
