@@ -247,7 +247,7 @@ $routes = [
             ];
         }
     ],
-    '/admin' => [
+    '/dashboard' => [
         'template' => 'pages/admin.twig',
         'title' => _('Administración'),
         'auth_required' => true,
@@ -263,13 +263,14 @@ $routes = [
             $statsController = new \App\Controllers\StatsController($db);
             
             // Obtener actividad reciente de usuarios desde la base de datos
-            $recentActivity = $db->query(
+            $queryResult = $db->query(
                 "SELECT u.username, a.action, a.item, a.access_time as date 
                  FROM access_logs a
                  JOIN users u ON a.user_id = u.id
                  ORDER BY a.access_time DESC
                  LIMIT 10"
-            )->fetchAll(\PDO::FETCH_ASSOC);
+            );
+            $recentActivity = $queryResult ? $queryResult->fetchAll(\PDO::FETCH_ASSOC) : [];
             
             // Obtener estadísticas generales
             $fungiStats = $statsController->getFungiStats('all');
