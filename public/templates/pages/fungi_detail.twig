@@ -411,6 +411,42 @@
     {% endfor %}
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar estado actual de like y favorito al cargar la página
+            {% if is_logged_in %}
+            // Verificar si este hongo está en favoritos
+            fetch(`/api/user/favorites`, {
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data) {
+                    const isFavorite = data.data.some(fungi => fungi.id == {{ fungi.id }});
+                    if (isFavorite) {
+                        document.getElementById('favoriteButton').classList.replace('btn-outline-warning', 'btn-warning');
+                    }
+                }
+            })
+            .catch(error => console.error('Error verificando favoritos:', error));
+            
+            // Verificar si este hongo tiene like
+            fetch(`/api/user/likes`, {
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.data) {
+                    const isLiked = data.data.some(fungi => fungi.id == {{ fungi.id }});
+                    if (isLiked) {
+                        document.getElementById('likeButton').classList.replace('btn-outline-danger', 'btn-danger');
+                        document.getElementById('likeText').textContent = 'Quitar me gusta';
+                    }
+                }
+            })
+            .catch(error => console.error('Error verificando likes:', error));
+            {% endif %}
+        });
+        
         // Variables globales
         let currentImageIndex = 0;
         const allImages = [

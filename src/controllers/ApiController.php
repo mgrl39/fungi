@@ -314,6 +314,89 @@ class ApiController
 				http_response_code(404);
 				echo json_encode(['error' => ErrorMessages::DB_RECORD_NOT_FOUND]);
 			}
+		} elseif (preg_match('/^user\/favorites$/', $endpoint)) {
+			// Verificar autenticación
+			if (!isset($_SESSION['user_id'])) {
+				http_response_code(401);
+				echo json_encode(['error' => ErrorMessages::AUTH_REQUIRED]);
+				return;
+			}
+			
+			$userId = $_SESSION['user_id'];
+			
+			// Obtener favoritos del usuario
+			$stmt = $this->pdo->prepare("
+				SELECT f.*, 
+					   CONCAT(ic.path, i.filename) as image_url
+				FROM user_favorites uf
+				JOIN fungi f ON uf.fungi_id = f.id
+				LEFT JOIN fungi_images fi ON f.id = fi.fungi_id AND fi.is_primary = 1
+				LEFT JOIN images i ON fi.image_id = i.id
+				LEFT JOIN image_config ic ON i.config_key = ic.config_key
+				WHERE uf.user_id = ?
+				GROUP BY f.id
+			");
+			$stmt->execute([$userId]);
+			$favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			
+			echo json_encode(['success' => true, 'data' => $favorites]);
+		} elseif (preg_match('/^user\/likes$/', $endpoint)) {
+			// Verificar autenticación
+			if (!isset($_SESSION['user_id'])) {
+				http_response_code(401);
+				echo json_encode(['error' => ErrorMessages::AUTH_REQUIRED]);
+				return;
+			}
+			
+			$userId = $_SESSION['user_id'];
+			
+			// Obtener likes del usuario
+			$stmt = $this->pdo->prepare("
+				SELECT f.*, 
+					   CONCAT(ic.path, i.filename) as image_url
+				FROM user_likes ul
+				JOIN fungi f ON ul.fungi_id = f.id
+				LEFT JOIN fungi_images fi ON f.id = fi.fungi_id AND fi.is_primary = 1
+				LEFT JOIN images i ON fi.image_id = i.id
+				LEFT JOIN image_config ic ON i.config_key = ic.config_key
+				WHERE ul.user_id = ?
+				GROUP BY f.id
+			");
+			$stmt->execute([$userId]);
+			$likes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			
+			echo json_encode(['success' => true, 'data' => $likes]);
+		} elseif (preg_match('/^user\/stats$/', $endpoint)) {
+			// Verificar autenticación
+			if (!isset($_SESSION['user_id'])) {
+				http_response_code(401);
+				echo json_encode(['error' => ErrorMessages::AUTH_REQUIRED]);
+				return;
+			}
+			
+			$userId = $_SESSION['user_id'];
+			
+			// Obtener estadísticas del usuario
+			$likesCount = $this->pdo->prepare("SELECT COUNT(*) FROM user_likes WHERE user_id = ?");
+			$likesCount->execute([$userId]);
+			
+			$favoritesCount = $this->pdo->prepare("SELECT COUNT(*) FROM user_favorites WHERE user_id = ?");
+			$favoritesCount->execute([$userId]);
+			
+			$commentsCount = $this->pdo->prepare("SELECT COUNT(*) FROM comments WHERE user_id = ?");
+			$commentsCount->execute([$userId]);
+			
+			$contributionsCount = $this->pdo->prepare("SELECT COUNT(*) FROM contributions WHERE user_id = ?");
+			$contributionsCount->execute([$userId]);
+			
+			$stats = [
+				'likes_count' => $likesCount->fetchColumn(),
+				'favorites_count' => $favoritesCount->fetchColumn(),
+				'comments_count' => $commentsCount->fetchColumn(), 
+				'contributions_count' => $contributionsCount->fetchColumn()
+			];
+			
+			echo json_encode(['success' => true, 'data' => $stats]);
 		} else {
 			http_response_code(404);
 			echo json_encode(['error' => ErrorMessages::HTTP_404]);
@@ -333,6 +416,86 @@ class ApiController
 	private function handlePost($endpoint)
 	{
 		$data = json_decode(file_get_contents('php://input'), true);
+
+		// Verificar autenticación para endpoints que requieren usuario
+		if (preg_match('/^fungi\/(\d+)\/like$/', $endpoint, $matches) || preg_match('/^user\/favorites\/(\d+)$/', $endpoint, $matches)) {
+			// Verificar autenticación
+			$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+			$token = null;
+			$user = null;
+			
+			// Verificar token de sesión o JWT
+			if (preg_match('/Bearer\s(\S+)/', $authHeader, $tokenMatches)) {
+				$token = $tokenMatches[1];
+				$payload = $this->verifyJwtToken($token);
+				if ($payload) {
+					$user = [
+						'id' => $payload['sub'],
+						'username' => $payload['username'],
+						'role' => $payload['role']
+					];
+				}
+			} else if (isset($_SESSION['user_id'])) {
+				// Usar sesión PHP si existe
+				$user = [
+					'id' => $_SESSION['user_id'],
+					'username' => $_SESSION['username'],
+					'role' => $_SESSION['role'] ?? 'user'
+				];
+			}
+			
+			if (!$user) {
+				http_response_code(401);
+				echo json_encode([
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				]);
+				return;
+			}
+			
+			$fungiId = $matches[1];
+			
+			// Procesar like
+			if (strpos($endpoint, '/like') !== false) {
+				$fungiController = new \App\Controllers\FungiController($this->db);
+				$result = $fungiController->likeFungi($user['id'], $fungiId);
+				
+				if ($result) {
+					echo json_encode([
+						'success' => true,
+						'message' => 'Hongo marcado como "me gusta"'
+					]);
+				} else {
+					http_response_code(500);
+					echo json_encode([
+						'success' => false,
+						'error' => ErrorMessages::DB_QUERY_ERROR
+					]);
+				}
+				return;
+			}
+			
+			// Procesar favoritos
+			if (strpos($endpoint, 'user/favorites') !== false) {
+				// Agregar a favoritos
+				$stmt = $this->pdo->prepare("INSERT INTO user_favorites (user_id, fungi_id) VALUES (?, ?)");
+				$result = $stmt->execute([$user['id'], $fungiId]);
+				
+				if ($result) {
+					echo json_encode([
+						'success' => true,
+						'message' => 'Hongo añadido a favoritos'
+					]);
+				} else {
+					http_response_code(500);
+					echo json_encode([
+						'success' => false,
+						'error' => ErrorMessages::DB_QUERY_ERROR
+					]);
+				}
+				return;
+			}
+		}
 
 		if ($endpoint === 'fungi') {
 			$requiredFields = ['name', 'edibility', 'habitat'];
@@ -522,21 +685,88 @@ class ApiController
 	 */
 	private function handleDelete($endpoint)
 	{
-		if (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
-			$id = $matches[1];
-			$stmt = $this->pdo->prepare("DELETE FROM fungi WHERE id = ?");
-			$stmt->execute([$id]);
-
-			if ($stmt->rowCount() > 0) {
-				echo json_encode(['success' => true]);
-			} else {
-				http_response_code(404);
-				echo json_encode(['error' => ErrorMessages::DB_RECORD_NOT_FOUND]);
+		// Verificar autenticación para endpoints que requieren usuario
+		if (preg_match('/^fungi\/(\d+)\/like$/', $endpoint, $matches) || preg_match('/^user\/favorites\/(\d+)$/', $endpoint, $matches)) {
+			// Verificar autenticación
+			$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+			$token = null;
+			$user = null;
+			
+			// Verificar token de sesión o JWT
+			if (preg_match('/Bearer\s(\S+)/', $authHeader, $tokenMatches)) {
+				$token = $tokenMatches[1];
+				$payload = $this->verifyJwtToken($token);
+				if ($payload) {
+					$user = [
+						'id' => $payload['sub'],
+						'username' => $payload['username'],
+						'role' => $payload['role']
+					];
+				}
+			} else if (isset($_SESSION['user_id'])) {
+				// Usar sesión PHP si existe
+				$user = [
+					'id' => $_SESSION['user_id'],
+					'username' => $_SESSION['username'],
+					'role' => $_SESSION['role'] ?? 'user'
+				];
 			}
-		} else {
-			http_response_code(404);
-			echo json_encode(['error' => ErrorMessages::HTTP_404]);
+			
+			if (!$user) {
+				http_response_code(401);
+				echo json_encode([
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				]);
+				return;
+			}
+			
+			$fungiId = $matches[1];
+			
+			// Procesar unlike
+			if (strpos($endpoint, '/like') !== false) {
+				$fungiController = new \App\Controllers\FungiController($this->db);
+				$result = $fungiController->unlikeFungi($user['id'], $fungiId);
+				
+				if ($result) {
+					echo json_encode([
+						'success' => true,
+						'message' => 'Se ha quitado el "me gusta" del hongo'
+					]);
+				} else {
+					http_response_code(500);
+					echo json_encode([
+						'success' => false,
+						'error' => ErrorMessages::DB_QUERY_ERROR
+					]);
+				}
+				return;
+			}
+			
+			// Procesar eliminar de favoritos
+			if (strpos($endpoint, 'user/favorites') !== false) {
+				$stmt = $this->pdo->prepare("DELETE FROM user_favorites WHERE user_id = ? AND fungi_id = ?");
+				$result = $stmt->execute([$user['id'], $fungiId]);
+				
+				if ($result) {
+					echo json_encode([
+						'success' => true,
+						'message' => 'Hongo eliminado de favoritos'
+					]);
+				} else {
+					http_response_code(500);
+					echo json_encode([
+						'success' => false,
+						'error' => ErrorMessages::DB_QUERY_ERROR
+					]);
+				}
+				return;
+			}
 		}
+		
+		// Si no se encuentra un endpoint válido
+		http_response_code(404);
+		echo json_encode(['error' => ErrorMessages::HTTP_404]);
 	}
 
 	/**

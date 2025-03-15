@@ -213,39 +213,66 @@ $routes = [
     
     '/profile' => [
         'template' => 'pages/profile.twig',
-        'title' => _('Perfil de Usuario'),
+        'title' => _('Mi Perfil'),
         'auth_required' => true,
-        'handler' => function($twig, $db, $session, $authController = null) {
-            // Obtener datos del usuario actual de la sesión
-            $userId = $_SESSION['user_id'] ?? null;
-            
-            // Si no hay usuario en sesión, redirigir al login
-            if (!$userId) {
+        'handler' => function($twig, $db, $session) {
+            if (!$session->isLoggedIn()) {
                 header('Location: /login');
                 exit;
             }
             
-            // Obtener datos completos del usuario
-            $userData = $db->getUserById($userId);
+            $userId = $_SESSION['user_id'];
             
-            // Obtener los hongos favoritos del usuario
-            $favoriteFungi = method_exists($db, 'getUserFavorites') ? 
-                $db->getUserFavorites($userId) : [];
+            // Obtener información del usuario
+            $user = $db->query("SELECT * FROM users WHERE id = ?", [$userId])[0] ?? null;
             
-            // Obtener contribuciones del usuario
-            $contributions = method_exists($db, 'getUserContributions') ? 
-                $db->getUserContributions($userId) : [];
+            if (!$user) {
+                header('Location: /login');
+                exit;
+            }
             
-            // Obtener actividad reciente
-            $recentActivity = method_exists($db, 'getUserRecentActivity') ? 
-                $db->getUserRecentActivity($userId) : [];
+            // Obtener estadísticas del usuario (estas se mostrarán de inmediato)
+            $stats = $db->query("
+                SELECT 
+                    (SELECT COUNT(*) FROM user_likes WHERE user_id = ?) as likes_count,
+                    (SELECT COUNT(*) FROM user_favorites WHERE user_id = ?) as favorites_count,
+                    (SELECT COUNT(*) FROM comments WHERE user_id = ?) as comments_count,
+                    (SELECT COUNT(*) FROM contributions WHERE user_id = ?) as contributions_count
+            ", [$userId, $userId, $userId, $userId])[0] ?? [];
+            
+            // Últimas acciones (ejemplo simplificado)
+            $actions = $db->query("
+                SELECT a.*, 'check' as icon, 'primary' as color
+                FROM access_logs a
+                WHERE a.user_id = ?
+                ORDER BY a.access_time DESC
+                LIMIT 5
+            ", [$userId]);
+            
+            // Añadir descripciones a las acciones
+            foreach ($actions as &$action) {
+                $action['description'] = match($action['action']) {
+                    'login' => 'Inicio de sesión',
+                    'logout' => 'Cierre de sesión',
+                    'view_fungi' => 'Visualización de hongo',
+                    'like_fungi' => 'Me gusta en hongo',
+                    'favorite_fungi' => 'Añadido a favoritos',
+                    'edit_fungi' => 'Edición de hongo',
+                    default => 'Acción no reconocida'
+                };
+                $action['date'] = date('d/m/Y H:i', strtotime($action['access_time']));
+            }
+            
+            // Actualizar el usuario con los contadores
+            $user['likes_count'] = $stats['likes_count'] ?? 0;
+            $user['favorites_count'] = $stats['favorites_count'] ?? 0;
+            $user['comments_count'] = $stats['comments_count'] ?? 0;
+            $user['contributions_count'] = $stats['contributions_count'] ?? 0;
             
             return [
-                'title' => sprintf(_('Perfil de %s'), $userData['username']),
-                'user' => $userData,
-                'favorite_fungi' => $favoriteFungi,
-                'contributions' => $contributions,
-                'recent_activity' => $recentActivity,
+                'title' => 'Perfil de ' . $user['username'],
+                'user' => $user,
+                'user_actions' => $actions,
                 'is_own_profile' => true
             ];
         }

@@ -187,46 +187,45 @@
                                         <h3>Hongos favoritos</h3>
                                     </div>
                                     
-                                    {% if user_favorites is defined and user_favorites|length > 0 %}
-                                        <div class="row row-cols-1 row-cols-md-2 g-4">
-                                            {% for fungi in user_favorites %}
-                                            <div class="col">
-                                                <div class="card bg-dark border-secondary h-100" data-aos="fade-up" data-aos-delay="{{ loop.index * 50 }}">
-                                                    <div class="row g-0">
-                                                        <div class="col-4">
-                                                            <img src="{{ fungi.image_url|default('/assets/images/default-fungi.jpg') }}" 
-                                                                 class="img-fluid rounded-start h-100 w-100 object-fit-cover" 
-                                                                 alt="{{ fungi.name|default('Hongo') }}">
-                                                        </div>
-                                                        <div class="col-8">
-                                                            <div class="card-body">
-                                                                <h5 class="card-title">{{ fungi.name|default('Hongo desconocido') }}</h5>
-                                                                <p class="card-text text-muted">{{ fungi.common_name|default('Sin nombre común') }}</p>
-                                                                <div class="d-flex justify-content-between align-items-center">
-                                                                    <a href="/fungi/{{ fungi.id }}" class="btn btn-sm btn-outline-primary">
-                                                                        <i class="fas fa-info-circle me-1"></i> Ver detalles
-                                                                    </a>
-                                                                    {% if is_own_profile %}
-                                                                    <button class="btn btn-sm btn-outline-danger remove-favorite" data-id="{{ fungi.id }}">
-                                                                        <i class="fas fa-trash me-1"></i> Eliminar
-                                                                    </button>
-                                                                    {% endif %}
-                                                                </div>
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <div class="card bg-dark border-light">
+                                                <div class="card-header bg-dark border-light">
+                                                    <h5 class="mb-0"><i class="fas fa-star text-warning me-2"></i> Mis hongos favoritos</h5>
+                                                </div>
+                                                <div class="card-body p-3">
+                                                    <div class="row" id="favorites-container">
+                                                        <!-- Los favoritos se cargarán aquí -->
+                                                        <div class="col-12 text-center py-5">
+                                                            <div class="spinner-border text-primary" role="status">
+                                                                <span class="visually-hidden">Cargando...</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% endfor %}
                                         </div>
-                                    {% else %}
-                                        <div class="alert alert-info" role="alert">
-                                            <i class="fas fa-info-circle me-2"></i> No has marcado ningún hongo como favorito.
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-12">
+                                            <div class="card bg-dark border-light">
+                                                <div class="card-header bg-dark border-light">
+                                                    <h5 class="mb-0"><i class="fas fa-heart text-danger me-2"></i> Hongos que me gustan</h5>
+                                                </div>
+                                                <div class="card-body p-3">
+                                                    <div class="row" id="likes-container">
+                                                        <!-- Los likes se cargarán aquí -->
+                                                        <div class="col-12 text-center py-5">
+                                                            <div class="spinner-border text-primary" role="status">
+                                                                <span class="visually-hidden">Cargando...</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <a href="/" class="btn btn-primary" data-aos="fade-up">
-                                            <i class="fas fa-search me-1"></i> Explorar hongos
-                                        </a>
-                                    {% endif %}
+                                    </div>
                                 </div>
 
                                 <!-- Pestaña de Configuración -->
@@ -439,11 +438,174 @@
         document.querySelectorAll('.remove-favorite').forEach(button => {
             button.addEventListener('click', function() {
                 const fungiId = this.getAttribute('data-id');
-                console.log('Eliminando favorito con ID:', fungiId);
-                this.closest('.col-md-6').remove();
+                const cardElement = this.closest('.col');
+                
+                // Realizar solicitud para eliminar favorito
+                fetch(`/api/user/favorites/${fungiId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Animación de eliminación
+                        cardElement.style.transition = 'opacity 0.5s, transform 0.5s';
+                        cardElement.style.opacity = '0';
+                        cardElement.style.transform = 'scale(0.8)';
+                        
+                        setTimeout(() => {
+                            cardElement.remove();
+                            
+                            // Si no quedan favoritos, mostrar mensaje
+                            if (document.querySelectorAll('#favorites-container .col').length === 0) {
+                                const noFavoritesMsg = `
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fas fa-info-circle me-2"></i> No has marcado ningún hongo como favorito.
+                                    </div>
+                                    <a href="/" class="btn btn-primary">
+                                        <i class="fas fa-search me-1"></i> Explorar hongos
+                                    </a>
+                                `;
+                                document.querySelector('#favorites-container').innerHTML = noFavoritesMsg;
+                            }
+                        }, 500);
+                        
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar favorito');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('No se pudo eliminar el favorito. Inténtalo de nuevo.');
+                });
             });
         });
         {% endif %}
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar favoritos
+            fetch('/api/user/favorites', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('favorites-container');
+                if (data.success && data.data.length > 0) {
+                    container.innerHTML = '';
+                    data.data.forEach(fungi => {
+                        container.innerHTML += `
+                            <div class="col-md-4 col-lg-3 mb-3">
+                                <div class="card bg-dark border-light h-100">
+                                    <img src="${fungi.image_url || '/assets/images/placeholder.jpg'}" class="card-img-top" alt="${fungi.name}" style="height: 150px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${fungi.name}</h5>
+                                        <p class="card-text small">${fungi.edibility || 'Desconocido'}</p>
+                                        <a href="/fungi/${fungi.id}" class="btn btn-sm btn-primary">Ver detalle</a>
+                                        <button class="btn btn-sm btn-outline-warning remove-favorite" data-id="${fungi.id}">
+                                            <i class="fas fa-star-slash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    // Inicializar listeners para eliminar favoritos
+                    initRemoveFavoriteButtons();
+                } else {
+                    container.innerHTML = '<div class="col-12 text-center py-4"><p class="text-muted">No tienes hongos favoritos.</p></div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('favorites-container').innerHTML = 
+                    '<div class="col-12 text-center py-4"><p class="text-danger">Error al cargar los favoritos. Inténtalo más tarde.</p></div>';
+            });
+            
+            // Cargar likes
+            fetch('/api/user/likes', {
+                method: 'GET',
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('likes-container');
+                if (data.success && data.data.length > 0) {
+                    container.innerHTML = '';
+                    data.data.forEach(fungi => {
+                        container.innerHTML += `
+                            <div class="col-md-4 col-lg-3 mb-3">
+                                <div class="card bg-dark border-light h-100">
+                                    <img src="${fungi.image_url || '/assets/images/placeholder.jpg'}" class="card-img-top" alt="${fungi.name}" style="height: 150px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${fungi.name}</h5>
+                                        <p class="card-text small">${fungi.edibility || 'Desconocido'}</p>
+                                        <a href="/fungi/${fungi.id}" class="btn btn-sm btn-primary">Ver detalle</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    container.innerHTML = '<div class="col-12 text-center py-4"><p class="text-muted">No has dado "me gusta" a ningún hongo.</p></div>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('likes-container').innerHTML = 
+                    '<div class="col-12 text-center py-4"><p class="text-danger">Error al cargar los hongos que te gustan. Inténtalo más tarde.</p></div>';
+            });
+            
+            // Función para inicializar los botones de eliminar favoritos
+            function initRemoveFavoriteButtons() {
+                document.querySelectorAll('.remove-favorite').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const fungiId = this.getAttribute('data-id');
+                        const cardElement = this.closest('.col-md-4');
+                        
+                        // Animación de desvanecimiento
+                        cardElement.style.transition = 'opacity 0.5s ease';
+                        cardElement.style.opacity = '0.5';
+                        
+                        // Realizar solicitud para eliminar favorito
+                        fetch(`/api/user/favorites/${fungiId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            credentials: 'same-origin'
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Eliminar con animación
+                                setTimeout(() => {
+                                    cardElement.remove();
+                                    
+                                    // Si no quedan favoritos, mostrar mensaje
+                                    if (document.querySelectorAll('#favorites-container .col-md-4').length === 0) {
+                                        document.getElementById('favorites-container').innerHTML = 
+                                            '<div class="col-12 text-center py-4"><p class="text-muted">No tienes hongos favoritos.</p></div>';
+                                    }
+                                }, 500);
+                                
+                                return response.json();
+                            } else {
+                                throw new Error('Error al eliminar favorito');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            cardElement.style.opacity = '1'; // Restaurar opacidad si falla
+                            alert('No se pudo eliminar el favorito. Inténtalo de nuevo.');
+                        });
+                    });
+                });
+            }
+        });
     </script>
 </body>
 </html>
