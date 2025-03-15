@@ -1,0 +1,161 @@
+<div class="endpoint-card" id="users-post">
+    <div class="endpoint-header">
+        <span class="endpoint-method method-post">POST</span>
+        <span class="endpoint-path">/api/users</span>
+    </div>
+    <div class="endpoint-content">
+        <div class="endpoint-description">
+            <h3>Registra un nuevo usuario</h3>
+            <p>Este endpoint permite crear una nueva cuenta de usuario en el sistema. Para crear usuarios con rol de administrador se requiere autenticación con permisos de administrador.</p>
+        </div>
+        
+        <div class="endpoint-request-body">
+            <h4>Cuerpo de la solicitud</h4>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Requerido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="parameter-name">username</td>
+                        <td>String</td>
+                        <td>Nombre de usuario (único)</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">email</td>
+                        <td>String</td>
+                        <td>Correo electrónico (único)</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">password</td>
+                        <td>String</td>
+                        <td>Contraseña (mínimo 8 caracteres)</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">role</td>
+                        <td>String</td>
+                        <td>Rol del usuario (user, admin)</td>
+                        <td>Opcional (default: user)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="code-block">
+{
+  "username": "nuevo_usuario",
+  "email": "nuevo@example.com",
+  "password": "contraseña123",
+  "role": "user"
+}
+            </div>
+        </div>
+        
+        <div class="try-api">
+            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+            
+            <div class="mb-3">
+                <label for="param-username-users-post" class="form-label">Nombre de usuario:</label>
+                <input type="text" class="form-control" id="param-username-users-post" placeholder="Ej: nuevo_usuario">
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-email-users-post" class="form-label">Correo electrónico:</label>
+                <input type="email" class="form-control" id="param-email-users-post" placeholder="Ej: nuevo@example.com">
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-password-users-post" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="param-password-users-post" placeholder="Mínimo 8 caracteres">
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-role-users-post" class="form-label">Rol:</label>
+                <select class="form-control" id="param-role-users-post">
+                    <option value="user" selected>user</option>
+                    <option value="admin">admin</option>
+                </select>
+            </div>
+            
+            <button class="btn btn-primary test-api-btn" data-method="POST" data-endpoint="/api/users" data-body="users-post-body">
+                Ejecutar solicitud
+            </button>
+            
+            <textarea id="users-post-body" class="d-none"></textarea>
+            
+            <div class="response-wrapper mt-3 d-none">
+                <div class="tabs">
+                    <div class="tab active" data-tab="response">Respuesta</div>
+                    <div class="tab" data-tab="headers">Cabeceras</div>
+                </div>
+                <div class="tab-content">
+                    <pre class="response-content"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="endpoint-responses mt-4">
+            <h4>Respuestas</h4>
+            
+            <div class="response-code">201 - Created</div>
+            <p>El usuario se creó correctamente.</p>
+            <div class="code-block">
+{
+  "success": true,
+  "message": "Usuario creado correctamente",
+  "data": {
+    "id": 3,
+    "username": "nuevo_usuario",
+    "email": "nuevo@example.com",
+    "role": "user",
+    "created_at": "2023-10-17T15:42:18"
+  }
+}
+            </div>
+            
+            <div class="response-code mt-3">400 - Bad Request</div>
+            <p>La solicitud contiene datos inválidos o incompletos.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Datos incompletos. Se requieren los campos: username, email, password"
+}
+            </div>
+            
+            <div class="response-code mt-3">409 - Conflict</div>
+            <p>Ya existe un usuario con el mismo nombre de usuario o correo electrónico.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Ya existe un usuario con el nombre de usuario 'nuevo_usuario' o el correo 'nuevo@example.com'"
+}
+            </div>
+            
+            <div class="response-code mt-3">401 - Unauthorized</div>
+            <p>No se proporcionó un token de autenticación válido (requerido para crear administradores).</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Se requiere autenticación para crear usuarios con rol de administrador"
+}
+            </div>
+            
+            <div class="response-code mt-3">403 - Forbidden</div>
+            <p>El usuario autenticado no tiene permisos para crear administradores.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "No tienes permisos para crear usuarios con rol de administrador"
+}
+            </div>
+        </div>
+    </div>
+</div> 

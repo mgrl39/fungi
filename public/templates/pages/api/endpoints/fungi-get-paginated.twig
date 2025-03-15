@@ -1,0 +1,97 @@
+<div class="endpoint-card" id="fungi-get-paginated">
+    <div class="endpoint-header">
+        <span class="endpoint-method method-get">GET</span>
+        <span class="endpoint-path">/api/fungi/page/{page}/limit/{limit}</span>
+    </div>
+    <div class="endpoint-content">
+        <div class="endpoint-description">
+            <h3>Obtiene hongos de forma paginada</h3>
+            <p>Este endpoint permite obtener la lista de hongos con paginación, especificando el número de página y la cantidad de resultados por página.</p>
+        </div>
+        
+        <div class="endpoint-parameters">
+            <h4>Parámetros</h4>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ubicación</th>
+                        <th>Descripción</th>
+                        <th>Requerido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="parameter-name">page</td>
+                        <td>Path</td>
+                        <td>Número de página (comenzando desde 1)</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">limit</td>
+                        <td>Path</td>
+                        <td>Cantidad de resultados por página</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="try-api">
+            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+            
+            <div class="mb-3">
+                <label for="fungi-page-input" class="form-label">Página:</label>
+                <input type="number" class="form-control" id="fungi-page-input" value="1" min="1">
+            </div>
+            
+            <div class="mb-3">
+                <label for="fungi-limit-input" class="form-label">Resultados por página:</label>
+                <input type="number" class="form-control" id="fungi-limit-input" value="10" min="1" max="100">
+            </div>
+            
+            <button class="btn btn-primary test-api-btn" data-method="GET" data-endpoint="/api/fungi/page/{page}/limit/{limit}" data-param-page="fungi-page-input" data-param-limit="fungi-limit-input">
+                Ejecutar solicitud
+            </button>
+            
+            <div class="response-wrapper mt-3 d-none">
+                <div class="tabs">
+                    <div class="tab active" data-tab="response">Respuesta</div>
+                    <div class="tab" data-tab="headers">Cabeceras</div>
+                </div>
+                <div class="tab-content">
+                    <pre class="response-content"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="endpoint-responses mt-4">
+            <h4>Respuestas</h4>
+            
+            <div class="response-code">200 - OK</div>
+            <p>La solicitud se completó correctamente.</p>
+            <div class="code-block">
+{
+  "success": true,
+  "data": {
+    "current_page": 1,
+    "per_page": 10,
+    "total": 42,
+    "last_page": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "amanita-muscaria",
+        "edibility": "tóxico",
+        "habitat": "Bosques de coníferas y abedules",
+        "observations": "Seta llamativa de color rojo con manchas blancas"
+      },
+      // ...más hongos
+    ]
+  }
+}
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,56 @@
+<div class="endpoint-card" id="auth-logout">
+    <div class="endpoint-header">
+        <span class="endpoint-method method-post">POST</span>
+        <span class="endpoint-path">/api/auth/logout</span>
+    </div>
+    <div class="endpoint-content">
+        <div class="endpoint-description">
+            <h3>Cierre de sesión</h3>
+            <p>Este endpoint permite a los usuarios cerrar sesión, invalidando su token JWT actual. Se requiere autenticación.</p>
+        </div>
+        
+        <div class="try-api">
+            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+            
+            <div class="alert alert-info mb-3">
+                <i class="fas fa-info-circle me-2"></i> Este endpoint requiere que el usuario esté autenticado con un token JWT válido.
+            </div>
+            
+            <button class="btn btn-primary test-api-btn" data-method="POST" data-endpoint="/api/auth/logout">
+                Cerrar sesión
+            </button>
+            
+            <div class="response-wrapper mt-3 d-none">
+                <div class="tabs">
+                    <div class="tab active" data-tab="response">Respuesta</div>
+                    <div class="tab" data-tab="headers">Cabeceras</div>
+                </div>
+                <div class="tab-content">
+                    <pre class="response-content"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="endpoint-responses mt-4">
+            <h4>Respuestas</h4>
+            
+            <div class="response-code">200 - OK</div>
+            <p>Cierre de sesión exitoso.</p>
+            <div class="code-block">
+{
+  "success": true,
+  "message": "Sesión cerrada correctamente"
+}
+            </div>
+            
+            <div class="response-code mt-3">401 - Unauthorized</div>
+            <p>No se proporcionó un token de autenticación válido.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Se requiere autenticación para realizar esta acción"
+}
+            </div>
+        </div>
+    </div>
+</div> 

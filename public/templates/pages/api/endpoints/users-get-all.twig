@@ -1,0 +1,80 @@
+<div class="endpoint-card" id="users-get-all">
+    <div class="endpoint-header">
+        <span class="endpoint-method method-get">GET</span>
+        <span class="endpoint-path">/api/users</span>
+    </div>
+    <div class="endpoint-content">
+        <div class="endpoint-description">
+            <h3>Obtiene todos los usuarios</h3>
+            <p>Este endpoint devuelve la lista de todos los usuarios registrados en el sistema. Se requiere autenticación con un usuario que tenga permisos de administrador.</p>
+        </div>
+        
+        <div class="try-api">
+            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i> Este endpoint requiere autenticación con permisos de administrador.
+            </div>
+            
+            <button class="btn btn-primary test-api-btn" data-method="GET" data-endpoint="/api/users">
+                Ejecutar solicitud
+            </button>
+            
+            <div class="response-wrapper mt-3 d-none">
+                <div class="tabs">
+                    <div class="tab active" data-tab="response">Respuesta</div>
+                    <div class="tab" data-tab="headers">Cabeceras</div>
+                </div>
+                <div class="tab-content">
+                    <pre class="response-content"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="endpoint-responses mt-4">
+            <h4>Respuestas</h4>
+            
+            <div class="response-code">200 - OK</div>
+            <p>La solicitud se completó correctamente.</p>
+            <div class="code-block">
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@example.com",
+      "role": "admin",
+      "created_at": "2023-10-15T14:25:36"
+    },
+    {
+      "id": 2,
+      "username": "usuario",
+      "email": "usuario@example.com",
+      "role": "user",
+      "created_at": "2023-10-16T09:12:45"
+    }
+  ]
+}
+            </div>
+            
+            <div class="response-code mt-3">401 - Unauthorized</div>
+            <p>No se proporcionó un token de autenticación válido.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Se requiere autenticación para realizar esta acción"
+}
+            </div>
+            
+            <div class="response-code mt-3">403 - Forbidden</div>
+            <p>El usuario autenticado no tiene permisos para ver la lista de usuarios.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "No tienes permisos para realizar esta acción"
+}
+            </div>
+        </div>
+    </div>
+</div> 

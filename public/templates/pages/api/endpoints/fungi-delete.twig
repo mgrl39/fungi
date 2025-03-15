@@ -1,0 +1,117 @@
+<div class="endpoint-card" id="fungi-delete">
+    <div class="endpoint-header">
+        <span class="endpoint-method method-delete">DELETE</span>
+        <span class="endpoint-path">/api/fungi/{id}</span>
+    </div>
+    <div class="endpoint-content">
+        <div class="endpoint-description">
+            <h3>Elimina un hongo existente</h3>
+            <p>Este endpoint permite eliminar un hongo de la base de datos. Se requiere autenticación con un usuario que tenga permisos de administrador.</p>
+        </div>
+        
+        <div class="endpoint-parameters">
+            <h4>Parámetros</h4>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Ubicación</th>
+                        <th>Descripción</th>
+                        <th>Requerido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="parameter-name">id</td>
+                        <td>Path</td>
+                        <td>ID del hongo a eliminar</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="try-api">
+            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+            
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i> La eliminación es permanente y no se puede deshacer.
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-id-fungi-delete" class="form-label">ID del hongo a eliminar:</label>
+                <input type="number" class="form-control" id="param-id-fungi-delete" placeholder="Ej: 12" min="1">
+            </div>
+            
+            <button class="btn btn-danger test-api-btn" data-method="DELETE" data-endpoint="/api/fungi/{id}" data-param-id="param-id-fungi-delete">
+                Eliminar hongo
+            </button>
+            
+            <div class="response-wrapper mt-3 d-none">
+                <div class="tabs">
+                    <div class="tab active" data-tab="response">Respuesta</div>
+                    <div class="tab" data-tab="headers">Cabeceras</div>
+                </div>
+                <div class="tab-content">
+                    <pre class="response-content"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="endpoint-responses mt-4">
+            <h4>Respuestas</h4>
+            
+            <div class="response-code">200 - OK</div>
+            <p>El hongo se eliminó correctamente.</p>
+            <div class="code-block">
+{
+  "success": true,
+  "message": "Hongo eliminado correctamente",
+  "data": {
+    "id": 12,
+    "name": "boletus-reticulates",
+    "edibility": "comestible",
+    "habitat": "Bosques de hayas y robles"
+  }
+}
+            </div>
+            
+            <div class="response-code mt-3">404 - Not Found</div>
+            <p>No se encontró el hongo con el ID especificado.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "No se encontró el hongo con ID 12"
+}
+            </div>
+            
+            <div class="response-code mt-3">401 - Unauthorized</div>
+            <p>No se proporcionó un token de autenticación válido.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Se requiere autenticación para realizar esta acción"
+}
+            </div>
+            
+            <div class="response-code mt-3">403 - Forbidden</div>
+            <p>El usuario autenticado no tiene permisos para eliminar hongos.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "No tienes permisos para realizar esta acción"
+}
+            </div>
+            
+            <div class="response-code mt-3">409 - Conflict</div>
+            <p>No se puede eliminar el hongo porque está siendo referenciado por otros registros.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "No se puede eliminar el hongo porque está siendo utilizado en otras partes del sistema"
+}
+            </div>
+        </div>
+    </div>
+</div> 

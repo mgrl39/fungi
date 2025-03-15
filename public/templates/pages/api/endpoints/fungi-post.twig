@@ -1,0 +1,190 @@
+<div class="endpoint-card" id="fungi-post">
+    <div class="endpoint-header">
+        <span class="endpoint-method method-post">POST</span>
+        <span class="endpoint-path">/api/fungi</span>
+    </div>
+    <div class="endpoint-content">
+        <div class="endpoint-description">
+            <h3>Crea un nuevo hongo</h3>
+            <p>Este endpoint permite agregar un nuevo hongo a la base de datos. Se requiere autenticación con un usuario que tenga permisos de administrador.</p>
+        </div>
+        
+        <div class="endpoint-request-body">
+            <h4>Cuerpo de la solicitud</h4>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Requerido</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="parameter-name">name</td>
+                        <td>String</td>
+                        <td>Nombre científico del hongo (único)</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">common_name</td>
+                        <td>String</td>
+                        <td>Nombre común del hongo</td>
+                        <td>Opcional</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">edibility</td>
+                        <td>String</td>
+                        <td>Comestibilidad (comestible, tóxico, etc.)</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">habitat</td>
+                        <td>String</td>
+                        <td>Hábitat donde se encuentra el hongo</td>
+                        <td><span class="param-required">Requerido</span></td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">observations</td>
+                        <td>String</td>
+                        <td>Observaciones adicionales</td>
+                        <td>Opcional</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">synonym</td>
+                        <td>String</td>
+                        <td>Nombres científicos sinónimos</td>
+                        <td>Opcional</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="code-block">
+{
+  "name": "boletus-edulis",
+  "common_name": "Porcini",
+  "edibility": "comestible",
+  "habitat": "Bosques de coníferas y caducifolios",
+  "observations": "Muy apreciado en la gastronomía",
+  "synonym": "Boletus bulbosus"
+}
+            </div>
+        </div>
+        
+        <div class="try-api">
+            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
+            
+            <div class="mb-3">
+                <label for="param-name-fungi-post" class="form-label">Nombre científico:</label>
+                <input type="text" class="form-control" id="param-name-fungi-post" placeholder="Ej: amanita-phalloides">
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-common-name-fungi-post" class="form-label">Nombre común:</label>
+                <input type="text" class="form-control" id="param-common-name-fungi-post" placeholder="Ej: Oronja verde">
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-edibility-fungi-post" class="form-label">Comestibilidad:</label>
+                <select class="form-control" id="param-edibility-fungi-post">
+                    <option value="comestible">Comestible</option>
+                    <option value="tóxico" selected>Tóxico</option>
+                    <option value="mortal">Mortal</option>
+                    <option value="no comestible">No comestible</option>
+                    <option value="medicinal">Medicinal</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-habitat-fungi-post" class="form-label">Hábitat:</label>
+                <input type="text" class="form-control" id="param-habitat-fungi-post" placeholder="Ej: Bosques caducifolios">
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-observations-fungi-post" class="form-label">Observaciones:</label>
+                <textarea class="form-control" id="param-observations-fungi-post" rows="3" placeholder="Observaciones adicionales sobre el hongo"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="param-synonym-fungi-post" class="form-label">Sinónimos:</label>
+                <input type="text" class="form-control" id="param-synonym-fungi-post" placeholder="Sinónimos separados por comas">
+            </div>
+            
+            <button class="btn btn-primary test-api-btn" data-method="POST" data-endpoint="/api/fungi" data-body="fungi-post-body">
+                Ejecutar solicitud
+            </button>
+            
+            <textarea id="fungi-post-body" class="d-none"></textarea>
+            
+            <div class="response-wrapper mt-3 d-none">
+                <div class="tabs">
+                    <div class="tab active" data-tab="response">Respuesta</div>
+                    <div class="tab" data-tab="headers">Cabeceras</div>
+                </div>
+                <div class="tab-content">
+                    <pre class="response-content"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="endpoint-responses mt-4">
+            <h4>Respuestas</h4>
+            
+            <div class="response-code">201 - Created</div>
+            <p>El hongo se creó correctamente.</p>
+            <div class="code-block">
+{
+  "success": true,
+  "message": "Hongo creado correctamente",
+  "data": {
+    "id": 78,
+    "name": "boletus-edulis",
+    "common_name": "Porcini",
+    "edibility": "comestible",
+    "habitat": "Bosques de coníferas y caducifolios",
+    "observations": "Muy apreciado en la gastronomía",
+    "synonym": "Boletus bulbosus"
+  }
+}
+            </div>
+            
+            <div class="response-code mt-3">400 - Bad Request</div>
+            <p>La solicitud contiene datos inválidos o incompletos.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Datos incompletos. Se requieren los campos: name, edibility, habitat"
+}
+            </div>
+            
+            <div class="response-code mt-3">409 - Conflict</div>
+            <p>Ya existe un hongo con el mismo nombre.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Ya existe un hongo con el nombre 'boletus-edulis'"
+}
+            </div>
+            
+            <div class="response-code mt-3">401 - Unauthorized</div>
+            <p>No se proporcionó un token de autenticación válido.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "Se requiere autenticación para realizar esta acción"
+}
+            </div>
+            
+            <div class="response-code mt-3">403 - Forbidden</div>
+            <p>El usuario autenticado no tiene permisos para crear hongos.</p>
+            <div class="code-block">
+{
+  "success": false,
+  "error": "No tienes permisos para realizar esta acción"
+}
+            </div>
+        </div>
+    </div>
+</div> 
