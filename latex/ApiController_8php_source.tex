@@ -165,221 +165,222 @@
 \DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00203}00203\ \ \ \ \ \{}
 \DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crea\ una\ instancia\ del\ controlador\ de\ POST}}
 \DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00205}00205\ \ \ \ \ \ \ \ \ \$apiPostController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiPostController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00206}00206\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ de\ la\ solicitud}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00209}00209\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00210}00210\ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación\ para\ endpoints\ que\ requieren\ usuario}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/like\$/'},\ \$endpoint,\ \$matches)\ ||\ preg\_match(\textcolor{stringliteral}{'/\string^user\(\backslash\)/favorites\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$tokenMatches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$tokenMatches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$this-\/>verifyJwtToken(\$token);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ like}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$endpoint,\ \textcolor{stringliteral}{'/like'})\ !==\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPostController-\/>likeFungi(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ favoritos}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$endpoint,\ \textcolor{stringliteral}{'user/favorites'})\ !==\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPostController-\/>addFavorite(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00261}00261\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$endpoint\ ===\ \textcolor{stringliteral}{'fungi'})\ \$result\ =\ \$apiPostController-\/>createFungi(\$data);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00263}00263\ \ \ \ \ \ \ \ \ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'users'})\ \$result\ =\ \$apiPostController-\/>registerUser(\$data);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00264}00264\ \ \ \ \ \ \ \ \ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'auth/logout'})\ \$result\ =\ \$apiPostController-\/>handleLogout();}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00265}00265\ \ \ \ \ \ \ \ \ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'auth/login'})\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPostController-\/>handleLogin(}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data,}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$this,\ \textcolor{stringliteral}{'login'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$this,\ \textcolor{stringliteral}{'generateJwtToken'}]}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00271}00271\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00275}00275\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00276}00276\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00277}00277\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00278}00278\ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00289}\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}{00289}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}{handlePut}}(\$endpoint)}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00290}00290\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ PUT}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00292}00292\ \ \ \ \ \ \ \ \ \$apiPutController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiPutController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00293}00293\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00295}00295\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00296}00296\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00297}00297\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00298}00298\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00309}00309\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00316}00316\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00317}00317\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ de\ la\ solicitud}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00319}00319\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00320}00320\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00321}00321\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPutController-\/>updateFungi(\$fungiId,\ \$data,\ \$user);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00334}00334\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00340}00340\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00341}00341\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00342}00342\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00343}00343\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00344}00344\ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00353}\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}{00353}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}{handleDelete}}(\$endpoint)}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00354}00354\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00355}00355\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ DELETE}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00356}00356\ \ \ \ \ \ \ \ \ \$apiDeleteController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiDeleteController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00357}00357\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00359}00359\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00360}00360\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00361}00361\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00362}00362\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00375}00375\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00382}00382\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00383}00383\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Resultado\ de\ la\ operación}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00385}00385\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00386}00386\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ hongo\ (requiere\ admin)}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>deleteFungi(\$fungiId,\ \$user);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00400}00400\ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00401}00401\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/like\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ like\ a\ un\ hongo}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>unlikeFungi(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00414}00414\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00415}00415\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^user\(\backslash\)/favorites\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ un\ hongo\ de\ favoritos}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>removeFavorite(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00428}00428\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00429}00429\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00435}00435\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00436}00436\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00437}00437\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00438}00438\ }
-\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00439}00439\ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00206}00206\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ de\ la\ solicitud}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00209}00209\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00210}00210\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación\ para\ endpoints\ que\ requieren\ usuario}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/like\$/'},\ \$endpoint,\ \$matches)\ ||\ preg\_match(\textcolor{stringliteral}{'/\string^user\(\backslash\)/favorites\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$tokenMatches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$tokenMatches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ like}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$endpoint,\ \textcolor{stringliteral}{'/like'})\ !==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPostController-\/>likeFungi(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ favoritos}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$endpoint,\ \textcolor{stringliteral}{'user/favorites'})\ !==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPostController-\/>addFavorite(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00262}00262\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$endpoint\ ===\ \textcolor{stringliteral}{'fungi'})\ \$result\ =\ \$apiPostController-\/>createFungi(\$data);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00264}00264\ \ \ \ \ \ \ \ \ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'users'})\ \$result\ =\ \$apiPostController-\/>registerUser(\$data);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00265}00265\ \ \ \ \ \ \ \ \ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'auth/logout'})\ \$result\ =\ \$apiPostController-\/>handleLogout();}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00266}00266\ \ \ \ \ \ \ \ \ elseif\ (\$endpoint\ ===\ \textcolor{stringliteral}{'auth/login'})\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPostController-\/>handleLogin(}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data,}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$apiAuthController,\ \textcolor{stringliteral}{'login'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$apiAuthController,\ \textcolor{stringliteral}{'generateJwtToken'}]}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00272}00272\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [\textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00276}00276\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00277}00277\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00278}00278\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00290}\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}{00290}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a44716cc151011ed147d461835bdd8c17}{handlePut}}(\$endpoint)}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00291}00291\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ PUT}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00293}00293\ \ \ \ \ \ \ \ \ \$apiPutController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiPutController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00294}00294\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00296}00296\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00297}00297\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00298}00298\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00299}00299\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00310}00310\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00317}00317\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00318}00318\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ de\ la\ solicitud}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00320}00320\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00321}00321\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00322}00322\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiPutController-\/>updateFungi(\$fungiId,\ \$data,\ \$user);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00335}00335\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00341}00341\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00342}00342\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00343}00343\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00344}00344\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00354}\mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}{00354}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1ApiController_a42d236c3d92bd345648219584a384e3e}{handleDelete}}(\$endpoint)}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00355}00355\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ DELETE}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00357}00357\ \ \ \ \ \ \ \ \ \$apiDeleteController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiDeleteController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00358}00358\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00359}00359\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00360}00360\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00361}00361\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00362}00362\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00363}00363\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00365}00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00376}00376\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00383}00383\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00384}00384\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Resultado\ de\ la\ operación}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00386}00386\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00387}00387\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ hongo\ (requiere\ admin)}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>deleteFungi(\$fungiId,\ \$user);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00401}00401\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00402}00402\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/like\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ like\ a\ un\ hongo}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>unlikeFungi(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00415}00415\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00416}00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^user\(\backslash\)/favorites\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ un\ hongo\ de\ favoritos}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>removeFavorite(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00429}00429\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00436}00436\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00437}00437\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00438}00438\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{ApiController_8php_source_l00440}00440\ \}}
 
 \end{DoxyCode}

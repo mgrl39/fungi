@@ -10,7 +10,9 @@
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$auth\+Controller}} = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller}}(\$db, \$session)
+\mbox{\hyperlink{routes_8php_a1b76478f129d3454b20845dbf99863cb}{\$admin\+Controller}} = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller}}(\$db, \$session, \$stats\+Controller)
+\item 
+\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$auth\+Controller}} = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller}}(\$db)
 \item 
 \mbox{\hyperlink{routes_8php_a2409c247baf67a1d4c6b9a1789cfc088}{\$components}}
 \item 
@@ -21,6 +23,8 @@
 \mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docs\+Controller}} = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller}}(\$db, \$session)
 \item 
 \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungi\+Controller}} = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller}}(\$db)
+\item 
+\mbox{\hyperlink{routes_8php_a46e94a2ad6d46d7ff9e7a9299ca2cbbf}{\$home\+Controller}} = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1HomeController}{App\textbackslash{}\+Controllers\textbackslash{}\+Home\+Controller}}(\$db)
 \item 
 \mbox{\hyperlink{routes_8php_a6285f54627a7572b761b3999f88536e9}{\$is\+Api\+Request}} = preg\+\_\+match(\textquotesingle{}\#\texorpdfstring{$^\wedge$}{\string^}/api\#\textquotesingle{}, parse\+\_\+url(\$\+\_\+\+SERVER\mbox{[}\textquotesingle{}REQUEST\+\_\+\+URI\textquotesingle{}\mbox{]}, PHP\+\_\+\+URL\+\_\+\+PATH))
 \item 
@@ -49,15 +53,15 @@
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00032}{32}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00027}{27}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00033\ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
-\DoxyCodeLine{00034\ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
-\DoxyCodeLine{00036\ \}}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
+\DoxyCodeLine{00030\ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
+\DoxyCodeLine{00032\ \}}
 
 \end{DoxyCode}
 \Hypertarget{routes_8php_a6c204a36e81bc356bb38645948b15f75}\label{routes_8php_a6c204a36e81bc356bb38645948b15f75} 
@@ -78,212 +82,103 @@ array & {\em \$data} & Datos para pasar a la plantilla \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Devuelve}
-void 
+void
 \end{DoxyReturn}
+Determina el dominio de traducción según la plantilla. Asegura que los componentes estén disponibles. Agrega información de sesión si está disponible. Añade la ruta actual para marcar elementos activos. Asegura que se pase el idioma actual. Renderiza la plantilla y maneja errores. 
 
-
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00055}{55}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00056}{56}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00056\ \ \ \ \ global\ \$twig,\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}},\ \mbox{\hyperlink{routes_8php_a2409c247baf67a1d4c6b9a1789cfc088}{\$components}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}};}
-\DoxyCodeLine{00057\ \ \ \ \ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ NUEVO:\ Determinar\ qué\ dominio\ usar\ según\ la\ plantilla}}
-\DoxyCodeLine{00059\ \ \ \ \ \$originalDomain\ =\ textdomain(NULL);}
-\DoxyCodeLine{00060\ \ \ \ \ }
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$templatePath,\ \textcolor{stringliteral}{'navbar'})\ !==\ \textcolor{keyword}{false})\ textdomain(\textcolor{stringliteral}{'navbar'});}
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strpos(\$templatePath,\ \textcolor{stringliteral}{'about'})\ !==\ \textcolor{keyword}{false})\ textdomain(\textcolor{stringliteral}{'about'});}
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{else}\ textdomain(\textcolor{stringliteral}{'messages'});}
-\DoxyCodeLine{00064\ \ \ \ \ }
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{//\ Aseguramos\ que\ los\ componentes\ estén\ disponibles\ en\ todas\ las\ plantillas}}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ global\ \$twig,\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}},\ \mbox{\hyperlink{routes_8php_a2409c247baf67a1d4c6b9a1789cfc088}{\$components}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \$originalDomain\ =\ textdomain(NULL);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$templatePath,\ \textcolor{stringliteral}{'navbar'})\ !==\ \textcolor{keyword}{false})\ textdomain(\textcolor{stringliteral}{'navbar'});}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strpos(\$templatePath,\ \textcolor{stringliteral}{'about'})\ !==\ \textcolor{keyword}{false})\ textdomain(\textcolor{stringliteral}{'about'});}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{else}\ textdomain(\textcolor{stringliteral}{'messages'});}
+\DoxyCodeLine{00065\ }
 \DoxyCodeLine{00066\ \ \ \ \ \$data[\textcolor{stringliteral}{'components'}]\ =\ \mbox{\hyperlink{routes_8php_a2409c247baf67a1d4c6b9a1789cfc088}{\$components}};}
-\DoxyCodeLine{00067\ \ \ \ \ }
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{comment}{//\ Agregamos\ información\ sobre\ la\ sesión\ actual\ si\ está\ disponible}}
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}))\ \{}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'is\_logged\_in'}]\ =\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn();}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn())\ \$data[\textcolor{stringliteral}{'user'}]\ =\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>getUserData();}
-\DoxyCodeLine{00072\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \$data[\textcolor{stringliteral}{'is\_logged\_in'}]\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00073\ \ \ \ \ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ Añadimos\ la\ ruta\ actual\ para\ poder\ marcar\ elementos\ activos\ en\ el\ menú}}
-\DoxyCodeLine{00075\ \ \ \ \ \$data[\textcolor{stringliteral}{'current\_route'}]\ =\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}};}
-\DoxyCodeLine{00076\ \ \ \ \ }
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//\ NUEVO:\ Asegurar\ que\ se\ pase\ el\ idioma\ actual\ a\ todas\ las\ plantillas}}
-\DoxyCodeLine{00078\ \ \ \ \ \$data[\textcolor{stringliteral}{'idioma\_actual'}]\ =\ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ ??\ \textcolor{stringliteral}{'es'};}
-\DoxyCodeLine{00079\ \ \ \ \ }
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//\ Renderizamos\ la\ plantilla}}
-\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \$result\ =\ \$twig-\/>render(\$templatePath,\ \$data);}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Restaurar\ el\ dominio\ original}}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ textdomain(\$originalDomain);}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ echo\ \$result;}
-\DoxyCodeLine{00088\ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ hay\ un\ error\ al\ renderizar,\ mostramos\ un\ mensaje\ de\ error}}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<h1>Error\ al\ renderizar\ la\ plantilla</h1>"{}};}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<p>\{\$e-\/>getMessage()\}</p>"{}};}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ En\ modo\ desarrollo,\ mostramos\ información\ detallada\ del\ error}}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (defined(\textcolor{stringliteral}{'DEBUG\_MODE'})\ \&\&\ DEBUG\_MODE)\ \{}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<pre>"{}};}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ print\_r(\$e);}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}</pre>"{}};}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00099\ \ \ \ \ \}}
-\DoxyCodeLine{00100\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}))\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \$data[\textcolor{stringliteral}{'is\_logged\_in'}]\ =\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn();}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn())\ \$data[\textcolor{stringliteral}{'user'}]\ =\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>getUserData();}
+\DoxyCodeLine{00071\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \$data[\textcolor{stringliteral}{'is\_logged\_in'}]\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \$data[\textcolor{stringliteral}{'current\_route'}]\ =\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}};}
+\DoxyCodeLine{00074\ \ \ \ \ \$data[\textcolor{stringliteral}{'idioma\_actual'}]\ =\ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ ??\ \textcolor{stringliteral}{'es'};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \$result\ =\ \$twig-\/>render(\$templatePath,\ \$data);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ textdomain(\$originalDomain);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ echo\ \$result;}
+\DoxyCodeLine{00080\ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<h1>Error\ al\ renderizar\ la\ plantilla</h1>"{}};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<p>\{\$e-\/>getMessage()\}</p>"{}};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (defined(\textcolor{stringliteral}{'DEBUG\_MODE'})\ \&\&\ DEBUG\_MODE)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<pre>"{}};}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ print\_r(\$e);}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}</pre>"{}};}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \textcolor{comment}{//\ Inicializar\ controladores}}
+\DoxyCodeLine{00092\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)DatabaseController();}
+\DoxyCodeLine{00093\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)SessionController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00094\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)AuthController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00095\ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)UserController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}});}
+\DoxyCodeLine{00096\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)FungiController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00097\ \mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)StatsController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00098\ \mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)DocsController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}});}
+\DoxyCodeLine{00099\ \mbox{\hyperlink{routes_8php_a46e94a2ad6d46d7ff9e7a9299ca2cbbf}{\$homeController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)HomeController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00100\ \mbox{\hyperlink{routes_8php_a1b76478f129d3454b20845dbf99863cb}{\$adminController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)AdminController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}});}
 \DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \textcolor{comment}{//\ Inicializar\ controladores}}
-\DoxyCodeLine{00103\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)DatabaseController();}
-\DoxyCodeLine{00104\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)SessionController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
-\DoxyCodeLine{00105\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)AuthController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}});}
-\DoxyCodeLine{00106\ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)UserController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}});}
-\DoxyCodeLine{00107\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)FungiController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
-\DoxyCodeLine{00108\ \mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)StatsController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
-\DoxyCodeLine{00109\ \mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)DocsController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}});}
+\DoxyCodeLine{00102\ \textcolor{comment}{//\ Crear\ el\ controlador\ de\ rutas}}
+\DoxyCodeLine{00103\ \mbox{\hyperlink{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}{\$routeController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)RouteController(\$twig,\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ [}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{stringliteral}{'auth'}\ =>\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}},}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{stringliteral}{'docs'}\ =>\ \mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}},}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{stringliteral}{'lang'}\ =>\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}}
+\DoxyCodeLine{00109\ ]);}
 \DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \textcolor{comment}{//\ Crear\ el\ controlador\ de\ rutas}}
-\DoxyCodeLine{00112\ \mbox{\hyperlink{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}{\$routeController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)RouteController(\$twig,\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ [}
-\DoxyCodeLine{00113\ \ \ \ \ \textcolor{stringliteral}{'auth'}\ =>\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},}
-\DoxyCodeLine{00114\ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},}
-\DoxyCodeLine{00115\ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}},}
-\DoxyCodeLine{00116\ \ \ \ \ \textcolor{stringliteral}{'docs'}\ =>\ \mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}},}
-\DoxyCodeLine{00117\ \ \ \ \ \textcolor{stringliteral}{'lang'}\ =>\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}}
-\DoxyCodeLine{00118\ ]);}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \textcolor{comment}{//\ Definir\ rutas}}
-\DoxyCodeLine{00121\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}\ =\ [}
-\DoxyCodeLine{00122\ \ \ \ \ \textcolor{stringliteral}{'/home'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{charliteral}{'/'}],}
-\DoxyCodeLine{00123\ \ \ \ \ \textcolor{stringliteral}{'/index'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/home.twig'},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{charliteral}{'/'}],}
-\DoxyCodeLine{00124\ \ \ \ \ \textcolor{stringliteral}{'/about'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/about.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Acerca\ de'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false}],}
-\DoxyCodeLine{00125\ \ \ \ \ \textcolor{stringliteral}{'/404'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/404.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Página\ no\ encontrada'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false}],}
-\DoxyCodeLine{00126\ \ \ \ \ \textcolor{stringliteral}{'/random'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{stringliteral}{'/fungi/random'}],}
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{stringliteral}{'/profile/([\string^/]+)'}\ =>\ [\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{stringliteral}{'/profile'}\ ],}
-\DoxyCodeLine{00128\ \ \ \ \ \textcolor{stringliteral}{'/profile'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'profileHandler'}]],}
-\DoxyCodeLine{00129\ \ \ \ \ \textcolor{stringliteral}{'/docs/api'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/api/api\_docs.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}},\ \textcolor{stringliteral}{'apiDocsHandler'}]],}
-\DoxyCodeLine{00130\ \ \ \ \ \textcolor{stringliteral}{'/change-\/language'}\ =>\ [\textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}},\ \textcolor{stringliteral}{'changeLanguage'}]],}
-\DoxyCodeLine{00131\ \ \ \ \ \textcolor{stringliteral}{'/register'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'components/auth/register\_form.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'registerHandler'}]],}
-\DoxyCodeLine{00132\ \ \ \ \ \textcolor{stringliteral}{'/logout'}\ =>\ [\textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'logoutAndRedirect'}]],}
-\DoxyCodeLine{00133\ \ \ \ \ \textcolor{stringliteral}{'/statistics'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/statistics.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}},\ \textcolor{stringliteral}{'statisticsPageHandler'}]],}
-\DoxyCodeLine{00134\ \ \ \ \ \textcolor{stringliteral}{'/fungi/random'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},\ \textcolor{stringliteral}{'randomFungusHandler'}]],}
-\DoxyCodeLine{00135\ \ \ \ \ \textcolor{charliteral}{'/'}\ =>\ [}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/home.twig'},}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongos'}),}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}\ =\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ya\ no\ obtenemos\ los\ hongos\ directamente,\ se\ cargarán\ vía\ AJAX}}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongos'}),}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_url'}\ =>\ \mbox{\hyperlink{routes_8php_ae1ca0d2444e3cca6b147445348f686de}{getBaseUrl}}()\ .\ \textcolor{stringliteral}{'/api/fungi/page/1/limit/12'},\ \textcolor{comment}{//\ URL\ para\ la\ solicitud\ AJAX}}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'use\_ajax'}\ =>\ \textcolor{keyword}{true}\ \ \textcolor{comment}{//\ Indicador\ para\ la\ plantilla}}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00147\ \ \ \ \ ],}
-\DoxyCodeLine{00148\ \ \ \ \ \textcolor{stringliteral}{'/login'}\ =>\ [}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'components/auth/login\_form.twig'},}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}})\ \{}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}}-\/>login(}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''}}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$registered\ =\ isset(\$\_GET[\textcolor{stringliteral}{'registered'}])\ ?\ true\ :\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$registered\ ?\ \_(\textcolor{stringliteral}{'Usuario\ registrado\ exitosamente.\ Por\ favor\ inicia\ sesión.'})\ :\ null}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00176\ \ \ \ \ ],}
-\DoxyCodeLine{00177\ \ \ \ \ \textcolor{stringliteral}{'/dashboard'}\ =>\ [}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/admin.twig'},}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración'}),}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}})\ \{}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ es\ administrador}}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isAdmin())\ \{}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}}-\/>getDashboardStats()}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00194\ \ \ \ \ ],}
-\DoxyCodeLine{00195\ \ \ \ \ \textcolor{stringliteral}{'/fungi/(\(\backslash\)d+)'}\ =>\ [}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}}\ =\ \textcolor{keyword}{null})\ use\ (\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ hongo\ desde\ la\ URL}}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/fungi/(\(\backslash\)d+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ hongo\ específico}}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusById(\$id);}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ se\ encuentra\ el\ hongo,\ redirigir\ a\ 404}}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ favorito\ si\ el\ usuario\ está\ logueado}}
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn()\ \&\&\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusWithLikeStatus(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Intentar\ obtener\ hongos\ similares}}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ [];}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getSimilarFungi(\$id,\ 4);}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ falla,\ simplemente\ no\ mostraremos\ hongos\ similares}}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \_(\textcolor{stringliteral}{'Detalles\ del\ Hongo'}),}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus,}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'similar\_fungi'}\ =>\ \$similarFungi,}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_logged\_in'}\ =>\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn()}
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00231\ \ \ \ \ ],}
-\DoxyCodeLine{00232\ \ \ \ \ \textcolor{stringliteral}{'/admin/users'}\ =>\ [}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'admin/users.twig'},}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'adminUsersHandler'}]}
-\DoxyCodeLine{00237\ \ \ \ \ ],}
-\DoxyCodeLine{00238\ ];}
-\DoxyCodeLine{00239\ }
-\DoxyCodeLine{00240\ \textcolor{comment}{//\ Añadir\ rutas\ al\ controlador}}
-\DoxyCodeLine{00241\ \mbox{\hyperlink{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}{\$routeController}}-\/>addRoutes(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}});}
-\DoxyCodeLine{00257\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'\#\string^/api\#'},\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}))\ \{}
-\DoxyCodeLine{00258\ \ \ \ \ ob\_clean();}
-\DoxyCodeLine{00259\ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
-\DoxyCodeLine{00260\ \ \ \ \ (new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)ApiController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}}))-\/>handleRequest();}
-\DoxyCodeLine{00261\ \ \ \ \ exit;}
-\DoxyCodeLine{00262\ \}\ \textcolor{keywordflow}{else}\ \mbox{\hyperlink{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}{\$routeController}}-\/>handleRequest(\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}});}
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ Definir\ rutas}}
+\DoxyCodeLine{00112\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}\ =\ [}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{stringliteral}{'/home'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{charliteral}{'/'}],}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{stringliteral}{'/index'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/home.twig'},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{charliteral}{'/'}],}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{stringliteral}{'/about'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/about.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Acerca\ de'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false}],}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{stringliteral}{'/404'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/404.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Página\ no\ encontrada'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false}],}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{stringliteral}{'/random'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{stringliteral}{'/fungi/random'}],}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{stringliteral}{'/profile/([\string^/]+)'}\ =>\ [\textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{stringliteral}{'/profile'}],}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{stringliteral}{'/profile'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'profileHandler'}]],}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{stringliteral}{'/docs/api'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/api/api\_docs.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}},\ \textcolor{stringliteral}{'apiDocsHandler'}]],}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{stringliteral}{'/change-\/language'}\ =>\ [\textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}},\ \textcolor{stringliteral}{'changeLanguage'}]],}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{stringliteral}{'/register'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'components/auth/register\_form.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'registerHandler'}]],}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{stringliteral}{'/logout'}\ =>\ [\textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'logoutAndRedirect'}]],}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{stringliteral}{'/statistics'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/statistics.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}},\ \textcolor{stringliteral}{'statisticsPageHandler'}]],}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{stringliteral}{'/fungi/random'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},\ \textcolor{stringliteral}{'randomFungusHandler'}]],}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{stringliteral}{'/login'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'components/auth/login\_form.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'loginHandler'}]],}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{charliteral}{'/'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/home.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongos'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a46e94a2ad6d46d7ff9e7a9299ca2cbbf}{\$homeController}},\ \textcolor{stringliteral}{'indexHandler'}]],}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{stringliteral}{'/dashboard'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/admin.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a1b76478f129d3454b20845dbf99863cb}{\$adminController}},\ \textcolor{stringliteral}{'dashboardHandler'}]],}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{stringliteral}{'/fungi/(\(\backslash\)d+)'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},\ \textcolor{stringliteral}{'detailFungusHandler'}]],}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{stringliteral}{'/admin/users'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'admin/users.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'adminUsersHandler'}]],}
+\DoxyCodeLine{00131\ ];}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ Añadir\ rutas\ al\ controlador}}
+\DoxyCodeLine{00134\ \mbox{\hyperlink{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}{\$routeController}}-\/>addRoutes(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}});}
+\DoxyCodeLine{00150\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'\#\string^/api\#'},\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}))\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ ob\_clean();}
+\DoxyCodeLine{00152\ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
+\DoxyCodeLine{00153\ \ \ \ \ (new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)ApiController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}}))-\/>handleRequest();}
+\DoxyCodeLine{00154\ \ \ \ \ exit;}
+\DoxyCodeLine{00155\ \}\ \textcolor{keywordflow}{else}\ \mbox{\hyperlink{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}{\$routeController}}-\/>handleRequest(\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}});}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00039}{\$components}}, \mbox{\hyperlink{routes_8php_source_l00015}{\$lang\+Controller}}, \mbox{\hyperlink{routes_8php_source_l00104}{\$session}} y \mbox{\hyperlink{routes_8php_source_l00027}{\$uri}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00035}{\$components}}, \mbox{\hyperlink{routes_8php_source_l00008}{\$lang\+Controller}}, \mbox{\hyperlink{routes_8php_source_l00093}{\$session}} y \mbox{\hyperlink{routes_8php_source_l00020}{\$uri}}.
 
 
 
@@ -300,15 +195,25 @@ Gráfico de llamadas a esta función\+:
 
 
 \doxysubsection{Documentación de variables}
+\Hypertarget{routes_8php_a1b76478f129d3454b20845dbf99863cb}\label{routes_8php_a1b76478f129d3454b20845dbf99863cb} 
+\index{routes.php@{routes.php}!\$adminController@{\$adminController}}
+\index{\$adminController@{\$adminController}!routes.php@{routes.php}}
+\doxysubsubsection{\texorpdfstring{\$adminController}{\$adminController}}
+{\footnotesize\ttfamily \$admin\+Controller = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller}}(\$db, \$session, \$stats\+Controller)}
+
+
+
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00100}{100}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+
 \Hypertarget{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}\label{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7} 
 \index{routes.php@{routes.php}!\$authController@{\$authController}}
 \index{\$authController@{\$authController}!routes.php@{routes.php}}
 \doxysubsubsection{\texorpdfstring{\$authController}{\$authController}}
-{\footnotesize\ttfamily \$auth\+Controller = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller}}(\$db, \$session)}
+{\footnotesize\ttfamily \$auth\+Controller = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller}}(\$db)}
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00105}{105}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00094}{94}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
@@ -326,19 +231,17 @@ Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbac
 \DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'footer'}\ =>\ \textcolor{stringliteral}{'components/footer.twig'},}
 \DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'header'}\ =>\ \textcolor{stringliteral}{'components/header.twig'},}
 \DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'navbar'}\ =>\ \textcolor{stringliteral}{'components/navbar.twig'},}
-\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'sidebar'}\ =>\ \textcolor{stringliteral}{'components/sidebar.twig'},}
-\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'fungi/card'}\ =>\ \textcolor{stringliteral}{'components/fungi/card.twig'},}
-\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'fungi/form'}\ =>\ \textcolor{stringliteral}{'components/fungi/form.twig'}}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'sidebar'}\ =>\ \textcolor{stringliteral}{'components/sidebar.twig'}}
 \DoxyCodeLine{]}
 
 \end{DoxyCode}
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00039}{39}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00035}{35}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{routes_8php_source_l00055}{render\+Template()}}.
+Referenciado por \mbox{\hyperlink{routes_8php_source_l00056}{render\+Template()}}.
 
 \Hypertarget{routes_8php_aa7753ddc64027082ab7fe80236611d00}\label{routes_8php_aa7753ddc64027082ab7fe80236611d00} 
 \index{routes.php@{routes.php}!\$currentLanguage@{\$currentLanguage}}
@@ -348,7 +251,7 @@ Referenciado por \mbox{\hyperlink{routes_8php_source_l00055}{render\+Template()}
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00016}{16}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00009}{9}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
@@ -362,7 +265,7 @@ Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbac
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00103}{103}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00092}{92}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
@@ -376,7 +279,7 @@ Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbac
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00109}{109}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00098}{98}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}\label{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf} 
 \index{routes.php@{routes.php}!\$fungiController@{\$fungiController}}
@@ -386,11 +289,21 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00109}{109}} del a
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00107}{107}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00096}{96}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
 Referenciado por \mbox{\hyperlink{ApiGetController_8php_source_l00231}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Get\+Controller\textbackslash{}get\+Random\+Fungus()}}, \mbox{\hyperlink{ApiPostController_8php_source_l00132}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Post\+Controller\textbackslash{}like\+Fungi()}} y \mbox{\hyperlink{ApiDeleteController_8php_source_l00096}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Delete\+Controller\textbackslash{}unlike\+Fungi()}}.
+
+\Hypertarget{routes_8php_a46e94a2ad6d46d7ff9e7a9299ca2cbbf}\label{routes_8php_a46e94a2ad6d46d7ff9e7a9299ca2cbbf} 
+\index{routes.php@{routes.php}!\$homeController@{\$homeController}}
+\index{\$homeController@{\$homeController}!routes.php@{routes.php}}
+\doxysubsubsection{\texorpdfstring{\$homeController}{\$homeController}}
+{\footnotesize\ttfamily \$home\+Controller = new \textbackslash{}\mbox{\hyperlink{classApp_1_1Controllers_1_1HomeController}{App\textbackslash{}\+Controllers\textbackslash{}\+Home\+Controller}}(\$db)}
+
+
+
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00099}{99}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a6285f54627a7572b761b3999f88536e9}\label{routes_8php_a6285f54627a7572b761b3999f88536e9} 
 \index{routes.php@{routes.php}!\$isApiRequest@{\$isApiRequest}}
@@ -400,7 +313,7 @@ Referenciado por \mbox{\hyperlink{ApiGetController_8php_source_l00231}{App\textb
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00012}{12}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00005}{5}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a99fa966d9164a3a3311554d0940ff219}\label{routes_8php_a99fa966d9164a3a3311554d0940ff219} 
 \index{routes.php@{routes.php}!\$langController@{\$langController}}
@@ -410,11 +323,11 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00012}{12}} del ar
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00015}{15}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00008}{8}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbackslash{}\+Config\textbackslash{}\+App\+Initializer\textbackslash{}initialize()}} y \mbox{\hyperlink{routes_8php_source_l00055}{render\+Template()}}.
+Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbackslash{}\+Config\textbackslash{}\+App\+Initializer\textbackslash{}initialize()}} y \mbox{\hyperlink{routes_8php_source_l00056}{render\+Template()}}.
 
 \Hypertarget{routes_8php_a18f16d529997b4f6ee669f0c83203bf0}\label{routes_8php_a18f16d529997b4f6ee669f0c83203bf0} 
 \index{routes.php@{routes.php}!\$routeController@{\$routeController}}
@@ -435,7 +348,7 @@ Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbac
 \end{DoxyCode}
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00112}{112}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00103}{103}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}\label{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8} 
 \index{routes.php@{routes.php}!\$routes@{\$routes}}
@@ -443,9 +356,33 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00112}{112}} del a
 \doxysubsubsection{\texorpdfstring{\$routes}{\$routes}}
 {\footnotesize\ttfamily \$routes}
 
+{\bfseries Valor inicial\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ [}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/home'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{charliteral}{'/'}],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/index'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/home.twig'},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{charliteral}{'/'}],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/about'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/about.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Acerca\ de'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false}],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/404'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/404.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Página\ no\ encontrada'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false}],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/random'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},\ \textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{stringliteral}{'/fungi/random'}],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/profile/([\string^/]+)'}\ =>\ [\textcolor{stringliteral}{'redirect'}\ =>\ \textcolor{stringliteral}{'/profile'}],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/profile'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'profileHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/docs/api'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/api/api\_docs.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a36285b6676d68b6f3bb5793aff6abcf7}{\$docsController}},\ \textcolor{stringliteral}{'apiDocsHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/change-\/language'}\ =>\ [\textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}},\ \textcolor{stringliteral}{'changeLanguage'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/register'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'components/auth/register\_form.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'registerHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/logout'}\ =>\ [\textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'logoutAndRedirect'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/statistics'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/statistics.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}{\$statsController}},\ \textcolor{stringliteral}{'statisticsPageHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/fungi/random'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},\ \textcolor{stringliteral}{'randomFungusHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/login'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'components/auth/login\_form.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \textcolor{stringliteral}{'loginHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{charliteral}{'/'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/home.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongos'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a46e94a2ad6d46d7ff9e7a9299ca2cbbf}{\$homeController}},\ \textcolor{stringliteral}{'indexHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/dashboard'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/admin.twig'},\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración'}),\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a1b76478f129d3454b20845dbf99863cb}{\$adminController}},\ \textcolor{stringliteral}{'dashboardHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/fungi/(\(\backslash\)d+)'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}},\ \textcolor{stringliteral}{'detailFungusHandler'}]],}
+\DoxyCodeLine{\ \ \ \ \textcolor{stringliteral}{'/admin/users'}\ =>\ [\textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'admin/users.twig'},\ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'adminUsersHandler'}]],}
+\DoxyCodeLine{]}
+
+\end{DoxyCode}
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00121}{121}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00112}{112}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_abefb3c26429d514777313e9a63d7cbac}\label{routes_8php_abefb3c26429d514777313e9a63d7cbac} 
 \index{routes.php@{routes.php}!\$session@{\$session}}
@@ -455,11 +392,11 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00121}{121}} del a
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00104}{104}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00093}{93}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbackslash{}\+Config\textbackslash{}\+App\+Initializer\textbackslash{}initialize()}}, \mbox{\hyperlink{FungiController_8php_source_l00250}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}random\+Fungus\+Handler()}} y \mbox{\hyperlink{routes_8php_source_l00055}{render\+Template()}}.
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00280}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}detail\+Fungus\+Handler()}}, \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbackslash{}\+Config\textbackslash{}\+App\+Initializer\textbackslash{}initialize()}}, \mbox{\hyperlink{FungiController_8php_source_l00250}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}random\+Fungus\+Handler()}} y \mbox{\hyperlink{routes_8php_source_l00056}{render\+Template()}}.
 
 \Hypertarget{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38}\label{routes_8php_a5a2fa55205fdb1b5147bd87d97548e38} 
 \index{routes.php@{routes.php}!\$statsController@{\$statsController}}
@@ -469,7 +406,7 @@ Referenciado por \mbox{\hyperlink{AppInitializer_8php_source_l00038}{App\textbac
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00108}{108}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00097}{97}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a653b5458163d338546c47271b4fb81b7}\label{routes_8php_a653b5458163d338546c47271b4fb81b7} 
 \index{routes.php@{routes.php}!\$uri@{\$uri}}
@@ -479,11 +416,11 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00108}{108}} del a
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00027}{27}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00020}{20}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{RouteController_8php_source_l00045}{App\textbackslash{}\+Controllers\textbackslash{}\+Route\+Controller\textbackslash{}handle\+Request()}}, \mbox{\hyperlink{ApiController_8php_source_l00060}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Request()}}, \mbox{\hyperlink{RouteController_8php_source_l00097}{App\textbackslash{}\+Controllers\textbackslash{}\+Route\+Controller\textbackslash{}process\+Pattern\+Routes()}} y \mbox{\hyperlink{routes_8php_source_l00055}{render\+Template()}}.
+Referenciado por \mbox{\hyperlink{RouteController_8php_source_l00045}{App\textbackslash{}\+Controllers\textbackslash{}\+Route\+Controller\textbackslash{}handle\+Request()}}, \mbox{\hyperlink{ApiController_8php_source_l00060}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Request()}}, \mbox{\hyperlink{RouteController_8php_source_l00097}{App\textbackslash{}\+Controllers\textbackslash{}\+Route\+Controller\textbackslash{}process\+Pattern\+Routes()}} y \mbox{\hyperlink{routes_8php_source_l00056}{render\+Template()}}.
 
 \Hypertarget{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}\label{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88} 
 \index{routes.php@{routes.php}!\$userController@{\$userController}}
@@ -493,5 +430,5 @@ Referenciado por \mbox{\hyperlink{RouteController_8php_source_l00045}{App\textba
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00106}{106}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00095}{95}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 

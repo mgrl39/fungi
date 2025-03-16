@@ -9,6 +9,7 @@ var classApp_1_1Controllers_1_1AuthController =
     [ "getSecretKey", "classApp_1_1Controllers_1_1AuthController.html#a303b63d25aff7ffc1fdc5b8dfef00f73", null ],
     [ "isLoggedIn", "classApp_1_1Controllers_1_1AuthController.html#aa0db53139c1ebc5414b5e4985a46b4ae", null ],
     [ "login", "classApp_1_1Controllers_1_1AuthController.html#af4914b619824cf44e74a5c7c625cab73", null ],
+    [ "loginHandler", "classApp_1_1Controllers_1_1AuthController.html#a2898c39d96be7bc4075106d3ffa29d86", null ],
     [ "logout", "classApp_1_1Controllers_1_1AuthController.html#a4dcca8154953e71c03799ebd9ae20ed0", null ],
     [ "logoutAndRedirect", "classApp_1_1Controllers_1_1AuthController.html#a9da33a37873dfc1289351f23429d2416", null ],
     [ "register", "classApp_1_1Controllers_1_1AuthController.html#a667c9941898e5f7ecd35eb2112fcdc20", null ],

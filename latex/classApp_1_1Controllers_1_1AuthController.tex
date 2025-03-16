@@ -24,6 +24,8 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Auth\
 \begin{DoxyCompactList}\small\item\em Verifica si el usuario está autenticado. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{login}} (\$username, \$password)
 \begin{DoxyCompactList}\small\item\em Inicia sesión de un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a2898c39d96be7bc4075106d3ffa29d86}{login\+Handler}} (\$twig, \$db, \$session)
+\begin{DoxyCompactList}\small\item\em Maneja la solicitud de inicio de sesión. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{logout}} ()
 \begin{DoxyCompactList}\small\item\em Cierra la sesión del usuario. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a9da33a37873dfc1289351f23429d2416}{logout\+And\+Redirect}} ()
@@ -615,12 +617,92 @@ Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00091}{91}
 
 Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00274}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00252}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+Session\+Token()}}.
 
+
+
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00503}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}login\+Handler()}}.
+
 Gráfico de llamadas de esta función\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73_cgraph}
+\end{center}
+\end{figure}
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1AuthController_a2898c39d96be7bc4075106d3ffa29d86}\label{classApp_1_1Controllers_1_1AuthController_a2898c39d96be7bc4075106d3ffa29d86} 
+\index{App\textbackslash{}Controllers\textbackslash{}AuthController@{App\textbackslash{}Controllers\textbackslash{}AuthController}!loginHandler@{loginHandler}}
+\index{loginHandler@{loginHandler}!App\textbackslash{}Controllers\textbackslash{}AuthController@{App\textbackslash{}Controllers\textbackslash{}AuthController}}
+\doxysubsubsection{\texorpdfstring{loginHandler()}{loginHandler()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\+::login\+Handler (\begin{DoxyParamCaption}\item[{}]{\$twig,  }\item[{}]{\$db,  }\item[{}]{\$session }\end{DoxyParamCaption})}
+
+
+
+Maneja la solicitud de inicio de sesión. 
+
+Procesa el formulario de inicio de sesión cuando se envía por POST o prepara la vista del formulario cuando se accede por GET. Compatible con el sistema de rutas de la aplicación.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+object & {\em \$twig} & Instancia de Twig \\
+\hline
+object & {\em \$db} & Instancia de la base de datos \\
+\hline
+object & {\em \$session} & Controlador de sesión \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Datos para la plantilla 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00503}{503}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00504\ \ \ \ \ \{}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{login}}(}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''}}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \$registered\ =\ isset(\$\_GET[\textcolor{stringliteral}{'registered'}])\ ?\ true\ :\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$registered\ ?\ \_(\textcolor{stringliteral}{'Usuario\ registrado\ exitosamente.\ Por\ favor\ inicia\ sesión.'})\ :\ null}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00527\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00091}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}login()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1AuthController_a2898c39d96be7bc4075106d3ffa29d86_cgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}\label{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0} 

@@ -22,8 +22,12 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Api\t
 \begin{DoxyCompactList}\small\item\em Constructor del controlador. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_af1a2566d91230f39e158371ac9f84f87}{generate\+Jwt\+Token}} (array \$user)
 \begin{DoxyCompactList}\small\item\em Genera un token JWT para un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aa789b2214dd7edb964e7a56a5ffb8396}{get\+User\+From\+Request}} ()
+\begin{DoxyCompactList}\small\item\em Obtiene el usuario autenticado de la solicitud actual. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a2fa761c4080454624ba20d24522ce5bd}{login}} (string \$username, string \$password)
 \begin{DoxyCompactList}\small\item\em Verifica las credenciales de un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a286900ac237fe45a8dfa4ca63687dcbb}{require\+Auth}} ()
+\begin{DoxyCompactList}\small\item\em Verifica si el usuario tiene acceso a un recurso y responde con error 401 si no. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aebf26ee908446e22bd84e57aae8d3826}{validate\+Required\+Fields}} (array \$data, array \$required\+Fields)
 \begin{DoxyCompactList}\small\item\em Valida los campos requeridos en una solicitud. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995}{verify\+Jwt\+Token}} (string \$token)
@@ -249,6 +253,109 @@ Gráfico de llamadas de esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_af1a2566d91230f39e158371ac9f84f87_cgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aa789b2214dd7edb964e7a56a5ffb8396}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aa789b2214dd7edb964e7a56a5ffb8396} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!getUserFromRequest@{getUserFromRequest}}
+\index{getUserFromRequest@{getUserFromRequest}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{getUserFromRequest()}{getUserFromRequest()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::get\+User\+From\+Request (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene el usuario autenticado de la solicitud actual. 
+
+Verifica todas las fuentes posibles de autenticación\+:
+\begin{DoxyItemize}
+\item Encabezado Authorization con token Bearer
+\item Sesión PHP activa
+\item Cookies de autenticación
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Devuelve}
+array\texorpdfstring{$\vert$}{|}null Datos del usuario si está autenticado, null en caso contrario 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00181}{181}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ ?array}
+\DoxyCodeLine{00182\ \ \ \ \ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ Bearer\ en\ el\ encabezado\ HTTP}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ JWT\ en\ encabezado\ Authorization}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995}{verifyJwtToken}}(\$token);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$user;}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ sesión\ PHP\ activa}}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (session\_status()\ ===\ PHP\_SESSION\_ACTIVE\ \&\&\ isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$user;}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Iniciar\ sesión\ si\ no\ está\ activa\ para\ verificar\ cookies}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (session\_status()\ ===\ PHP\_SESSION\_NONE)\ \{}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ cookies\ (JWT\ o\ token\ de\ sesión)}}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$\_COOKIE[\textcolor{stringliteral}{'jwt'}];}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995}{verifyJwtToken}}(\$token);}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$user;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00231\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{ApiAuthController_8php_source_l00099}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}verify\+Jwt\+Token()}}.
+
+
+
+Referenciado por \mbox{\hyperlink{ApiAuthController_8php_source_l00238}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}require\+Auth()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aa789b2214dd7edb964e7a56a5ffb8396_cgraph}
+\end{center}
+\end{figure}
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aa789b2214dd7edb964e7a56a5ffb8396_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a2fa761c4080454624ba20d24522ce5bd}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a2fa761c4080454624ba20d24522ce5bd} 
 \index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!login@{login}}
 \index{login@{login}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
@@ -290,6 +397,54 @@ Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00040}{
 \DoxyCodeLine{00052\ \ \ \ \ \}}
 
 \end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a286900ac237fe45a8dfa4ca63687dcbb}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a286900ac237fe45a8dfa4ca63687dcbb} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!requireAuth@{requireAuth}}
+\index{requireAuth@{requireAuth}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{requireAuth()}{requireAuth()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::require\+Auth (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Verifica si el usuario tiene acceso a un recurso y responde con error 401 si no. 
+
+\begin{DoxyReturn}{Devuelve}
+array\texorpdfstring{$\vert$}{|}null Datos del usuario si está autenticado, responde con error 401 y termina ejecución si no 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00238}{238}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ ?array}
+\DoxyCodeLine{00239\ \ \ \ \ \{}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aa789b2214dd7edb964e7a56a5ffb8396}{getUserFromRequest}}();}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$user;}
+\DoxyCodeLine{00252\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{ApiAuthController_8php_source_l00181}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}get\+User\+From\+Request()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a286900ac237fe45a8dfa4ca63687dcbb_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aebf26ee908446e22bd84e57aae8d3826}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aebf26ee908446e22bd84e57aae8d3826} 
 \index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!validateRequiredFields@{validateRequiredFields}}
 \index{validateRequiredFields@{validateRequiredFields}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
@@ -383,12 +538,24 @@ Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00099}{
 
 Hace referencia a \mbox{\hyperlink{ApiAuthController_8php_source_l00144}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}base64\+URLDecode()}} y \mbox{\hyperlink{ApiAuthController_8php_source_l00133}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
 
+
+
+Referenciado por \mbox{\hyperlink{ApiAuthController_8php_source_l00181}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}get\+User\+From\+Request()}}.
+
 Gráfico de llamadas de esta función\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995_cgraph}
+\end{center}
+\end{figure}
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995_icgraph}
 \end{center}
 \end{figure}
 

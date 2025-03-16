@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['routecontroller_0',['RouteController',['../classApp_1_1Controllers_1_1RouteController.html',1,'App::Controllers']]]
+  ['langcontroller_0',['LangController',['../classApp_1_1Controllers_1_1LangController.html',1,'App::Controllers']]]
 ];

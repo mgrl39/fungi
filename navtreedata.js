@@ -34,7 +34,7 @@ var NAVTREE =
       [ "Lista de clases", "annotated.html", "annotated_dup" ],
       [ "Índice de clases", "classes.html", null ],
       [ "Miembros de clases", "functions.html", [
-        [ "Todos", "functions.html", null ],
+        [ "Todos", "functions.html", "functions_dup" ],
         [ "Funciones", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
@@ -52,9 +52,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"ApiAuthController_8php.html",
-"classApp_1_1Controllers_1_1Api_1_1ApiPutController.html#a70d7c7752f72c99972964ed6d2718db9",
-"dir_837eb9dde271431e3ca7ee186e64cce5.html"
+"AdminController_8php.html",
+"classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a649bfb16350464cb89f78d85b108f741",
+"classApp_1_1Controllers_1_1StatsController.html#adbb5bc3855f90767c23682879866eb94"
 ];
 
 var SYNCONMSG = 'pulsar para deshabilitar sincronización';

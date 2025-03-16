@@ -11,9 +11,10 @@ var searchData=
   ['removeauthcookies_8',['removeAuthCookies',['../classApp_1_1Controllers_1_1AuthController.html#a3f7891576bdfc3deb4030d5d5db57bae',1,'App::Controllers::AuthController']]],
   ['removefavorite_9',['removeFavorite',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#ab5c2b50793d442775f1e7e6689c40dea',1,'App::Controllers::Api::ApiDeleteController']]],
   ['rendertemplate_10',['renderTemplate',['../routes_8php.html#a6c204a36e81bc356bb38645948b15f75',1,'routes.php']]],
-  ['requisitos_20previos_11',['Requisitos previos',['../index.html#autotoc_md7',1,'']]],
-  ['roadmap_12',['🌱 Roadmap',['../index.html#autotoc_md12',1,'']]],
-  ['routecontroller_13',['RouteController',['../classApp_1_1Controllers_1_1RouteController.html',1,'App::Controllers']]],
-  ['routecontroller_2ephp_14',['RouteController.php',['../RouteController_8php.html',1,'']]],
-  ['routes_2ephp_15',['routes.php',['../routes_8php.html',1,'']]]
+  ['requireauth_11',['requireAuth',['../classApp_1_1Controllers_1_1Api_1_1ApiAuthController.html#a286900ac237fe45a8dfa4ca63687dcbb',1,'App::Controllers::Api::ApiAuthController']]],
+  ['requisitos_20previos_12',['Requisitos previos',['../index.html#autotoc_md7',1,'']]],
+  ['roadmap_13',['🌱 Roadmap',['../index.html#autotoc_md12',1,'']]],
+  ['routecontroller_14',['RouteController',['../classApp_1_1Controllers_1_1RouteController.html',1,'App::Controllers']]],
+  ['routecontroller_2ephp_15',['RouteController.php',['../RouteController_8php.html',1,'']]],
+  ['routes_2ephp_16',['routes.php',['../routes_8php.html',1,'']]]
 ];

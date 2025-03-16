@@ -5,149 +5,146 @@
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00001}00001\ <?php}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00002}00002\ }
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceApp_1_1Controllers}{App\(\backslash\)Controllers}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00004}00004\ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00005}00005\ use\ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages}{App\(\backslash\)Config\(\backslash\)ErrorMessages}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00006}00006\ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00014}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController}{00014}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController}{UserController}}\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00018}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{00018}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00019}00019\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00023}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{00023}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00024}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{00024}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00025}00025\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00033}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a0fc457be5e0deb25ce6cc80040a51680}{00033}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a0fc457be5e0deb25ce6cc80040a51680}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{DatabaseController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}},\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{SessionController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}},\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}}\ =\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00034}00034\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00035}00035\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00036}00036\ \ \ \ \ \ \ \ \ \$this-\/>auth\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}}\ ??\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}});}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00037}00037\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00038}00038\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00047}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}{00047}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}{profileHandler}}(\$params\ =\ [])\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ está\ autenticado}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isLoggedIn())\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?redirect=/profile'});}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00053}00053\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00054}00054\ \ \ \ \ \ \ \ \ \$userId\ =\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ \$success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00058}00058\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas\ del\ usuario}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \$stats\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ }}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ user\_likes\ WHERE\ user\_id\ =\ ?)\ as\ likes\_count,}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ user\_favorites\ WHERE\ user\_id\ =\ ?)\ as\ favorites\_count,}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ comments\ WHERE\ user\_id\ =\ ?)\ as\ comments\_count,}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ contributions\ WHERE\ user\_id\ =\ ?)\ as\ contributions\_count}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}},\ [\$userId,\ \$userId,\ \$userId,\ \$userId])[0]\ ??\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ el\ usuario\ con\ los\ contadores}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'likes\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'likes\_count'}]\ ??\ 0;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'favorites\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'favorites\_count'}]\ ??\ 0;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'comments\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'comments\_count'}]\ ??\ 0;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'contributions\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'contributions\_count'}]\ ??\ 0;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ acciones\ recientes\ del\ usuario}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \$actions\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ a.*,\ 'check'\ as\ icon,\ 'primary'\ as\ color}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ access\_logs\ a}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ WHERE\ a.user\_id\ =\ ?}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ a.access\_time\ DESC}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 5}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}},\ [\$userId]);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00082}00082\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ formulario\ de\ actualización\ de\ perfil}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'}\ \&\&\ isset(\$\_POST[\textcolor{stringliteral}{'update\_profile'}]))\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{validateProfileUpdate}}(\$\_POST);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$errors))\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$success\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{updateUserProfile}}(\$userData[\textcolor{stringliteral}{'id'}],\ \$\_POST);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$success)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();\ \textcolor{comment}{//\ Recargar\ datos\ actualizados}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \textcolor{stringliteral}{'Perfil\ de\ '}\ .\ \$userData[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$userData,}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_actions'}\ =>\ \$actions,}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'errors'}\ =>\ \$errors,}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$success,}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_own\_profile'}\ =>\ \textcolor{keyword}{true}\ \ \textcolor{comment}{//\ Variable\ crucial\ para\ mostrar\ opciones\ de\ configuración}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00103}00103\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00104}00104\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00113}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{00113}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{validateProfileUpdate}}(\$data)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00114}00114\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00115}00115\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ email}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$data[\textcolor{stringliteral}{'email'}])\ \&\&\ !filter\_var(\$data[\textcolor{stringliteral}{'email'}],\ FILTER\_VALIDATE\_EMAIL))\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors[\textcolor{stringliteral}{'email'}]\ =\ \_(\textcolor{stringliteral}{'El\ formato\ del\ email\ no\ es\ válido'});}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00011}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController}{00011}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController}{UserController}}\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00015}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{00015}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00016}00016\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00020}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{00020}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00021}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{00021}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00022}00022\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00030}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a0fc457be5e0deb25ce6cc80040a51680}{00030}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a0fc457be5e0deb25ce6cc80040a51680}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController}{DatabaseController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}},\ \mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController}{SessionController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}},\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}}\ =\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00031}00031\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00032}00032\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00033}00033\ \ \ \ \ \ \ \ \ \$this-\/>auth\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}}\ ??\ \textcolor{keyword}{new}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController}{AuthController}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}});}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00035}00035\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00044}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}{00044}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}{profileHandler}}(\$params\ =\ [])\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ está\ autenticado}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?redirect=/profile'});}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ \$userId\ =\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00052}00052\ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00053}00053\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00054}00054\ \ \ \ \ \ \ \ \ \$success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas\ del\ usuario}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ \$stats\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ }}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ user\_likes\ WHERE\ user\_id\ =\ ?)\ as\ likes\_count,}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00060}00060\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ user\_favorites\ WHERE\ user\_id\ =\ ?)\ as\ favorites\_count,}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ comments\ WHERE\ user\_id\ =\ ?)\ as\ comments\_count,}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (SELECT\ COUNT(*)\ FROM\ contributions\ WHERE\ user\_id\ =\ ?)\ as\ contributions\_count}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}},\ [\$userId,\ \$userId,\ \$userId,\ \$userId])[0]\ ??\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ el\ usuario\ con\ los\ contadores}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'likes\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'likes\_count'}]\ ??\ 0;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'favorites\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'favorites\_count'}]\ ??\ 0;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'comments\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'comments\_count'}]\ ??\ 0;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \$userData[\textcolor{stringliteral}{'contributions\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'contributions\_count'}]\ ??\ 0;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ acciones\ recientes\ del\ usuario}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \$actions\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ a.*,\ 'check'\ as\ icon,\ 'primary'\ as\ color}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00074}00074\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ access\_logs\ a}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ WHERE\ a.user\_id\ =\ ?}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ a.access\_time\ DESC}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 5}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00078}00078\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}},\ [\$userId]);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00079}00079\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ formulario\ de\ actualización\ de\ perfil}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'}\ \&\&\ isset(\$\_POST[\textcolor{stringliteral}{'update\_profile'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{validateProfileUpdate}}(\$\_POST);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$errors))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$success\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{updateUserProfile}}(\$userData[\textcolor{stringliteral}{'id'}],\ \$\_POST);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$success)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();\ \textcolor{comment}{//\ Recargar\ datos\ actualizados}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \textcolor{stringliteral}{'Perfil\ de\ '}\ .\ \$userData[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$userData,}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_actions'}\ =>\ \$actions,}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'errors'}\ =>\ \$errors,}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$success,}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_own\_profile'}\ =>\ \textcolor{keyword}{true}\ \ \textcolor{comment}{//\ Variable\ crucial\ para\ mostrar\ opciones\ de\ configuración}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00100}00100\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00101}00101\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00110}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{00110}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{validateProfileUpdate}}(\$data)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00111}00111\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00112}00112\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ email}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$data[\textcolor{stringliteral}{'email'}])\ \&\&\ !filter\_var(\$data[\textcolor{stringliteral}{'email'}],\ FILTER\_VALIDATE\_EMAIL))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors[\textcolor{stringliteral}{'email'}]\ =\ \_(\textcolor{stringliteral}{'El\ formato\ del\ email\ no\ es\ válido'});}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00117}00117\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otras\ validaciones\ según\ necesidades}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...}}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00120}00120\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otras\ validaciones\ según\ necesidades}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00123}00123\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00124}00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$errors;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00125}00125\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00126}00126\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00136}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{00136}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{updateUserProfile}}(\$userId,\ \$data)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \$fields\ =\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determinar\ qué\ campos\ actualizar}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'email'}]))\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}email\ =\ :email"{}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':email'}]\ =\ \$data[\textcolor{stringliteral}{'email'}];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'display\_name'}]))\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}display\_name\ =\ :display\_name"{}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':display\_name'}]\ =\ \$data[\textcolor{stringliteral}{'display\_name'}];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Solo\ actualizar\ si\ hay\ campos\ para\ actualizar}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$fields))\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':id'}]\ =\ \$userId;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{"{},\ "{}},\ \$fields)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ :id"{}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$errors;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00122}00122\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00123}00123\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00133}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{00133}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{updateUserProfile}}(\$userId,\ \$data)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \$fields\ =\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determinar\ qué\ campos\ actualizar}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'email'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}email\ =\ :email"{}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':email'}]\ =\ \$data[\textcolor{stringliteral}{'email'}];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'display\_name'}]))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}display\_name\ =\ :display\_name"{}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':display\_name'}]\ =\ \$data[\textcolor{stringliteral}{'display\_name'}];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Solo\ actualizar\ si\ hay\ campos\ para\ actualizar}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$fields))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':id'}]\ =\ \$userId;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{"{},\ "{}},\ \$fields)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ :id"{}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00157}00157\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ perfil:\ "{}}\ .\ \$e-\/>getMessage());}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00160}00160\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ perfil:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00163}00163\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00164}00164\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00165}00165\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00171}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a852373bef5708efdfa174376def5921c}{00171}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a852373bef5708efdfa174376def5921c}{adminUsersHandler}}()\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ administrador}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00176}00176\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00160}00160\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00161}00161\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00162}00162\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00168}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a852373bef5708efdfa174376def5921c}{00168}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a852373bef5708efdfa174376def5921c}{adminUsersHandler}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ administrador}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00173}00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00174}00174\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ lista\ de\ usuarios}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00176}00176\ \ \ \ \ \ \ \ \ \$users\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}();}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00177}00177\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ lista\ de\ usuarios}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00179}00179\ \ \ \ \ \ \ \ \ \$users\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}();}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00180}00180\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración\ de\ Usuarios'}),}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'users'}\ =>\ \$users}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00184}00184\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00185}00185\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00186}00186\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00192}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{00192}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}()\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00197}00197\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00200}00200\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00201}00201\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00202}00202\ \}\ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración\ de\ Usuarios'}),}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'users'}\ =>\ \$users}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00181}00181\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00182}00182\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00183}00183\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00189}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{00189}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00194}00194\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00197}00197\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00198}00198\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00199}00199\ \}\ }
 
 \end{DoxyCode}

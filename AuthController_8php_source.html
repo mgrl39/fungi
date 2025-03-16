@@ -509,11 +509,40 @@ $(document).ready(function(){initNavTree('AuthController_8php_source.html',''); 
 <div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>        }</div>
 <div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>    }</div>
 </div>
-<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>}</div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span> </div>
+<div class="foldopen" id="foldopen00503" data-start="{" data-end="}">
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1AuthController.html#a2898c39d96be7bc4075106d3ffa29d86">  503</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1AuthController.html#a2898c39d96be7bc4075106d3ffa29d86">loginHandler</a>($twig, <a class="code hl_variable" href="classApp_1_1Controllers_1_1AuthController.html#a465b9cef5ddf7ccf230d87780229ded3">$db</a>, <a class="code hl_variable" href="classApp_1_1Controllers_1_1AuthController.html#a14e4702d0832b0c6ebffd00f21fef46d">$session</a>)</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>    {</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>        <span class="keywordflow">if</span> ($_SERVER[<span class="stringliteral">&#39;REQUEST_METHOD&#39;</span>] === <span class="stringliteral">&#39;POST&#39;</span>) {</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>            $result = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1AuthController.html#af4914b619824cf44e74a5c7c625cab73">login</a>(</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>                $_POST[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;&#39;</span>,</div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>                $_POST[<span class="stringliteral">&#39;password&#39;</span>] ?? <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>            );</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>            </div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>            <span class="keywordflow">if</span> ($result[<span class="stringliteral">&#39;success&#39;</span>]) {</div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>                header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>                exit;</div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>                    <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Iniciar Sesión&#39;</span>),</div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; $result[<span class="stringliteral">&#39;message&#39;</span>]</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>                ];</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>            }</div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>            $registered = isset($_GET[<span class="stringliteral">&#39;registered&#39;</span>]) ? true : <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Iniciar Sesión&#39;</span>),</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; $registered ? _(<span class="stringliteral">&#39;Usuario registrado exitosamente. Por favor inicia sesión.&#39;</span>) : null</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>            ];</div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>        }</div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>    }</div>
+</div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>}</div>
 </div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html">App\Controllers\AuthController</a></div><div class="ttdoc">Controlador para gestionar la autenticación de usuarios.</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00014">AuthController.php:14</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_a14e4702d0832b0c6ebffd00f21fef46d"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#a14e4702d0832b0c6ebffd00f21fef46d">App\Controllers\AuthController\$session</a></div><div class="ttdeci">$session</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00016">AuthController.php:16</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_a239c918cc9affeb44f560d762bdf61ce"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#a239c918cc9affeb44f560d762bdf61ce">App\Controllers\AuthController\generateSessionToken</a></div><div class="ttdeci">generateSessionToken($user)</div><div class="ttdoc">Genera un token de sesión para el usuario.</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00252">AuthController.php:252</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_a2898c39d96be7bc4075106d3ffa29d86"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#a2898c39d96be7bc4075106d3ffa29d86">App\Controllers\AuthController\loginHandler</a></div><div class="ttdeci">loginHandler($twig, $db, $session)</div><div class="ttdoc">Maneja la solicitud de inicio de sesión.</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00503">AuthController.php:503</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_a303b63d25aff7ffc1fdc5b8dfef00f73"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#a303b63d25aff7ffc1fdc5b8dfef00f73">App\Controllers\AuthController\getSecretKey</a></div><div class="ttdeci">getSecretKey()</div><div class="ttdoc">Obtiene la clave secreta para JWT.</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00403">AuthController.php:403</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_a3f7891576bdfc3deb4030d5d5db57bae"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#a3f7891576bdfc3deb4030d5d5db57bae">App\Controllers\AuthController\removeAuthCookies</a></div><div class="ttdeci">removeAuthCookies()</div><div class="ttdoc">Elimina todas las cookies relacionadas con la autenticación.</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00215">AuthController.php:215</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_a465b9cef5ddf7ccf230d87780229ded3"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#a465b9cef5ddf7ccf230d87780229ded3">App\Controllers\AuthController\$db</a></div><div class="ttdeci">$db</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00015">AuthController.php:15</a></div></div>
@@ -531,14 +560,14 @@ $(document).ready(function(){initNavTree('AuthController_8php_source.html',''); 
 <div class="ttc" id="aclassApp_1_1Controllers_1_1AuthController_html_af616276e8a28a39a17283cbb7b2e021c"><div class="ttname"><a href="classApp_1_1Controllers_1_1AuthController.html#af616276e8a28a39a17283cbb7b2e021c">App\Controllers\AuthController\$secretKey</a></div><div class="ttdeci">$secretKey</div><div class="ttdef"><b>Definition</b> <a href="AuthController_8php_source.html#l00017">AuthController.php:17</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html">App\Controllers\DatabaseController</a></div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00010">DatabaseController.php:10</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1SessionController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1SessionController.html">App\Controllers\SessionController</a></div><div class="ttdoc">Controlador para la gestión de sesiones de usuario.</div><div class="ttdef"><b>Definition</b> <a href="SessionController_8php_source.html#l00010">SessionController.php:10</a></div></div>
-<div class="ttc" id="anamespaceApp_1_1Controllers_html"><div class="ttname"><a href="namespaceApp_1_1Controllers.html">App\Controllers</a></div></div>
+<div class="ttc" id="anamespaceApp_1_1Controllers_html"><div class="ttname"><a href="namespaceApp_1_1Controllers.html">App\Controllers</a></div><div class="ttdef"><b>Definition</b> <a href="AdminController_8php_source.html#l00003">AdminController.php:3</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bbd6674d859f4cefaacb708974cac240.html">controllers</a></li><li class="navelem"><a class="el" href="AuthController_8php.html">AuthController.php</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 13:34:32 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 14:16:18 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
