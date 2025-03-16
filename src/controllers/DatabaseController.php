@@ -23,25 +23,7 @@ class DatabaseController {
             die("Error de conexión: " . $e->getMessage());
         }
     }
-  
-    public function createUser($username, $email, $password_hash) {
-        try {
-            $stmt = $this->pdo->prepare("
-                INSERT INTO users (username, email, password_hash)
-                VALUES (:username, :email, :password_hash)
-            ");
-            
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password_hash', $password_hash);
-            
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
-    /**
+      /**
      * Ejecuta una consulta SQL preparada en la base de datos
      * 
      * @param string $sql     Consulta SQL para ejecutar
