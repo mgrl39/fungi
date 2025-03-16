@@ -24,8 +24,8 @@ endif
 SERVER_HOST := localhost
 PORT := 8080
 SERVER_URL := http://$(SERVER_HOST):$(PORT)
-ROUTES_TO_CHECK := / /index /login /register /about /contact /faq /profile /statistics /admin /fungus /random /docs/api
-TIMEOUT := 3
+ROUTES_TO_CHECK := / /home /index /404 /login /register /about /profile /statistics /dashboard /random /docs/api /this-route-dont-exist
+TIMEOUT := 10
 
 # Variables para gettext
 LOCALES_DIR := locales
