@@ -149,17 +149,12 @@ class SessionController {
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
             
             if ($user) {
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
-                
+                if (session_status() === PHP_SESSION_NONE) session_start();                
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-                
                 return true;
             } else {
-                // Token no válido en la base de datos
                 setcookie("jwt", "", time() - 3600, "/");
                 return false;
             }
@@ -182,31 +177,16 @@ class SessionController {
     public function verifyJWT($jwt, $secretKey) {
         $tokenParts = explode('.', $jwt);
         
-        if (count($tokenParts) != 3) {
-            return false;
-        }
-        
+        if (count($tokenParts) != 3) return false;       
         list($headerEncoded, $payloadEncoded, $signatureEncoded) = $tokenParts;
-        
         // Verificar firma
         $signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
         $signatureCheck = $this->base64URLEncode($signature);
-        
-        if ($signatureCheck !== $signatureEncoded) {
-            return false;
-        }
-        
+        if ($signatureCheck !== $signatureEncoded) return false;
         // Verificar expiración
         $payload = json_decode($this->base64URLDecode($payloadEncoded), true);
-        
-        if (!$payload || !isset($payload['exp'])) {
-            return false;
-        }
-        
-        if ($payload['exp'] < time()) {
-            return false; // Token expirado
-        }
-        
+        if (!$payload || !isset($payload['exp'])) return false;
+        if ($payload['exp'] < time()) return false; // Token expirado
         return true;
     }
 

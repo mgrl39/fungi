@@ -43,11 +43,8 @@ class RouteController {
      * @return bool True si se procesó correctamente la ruta
      */
     public function handleRequest($uri) {
-        if (isset($this->routes[$uri])) {
-            return $this->processRoute($this->routes[$uri]);
-        } else {
-            return $this->processPatternRoutes($uri);
-        }
+        if (isset($this->routes[$uri])) return $this->processRoute($this->routes[$uri]);
+        else return $this->processPatternRoutes($uri);
     }
     
     /**
@@ -61,21 +58,17 @@ class RouteController {
             header('Location: ' . $route['redirect']);
             exit;
         }
-
         if (isset($route['auth_required']) && $route['auth_required'] && !$this->session->isLoggedIn()) {
             header('Location: /login');
             exit;
         }
-
         if (isset($route['admin_required']) && $route['admin_required'] && !$this->session->isAdmin()) {
             header('Location: /');
             exit;
         }
         $data = isset($route['handler']) ? $route['handler']($this->twig, $this->db, $this->session, $this->authController ?? null) : [];
         if (empty($data) && isset($route['title'])) $data = ['title' => $route['title']];
-        if (isset($route['template']) && $route['template'] !== null) {
-            renderTemplate($route['template'], $data);
-        }
+        if (isset($route['template']) && $route['template'] !== null) renderTemplate($route['template'], $data);
         return true;
     }
     
