@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\SessionController;
+use App\Controllers\UserController;
 
 /**
  * @class AuthController
@@ -66,8 +67,9 @@ class AuthController {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
         try {
-            // Pasar el password ya hasheado
-            if ($this->db->createUser($username, $email, $hashed_password)) {
+            // Usar el UserController para crear el usuario
+            $userController = new UserController($this->db, $this->session);
+            if ($userController->createUser($username, $email, $hashed_password)) {
                 return ['success' => true, 'message' => 'Usuario registrado exitosamente'];
             } else {
                 return ['success' => false, 'message' => 'El usuario o email ya existe'];
@@ -270,32 +272,25 @@ class AuthController {
      * 
      * @param array $user Datos del usuario
      * @return string Token JWT
+     * 
+     * Datos para el JWT:
+     * - Header: algoritmo HS256 y tipo JWT
+     * - Payload: ID y username del usuario, expiración en 30 días
+     * - Se guarda en cookie y base de datos
      */
     private function createJWT($user) {
-        // Datos para el JWT
-        $header = [
-            'alg' => 'HS256',
-            'typ' => 'JWT'
-        ];
-        
+        $header = ['alg' => 'HS256', 'typ' => 'JWT'];
         $payload = [
             'user_id' => $user['id'],
             'username' => $user['username'],
-            'exp' => time() + (86400 * 30) // 30 días
+            'exp' => time() + 86400 * 30
         ];
-        
-        // Generar JWT
         $jwt = $this->generateJWT($header, $payload);
-        
-        // Guardar en cookie
         $this->createSecureCookie("jwt", $jwt, time() + (86400 * 30), "/");
-        
-        // Guardar en base de datos
         $this->db->query(
             "UPDATE users SET jwt = ? WHERE id = ?",
             [$jwt, $user['id']]
         );
-        
         return $jwt;
     }
     
@@ -305,17 +300,18 @@ class AuthController {
      * @param array $header Cabecera del token
      * @param array $payload Datos del token
      * @return string Token JWT generado
+     * 
+     * @details
+     * 1. Codifica el header y payload en base64url
+     * 2. Crea una firma HMAC SHA256 usando la clave secreta
+     * 3. Codifica la firma en base64url
+     * 4. Concatena las tres partes con puntos para crear el JWT
      */
     private function generateJWT($header, $payload) {
-        // Codificar header y payload
         $header_encoded = $this->base64URLEncode(json_encode($header));
         $payload_encoded = $this->base64URLEncode(json_encode($payload));
-        
-        // Crear firma
         $signature = hash_hmac('sha256', "$header_encoded.$payload_encoded", $this->secretKey, true);
         $signature_encoded = $this->base64URLEncode($signature);
-        
-        // Crear JWT
         return "$header_encoded.$payload_encoded.$signature_encoded";
     }
     
@@ -405,8 +401,7 @@ class AuthController {
         if (function_exists('getenv') && getenv('JWT_SECRET_KEY')) {
             return getenv('JWT_SECRET_KEY');
         }
-        
-        // Clave predeterminada (¡cambiar en producción!)
+        // TODO: Cambiar en producción
         return 'tu_clave_secreta_segura_para_jwt';
     }
     

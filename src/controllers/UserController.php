@@ -11,12 +11,10 @@ namespace App\Controllers;
 class UserController {
     /**
      * @var DatabaseController $db Instancia del controlador de base de datos
+     * @var SessionController $session Instancia del controlador de sesiones
+     * @var AuthController|null $auth Instancia del controlador de autenticación
      */
     private $db;
-    
-    /**
-     * @var SessionController $session Instancia del controlador de sesiones
-     */
     private $session;
     private $auth;
     
@@ -25,9 +23,9 @@ class UserController {
      * 
      * @param DatabaseController $db Instancia del controlador de base de datos
      * @param SessionController $session Instancia del controlador de sesiones
-     * @param AuthController $auth Instancia del controlador de autenticación
+     * @param AuthController|null $auth Instancia del controlador de autenticación
      */
-    public function __construct(DatabaseController $db, SessionController $session, AuthController $auth = null) {
+    public function __construct(DatabaseController $db, SessionController $session, ?AuthController $auth = null) {
         $this->db = $db;
         $this->session = $session;
         $this->auth = $auth ?? new AuthController($db);
@@ -194,6 +192,32 @@ class UserController {
         } catch (\Exception $e) {
             error_log("Error al obtener usuarios: " . $e->getMessage());
             return [];
+        }
+    }
+
+    /**
+     * @brief Crea un nuevo usuario en el sistema
+     * 
+     * @param string $username Nombre de usuario
+     * @param string $email Correo electrónico
+     * @param string $password_hash Contraseña ya hasheada
+     * @return bool Resultado de la operación
+     */
+    public function createUser($username, $email, $password_hash) {
+        try {
+            $sql = "INSERT INTO users (username, email, password_hash) 
+                    VALUES (:username, :email, :password_hash)";
+            
+            $params = [
+                ':username' => $username,
+                ':email' => $email,
+                ':password_hash' => $password_hash
+            ];
+            
+            return $this->db->query($sql, $params) !== false;
+        } catch (\Exception $e) {
+            error_log("Error al crear usuario: " . $e->getMessage());
+            return false;
         }
     }
 } 
