@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['incrementfungiviews_0',['incrementfungiviews',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#abd9bc40195d1d959a10865b1d95eb9d9',1,'App\Controllers\Api\ApiGetController\incrementFungiViews()'],['../classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12',1,'App\Controllers\FungiController\incrementFungiViews()']]],
-  ['initialize_1',['initialize',['../classApp_1_1Config_1_1AppInitializer.html#ac4c6c6c6ac6e86604e29238199e42fca',1,'App::Config::AppInitializer']]],
-  ['initializelanguage_2',['initializeLanguage',['../classApp_1_1Controllers_1_1LangController.html#af5571544f9e3d28aa142583ede742466',1,'App::Controllers::LangController']]],
-  ['isadmin_3',['isAdmin',['../classApp_1_1Controllers_1_1SessionController.html#ae8ab9c638b48981d1c7040aebc7f1fb1',1,'App::Controllers::SessionController']]],
-  ['islanguagesupported_4',['isLanguageSupported',['../classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220',1,'App::Controllers::LangController']]],
-  ['isloggedin_5',['isloggedin',['../classApp_1_1Controllers_1_1AuthController.html#aa0db53139c1ebc5414b5e4985a46b4ae',1,'App\Controllers\AuthController\isLoggedIn()'],['../classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288',1,'App\Controllers\SessionController\isLoggedIn()']]]
+  ['likefungi_0',['likefungi',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a113d04fa6ae129cff1ef322e4f200c68',1,'App\Controllers\Api\ApiPostController\likeFungi()'],['../classApp_1_1Controllers_1_1FungiController.html#a61834711a6b3748eca87a0644c08babb',1,'App\Controllers\FungiController\likeFungi()']]],
+  ['loadtextdomain_1',['loadTextDomain',['../classApp_1_1Controllers_1_1LangController.html#adaa8e6a1db373704ed4513c6f78b2006',1,'App::Controllers::LangController']]],
+  ['login_2',['login',['../classApp_1_1Controllers_1_1Api_1_1ApiAuthController.html#a2fa761c4080454624ba20d24522ce5bd',1,'App\Controllers\Api\ApiAuthController\login()'],['../classApp_1_1Controllers_1_1AuthController.html#af4914b619824cf44e74a5c7c625cab73',1,'App\Controllers\AuthController\login($username, $password)']]],
+  ['logout_3',['logout',['../classApp_1_1Controllers_1_1AuthController.html#a4dcca8154953e71c03799ebd9ae20ed0',1,'App::Controllers::AuthController']]],
+  ['logoutandredirect_4',['logoutAndRedirect',['../classApp_1_1Controllers_1_1AuthController.html#a9da33a37873dfc1289351f23429d2416',1,'App::Controllers::AuthController']]]
 ];

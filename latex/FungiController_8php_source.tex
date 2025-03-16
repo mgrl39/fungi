@@ -139,6 +139,53 @@
 \DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$similarFungi\ ?:\ [];}
 \DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00209}00209\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00210}00210\ \}\ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00216}\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d}{00216}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d}{getRandomFungus}}()}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00217}00217\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ ORDER\ BY\ RAND()\ LIMIT\ 1"{}};}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \$randomResult\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ el\ resultado\ según\ el\ tipo\ de\ retorno\ de\ la\ DB}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00222}00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$randomResult\ instanceof\ \(\backslash\)PDOStatement)\ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$randomResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00224}00224\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (is\_array(\$randomResult)\ \&\&\ !empty(\$randomResult))\ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ (quizás\ el\ método\ query\ ya\ procesa\ el\ resultado)}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ isset(\$randomResult[0])\ ?\ \$randomResult[0]\ :\ \$randomResult;}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00227}00227\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00229}00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00230}00230\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$fungus)\ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Incrementar\ el\ contador\ de\ vistas\ para\ este\ hongo}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a4e795756d06c8d0ff755c20645eddb12}{incrementFungiViews}}(\$fungus[\textcolor{stringliteral}{'id'}]);}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Registrar\ para\ depuración}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Cargando\ hongo\ aleatorio:\ "{}}\ .\ json\_encode(\$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{'No\ encontrado'}));}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00237}00237\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00238}00238\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$fungus;}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00240}00240\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00241}00241\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00250}\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_ade6fc0ad20f30ba8d2ba5efcf3d7064c}{00250}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_ade6fc0ad20f30ba8d2ba5efcf3d7064c}{randomFungusHandler}}(\$twig,\ \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_ab1b8e71c0976e182854ff195764611c6}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}})}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00251}00251\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ un\ hongo\ aleatorio}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00253}00253\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d}{getRandomFungus}}();}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00254}00254\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00258}00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00259}00259\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ like\ si\ el\ usuario\ está\ logueado}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451}{getFungusWithLikeStatus}}(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00263}00263\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00264}00264\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00268}00268\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00269}00269\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{FungiController_8php_source_l00270}00270\ \}\ }
 
 \end{DoxyCode}

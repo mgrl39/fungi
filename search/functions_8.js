@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['handledelete_0',['handleDelete',['../classApp_1_1Controllers_1_1ApiController.html#a42d236c3d92bd345648219584a384e3e',1,'App::Controllers::ApiController']]],
-  ['handleget_1',['handleGet',['../classApp_1_1Controllers_1_1ApiController.html#ada189fa85b1c852d7deb9f5d59f16109',1,'App::Controllers::ApiController']]],
-  ['handlelogin_2',['handleLogin',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#ade6aee7846792084e491b5d0cc52c1f5',1,'App::Controllers::Api::ApiPostController']]],
-  ['handlelogout_3',['handleLogout',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a0db625d8d0d36e9e8cf766ea91832017',1,'App::Controllers::Api::ApiPostController']]],
-  ['handlepost_4',['handlePost',['../classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7',1,'App::Controllers::ApiController']]],
-  ['handleput_5',['handlePut',['../classApp_1_1Controllers_1_1ApiController.html#a44716cc151011ed147d461835bdd8c17',1,'App::Controllers::ApiController']]],
-  ['handleregistration_6',['handleRegistration',['../classApp_1_1Controllers_1_1AuthController.html#a134412735e4c54b6f15df957dce3b867',1,'App::Controllers::AuthController']]],
-  ['handlerequest_7',['handleRequest',['../classApp_1_1Controllers_1_1ApiController.html#a4739afff6242e9326d420f13fa554d4d',1,'App::Controllers::ApiController']]],
-  ['hasuserlikedfungi_8',['hasUserLikedFungi',['../classApp_1_1Controllers_1_1FungiController.html#a35fbbcc5cad471348611c0e1cfafebd7',1,'App::Controllers::FungiController']]]
+  ['incrementfungiviews_0',['incrementfungiviews',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#abd9bc40195d1d959a10865b1d95eb9d9',1,'App\Controllers\Api\ApiGetController\incrementFungiViews()'],['../classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12',1,'App\Controllers\FungiController\incrementFungiViews()']]],
+  ['initialize_1',['initialize',['../classApp_1_1Config_1_1AppInitializer.html#ac4c6c6c6ac6e86604e29238199e42fca',1,'App::Config::AppInitializer']]],
+  ['initializelanguage_2',['initializeLanguage',['../classApp_1_1Controllers_1_1LangController.html#af5571544f9e3d28aa142583ede742466',1,'App::Controllers::LangController']]],
+  ['isadmin_3',['isAdmin',['../classApp_1_1Controllers_1_1SessionController.html#ae8ab9c638b48981d1c7040aebc7f1fb1',1,'App::Controllers::SessionController']]],
+  ['islanguagesupported_4',['isLanguageSupported',['../classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220',1,'App::Controllers::LangController']]],
+  ['isloggedin_5',['isloggedin',['../classApp_1_1Controllers_1_1AuthController.html#aa0db53139c1ebc5414b5e4985a46b4ae',1,'App\Controllers\AuthController\isLoggedIn()'],['../classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288',1,'App\Controllers\SessionController\isLoggedIn()']]]
 ];

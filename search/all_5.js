@@ -14,10 +14,14 @@ var searchData=
   ['de_20pantalla_11',['📸 Capturas de Pantalla',['../index.html#autotoc_md11',1,'']]],
   ['de_20seguridad_12',['Configuración de Seguridad',['../group__Configuraci_xC3_xB3nSeguridad.html',1,'']]],
   ['de_20uso_13',['👥 Casos de Uso',['../index.html#autotoc_md10',1,'']]],
-  ['defaults_2einc_2ephp_14',['defaults.inc.php',['../defaults_8inc_8php.html',1,'']]],
-  ['del_20entorno_15',['Configuración del Entorno',['../group__Configuraci_xC3_xB3nEntorno.html',1,'']]],
-  ['del_20proyecto_16',['🏗️ Arquitectura del Proyecto',['../index.html#autotoc_md5',1,'']]],
-  ['deletefungi_17',['deleteFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#a7cdede58dd10bb73b8aa62233d03645c',1,'App::Controllers::Api::ApiDeleteController']]],
-  ['docker_18',['Instalación con Docker',['../index.html#autotoc_md9',1,'']]],
-  ['doncom_20me_20fungi_20fungi_20project_20com_20a_19',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]]
+  ['debugcontroller_14',['DebugController',['../classApp_1_1Controllers_1_1DebugController.html',1,'App::Controllers']]],
+  ['debugcontroller_2ephp_15',['DebugController.php',['../DebugController_8php.html',1,'']]],
+  ['defaults_2einc_2ephp_16',['defaults.inc.php',['../defaults_8inc_8php.html',1,'']]],
+  ['del_20entorno_17',['Configuración del Entorno',['../group__Configuraci_xC3_xB3nEntorno.html',1,'']]],
+  ['del_20proyecto_18',['🏗️ Arquitectura del Proyecto',['../index.html#autotoc_md5',1,'']]],
+  ['deletefungi_19',['deleteFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#a7cdede58dd10bb73b8aa62233d03645c',1,'App::Controllers::Api::ApiDeleteController']]],
+  ['docker_20',['Instalación con Docker',['../index.html#autotoc_md9',1,'']]],
+  ['docscontroller_21',['DocsController',['../classApp_1_1Controllers_1_1DocsController.html',1,'App::Controllers']]],
+  ['docscontroller_2ephp_22',['DocsController.php',['../DocsController_8php.html',1,'']]],
+  ['doncom_20me_20fungi_20fungi_20project_20com_20a_23',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]]
 ];

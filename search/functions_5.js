@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['emailexists_0',['emailExists',['../classApp_1_1Controllers_1_1UserController.html#ae2c5c8313727d8298c1785255cb06515',1,'App::Controllers::UserController']]]
+  ['format_0',['format',['../classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5',1,'App::Config::ErrorMessages']]]
 ];

@@ -41,7 +41,9 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Stats
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{get\+Top\+Favorites}} (\$limit=5)
 \begin{DoxyCompactList}\small\item\em Obtiene los hongos más añadidos a favoritos. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{get\+Top\+Liked}} (\$limit=5)
-\begin{DoxyCompactList}\small\item\em Obtiene los hongos más likeados. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Obtiene los hongos más likeados. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c}{statistics\+Page\+Handler}} (\$twig, \$db, \$session)
+\begin{DoxyCompactList}\small\item\em Manejador de la página de estadísticas. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Métodos privados}
 \begin{DoxyCompactItemize}
 \item 
@@ -221,12 +223,24 @@ Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00488}{48
 
 Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00078}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Edibility\+Stats()}}.
 
+
+
+Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00563}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}statistics\+Page\+Handler()}}.
+
 Gráfico de llamadas de esta función\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_cgraph}
+\end{center}
+\end{figure}
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8}\label{classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8} 
@@ -1263,6 +1277,56 @@ Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00211}{21
 \DoxyCodeLine{00229\ \ \ \ \ \}}
 
 \end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c}\label{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c} 
+\index{App\textbackslash{}Controllers\textbackslash{}StatsController@{App\textbackslash{}Controllers\textbackslash{}StatsController}!statisticsPageHandler@{statisticsPageHandler}}
+\index{statisticsPageHandler@{statisticsPageHandler}!App\textbackslash{}Controllers\textbackslash{}StatsController@{App\textbackslash{}Controllers\textbackslash{}StatsController}}
+\doxysubsubsection{\texorpdfstring{statisticsPageHandler()}{statisticsPageHandler()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\+::statistics\+Page\+Handler (\begin{DoxyParamCaption}\item[{}]{\$twig,  }\item[{}]{\$db,  }\item[{}]{\$session }\end{DoxyParamCaption})}
+
+
+
+Manejador de la página de estadísticas. 
+
+Este método actúa como handler para la ruta de estadísticas, devolviendo los datos necesarios para renderizar la página.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+object & {\em \$twig} & Instancia de Twig \\
+\hline
+object & {\em \$db} & Instancia de la conexión a base de datos \\
+\hline
+object & {\em \$session} & Controlador de sesión \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Datos para la plantilla de estadísticas 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00563}{563}} del archivo \mbox{\hyperlink{StatsController_8php_source}{Stats\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00564\ \ \ \ \ \{}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}()}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00569\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00488}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+All\+Stats\+For\+Page()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c_cgraph}
+\end{center}
+\end{figure}
 
 
 \doxysubsection{Documentación de datos miembro}

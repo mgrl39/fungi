@@ -132,7 +132,7 @@ Métodos públicos</h2></td></tr>
 <tr class="memdesc:ab6eaada711800b3e02fde27f12d51220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifica si un idioma está soportado.  <br /></td></tr>
 <tr class="separator:ab6eaada711800b3e02fde27f12d51220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adaa8e6a1db373704ed4513c6f78b2006" id="r_adaa8e6a1db373704ed4513c6f78b2006"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1LangController.html#adaa8e6a1db373704ed4513c6f78b2006">loadTextDomain</a> ($domain)</td></tr>
-<tr class="memdesc:adaa8e6a1db373704ed4513c6f78b2006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carga un dominio de texto adicional para gettext.  <br /></td></tr>
+<tr class="memdesc:adaa8e6a1db373704ed4513c6f78b2006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carga un dominio de texto adicional para gettext Verificar si el archivo de traducción existe NO cambiar el dominio activo, solo registrarlo Usar dgettext() para obtener traducciones de dominios específicos.  <br /></td></tr>
 <tr class="separator:adaa8e6a1db373704ed4513c6f78b2006"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -192,39 +192,30 @@ Atributos privados</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Cambia el idioma de la aplicación. </p>
-<p>Guarda la preferencia de idioma en sesión y cookie y maneja tanto peticiones AJAX como redirecciones normales</p>
+<p>Guarda la preferencia de idioma en sesión y cookie y maneja tanto peticiones AJAX como redirecciones normales. Obtiene el idioma seleccionado del POST, lo valida contra los soportados, guarda en sesión y cookie por 30 días. Maneja respuestas diferentes para peticiones AJAX (JSON) y normales (redirección).</p>
 <dl class="section return"><dt>Devuelve</dt><dd>array|void Respuesta JSON para AJAX o redirección para peticiones normales </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00176">176</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  177</span>    {</div>
-<div class="line"><span class="lineno">  178</span>        <span class="comment">// Obtener el idioma seleccionado</span></div>
-<div class="line"><span class="lineno">  179</span>        $lang = $_POST[<span class="stringliteral">&#39;lang&#39;</span>] ?? <span class="stringliteral">&#39;es&#39;</span>;</div>
-<div class="line"><span class="lineno">  180</span>        </div>
-<div class="line"><span class="lineno">  181</span>        <span class="comment">// Validar que el idioma esté entre los soportados</span></div>
-<div class="line"><span class="lineno">  182</span>        <span class="keywordflow">if</span> ($this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220">isLanguageSupported</a>($lang)) {</div>
-<div class="line"><span class="lineno">  183</span>            <span class="comment">// Guardar el idioma en la sesión</span></div>
-<div class="line"><span class="lineno">  184</span>            $_SESSION[<span class="stringliteral">&#39;idioma&#39;</span>] = $lang;</div>
-<div class="line"><span class="lineno">  185</span>            </div>
-<div class="line"><span class="lineno">  186</span>            <span class="comment">// Guardar en cookie para recordar preferencia</span></div>
-<div class="line"><span class="lineno">  187</span>            setcookie(<span class="stringliteral">&#39;idioma&#39;</span>, $lang, time() + (86400 * 30), <span class="stringliteral">&quot;/&quot;</span>); <span class="comment">// Cookie válida por 30 días</span></div>
-<div class="line"><span class="lineno">  188</span>        }</div>
-<div class="line"><span class="lineno">  189</span>        </div>
-<div class="line"><span class="lineno">  190</span>        <span class="comment">// Verificar si es una solicitud AJAX</span></div>
-<div class="line"><span class="lineno">  191</span>        $isAjax = !empty($_SERVER[<span class="stringliteral">&#39;HTTP_X_REQUESTED_WITH&#39;</span>]) &amp;&amp; </div>
-<div class="line"><span class="lineno">  192</span>                  strtolower($_SERVER[<span class="stringliteral">&#39;HTTP_X_REQUESTED_WITH&#39;</span>]) == <span class="stringliteral">&#39;xmlhttprequest&#39;</span>;</div>
-<div class="line"><span class="lineno">  193</span>        </div>
-<div class="line"><span class="lineno">  194</span>        <span class="keywordflow">if</span> ($isAjax) {</div>
-<div class="line"><span class="lineno">  195</span>            <span class="comment">// Si es AJAX, devolvemos un JSON con estado de éxito</span></div>
-<div class="line"><span class="lineno">  196</span>            header(<span class="stringliteral">&#39;Content-Type: application/json&#39;</span>);</div>
-<div class="line"><span class="lineno">  197</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;language&#39;</span> =&gt; $lang]);</div>
-<div class="line"><span class="lineno">  198</span>            exit;</div>
-<div class="line"><span class="lineno">  199</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  200</span>            <span class="comment">// Si no es AJAX, redirigir a la página anterior o principal</span></div>
-<div class="line"><span class="lineno">  201</span>            $redirect = $_POST[<span class="stringliteral">&#39;redirect&#39;</span>] ?? <span class="charliteral">&#39;/&#39;</span>;</div>
-<div class="line"><span class="lineno">  202</span>            header(<span class="stringliteral">&#39;Location: &#39;</span> . $redirect);</div>
-<div class="line"><span class="lineno">  203</span>            exit;</div>
-<div class="line"><span class="lineno">  204</span>        }</div>
-<div class="line"><span class="lineno">  205</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00175">175</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  176</span>    {</div>
+<div class="line"><span class="lineno">  177</span>        $lang = $_POST[<span class="stringliteral">&#39;lang&#39;</span>] ?? <span class="stringliteral">&#39;es&#39;</span>;</div>
+<div class="line"><span class="lineno">  178</span>        <span class="keywordflow">if</span> ($this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220">isLanguageSupported</a>($lang)) {</div>
+<div class="line"><span class="lineno">  179</span>            $_SESSION[<span class="stringliteral">&#39;idioma&#39;</span>] = $lang;</div>
+<div class="line"><span class="lineno">  180</span>            setcookie(<span class="stringliteral">&#39;idioma&#39;</span>, $lang, time() + (86400 * 30), <span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line"><span class="lineno">  181</span>        }</div>
+<div class="line"><span class="lineno">  182</span>        </div>
+<div class="line"><span class="lineno">  183</span>        $isAjax = !empty($_SERVER[<span class="stringliteral">&#39;HTTP_X_REQUESTED_WITH&#39;</span>]) &amp;&amp; </div>
+<div class="line"><span class="lineno">  184</span>                  strtolower($_SERVER[<span class="stringliteral">&#39;HTTP_X_REQUESTED_WITH&#39;</span>]) == <span class="stringliteral">&#39;xmlhttprequest&#39;</span>;</div>
+<div class="line"><span class="lineno">  185</span>        </div>
+<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">if</span> ($isAjax) {</div>
+<div class="line"><span class="lineno">  187</span>            header(<span class="stringliteral">&#39;Content-Type: application/json&#39;</span>);</div>
+<div class="line"><span class="lineno">  188</span>            echo json_encode([<span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, <span class="stringliteral">&#39;language&#39;</span> =&gt; $lang]);</div>
+<div class="line"><span class="lineno">  189</span>            exit;</div>
+<div class="line"><span class="lineno">  190</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  191</span>            $redirect = $_POST[<span class="stringliteral">&#39;redirect&#39;</span>] ?? <span class="charliteral">&#39;/&#39;</span>;</div>
+<div class="line"><span class="lineno">  192</span>            header(<span class="stringliteral">&#39;Location: &#39;</span> . $redirect);</div>
+<div class="line"><span class="lineno">  193</span>            exit;</div>
+<div class="line"><span class="lineno">  194</span>        }</div>
+<div class="line"><span class="lineno">  195</span>    }</div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1LangController_html_ab6eaada711800b3e02fde27f12d51220"><div class="ttname"><a href="classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220">App\Controllers\LangController\isLanguageSupported</a></div><div class="ttdeci">isLanguageSupported($lang)</div><div class="ttdoc">Verifica si un idioma está soportado.</div><div class="ttdef"><b>Definition</b> <a href="LangController_8php_source.html#l00063">LangController.php:63</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="LangController_8php_source.html#l00063">App\Controllers\LangController\isLanguageSupported()</a>.</p>
@@ -261,35 +252,35 @@ Atributos privados</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Devuelve</dt><dd>void </dd></dl>
+<dl class="section return"><dt>Devuelve</dt><dd>void</dd></dl>
+<ul>
+<li>Si el idioma no está soportado, usa español por defecto</li>
+<li>Obtiene el locale del sistema operativo correspondiente</li>
+<li>Configura las variables de entorno y locale para gettext</li>
+<li>Configura el dominio de mensajes principal</li>
+<li>Carga dominios adicionales predeterminados (navbar, about, home, profile) </li>
+</ul>
 
-<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00098">98</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   99</span>    {</div>
-<div class="line"><span class="lineno">  100</span>        <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220">isLanguageSupported</a>($lang)) {</div>
-<div class="line"><span class="lineno">  101</span>            $lang = <span class="stringliteral">&#39;es&#39;</span>; <span class="comment">// Idioma por defecto si el solicitado no está soportado</span></div>
-<div class="line"><span class="lineno">  102</span>        }</div>
-<div class="line"><span class="lineno">  103</span>        </div>
-<div class="line"><span class="lineno">  104</span>        <span class="comment">// Obtener el locale del sistema operativo correspondiente</span></div>
-<div class="line"><span class="lineno">  105</span>        $locale = ($this-&gt;localeMap[$lang] ?? <span class="stringliteral">&#39;es_ES&#39;</span>) . <span class="stringliteral">&#39;.UTF-8&#39;</span>;</div>
-<div class="line"><span class="lineno">  106</span>        </div>
-<div class="line"><span class="lineno">  107</span>        <span class="comment">// Configurar gettext</span></div>
-<div class="line"><span class="lineno">  108</span>        putenv(<span class="stringliteral">&quot;LANG=$locale&quot;</span>);</div>
-<div class="line"><span class="lineno">  109</span>        putenv(<span class="stringliteral">&quot;LANGUAGE=$locale&quot;</span>);</div>
-<div class="line"><span class="lineno">  110</span>        putenv(<span class="stringliteral">&quot;LC_ALL=$locale&quot;</span>);</div>
-<div class="line"><span class="lineno">  111</span>        setlocale(LC_ALL, $locale);</div>
-<div class="line"><span class="lineno">  112</span>        </div>
-<div class="line"><span class="lineno">  113</span>        <span class="comment">// Configurar dominio de mensajes principal</span></div>
-<div class="line"><span class="lineno">  114</span>        bindtextdomain(<span class="stringliteral">&quot;messages&quot;</span>, $this-&gt;localeDir);</div>
-<div class="line"><span class="lineno">  115</span>        bind_textdomain_codeset(<span class="stringliteral">&quot;messages&quot;</span>, <span class="stringliteral">&quot;UTF-8&quot;</span>);</div>
-<div class="line"><span class="lineno">  116</span>        textdomain(<span class="stringliteral">&quot;messages&quot;</span>);</div>
-<div class="line"><span class="lineno">  117</span>        </div>
-<div class="line"><span class="lineno">  118</span>        <span class="comment">// NUEVO: Cargar dominios adicionales de forma predeterminada</span></div>
+<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00105">105</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  106</span>    {</div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1LangController.html#ab6eaada711800b3e02fde27f12d51220">isLanguageSupported</a>($lang)) $lang = <span class="stringliteral">&#39;es&#39;</span>;</div>
+<div class="line"><span class="lineno">  108</span>        $locale = ($this-&gt;localeMap[$lang] ?? <span class="stringliteral">&#39;es_ES&#39;</span>) . <span class="stringliteral">&#39;.UTF-8&#39;</span>;</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>        putenv(<span class="stringliteral">&quot;LANG=$locale&quot;</span>);</div>
+<div class="line"><span class="lineno">  111</span>        putenv(<span class="stringliteral">&quot;LANGUAGE=$locale&quot;</span>);</div>
+<div class="line"><span class="lineno">  112</span>        putenv(<span class="stringliteral">&quot;LC_ALL=$locale&quot;</span>);</div>
+<div class="line"><span class="lineno">  113</span>        setlocale(LC_ALL, $locale);</div>
+<div class="line"><span class="lineno">  114</span>        </div>
+<div class="line"><span class="lineno">  115</span>        bindtextdomain(<span class="stringliteral">&quot;messages&quot;</span>, $this-&gt;localeDir);</div>
+<div class="line"><span class="lineno">  116</span>        bind_textdomain_codeset(<span class="stringliteral">&quot;messages&quot;</span>, <span class="stringliteral">&quot;UTF-8&quot;</span>);</div>
+<div class="line"><span class="lineno">  117</span>        textdomain(<span class="stringliteral">&quot;messages&quot;</span>);</div>
+<div class="line"><span class="lineno">  118</span>        </div>
 <div class="line"><span class="lineno">  119</span>        $default_domains = [<span class="stringliteral">&#39;navbar&#39;</span>, <span class="stringliteral">&#39;about&#39;</span>, <span class="stringliteral">&#39;home&#39;</span>, <span class="stringliteral">&#39;profile&#39;</span>];</div>
 <div class="line"><span class="lineno">  120</span>        <span class="keywordflow">foreach</span> ($default_domains as $domain) $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1LangController.html#adaa8e6a1db373704ed4513c6f78b2006">loadTextDomain</a>($domain);</div>
 <div class="line"><span class="lineno">  121</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1LangController_html_adaa8e6a1db373704ed4513c6f78b2006"><div class="ttname"><a href="classApp_1_1Controllers_1_1LangController.html#adaa8e6a1db373704ed4513c6f78b2006">App\Controllers\LangController\loadTextDomain</a></div><div class="ttdeci">loadTextDomain($domain)</div><div class="ttdoc">Carga un dominio de texto adicional para gettext.</div><div class="ttdef"><b>Definition</b> <a href="LangController_8php_source.html#l00130">LangController.php:130</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1LangController_html_adaa8e6a1db373704ed4513c6f78b2006"><div class="ttname"><a href="classApp_1_1Controllers_1_1LangController.html#adaa8e6a1db373704ed4513c6f78b2006">App\Controllers\LangController\loadTextDomain</a></div><div class="ttdeci">loadTextDomain($domain)</div><div class="ttdoc">Carga un dominio de texto adicional para gettext Verificar si el archivo de traducción existe NO camb...</div><div class="ttdef"><b>Definition</b> <a href="LangController_8php_source.html#l00132">LangController.php:132</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="LangController_8php_source.html#l00063">App\Controllers\LangController\isLanguageSupported()</a> y <a class="el" href="LangController_8php_source.html#l00130">App\Controllers\LangController\loadTextDomain()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="LangController_8php_source.html#l00063">App\Controllers\LangController\isLanguageSupported()</a> y <a class="el" href="LangController_8php_source.html#l00132">App\Controllers\LangController\loadTextDomain()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="LangController_8php_source.html#l00080">App\Controllers\LangController\initializeLanguage()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -373,16 +364,15 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>string Texto traducido </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00157">157</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  158</span>    {</div>
-<div class="line"><span class="lineno">  159</span>        $traduccion = dgettext($domain, $text);</div>
-<div class="line"><span class="lineno">  160</span>        <span class="keywordflow">if</span> ($traduccion === $text &amp;&amp; $domain !== <span class="stringliteral">&#39;messages&#39;</span>) {</div>
-<div class="line"><span class="lineno">  161</span>            error_log(<span class="stringliteral">&quot;Error de traducción: &#39;$text&#39; no encontrado en dominio &#39;$domain&#39;&quot;</span>);</div>
-<div class="line"><span class="lineno">  162</span>            <span class="comment">// Intenta buscar en el dominio messages como último recurso</span></div>
-<div class="line"><span class="lineno">  163</span>            $traduccion = dgettext(<span class="stringliteral">&#39;messages&#39;</span>, $text);</div>
-<div class="line"><span class="lineno">  164</span>        }</div>
-<div class="line"><span class="lineno">  165</span>        <span class="keywordflow">return</span> $traduccion;</div>
-<div class="line"><span class="lineno">  166</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00155">155</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  156</span>    {</div>
+<div class="line"><span class="lineno">  157</span>        $traduccion = dgettext($domain, $text);</div>
+<div class="line"><span class="lineno">  158</span>        <span class="keywordflow">if</span> ($traduccion === $text &amp;&amp; $domain !== <span class="stringliteral">&#39;messages&#39;</span>) {</div>
+<div class="line"><span class="lineno">  159</span>            error_log(<span class="stringliteral">&quot;Error de traducción: &#39;$text&#39; no encontrado en dominio &#39;$domain&#39;&quot;</span>);</div>
+<div class="line"><span class="lineno">  160</span>            $traduccion = dgettext(<span class="stringliteral">&#39;messages&#39;</span>, $text);</div>
+<div class="line"><span class="lineno">  161</span>        }</div>
+<div class="line"><span class="lineno">  162</span>        <span class="keywordflow">return</span> $traduccion;</div>
+<div class="line"><span class="lineno">  163</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -421,9 +411,9 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   87</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1LangController.html#a6f8a96985210b857478f7abb5a1608fd">configureLocale</a>($idioma);</div>
 <div class="line"><span class="lineno">   88</span>        <span class="keywordflow">return</span> $idioma;</div>
 <div class="line"><span class="lineno">   89</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1LangController_html_a6f8a96985210b857478f7abb5a1608fd"><div class="ttname"><a href="classApp_1_1Controllers_1_1LangController.html#a6f8a96985210b857478f7abb5a1608fd">App\Controllers\LangController\configureLocale</a></div><div class="ttdeci">configureLocale($lang)</div><div class="ttdoc">Configura el entorno local (gettext) para el idioma seleccionado.</div><div class="ttdef"><b>Definition</b> <a href="LangController_8php_source.html#l00098">LangController.php:98</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1LangController_html_a6f8a96985210b857478f7abb5a1608fd"><div class="ttname"><a href="classApp_1_1Controllers_1_1LangController.html#a6f8a96985210b857478f7abb5a1608fd">App\Controllers\LangController\configureLocale</a></div><div class="ttdeci">configureLocale($lang)</div><div class="ttdoc">Configura el entorno local (gettext) para el idioma seleccionado.</div><div class="ttdef"><b>Definition</b> <a href="LangController_8php_source.html#l00105">LangController.php:105</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="LangController_8php_source.html#l00098">App\Controllers\LangController\configureLocale()</a> y <a class="el" href="LangController_8php_source.html#l00063">App\Controllers\LangController\isLanguageSupported()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="LangController_8php_source.html#l00105">App\Controllers\LangController\configureLocale()</a> y <a class="el" href="LangController_8php_source.html#l00063">App\Controllers\LangController\isLanguageSupported()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -464,7 +454,7 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   65</span>        <span class="keywordflow">return</span> in_array($lang, $this-&gt;supportedLanguages);</div>
 <div class="line"><span class="lineno">   66</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="LangController_8php_source.html#l00176">App\Controllers\LangController\changeLanguage()</a>, <a class="el" href="LangController_8php_source.html#l00098">App\Controllers\LangController\configureLocale()</a> y <a class="el" href="LangController_8php_source.html#l00080">App\Controllers\LangController\initializeLanguage()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="LangController_8php_source.html#l00175">App\Controllers\LangController\changeLanguage()</a>, <a class="el" href="LangController_8php_source.html#l00105">App\Controllers\LangController\configureLocale()</a> y <a class="el" href="LangController_8php_source.html#l00080">App\Controllers\LangController\initializeLanguage()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -491,35 +481,31 @@ Atributos privados</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Carga un dominio de texto adicional para gettext. </p>
+<p>Carga un dominio de texto adicional para gettext Verificar si el archivo de traducción existe NO cambiar el dominio activo, solo registrarlo Usar dgettext() para obtener traducciones de dominios específicos. </p>
 <dl class="params"><dt>Parámetros</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$domain</td><td>Nombre del dominio de texto</td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$domain</td><td>Nombre del dominio de texto </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>bool Éxito de la operación </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00130">130</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  131</span>    {</div>
-<div class="line"><span class="lineno">  132</span>        <span class="comment">// Verificar si el archivo de traducción existe</span></div>
-<div class="line"><span class="lineno">  133</span>        $moFile = $this-&gt;localeDir . <span class="charliteral">&#39;/&#39;</span> . $this-&gt;localeMap[$_SESSION[<span class="stringliteral">&#39;idioma&#39;</span>] ?? <span class="stringliteral">&#39;es&#39;</span>] . <span class="stringliteral">&#39;/LC_MESSAGES/&#39;</span> . $domain . <span class="stringliteral">&#39;.mo&#39;</span>;</div>
-<div class="line"><span class="lineno">  134</span>        </div>
-<div class="line"><span class="lineno">  135</span>        <span class="keywordflow">if</span> (!file_exists($moFile)) {</div>
-<div class="line"><span class="lineno">  136</span>            error_log(<span class="stringliteral">&quot;No se encuentra el archivo de traducciones: $moFile&quot;</span>);</div>
-<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  138</span>        }</div>
-<div class="line"><span class="lineno">  139</span>        </div>
-<div class="line"><span class="lineno">  140</span>        bindtextdomain($domain, $this-&gt;localeDir);</div>
-<div class="line"><span class="lineno">  141</span>        bind_textdomain_codeset($domain, <span class="stringliteral">&quot;UTF-8&quot;</span>);</div>
-<div class="line"><span class="lineno">  142</span>        </div>
-<div class="line"><span class="lineno">  143</span>        <span class="comment">// NO cambiar el dominio activo, solo registrarlo</span></div>
-<div class="line"><span class="lineno">  144</span>        <span class="comment">// Usar dgettext() para obtener traducciones de dominios específicos</span></div>
-<div class="line"><span class="lineno">  145</span>        </div>
-<div class="line"><span class="lineno">  146</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  147</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="LangController_8php_source.html#l00132">132</a> del archivo <a class="el" href="LangController_8php_source.html">LangController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  133</span>    {</div>
+<div class="line"><span class="lineno">  134</span>        $moFile = $this-&gt;localeDir . <span class="charliteral">&#39;/&#39;</span> . $this-&gt;localeMap[$_SESSION[<span class="stringliteral">&#39;idioma&#39;</span>] ?? <span class="stringliteral">&#39;es&#39;</span>] . <span class="stringliteral">&#39;/LC_MESSAGES/&#39;</span> . $domain . <span class="stringliteral">&#39;.mo&#39;</span>;</div>
+<div class="line"><span class="lineno">  135</span>        </div>
+<div class="line"><span class="lineno">  136</span>        <span class="keywordflow">if</span> (!file_exists($moFile)) {</div>
+<div class="line"><span class="lineno">  137</span>            error_log(<span class="stringliteral">&quot;No se encuentra el archivo de traducciones: $moFile&quot;</span>);</div>
+<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  139</span>        }</div>
+<div class="line"><span class="lineno">  140</span>        </div>
+<div class="line"><span class="lineno">  141</span>        bindtextdomain($domain, $this-&gt;localeDir);</div>
+<div class="line"><span class="lineno">  142</span>        bind_textdomain_codeset($domain, <span class="stringliteral">&quot;UTF-8&quot;</span>);</div>
+<div class="line"><span class="lineno">  143</span>        </div>
+<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  145</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="LangController_8php_source.html#l00098">App\Controllers\LangController\configureLocale()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="LangController_8php_source.html#l00105">App\Controllers\LangController\configureLocale()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -619,7 +605,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1LangController.html">LangController</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 11:23:34 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 13:34:32 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -33,7 +33,7 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Lang\
 \mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_ab6eaada711800b3e02fde27f12d51220}{is\+Language\+Supported}} (\$lang)
 \begin{DoxyCompactList}\small\item\em Verifica si un idioma está soportado. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_adaa8e6a1db373704ed4513c6f78b2006}{load\+Text\+Domain}} (\$domain)
-\begin{DoxyCompactList}\small\item\em Carga un dominio de texto adicional para gettext. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Carga un dominio de texto adicional para gettext Verificar si el archivo de traducción existe NO cambiar el dominio activo, solo registrarlo Usar dgettext() para obtener traducciones de dominios específicos. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos privados}
 \begin{DoxyCompactItemize}
 \item 
@@ -89,46 +89,37 @@ Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00041}{41}
 
 Cambia el idioma de la aplicación. 
 
-Guarda la preferencia de idioma en sesión y cookie y maneja tanto peticiones AJAX como redirecciones normales
+Guarda la preferencia de idioma en sesión y cookie y maneja tanto peticiones AJAX como redirecciones normales. Obtiene el idioma seleccionado del POST, lo valida contra los soportados, guarda en sesión y cookie por 30 días. Maneja respuestas diferentes para peticiones AJAX (JSON) y normales (redirección).
 
 \begin{DoxyReturn}{Devuelve}
 array\texorpdfstring{$\vert$}{|}void Respuesta JSON para AJAX o redirección para peticiones normales 
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00176}{176}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00175}{175}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00177\ \ \ \ \ \{}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ idioma\ seleccionado}}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \$lang\ =\ \$\_POST[\textcolor{stringliteral}{'lang'}]\ ??\ \textcolor{stringliteral}{'es'};}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ que\ el\ idioma\ esté\ entre\ los\ soportados}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_ab6eaada711800b3e02fde27f12d51220}{isLanguageSupported}}(\$lang))\ \{}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ el\ idioma\ en\ la\ sesión}}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ =\ \$lang;}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ cookie\ para\ recordar\ preferencia}}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{'idioma'},\ \$lang,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});\ \textcolor{comment}{//\ Cookie\ válida\ por\ 30\ días}}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ una\ solicitud\ AJAX}}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \$isAjax\ =\ !empty(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_X\_REQUESTED\_WITH'}])\ \&\&\ }
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strtolower(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_X\_REQUESTED\_WITH'}])\ ==\ \textcolor{stringliteral}{'xmlhttprequest'};}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$isAjax)\ \{}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ es\ AJAX,\ devolvemos\ un\ JSON\ con\ estado\ de\ éxito}}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'language'}\ =>\ \$lang]);}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ es\ AJAX,\ redirigir\ a\ la\ página\ anterior\ o\ principal}}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \$redirect\ =\ \$\_POST[\textcolor{stringliteral}{'redirect'}]\ ??\ \textcolor{charliteral}{'/'};}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ '}\ .\ \$redirect);}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00205\ \ \ \ \ \}}
+\DoxyCodeLine{00176\ \ \ \ \ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \$lang\ =\ \$\_POST[\textcolor{stringliteral}{'lang'}]\ ??\ \textcolor{stringliteral}{'es'};}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_ab6eaada711800b3e02fde27f12d51220}{isLanguageSupported}}(\$lang))\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ =\ \$lang;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{'idioma'},\ \$lang,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \$isAjax\ =\ !empty(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_X\_REQUESTED\_WITH'}])\ \&\&\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strtolower(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_X\_REQUESTED\_WITH'}])\ ==\ \textcolor{stringliteral}{'xmlhttprequest'};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$isAjax)\ \{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ \textcolor{stringliteral}{'language'}\ =>\ \$lang]);}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \$redirect\ =\ \$\_POST[\textcolor{stringliteral}{'redirect'}]\ ??\ \textcolor{charliteral}{'/'};}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ '}\ .\ \$redirect);}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -159,34 +150,34 @@ string & {\em \$lang} & Código del idioma a configurar\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Devuelve}
-void 
+void
 \end{DoxyReturn}
 
+\begin{DoxyItemize}
+\item Si el idioma no está soportado, usa español por defecto
+\item Obtiene el locale del sistema operativo correspondiente
+\item Configura las variables de entorno y locale para gettext
+\item Configura el dominio de mensajes principal
+\item Carga dominios adicionales predeterminados (navbar, about, home, profile) 
+\end{DoxyItemize}
 
-Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00098}{98}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00105}{105}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00099\ \ \ \ \ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_ab6eaada711800b3e02fde27f12d51220}{isLanguageSupported}}(\$lang))\ \{}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \$lang\ =\ \textcolor{stringliteral}{'es'};\ \textcolor{comment}{//\ Idioma\ por\ defecto\ si\ el\ solicitado\ no\ está\ soportado}}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ locale\ del\ sistema\ operativo\ correspondiente}}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \$locale\ =\ (\$this-\/>localeMap[\$lang]\ ??\ \textcolor{stringliteral}{'es\_ES'})\ .\ \textcolor{stringliteral}{'.UTF-\/8'};}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ gettext}}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LANG=\$locale"{}});}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LANGUAGE=\$locale"{}});}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LC\_ALL=\$locale"{}});}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ setlocale(LC\_ALL,\ \$locale);}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ dominio\ de\ mensajes\ principal}}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ bindtextdomain(\textcolor{stringliteral}{"{}messages"{}},\ \$this-\/>localeDir);}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ bind\_textdomain\_codeset(\textcolor{stringliteral}{"{}messages"{}},\ \textcolor{stringliteral}{"{}UTF-\/8"{}});}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ textdomain(\textcolor{stringliteral}{"{}messages"{}});}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ NUEVO:\ Cargar\ dominios\ adicionales\ de\ forma\ predeterminada}}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_ab6eaada711800b3e02fde27f12d51220}{isLanguageSupported}}(\$lang))\ \$lang\ =\ \textcolor{stringliteral}{'es'};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \$locale\ =\ (\$this-\/>localeMap[\$lang]\ ??\ \textcolor{stringliteral}{'es\_ES'})\ .\ \textcolor{stringliteral}{'.UTF-\/8'};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LANG=\$locale"{}});}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LANGUAGE=\$locale"{}});}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ putenv(\textcolor{stringliteral}{"{}LC\_ALL=\$locale"{}});}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ setlocale(LC\_ALL,\ \$locale);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ bindtextdomain(\textcolor{stringliteral}{"{}messages"{}},\ \$this-\/>localeDir);}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ bind\_textdomain\_codeset(\textcolor{stringliteral}{"{}messages"{}},\ \textcolor{stringliteral}{"{}UTF-\/8"{}});}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ textdomain(\textcolor{stringliteral}{"{}messages"{}});}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \$default\_domains\ =\ [\textcolor{stringliteral}{'navbar'},\ \textcolor{stringliteral}{'about'},\ \textcolor{stringliteral}{'home'},\ \textcolor{stringliteral}{'profile'}];}
 \DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$default\_domains\ as\ \$domain)\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1LangController_adaa8e6a1db373704ed4513c6f78b2006}{loadTextDomain}}(\$domain);}
 \DoxyCodeLine{00121\ \ \ \ \ \}}
@@ -194,7 +185,7 @@ Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00098}{98}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{LangController_8php_source_l00063}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}is\+Language\+Supported()}} y \mbox{\hyperlink{LangController_8php_source_l00130}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}load\+Text\+Domain()}}.
+Hace referencia a \mbox{\hyperlink{LangController_8php_source_l00063}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}is\+Language\+Supported()}} y \mbox{\hyperlink{LangController_8php_source_l00132}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}load\+Text\+Domain()}}.
 
 
 
@@ -266,19 +257,18 @@ string Texto traducido
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00157}{157}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00155}{155}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00158\ \ \ \ \ \{}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \$traduccion\ =\ dgettext(\$domain,\ \$text);}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$traduccion\ ===\ \$text\ \&\&\ \$domain\ !==\ \textcolor{stringliteral}{'messages'})\ \{}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ de\ traducción:\ '\$text'\ no\ encontrado\ en\ dominio\ '\$domain'"{}});}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Intenta\ buscar\ en\ el\ dominio\ messages\ como\ último\ recurso}}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \$traduccion\ =\ dgettext(\textcolor{stringliteral}{'messages'},\ \$text);}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$traduccion;}
-\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \$traduccion\ =\ dgettext(\$domain,\ \$text);}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$traduccion\ ===\ \$text\ \&\&\ \$domain\ !==\ \textcolor{stringliteral}{'messages'})\ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ de\ traducción:\ '\$text'\ no\ encontrado\ en\ dominio\ '\$domain'"{}});}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \$traduccion\ =\ dgettext(\textcolor{stringliteral}{'messages'},\ \$text);}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$traduccion;}
+\DoxyCodeLine{00163\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1LangController_af5571544f9e3d28aa142583ede742466}\label{classApp_1_1Controllers_1_1LangController_af5571544f9e3d28aa142583ede742466} 
@@ -322,7 +312,7 @@ Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00080}{80}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{LangController_8php_source_l00098}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}configure\+Locale()}} y \mbox{\hyperlink{LangController_8php_source_l00063}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}is\+Language\+Supported()}}.
+Hace referencia a \mbox{\hyperlink{LangController_8php_source_l00105}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}configure\+Locale()}} y \mbox{\hyperlink{LangController_8php_source_l00063}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}is\+Language\+Supported()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -363,7 +353,7 @@ Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00063}{63}
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{LangController_8php_source_l00176}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}change\+Language()}}, \mbox{\hyperlink{LangController_8php_source_l00098}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}configure\+Locale()}} y \mbox{\hyperlink{LangController_8php_source_l00080}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}initialize\+Language()}}.
+Referenciado por \mbox{\hyperlink{LangController_8php_source_l00175}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}change\+Language()}}, \mbox{\hyperlink{LangController_8php_source_l00105}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}configure\+Locale()}} y \mbox{\hyperlink{LangController_8php_source_l00080}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}initialize\+Language()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -381,11 +371,11 @@ Gráfico de llamadas a esta función\+:
 
 
 
-Carga un dominio de texto adicional para gettext. 
+Carga un dominio de texto adicional para gettext Verificar si el archivo de traducción existe NO cambiar el dominio activo, solo registrarlo Usar dgettext() para obtener traducciones de dominios específicos. 
 
 
 \begin{DoxyParams}[1]{Parámetros}
-string & {\em \$domain} & Nombre del dominio de texto\\
+string & {\em \$domain} & Nombre del dominio de texto \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Devuelve}
@@ -393,32 +383,28 @@ bool Éxito de la operación
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00130}{130}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{LangController_8php_source_l00132}{132}} del archivo \mbox{\hyperlink{LangController_8php_source}{Lang\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00131\ \ \ \ \ \{}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ archivo\ de\ traducción\ existe}}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \$moFile\ =\ \$this-\/>localeDir\ .\ \textcolor{charliteral}{'/'}\ .\ \$this-\/>localeMap[\$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ ??\ \textcolor{stringliteral}{'es'}]\ .\ \textcolor{stringliteral}{'/LC\_MESSAGES/'}\ .\ \$domain\ .\ \textcolor{stringliteral}{'.mo'};}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$moFile))\ \{}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}No\ se\ encuentra\ el\ archivo\ de\ traducciones:\ \$moFile"{}});}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ bindtextdomain(\$domain,\ \$this-\/>localeDir);}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ bind\_textdomain\_codeset(\$domain,\ \textcolor{stringliteral}{"{}UTF-\/8"{}});}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ NO\ cambiar\ el\ dominio\ activo,\ solo\ registrarlo}}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ dgettext()\ para\ obtener\ traducciones\ de\ dominios\ específicos}}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00147\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \$moFile\ =\ \$this-\/>localeDir\ .\ \textcolor{charliteral}{'/'}\ .\ \$this-\/>localeMap[\$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ ??\ \textcolor{stringliteral}{'es'}]\ .\ \textcolor{stringliteral}{'/LC\_MESSAGES/'}\ .\ \$domain\ .\ \textcolor{stringliteral}{'.mo'};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$moFile))\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}No\ se\ encuentra\ el\ archivo\ de\ traducciones:\ \$moFile"{}});}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ bindtextdomain(\$domain,\ \$this-\/>localeDir);}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ bind\_textdomain\_codeset(\$domain,\ \textcolor{stringliteral}{"{}UTF-\/8"{}});}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00145\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{LangController_8php_source_l00098}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}configure\+Locale()}}.
+Referenciado por \mbox{\hyperlink{LangController_8php_source_l00105}{App\textbackslash{}\+Controllers\textbackslash{}\+Lang\+Controller\textbackslash{}configure\+Locale()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak

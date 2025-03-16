@@ -1,0 +1,77 @@
+\doxysection{Referencia de la clase App\textbackslash{}Controllers\textbackslash{}Debug\+Controller}
+\hypertarget{classApp_1_1Controllers_1_1DebugController}{}\label{classApp_1_1Controllers_1_1DebugController}\index{App\textbackslash{}Controllers\textbackslash{}DebugController@{App\textbackslash{}Controllers\textbackslash{}DebugController}}
+
+
+Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Debug\+Controller\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classApp_1_1Controllers_1_1DebugController__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DebugController_a52cec5c0f58074e386b9cccde916dc91}{mostrar\+Debug\+Traducciones}} (\$idioma\+\_\+actual=null, \$dominios=\mbox{[}\textquotesingle{}messages\textquotesingle{}, \textquotesingle{}navbar\textquotesingle{}, \textquotesingle{}about\textquotesingle{}\mbox{]})
+\begin{DoxyCompactList}\small\item\em Muestra información de depuración sobre archivos de traducción. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+
+
+Definición en la línea \mbox{\hyperlink{DebugController_8php_source_l00005}{5}} del archivo \mbox{\hyperlink{DebugController_8php_source}{Debug\+Controller.\+php}}.
+
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classApp_1_1Controllers_1_1DebugController_a52cec5c0f58074e386b9cccde916dc91}\label{classApp_1_1Controllers_1_1DebugController_a52cec5c0f58074e386b9cccde916dc91} 
+\index{App\textbackslash{}Controllers\textbackslash{}DebugController@{App\textbackslash{}Controllers\textbackslash{}DebugController}!mostrarDebugTraducciones@{mostrarDebugTraducciones}}
+\index{mostrarDebugTraducciones@{mostrarDebugTraducciones}!App\textbackslash{}Controllers\textbackslash{}DebugController@{App\textbackslash{}Controllers\textbackslash{}DebugController}}
+\doxysubsubsection{\texorpdfstring{mostrarDebugTraducciones()}{mostrarDebugTraducciones()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Debug\+Controller\+::mostrar\+Debug\+Traducciones (\begin{DoxyParamCaption}\item[{}]{\$idioma\+\_\+actual = {\ttfamily null},  }\item[{}]{\$dominios = {\ttfamily \mbox{[}\textquotesingle{}messages\textquotesingle{},~\textquotesingle{}navbar\textquotesingle{},~\textquotesingle{}about\textquotesingle{}\mbox{]}} }\end{DoxyParamCaption})}
+
+
+
+Muestra información de depuración sobre archivos de traducción. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$idioma\+\_\+actual} & Idioma actual de la aplicación \\
+\hline
+array & {\em \$dominios} & Dominios de traducción a verificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+void 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{DebugController_8php_source_l00014}{14}} del archivo \mbox{\hyperlink{DebugController_8php_source}{Debug\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00015\ \ \ \ \ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!DEBUG\_MODE)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$idioma\_actual\ ===\ \textcolor{keyword}{null})\ \$idioma\_actual\ =\ \$\_SESSION[\textcolor{stringliteral}{'idioma'}]\ ??\ \textcolor{stringliteral}{'ca'};}
+\DoxyCodeLine{00018\ \ \ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<!-\/-\/\ DEBUG\ TRADUCCIONES:\ -\/-\/>\(\backslash\)n"{}};}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<!-\/-\/\ Idioma\ actual:\ \$idioma\_actual\ -\/-\/>\(\backslash\)n"{}};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$dominios\ as\ \$dominio)\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \$ruta\_po\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{"{}/../../locales/\{\$idioma\_actual\}\_ES/LC\_MESSAGES/\{\$dominio\}.po"{}};}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \$ruta\_mo\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{"{}/../../locales/\{\$idioma\_actual\}\_ES/LC\_MESSAGES/\{\$dominio\}.mo"{}};}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<!-\/-\/\ Dominio\ \$dominio:\ -\/-\/>\(\backslash\)n"{}};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<!-\/-\/\ \ \ \$dominio.po:\ "{}}\ .\ (file\_exists(\$ruta\_po)\ ?\ \textcolor{stringliteral}{"{}EXISTE"{}}\ :\ \textcolor{stringliteral}{"{}NO\ EXISTE"{}})\ .\ \textcolor{stringliteral}{"{}\ -\/-\/>\(\backslash\)n"{}};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<!-\/-\/\ \ \ \$dominio.mo:\ "{}}\ .\ (file\_exists(\$ruta\_mo)\ ?\ \textcolor{stringliteral}{"{}EXISTE"{}}\ :\ \textcolor{stringliteral}{"{}NO\ EXISTE"{}})\ .\ \textcolor{stringliteral}{"{}\ -\/-\/>\(\backslash\)n"{}};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_exists(\$ruta\_mo))\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ echo\ \textcolor{stringliteral}{"{}<!-\/-\/\ \ \ Prueba:\ "{}}\ .\ dgettext(\$dominio,\ \$dominio\ ===\ \textcolor{stringliteral}{'navbar'}\ ?\ \textcolor{stringliteral}{'Inicio'}\ :\ \textcolor{stringliteral}{'Acerca\ de\ Nosotros'})\ .\ \textcolor{stringliteral}{"{}\ -\/-\/>\(\backslash\)n"{}};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+src/controllers/\mbox{\hyperlink{DebugController_8php}{Debug\+Controller.\+php}}\end{DoxyCompactItemize}
