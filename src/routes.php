@@ -129,6 +129,7 @@ $routes = [
     '/change-language' => ['handler' => [$langController, 'changeLanguage']],
     '/register' => ['template' => 'components/auth/register_form.twig', 'auth_required' => false, 'handler' => [$authController, 'registerHandler']],
     '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
+    '/statistics' => ['template' => 'pages/statistics.twig', 'title' => _('Estadísticas'), 'handler' => [$statsController, 'statisticsPageHandler']],
     '/' => [
         'template' => 'pages/home.twig',
         'title' => _('Hongos'),
@@ -169,16 +170,6 @@ $routes = [
                     'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
                 ];
             }
-        }
-    ],
-    '/statistics' => [
-        'template' => 'pages/statistics.twig',
-        'title' => _('Estadísticas'),
-        'handler' => function($twig, $db, $session, $authController = null) use ($statsController) {
-            return [
-                'title' => _('Estadísticas'),
-                'stats' => $statsController->getAllStatsForPage()
-            ];
         }
     ],
     '/fungi/random' => [

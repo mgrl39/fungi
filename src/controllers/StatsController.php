@@ -548,4 +548,23 @@ class StatsController
             'family_stats' => $fungiStats['families'] ?? []
         ];
     }
+
+    /**
+     * @brief Manejador de la página de estadísticas
+     * 
+     * Este método actúa como handler para la ruta de estadísticas,
+     * devolviendo los datos necesarios para renderizar la página.
+     * 
+     * @param object $twig Instancia de Twig
+     * @param object $db Instancia de la conexión a base de datos
+     * @param object $session Controlador de sesión
+     * @return array Datos para la plantilla de estadísticas
+     */
+    public function statisticsPageHandler($twig, $db, $session)
+    {
+        return [
+            'title' => _('Estadísticas'),
+            'stats' => $this->getAllStatsForPage()
+        ];
+    }
 } 
