@@ -24,7 +24,7 @@ bash -c "$(wget -qO- doncom.me/fungi/init.sh)"
 
 - 🔍 **Exploración de datos micológicos** - Navega por una extensa colección de especies de hongos
 - 🔐 **Sistema de autenticación** con JWT para proteger recursos sensibles
-- 🌍 **Multilingüe** con soporte para español, inglés y catalán
+- 🌍 **Multilingüe** con soporte para español, inglés y catalán (aunque los datos están en español)
 - 📱 **Diseño responsive** optimizado para todos los dispositivos
 - ⚙️ **Panel de administración** para gestión de datos y usuarios
 - 🤖 **Integración con scraping** para obtener datos actualizados de fuentes confiables
@@ -44,13 +44,13 @@ bash -c "$(wget -qO- doncom.me/fungi/init.sh)"
 </p>
 
 <p align="center">
-  <b>Herramientas adicionales:</b> Selenium + Python (scraping) | JWT | Gettext (i18n) | Docker
+  <b>Herramientas adicionales:</b> Selenium + Python (scraping) | JWT | Gettext (i18n)
 </p>
 
 ## 📊 Ecosistema Fungi
 
 El proyecto Fungi se compone de tres repositorios principales que trabajan juntos:
-
+c
 | Repositorio | Descripción | Estado |
 |-------------|-------------|--------|
 | [🍄 **Fungi**](https://github.com/mgrl39/fungi) | Aplicación web principal | [![Status](https://img.shields.io/badge/status-active-success.svg)]() |
@@ -60,22 +60,55 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 ## 🏗️ Arquitectura del Proyecto
 
 ```
-fungi/
-├── 📁 composer.json        # Dependencias PHP
-├── 📁 docker-compose.yml   # Configuración para despliegue con Docker
-├── 📁 locales/             # Archivos de traducción (es_ES, en_US, ca_ES)
-├── 📁 public/              # Archivos públicos y punto de entrada
-│   ├── 📁 assets/          # CSS, JavaScript, imágenes
-│   ├── 📁 templates/       # Plantillas Twig para todas las vistas
-│   └── 📄 index.php        # Punto de entrada principal
-├── 📁 src/                 # Código fuente principal
-│   ├── 📁 controllers/     # Controladores de la aplicación
-│   ├── 📁 models/          # Modelos de datos
-│   ├── 📁 services/        # Servicios y lógica de negocio
-│   └── 📁 db/              # Esquemas y migraciones de la base de datos
-└── 📁 tests/               # Tests unitarios y de integración
+├── locales
+│   ├── ca_ES
+│   │   └── LC_MESSAGES
+│   ├── en_US
+│   │   └── LC_MESSAGES
+│   └── es_ES
+│       └── LC_MESSAGES
+├── public
+│   ├── assets
+│   │   ├── images
+│   │   │   └── avatars
+│   │   ├── lib
+│   │   │   ├── animatecss
+│   │   │   ├── aos
+│   │   │   ├── fontawesome
+│   │   │   │   └── fontawesome-free-6.4.0-web
+│   │   │   │       ├── css
+│   │   │   │       ├── js
+│   │   │   │       ├── less
+│   │   │   │       ├── metadata
+│   │   │   │       ├── scss
+│   │   │   │       ├── sprites
+│   │   │   │       ├── svgs
+│   │   │   │       │   ├── brands
+│   │   │   │       │   ├── regular
+│   │   │   │       │   └── solid
+│   │   │   │       └── webfonts
+│   │   │   └── twbs -> ../../../vendor/twbs
+│   │   ├── logos
+│   │   ├── scripts
+│   │   ├── styles
+│   │   │   ├── components
+│   │   │   │   ├── admin
+│   │   │   │   └── fungi
+│   │   │   └── pages
+│   │   └── users
+│   └── templates
+│       ├── components
+│       │   └── auth
+│       └── pages
+│           └── api
+│               └── endpoints
+├── src
+│   ├── config
+│   ├── controllers
+│   │   └── Api
+│   └── db
+└── tools
 ```
-
 
 ## 🚀 Guía de Inicio Rápido
 
@@ -83,7 +116,6 @@ fungi/
 - PHP 8.0+
 - MySQL 5.7+
 - Composer
-- Node.js y npm (opcional, para desarrollo frontend)
 
 ### Instalación manual
 
@@ -116,39 +148,24 @@ fungi/
    # O configurar un servidor Apache/Nginx para producción
    ```
 
-### Instalación con Docker
-
-```bash
-# Iniciar todos los servicios
-docker-compose up -d
-
-# La aplicación estará disponible en http://localhost:8080
-```
-
-
 ## 👥 Casos de Uso
 
 - 🔍 **Usuarios no registrados:** Pueden explorar el catálogo de hongos y buscar por características
 - 🔐 **Usuarios registrados:** Pueden guardar favoritos, crear colecciones y contribuir con imágenes
 - 👑 **Administradores:** Acceso completo al panel de administración para gestionar todo el contenido
 
-## 📸 Capturas de Pantalla
-
-<p align="center">
-  <img src="public/assets/img/screenshots/home.png" width="45%" alt="Página de inicio">
-  <img src="public/assets/img/screenshots/detail.png" width="45%" alt="Detalle de hongo">
-</p>
-
-<p align="center">
-  <img src="public/assets/img/screenshots/admin.png" width="45%" alt="Panel de administración">
-  <img src="public/assets/img/screenshots/search.png" width="45%" alt="Búsqueda avanzada">
-</p>
-
 ## 🌱 Roadmap
 
-- [ ] Implementación de API REST completa
-- [ ] Ampliación a más idiomas
-
+- [X] Sistema de scraping con Selenium
+- [x] Internacionalización de la interfaz (ES, EN, FR)
+- [X] Optimización del modelo de datos y relaciones
+- [X] Documentación del código generado con Doxygen
+- [X] Integración de librería gráfica para estadísticas
+- [X] Refactorización del código para mejorar la modularidad y la legibilidad
+- [X] Diseño responsive y experiencia de usuario con Bootstrap 5
+- [ ] Implementación de API REST completa con autenticación JWT
+- [ ] Mejoras en el panel de administración y gestión de usuarios
+- [ ] Implementación de pruebas unitarias y de integración
 
 ## 📄 Licencia
 
@@ -157,7 +174,7 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 ## 📧 Contacto
 
 ¿Preguntas? ¿Sugerencias? ¿Encontraste un error?
-- 🌐 Sitio web: [fungi-project.com](https://doncom.me/fungi)
+- 🌐 Sitio web: [mgrl39.github.io/fungi](https://mgrl39.github.io/fungi)
 ---
 
 <p align="center">
