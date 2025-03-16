@@ -23,44 +23,6 @@ class DatabaseController {
             die("Error de conexión: " . $e->getMessage());
         }
     }
-
-    // Método para obtener fungis paginados
-    public function getFungisPaginated($limit, $offset) {
-        $stmt = $this->pdo->prepare("
-            SELECT f.*, t.*, c.*,
-                   GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls
-            FROM fungi f
-            LEFT JOIN taxonomy t ON f.id = t.fungi_id
-            LEFT JOIN characteristics c ON f.id = c.fungi_id
-            LEFT JOIN fungi_images fi ON f.id = fi.fungi_id
-            LEFT JOIN images i ON fi.image_id = i.id
-            LEFT JOIN image_config ic ON i.config_key = ic.config_key
-            GROUP BY f.id
-            LIMIT :limit OFFSET :offset
-        ");
-        $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getRandomFungus() {
-        $stmt = $this->pdo->prepare("
-            SELECT f.*, t.*, c.*, 
-                   GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls
-            FROM fungi f
-            LEFT JOIN taxonomy t ON f.id = t.fungi_id
-            LEFT JOIN characteristics c ON f.id = c.fungi_id
-            LEFT JOIN fungi_images fi ON f.id = fi.fungi_id
-            LEFT JOIN images i ON fi.image_id = i.id
-            LEFT JOIN image_config ic ON i.config_key = ic.config_key
-            GROUP BY f.id
-            ORDER BY RAND() LIMIT 1
-        ");
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
   
     public function createUser($username, $email, $password_hash) {
         try {
@@ -79,6 +41,16 @@ class DatabaseController {
         }
     }
 
+    /**
+     * Ejecuta una consulta SQL preparada en la base de datos
+     * 
+     * @param string $sql     Consulta SQL para ejecutar
+     * @param array  $params  Parámetros para vincular a la consulta [opcional, predeterminado=[]]
+     * 
+     * @return \PDOStatement|false Devuelve el objeto PDOStatement en caso de éxito o false si falla
+     * 
+     * @throws \PDOException Las excepciones son capturadas internamente y registradas
+     */
     public function query($sql, $params = []) {
         try {
             $stmt = $this->pdo->prepare($sql);
