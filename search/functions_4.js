@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['execute_0',['execute',['../classApp_1_1Controllers_1_1DatabaseController.html#ade5dabf08c2a064b4383b803726c7a64',1,'App::Controllers::DatabaseController']]]
+  ['deletefungi_0',['deleteFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#a7cdede58dd10bb73b8aa62233d03645c',1,'App::Controllers::Api::ApiDeleteController']]]
 ];

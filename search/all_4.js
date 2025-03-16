@@ -16,7 +16,8 @@ var searchData=
   ['configuración_20del_20entorno_13',['Configuración del Entorno',['../group__Configuraci_xC3_xB3nEntorno.html',1,'']]],
   ['configurelocale_14',['configureLocale',['../classApp_1_1Controllers_1_1LangController.html#a6f8a96985210b857478f7abb5a1608fd',1,'App::Controllers::LangController']]],
   ['contacto_15',['📧 Contacto',['../index.html#autotoc_md14',1,'']]],
-  ['createjwt_16',['createjwt',['../classApp_1_1Controllers_1_1AuthController.html#acbdad71780d5fdd8b8245739664aba6b',1,'App\Controllers\AuthController\createJWT()'],['../classApp_1_1Controllers_1_1SessionController.html#a9c77e52cb1354b1771887b0c16ad2707',1,'App\Controllers\SessionController\createJWT()']]],
-  ['createsecurecookie_17',['createSecureCookie',['../classApp_1_1Controllers_1_1AuthController.html#a722aae18417e35bad00c945dd381da08',1,'App::Controllers::AuthController']]],
-  ['createuser_18',['createUser',['../classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be',1,'App::Controllers::DatabaseController']]]
+  ['createfungi_16',['createFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a649bfb16350464cb89f78d85b108f741',1,'App::Controllers::Api::ApiPostController']]],
+  ['createjwt_17',['createJWT',['../classApp_1_1Controllers_1_1AuthController.html#acbdad71780d5fdd8b8245739664aba6b',1,'App::Controllers::AuthController']]],
+  ['createsecurecookie_18',['createSecureCookie',['../classApp_1_1Controllers_1_1AuthController.html#a722aae18417e35bad00c945dd381da08',1,'App::Controllers::AuthController']]],
+  ['createuser_19',['createUser',['../classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be',1,'App::Controllers::DatabaseController']]]
 ];

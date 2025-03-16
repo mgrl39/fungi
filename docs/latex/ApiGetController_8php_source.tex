@@ -1,0 +1,291 @@
+\doxysection{Api\+Get\+Controller.\+php}
+\hypertarget{ApiGetController_8php_source}{}\label{ApiGetController_8php_source}\index{src/controllers/Api/ApiGetController.php@{src/controllers/Api/ApiGetController.php}}
+\mbox{\hyperlink{ApiGetController_8php}{Ir a la documentación de este archivo.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00001}00001\ <?php}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceApp_1_1Controllers_1_1Api}{App\(\backslash\)Controllers\(\backslash\)Api}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00005}00005\ use\ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages}{App\(\backslash\)Config\(\backslash\)ErrorMessages}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00016}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController}{00016}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController}{ApiGetController}}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00018}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a02dec1fb57b6f4d58d05a811f0b3837a}{00018}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a02dec1fb57b6f4d58d05a811f0b3837a}{\$pdo}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00019}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_acb7364bad435a1fc74f97350f844e5c1}{00019}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_acb7364bad435a1fc74f97350f844e5c1}{\$db}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00027}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a9702ba600b72f8257ba5cc6bbb14405a}{00027}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a9702ba600b72f8257ba5cc6bbb14405a}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a02dec1fb57b6f4d58d05a811f0b3837a}{\$pdo}},\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_acb7364bad435a1fc74f97350f844e5c1}{\$db}})}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00029}00029\ \ \ \ \ \ \ \ \ \$this-\/>pdo\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a02dec1fb57b6f4d58d05a811f0b3837a}{\$pdo}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00030}00030\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_acb7364bad435a1fc74f97350f844e5c1}{\$db}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00039}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ad271f1b46463a2ef68b3ff1d15df9b31}{00039}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ad271f1b46463a2ef68b3ff1d15df9b31}{verifyAuthToken}}(\$token,\ \$verifyCallback)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \$payload\ =\ \$verifyCallback(\$token);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00057}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abb00071b44d7a1b559b50eb9690bdc2f}{00057}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abb00071b44d7a1b559b50eb9690bdc2f}{getAllFungi}}()}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi"{}});}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00063}00063\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00064}00064\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00073}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a0a410891959f2552b48e01cb6b15f544}{00073}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a0a410891959f2552b48e01cb6b15f544}{getFungiPaginated}}(\$page,\ \$limit)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00074}00074\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \$offset\ =\ (\$page\ -\/\ 1)\ *\ \$limit;}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ para\ obtener\ los\ hongos\ con\ sus\ imágenes}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00078}00078\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*,\ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00080}00080\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00083}00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ :limit\ OFFSET\ :offset"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':limit'},\ \$limit,\ \(\backslash\)PDO::PARAM\_INT);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00088}00088\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':offset'},\ \$offset,\ \(\backslash\)PDO::PARAM\_INT);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ para\ contar\ el\ total\ de\ hongos}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \$countStmt\ =\ \$this-\/>pdo-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ FROM\ fungi"{}});}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \$totalCount\ =\ \$countStmt-\/>fetchColumn();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calcular\ la\ información\ de\ paginación}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \$totalPages\ =\ ceil(\$totalCount\ /\ \$limit);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC),}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'pagination'}\ =>\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'current\_page'}\ =>\ \$page,}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_pages'}\ =>\ \$totalPages,}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'records\_per\_page'}\ =>\ \$limit,}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_records'}\ =>\ \$totalCount}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00107}00107\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00108}00108\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00117}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a67e731e7af27d93b388c233394b86269}{00117}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a67e731e7af27d93b388c233394b86269}{getFungusById}}(\$id,\ \$userId\ =\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00118}00118\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ para\ obtener\ datos\ básicos\ del\ hongo}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00120}00120\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*,\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00121}00121\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00122}00122\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00124}00124\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00125}00125\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00126}00126\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ f.id\ =\ :id}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00128}00128\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00129}00129\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00130}00130\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':id'},\ \$id,\ \(\backslash\)PDO::PARAM\_INT);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00131}00131\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00132}00132\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00133}00133\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$stmt-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00134}00134\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::DB\_RECORD\_NOT\_FOUND}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00141}00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00142}00142\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas:\ vistas\ y\ likes}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00144}00144\ \ \ \ \ \ \ \ \ \$statsSql\ =\ \textcolor{stringliteral}{"{}SELECT\ views,\ likes\ FROM\ fungi\_popularity\ WHERE\ fungi\_id\ =\ :id"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00145}00145\ \ \ \ \ \ \ \ \ \$statsStmt\ =\ \$this-\/>pdo-\/>prepare(\$statsSql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00146}00146\ \ \ \ \ \ \ \ \ \$statsStmt-\/>bindParam(\textcolor{stringliteral}{':id'},\ \$id,\ \(\backslash\)PDO::PARAM\_INT);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00147}00147\ \ \ \ \ \ \ \ \ \$statsStmt-\/>execute();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00148}00148\ \ \ \ \ \ \ \ \ \$stats\ =\ \$statsStmt-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00149}00149\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stats)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus[\textcolor{stringliteral}{'views'}]\ =\ \$stats[\textcolor{stringliteral}{'views'}];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus[\textcolor{stringliteral}{'likes'}]\ =\ \$stats[\textcolor{stringliteral}{'likes'}];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00153}00153\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus[\textcolor{stringliteral}{'views'}]\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus[\textcolor{stringliteral}{'likes'}]\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00156}00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00157}00157\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ hay\ un\ usuario\ autenticado,\ verificar\ si\ le\ dio\ like}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$userId)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \$likeSql\ =\ \textcolor{stringliteral}{"{}SELECT\ 1\ FROM\ user\_likes\ WHERE\ user\_id\ =\ :userId\ AND\ fungi\_id\ =\ :fungiId"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \$likeStmt\ =\ \$this-\/>pdo-\/>prepare(\$likeSql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \$likeStmt-\/>bindParam(\textcolor{stringliteral}{':userId'},\ \$userId,\ \(\backslash\)PDO::PARAM\_INT);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \$likeStmt-\/>bindParam(\textcolor{stringliteral}{':fungiId'},\ \$id,\ \(\backslash\)PDO::PARAM\_INT);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \$likeStmt-\/>execute();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus[\textcolor{stringliteral}{'is\_liked'}]\ =\ (bool)\ \$likeStmt-\/>fetchColumn();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00167}00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00168}00168\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Incrementar\ contador\ de\ vistas}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00170}00170\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abd9bc40195d1d959a10865b1d95eb9d9}{incrementFungiViews}}(\$id);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00171}00171\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$fungus}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00175}00175\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00176}00176\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00185}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ae9257dad15b8ca14f6183c0610d852a9}{00185}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ae9257dad15b8ca14f6183c0610d852a9}{searchFungi}}(\$param,\ \$value)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00186}00186\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00187}00187\ \ \ \ \ \ \ \ \ \$allowedParams\ =\ [\textcolor{stringliteral}{'name'},\ \textcolor{stringliteral}{'edibility'},\ \textcolor{stringliteral}{'habitat'},\ \textcolor{stringliteral}{'common\_name'}];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00188}00188\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!in\_array(\$param,\ \$allowedParams))\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(400);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Parámetro\ de\ búsqueda\ no\ válido.\ Parámetros\ permitidos:\ '}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$allowedParams)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00195}00195\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00196}00196\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ la\ consulta\ de\ búsqueda}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*,\ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00200}00200\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00201}00201\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00202}00202\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00203}00203\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00204}00204\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ f.\{\$param\}\ LIKE\ :value\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00205}00205\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00206}00206\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 50"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\textcolor{stringliteral}{':value'}\ =>\ \textcolor{charliteral}{'\%'}\ .\ \$value\ .\ \textcolor{charliteral}{'\%'}]);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \$results\ =\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'count'}\ =>\ count(\$results),}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$results}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00217}00217\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)PDOException\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Error\ en\ la\ búsqueda:\ '}\ .\ \$e-\/>getMessage()}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00223}00223\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00224}00224\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00231}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a7ca32a5d523b8859df919bfc0d3b3684}{00231}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a7ca32a5d523b8859df919bfc0d3b3684}{getRandomFungus}}(\$userId\ =\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00232}00232\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00233}00233\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*,\ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00234}00234\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00235}00235\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00236}00236\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00237}00237\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00238}00238\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00239}00239\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ RAND()\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00240}00240\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 1"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00241}00241\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00242}00242\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>query(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00243}00243\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$stmt-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00244}00244\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'No\ hay\ hongos\ disponibles'}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00250}00250\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00251}00251\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Incrementar\ contador\ de\ vistas}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00253}00253\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abd9bc40195d1d959a10865b1d95eb9d9}{incrementFungiViews}}(\$fungus[\textcolor{stringliteral}{'id'}]);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00254}00254\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ hay\ un\ usuario\ autenticado,\ verificar\ si\ le\ dio\ like}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$userId)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)FungiController(\$this-\/>db);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusWithLikeStatus(\$fungus,\ \$userId);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00259}00259\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00260}00260\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$fungus}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00264}00264\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00265}00265\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00273}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abd9bc40195d1d959a10865b1d95eb9d9}{00273}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abd9bc40195d1d959a10865b1d95eb9d9}{incrementFungiViews}}(\$fungiId)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00274}00274\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\_popularity\ (fungi\_id,\ views,\ likes)\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00277}00277\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ 1,\ 0)\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00278}00278\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ON\ DUPLICATE\ KEY\ UPDATE\ views\ =\ views\ +\ 1"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>execute([\$fungiId]);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00282}00282\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)PDOException\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ incrementando\ vistas:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00285}00285\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00286}00286\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00294}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a32934272cdad1004a05df79c586d7567}{00294}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a32934272cdad1004a05df79c586d7567}{getFungiByEdibility}}(\$edibility)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00295}00295\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00296}00296\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*,\ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00297}00297\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00298}00298\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00299}00299\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00300}00300\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00301}00301\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ f.edibility\ LIKE\ :edibility}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00302}00302\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00303}00303\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 50"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00304}00304\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00305}00305\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00306}00306\ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\textcolor{stringliteral}{':edibility'}\ =>\ \textcolor{charliteral}{'\%'}\ .\ \$edibility\ .\ \textcolor{charliteral}{'\%'}]);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00307}00307\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00311}00311\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00312}00312\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00320}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a33518bdaefac3b63c1385daee9d617c1}{00320}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a33518bdaefac3b63c1385daee9d617c1}{getUserFavorites}}(\$userId)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00321}00321\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00322}00322\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*,\ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00323}00323\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00324}00324\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ user\_favorites\ uf\ ON\ f.id\ =\ uf.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00325}00325\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00326}00326\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00327}00327\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00328}00328\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ uf.user\_id\ =\ :userId\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00329}00329\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00330}00330\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00331}00331\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00332}00332\ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\textcolor{stringliteral}{':userId'}\ =>\ \$userId]);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00333}00333\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00337}00337\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00338}00338\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00339}00339\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00346}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ad38efdd58e10c822fccb780ac688c4ea}{00346}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ad38efdd58e10c822fccb780ac688c4ea}{verifyAuth}}(\$user)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00347}00347\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'authenticated'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$user}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00354}00354\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'authenticated'}\ =>\ false}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00359}00359\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00360}00360\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00361}00361\ \}}
+
+\end{DoxyCode}

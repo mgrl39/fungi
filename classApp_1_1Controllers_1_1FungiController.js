@@ -1,7 +1,9 @@
 var classApp_1_1Controllers_1_1FungiController =
 [
     [ "__construct", "classApp_1_1Controllers_1_1FungiController.html#af7000ed08fe4bc6c08d0b40591e112b7", null ],
+    [ "getFungusById", "classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c", null ],
     [ "getFungusWithLikeStatus", "classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451", null ],
+    [ "getSimilarFungi", "classApp_1_1Controllers_1_1FungiController.html#a581bbd139fc7c3b8b0557b244af8ed9f", null ],
     [ "hasUserLikedFungi", "classApp_1_1Controllers_1_1FungiController.html#a35fbbcc5cad471348611c0e1cfafebd7", null ],
     [ "incrementFungiViews", "classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12", null ],
     [ "likeFungi", "classApp_1_1Controllers_1_1FungiController.html#a61834711a6b3748eca87a0644c08babb", null ],

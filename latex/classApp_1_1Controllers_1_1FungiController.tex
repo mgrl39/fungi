@@ -15,8 +15,12 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Fungi
 \item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_af7000ed08fe4bc6c08d0b40591e112b7}{\+\_\+\+\_\+construct}} (\$db)
 \item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c}{get\+Fungus\+By\+Id}} (\$id)
+\begin{DoxyCompactList}\small\item\em Obtiene un hongo por su ID. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451}{get\+Fungus\+With\+Like\+Status}} (\$fungus, \$user\+Id)
 \item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a581bbd139fc7c3b8b0557b244af8ed9f}{get\+Similar\+Fungi}} (\$id, \$limit=4)
+\begin{DoxyCompactList}\small\item\em Busca hongos similares al hongo especificado. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a35fbbcc5cad471348611c0e1cfafebd7}{has\+User\+Liked\+Fungi}} (\$user\+Id, \$fungi\+Id)
 \item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a4e795756d06c8d0ff755c20645eddb12}{increment\+Fungi\+Views}} (\$fungi\+Id)
@@ -69,6 +73,63 @@ Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00009}{App\textb
 
 
 \doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c}\label{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c} 
+\index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!getFungusById@{getFungusById}}
+\index{getFungusById@{getFungusById}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
+\doxysubsubsection{\texorpdfstring{getFungusById()}{getFungusById()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\+::get\+Fungus\+By\+Id (\begin{DoxyParamCaption}\item[{}]{\$id }\end{DoxyParamCaption})}
+
+
+
+Obtiene un hongo por su ID. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+int & {\em \$id} & ID del hongo a buscar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array\texorpdfstring{$\vert$}{|}null Datos del hongo o null si no se encuentra 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00073}{73}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00074\ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ WHERE\ id\ =\ ?\ LIMIT\ 1"{}},}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ [\$id]}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ resultado\ es\ un\ objeto\ PDOStatement,\ convertirlo\ a\ array}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ instanceof\ \(\backslash\)PDOStatement)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ resultado\ es\ un\ array\ con\ índices\ numéricos\ (múltiples\ filas)}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$result)\ \&\&\ !empty(\$result)\ \&\&\ isset(\$result[0]))\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result[0];}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ asociativo\ simple\ o\ está\ vacío}}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result\ ?:\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00101}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Similar\+Fungi()}}.
+
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451}\label{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451} 
 \index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!getFungusWithLikeStatus@{getFungusWithLikeStatus}}
 \index{getFungusWithLikeStatus@{getFungusWithLikeStatus}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
@@ -99,6 +160,95 @@ Gráfico de llamadas de esta función\+:
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1FungiController_a581bbd139fc7c3b8b0557b244af8ed9f}\label{classApp_1_1Controllers_1_1FungiController_a581bbd139fc7c3b8b0557b244af8ed9f} 
+\index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!getSimilarFungi@{getSimilarFungi}}
+\index{getSimilarFungi@{getSimilarFungi}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
+\doxysubsubsection{\texorpdfstring{getSimilarFungi()}{getSimilarFungi()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\+::get\+Similar\+Fungi (\begin{DoxyParamCaption}\item[{}]{\$id,  }\item[{}]{\$limit = {\ttfamily 4} }\end{DoxyParamCaption})}
+
+
+
+Busca hongos similares al hongo especificado. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+int & {\em \$id} & ID del hongo para el que buscar similares \\
+\hline
+int & {\em \$limit} & Número máximo de hongos similares a devolver (por defecto 4) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Lista de hongos similares 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00101}{101}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00102\ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Primero\ obtenemos\ los\ datos\ del\ hongo\ para\ el\ que\ queremos\ buscar\ similares}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \$fungi\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c}{getFungusById}}(\$id);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$fungi)\ ||\ !is\_array(\$fungi))\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Buscar\ hongos\ con\ características\ similares}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*\ FROM\ fungi\ f\ }}
+\DoxyCodeLine{00112\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ f.id\ !=\ ?\ }}
+\DoxyCodeLine{00113\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AND\ (f.family\ =\ ?\ OR\ f.genus\ =\ ?\ OR\ f.habitat\ LIKE\ ?)}}
+\DoxyCodeLine{00114\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ RAND()\ }}
+\DoxyCodeLine{00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ ?"{}};}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \$habitat\ =\ isset(\$fungi[\textcolor{stringliteral}{'habitat'}])\ ?\ \$fungi[\textcolor{stringliteral}{'habitat'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \$family\ =\ isset(\$fungi[\textcolor{stringliteral}{'family'}])\ ?\ \$fungi[\textcolor{stringliteral}{'family'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \$genus\ =\ isset(\$fungi[\textcolor{stringliteral}{'genus'}])\ ?\ \$fungi[\textcolor{stringliteral}{'genus'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \$query,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ [\$id,\ \$family,\ \$genus,\ \textcolor{stringliteral}{"{}\%\$habitat\%"{}},\ \$limit]}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ resultado\ es\ un\ objeto\ PDOStatement,\ convertirlo\ a\ array}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$similarFungi\ \&\&\ is\_object(\$similarFungi)\ \&\&\ method\_exists(\$similarFungi,\ \textcolor{stringliteral}{'fetchAll'}))\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \$similarFungi-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ resultados,\ intentamos\ una\ búsqueda\ más\ amplia}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$similarFungi))\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ f.*\ FROM\ fungi\ f\ }}
+\DoxyCodeLine{00134\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ f.id\ !=\ ?\ }}
+\DoxyCodeLine{00135\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ RAND()\ }}
+\DoxyCodeLine{00136\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ ?"{}};}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$query,}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$id,\ \$limit]}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ resultado\ es\ un\ objeto\ PDOStatement,\ convertirlo\ a\ array}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$similarFungi\ \&\&\ is\_object(\$similarFungi)\ \&\&\ method\_exists(\$similarFungi,\ \textcolor{stringliteral}{'fetchAll'}))\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \$similarFungi-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$similarFungi\ ?:\ [];}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00073}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Fungus\+By\+Id()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_a581bbd139fc7c3b8b0557b244af8ed9f_cgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1FungiController_a35fbbcc5cad471348611c0e1cfafebd7}\label{classApp_1_1Controllers_1_1FungiController_a35fbbcc5cad471348611c0e1cfafebd7} 

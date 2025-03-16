@@ -1,5 +1,6 @@
 var namespaceApp_1_1Controllers =
 [
+    [ "Api", "namespaceApp_1_1Controllers_1_1Api.html", "namespaceApp_1_1Controllers_1_1Api" ],
     [ "ApiController", "classApp_1_1Controllers_1_1ApiController.html", "classApp_1_1Controllers_1_1ApiController" ],
     [ "AuthController", "classApp_1_1Controllers_1_1AuthController.html", "classApp_1_1Controllers_1_1AuthController" ],
     [ "DatabaseController", "classApp_1_1Controllers_1_1DatabaseController.html", "classApp_1_1Controllers_1_1DatabaseController" ],

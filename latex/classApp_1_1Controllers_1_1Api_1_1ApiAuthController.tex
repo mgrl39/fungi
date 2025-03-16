@@ -1,0 +1,429 @@
+\doxysection{Referencia de la clase App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}Api\+Auth\+Controller}
+\hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController}{}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController}\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+
+
+Controlador para manejar la autenticación y autorización en la API.  
+
+
+
+
+Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}Api\+Auth\+Controller\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a800da8f721565fe88d05b80af3e16d9e}{\+\_\+\+\_\+construct}} (\$pdo, \$db)
+\begin{DoxyCompactList}\small\item\em Constructor del controlador. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_af1a2566d91230f39e158371ac9f84f87}{generate\+Jwt\+Token}} (array \$user)
+\begin{DoxyCompactList}\small\item\em Genera un token JWT para un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a2fa761c4080454624ba20d24522ce5bd}{login}} (string \$username, string \$password)
+\begin{DoxyCompactList}\small\item\em Verifica las credenciales de un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aebf26ee908446e22bd84e57aae8d3826}{validate\+Required\+Fields}} (array \$data, array \$required\+Fields)
+\begin{DoxyCompactList}\small\item\em Valida los campos requeridos en una solicitud. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995}{verify\+Jwt\+Token}} (string \$token)
+\begin{DoxyCompactList}\small\item\em Verifica un token JWT. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Métodos privados}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a3449497bf9ba2c33144f2ed5ddb2d09b}{base64\+URLDecode}} (string \$data)
+\begin{DoxyCompactList}\small\item\em Decodifica Base64 URL seguro. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc}{base64\+URLEncode}} (string \$data)
+\begin{DoxyCompactList}\small\item\em Codifica en Base64 URL seguro. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Atributos privados}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a91700c2037b8af8709f8e0507dac2ea2}{\$db}}
+\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a92422c8ff192a144c5fdc7bde6f818cf}{\$pdo}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Controlador para manejar la autenticación y autorización en la API. 
+
+Esta clase proporciona métodos para verificar tokens, gestionar sesiones, y generar nuevos tokens de autenticación. 
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00016}{16}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a800da8f721565fe88d05b80af3e16d9e}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a800da8f721565fe88d05b80af3e16d9e} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!\_\_construct@{\_\_construct}}
+\index{\_\_construct@{\_\_construct}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{\_\_construct()}{\_\_construct()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::\+\_\+\+\_\+construct (\begin{DoxyParamCaption}\item[{}]{\$pdo,  }\item[{}]{\$db }\end{DoxyParamCaption})}
+
+
+
+Constructor del controlador. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+\textbackslash{}\+PDO & {\em \$pdo} & Conexión PDO a la base de datos \\
+\hline
+\textbackslash{}\+App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller & {\em \$db} & Modelo de base de datos \\
+\hline
+\end{DoxyParams}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00027}{27}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00028\ \ \ \ \ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \$this-\/>pdo\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a92422c8ff192a144c5fdc7bde6f818cf}{\$pdo}};}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a91700c2037b8af8709f8e0507dac2ea2}{\$db}};}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{ApiAuthController_8php_source_l00019}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}\$db}} y \mbox{\hyperlink{ApiAuthController_8php_source_l00018}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}\$pdo}}.
+
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a3449497bf9ba2c33144f2ed5ddb2d09b}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a3449497bf9ba2c33144f2ed5ddb2d09b} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!base64URLDecode@{base64URLDecode}}
+\index{base64URLDecode@{base64URLDecode}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{base64URLDecode()}{base64URLDecode()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::base64\+URLDecode (\begin{DoxyParamCaption}\item[{string}]{\$data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Decodifica Base64 URL seguro. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$data} & Datos a decodificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+string Datos decodificados 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00144}{144}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{string}}
+\DoxyCodeLine{00145\ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \$remainder\ =\ strlen(\$data)\ \%\ 4;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$remainder)\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \$padding\ =\ 4\ -\/\ \$remainder;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ .=\ str\_repeat(\textcolor{charliteral}{'='},\ \$padding);}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base64\_decode(strtr(\$data,\ \textcolor{stringliteral}{'-\/\_'},\ \textcolor{stringliteral}{'+/'}));}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Referenciado por \mbox{\hyperlink{ApiAuthController_8php_source_l00099}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}verify\+Jwt\+Token()}}.
+
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a3449497bf9ba2c33144f2ed5ddb2d09b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!base64URLEncode@{base64URLEncode}}
+\index{base64URLEncode@{base64URLEncode}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{base64URLEncode()}{base64URLEncode()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::base64\+URLEncode (\begin{DoxyParamCaption}\item[{string}]{\$data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Codifica en Base64 URL seguro. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$data} & Datos a codificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+string Datos codificados 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00133}{133}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{string}}
+\DoxyCodeLine{00134\ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rtrim(strtr(base64\_encode(\$data),\ \textcolor{stringliteral}{'+/'},\ \textcolor{stringliteral}{'-\/\_'}),\ \textcolor{charliteral}{'='});}
+\DoxyCodeLine{00136\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Referenciado por \mbox{\hyperlink{ApiAuthController_8php_source_l00060}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}generate\+Jwt\+Token()}} y \mbox{\hyperlink{ApiAuthController_8php_source_l00099}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}verify\+Jwt\+Token()}}.
+
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_af1a2566d91230f39e158371ac9f84f87}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_af1a2566d91230f39e158371ac9f84f87} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!generateJwtToken@{generateJwtToken}}
+\index{generateJwtToken@{generateJwtToken}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{generateJwtToken()}{generateJwtToken()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::generate\+Jwt\+Token (\begin{DoxyParamCaption}\item[{array}]{\$user }\end{DoxyParamCaption})}
+
+
+
+Genera un token JWT para un usuario. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+array & {\em \$user} & Datos del usuario \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+string Token JWT generado 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00060}{60}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{string}}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \$secretKey\ =\ (defined(\textcolor{stringliteral}{'\(\backslash\)JWT\_SECRET'})\ ?\ \(\backslash\)JWT\_SECRET\ :\ getenv(\textcolor{stringliteral}{'JWT\_SECRET'}))\ ??\ \textcolor{stringliteral}{'default\_jwt\_secret\_key'};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ para\ el\ JWT}}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \$header\ =\ [}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'typ'}\ =>\ \textcolor{stringliteral}{'JWT'},}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'alg'}\ =>\ \textcolor{stringliteral}{'HS256'}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \$issuedAt\ =\ time();}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \$expire\ =\ \$issuedAt\ +\ 3600;\ \textcolor{comment}{//\ Token\ válido\ por\ 1\ hora}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \$payload\ =\ [}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'iat'}\ =>\ \$issuedAt,\ \ \ \ \ \textcolor{comment}{//\ Tiempo\ en\ que\ fue\ emitido\ el\ token}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'exp'}\ =>\ \$expire,\ \ \ \ \ \ \ \textcolor{comment}{//\ Tiempo\ de\ expiración}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'sub'}\ =>\ \$user[\textcolor{stringliteral}{'id'}],\ \ \ \textcolor{comment}{//\ ID\ del\ usuario\ como\ subject}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$user[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$user[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Codificar\ header\ y\ payload}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \$headerEncoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc}{base64URLEncode}}(json\_encode(\$header));}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \$payloadEncoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc}{base64URLEncode}}(json\_encode(\$payload));}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ firma}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$headerEncoded.\$payloadEncoded"{}},\ \$secretKey,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \$signatureEncoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc}{base64URLEncode}}(\$signature);}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ JWT}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\$headerEncoded.\$payloadEncoded.\$signatureEncoded"{}};}
+\DoxyCodeLine{00091\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{ApiAuthController_8php_source_l00133}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_af1a2566d91230f39e158371ac9f84f87_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a2fa761c4080454624ba20d24522ce5bd}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a2fa761c4080454624ba20d24522ce5bd} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!login@{login}}
+\index{login@{login}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::login (\begin{DoxyParamCaption}\item[{string}]{\$username,  }\item[{string}]{\$password }\end{DoxyParamCaption})}
+
+
+
+Verifica las credenciales de un usuario. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$username} & Nombre de usuario \\
+\hline
+string & {\em \$password} & Contraseña \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array\texorpdfstring{$\vert$}{|}null Datos del usuario si es válido, null en caso contrario 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00040}{40}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ ?array}
+\DoxyCodeLine{00041\ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ password\_hash,\ role\ FROM\ users\ WHERE\ username\ =\ ?"{}});}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \$stmt-\/>execute([\$username]);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \$user\ =\ \$stmt-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user\ \&\&\ password\_verify(\$password,\ \$user[\textcolor{stringliteral}{'password\_hash'}]))\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ unset(\$user[\textcolor{stringliteral}{'password\_hash'}]);\ \textcolor{comment}{//\ No\ devolver\ el\ hash\ de\ la\ contraseña}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$user;}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aebf26ee908446e22bd84e57aae8d3826}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aebf26ee908446e22bd84e57aae8d3826} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!validateRequiredFields@{validateRequiredFields}}
+\index{validateRequiredFields@{validateRequiredFields}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{validateRequiredFields()}{validateRequiredFields()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::validate\+Required\+Fields (\begin{DoxyParamCaption}\item[{array}]{\$data,  }\item[{array}]{\$required\+Fields }\end{DoxyParamCaption})}
+
+
+
+Valida los campos requeridos en una solicitud. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+array & {\em \$data} & Datos a validar \\
+\hline
+array & {\em \$required\+Fields} & Campos requeridos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+bool True si todos los campos existen y no están vacíos 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00161}{161}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{keywordtype}{bool}}
+\DoxyCodeLine{00162\ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$requiredFields\ as\ \$field)\ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$data[\$field])\ ||\ empty(\$data[\$field]))\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!verifyJwtToken@{verifyJwtToken}}
+\index{verifyJwtToken@{verifyJwtToken}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{verifyJwtToken()}{verifyJwtToken()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::verify\+Jwt\+Token (\begin{DoxyParamCaption}\item[{string}]{\$token }\end{DoxyParamCaption})}
+
+
+
+Verifica un token JWT. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$token} & Token JWT a verificar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array\texorpdfstring{$\vert$}{|}bool Payload si el token es válido, false en caso contrario 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00099}{99}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00100\ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \$secretKey\ =\ (defined(\textcolor{stringliteral}{'\(\backslash\)JWT\_SECRET'})\ ?\ \(\backslash\)JWT\_SECRET\ :\ getenv(\textcolor{stringliteral}{'JWT\_SECRET'}))\ ??\ \textcolor{stringliteral}{'default\_jwt\_secret\_key'};}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'.'},\ \$token);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (count(\$parts)\ !=\ 3)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ list(\$header,\ \$payload,\ \$signature)\ =\ \$parts;}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \$valid\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header.\$payload"{}},\ \$secretKey,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \$validEncoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a5a89660754ac9448207268439385a2cc}{base64URLEncode}}(\$valid);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$signature\ !==\ \$validEncoded)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \$payload\ =\ json\_decode(base64\_decode(\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a3449497bf9ba2c33144f2ed5ddb2d09b}{base64URLDecode}}(\$payload)),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ expiración}}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$payload[\textcolor{stringliteral}{'exp'}])\ \&\&\ \$payload[\textcolor{stringliteral}{'exp'}]\ <\ time())\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$payload;}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{ApiAuthController_8php_source_l00144}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}base64\+URLDecode()}} y \mbox{\hyperlink{ApiAuthController_8php_source_l00133}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_aec3b7a5727ca308724b736b9df0ba995_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Documentación de datos miembro}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a91700c2037b8af8709f8e0507dac2ea2}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a91700c2037b8af8709f8e0507dac2ea2} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!\$db@{\$db}}
+\index{\$db@{\$db}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{\$db}{\$db}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::\$db\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00019}{19}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+
+Referenciado por \mbox{\hyperlink{ApiAuthController_8php_source_l00027}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a92422c8ff192a144c5fdc7bde6f818cf}\label{classApp_1_1Controllers_1_1Api_1_1ApiAuthController_a92422c8ff192a144c5fdc7bde6f818cf} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}!\$pdo@{\$pdo}}
+\index{\$pdo@{\$pdo}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiAuthController}}
+\doxysubsubsection{\texorpdfstring{\$pdo}{\$pdo}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\+::\$pdo\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Definición en la línea \mbox{\hyperlink{ApiAuthController_8php_source_l00018}{18}} del archivo \mbox{\hyperlink{ApiAuthController_8php_source}{Api\+Auth\+Controller.\+php}}.
+
+
+
+Referenciado por \mbox{\hyperlink{ApiAuthController_8php_source_l00027}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Auth\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+src/controllers/\+Api/\mbox{\hyperlink{ApiAuthController_8php}{Api\+Auth\+Controller.\+php}}\end{DoxyCompactItemize}

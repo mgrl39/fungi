@@ -111,40 +111,41 @@ $(document).ready(function(){initNavTree('defaults_8inc_8php_source.html',''); i
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    define(<span class="stringliteral">&#39;DB_NAME&#39;</span>, <span class="stringliteral">&#39;fungidb&#39;</span>);</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    define(<span class="stringliteral">&#39;DB_USER&#39;</span>, <span class="stringliteral">&#39;root&#39;</span>);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    define(<span class="stringliteral">&#39;DB_PASS&#39;</span>, <span class="stringliteral">&#39;Root@1234&#39;</span>);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    define(<span class="stringliteral">&#39;JWT_SECRET_KEY&#39;</span>, <span class="stringliteral">&#39;fungi_secret_key&#39;</span>);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    define(<span class="stringliteral">&#39;DEBUG_MODE&#39;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// Asegurarse de que las constantes están disponibles globalmente</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (!getenv(<span class="stringliteral">&#39;DB_HOST&#39;</span>)) {</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        putenv(<span class="stringliteral">&quot;DB_HOST=&quot;</span> . DB_HOST);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        putenv(<span class="stringliteral">&quot;DB_NAME=&quot;</span> . DB_NAME);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        putenv(<span class="stringliteral">&quot;DB_USER=&quot;</span> . DB_USER);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        putenv(<span class="stringliteral">&quot;DB_PASS=&quot;</span> . DB_PASS);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">// Verificar que las constantes críticas estén definidas</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keywordflow">if</span> (!defined(<span class="stringliteral">&#39;DB_HOST&#39;</span>) || !defined(<span class="stringliteral">&#39;DB_NAME&#39;</span>) || !defined(<span class="stringliteral">&#39;DB_USER&#39;</span>) || !defined(<span class="stringliteral">&#39;DB_PASS&#39;</span>)) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">throw</span> new \RuntimeException(</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#a21a70ec3e0481c75effeb5e2642dc5fc">ErrorMessages::CONFIG_MISSING_KEY</a>,</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="stringliteral">&#39;constantes de base de datos (DB_HOST, DB_NAME, DB_USER, DB_PASS)&#39;</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        )</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    );</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>}</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="comment">// Verificar que los valores de las constantes no estén vacíos</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keywordflow">if</span> (empty(DB_HOST) || empty(DB_NAME) || empty(DB_USER)) {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">throw</span> new \RuntimeException(</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#a6b71a929f4395545b1445f3a388e15af">ErrorMessages::CONFIG_INVALID_VALUE</a>,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="stringliteral">&#39;configuración de base de datos&#39;</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        )</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    );</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    define(<span class="stringliteral">&#39;JWT_SECRET&#39;</span>, <span class="stringliteral">&#39;fungi_secret_key&#39;</span>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    define(<span class="stringliteral">&#39;JWT_SECRET_KEY&#39;</span>, <span class="stringliteral">&#39;fungi_secret_key&#39;</span>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    define(<span class="stringliteral">&#39;DEBUG_MODE&#39;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// Asegurarse de que las constantes están disponibles globalmente</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">if</span> (!getenv(<span class="stringliteral">&#39;DB_HOST&#39;</span>)) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        putenv(<span class="stringliteral">&quot;DB_HOST=&quot;</span> . DB_HOST);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        putenv(<span class="stringliteral">&quot;DB_NAME=&quot;</span> . DB_NAME);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        putenv(<span class="stringliteral">&quot;DB_USER=&quot;</span> . DB_USER);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        putenv(<span class="stringliteral">&quot;DB_PASS=&quot;</span> . DB_PASS);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">// Verificar que las constantes críticas estén definidas</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keywordflow">if</span> (!defined(<span class="stringliteral">&#39;DB_HOST&#39;</span>) || !defined(<span class="stringliteral">&#39;DB_NAME&#39;</span>) || !defined(<span class="stringliteral">&#39;DB_USER&#39;</span>) || !defined(<span class="stringliteral">&#39;DB_PASS&#39;</span>)) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">throw</span> new \RuntimeException(</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#a21a70ec3e0481c75effeb5e2642dc5fc">ErrorMessages::CONFIG_MISSING_KEY</a>,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="stringliteral">&#39;constantes de base de datos (DB_HOST, DB_NAME, DB_USER, DB_PASS)&#39;</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        )</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    );</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>}</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="comment">// Verificar que los valores de las constantes no estén vacíos</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keywordflow">if</span> (empty(DB_HOST) || empty(DB_NAME) || empty(DB_USER)) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">throw</span> new \RuntimeException(</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#a6b71a929f4395545b1445f3a388e15af">ErrorMessages::CONFIG_INVALID_VALUE</a>,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <span class="stringliteral">&#39;configuración de base de datos&#39;</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        )</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    );</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
 <div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html">App\Config\ErrorMessages</a></div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00010">ErrorMessages.php:11</a></div></div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a21a70ec3e0481c75effeb5e2642dc5fc"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a21a70ec3e0481c75effeb5e2642dc5fc">App\Config\ErrorMessages\CONFIG_MISSING_KEY</a></div><div class="ttdeci">const CONFIG_MISSING_KEY</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00041">ErrorMessages.php:41</a></div></div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a32031f3bbb0319bcf6b7686faabdb1f5"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">App\Config\ErrorMessages\format</a></div><div class="ttdeci">static format(string $message,... $params)</div><div class="ttdoc">Formatea un mensaje de error con los parámetros proporcionados.</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00067">ErrorMessages.php:67</a></div></div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a6b71a929f4395545b1445f3a388e15af"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a6b71a929f4395545b1445f3a388e15af">App\Config\ErrorMessages\CONFIG_INVALID_VALUE</a></div><div class="ttdeci">const CONFIG_INVALID_VALUE</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00042">ErrorMessages.php:42</a></div></div>
+<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a21a70ec3e0481c75effeb5e2642dc5fc"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a21a70ec3e0481c75effeb5e2642dc5fc">App\Config\ErrorMessages\CONFIG_MISSING_KEY</a></div><div class="ttdeci">const CONFIG_MISSING_KEY</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00043">ErrorMessages.php:43</a></div></div>
+<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a32031f3bbb0319bcf6b7686faabdb1f5"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">App\Config\ErrorMessages\format</a></div><div class="ttdeci">static format(string $message,... $params)</div><div class="ttdoc">Formatea un mensaje de error con los parámetros proporcionados.</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00069">ErrorMessages.php:69</a></div></div>
+<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a6b71a929f4395545b1445f3a388e15af"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a6b71a929f4395545b1445f3a388e15af">App\Config\ErrorMessages\CONFIG_INVALID_VALUE</a></div><div class="ttdeci">const CONFIG_INVALID_VALUE</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00044">ErrorMessages.php:44</a></div></div>
 <div class="ttc" id="anamespaceApp_1_1Config_html"><div class="ttname"><a href="namespaceApp_1_1Config.html">App\Config</a></div><div class="ttdef"><b>Definition</b> <a href="AppInitializer_8php_source.html#l00003">AppInitializer.php:3</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -152,7 +153,7 @@ $(document).ready(function(){initNavTree('defaults_8inc_8php_source.html',''); i
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_7e83d1792d529f4aa7126ac7e0b3b699.html">config</a></li><li class="navelem"><a class="el" href="defaults_8inc_8php.html">defaults.inc.php</a></li>
-    <li class="footer">Generado el Sábado, 15 de marzo de 2025 22:45:54 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 01:35:04 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

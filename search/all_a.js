@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['incrementfungiviews_0',['incrementFungiViews',['../classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12',1,'App::Controllers::FungiController']]],
+  ['incrementfungiviews_0',['incrementfungiviews',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#abd9bc40195d1d959a10865b1d95eb9d9',1,'App\Controllers\Api\ApiGetController\incrementFungiViews()'],['../classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12',1,'App\Controllers\FungiController\incrementFungiViews()']]],
   ['index_2ephp_1',['index.php',['../index_8php.html',1,'']]],
   ['inicio_20rápido_2',['🚀 Guía de Inicio Rápido',['../index.html#autotoc_md6',1,'']]],
   ['initialize_3',['initialize',['../classApp_1_1Config_1_1AppInitializer.html#ac4c6c6c6ac6e86604e29238199e42fca',1,'App::Config::AppInitializer']]],

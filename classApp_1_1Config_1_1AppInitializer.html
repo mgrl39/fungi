@@ -179,84 +179,75 @@ Métodos públicos estáticos</h2></td></tr>
 <div class="line"><span class="lineno">   44</span>        }</div>
 <div class="line"><span class="lineno">   45</span> </div>
 <div class="line"><span class="lineno">   46</span>        <span class="comment">// Cargar configuración desde defaults.inc.php</span></div>
-<div class="line"><span class="lineno">   47</span>        require_once __DIR__ . <span class="stringliteral">&#39;/defaults.inc.php&#39;</span>;</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>        <span class="comment">// Iniciar la sesión si aún no está activa</span></div>
-<div class="line"><span class="lineno">   50</span>        <span class="keywordflow">if</span> (session_status() === PHP_SESSION_NONE) {</div>
-<div class="line"><span class="lineno">   51</span>            session_start();</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>        <span class="comment">// IMPORTANTE: Usar LangController en lugar de configuración directa</span></div>
-<div class="line"><span class="lineno">   55</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a> = <span class="keyword">new</span> LangController();</div>
-<div class="line"><span class="lineno">   56</span>        <a class="code hl_variable" href="routes_8php.html#aa7753ddc64027082ab7fe80236611d00">$currentLanguage</a> = <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;initializeLanguage();</div>
-<div class="line"><span class="lineno">   57</span>        </div>
-<div class="line"><span class="lineno">   58</span>        <span class="comment">// Cargar dominios adicionales</span></div>
-<div class="line"><span class="lineno">   59</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;navbar&#39;</span>);</div>
-<div class="line"><span class="lineno">   60</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;about&#39;</span>);</div>
-<div class="line"><span class="lineno">   61</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;fungi&#39;</span>);</div>
-<div class="line"><span class="lineno">   62</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;admin&#39;</span>);</div>
-<div class="line"><span class="lineno">   63</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;user&#39;</span>);</div>
-<div class="line"><span class="lineno">   64</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;api&#39;</span>);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        <span class="comment">// Verifica que DatabaseController existe antes de instanciarlo</span></div>
-<div class="line"><span class="lineno">   67</span>        <span class="keywordflow">if</span> (!class_exists(DatabaseController::class)) {</div>
-<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">throw</span> new \RuntimeException(<a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
-<div class="line"><span class="lineno">   69</span>                <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#ab3ff5b284c081326f60ceb5f19aa35c3">ErrorMessages::SYSTEM_DEPENDENCY_ERROR</a>, </div>
-<div class="line"><span class="lineno">   70</span>                <span class="stringliteral">&#39;La clase DatabaseController no se encuentra. Verifica que el archivo existe en src/Controllers/DatabaseController.php&#39;</span></div>
-<div class="line"><span class="lineno">   71</span>            ));</div>
-<div class="line"><span class="lineno">   72</span>        }</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>        <span class="comment">// Inicializar controladores</span></div>
-<div class="line"><span class="lineno">   75</span>        $db = <span class="keyword">new</span> DatabaseController();</div>
-<div class="line"><span class="lineno">   76</span>        $authController = <span class="keyword">new</span> AuthController($db);</div>
-<div class="line"><span class="lineno">   77</span>        $session = <span class="keyword">new</span> SessionController($db);</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>        <span class="comment">// Configurar Twig</span></div>
-<div class="line"><span class="lineno">   80</span>        $templatesDir = __DIR__ . <span class="stringliteral">&#39;/../../public/templates&#39;</span>;</div>
-<div class="line"><span class="lineno">   81</span>        </div>
-<div class="line"><span class="lineno">   82</span>        <span class="comment">// Verificar que el directorio de templates exista</span></div>
-<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">if</span> (!is_dir($templatesDir)) {</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">throw</span> new \RuntimeException(<a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
-<div class="line"><span class="lineno">   85</span>                <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#a355a53722aedfc8b66ae12dbb4696961">ErrorMessages::FILE_NOT_FOUND</a>, </div>
-<div class="line"><span class="lineno">   86</span>                <span class="stringliteral">&#39;El directorio de templates no existe: &#39;</span> . $templatesDir</div>
-<div class="line"><span class="lineno">   87</span>            ));</div>
-<div class="line"><span class="lineno">   88</span>        }</div>
-<div class="line"><span class="lineno">   89</span>        </div>
-<div class="line"><span class="lineno">   90</span>        $loader = <span class="keyword">new</span> FilesystemLoader($templatesDir);</div>
-<div class="line"><span class="lineno">   91</span>        $twig = <span class="keyword">new</span> Environment($loader, [</div>
-<div class="line"><span class="lineno">   92</span>            <span class="stringliteral">&#39;cache&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">   93</span>            <span class="stringliteral">&#39;debug&#39;</span> =&gt; DEBUG_MODE,</div>
-<div class="line"><span class="lineno">   94</span>        ]);</div>
-<div class="line"><span class="lineno">   95</span>        $twig-&gt;addExtension(<span class="keyword">new</span> DebugExtension());</div>
-<div class="line"><span class="lineno">   96</span> </div>
-<div class="line"><span class="lineno">   97</span>        <span class="comment">// Agregar la función de traducción usando gettext</span></div>
-<div class="line"><span class="lineno">   98</span>        $twig-&gt;addFunction(<span class="keyword">new</span> \Twig\TwigFunction(<span class="charliteral">&#39;_&#39;</span>, <span class="keyword">function</span> ($string) {</div>
-<div class="line"><span class="lineno">   99</span>            <span class="keywordflow">return</span> gettext($string);</div>
-<div class="line"><span class="lineno">  100</span>        }));</div>
-<div class="line"><span class="lineno">  101</span>        </div>
-<div class="line"><span class="lineno">  102</span>        <span class="comment">// IMPORTANTE: Agregar la función para traducciones con dominio específico</span></div>
-<div class="line"><span class="lineno">  103</span>        $twig-&gt;addFunction(<span class="keyword">new</span> \Twig\TwigFunction(<span class="stringliteral">&#39;__d&#39;</span>, <span class="keyword">function</span> ($text, $domain = <span class="stringliteral">&#39;messages&#39;</span>) use (<a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>) {</div>
-<div class="line"><span class="lineno">  104</span>            $traduccion = <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;gettext($text, $domain);</div>
-<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">if</span> ($traduccion === $text &amp;&amp; $domain !== <span class="stringliteral">&#39;messages&#39;</span>) {</div>
-<div class="line"><span class="lineno">  106</span>                <span class="comment">// Si la traducción es igual al texto original, puede ser un problema</span></div>
-<div class="line"><span class="lineno">  107</span>                error_log(<span class="stringliteral">&quot;Falla traducción [$domain]: $text&quot;</span>);</div>
-<div class="line"><span class="lineno">  108</span>            }</div>
-<div class="line"><span class="lineno">  109</span>            <span class="keywordflow">return</span> $traduccion;</div>
-<div class="line"><span class="lineno">  110</span>        }));</div>
-<div class="line"><span class="lineno">  111</span>        </div>
-<div class="line"><span class="lineno">  112</span>        <span class="comment">// Agregar variables globales para el sistema de plantillas</span></div>
-<div class="line"><span class="lineno">  113</span>        $twig-&gt;addGlobal(<span class="stringliteral">&#39;idioma_actual&#39;</span>, <a class="code hl_variable" href="routes_8php.html#aa7753ddc64027082ab7fe80236611d00">$currentLanguage</a>);</div>
-<div class="line"><span class="lineno">  114</span>        $twig-&gt;addGlobal(<span class="stringliteral">&#39;idiomas_soportados&#39;</span>, <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;getSupportedLanguages());</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>        <span class="keywordflow">return</span> [$db, $authController, $session, $twig, <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>];</div>
-<div class="line"><span class="lineno">  117</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a32031f3bbb0319bcf6b7686faabdb1f5"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">App\Config\ErrorMessages\format</a></div><div class="ttdeci">static format(string $message,... $params)</div><div class="ttdoc">Formatea un mensaje de error con los parámetros proporcionados.</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00067">ErrorMessages.php:67</a></div></div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a355a53722aedfc8b66ae12dbb4696961"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a355a53722aedfc8b66ae12dbb4696961">App\Config\ErrorMessages\FILE_NOT_FOUND</a></div><div class="ttdeci">const FILE_NOT_FOUND</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00036">ErrorMessages.php:36</a></div></div>
-<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_ab3ff5b284c081326f60ceb5f19aa35c3"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#ab3ff5b284c081326f60ceb5f19aa35c3">App\Config\ErrorMessages\SYSTEM_DEPENDENCY_ERROR</a></div><div class="ttdeci">const SYSTEM_DEPENDENCY_ERROR</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00056">ErrorMessages.php:56</a></div></div>
+<div class="line"><span class="lineno">   47</span>        <span class="comment">// Iniciar la sesión si aún no está activa</span></div>
+<div class="line"><span class="lineno">   48</span>        <span class="comment">// Usar LangController en lugar de configuración directa</span></div>
+<div class="line"><span class="lineno">   49</span>        require_once __DIR__ . <span class="stringliteral">&#39;/defaults.inc.php&#39;</span>;</div>
+<div class="line"><span class="lineno">   50</span>        <span class="keywordflow">if</span> (session_status() === PHP_SESSION_NONE) session_start();</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a> = <span class="keyword">new</span> LangController();</div>
+<div class="line"><span class="lineno">   53</span>        <a class="code hl_variable" href="routes_8php.html#aa7753ddc64027082ab7fe80236611d00">$currentLanguage</a> = <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;initializeLanguage();</div>
+<div class="line"><span class="lineno">   54</span>        </div>
+<div class="line"><span class="lineno">   55</span>        <span class="comment">// Cargar dominios adicionales</span></div>
+<div class="line"><span class="lineno">   56</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;navbar&#39;</span>);</div>
+<div class="line"><span class="lineno">   57</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;about&#39;</span>);</div>
+<div class="line"><span class="lineno">   58</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;fungi&#39;</span>);</div>
+<div class="line"><span class="lineno">   59</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;admin&#39;</span>);</div>
+<div class="line"><span class="lineno">   60</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;user&#39;</span>);</div>
+<div class="line"><span class="lineno">   61</span>        <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;loadTextDomain(<span class="stringliteral">&#39;api&#39;</span>);</div>
+<div class="line"><span class="lineno">   62</span> </div>
+<div class="line"><span class="lineno">   63</span>        <span class="comment">// Verifica que DatabaseController existe antes de instanciarlo</span></div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">if</span> (!class_exists(DatabaseController::class)) {</div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">throw</span> new \RuntimeException(<a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
+<div class="line"><span class="lineno">   66</span>                <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#ab3ff5b284c081326f60ceb5f19aa35c3">ErrorMessages::SYSTEM_DEPENDENCY_ERROR</a>, </div>
+<div class="line"><span class="lineno">   67</span>                <span class="stringliteral">&#39;La clase DatabaseController no se encuentra. Verifica que el archivo existe en src/Controllers/DatabaseController.php&#39;</span></div>
+<div class="line"><span class="lineno">   68</span>            ));</div>
+<div class="line"><span class="lineno">   69</span>        }</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>        <span class="comment">// Inicializar controladores</span></div>
+<div class="line"><span class="lineno">   72</span>        $db = <span class="keyword">new</span> DatabaseController();</div>
+<div class="line"><span class="lineno">   73</span>        $authController = <span class="keyword">new</span> AuthController($db);</div>
+<div class="line"><span class="lineno">   74</span>        $session = <span class="keyword">new</span> SessionController($db);</div>
+<div class="line"><span class="lineno">   75</span> </div>
+<div class="line"><span class="lineno">   76</span>        <span class="comment">// Configurar Twig</span></div>
+<div class="line"><span class="lineno">   77</span>        $templatesDir = __DIR__ . <span class="stringliteral">&#39;/../../public/templates&#39;</span>;</div>
+<div class="line"><span class="lineno">   78</span>        </div>
+<div class="line"><span class="lineno">   79</span>        <span class="comment">// Verificar que el directorio de templates exista</span></div>
+<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">if</span> (!is_dir($templatesDir)) {</div>
+<div class="line"><span class="lineno">   81</span>            <span class="keywordflow">throw</span> new \RuntimeException(<a class="code hl_function" href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">ErrorMessages::format</a>(</div>
+<div class="line"><span class="lineno">   82</span>                <a class="code hl_variable" href="classApp_1_1Config_1_1ErrorMessages.html#a355a53722aedfc8b66ae12dbb4696961">ErrorMessages::FILE_NOT_FOUND</a>, </div>
+<div class="line"><span class="lineno">   83</span>                <span class="stringliteral">&#39;El directorio de templates no existe: &#39;</span> . $templatesDir</div>
+<div class="line"><span class="lineno">   84</span>            ));</div>
+<div class="line"><span class="lineno">   85</span>        }</div>
+<div class="line"><span class="lineno">   86</span>        </div>
+<div class="line"><span class="lineno">   87</span>        $loader = <span class="keyword">new</span> FilesystemLoader($templatesDir);</div>
+<div class="line"><span class="lineno">   88</span>        $twig = <span class="keyword">new</span> Environment($loader, [</div>
+<div class="line"><span class="lineno">   89</span>            <span class="stringliteral">&#39;cache&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">   90</span>            <span class="stringliteral">&#39;debug&#39;</span> =&gt; DEBUG_MODE,</div>
+<div class="line"><span class="lineno">   91</span>        ]);</div>
+<div class="line"><span class="lineno">   92</span>        $twig-&gt;addExtension(<span class="keyword">new</span> DebugExtension());</div>
+<div class="line"><span class="lineno">   93</span> </div>
+<div class="line"><span class="lineno">   94</span>        <span class="comment">// Agregar la función de traducción usando gettext</span></div>
+<div class="line"><span class="lineno">   95</span>        $twig-&gt;addFunction(<span class="keyword">new</span> \Twig\TwigFunction(<span class="charliteral">&#39;_&#39;</span>, <span class="keyword">function</span> ($string) {</div>
+<div class="line"><span class="lineno">   96</span>            <span class="keywordflow">return</span> gettext($string);</div>
+<div class="line"><span class="lineno">   97</span>        }));</div>
+<div class="line"><span class="lineno">   98</span>        </div>
+<div class="line"><span class="lineno">   99</span>        <span class="comment">// Agregar la función para traducciones con dominio específico</span></div>
+<div class="line"><span class="lineno">  100</span>        $twig-&gt;addFunction(<span class="keyword">new</span> \Twig\TwigFunction(<span class="stringliteral">&#39;__d&#39;</span>, <span class="keyword">function</span> ($text, $domain = <span class="stringliteral">&#39;messages&#39;</span>) use (<a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>) {</div>
+<div class="line"><span class="lineno">  101</span>            $traduccion = <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;gettext($text, $domain);</div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">if</span> ($traduccion === $text &amp;&amp; $domain !== <span class="stringliteral">&#39;messages&#39;</span>) error_log(<span class="stringliteral">&quot;Falla traducción [$domain]: $text&quot;</span>);</div>
+<div class="line"><span class="lineno">  103</span>            <span class="keywordflow">return</span> $traduccion;</div>
+<div class="line"><span class="lineno">  104</span>        }));</div>
+<div class="line"><span class="lineno">  105</span>        $twig-&gt;addGlobal(<span class="stringliteral">&#39;idioma_actual&#39;</span>, <a class="code hl_variable" href="routes_8php.html#aa7753ddc64027082ab7fe80236611d00">$currentLanguage</a>);</div>
+<div class="line"><span class="lineno">  106</span>        $twig-&gt;addGlobal(<span class="stringliteral">&#39;idiomas_soportados&#39;</span>, <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;getSupportedLanguages());</div>
+<div class="line"><span class="lineno">  107</span>        <span class="keywordflow">return</span> [$db, $authController, $session, $twig, <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>];</div>
+<div class="line"><span class="lineno">  108</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a32031f3bbb0319bcf6b7686faabdb1f5"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5">App\Config\ErrorMessages\format</a></div><div class="ttdeci">static format(string $message,... $params)</div><div class="ttdoc">Formatea un mensaje de error con los parámetros proporcionados.</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00069">ErrorMessages.php:69</a></div></div>
+<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_a355a53722aedfc8b66ae12dbb4696961"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#a355a53722aedfc8b66ae12dbb4696961">App\Config\ErrorMessages\FILE_NOT_FOUND</a></div><div class="ttdeci">const FILE_NOT_FOUND</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00038">ErrorMessages.php:38</a></div></div>
+<div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html_ab3ff5b284c081326f60ceb5f19aa35c3"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html#ab3ff5b284c081326f60ceb5f19aa35c3">App\Config\ErrorMessages\SYSTEM_DEPENDENCY_ERROR</a></div><div class="ttdeci">const SYSTEM_DEPENDENCY_ERROR</div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00058">ErrorMessages.php:58</a></div></div>
 <div class="ttc" id="aroutes_8php_html_a99fa966d9164a3a3311554d0940ff219"><div class="ttname"><a href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a></div><div class="ttdeci">$langController</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00013">routes.php:13</a></div></div>
 <div class="ttc" id="aroutes_8php_html_aa7753ddc64027082ab7fe80236611d00"><div class="ttname"><a href="routes_8php.html#aa7753ddc64027082ab7fe80236611d00">$currentLanguage</a></div><div class="ttdeci">$currentLanguage</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00014">routes.php:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00014">$currentLanguage</a>, <a class="el" href="routes_8php_source.html#l00013">$langController</a>, <a class="el" href="ErrorMessages_8php_source.html#l00036">App\Config\ErrorMessages\FILE_NOT_FOUND</a>, <a class="el" href="ErrorMessages_8php_source.html#l00067">App\Config\ErrorMessages\format()</a> y <a class="el" href="ErrorMessages_8php_source.html#l00056">App\Config\ErrorMessages\SYSTEM_DEPENDENCY_ERROR</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00014">$currentLanguage</a>, <a class="el" href="routes_8php_source.html#l00013">$langController</a>, <a class="el" href="ErrorMessages_8php_source.html#l00038">App\Config\ErrorMessages\FILE_NOT_FOUND</a>, <a class="el" href="ErrorMessages_8php_source.html#l00069">App\Config\ErrorMessages\format()</a> y <a class="el" href="ErrorMessages_8php_source.html#l00058">App\Config\ErrorMessages\SYSTEM_DEPENDENCY_ERROR</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -276,7 +267,7 @@ Métodos públicos estáticos</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Config.html">Config</a></li><li class="navelem"><a class="el" href="classApp_1_1Config_1_1AppInitializer.html">AppInitializer</a></li>
-    <li class="footer">Generado el Sábado, 15 de marzo de 2025 22:45:54 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 01:35:04 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
