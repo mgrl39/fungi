@@ -149,64 +149,6 @@ class FungiController
         // Si ya es un array asociativo simple o está vacío
         return $result ?: null;
     }
-    
-    /**
-     * @brief Busca hongos similares al hongo especificado
-     * 
-     * @param int $id ID del hongo para el que buscar similares
-     * @param int $limit Número máximo de hongos similares a devolver (por defecto 4)
-     * @return array Lista de hongos similares
-     */
-    public function getSimilarFungi($id, $limit = 4)
-    {
-        // Primero obtenemos los datos del hongo para el que queremos buscar similares
-        $fungi = $this->getFungusById($id);
-        
-        if (empty($fungi) || !is_array($fungi)) {
-            return [];
-        }
-        
-        // Buscar hongos con características similares
-        $query = "SELECT f.* FROM fungi f 
-                  WHERE f.id != ? 
-                  AND (f.family = ? OR f.genus = ? OR f.habitat LIKE ?)
-                  ORDER BY RAND() 
-                  LIMIT ?";
-                  
-        $habitat = isset($fungi['habitat']) ? $fungi['habitat'] : '';
-        $family = isset($fungi['family']) ? $fungi['family'] : '';
-        $genus = isset($fungi['genus']) ? $fungi['genus'] : '';
-        
-        $similarFungi = $this->db->query(
-            $query,
-            [$id, $family, $genus, "%$habitat%", $limit]
-        );
-        
-        // Si el resultado es un objeto PDOStatement, convertirlo a array
-        if ($similarFungi && is_object($similarFungi) && method_exists($similarFungi, 'fetchAll')) {
-            $similarFungi = $similarFungi->fetchAll(\PDO::FETCH_ASSOC);
-        }
-        
-        // Si no hay resultados, intentamos una búsqueda más amplia
-        if (empty($similarFungi)) {
-            $query = "SELECT f.* FROM fungi f 
-                      WHERE f.id != ? 
-                      ORDER BY RAND() 
-                      LIMIT ?";
-                      
-            $similarFungi = $this->db->query(
-                $query,
-                [$id, $limit]
-            );
-            
-            // Si el resultado es un objeto PDOStatement, convertirlo a array
-            if ($similarFungi && is_object($similarFungi) && method_exists($similarFungi, 'fetchAll')) {
-                $similarFungi = $similarFungi->fetchAll(\PDO::FETCH_ASSOC);
-            }
-        }
-        
-        return $similarFungi ?: [];
-    }
 
     /**
      * @brief Obtiene un hongo aleatorio de la base de datos
@@ -270,7 +212,6 @@ class FungiController
 
     /**
      * @brief Manejador para la ruta de detalles del hongo
-     * 
      * @param object $twig Instancia de Twig
      * @param object $db Instancia de la base de datos
      * @param object $session Controlador de sesión
@@ -279,25 +220,19 @@ class FungiController
      */
     public function detailFungusHandler($twig, $db, $session, $params = [])
     {
-        // Primero asegúrate de obtener el ID correctamente del parámetro
         $id = null;
         
-        // Verificar si hay parámetros en el array numérico
         if (is_array($params) && !empty($params)) {
             $id = $params[0] ?? null;
         }
         
-        // Si no hay ID aún, intenta obtenerlo de la URL
         if (empty($id) && isset($_SERVER['REQUEST_URI'])) {
             preg_match('#^/fungi/(\d+)$#', $_SERVER['REQUEST_URI'], $matches);
             $id = $matches[1] ?? null;
         }
         
-        error_log("FungiController::detailFungusHandler - ID: " . ($id ?? 'no ID'));
-        
-        // El resto de tu lógica...
+        error_log("FungiController::detailFungusHandler - ID: " . ($id ?? 'no ID'));       
         $fungus = $this->getFungusById($id);
-        
         if (!$fungus) {
             header('Location: /404');
             exit;
