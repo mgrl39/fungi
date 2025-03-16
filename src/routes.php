@@ -40,8 +40,8 @@ if (!$isApiRequest) {
         $ruta_mo = __DIR__ . "/../locales/{$idioma_actual}_ES/LC_MESSAGES/{$dominio}.mo";
         
         echo "<!-- Dominio $dominio: -->\n";
-        echo "<!--   .po: " . (file_exists($ruta_po) ? "EXISTE" : "NO EXISTE") . " -->\n";
-        echo "<!--   .mo: " . (file_exists($ruta_mo) ? "EXISTE" : "NO EXISTE") . " -->\n";
+        echo "<!--   $dominio.po: " . (file_exists($ruta_po) ? "EXISTE" : "NO EXISTE") . " -->\n";
+        echo "<!--   $dominio.mo: " . (file_exists($ruta_mo) ? "EXISTE" : "NO EXISTE") . " -->\n";
         
         if (file_exists($ruta_mo)) {
             // Prueba la traducción
@@ -121,8 +121,12 @@ function renderTemplate($templatePath, $data = []) {
 }
 
 // Inicializar controladores
-$userController = new \App\Controllers\UserController($db, $session, $authController);
+$db = new \App\Controllers\DatabaseController();
+$session = new \App\Controllers\SessionController($db);
+$authController = new \App\Controllers\AuthController($db, $session);
+$userController = new \App\Controllers\UserController($db, $session);
 $fungiController = new \App\Controllers\FungiController($db);
+$statsController = new \App\Controllers\StatsController($db);
 
 // Definir rutas
 $routes = [
@@ -205,70 +209,8 @@ $routes = [
     
     '/profile' => [
         'template' => 'pages/profile.twig',
-        'title' => _('Mi Perfil'),
         'auth_required' => true,
-        'handler' => function($twig, $db, $session) {
-            if (!$session->isLoggedIn()) {
-                header('Location: /login');
-                exit;
-            }
-            
-            $userId = $_SESSION['user_id'];
-            
-            // Obtener información del usuario
-            $user = $db->query("SELECT * FROM users WHERE id = ?", [$userId])[0] ?? null;
-            
-            if (!$user) {
-                header('Location: /login');
-                exit;
-            }
-            
-            // Obtener estadísticas del usuario (estas se mostrarán de inmediato)
-            $stats = $db->query("
-                SELECT 
-                    (SELECT COUNT(*) FROM user_likes WHERE user_id = ?) as likes_count,
-                    (SELECT COUNT(*) FROM user_favorites WHERE user_id = ?) as favorites_count,
-                    (SELECT COUNT(*) FROM comments WHERE user_id = ?) as comments_count,
-                    (SELECT COUNT(*) FROM contributions WHERE user_id = ?) as contributions_count
-            ", [$userId, $userId, $userId, $userId])[0] ?? [];
-            
-            // Últimas acciones (ejemplo simplificado)
-            $actions = $db->query("
-                SELECT a.*, 'check' as icon, 'primary' as color
-                FROM access_logs a
-                WHERE a.user_id = ?
-                ORDER BY a.access_time DESC
-                LIMIT 5
-            ", [$userId]);
-            
-            // Añadir descripciones a las acciones
-            foreach ($actions as &$action) {
-                // Reemplazar match con switch tradicional
-                switch($action['action']) {
-                    case 'login': $action['description'] = 'Inicio de sesión'; break;
-                    case 'logout': $action['description'] = 'Cierre de sesión'; break;
-                    case 'view_fungi': $action['description'] = 'Visualización de hongo'; break;
-                    case 'like_fungi': $action['description'] = 'Me gusta en hongo'; break;
-                    case 'favorite_fungi': $action['description'] = 'Añadido a favoritos'; break;
-                    case 'edit_fungi': $action['description'] = 'Edición de hongo'; break;
-                    default: $action['description'] = 'Acción no reconocida';
-                }
-                $action['date'] = date('d/m/Y H:i', strtotime($action['access_time']));
-            }
-            
-            // Actualizar el usuario con los contadores
-            $user['likes_count'] = $stats['likes_count'] ?? 0;
-            $user['favorites_count'] = $stats['favorites_count'] ?? 0;
-            $user['comments_count'] = $stats['comments_count'] ?? 0;
-            $user['contributions_count'] = $stats['contributions_count'] ?? 0;
-            
-            return [
-                'title' => 'Perfil de ' . $user['username'],
-                'user' => $user,
-                'user_actions' => $actions,
-                'is_own_profile' => true
-            ];
-        }
+        'handler' => [$userController, 'profileHandler']
     ],
     '/logout' => [
         'template' => null,
@@ -285,7 +227,6 @@ $routes = [
         'template' => 'pages/statistics.twig',
         'title' => _('Estadísticas'),
         'handler' => function($twig, $db, $session) {
-            $statsController = new \App\Controllers\StatsController($db);
             return [
                 'title' => _('Estadísticas'),
                 'stats' => $statsController->getAllStatsForPage()
@@ -300,7 +241,16 @@ $routes = [
             // Obtener un hongo aleatorio
             $query = "SELECT * FROM fungi ORDER BY RAND() LIMIT 1";
             $randomResult = $db->query($query);
-            $fungus = !empty($randomResult) ? ($randomResult[0] ?? $randomResult) : null;
+            
+            // Corregir este bloque para manejar correctamente el resultado PDOStatement
+            if ($randomResult instanceof \PDOStatement) {
+                $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
+            } else if (is_array($randomResult) && !empty($randomResult)) {
+                // Si ya es un array (quizás el método query ya procesa el resultado)
+                $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
+            } else {
+                $fungus = null;
+            }
             
             if (!$fungus) {
                 header('Location: /404');
@@ -333,7 +283,6 @@ $routes = [
                 exit;
             }
             
-            $statsController = new \App\Controllers\StatsController($db);
             return [
                 'title' => _('Panel de Administración'),
                 'stats' => $statsController->getDashboardStats()
@@ -458,11 +407,13 @@ $routes = [
             ];
         }
     ],
+    '/admin/users' => [
+        'template' => 'admin/users.twig',
+        'auth_required' => true,
+        'admin_required' => true,
+        'handler' => [$userController, 'adminUsersHandler']
+    ],
 ];
-
-// Rutas relacionadas con usuarios
-$routes['/profile'] = [ 'handler' => [$userController, 'profileHandler'], 'template' => 'pages/profile.twig' ];
-$routes['/admin/users'] = [ 'handler' => [$userController, 'adminUsersHandler'], 'template' => 'admin/users.twig' ];
 
 // Manejo de rutas de API
 if (preg_match('#^/api#', $uri)) {
