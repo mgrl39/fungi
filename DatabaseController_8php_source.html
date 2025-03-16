@@ -126,89 +126,45 @@ $(document).ready(function(){initNavTree('DatabaseController_8php_source.html','
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        }</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    }</div>
 </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">// Método para obtener fungis paginados</span></div>
-<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1DatabaseController.html#aa8e8c47fed6b4abaa5694f72f09b25c5">   28</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1DatabaseController.html#aa8e8c47fed6b4abaa5694f72f09b25c5">getFungisPaginated</a>($limit, $offset) {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="stringliteral">            SELECT f.*, t.*, c.*,</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="stringliteral">                   GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="stringliteral">            FROM fungi f</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="stringliteral">            LEFT JOIN taxonomy t ON f.id = t.fungi_id</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="stringliteral">            LEFT JOIN characteristics c ON f.id = c.fungi_id</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="stringliteral">            LEFT JOIN fungi_images fi ON f.id = fi.fungi_id</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="stringliteral">            LEFT JOIN images i ON fi.image_id = i.id</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="stringliteral">            LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="stringliteral">            GROUP BY f.id</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="stringliteral">            LIMIT :limit OFFSET :offset</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="stringliteral">        &quot;</span>);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        $stmt-&gt;bindParam(<span class="stringliteral">&#39;:limit&#39;</span>, $limit, PDO::PARAM_INT);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        $stmt-&gt;bindParam(<span class="stringliteral">&#39;:offset&#39;</span>, $offset, PDO::PARAM_INT);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        $stmt-&gt;execute();</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be">   27</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be">createUser</a>($username, $email, $password_hash) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="stringliteral">                INSERT INTO users (username, email, password_hash)</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="stringliteral">                VALUES (:username, :email, :password_hash)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="stringliteral">            &quot;</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            $stmt-&gt;bindParam(<span class="stringliteral">&#39;:username&#39;</span>, $username);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            $stmt-&gt;bindParam(<span class="stringliteral">&#39;:email&#39;</span>, $email);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            $stmt-&gt;bindParam(<span class="stringliteral">&#39;:password_hash&#39;</span>, $password_hash);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">return</span> $stmt-&gt;execute();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        } <span class="keywordflow">catch</span> (PDOException $e) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
 </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1DatabaseController.html#aadf93af3dbc66496d286d96274403d05">   47</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1DatabaseController.html#aadf93af3dbc66496d286d96274403d05">getRandomFungus</a>() {</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="stringliteral">            SELECT f.*, t.*, c.*, </span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="stringliteral">                   GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="stringliteral">            FROM fungi f</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="stringliteral">            LEFT JOIN taxonomy t ON f.id = t.fungi_id</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="stringliteral">            LEFT JOIN characteristics c ON f.id = c.fungi_id</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="stringliteral">            LEFT JOIN fungi_images fi ON f.id = fi.fungi_id</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="stringliteral">            LEFT JOIN images i ON fi.image_id = i.id</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="stringliteral">            LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="stringliteral">            GROUP BY f.id</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="stringliteral">            ORDER BY RAND() LIMIT 1</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="stringliteral">        &quot;</span>);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        $stmt-&gt;execute();</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">return</span> $stmt-&gt;fetch(PDO::FETCH_ASSOC);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496">   54</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496">query</a>($sql, $params = []) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            $stmt = $this-&gt;pdo-&gt;prepare($sql);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            $stmt-&gt;execute($params);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">return</span> $stmt;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        } <span class="keywordflow">catch</span> (PDOException $e) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            error_log($e-&gt;getMessage());</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
 </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  </div>
-<div class="foldopen" id="foldopen00065" data-start="{" data-end="}">
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be">   65</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be">createUser</a>($username, $email, $password_hash) {</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            $stmt = $this-&gt;pdo-&gt;prepare(<span class="stringliteral">&quot;</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="stringliteral">                INSERT INTO users (username, email, password_hash)</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="stringliteral">                VALUES (:username, :email, :password_hash)</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="stringliteral">            &quot;</span>);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            $stmt-&gt;bindParam(<span class="stringliteral">&#39;:username&#39;</span>, $username);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            $stmt-&gt;bindParam(<span class="stringliteral">&#39;:email&#39;</span>, $email);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            $stmt-&gt;bindParam(<span class="stringliteral">&#39;:password_hash&#39;</span>, $password_hash);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">return</span> $stmt-&gt;execute();</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        } <span class="keywordflow">catch</span> (PDOException $e) {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
-</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="foldopen" id="foldopen00082" data-start="{" data-end="}">
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496">   82</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496">query</a>($sql, $params = []) {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            $stmt = $this-&gt;pdo-&gt;prepare($sql);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            $stmt-&gt;execute($params);</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keywordflow">return</span> $stmt;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        } <span class="keywordflow">catch</span> (PDOException $e) {</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            error_log($e-&gt;getMessage());</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        }</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
-</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
 </div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html">App\Controllers\DatabaseController</a></div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00010">DatabaseController.php:10</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_a1358c9aa062b2a03b685d8a1e91fea72"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#a1358c9aa062b2a03b685d8a1e91fea72">App\Controllers\DatabaseController\$pdo</a></div><div class="ttdeci">$pdo</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00011">DatabaseController.php:11</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_aa8e8c47fed6b4abaa5694f72f09b25c5"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#aa8e8c47fed6b4abaa5694f72f09b25c5">App\Controllers\DatabaseController\getFungisPaginated</a></div><div class="ttdeci">getFungisPaginated($limit, $offset)</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00028">DatabaseController.php:28</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_aadf93af3dbc66496d286d96274403d05"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#aadf93af3dbc66496d286d96274403d05">App\Controllers\DatabaseController\getRandomFungus</a></div><div class="ttdeci">getRandomFungus()</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00047">DatabaseController.php:47</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_aaeb06490c785957e1f89084399ca0496"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496">App\Controllers\DatabaseController\query</a></div><div class="ttdeci">query($sql, $params=[])</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00082">DatabaseController.php:82</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_aaeb06490c785957e1f89084399ca0496"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496">App\Controllers\DatabaseController\query</a></div><div class="ttdeci">query($sql, $params=[])</div><div class="ttdoc">Ejecuta una consulta SQL preparada en la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00054">DatabaseController.php:54</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_ad13ac3423d5797dd6f7757acb009b512"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#ad13ac3423d5797dd6f7757acb009b512">App\Controllers\DatabaseController\__construct</a></div><div class="ttdeci">__construct()</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00013">DatabaseController.php:13</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_ae55b2f1ea6758fbc4f82fe3eff4e28be"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be">App\Controllers\DatabaseController\createUser</a></div><div class="ttdeci">createUser($username, $email, $password_hash)</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00065">DatabaseController.php:65</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1DatabaseController_html_ae55b2f1ea6758fbc4f82fe3eff4e28be"><div class="ttname"><a href="classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be">App\Controllers\DatabaseController\createUser</a></div><div class="ttdeci">createUser($username, $email, $password_hash)</div><div class="ttdef"><b>Definition</b> <a href="DatabaseController_8php_source.html#l00027">DatabaseController.php:27</a></div></div>
 <div class="ttc" id="anamespaceApp_1_1Controllers_html"><div class="ttname"><a href="namespaceApp_1_1Controllers.html">App\Controllers</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -216,7 +172,7 @@ $(document).ready(function(){initNavTree('DatabaseController_8php_source.html','
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bbd6674d859f4cefaacb708974cac240.html">controllers</a></li><li class="navelem"><a class="el" href="DatabaseController_8php.html">DatabaseController.php</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 01:35:04 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 01:53:36 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

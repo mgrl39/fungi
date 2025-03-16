@@ -27,72 +27,34 @@
 \DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ die(\textcolor{stringliteral}{"{}Error\ de\ conexión:\ "{}}\ .\ \$e-\/>getMessage());}
 \DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00024}00024\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00025}00025\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00026}00026\ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00027}00027\ \ \ \ \ \textcolor{comment}{//\ Método\ para\ obtener\ fungis\ paginados}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00028}\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aa8e8c47fed6b4abaa5694f72f09b25c5}{00028}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aa8e8c47fed6b4abaa5694f72f09b25c5}{getFungisPaginated}}(\$limit,\ \$offset)\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00029}00029\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ f.*,\ t.*,\ c.*,}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ taxonomy\ t\ ON\ f.id\ =\ t.fungi\_id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ characteristics\ c\ ON\ f.id\ =\ c.fungi\_id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ :limit\ OFFSET\ :offset}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':limit'},\ \$limit,\ PDO::PARAM\_INT);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':offset'},\ \$offset,\ PDO::PARAM\_INT);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetchAll(PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00045}00045\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00046}00046\ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00047}\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aadf93af3dbc66496d286d96274403d05}{00047}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aadf93af3dbc66496d286d96274403d05}{getRandomFungus}}()\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00049}00049\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ f.*,\ t.*,\ c.*,\ }}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00051}00051\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ taxonomy\ t\ ON\ f.id\ =\ t.fungi\_id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ characteristics\ c\ ON\ f.id\ =\ c.fungi\_id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00055}00055\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00056}00056\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00057}00057\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ RAND()\ LIMIT\ 1}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetch(PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00062}00062\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00063}00063\ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00064}00064\ \ \ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00065}\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}{00065}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}{createUser}}(\$username,\ \$email,\ \$password\_hash)\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00068}00068\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ INSERT\ INTO\ users\ (username,\ email,\ password\_hash)}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':username'},\ \$username);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':email'},\ \$email);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':password\_hash'},\ \$password\_hash);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>execute();}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00077}00077\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00079}00079\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00080}00080\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00081}00081\ }
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00082}\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{00082}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{query}}(\$sql,\ \$params\ =\ [])\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute(\$params);}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt;}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00091}00091\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00092}00092\ \}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00026}00026\ \ \ }
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00027}\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}{00027}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}{createUser}}(\$username,\ \$email,\ \$password\_hash)\ \{}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ INSERT\ INTO\ users\ (username,\ email,\ password\_hash)}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}});}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':username'},\ \$username);}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':email'},\ \$email);}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':password\_hash'},\ \$password\_hash);}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>execute();}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00039}00039\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00054}\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{00054}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{query}}(\$sql,\ \$params\ =\ [])\ \{}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute(\$params);}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt;}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{DatabaseController_8php_source_l00064}00064\ \}}
 
 \end{DoxyCode}

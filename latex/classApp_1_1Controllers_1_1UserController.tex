@@ -22,8 +22,24 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}User\
 \begin{DoxyCompactList}\small\item\em Constructor del controlador de usuarios. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a852373bef5708efdfa174376def5921c}{admin\+Users\+Handler}} ()
 \begin{DoxyCompactList}\small\item\em Maneja la página de administración de usuarios. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a19532059efd80938e66ffb2dbb9327b6}{change\+Password}} (\$user\+Id, \$current\+Password, \$new\+Password, \$confirm\+Password)
+\begin{DoxyCompactList}\small\item\em Cambia la contraseña de un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae2c5c8313727d8298c1785255cb06515}{email\+Exists}} (\$email)
+\begin{DoxyCompactList}\small\item\em Verifica si un email ya está registrado. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ab72a7f7dfcbde8e491d129005291984d}{get\+User\+By\+Id}} (\$user\+Id, \$include\+Private=false)
+\begin{DoxyCompactList}\small\item\em Obtiene la información de un usuario por ID. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ad6c999418213f7d84be0be50cb80136a}{login}} (\$email, \$password, \$remember=false)
+\begin{DoxyCompactList}\small\item\em Autentica a un usuario en el sistema. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a2c6a4785db5beeb6c5dbedf60787b391}{logout}} ()
+\begin{DoxyCompactList}\small\item\em Cierra la sesión del usuario actual. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}{profile\+Handler}} (\$params=\mbox{[}$\,$\mbox{]})
-\begin{DoxyCompactList}\small\item\em Maneja la visualización y edición del perfil del usuario. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Maneja la visualización y edición del perfil del usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a82bb0c148faaf67999a6ef23ecefe468}{register}} (\$username, \$email, \$password, \$confirm\+Password)
+\begin{DoxyCompactList}\small\item\em Registra un nuevo usuario en el sistema. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ab9ca090b611bf2c8d3abcf160d113762}{update\+Profile}} (\$user\+Id, \$data)
+\begin{DoxyCompactList}\small\item\em Actualiza la información del perfil de usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aa25c242fa797f235533277b8dd5f0255}{username\+Exists}} (\$username)
+\begin{DoxyCompactList}\small\item\em Verifica si un nombre de usuario ya está registrado. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Métodos privados}
 \begin{DoxyCompactItemize}
 \item 
@@ -49,7 +65,7 @@ Controlador para gestionar operaciones relacionadas con usuarios.
 
 Este controlador centraliza todas las funciones relacionadas con usuarios, incluyendo perfiles, preferencias y administración de usuarios. 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00012}{12}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00014}{14}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 
@@ -75,20 +91,20 @@ Auth\+Controller & {\em \$auth} & Instancia del controlador de autenticación \\
 \end{DoxyParams}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00024}{24}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00033}{33}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}};}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}};}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \$this-\/>auth\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}}\ ??\ \textcolor{keyword}{new}\ AuthController(\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}});}
-\DoxyCodeLine{00028\ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}};}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}{\$session}};}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \$this-\/>auth\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ae6a680f1ece5b780b453ca40b6f75553}{\$auth}}\ ??\ \textcolor{keyword}{new}\ AuthController(\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}{\$db}});}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{UserController_8php_source_l00015}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\$auth}}, \mbox{\hyperlink{UserController_8php_source_l00013}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\$db}} y \mbox{\hyperlink{UserController_8php_source_l00014}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\$session}}.
+Hace referencia a \mbox{\hyperlink{UserController_8php_source_l00024}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\$auth}}, \mbox{\hyperlink{UserController_8php_source_l00018}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\$db}} y \mbox{\hyperlink{UserController_8php_source_l00023}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\$session}}.
 
 
 
@@ -108,30 +124,30 @@ array Datos para la plantilla
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00129}{129}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00144}{144}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ administrador}}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ lista\ de\ usuarios}}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \$users\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}();}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración\ de\ Usuarios'}),}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'users'}\ =>\ \$users}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ es\ administrador}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ lista\ de\ usuarios}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \$users\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}();}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración\ de\ Usuarios'}),}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'users'}\ =>\ \$users}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{UserController_8php_source_l00150}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}get\+All\+Users()}}.
+Hace referencia a \mbox{\hyperlink{UserController_8php_source_l00165}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}get\+All\+Users()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -141,6 +157,72 @@ Gráfico de llamadas de esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1UserController_a852373bef5708efdfa174376def5921c_cgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_a19532059efd80938e66ffb2dbb9327b6}\label{classApp_1_1Controllers_1_1UserController_a19532059efd80938e66ffb2dbb9327b6} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!changePassword@{changePassword}}
+\index{changePassword@{changePassword}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{changePassword()}{changePassword()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::change\+Password (\begin{DoxyParamCaption}\item[{}]{\$user\+Id,  }\item[{}]{\$current\+Password,  }\item[{}]{\$new\+Password,  }\item[{}]{\$confirm\+Password }\end{DoxyParamCaption})}
+
+
+
+Cambia la contraseña de un usuario. 
+
+Verifica la contraseña actual y actualiza a la nueva contraseña
+
+
+\begin{DoxyParams}[1]{Parámetros}
+int & {\em \$user\+Id} & ID del usuario \\
+\hline
+string & {\em \$current\+Password} & Contraseña actual \\
+\hline
+string & {\em \$new\+Password} & Nueva contraseña \\
+\hline
+string & {\em \$confirm\+Password} & Confirmación de nueva contraseña\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Resultado de la operación con estado y mensaje 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00246}{246}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_ae2c5c8313727d8298c1785255cb06515}\label{classApp_1_1Controllers_1_1UserController_ae2c5c8313727d8298c1785255cb06515} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!emailExists@{emailExists}}
+\index{emailExists@{emailExists}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{emailExists()}{emailExists()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::email\+Exists (\begin{DoxyParamCaption}\item[{}]{\$email }\end{DoxyParamCaption})}
+
+
+
+Verifica si un email ya está registrado. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$email} & Correo electrónico a verificar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+bool TRUE si el email existe, FALSE en caso contrario 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00269}{269}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+
+\end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}\label{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b} 
 \index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!getAllUsers@{getAllUsers}}
 \index{getAllUsers@{getAllUsers}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
@@ -156,25 +238,25 @@ array Lista de usuarios
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00150}{150}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00165}{165}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{UserController_8php_source_l00129}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}admin\+Users\+Handler()}}.
+Referenciado por \mbox{\hyperlink{UserController_8php_source_l00144}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}admin\+Users\+Handler()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -184,6 +266,98 @@ Gráfico de llamadas a esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_ab72a7f7dfcbde8e491d129005291984d}\label{classApp_1_1Controllers_1_1UserController_ab72a7f7dfcbde8e491d129005291984d} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!getUserById@{getUserById}}
+\index{getUserById@{getUserById}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{getUserById()}{getUserById()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::get\+User\+By\+Id (\begin{DoxyParamCaption}\item[{}]{\$user\+Id,  }\item[{}]{\$include\+Private = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Obtiene la información de un usuario por ID. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+int & {\em \$user\+Id} & ID del usuario \\
+\hline
+bool & {\em \$include\+Private} & Indica si se deben incluir datos privados\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array\texorpdfstring{$\vert$}{|}null Datos del usuario o null si no existe 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00258}{258}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00260\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_ad6c999418213f7d84be0be50cb80136a}\label{classApp_1_1Controllers_1_1UserController_ad6c999418213f7d84be0be50cb80136a} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!login@{login}}
+\index{login@{login}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{login()}{login()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::login (\begin{DoxyParamCaption}\item[{}]{\$email,  }\item[{}]{\$password,  }\item[{}]{\$remember = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Autentica a un usuario en el sistema. 
+
+Verifica las credenciales del usuario contra la base de datos, e inicia sesión si son correctas.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$email} & Correo electrónico \\
+\hline
+string & {\em \$password} & Contraseña \\
+\hline
+bool & {\em \$remember} & Indica si se debe mantener la sesión (cookie persistente)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Resultado de la operación con estado y mensaje 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00205}{205}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00207\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_a2c6a4785db5beeb6c5dbedf60787b391}\label{classApp_1_1Controllers_1_1UserController_a2c6a4785db5beeb6c5dbedf60787b391} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!logout@{logout}}
+\index{logout@{logout}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{logout()}{logout()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::logout (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cierra la sesión del usuario actual. 
+
+Elimina todos los datos de sesión y cookies relacionadas con la autenticación
+
+\begin{DoxyReturn}{Devuelve}
+bool TRUE si la operación fue exitosa 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00216}{216}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00218\ \ \ \ \ \}}
+
+\end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}\label{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b} 
 \index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!profileHandler@{profileHandler}}
 \index{profileHandler@{profileHandler}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
@@ -193,6 +367,8 @@ Gráfico de llamadas a esta función\+:
 
 
 Maneja la visualización y edición del perfil del usuario. 
+
+Permite al usuario modificar datos como nombre, biografía, imagen, etc.
 
 
 \begin{DoxyParams}[1]{Parámetros}
@@ -204,45 +380,45 @@ array Datos para la plantilla
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00036}{36}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00047}{47}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ está\ autenticado}}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isLoggedIn())\ \{}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?redirect=/profile'});}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \$success\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ formulario\ de\ actualización\ de\ perfil}}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'}\ \&\&\ isset(\$\_POST[\textcolor{stringliteral}{'update\_profile'}]))\ \{}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{validateProfileUpdate}}(\$\_POST);}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$errors))\ \{}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$success\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{updateUserProfile}}(\$userData[\textcolor{stringliteral}{'id'}],\ \$\_POST);}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$success)\ \{}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();\ \textcolor{comment}{//\ Recargar\ datos\ actualizados}}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Mi\ Perfil'}),}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$userData,}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'errors'}\ =>\ \$errors,}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$success}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ está\ autenticado}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?redirect=/profile'});}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \$success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ formulario\ de\ actualización\ de\ perfil}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'}\ \&\&\ isset(\$\_POST[\textcolor{stringliteral}{'update\_profile'}]))\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}{validateProfileUpdate}}(\$\_POST);}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$errors))\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$success\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}{updateUserProfile}}(\$userData[\textcolor{stringliteral}{'id'}],\ \$\_POST);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$success)\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$this-\/>session-\/>getUserData();\ \textcolor{comment}{//\ Recargar\ datos\ actualizados}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Mi\ Perfil'}),}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$userData,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'errors'}\ =>\ \$errors,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$success}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{UserController_8php_source_l00094}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}update\+User\+Profile()}} y \mbox{\hyperlink{UserController_8php_source_l00073}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}validate\+Profile\+Update()}}.
+Hace referencia a \mbox{\hyperlink{UserController_8php_source_l00109}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}update\+User\+Profile()}} y \mbox{\hyperlink{UserController_8php_source_l00086}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}validate\+Profile\+Update()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -252,6 +428,76 @@ Gráfico de llamadas de esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b_cgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_a82bb0c148faaf67999a6ef23ecefe468}\label{classApp_1_1Controllers_1_1UserController_a82bb0c148faaf67999a6ef23ecefe468} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!register@{register}}
+\index{register@{register}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{register()}{register()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::register (\begin{DoxyParamCaption}\item[{}]{\$username,  }\item[{}]{\$email,  }\item[{}]{\$password,  }\item[{}]{\$confirm\+Password }\end{DoxyParamCaption})}
+
+
+
+Registra un nuevo usuario en el sistema. 
+
+Valida los datos de entrada, verifica que el email y username no existan, y crea un nuevo registro de usuario con la contraseña hasheada.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$username} & Nombre de usuario \\
+\hline
+string & {\em \$email} & Correo electrónico \\
+\hline
+string & {\em \$password} & Contraseña en texto plano \\
+\hline
+string & {\em \$confirm\+Password} & Confirmación de contraseña\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Resultado de la operación con estado y mensaje 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00189}{189}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00191\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_ab9ca090b611bf2c8d3abcf160d113762}\label{classApp_1_1Controllers_1_1UserController_ab9ca090b611bf2c8d3abcf160d113762} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!updateProfile@{updateProfile}}
+\index{updateProfile@{updateProfile}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{updateProfile()}{updateProfile()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::update\+Profile (\begin{DoxyParamCaption}\item[{}]{\$user\+Id,  }\item[{}]{\$data }\end{DoxyParamCaption})}
+
+
+
+Actualiza la información del perfil de usuario. 
+
+Permite al usuario modificar datos como nombre, biografía, imagen, etc.
+
+
+\begin{DoxyParams}[1]{Parámetros}
+int & {\em \$user\+Id} & ID del usuario \\
+\hline
+array & {\em \$data} & Datos a actualizar en formato clave-\/valor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Resultado de la operación con estado y mensaje 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00230}{230}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00232\ \ \ \ \ \}}
+
+\end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78}\label{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78} 
 \index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!updateUserProfile@{updateUserProfile}}
 \index{updateUserProfile@{updateUserProfile}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
@@ -261,6 +507,8 @@ Gráfico de llamadas de esta función\+:
 
 
 Actualiza el perfil del usuario en la base de datos. 
+
+Actualiza los datos del usuario en la base de datos según los datos proporcionados.
 
 
 \begin{DoxyParams}[1]{Parámetros}
@@ -274,44 +522,44 @@ bool Resultado de la operación
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00094}{94}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00109}{109}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \$fields\ =\ [];}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determinar\ qué\ campos\ actualizar}}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'email'}]))\ \{}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}email\ =\ :email"{}};}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':email'}]\ =\ \$data[\textcolor{stringliteral}{'email'}];}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'display\_name'}]))\ \{}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}display\_name\ =\ :display\_name"{}};}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':display\_name'}]\ =\ \$data[\textcolor{stringliteral}{'display\_name'}];}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Solo\ actualizar\ si\ hay\ campos\ para\ actualizar}}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$fields))\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':id'}]\ =\ \$userId;}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{"{},\ "{}},\ \$fields)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ :id"{}};}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params);}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ perfil:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00122\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \$fields\ =\ [];}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determinar\ qué\ campos\ actualizar}}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'email'}]))\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}email\ =\ :email"{}};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':email'}]\ =\ \$data[\textcolor{stringliteral}{'email'}];}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$data[\textcolor{stringliteral}{'display\_name'}]))\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fields[]\ =\ \textcolor{stringliteral}{"{}display\_name\ =\ :display\_name"{}};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':display\_name'}]\ =\ \$data[\textcolor{stringliteral}{'display\_name'}];}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Solo\ actualizar\ si\ hay\ campos\ para\ actualizar}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$fields))\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[\textcolor{stringliteral}{':id'}]\ =\ \$userId;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{"{},\ "{}},\ \$fields)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ :id"{}};}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ perfil:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{UserController_8php_source_l00036}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}profile\+Handler()}}.
+Referenciado por \mbox{\hyperlink{UserController_8php_source_l00047}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}profile\+Handler()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -321,6 +569,35 @@ Gráfico de llamadas a esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1UserController_ac56e6d2c7a043410095917d7ac362a78_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1UserController_aa25c242fa797f235533277b8dd5f0255}\label{classApp_1_1Controllers_1_1UserController_aa25c242fa797f235533277b8dd5f0255} 
+\index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!usernameExists@{usernameExists}}
+\index{usernameExists@{usernameExists}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
+\doxysubsubsection{\texorpdfstring{usernameExists()}{usernameExists()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\+::username\+Exists (\begin{DoxyParamCaption}\item[{}]{\$username }\end{DoxyParamCaption})}
+
+
+
+Verifica si un nombre de usuario ya está registrado. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$username} & Nombre de usuario a verificar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+bool TRUE si el username existe, FALSE en caso contrario 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00280}{280}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...\ existing\ code\ ...}}
+\DoxyCodeLine{00282\ \ \ \ \ \}}
+
+\end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb}\label{classApp_1_1Controllers_1_1UserController_aafbbbe1bc02d5f9ec10780422a6d2fcb} 
 \index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!validateProfileUpdate@{validateProfileUpdate}}
 \index{validateProfileUpdate@{validateProfileUpdate}!App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}}
@@ -330,6 +607,8 @@ Gráfico de llamadas a esta función\+:
 
 
 Valida los datos de actualización de perfil. 
+
+Verifica que los datos ingresados sean válidos para actualizar el perfil del usuario.
 
 
 \begin{DoxyParams}[1]{Parámetros}
@@ -341,28 +620,28 @@ array Errores de validación encontrados
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00073}{73}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00086}{86}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ email}}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$data[\textcolor{stringliteral}{'email'}])\ \&\&\ !filter\_var(\$data[\textcolor{stringliteral}{'email'}],\ FILTER\_VALIDATE\_EMAIL))\ \{}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors[\textcolor{stringliteral}{'email'}]\ =\ \_(\textcolor{stringliteral}{'El\ formato\ del\ email\ no\ es\ válido'});}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otras\ validaciones\ según\ necesidades}}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...}}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$errors;}
-\DoxyCodeLine{00085\ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \$errors\ =\ [];}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validar\ email}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$data[\textcolor{stringliteral}{'email'}])\ \&\&\ !filter\_var(\$data[\textcolor{stringliteral}{'email'}],\ FILTER\_VALIDATE\_EMAIL))\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \$errors[\textcolor{stringliteral}{'email'}]\ =\ \_(\textcolor{stringliteral}{'El\ formato\ del\ email\ no\ es\ válido'});}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otras\ validaciones\ según\ necesidades}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ...}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$errors;}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{UserController_8php_source_l00036}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}profile\+Handler()}}.
+Referenciado por \mbox{\hyperlink{UserController_8php_source_l00047}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}profile\+Handler()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -383,11 +662,11 @@ Gráfico de llamadas a esta función\+:
 
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00015}{15}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00024}{24}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{UserController_8php_source_l00024}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+Referenciado por \mbox{\hyperlink{UserController_8php_source_l00033}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
 
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6}\label{classApp_1_1Controllers_1_1UserController_a52d440c58786943b440bad35f3a38ca6} 
 \index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!\$db@{\$db}}
@@ -397,11 +676,11 @@ Referenciado por \mbox{\hyperlink{UserController_8php_source_l00024}{App\textbac
 
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00013}{13}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00018}{18}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{UserController_8php_source_l00024}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+Referenciado por \mbox{\hyperlink{UserController_8php_source_l00033}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
 
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7}\label{classApp_1_1Controllers_1_1UserController_a306a90e334b0318afd0b65af792eb3a7} 
 \index{App\textbackslash{}Controllers\textbackslash{}UserController@{App\textbackslash{}Controllers\textbackslash{}UserController}!\$session@{\$session}}
@@ -411,11 +690,11 @@ Referenciado por \mbox{\hyperlink{UserController_8php_source_l00024}{App\textbac
 
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00014}{14}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00023}{23}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{UserController_8php_source_l00024}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+Referenciado por \mbox{\hyperlink{UserController_8php_source_l00033}{App\textbackslash{}\+Controllers\textbackslash{}\+User\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
 
 
 

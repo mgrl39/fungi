@@ -364,400 +364,334 @@ Variables</h2></td></tr>
 <div class="line"><span class="lineno">  243</span>            </div>
 <div class="line"><span class="lineno">  244</span>            <span class="comment">// Añadir descripciones a las acciones</span></div>
 <div class="line"><span class="lineno">  245</span>            <span class="keywordflow">foreach</span> ($actions as &amp;$action) {</div>
-<div class="line"><span class="lineno">  246</span>                $action[<span class="stringliteral">&#39;description&#39;</span>] = match($action[<span class="stringliteral">&#39;action&#39;</span>]) {</div>
-<div class="line"><span class="lineno">  247</span>                    <span class="stringliteral">&#39;login&#39;</span> =&gt; <span class="stringliteral">&#39;Inicio de sesión&#39;</span>,</div>
-<div class="line"><span class="lineno">  248</span>                    <span class="stringliteral">&#39;logout&#39;</span> =&gt; <span class="stringliteral">&#39;Cierre de sesión&#39;</span>,</div>
-<div class="line"><span class="lineno">  249</span>                    <span class="stringliteral">&#39;view_fungi&#39;</span> =&gt; <span class="stringliteral">&#39;Visualización de hongo&#39;</span>,</div>
-<div class="line"><span class="lineno">  250</span>                    <span class="stringliteral">&#39;like_fungi&#39;</span> =&gt; <span class="stringliteral">&#39;Me gusta en hongo&#39;</span>,</div>
-<div class="line"><span class="lineno">  251</span>                    <span class="stringliteral">&#39;favorite_fungi&#39;</span> =&gt; <span class="stringliteral">&#39;Añadido a favoritos&#39;</span>,</div>
-<div class="line"><span class="lineno">  252</span>                    <span class="stringliteral">&#39;edit_fungi&#39;</span> =&gt; <span class="stringliteral">&#39;Edición de hongo&#39;</span>,</div>
-<div class="line"><span class="lineno">  253</span>                    <span class="keywordflow">default</span> =&gt; <span class="stringliteral">&#39;Acción no reconocida&#39;</span></div>
-<div class="line"><span class="lineno">  254</span>                };</div>
-<div class="line"><span class="lineno">  255</span>                $action[<span class="stringliteral">&#39;date&#39;</span>] = date(<span class="stringliteral">&#39;d/m/Y H:i&#39;</span>, strtotime($action[<span class="stringliteral">&#39;access_time&#39;</span>]));</div>
-<div class="line"><span class="lineno">  256</span>            }</div>
-<div class="line"><span class="lineno">  257</span>            </div>
-<div class="line"><span class="lineno">  258</span>            <span class="comment">// Actualizar el usuario con los contadores</span></div>
-<div class="line"><span class="lineno">  259</span>            $user[<span class="stringliteral">&#39;likes_count&#39;</span>] = $stats[<span class="stringliteral">&#39;likes_count&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  260</span>            $user[<span class="stringliteral">&#39;favorites_count&#39;</span>] = $stats[<span class="stringliteral">&#39;favorites_count&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  261</span>            $user[<span class="stringliteral">&#39;comments_count&#39;</span>] = $stats[<span class="stringliteral">&#39;comments_count&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  262</span>            $user[<span class="stringliteral">&#39;contributions_count&#39;</span>] = $stats[<span class="stringliteral">&#39;contributions_count&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  263</span>            </div>
-<div class="line"><span class="lineno">  264</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  265</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; <span class="stringliteral">&#39;Perfil de &#39;</span> . $user[<span class="stringliteral">&#39;username&#39;</span>],</div>
-<div class="line"><span class="lineno">  266</span>                <span class="stringliteral">&#39;user&#39;</span> =&gt; $user,</div>
-<div class="line"><span class="lineno">  267</span>                <span class="stringliteral">&#39;user_actions&#39;</span> =&gt; $actions,</div>
-<div class="line"><span class="lineno">  268</span>                <span class="stringliteral">&#39;is_own_profile&#39;</span> =&gt; true</div>
-<div class="line"><span class="lineno">  269</span>            ];</div>
-<div class="line"><span class="lineno">  270</span>        }</div>
-<div class="line"><span class="lineno">  271</span>    ],</div>
-<div class="line"><span class="lineno">  272</span>    <span class="stringliteral">&#39;/logout&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  273</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  274</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  275</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController) {</div>
-<div class="line"><span class="lineno">  276</span>            session_start();</div>
-<div class="line"><span class="lineno">  277</span>            session_destroy();</div>
-<div class="line"><span class="lineno">  278</span>            setcookie(<span class="stringliteral">&quot;token&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, time() - 3600, <span class="stringliteral">&quot;/&quot;</span>);</div>
-<div class="line"><span class="lineno">  279</span>            header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
-<div class="line"><span class="lineno">  280</span>            exit;</div>
-<div class="line"><span class="lineno">  281</span>        }</div>
-<div class="line"><span class="lineno">  282</span>    ],</div>
-<div class="line"><span class="lineno">  283</span>    <span class="stringliteral">&#39;/statistics&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  284</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/statistics.twig&#39;</span>,</div>
-<div class="line"><span class="lineno">  285</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
-<div class="line"><span class="lineno">  286</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
-<div class="line"><span class="lineno">  287</span>            $statsController = new \App\Controllers\StatsController($db);</div>
-<div class="line"><span class="lineno">  288</span>            </div>
-<div class="line"><span class="lineno">  289</span>            <span class="comment">// Obtener conteo total de hongos</span></div>
-<div class="line"><span class="lineno">  290</span>            $totalFungi = $db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM fungi&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  291</span>            </div>
-<div class="line"><span class="lineno">  292</span>            <span class="comment">// Obtener estadísticas de comestibilidad</span></div>
-<div class="line"><span class="lineno">  293</span>            $edibilityStats = $statsController-&gt;getEdibilityStats();</div>
-<div class="line"><span class="lineno">  294</span>            </div>
-<div class="line"><span class="lineno">  295</span>            <span class="comment">// Mapear las estadísticas de comestibilidad al formato esperado por la plantilla</span></div>
-<div class="line"><span class="lineno">  296</span>            $edibilityFormatted = [</div>
-<div class="line"><span class="lineno">  297</span>                <span class="stringliteral">&#39;edible_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  298</span>                <span class="stringliteral">&#39;non_edible_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  299</span>                <span class="stringliteral">&#39;toxic_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  300</span>                <span class="stringliteral">&#39;unknown_edibility_fungi&#39;</span> =&gt; 0</div>
-<div class="line"><span class="lineno">  301</span>            ];</div>
-<div class="line"><span class="lineno">  302</span>            </div>
-<div class="line"><span class="lineno">  303</span>            <span class="keywordflow">foreach</span> ($edibilityStats as $stat) {</div>
-<div class="line"><span class="lineno">  304</span>                <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;edible&#39;</span>) {</div>
-<div class="line"><span class="lineno">  305</span>                    $edibilityFormatted[<span class="stringliteral">&#39;edible_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  306</span>                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;non_edible&#39;</span>) {</div>
-<div class="line"><span class="lineno">  307</span>                    $edibilityFormatted[<span class="stringliteral">&#39;non_edible_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  308</span>                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;toxic&#39;</span>) {</div>
-<div class="line"><span class="lineno">  309</span>                    $edibilityFormatted[<span class="stringliteral">&#39;toxic_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  310</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  311</span>                    $edibilityFormatted[<span class="stringliteral">&#39;unknown_edibility_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  312</span>                }</div>
+<div class="line"><span class="lineno">  246</span>                <span class="comment">// Reemplazar match con switch tradicional</span></div>
+<div class="line"><span class="lineno">  247</span>                <span class="keywordflow">switch</span>($action[<span class="stringliteral">&#39;action&#39;</span>]) {</div>
+<div class="line"><span class="lineno">  248</span>                    <span class="keywordflow">case</span> <span class="stringliteral">&#39;login&#39;</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Inicio de sesión&#39;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  249</span>                    <span class="keywordflow">case</span> <span class="stringliteral">&#39;logout&#39;</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Cierre de sesión&#39;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  250</span>                    <span class="keywordflow">case</span> <span class="stringliteral">&#39;view_fungi&#39;</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Visualización de hongo&#39;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  251</span>                    <span class="keywordflow">case</span> <span class="stringliteral">&#39;like_fungi&#39;</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Me gusta en hongo&#39;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  252</span>                    <span class="keywordflow">case</span> <span class="stringliteral">&#39;favorite_fungi&#39;</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Añadido a favoritos&#39;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  253</span>                    <span class="keywordflow">case</span> <span class="stringliteral">&#39;edit_fungi&#39;</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Edición de hongo&#39;</span>; <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  254</span>                    <span class="keywordflow">default</span>: $action[<span class="stringliteral">&#39;description&#39;</span>] = <span class="stringliteral">&#39;Acción no reconocida&#39;</span>;</div>
+<div class="line"><span class="lineno">  255</span>                }</div>
+<div class="line"><span class="lineno">  256</span>                $action[<span class="stringliteral">&#39;date&#39;</span>] = date(<span class="stringliteral">&#39;d/m/Y H:i&#39;</span>, strtotime($action[<span class="stringliteral">&#39;access_time&#39;</span>]));</div>
+<div class="line"><span class="lineno">  257</span>            }</div>
+<div class="line"><span class="lineno">  258</span>            </div>
+<div class="line"><span class="lineno">  259</span>            <span class="comment">// Actualizar el usuario con los contadores</span></div>
+<div class="line"><span class="lineno">  260</span>            $user[<span class="stringliteral">&#39;likes_count&#39;</span>] = $stats[<span class="stringliteral">&#39;likes_count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  261</span>            $user[<span class="stringliteral">&#39;favorites_count&#39;</span>] = $stats[<span class="stringliteral">&#39;favorites_count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  262</span>            $user[<span class="stringliteral">&#39;comments_count&#39;</span>] = $stats[<span class="stringliteral">&#39;comments_count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  263</span>            $user[<span class="stringliteral">&#39;contributions_count&#39;</span>] = $stats[<span class="stringliteral">&#39;contributions_count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  264</span>            </div>
+<div class="line"><span class="lineno">  265</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  266</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; <span class="stringliteral">&#39;Perfil de &#39;</span> . $user[<span class="stringliteral">&#39;username&#39;</span>],</div>
+<div class="line"><span class="lineno">  267</span>                <span class="stringliteral">&#39;user&#39;</span> =&gt; $user,</div>
+<div class="line"><span class="lineno">  268</span>                <span class="stringliteral">&#39;user_actions&#39;</span> =&gt; $actions,</div>
+<div class="line"><span class="lineno">  269</span>                <span class="stringliteral">&#39;is_own_profile&#39;</span> =&gt; true</div>
+<div class="line"><span class="lineno">  270</span>            ];</div>
+<div class="line"><span class="lineno">  271</span>        }</div>
+<div class="line"><span class="lineno">  272</span>    ],</div>
+<div class="line"><span class="lineno">  273</span>    <span class="stringliteral">&#39;/logout&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  274</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  275</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  276</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController) {</div>
+<div class="line"><span class="lineno">  277</span>            session_start();</div>
+<div class="line"><span class="lineno">  278</span>            session_destroy();</div>
+<div class="line"><span class="lineno">  279</span>            setcookie(<span class="stringliteral">&quot;token&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, time() - 3600, <span class="stringliteral">&quot;/&quot;</span>);</div>
+<div class="line"><span class="lineno">  280</span>            header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
+<div class="line"><span class="lineno">  281</span>            exit;</div>
+<div class="line"><span class="lineno">  282</span>        }</div>
+<div class="line"><span class="lineno">  283</span>    ],</div>
+<div class="line"><span class="lineno">  284</span>    <span class="stringliteral">&#39;/statistics&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  285</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/statistics.twig&#39;</span>,</div>
+<div class="line"><span class="lineno">  286</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
+<div class="line"><span class="lineno">  287</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
+<div class="line"><span class="lineno">  288</span>            $statsController = new \App\Controllers\StatsController($db);</div>
+<div class="line"><span class="lineno">  289</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  290</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
+<div class="line"><span class="lineno">  291</span>                <span class="stringliteral">&#39;stats&#39;</span> =&gt; $statsController-&gt;getAllStatsForPage()</div>
+<div class="line"><span class="lineno">  292</span>            ];</div>
+<div class="line"><span class="lineno">  293</span>        }</div>
+<div class="line"><span class="lineno">  294</span>    ],</div>
+<div class="line"><span class="lineno">  295</span>    <span class="stringliteral">&#39;/fungi/random&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  296</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/fungi_detail.twig&#39;</span>,</div>
+<div class="line"><span class="lineno">  297</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
+<div class="line"><span class="lineno">  298</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  299</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController = <span class="keyword">null</span>) use (<a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>) {</div>
+<div class="line"><span class="lineno">  300</span>            <span class="comment">// Obtener un hongo aleatorio</span></div>
+<div class="line"><span class="lineno">  301</span>            $query = <span class="stringliteral">&quot;SELECT * FROM fungi ORDER BY RAND() LIMIT 1&quot;</span>;</div>
+<div class="line"><span class="lineno">  302</span>            $randomResult = $db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  303</span>            $fungus = !empty($randomResult) ? ($randomResult[0] ?? $randomResult) : null;</div>
+<div class="line"><span class="lineno">  304</span>            </div>
+<div class="line"><span class="lineno">  305</span>            <span class="keywordflow">if</span> (!$fungus) {</div>
+<div class="line"><span class="lineno">  306</span>                header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
+<div class="line"><span class="lineno">  307</span>                exit;</div>
+<div class="line"><span class="lineno">  308</span>            }</div>
+<div class="line"><span class="lineno">  309</span>            </div>
+<div class="line"><span class="lineno">  310</span>            <span class="comment">// Añadir información de like si el usuario está logueado</span></div>
+<div class="line"><span class="lineno">  311</span>            <span class="keywordflow">if</span> ($session-&gt;isLoggedIn()) {</div>
+<div class="line"><span class="lineno">  312</span>                $fungus = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getFungusWithLikeStatus($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
 <div class="line"><span class="lineno">  313</span>            }</div>
 <div class="line"><span class="lineno">  314</span>            </div>
-<div class="line"><span class="lineno">  315</span>            <span class="comment">// Obtener datos para las demás secciones</span></div>
-<div class="line"><span class="lineno">  316</span>            $topFamilies = $statsController-&gt;getTopFamilies(10);</div>
-<div class="line"><span class="lineno">  317</span>            $mostViewed = $statsController-&gt;getMostViewedFungi(5);</div>
-<div class="line"><span class="lineno">  318</span>            $topFavorites = $statsController-&gt;getTopFavorites(5);</div>
-<div class="line"><span class="lineno">  319</span>            $topLiked = $statsController-&gt;getTopLiked(5);</div>
-<div class="line"><span class="lineno">  320</span>            $trends = $statsController-&gt;getAdditionTrends();</div>
-<div class="line"><span class="lineno">  321</span>            $habitats = $statsController-&gt;getHabitatDistribution();</div>
-<div class="line"><span class="lineno">  322</span>            </div>
-<div class="line"><span class="lineno">  323</span>            <span class="comment">// Combinar todos los datos para la plantilla</span></div>
-<div class="line"><span class="lineno">  324</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  325</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
-<div class="line"><span class="lineno">  326</span>                <span class="stringliteral">&#39;stats&#39;</span> =&gt; array_merge($edibilityFormatted, [</div>
-<div class="line"><span class="lineno">  327</span>                    <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi,</div>
-<div class="line"><span class="lineno">  328</span>                    <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM users&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0,</div>
-<div class="line"><span class="lineno">  329</span>                    <span class="stringliteral">&#39;top_families&#39;</span> =&gt; $topFamilies,</div>
-<div class="line"><span class="lineno">  330</span>                    <span class="stringliteral">&#39;most_viewed&#39;</span> =&gt; $mostViewed,</div>
-<div class="line"><span class="lineno">  331</span>                    <span class="stringliteral">&#39;top_favorites&#39;</span> =&gt; $topFavorites,</div>
-<div class="line"><span class="lineno">  332</span>                    <span class="stringliteral">&#39;top_liked&#39;</span> =&gt; $topLiked,</div>
-<div class="line"><span class="lineno">  333</span>                    <span class="stringliteral">&#39;trends&#39;</span> =&gt; $trends,</div>
-<div class="line"><span class="lineno">  334</span>                    <span class="stringliteral">&#39;habitats&#39;</span> =&gt; $habitats</div>
-<div class="line"><span class="lineno">  335</span>                ])</div>
-<div class="line"><span class="lineno">  336</span>            ];</div>
-<div class="line"><span class="lineno">  337</span>        }</div>
-<div class="line"><span class="lineno">  338</span>    ],</div>
-<div class="line"><span class="lineno">  339</span>    <span class="stringliteral">&#39;/fungi/random&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  340</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/fungi_detail.twig&#39;</span>,</div>
-<div class="line"><span class="lineno">  341</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
-<div class="line"><span class="lineno">  342</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  343</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController = <span class="keyword">null</span>) use (<a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>) {</div>
-<div class="line"><span class="lineno">  344</span>            <span class="comment">// Obtener un hongo aleatorio</span></div>
-<div class="line"><span class="lineno">  345</span>            $query = <span class="stringliteral">&quot;SELECT * FROM fungi ORDER BY RAND() LIMIT 1&quot;</span>;</div>
-<div class="line"><span class="lineno">  346</span>            $randomResult = $db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  347</span>            $fungus = !empty($randomResult) ? ($randomResult[0] ?? $randomResult) : null;</div>
-<div class="line"><span class="lineno">  348</span>            </div>
-<div class="line"><span class="lineno">  349</span>            <span class="keywordflow">if</span> (!$fungus) {</div>
-<div class="line"><span class="lineno">  350</span>                header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
-<div class="line"><span class="lineno">  351</span>                exit;</div>
-<div class="line"><span class="lineno">  352</span>            }</div>
-<div class="line"><span class="lineno">  353</span>            </div>
-<div class="line"><span class="lineno">  354</span>            <span class="comment">// Añadir información de like si el usuario está logueado</span></div>
-<div class="line"><span class="lineno">  355</span>            <span class="keywordflow">if</span> ($session-&gt;isLoggedIn()) {</div>
-<div class="line"><span class="lineno">  356</span>                $fungus = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getFungusWithLikeStatus($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  357</span>            }</div>
+<div class="line"><span class="lineno">  315</span>            <span class="comment">// Añadir esta línea para depuración</span></div>
+<div class="line"><span class="lineno">  316</span>            error_log(<span class="stringliteral">&quot;Cargando hongo aleatorio: &quot;</span> . json_encode($fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? <span class="stringliteral">&#39;No encontrado&#39;</span>));</div>
+<div class="line"><span class="lineno">  317</span>            </div>
+<div class="line"><span class="lineno">  318</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  319</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
+<div class="line"><span class="lineno">  320</span>                <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus</div>
+<div class="line"><span class="lineno">  321</span>            ];</div>
+<div class="line"><span class="lineno">  322</span>        }</div>
+<div class="line"><span class="lineno">  323</span>    ],</div>
+<div class="line"><span class="lineno">  324</span>    <span class="stringliteral">&#39;/dashboard&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  325</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/admin.twig&#39;</span>,</div>
+<div class="line"><span class="lineno">  326</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Administración&#39;</span>),</div>
+<div class="line"><span class="lineno">  327</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  328</span>        <span class="stringliteral">&#39;admin_required&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  329</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
+<div class="line"><span class="lineno">  330</span>            <span class="comment">// Verificar si el usuario es administrador</span></div>
+<div class="line"><span class="lineno">  331</span>            <span class="keywordflow">if</span> (!$session-&gt;isAdmin()) {</div>
+<div class="line"><span class="lineno">  332</span>                header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
+<div class="line"><span class="lineno">  333</span>                exit;</div>
+<div class="line"><span class="lineno">  334</span>            }</div>
+<div class="line"><span class="lineno">  335</span>            </div>
+<div class="line"><span class="lineno">  336</span>            $statsController = new \App\Controllers\StatsController($db);</div>
+<div class="line"><span class="lineno">  337</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  338</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Panel de Administración&#39;</span>),</div>
+<div class="line"><span class="lineno">  339</span>                <span class="stringliteral">&#39;stats&#39;</span> =&gt; $statsController-&gt;getDashboardStats()</div>
+<div class="line"><span class="lineno">  340</span>            ];</div>
+<div class="line"><span class="lineno">  341</span>        }</div>
+<div class="line"><span class="lineno">  342</span>    ],</div>
+<div class="line"><span class="lineno">  343</span>    <span class="stringliteral">&#39;/docs/api&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  344</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/api/api_docs.twig&#39;</span>,</div>
+<div class="line"><span class="lineno">  345</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Documentación de la API&#39;</span>),</div>
+<div class="line"><span class="lineno">  346</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  347</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
+<div class="line"><span class="lineno">  348</span>            <span class="comment">// Obtener la documentación de la API directamente desde el endpoint /api</span></div>
+<div class="line"><span class="lineno">  349</span>            $apiUrl = <a class="code hl_function" href="routes_8php.html#a3c8df9025cc6fc7cdc49b78096eaec8d">getBaseUrl</a>() . <span class="stringliteral">&#39;/api&#39;</span>;</div>
+<div class="line"><span class="lineno">  350</span>            </div>
+<div class="line"><span class="lineno">  351</span>            <span class="comment">// Configurar opciones para la petición</span></div>
+<div class="line"><span class="lineno">  352</span>            $context = stream_context_create([</div>
+<div class="line"><span class="lineno">  353</span>                <span class="stringliteral">&#39;http&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  354</span>                    <span class="stringliteral">&#39;timeout&#39;</span> =&gt; 3, <span class="comment">// Timeout de 3 segundos</span></div>
+<div class="line"><span class="lineno">  355</span>                    <span class="stringliteral">&#39;ignore_errors&#39;</span> =&gt; <span class="keyword">true</span></div>
+<div class="line"><span class="lineno">  356</span>                ]</div>
+<div class="line"><span class="lineno">  357</span>            ]);</div>
 <div class="line"><span class="lineno">  358</span>            </div>
-<div class="line"><span class="lineno">  359</span>            <span class="comment">// Añadir esta línea para depuración</span></div>
-<div class="line"><span class="lineno">  360</span>            error_log(<span class="stringliteral">&quot;Cargando hongo aleatorio: &quot;</span> . json_encode($fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? <span class="stringliteral">&#39;No encontrado&#39;</span>));</div>
+<div class="line"><span class="lineno">  359</span>            $apiResponse = @file_get_contents($apiUrl, <span class="keyword">false</span>, $context);</div>
+<div class="line"><span class="lineno">  360</span>            $apiDocs = json_decode($apiResponse, <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">  361</span>            </div>
-<div class="line"><span class="lineno">  362</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  363</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
-<div class="line"><span class="lineno">  364</span>                <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus</div>
-<div class="line"><span class="lineno">  365</span>            ];</div>
-<div class="line"><span class="lineno">  366</span>        }</div>
-<div class="line"><span class="lineno">  367</span>    ],</div>
-<div class="line"><span class="lineno">  368</span>    <span class="stringliteral">&#39;/dashboard&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  369</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/admin.twig&#39;</span>,</div>
-<div class="line"><span class="lineno">  370</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Administración&#39;</span>),</div>
-<div class="line"><span class="lineno">  371</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  372</span>        <span class="stringliteral">&#39;admin_required&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  373</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
-<div class="line"><span class="lineno">  374</span>            <span class="comment">// Verificar si el usuario es administrador</span></div>
-<div class="line"><span class="lineno">  375</span>            <span class="keywordflow">if</span> (!$session-&gt;isAdmin()) {</div>
-<div class="line"><span class="lineno">  376</span>                header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
-<div class="line"><span class="lineno">  377</span>                exit;</div>
-<div class="line"><span class="lineno">  378</span>            }</div>
-<div class="line"><span class="lineno">  379</span>            </div>
-<div class="line"><span class="lineno">  380</span>            <span class="comment">// Crear instancia del controlador de estadísticas</span></div>
-<div class="line"><span class="lineno">  381</span>            $statsController = new \App\Controllers\StatsController($db);</div>
-<div class="line"><span class="lineno">  382</span>            </div>
-<div class="line"><span class="lineno">  383</span>            <span class="comment">// Obtener actividad reciente de usuarios desde la base de datos</span></div>
-<div class="line"><span class="lineno">  384</span>            $queryResult = $db-&gt;query(</div>
-<div class="line"><span class="lineno">  385</span>                <span class="stringliteral">&quot;SELECT u.username, a.action, a.item, a.access_time as date </span></div>
-<div class="line"><span class="lineno">  386</span><span class="stringliteral">                 FROM access_logs a</span></div>
-<div class="line"><span class="lineno">  387</span><span class="stringliteral">                 JOIN users u ON a.user_id = u.id</span></div>
-<div class="line"><span class="lineno">  388</span><span class="stringliteral">                 ORDER BY a.access_time DESC</span></div>
-<div class="line"><span class="lineno">  389</span><span class="stringliteral">                 LIMIT 10&quot;</span></div>
-<div class="line"><span class="lineno">  390</span>            );</div>
-<div class="line"><span class="lineno">  391</span>            $recentActivity = $queryResult ? $queryResult-&gt;fetchAll(\PDO::FETCH_ASSOC) : [];</div>
-<div class="line"><span class="lineno">  392</span>            </div>
-<div class="line"><span class="lineno">  393</span>            <span class="comment">// Obtener estadísticas generales</span></div>
-<div class="line"><span class="lineno">  394</span>            $fungiStats = $statsController-&gt;getFungiStats(<span class="stringliteral">&#39;all&#39;</span>);</div>
-<div class="line"><span class="lineno">  395</span>            </div>
-<div class="line"><span class="lineno">  396</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  397</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Panel de Administración&#39;</span>),</div>
-<div class="line"><span class="lineno">  398</span>                <span class="stringliteral">&#39;stats&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  399</span>                    <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM fungi&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0,</div>
-<div class="line"><span class="lineno">  400</span>                    <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM users&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0,</div>
-<div class="line"><span class="lineno">  401</span>                    <span class="stringliteral">&#39;recent_activity&#39;</span> =&gt; $recentActivity,</div>
-<div class="line"><span class="lineno">  402</span>                    <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $fungiStats[<span class="stringliteral">&#39;popular&#39;</span>] ?? [],</div>
-<div class="line"><span class="lineno">  403</span>                    <span class="stringliteral">&#39;edibility_stats&#39;</span> =&gt; $fungiStats[<span class="stringliteral">&#39;edibility&#39;</span>] ?? [],</div>
-<div class="line"><span class="lineno">  404</span>                    <span class="stringliteral">&#39;family_stats&#39;</span> =&gt; $fungiStats[<span class="stringliteral">&#39;families&#39;</span>] ?? []</div>
-<div class="line"><span class="lineno">  405</span>                ]</div>
-<div class="line"><span class="lineno">  406</span>            ];</div>
-<div class="line"><span class="lineno">  407</span>        }</div>
-<div class="line"><span class="lineno">  408</span>    ],</div>
-<div class="line"><span class="lineno">  409</span>    <span class="stringliteral">&#39;/docs/api&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  410</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/api/api_docs.twig&#39;</span>,</div>
-<div class="line"><span class="lineno">  411</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Documentación de la API&#39;</span>),</div>
-<div class="line"><span class="lineno">  412</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  413</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
-<div class="line"><span class="lineno">  414</span>            <span class="comment">// Obtener la documentación de la API directamente desde el endpoint /api</span></div>
-<div class="line"><span class="lineno">  415</span>            $apiUrl = <a class="code hl_function" href="routes_8php.html#a3c8df9025cc6fc7cdc49b78096eaec8d">getBaseUrl</a>() . <span class="stringliteral">&#39;/api&#39;</span>;</div>
-<div class="line"><span class="lineno">  416</span>            </div>
-<div class="line"><span class="lineno">  417</span>            <span class="comment">// Configurar opciones para la petición</span></div>
-<div class="line"><span class="lineno">  418</span>            $context = stream_context_create([</div>
-<div class="line"><span class="lineno">  419</span>                <span class="stringliteral">&#39;http&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  420</span>                    <span class="stringliteral">&#39;timeout&#39;</span> =&gt; 3, <span class="comment">// Timeout de 3 segundos</span></div>
-<div class="line"><span class="lineno">  421</span>                    <span class="stringliteral">&#39;ignore_errors&#39;</span> =&gt; <span class="keyword">true</span></div>
-<div class="line"><span class="lineno">  422</span>                ]</div>
-<div class="line"><span class="lineno">  423</span>            ]);</div>
-<div class="line"><span class="lineno">  424</span>            </div>
-<div class="line"><span class="lineno">  425</span>            $apiResponse = @file_get_contents($apiUrl, <span class="keyword">false</span>, $context);</div>
-<div class="line"><span class="lineno">  426</span>            $apiDocs = json_decode($apiResponse, <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  427</span>            </div>
-<div class="line"><span class="lineno">  428</span>            <span class="keywordflow">if</span> (!$apiDocs) {</div>
-<div class="line"><span class="lineno">  429</span>                <span class="comment">// Si hay un error al obtener los datos, usar información básica</span></div>
-<div class="line"><span class="lineno">  430</span>                $apiDocs = [</div>
-<div class="line"><span class="lineno">  431</span>                    <span class="stringliteral">&#39;api_version&#39;</span> =&gt; <span class="stringliteral">&#39;v1&#39;</span>,</div>
-<div class="line"><span class="lineno">  432</span>                    <span class="stringliteral">&#39;available_endpoints&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  433</span>                        <span class="stringliteral">&#39;Error&#39;</span> =&gt; [<span class="stringliteral">&#39;GET /api&#39;</span> =&gt; <span class="stringliteral">&#39;No se pudo obtener la documentación de la API. Por favor, intente más tarde.&#39;</span>]</div>
-<div class="line"><span class="lineno">  434</span>                    ]</div>
-<div class="line"><span class="lineno">  435</span>                ];</div>
-<div class="line"><span class="lineno">  436</span>            }</div>
-<div class="line"><span class="lineno">  437</span>            </div>
-<div class="line"><span class="lineno">  438</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  439</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Documentación de la API&#39;</span>),</div>
-<div class="line"><span class="lineno">  440</span>                <span class="stringliteral">&#39;api_docs&#39;</span> =&gt; $apiDocs</div>
-<div class="line"><span class="lineno">  441</span>            ];</div>
-<div class="line"><span class="lineno">  442</span>        }</div>
-<div class="line"><span class="lineno">  443</span>    ],</div>
-<div class="line"><span class="lineno">  444</span>    <span class="stringliteral">&#39;/fungi/(\d+)&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  445</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/fungi_detail.twig&#39;</span>,</div>
-<div class="line"><span class="lineno">  446</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController = <span class="keyword">null</span>) use (<a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>) {</div>
-<div class="line"><span class="lineno">  447</span>            <span class="comment">// Obtener el ID del hongo desde la URL</span></div>
-<div class="line"><span class="lineno">  448</span>            preg_match(<span class="stringliteral">&#39;#^/fungi/(\d+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
-<div class="line"><span class="lineno">  449</span>            $id = $matches[1] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  450</span>            </div>
-<div class="line"><span class="lineno">  451</span>            <span class="comment">// Obtener datos del hongo específico</span></div>
-<div class="line"><span class="lineno">  452</span>            $fungus = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getFungusById($id);</div>
-<div class="line"><span class="lineno">  453</span>            </div>
-<div class="line"><span class="lineno">  454</span>            <span class="comment">// Si no se encuentra el hongo, redirigir a 404</span></div>
-<div class="line"><span class="lineno">  455</span>            <span class="keywordflow">if</span> (!$fungus) {</div>
-<div class="line"><span class="lineno">  456</span>                header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
-<div class="line"><span class="lineno">  457</span>                exit;</div>
-<div class="line"><span class="lineno">  458</span>            }</div>
-<div class="line"><span class="lineno">  459</span>            </div>
-<div class="line"><span class="lineno">  460</span>            <span class="comment">// Añadir información de favorito si el usuario está logueado</span></div>
-<div class="line"><span class="lineno">  461</span>            <span class="keywordflow">if</span> ($session-&gt;isLoggedIn() &amp;&amp; <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>) {</div>
-<div class="line"><span class="lineno">  462</span>                $fungus = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getFungusWithLikeStatus($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  463</span>            }</div>
-<div class="line"><span class="lineno">  464</span>            </div>
-<div class="line"><span class="lineno">  465</span>            <span class="comment">// Intentar obtener hongos similares</span></div>
-<div class="line"><span class="lineno">  466</span>            $similarFungi = [];</div>
-<div class="line"><span class="lineno">  467</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  468</span>                $similarFungi = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getSimilarFungi($id, 4);</div>
-<div class="line"><span class="lineno">  469</span>            } <span class="keywordflow">catch</span> (Exception $e) {</div>
-<div class="line"><span class="lineno">  470</span>                <span class="comment">// Si falla, simplemente no mostraremos hongos similares</span></div>
-<div class="line"><span class="lineno">  471</span>            }</div>
-<div class="line"><span class="lineno">  472</span>            </div>
-<div class="line"><span class="lineno">  473</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  474</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; $fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? _(<span class="stringliteral">&#39;Detalles del Hongo&#39;</span>),</div>
-<div class="line"><span class="lineno">  475</span>                <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus,</div>
-<div class="line"><span class="lineno">  476</span>                <span class="stringliteral">&#39;similar_fungi&#39;</span> =&gt; $similarFungi,</div>
-<div class="line"><span class="lineno">  477</span>                <span class="stringliteral">&#39;is_logged_in&#39;</span> =&gt; $session-&gt;isLoggedIn()</div>
-<div class="line"><span class="lineno">  478</span>            ];</div>
-<div class="line"><span class="lineno">  479</span>        }</div>
-<div class="line"><span class="lineno">  480</span>    ],</div>
-<div class="line"><span class="lineno">  481</span>    <span class="stringliteral">&#39;/change-language&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  482</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="keyword">null</span>,</div>
-<div class="line"><span class="lineno">  483</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  484</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
-<div class="line"><span class="lineno">  485</span>            <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a> = new \App\Controllers\LangController();</div>
-<div class="line"><span class="lineno">  486</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;changeLanguage();</div>
-<div class="line"><span class="lineno">  487</span>        }</div>
-<div class="line"><span class="lineno">  488</span>    ],</div>
-<div class="line"><span class="lineno">  489</span>    <span class="comment">// Ruta para ver perfil por nombre de usuario</span></div>
-<div class="line"><span class="lineno">  490</span>    <span class="stringliteral">&#39;/profile/([^/]+)&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  491</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/profile.twig&#39;</span>,</div>
-<div class="line"><span class="lineno">  492</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Perfil de Usuario&#39;</span>),</div>
-<div class="line"><span class="lineno">  493</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  494</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController = <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">  495</span>            <span class="comment">// Obtener el nombre de usuario desde la URL</span></div>
-<div class="line"><span class="lineno">  496</span>            preg_match(<span class="stringliteral">&#39;#^/profile/([^/]+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
-<div class="line"><span class="lineno">  497</span>            $username = $matches[1] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  498</span>            </div>
-<div class="line"><span class="lineno">  499</span>            <span class="comment">// Obtener datos del usuario solicitado por nombre de usuario</span></div>
-<div class="line"><span class="lineno">  500</span>            $profileUserData = $db-&gt;getUserByUsername($username);</div>
-<div class="line"><span class="lineno">  501</span>            </div>
-<div class="line"><span class="lineno">  502</span>            <span class="comment">// Si no se encuentra el usuario, mostrar mensaje de error</span></div>
-<div class="line"><span class="lineno">  503</span>            <span class="keywordflow">if</span> (!$profileUserData) {</div>
-<div class="line"><span class="lineno">  504</span>                <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  505</span>                    <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Usuario no encontrado&#39;</span>),</div>
-<div class="line"><span class="lineno">  506</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; _(<span class="stringliteral">&#39;El usuario solicitado no existe&#39;</span>),</div>
-<div class="line"><span class="lineno">  507</span>                    <span class="stringliteral">&#39;user_not_found&#39;</span> =&gt; true</div>
-<div class="line"><span class="lineno">  508</span>                ];</div>
-<div class="line"><span class="lineno">  509</span>            }</div>
-<div class="line"><span class="lineno">  510</span>            </div>
-<div class="line"><span class="lineno">  511</span>            <span class="comment">// Obtener el ID del usuario actual (si está autenticado)</span></div>
-<div class="line"><span class="lineno">  512</span>            $currentUserId = $session-&gt;isLoggedIn() ? $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>] : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  513</span>            </div>
-<div class="line"><span class="lineno">  514</span>            <span class="comment">// Obtener datos públicos del perfil</span></div>
-<div class="line"><span class="lineno">  515</span>            $favoriteFungi = $db-&gt;getUserFavorites($profileUserData[<span class="stringliteral">&#39;id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  516</span>            $contributions = $db-&gt;getUserContributions($profileUserData[<span class="stringliteral">&#39;id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  517</span>            </div>
-<div class="line"><span class="lineno">  518</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  519</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; sprintf(_(<span class="stringliteral">&#39;Perfil de %s&#39;</span>), $profileUserData[<span class="stringliteral">&#39;username&#39;</span>]),</div>
-<div class="line"><span class="lineno">  520</span>                <span class="stringliteral">&#39;user&#39;</span> =&gt; $profileUserData,</div>
-<div class="line"><span class="lineno">  521</span>                <span class="stringliteral">&#39;favorite_fungi&#39;</span> =&gt; $favoriteFungi,</div>
-<div class="line"><span class="lineno">  522</span>                <span class="stringliteral">&#39;contributions&#39;</span> =&gt; $contributions,</div>
-<div class="line"><span class="lineno">  523</span>                <span class="stringliteral">&#39;is_own_profile&#39;</span> =&gt; ($currentUserId == $profileUserData[<span class="stringliteral">&#39;id&#39;</span>])</div>
-<div class="line"><span class="lineno">  524</span>            ];</div>
-<div class="line"><span class="lineno">  525</span>        }</div>
-<div class="line"><span class="lineno">  526</span>    ],</div>
-<div class="line"><span class="lineno">  527</span>];</div>
-<div class="line"><span class="lineno">  528</span> </div>
-<div class="line"><span class="lineno">  529</span><span class="comment">// Rutas relacionadas con usuarios</span></div>
-<div class="line"><span class="lineno">  530</span><a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/profile&#39;</span>] = [ <span class="stringliteral">&#39;handler&#39;</span> =&gt; [<a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>, <span class="stringliteral">&#39;profileHandler&#39;</span>], <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/profile.twig&#39;</span> ];</div>
-<div class="line"><span class="lineno">  531</span><a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/admin/users&#39;</span>] = [ <span class="stringliteral">&#39;handler&#39;</span> =&gt; [<a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>, <span class="stringliteral">&#39;adminUsersHandler&#39;</span>], <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;admin/users.twig&#39;</span> ];</div>
-<div class="line"><span class="lineno">  532</span> </div>
-<div class="line"><span class="lineno">  533</span><span class="comment">// Manejo de rutas de API</span></div>
-<div class="line"><span class="lineno">  534</span><span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;#^/api#&#39;</span>, <a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>)) {</div>
-<div class="line"><span class="lineno">  535</span>    <span class="comment">// IMPORTANTE: Asegurarse de que no hay salidas previas antes del JSON</span></div>
-<div class="line"><span class="lineno">  536</span>    ob_clean(); <span class="comment">// Limpia el buffer de salida</span></div>
-<div class="line"><span class="lineno">  537</span>    header(<span class="stringliteral">&#39;Content-Type: application/json&#39;</span>);</div>
-<div class="line"><span class="lineno">  538</span>    </div>
-<div class="line"><span class="lineno">  539</span>    <span class="keywordflow">if</span> (class_exists(<span class="stringliteral">&#39;\App\Controllers\Api\ApiRequestHandler&#39;</span>)) {</div>
-<div class="line"><span class="lineno">  540</span>        $db = new \App\Controllers\DatabaseController();</div>
-<div class="line"><span class="lineno">  541</span>        $apiHandler = new \App\Controllers\Api\ApiRequestHandler($db);</div>
-<div class="line"><span class="lineno">  542</span>        $apiHandler-&gt;handleRequest();</div>
-<div class="line"><span class="lineno">  543</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (class_exists(<span class="stringliteral">&#39;\App\Controllers\ApiController&#39;</span>)) {</div>
-<div class="line"><span class="lineno">  544</span>        <span class="comment">// Fallback al controlador original si el nuevo no está disponible</span></div>
-<div class="line"><span class="lineno">  545</span>        $apiController = new \App\Controllers\ApiController($db);</div>
-<div class="line"><span class="lineno">  546</span>        $apiController-&gt;handleRequest();</div>
-<div class="line"><span class="lineno">  547</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  548</span>        echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;API no implementada&#39;</span>]);</div>
-<div class="line"><span class="lineno">  549</span>    }</div>
-<div class="line"><span class="lineno">  550</span>    exit;</div>
-<div class="line"><span class="lineno">  551</span>}</div>
-<div class="line"><span class="lineno">  552</span> </div>
-<div class="line"><span class="lineno">  553</span><span class="comment">// Procesamiento de rutas</span></div>
-<div class="line"><span class="lineno">  554</span> </div>
-<div class="line"><span class="lineno">  555</span><span class="comment">// 1. Intentar coincidencia exacta primero</span></div>
-<div class="line"><span class="lineno">  556</span><span class="keywordflow">if</span> (isset(<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>])) {</div>
-<div class="line"><span class="lineno">  557</span>    $route = <a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>];</div>
-<div class="line"><span class="lineno">  558</span>    </div>
-<div class="line"><span class="lineno">  559</span>    <span class="comment">// Si la ruta tiene una redirección configurada</span></div>
-<div class="line"><span class="lineno">  560</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;redirect&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  561</span>        header(<span class="stringliteral">&#39;Location: &#39;</span> . $route[<span class="stringliteral">&#39;redirect&#39;</span>]);</div>
-<div class="line"><span class="lineno">  562</span>        exit;</div>
-<div class="line"><span class="lineno">  563</span>    }</div>
-<div class="line"><span class="lineno">  564</span>    </div>
-<div class="line"><span class="lineno">  565</span>    <span class="comment">// Verificar si se requiere autenticación para esta ruta</span></div>
-<div class="line"><span class="lineno">  566</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;auth_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;auth_required&#39;</span>] &amp;&amp; !$session-&gt;isLoggedIn()) {</div>
-<div class="line"><span class="lineno">  567</span>        header(<span class="stringliteral">&#39;Location: /login&#39;</span>);</div>
-<div class="line"><span class="lineno">  568</span>        exit;</div>
-<div class="line"><span class="lineno">  569</span>    }</div>
-<div class="line"><span class="lineno">  570</span>    </div>
-<div class="line"><span class="lineno">  571</span>    <span class="comment">// Verificar si se requiere rol de administrador</span></div>
-<div class="line"><span class="lineno">  572</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;admin_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;admin_required&#39;</span>] &amp;&amp; !$session-&gt;isAdmin()) {</div>
-<div class="line"><span class="lineno">  573</span>        header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
-<div class="line"><span class="lineno">  574</span>        exit;</div>
-<div class="line"><span class="lineno">  575</span>    }</div>
-<div class="line"><span class="lineno">  576</span>    </div>
-<div class="line"><span class="lineno">  577</span>    <span class="comment">// Obtener datos para la vista usando el manejador personalizado</span></div>
-<div class="line"><span class="lineno">  578</span>    $data = isset($route[<span class="stringliteral">&#39;handler&#39;</span>]) ? $route[<span class="stringliteral">&#39;handler&#39;</span>]($twig, $db, $session, $authController ?? <span class="keyword">null</span>) : [];</div>
-<div class="line"><span class="lineno">  579</span>    </div>
-<div class="line"><span class="lineno">  580</span>    <span class="comment">// Si no hay datos pero hay título, usar el título como datos</span></div>
-<div class="line"><span class="lineno">  581</span>    <span class="keywordflow">if</span> (empty($data) &amp;&amp; isset($route[<span class="stringliteral">&#39;title&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  582</span>        $data = [<span class="stringliteral">&#39;title&#39;</span> =&gt; $route[<span class="stringliteral">&#39;title&#39;</span>]];</div>
-<div class="line"><span class="lineno">  583</span>    }</div>
-<div class="line"><span class="lineno">  584</span>    </div>
-<div class="line"><span class="lineno">  585</span>    <span class="comment">// Renderizar la plantilla</span></div>
-<div class="line"><span class="lineno">  586</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;template&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;template&#39;</span>] !== <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">  587</span>        <a class="code hl_function" href="routes_8php.html#a6c204a36e81bc356bb38645948b15f75">renderTemplate</a>($route[<span class="stringliteral">&#39;template&#39;</span>], $data);</div>
-<div class="line"><span class="lineno">  588</span>    }</div>
-<div class="line"><span class="lineno">  589</span>} <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  590</span>    <span class="comment">// 2. Intentar coincidencia con patrones</span></div>
-<div class="line"><span class="lineno">  591</span>    $patternMatched = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  592</span>    </div>
-<div class="line"><span class="lineno">  593</span>    <span class="keywordflow">foreach</span> (<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a> as $pattern =&gt; $route) {</div>
-<div class="line"><span class="lineno">  594</span>        <span class="comment">// Si el patrón contiene caracteres especiales como paréntesis (indicando expresión regular)</span></div>
-<div class="line"><span class="lineno">  595</span>        <span class="keywordflow">if</span> (strpos($pattern, <span class="charliteral">&#39;(&#39;</span>) !== <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">  596</span>            <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;#^&#39;</span> . $pattern . <span class="stringliteral">&#39;$#&#39;</span>, <a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>, $matches)) {</div>
-<div class="line"><span class="lineno">  597</span>                <span class="comment">// Verificar si se requiere autenticación para esta ruta</span></div>
-<div class="line"><span class="lineno">  598</span>                <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;auth_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;auth_required&#39;</span>] &amp;&amp; !$session-&gt;isLoggedIn()) {</div>
-<div class="line"><span class="lineno">  599</span>                    header(<span class="stringliteral">&#39;Location: /login&#39;</span>);</div>
-<div class="line"><span class="lineno">  600</span>                    exit;</div>
-<div class="line"><span class="lineno">  601</span>                }</div>
-<div class="line"><span class="lineno">  602</span>                </div>
-<div class="line"><span class="lineno">  603</span>                <span class="comment">// Verificar si se requiere rol de administrador</span></div>
-<div class="line"><span class="lineno">  604</span>                <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;admin_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;admin_required&#39;</span>] &amp;&amp; !$session-&gt;isAdmin()) {</div>
-<div class="line"><span class="lineno">  605</span>                    header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
-<div class="line"><span class="lineno">  606</span>                    exit;</div>
-<div class="line"><span class="lineno">  607</span>                }</div>
-<div class="line"><span class="lineno">  608</span>                </div>
-<div class="line"><span class="lineno">  609</span>                <span class="comment">// Obtener datos para la vista usando el manejador personalizado</span></div>
-<div class="line"><span class="lineno">  610</span>                $data = isset($route[<span class="stringliteral">&#39;handler&#39;</span>]) ? $route[<span class="stringliteral">&#39;handler&#39;</span>]($twig, $db, $session, $authController ?? <span class="keyword">null</span>) : [];</div>
-<div class="line"><span class="lineno">  611</span>                </div>
-<div class="line"><span class="lineno">  612</span>                <span class="comment">// Si no hay datos pero hay título, usar el título como datos</span></div>
-<div class="line"><span class="lineno">  613</span>                <span class="keywordflow">if</span> (empty($data) &amp;&amp; isset($route[<span class="stringliteral">&#39;title&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  614</span>                    $data = [<span class="stringliteral">&#39;title&#39;</span> =&gt; $route[<span class="stringliteral">&#39;title&#39;</span>]];</div>
-<div class="line"><span class="lineno">  615</span>                }</div>
-<div class="line"><span class="lineno">  616</span>                </div>
-<div class="line"><span class="lineno">  617</span>                <span class="comment">// Renderizar la plantilla</span></div>
-<div class="line"><span class="lineno">  618</span>                <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;template&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;template&#39;</span>] !== <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">  619</span>                    <a class="code hl_function" href="routes_8php.html#a6c204a36e81bc356bb38645948b15f75">renderTemplate</a>($route[<span class="stringliteral">&#39;template&#39;</span>], $data);</div>
-<div class="line"><span class="lineno">  620</span>                }</div>
-<div class="line"><span class="lineno">  621</span>                </div>
-<div class="line"><span class="lineno">  622</span>                $patternMatched = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  623</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  624</span>            }</div>
-<div class="line"><span class="lineno">  625</span>        }</div>
-<div class="line"><span class="lineno">  626</span>    }</div>
-<div class="line"><span class="lineno">  627</span>    </div>
-<div class="line"><span class="lineno">  628</span>    <span class="comment">// 3. Si no se encontró ninguna coincidencia, mostrar 404</span></div>
-<div class="line"><span class="lineno">  629</span>    <span class="keywordflow">if</span> (!$patternMatched) {</div>
-<div class="line"><span class="lineno">  630</span>        header(<span class="stringliteral">&#39;HTTP/1.1 404 Not Found&#39;</span>);</div>
-<div class="line"><span class="lineno">  631</span>        </div>
-<div class="line"><span class="lineno">  632</span>        <span class="comment">// Obtener datos para la página 404</span></div>
-<div class="line"><span class="lineno">  633</span>        $data = isset(<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/404&#39;</span>][<span class="stringliteral">&#39;handler&#39;</span>]) </div>
-<div class="line"><span class="lineno">  634</span>            ? <a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/404&#39;</span>][<span class="stringliteral">&#39;handler&#39;</span>]($twig, $db, $session, $authController ?? <span class="keyword">null</span>) </div>
-<div class="line"><span class="lineno">  635</span>            : [<span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Página no encontrada&#39;</span>)];</div>
-<div class="line"><span class="lineno">  636</span>            </div>
-<div class="line"><span class="lineno">  637</span>        <span class="comment">// Renderizar la plantilla 404</span></div>
-<div class="line"><span class="lineno">  638</span>        <a class="code hl_function" href="routes_8php.html#a6c204a36e81bc356bb38645948b15f75">renderTemplate</a>(<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/404&#39;</span>][<span class="stringliteral">&#39;template&#39;</span>], $data);</div>
-<div class="line"><span class="lineno">  639</span>    }</div>
+<div class="line"><span class="lineno">  362</span>            <span class="keywordflow">if</span> (!$apiDocs) {</div>
+<div class="line"><span class="lineno">  363</span>                <span class="comment">// Si hay un error al obtener los datos, usar información básica</span></div>
+<div class="line"><span class="lineno">  364</span>                $apiDocs = [</div>
+<div class="line"><span class="lineno">  365</span>                    <span class="stringliteral">&#39;api_version&#39;</span> =&gt; <span class="stringliteral">&#39;v1&#39;</span>,</div>
+<div class="line"><span class="lineno">  366</span>                    <span class="stringliteral">&#39;available_endpoints&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  367</span>                        <span class="stringliteral">&#39;Error&#39;</span> =&gt; [<span class="stringliteral">&#39;GET /api&#39;</span> =&gt; <span class="stringliteral">&#39;No se pudo obtener la documentación de la API. Por favor, intente más tarde.&#39;</span>]</div>
+<div class="line"><span class="lineno">  368</span>                    ]</div>
+<div class="line"><span class="lineno">  369</span>                ];</div>
+<div class="line"><span class="lineno">  370</span>            }</div>
+<div class="line"><span class="lineno">  371</span>            </div>
+<div class="line"><span class="lineno">  372</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  373</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Documentación de la API&#39;</span>),</div>
+<div class="line"><span class="lineno">  374</span>                <span class="stringliteral">&#39;api_docs&#39;</span> =&gt; $apiDocs</div>
+<div class="line"><span class="lineno">  375</span>            ];</div>
+<div class="line"><span class="lineno">  376</span>        }</div>
+<div class="line"><span class="lineno">  377</span>    ],</div>
+<div class="line"><span class="lineno">  378</span>    <span class="stringliteral">&#39;/fungi/(\d+)&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  379</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/fungi_detail.twig&#39;</span>,</div>
+<div class="line"><span class="lineno">  380</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController = <span class="keyword">null</span>) use (<a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>) {</div>
+<div class="line"><span class="lineno">  381</span>            <span class="comment">// Obtener el ID del hongo desde la URL</span></div>
+<div class="line"><span class="lineno">  382</span>            preg_match(<span class="stringliteral">&#39;#^/fungi/(\d+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
+<div class="line"><span class="lineno">  383</span>            $id = $matches[1] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  384</span>            </div>
+<div class="line"><span class="lineno">  385</span>            <span class="comment">// Obtener datos del hongo específico</span></div>
+<div class="line"><span class="lineno">  386</span>            $fungus = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getFungusById($id);</div>
+<div class="line"><span class="lineno">  387</span>            </div>
+<div class="line"><span class="lineno">  388</span>            <span class="comment">// Si no se encuentra el hongo, redirigir a 404</span></div>
+<div class="line"><span class="lineno">  389</span>            <span class="keywordflow">if</span> (!$fungus) {</div>
+<div class="line"><span class="lineno">  390</span>                header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
+<div class="line"><span class="lineno">  391</span>                exit;</div>
+<div class="line"><span class="lineno">  392</span>            }</div>
+<div class="line"><span class="lineno">  393</span>            </div>
+<div class="line"><span class="lineno">  394</span>            <span class="comment">// Añadir información de favorito si el usuario está logueado</span></div>
+<div class="line"><span class="lineno">  395</span>            <span class="keywordflow">if</span> ($session-&gt;isLoggedIn() &amp;&amp; <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>) {</div>
+<div class="line"><span class="lineno">  396</span>                $fungus = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getFungusWithLikeStatus($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  397</span>            }</div>
+<div class="line"><span class="lineno">  398</span>            </div>
+<div class="line"><span class="lineno">  399</span>            <span class="comment">// Intentar obtener hongos similares</span></div>
+<div class="line"><span class="lineno">  400</span>            $similarFungi = [];</div>
+<div class="line"><span class="lineno">  401</span>            <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  402</span>                $similarFungi = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getSimilarFungi($id, 4);</div>
+<div class="line"><span class="lineno">  403</span>            } <span class="keywordflow">catch</span> (Exception $e) {</div>
+<div class="line"><span class="lineno">  404</span>                <span class="comment">// Si falla, simplemente no mostraremos hongos similares</span></div>
+<div class="line"><span class="lineno">  405</span>            }</div>
+<div class="line"><span class="lineno">  406</span>            </div>
+<div class="line"><span class="lineno">  407</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  408</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; $fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? _(<span class="stringliteral">&#39;Detalles del Hongo&#39;</span>),</div>
+<div class="line"><span class="lineno">  409</span>                <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus,</div>
+<div class="line"><span class="lineno">  410</span>                <span class="stringliteral">&#39;similar_fungi&#39;</span> =&gt; $similarFungi,</div>
+<div class="line"><span class="lineno">  411</span>                <span class="stringliteral">&#39;is_logged_in&#39;</span> =&gt; $session-&gt;isLoggedIn()</div>
+<div class="line"><span class="lineno">  412</span>            ];</div>
+<div class="line"><span class="lineno">  413</span>        }</div>
+<div class="line"><span class="lineno">  414</span>    ],</div>
+<div class="line"><span class="lineno">  415</span>    <span class="stringliteral">&#39;/change-language&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  416</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="keyword">null</span>,</div>
+<div class="line"><span class="lineno">  417</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  418</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session) {</div>
+<div class="line"><span class="lineno">  419</span>            <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a> = new \App\Controllers\LangController();</div>
+<div class="line"><span class="lineno">  420</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="routes_8php.html#a99fa966d9164a3a3311554d0940ff219">$langController</a>-&gt;changeLanguage();</div>
+<div class="line"><span class="lineno">  421</span>        }</div>
+<div class="line"><span class="lineno">  422</span>    ],</div>
+<div class="line"><span class="lineno">  423</span>    <span class="comment">// Ruta para ver perfil por nombre de usuario</span></div>
+<div class="line"><span class="lineno">  424</span>    <span class="stringliteral">&#39;/profile/([^/]+)&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  425</span>        <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/profile.twig&#39;</span>,</div>
+<div class="line"><span class="lineno">  426</span>        <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Perfil de Usuario&#39;</span>),</div>
+<div class="line"><span class="lineno">  427</span>        <span class="stringliteral">&#39;auth_required&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  428</span>        <span class="stringliteral">&#39;handler&#39;</span> =&gt; <span class="keyword">function</span>($twig, $db, $session, $authController = <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  429</span>            <span class="comment">// Obtener el nombre de usuario desde la URL</span></div>
+<div class="line"><span class="lineno">  430</span>            preg_match(<span class="stringliteral">&#39;#^/profile/([^/]+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
+<div class="line"><span class="lineno">  431</span>            $username = $matches[1] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  432</span>            </div>
+<div class="line"><span class="lineno">  433</span>            <span class="comment">// Obtener datos del usuario solicitado por nombre de usuario</span></div>
+<div class="line"><span class="lineno">  434</span>            $profileUserData = $db-&gt;getUserByUsername($username);</div>
+<div class="line"><span class="lineno">  435</span>            </div>
+<div class="line"><span class="lineno">  436</span>            <span class="comment">// Si no se encuentra el usuario, mostrar mensaje de error</span></div>
+<div class="line"><span class="lineno">  437</span>            <span class="keywordflow">if</span> (!$profileUserData) {</div>
+<div class="line"><span class="lineno">  438</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  439</span>                    <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Usuario no encontrado&#39;</span>),</div>
+<div class="line"><span class="lineno">  440</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; _(<span class="stringliteral">&#39;El usuario solicitado no existe&#39;</span>),</div>
+<div class="line"><span class="lineno">  441</span>                    <span class="stringliteral">&#39;user_not_found&#39;</span> =&gt; true</div>
+<div class="line"><span class="lineno">  442</span>                ];</div>
+<div class="line"><span class="lineno">  443</span>            }</div>
+<div class="line"><span class="lineno">  444</span>            </div>
+<div class="line"><span class="lineno">  445</span>            <span class="comment">// Obtener el ID del usuario actual (si está autenticado)</span></div>
+<div class="line"><span class="lineno">  446</span>            $currentUserId = $session-&gt;isLoggedIn() ? $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>] : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  447</span>            </div>
+<div class="line"><span class="lineno">  448</span>            <span class="comment">// Obtener datos públicos del perfil</span></div>
+<div class="line"><span class="lineno">  449</span>            $favoriteFungi = $db-&gt;getUserFavorites($profileUserData[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  450</span>            $contributions = $db-&gt;getUserContributions($profileUserData[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  451</span>            </div>
+<div class="line"><span class="lineno">  452</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  453</span>                <span class="stringliteral">&#39;title&#39;</span> =&gt; sprintf(_(<span class="stringliteral">&#39;Perfil de %s&#39;</span>), $profileUserData[<span class="stringliteral">&#39;username&#39;</span>]),</div>
+<div class="line"><span class="lineno">  454</span>                <span class="stringliteral">&#39;user&#39;</span> =&gt; $profileUserData,</div>
+<div class="line"><span class="lineno">  455</span>                <span class="stringliteral">&#39;favorite_fungi&#39;</span> =&gt; $favoriteFungi,</div>
+<div class="line"><span class="lineno">  456</span>                <span class="stringliteral">&#39;contributions&#39;</span> =&gt; $contributions,</div>
+<div class="line"><span class="lineno">  457</span>                <span class="stringliteral">&#39;is_own_profile&#39;</span> =&gt; ($currentUserId == $profileUserData[<span class="stringliteral">&#39;id&#39;</span>])</div>
+<div class="line"><span class="lineno">  458</span>            ];</div>
+<div class="line"><span class="lineno">  459</span>        }</div>
+<div class="line"><span class="lineno">  460</span>    ],</div>
+<div class="line"><span class="lineno">  461</span>];</div>
+<div class="line"><span class="lineno">  462</span> </div>
+<div class="line"><span class="lineno">  463</span><span class="comment">// Rutas relacionadas con usuarios</span></div>
+<div class="line"><span class="lineno">  464</span><a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/profile&#39;</span>] = [ <span class="stringliteral">&#39;handler&#39;</span> =&gt; [<a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>, <span class="stringliteral">&#39;profileHandler&#39;</span>], <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;pages/profile.twig&#39;</span> ];</div>
+<div class="line"><span class="lineno">  465</span><a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/admin/users&#39;</span>] = [ <span class="stringliteral">&#39;handler&#39;</span> =&gt; [<a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>, <span class="stringliteral">&#39;adminUsersHandler&#39;</span>], <span class="stringliteral">&#39;template&#39;</span> =&gt; <span class="stringliteral">&#39;admin/users.twig&#39;</span> ];</div>
+<div class="line"><span class="lineno">  466</span> </div>
+<div class="line"><span class="lineno">  467</span><span class="comment">// Manejo de rutas de API</span></div>
+<div class="line"><span class="lineno">  468</span><span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;#^/api#&#39;</span>, <a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>)) {</div>
+<div class="line"><span class="lineno">  469</span>    <span class="comment">// IMPORTANTE: Asegurarse de que no hay salidas previas antes del JSON</span></div>
+<div class="line"><span class="lineno">  470</span>    ob_clean(); <span class="comment">// Limpia el buffer de salida</span></div>
+<div class="line"><span class="lineno">  471</span>    header(<span class="stringliteral">&#39;Content-Type: application/json&#39;</span>);</div>
+<div class="line"><span class="lineno">  472</span>    </div>
+<div class="line"><span class="lineno">  473</span>    <span class="keywordflow">if</span> (class_exists(<span class="stringliteral">&#39;\App\Controllers\Api\ApiRequestHandler&#39;</span>)) {</div>
+<div class="line"><span class="lineno">  474</span>        $db = new \App\Controllers\DatabaseController();</div>
+<div class="line"><span class="lineno">  475</span>        $apiHandler = new \App\Controllers\Api\ApiRequestHandler($db);</div>
+<div class="line"><span class="lineno">  476</span>        $apiHandler-&gt;handleRequest();</div>
+<div class="line"><span class="lineno">  477</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (class_exists(<span class="stringliteral">&#39;\App\Controllers\ApiController&#39;</span>)) {</div>
+<div class="line"><span class="lineno">  478</span>        <span class="comment">// Fallback al controlador original si el nuevo no está disponible</span></div>
+<div class="line"><span class="lineno">  479</span>        $apiController = new \App\Controllers\ApiController($db);</div>
+<div class="line"><span class="lineno">  480</span>        $apiController-&gt;handleRequest();</div>
+<div class="line"><span class="lineno">  481</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  482</span>        echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;API no implementada&#39;</span>]);</div>
+<div class="line"><span class="lineno">  483</span>    }</div>
+<div class="line"><span class="lineno">  484</span>    exit;</div>
+<div class="line"><span class="lineno">  485</span>}</div>
+<div class="line"><span class="lineno">  486</span> </div>
+<div class="line"><span class="lineno">  487</span><span class="comment">// Procesamiento de rutas</span></div>
+<div class="line"><span class="lineno">  488</span> </div>
+<div class="line"><span class="lineno">  489</span><span class="comment">// 1. Intentar coincidencia exacta primero</span></div>
+<div class="line"><span class="lineno">  490</span><span class="keywordflow">if</span> (isset(<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>])) {</div>
+<div class="line"><span class="lineno">  491</span>    $route = <a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>];</div>
+<div class="line"><span class="lineno">  492</span>    </div>
+<div class="line"><span class="lineno">  493</span>    <span class="comment">// Si la ruta tiene una redirección configurada</span></div>
+<div class="line"><span class="lineno">  494</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;redirect&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  495</span>        header(<span class="stringliteral">&#39;Location: &#39;</span> . $route[<span class="stringliteral">&#39;redirect&#39;</span>]);</div>
+<div class="line"><span class="lineno">  496</span>        exit;</div>
+<div class="line"><span class="lineno">  497</span>    }</div>
+<div class="line"><span class="lineno">  498</span>    </div>
+<div class="line"><span class="lineno">  499</span>    <span class="comment">// Verificar si se requiere autenticación para esta ruta</span></div>
+<div class="line"><span class="lineno">  500</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;auth_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;auth_required&#39;</span>] &amp;&amp; !$session-&gt;isLoggedIn()) {</div>
+<div class="line"><span class="lineno">  501</span>        header(<span class="stringliteral">&#39;Location: /login&#39;</span>);</div>
+<div class="line"><span class="lineno">  502</span>        exit;</div>
+<div class="line"><span class="lineno">  503</span>    }</div>
+<div class="line"><span class="lineno">  504</span>    </div>
+<div class="line"><span class="lineno">  505</span>    <span class="comment">// Verificar si se requiere rol de administrador</span></div>
+<div class="line"><span class="lineno">  506</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;admin_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;admin_required&#39;</span>] &amp;&amp; !$session-&gt;isAdmin()) {</div>
+<div class="line"><span class="lineno">  507</span>        header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
+<div class="line"><span class="lineno">  508</span>        exit;</div>
+<div class="line"><span class="lineno">  509</span>    }</div>
+<div class="line"><span class="lineno">  510</span>    </div>
+<div class="line"><span class="lineno">  511</span>    <span class="comment">// Obtener datos para la vista usando el manejador personalizado</span></div>
+<div class="line"><span class="lineno">  512</span>    $data = isset($route[<span class="stringliteral">&#39;handler&#39;</span>]) ? $route[<span class="stringliteral">&#39;handler&#39;</span>]($twig, $db, $session, $authController ?? <span class="keyword">null</span>) : [];</div>
+<div class="line"><span class="lineno">  513</span>    </div>
+<div class="line"><span class="lineno">  514</span>    <span class="comment">// Si no hay datos pero hay título, usar el título como datos</span></div>
+<div class="line"><span class="lineno">  515</span>    <span class="keywordflow">if</span> (empty($data) &amp;&amp; isset($route[<span class="stringliteral">&#39;title&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  516</span>        $data = [<span class="stringliteral">&#39;title&#39;</span> =&gt; $route[<span class="stringliteral">&#39;title&#39;</span>]];</div>
+<div class="line"><span class="lineno">  517</span>    }</div>
+<div class="line"><span class="lineno">  518</span>    </div>
+<div class="line"><span class="lineno">  519</span>    <span class="comment">// Renderizar la plantilla</span></div>
+<div class="line"><span class="lineno">  520</span>    <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;template&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;template&#39;</span>] !== <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  521</span>        <a class="code hl_function" href="routes_8php.html#a6c204a36e81bc356bb38645948b15f75">renderTemplate</a>($route[<span class="stringliteral">&#39;template&#39;</span>], $data);</div>
+<div class="line"><span class="lineno">  522</span>    }</div>
+<div class="line"><span class="lineno">  523</span>} <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  524</span>    <span class="comment">// 2. Intentar coincidencia con patrones</span></div>
+<div class="line"><span class="lineno">  525</span>    $patternMatched = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  526</span>    </div>
+<div class="line"><span class="lineno">  527</span>    <span class="keywordflow">foreach</span> (<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a> as $pattern =&gt; $route) {</div>
+<div class="line"><span class="lineno">  528</span>        <span class="comment">// Si el patrón contiene caracteres especiales como paréntesis (indicando expresión regular)</span></div>
+<div class="line"><span class="lineno">  529</span>        <span class="keywordflow">if</span> (strpos($pattern, <span class="charliteral">&#39;(&#39;</span>) !== <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  530</span>            <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;#^&#39;</span> . $pattern . <span class="stringliteral">&#39;$#&#39;</span>, <a class="code hl_variable" href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a>, $matches)) {</div>
+<div class="line"><span class="lineno">  531</span>                <span class="comment">// Verificar si se requiere autenticación para esta ruta</span></div>
+<div class="line"><span class="lineno">  532</span>                <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;auth_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;auth_required&#39;</span>] &amp;&amp; !$session-&gt;isLoggedIn()) {</div>
+<div class="line"><span class="lineno">  533</span>                    header(<span class="stringliteral">&#39;Location: /login&#39;</span>);</div>
+<div class="line"><span class="lineno">  534</span>                    exit;</div>
+<div class="line"><span class="lineno">  535</span>                }</div>
+<div class="line"><span class="lineno">  536</span>                </div>
+<div class="line"><span class="lineno">  537</span>                <span class="comment">// Verificar si se requiere rol de administrador</span></div>
+<div class="line"><span class="lineno">  538</span>                <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;admin_required&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;admin_required&#39;</span>] &amp;&amp; !$session-&gt;isAdmin()) {</div>
+<div class="line"><span class="lineno">  539</span>                    header(<span class="stringliteral">&#39;Location: /&#39;</span>);</div>
+<div class="line"><span class="lineno">  540</span>                    exit;</div>
+<div class="line"><span class="lineno">  541</span>                }</div>
+<div class="line"><span class="lineno">  542</span>                </div>
+<div class="line"><span class="lineno">  543</span>                <span class="comment">// Obtener datos para la vista usando el manejador personalizado</span></div>
+<div class="line"><span class="lineno">  544</span>                $data = isset($route[<span class="stringliteral">&#39;handler&#39;</span>]) ? $route[<span class="stringliteral">&#39;handler&#39;</span>]($twig, $db, $session, $authController ?? <span class="keyword">null</span>) : [];</div>
+<div class="line"><span class="lineno">  545</span>                </div>
+<div class="line"><span class="lineno">  546</span>                <span class="comment">// Si no hay datos pero hay título, usar el título como datos</span></div>
+<div class="line"><span class="lineno">  547</span>                <span class="keywordflow">if</span> (empty($data) &amp;&amp; isset($route[<span class="stringliteral">&#39;title&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  548</span>                    $data = [<span class="stringliteral">&#39;title&#39;</span> =&gt; $route[<span class="stringliteral">&#39;title&#39;</span>]];</div>
+<div class="line"><span class="lineno">  549</span>                }</div>
+<div class="line"><span class="lineno">  550</span>                </div>
+<div class="line"><span class="lineno">  551</span>                <span class="comment">// Renderizar la plantilla</span></div>
+<div class="line"><span class="lineno">  552</span>                <span class="keywordflow">if</span> (isset($route[<span class="stringliteral">&#39;template&#39;</span>]) &amp;&amp; $route[<span class="stringliteral">&#39;template&#39;</span>] !== <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  553</span>                    <a class="code hl_function" href="routes_8php.html#a6c204a36e81bc356bb38645948b15f75">renderTemplate</a>($route[<span class="stringliteral">&#39;template&#39;</span>], $data);</div>
+<div class="line"><span class="lineno">  554</span>                }</div>
+<div class="line"><span class="lineno">  555</span>                </div>
+<div class="line"><span class="lineno">  556</span>                $patternMatched = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  557</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  558</span>            }</div>
+<div class="line"><span class="lineno">  559</span>        }</div>
+<div class="line"><span class="lineno">  560</span>    }</div>
+<div class="line"><span class="lineno">  561</span>    </div>
+<div class="line"><span class="lineno">  562</span>    <span class="comment">// 3. Si no se encontró ninguna coincidencia, mostrar 404</span></div>
+<div class="line"><span class="lineno">  563</span>    <span class="keywordflow">if</span> (!$patternMatched) {</div>
+<div class="line"><span class="lineno">  564</span>        header(<span class="stringliteral">&#39;HTTP/1.1 404 Not Found&#39;</span>);</div>
+<div class="line"><span class="lineno">  565</span>        </div>
+<div class="line"><span class="lineno">  566</span>        <span class="comment">// Obtener datos para la página 404</span></div>
+<div class="line"><span class="lineno">  567</span>        $data = isset(<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/404&#39;</span>][<span class="stringliteral">&#39;handler&#39;</span>]) </div>
+<div class="line"><span class="lineno">  568</span>            ? <a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/404&#39;</span>][<span class="stringliteral">&#39;handler&#39;</span>]($twig, $db, $session, $authController ?? <span class="keyword">null</span>) </div>
+<div class="line"><span class="lineno">  569</span>            : [<span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Página no encontrada&#39;</span>)];</div>
+<div class="line"><span class="lineno">  570</span>            </div>
+<div class="line"><span class="lineno">  571</span>        <span class="comment">// Renderizar la plantilla 404</span></div>
+<div class="line"><span class="lineno">  572</span>        <a class="code hl_function" href="routes_8php.html#a6c204a36e81bc356bb38645948b15f75">renderTemplate</a>(<a class="code hl_variable" href="routes_8php.html#a8f7eb04a54e0f0bfc0cedeb9899ce4a8">$routes</a>[<span class="stringliteral">&#39;/404&#39;</span>][<span class="stringliteral">&#39;template&#39;</span>], $data);</div>
+<div class="line"><span class="lineno">  573</span>    }</div>
 <div class="ttc" id="aroutes_8php_html_a0bbc1d7715d0f934d799d5556a9216bf"><div class="ttname"><a href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a></div><div class="ttdeci">$fungiController</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00125">routes.php:125</a></div></div>
 <div class="ttc" id="aroutes_8php_html_a2409c247baf67a1d4c6b9a1789cfc088"><div class="ttname"><a href="routes_8php.html#a2409c247baf67a1d4c6b9a1789cfc088">$components</a></div><div class="ttdeci">$components</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00060">routes.php:60</a></div></div>
 <div class="ttc" id="aroutes_8php_html_a3c8df9025cc6fc7cdc49b78096eaec8d"><div class="ttname"><a href="routes_8php.html#a3c8df9025cc6fc7cdc49b78096eaec8d">getBaseUrl</a></div><div class="ttdeci">if(! $isApiRequest) getBaseUrl()</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00053">routes.php:53</a></div></div>
@@ -896,7 +830,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definición en la línea <a class="el" href="routes_8php_source.html#l00531">531</a> del archivo <a class="el" href="routes_8php_source.html">routes.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="routes_8php_source.html#l00465">465</a> del archivo <a class="el" href="routes_8php_source.html">routes.php</a>.</p>
 
 </div>
 </div>
@@ -912,7 +846,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definición en la línea <a class="el" href="routes_8php_source.html#l00530">530</a> del archivo <a class="el" href="routes_8php_source.html">routes.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="routes_8php_source.html#l00464">464</a> del archivo <a class="el" href="routes_8php_source.html">routes.php</a>.</p>
 
 </div>
 </div>
@@ -965,7 +899,7 @@ Variables</h2></td></tr>
 <div class="line">    </div>
 <div class="line">    $patternMatched = <span class="keyword">false</span></div>
 </div><!-- fragment -->
-<p class="definition">Definición en la línea <a class="el" href="routes_8php_source.html#l00589">589</a> del archivo <a class="el" href="routes_8php_source.html">routes.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="routes_8php_source.html#l00523">523</a> del archivo <a class="el" href="routes_8php_source.html">routes.php</a>.</p>
 
 </div>
 </div>
@@ -975,7 +909,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="routes_8php.html">routes.php</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 01:35:04 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 01:53:36 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

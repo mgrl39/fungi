@@ -17,12 +17,8 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Datab
 \item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}{create\+User}} (\$username, \$email, \$password\+\_\+hash)
 \item 
-\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aa8e8c47fed6b4abaa5694f72f09b25c5}{get\+Fungis\+Paginated}} (\$limit, \$offset)
-\item 
-\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aadf93af3dbc66496d286d96274403d05}{get\+Random\+Fungus}} ()
-\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{query}} (\$sql, \$params=\mbox{[}$\,$\mbox{]})
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Ejecuta una consulta SQL preparada en la base de datos. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos privados}
 \begin{DoxyCompactItemize}
 \item 
@@ -76,88 +72,26 @@ Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00013}
 
 
 
-Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00065}{65}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00027}{27}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{00068\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ INSERT\ INTO\ users\ (username,\ email,\ password\_hash)}}
-\DoxyCodeLine{00069\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)}}
-\DoxyCodeLine{00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':username'},\ \$username);}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':email'},\ \$email);}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':password\_hash'},\ \$password\_hash);}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>execute();}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00080\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_aa8e8c47fed6b4abaa5694f72f09b25c5}\label{classApp_1_1Controllers_1_1DatabaseController_aa8e8c47fed6b4abaa5694f72f09b25c5} 
-\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!getFungisPaginated@{getFungisPaginated}}
-\index{getFungisPaginated@{getFungisPaginated}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
-\doxysubsubsection{\texorpdfstring{getFungisPaginated()}{getFungisPaginated()}}
-{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::get\+Fungis\+Paginated (\begin{DoxyParamCaption}\item[{}]{\$limit,  }\item[{}]{\$offset }\end{DoxyParamCaption})}
-
-
-
-Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00028}{28}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ f.*,\ t.*,\ c.*,}}
-\DoxyCodeLine{00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls}}
-\DoxyCodeLine{00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f}}
-\DoxyCodeLine{00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ taxonomy\ t\ ON\ f.id\ =\ t.fungi\_id}}
-\DoxyCodeLine{00034\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ characteristics\ c\ ON\ f.id\ =\ c.fungi\_id}}
-\DoxyCodeLine{00035\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id}}
-\DoxyCodeLine{00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id}}
-\DoxyCodeLine{00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
-\DoxyCodeLine{00038\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
-\DoxyCodeLine{00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ :limit\ OFFSET\ :offset}}
-\DoxyCodeLine{00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':limit'},\ \$limit,\ PDO::PARAM\_INT);}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':offset'},\ \$offset,\ PDO::PARAM\_INT);}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetchAll(PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00045\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_aadf93af3dbc66496d286d96274403d05}\label{classApp_1_1Controllers_1_1DatabaseController_aadf93af3dbc66496d286d96274403d05} 
-\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!getRandomFungus@{getRandomFungus}}
-\index{getRandomFungus@{getRandomFungus}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
-\doxysubsubsection{\texorpdfstring{getRandomFungus()}{getRandomFungus()}}
-{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::get\+Random\+Fungus (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00047}{47}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{00049\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ SELECT\ f.*,\ t.*,\ c.*,\ }}
-\DoxyCodeLine{00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\_CONCAT(DISTINCT\ CONCAT(ic.path,\ i.filename))\ as\ image\_urls}}
-\DoxyCodeLine{00051\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f}}
-\DoxyCodeLine{00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ taxonomy\ t\ ON\ f.id\ =\ t.fungi\_id}}
-\DoxyCodeLine{00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ characteristics\ c\ ON\ f.id\ =\ c.fungi\_id}}
-\DoxyCodeLine{00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_images\ fi\ ON\ f.id\ =\ fi.fungi\_id}}
-\DoxyCodeLine{00055\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ images\ i\ ON\ fi.image\_id\ =\ i.id}}
-\DoxyCodeLine{00056\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ image\_config\ ic\ ON\ i.config\_key\ =\ ic.config\_key}}
-\DoxyCodeLine{00057\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
-\DoxyCodeLine{00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ RAND()\ LIMIT\ 1}}
-\DoxyCodeLine{00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>fetch(PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00062\ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
+\DoxyCodeLine{00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ INSERT\ INTO\ users\ (username,\ email,\ password\_hash)}}
+\DoxyCodeLine{00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)}}
+\DoxyCodeLine{00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}});}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':username'},\ \$username);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':email'},\ \$email);}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':password\_hash'},\ \$password\_hash);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>execute();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}\label{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496} 
@@ -168,20 +102,39 @@ Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00047}
 
 
 
-Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00082}{82}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+Ejecuta una consulta SQL preparada en la base de datos. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$sql} & Consulta SQL para ejecutar \\
+\hline
+array & {\em \$params} & Parámetros para vincular a la consulta \mbox{[}opcional, predeterminado=\mbox{[}\mbox{]}\mbox{]}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+\textbackslash{}\+PDOStatement\texorpdfstring{$\vert$}{|}false Devuelve el objeto PDOStatement en caso de éxito o false si falla
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Excepciones}
+{\em } & \\
+\hline
+\end{DoxyExceptions}
+PDOException Las excepciones son capturadas internamente y registradas 
+
+Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00054}{54}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute(\$params);}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt;}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00091\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute(\$params);}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

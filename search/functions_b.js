@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['query_0',['query',['../classApp_1_1Controllers_1_1DatabaseController.html#aaeb06490c785957e1f89084399ca0496',1,'App::Controllers::DatabaseController']]]
+  ['profilehandler_0',['profileHandler',['../classApp_1_1Controllers_1_1UserController.html#a9b1cee33c89323576b5df64d7d093d5b',1,'App::Controllers::UserController']]]
 ];

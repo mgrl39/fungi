@@ -250,400 +250,334 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00076}{76}} del ar
 \DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ descripciones\ a\ las\ acciones}}
 \DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$actions\ as\ \&\$action)\ \{}
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$action[\textcolor{stringliteral}{'description'}]\ =\ match(\$action[\textcolor{stringliteral}{'action'}])\ \{}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'login'}\ =>\ \textcolor{stringliteral}{'Inicio\ de\ sesión'},}
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'logout'}\ =>\ \textcolor{stringliteral}{'Cierre\ de\ sesión'},}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'view\_fungi'}\ =>\ \textcolor{stringliteral}{'Visualización\ de\ hongo'},}
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'like\_fungi'}\ =>\ \textcolor{stringliteral}{'Me\ gusta\ en\ hongo'},}
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'favorite\_fungi'}\ =>\ \textcolor{stringliteral}{'Añadido\ a\ favoritos'},}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edit\_fungi'}\ =>\ \textcolor{stringliteral}{'Edición\ de\ hongo'},}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}\ =>\ \textcolor{stringliteral}{'Acción\ no\ reconocida'}}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$action[\textcolor{stringliteral}{'date'}]\ =\ date(\textcolor{stringliteral}{'d/m/Y\ H:i'},\ strtotime(\$action[\textcolor{stringliteral}{'access\_time'}]));}
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ el\ usuario\ con\ los\ contadores}}
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'likes\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'likes\_count'}]\ ??\ 0;}
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'favorites\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'favorites\_count'}]\ ??\ 0;}
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'comments\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'comments\_count'}]\ ??\ 0;}
-\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'contributions\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'contributions\_count'}]\ ??\ 0;}
-\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \textcolor{stringliteral}{'Perfil\ de\ '}\ .\ \$user[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$user,}
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_actions'}\ =>\ \$actions,}
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_own\_profile'}\ =>\ true}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00271\ \ \ \ \ ],}
-\DoxyCodeLine{00272\ \ \ \ \ \textcolor{stringliteral}{'/logout'}\ =>\ [}
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController)\ \{}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ session\_destroy();}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}token"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00282\ \ \ \ \ ],}
-\DoxyCodeLine{00283\ \ \ \ \ \textcolor{stringliteral}{'/statistics'}\ =>\ [}
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/statistics.twig'},}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \$statsController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)StatsController(\$db);}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ conteo\ total\ de\ hongos}}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungi\ =\ \$db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ fungi"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0;}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas\ de\ comestibilidad}}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityStats\ =\ \$statsController-\/>getEdibilityStats();}
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Mapear\ las\ estadísticas\ de\ comestibilidad\ al\ formato\ esperado\ por\ la\ plantilla}}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityFormatted\ =\ [}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edible\_fungi'}\ =>\ 0,}
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'non\_edible\_fungi'}\ =>\ 0,}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'toxic\_fungi'}\ =>\ 0,}
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'unknown\_edibility\_fungi'}\ =>\ 0}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$edibilityStats\ as\ \$stat)\ \{}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'edible'})\ \{}
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityFormatted[\textcolor{stringliteral}{'edible\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'non\_edible'})\ \{}
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityFormatted[\textcolor{stringliteral}{'non\_edible\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'toxic'})\ \{}
-\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityFormatted[\textcolor{stringliteral}{'toxic\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityFormatted[\textcolor{stringliteral}{'unknown\_edibility\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reemplazar\ match\ con\ switch\ tradicional}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(\$action[\textcolor{stringliteral}{'action'}])\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'login'}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Inicio\ de\ sesión'};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'logout'}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Cierre\ de\ sesión'};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'view\_fungi'}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Visualización\ de\ hongo'};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'like\_fungi'}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Me\ gusta\ en\ hongo'};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'favorite\_fungi'}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Añadido\ a\ favoritos'};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{'edit\_fungi'}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Edición\ de\ hongo'};\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \$action[\textcolor{stringliteral}{'description'}]\ =\ \textcolor{stringliteral}{'Acción\ no\ reconocida'};}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$action[\textcolor{stringliteral}{'date'}]\ =\ date(\textcolor{stringliteral}{'d/m/Y\ H:i'},\ strtotime(\$action[\textcolor{stringliteral}{'access\_time'}]));}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ el\ usuario\ con\ los\ contadores}}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'likes\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'likes\_count'}]\ ??\ 0;}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'favorites\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'favorites\_count'}]\ ??\ 0;}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'comments\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'comments\_count'}]\ ??\ 0;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \$user[\textcolor{stringliteral}{'contributions\_count'}]\ =\ \$stats[\textcolor{stringliteral}{'contributions\_count'}]\ ??\ 0;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \textcolor{stringliteral}{'Perfil\ de\ '}\ .\ \$user[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$user,}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_actions'}\ =>\ \$actions,}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_own\_profile'}\ =>\ true}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00272\ \ \ \ \ ],}
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{stringliteral}{'/logout'}\ =>\ [}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController)\ \{}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ session\_destroy();}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}token"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00283\ \ \ \ \ ],}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{stringliteral}{'/statistics'}\ =>\ [}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/statistics.twig'},}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \$statsController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)StatsController(\$db);}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$statsController-\/>getAllStatsForPage()}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00294\ \ \ \ \ ],}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{stringliteral}{'/fungi/random'}\ =>\ [}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController\ =\ \textcolor{keyword}{null})\ use\ (\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ un\ hongo\ aleatorio}}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ ORDER\ BY\ RAND()\ LIMIT\ 1"{}};}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \$randomResult\ =\ \$db-\/>query(\$query);}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ !empty(\$randomResult)\ ?\ (\$randomResult[0]\ ??\ \$randomResult)\ :\ null;}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ like\ si\ el\ usuario\ está\ logueado}}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$session-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusWithLikeStatus(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
 \DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ las\ demás\ secciones}}
-\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \$topFamilies\ =\ \$statsController-\/>getTopFamilies(10);}
-\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \$mostViewed\ =\ \$statsController-\/>getMostViewedFungi(5);}
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \$topFavorites\ =\ \$statsController-\/>getTopFavorites(5);}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \$topLiked\ =\ \$statsController-\/>getTopLiked(5);}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \$trends\ =\ \$statsController-\/>getAdditionTrends();}
-\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \$habitats\ =\ \$statsController-\/>getHabitatDistribution();}
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Combinar\ todos\ los\ datos\ para\ la\ plantilla}}
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ array\_merge(\$edibilityFormatted,\ [}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$totalFungi,}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_users'}\ =>\ \$db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0,}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'top\_families'}\ =>\ \$topFamilies,}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'most\_viewed'}\ =>\ \$mostViewed,}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'top\_favorites'}\ =>\ \$topFavorites,}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'top\_liked'}\ =>\ \$topLiked,}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'trends'}\ =>\ \$trends,}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'habitats'}\ =>\ \$habitats}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ])}
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00338\ \ \ \ \ ],}
-\DoxyCodeLine{00339\ \ \ \ \ \textcolor{stringliteral}{'/fungi/random'}\ =>\ [}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
-\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController\ =\ \textcolor{keyword}{null})\ use\ (\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
-\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ un\ hongo\ aleatorio}}
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ ORDER\ BY\ RAND()\ LIMIT\ 1"{}};}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \$randomResult\ =\ \$db-\/>query(\$query);}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ !empty(\$randomResult)\ ?\ (\$randomResult[0]\ ??\ \$randomResult)\ :\ null;}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
-\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ like\ si\ el\ usuario\ está\ logueado}}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$session-\/>isLoggedIn())\ \{}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusWithLikeStatus(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
-\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ esta\ línea\ para\ depuración}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Cargando\ hongo\ aleatorio:\ "{}}\ .\ json\_encode(\$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{'No\ encontrado'}));}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00323\ \ \ \ \ ],}
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{stringliteral}{'/dashboard'}\ =>\ [}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/admin.twig'},}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración'}),}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ es\ administrador}}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \$statsController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)StatsController(\$db);}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$statsController-\/>getDashboardStats()}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00342\ \ \ \ \ ],}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{stringliteral}{'/docs/api'}\ =>\ [}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/api/api\_docs.twig'},}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Documentación\ de\ la\ API'}),}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ la\ documentación\ de\ la\ API\ directamente\ desde\ el\ endpoint\ /api}}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiUrl\ =\ \mbox{\hyperlink{routes_8php_a3c8df9025cc6fc7cdc49b78096eaec8d}{getBaseUrl}}()\ .\ \textcolor{stringliteral}{'/api'};}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ opciones\ para\ la\ petición}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \$context\ =\ stream\_context\_create([}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'http'}\ =>\ [}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'timeout'}\ =>\ 3,\ \textcolor{comment}{//\ Timeout\ de\ 3\ segundos}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'ignore\_errors'}\ =>\ \textcolor{keyword}{true}}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
 \DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ esta\ línea\ para\ depuración}}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Cargando\ hongo\ aleatorio:\ "{}}\ .\ json\_encode(\$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{'No\ encontrado'}));}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiResponse\ =\ @file\_get\_contents(\$apiUrl,\ \textcolor{keyword}{false},\ \$context);}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiDocs\ =\ json\_decode(\$apiResponse,\ \textcolor{keyword}{true});}
 \DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00367\ \ \ \ \ ],}
-\DoxyCodeLine{00368\ \ \ \ \ \textcolor{stringliteral}{'/dashboard'}\ =>\ [}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/admin.twig'},}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Administración'}),}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'admin\_required'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
-\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ es\ administrador}}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ de\ estadísticas}}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \$statsController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)StatsController(\$db);}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ actividad\ reciente\ de\ usuarios\ desde\ la\ base\ de\ datos}}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \$queryResult\ =\ \$db-\/>query(}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ u.username,\ a.action,\ a.item,\ a.access\_time\ as\ date\ }}
-\DoxyCodeLine{00386\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ access\_logs\ a}}
-\DoxyCodeLine{00387\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ users\ u\ ON\ a.user\_id\ =\ u.id}}
-\DoxyCodeLine{00388\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ a.access\_time\ DESC}}
-\DoxyCodeLine{00389\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 10"{}}}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \$recentActivity\ =\ \$queryResult\ ?\ \$queryResult-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)\ :\ [];}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas\ generales}}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiStats\ =\ \$statsController-\/>getFungiStats(\textcolor{stringliteral}{'all'});}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ [}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ fungi"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0,}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_users'}\ =>\ \$db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0,}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'recent\_activity'}\ =>\ \$recentActivity,}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular\_fungi'}\ =>\ \$fungiStats[\textcolor{stringliteral}{'popular'}]\ ??\ [],}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edibility\_stats'}\ =>\ \$fungiStats[\textcolor{stringliteral}{'edibility'}]\ ??\ [],}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'family\_stats'}\ =>\ \$fungiStats[\textcolor{stringliteral}{'families'}]\ ??\ []}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00408\ \ \ \ \ ],}
-\DoxyCodeLine{00409\ \ \ \ \ \textcolor{stringliteral}{'/docs/api'}\ =>\ [}
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/api/api\_docs.twig'},}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Documentación\ de\ la\ API'}),}
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ la\ documentación\ de\ la\ API\ directamente\ desde\ el\ endpoint\ /api}}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiUrl\ =\ \mbox{\hyperlink{routes_8php_a3c8df9025cc6fc7cdc49b78096eaec8d}{getBaseUrl}}()\ .\ \textcolor{stringliteral}{'/api'};}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ opciones\ para\ la\ petición}}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \$context\ =\ stream\_context\_create([}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'http'}\ =>\ [}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'timeout'}\ =>\ 3,\ \textcolor{comment}{//\ Timeout\ de\ 3\ segundos}}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'ignore\_errors'}\ =>\ \textcolor{keyword}{true}}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ ]);}
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiResponse\ =\ @file\_get\_contents(\$apiUrl,\ \textcolor{keyword}{false},\ \$context);}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiDocs\ =\ json\_decode(\$apiResponse,\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$apiDocs)\ \{}
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ hay\ un\ error\ al\ obtener\ los\ datos,\ usar\ información\ básica}}
-\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$apiDocs\ =\ [}
-\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_version'}\ =>\ \textcolor{stringliteral}{'v1'},}
-\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'available\_endpoints'}\ =>\ [}
-\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'Error'}\ =>\ [\textcolor{stringliteral}{'GET\ /api'}\ =>\ \textcolor{stringliteral}{'No\ se\ pudo\ obtener\ la\ documentación\ de\ la\ API.\ Por\ favor,\ intente\ más\ tarde.'}]}
-\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Documentación\ de\ la\ API'}),}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_docs'}\ =>\ \$apiDocs}
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00443\ \ \ \ \ ],}
-\DoxyCodeLine{00444\ \ \ \ \ \textcolor{stringliteral}{'/fungi/(\(\backslash\)d+)'}\ =>\ [}
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController\ =\ \textcolor{keyword}{null})\ use\ (\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ hongo\ desde\ la\ URL}}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/fungi/(\(\backslash\)d+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ hongo\ específico}}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusById(\$id);}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ se\ encuentra\ el\ hongo,\ redirigir\ a\ 404}}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ favorito\ si\ el\ usuario\ está\ logueado}}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$session-\/>isLoggedIn()\ \&\&\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusWithLikeStatus(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Intentar\ obtener\ hongos\ similares}}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ [];}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getSimilarFungi(\$id,\ 4);}
-\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
-\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ falla,\ simplemente\ no\ mostraremos\ hongos\ similares}}
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \_(\textcolor{stringliteral}{'Detalles\ del\ Hongo'}),}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus,}
-\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'similar\_fungi'}\ =>\ \$similarFungi,}
-\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_logged\_in'}\ =>\ \$session-\/>isLoggedIn()}
-\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00480\ \ \ \ \ ],}
-\DoxyCodeLine{00481\ \ \ \ \ \textcolor{stringliteral}{'/change-\/language'}\ =>\ [}
-\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},}
-\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
-\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)LangController();}
-\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>changeLanguage();}
-\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00488\ \ \ \ \ ],}
-\DoxyCodeLine{00489\ \ \ \ \ \textcolor{comment}{//\ Ruta\ para\ ver\ perfil\ por\ nombre\ de\ usuario}}
-\DoxyCodeLine{00490\ \ \ \ \ \textcolor{stringliteral}{'/profile/([\string^/]+)'}\ =>\ [}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'},}
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Perfil\ de\ Usuario'}),}
-\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController\ =\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ nombre\ de\ usuario\ desde\ la\ URL}}
-\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/profile/([\string^/]+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
-\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ usuario\ solicitado\ por\ nombre\ de\ usuario}}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \$profileUserData\ =\ \$db-\/>getUserByUsername(\$username);}
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ se\ encuentra\ el\ usuario,\ mostrar\ mensaje\ de\ error}}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$profileUserData)\ \{}
-\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Usuario\ no\ encontrado'}),}
-\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \_(\textcolor{stringliteral}{'El\ usuario\ solicitado\ no\ existe'}),}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_not\_found'}\ =>\ true}
-\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ usuario\ actual\ (si\ está\ autenticado)}}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \$currentUserId\ =\ \$session-\/>isLoggedIn()\ ?\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ :\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ públicos\ del\ perfil}}
-\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \$favoriteFungi\ =\ \$db-\/>getUserFavorites(\$profileUserData[\textcolor{stringliteral}{'id'}]);}
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \$contributions\ =\ \$db-\/>getUserContributions(\$profileUserData[\textcolor{stringliteral}{'id'}]);}
-\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ sprintf(\_(\textcolor{stringliteral}{'Perfil\ de\ \%s'}),\ \$profileUserData[\textcolor{stringliteral}{'username'}]),}
-\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$profileUserData,}
-\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'favorite\_fungi'}\ =>\ \$favoriteFungi,}
-\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'contributions'}\ =>\ \$contributions,}
-\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_own\_profile'}\ =>\ (\$currentUserId\ ==\ \$profileUserData[\textcolor{stringliteral}{'id'}])}
-\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00526\ \ \ \ \ ],}
-\DoxyCodeLine{00527\ ];}
-\DoxyCodeLine{00528\ }
-\DoxyCodeLine{00529\ \textcolor{comment}{//\ Rutas\ relacionadas\ con\ usuarios}}
-\DoxyCodeLine{00530\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/profile'}]\ =\ [\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'profileHandler'}],\ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'}\ ];}
-\DoxyCodeLine{00531\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/admin/users'}]\ =\ [\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'adminUsersHandler'}],\ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'admin/users.twig'}\ ];}
-\DoxyCodeLine{00532\ }
-\DoxyCodeLine{00533\ \textcolor{comment}{//\ Manejo\ de\ rutas\ de\ API}}
-\DoxyCodeLine{00534\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'\#\string^/api\#'},\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}))\ \{}
-\DoxyCodeLine{00535\ \ \ \ \ \textcolor{comment}{//\ IMPORTANTE:\ Asegurarse\ de\ que\ no\ hay\ salidas\ previas\ antes\ del\ JSON}}
-\DoxyCodeLine{00536\ \ \ \ \ ob\_clean();\ \textcolor{comment}{//\ Limpia\ el\ buffer\ de\ salida}}
-\DoxyCodeLine{00537\ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
-\DoxyCodeLine{00538\ \ \ \ \ }
-\DoxyCodeLine{00539\ \ \ \ \ \textcolor{keywordflow}{if}\ (class\_exists(\textcolor{stringliteral}{'\(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiRequestHandler'}))\ \{}
-\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \$db\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)DatabaseController();}
-\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \$apiHandler\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiRequestHandler(\$db);}
-\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \$apiHandler-\/>handleRequest();}
-\DoxyCodeLine{00543\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (class\_exists(\textcolor{stringliteral}{'\(\backslash\)App\(\backslash\)Controllers\(\backslash\)ApiController'}))\ \{}
-\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fallback\ al\ controlador\ original\ si\ el\ nuevo\ no\ está\ disponible}}
-\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \$apiController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)ApiController(\$db);}
-\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \$apiController-\/>handleRequest();}
-\DoxyCodeLine{00547\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'API\ no\ implementada'}]);}
-\DoxyCodeLine{00549\ \ \ \ \ \}}
-\DoxyCodeLine{00550\ \ \ \ \ exit;}
-\DoxyCodeLine{00551\ \}}
-\DoxyCodeLine{00552\ }
-\DoxyCodeLine{00553\ \textcolor{comment}{//\ Procesamiento\ de\ rutas}}
-\DoxyCodeLine{00554\ }
-\DoxyCodeLine{00555\ \textcolor{comment}{//\ 1.\ Intentar\ coincidencia\ exacta\ primero}}
-\DoxyCodeLine{00556\ \textcolor{keywordflow}{if}\ (isset(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}]))\ \{}
-\DoxyCodeLine{00557\ \ \ \ \ \$route\ =\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}];}
-\DoxyCodeLine{00558\ \ \ \ \ }
-\DoxyCodeLine{00559\ \ \ \ \ \textcolor{comment}{//\ Si\ la\ ruta\ tiene\ una\ redirección\ configurada}}
-\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'redirect'}]))\ \{}
-\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ '}\ .\ \$route[\textcolor{stringliteral}{'redirect'}]);}
-\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00563\ \ \ \ \ \}}
-\DoxyCodeLine{00564\ \ \ \ \ }
-\DoxyCodeLine{00565\ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ autenticación\ para\ esta\ ruta}}
-\DoxyCodeLine{00566\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'auth\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'auth\_required'}]\ \&\&\ !\$session-\/>isLoggedIn())\ \{}
-\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login'});}
-\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00569\ \ \ \ \ \}}
-\DoxyCodeLine{00570\ \ \ \ \ }
-\DoxyCodeLine{00571\ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ rol\ de\ administrador}}
-\DoxyCodeLine{00572\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'admin\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'admin\_required'}]\ \&\&\ !\$session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00575\ \ \ \ \ \}}
-\DoxyCodeLine{00576\ \ \ \ \ }
-\DoxyCodeLine{00577\ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ la\ vista\ usando\ el\ manejador\ personalizado}}
-\DoxyCodeLine{00578\ \ \ \ \ \$data\ =\ isset(\$route[\textcolor{stringliteral}{'handler'}])\ ?\ \$route[\textcolor{stringliteral}{'handler'}](\$twig,\ \$db,\ \$session,\ \$authController\ ??\ \textcolor{keyword}{null})\ :\ [];}
-\DoxyCodeLine{00579\ \ \ \ \ }
-\DoxyCodeLine{00580\ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ datos\ pero\ hay\ título,\ usar\ el\ título\ como\ datos}}
-\DoxyCodeLine{00581\ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$data)\ \&\&\ isset(\$route[\textcolor{stringliteral}{'title'}]))\ \{}
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \$data\ =\ [\textcolor{stringliteral}{'title'}\ =>\ \$route[\textcolor{stringliteral}{'title'}]];}
-\DoxyCodeLine{00583\ \ \ \ \ \}}
-\DoxyCodeLine{00584\ \ \ \ \ }
-\DoxyCodeLine{00585\ \ \ \ \ \textcolor{comment}{//\ Renderizar\ la\ plantilla}}
-\DoxyCodeLine{00586\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'template'}])\ \&\&\ \$route[\textcolor{stringliteral}{'template'}]\ !==\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6c204a36e81bc356bb38645948b15f75}{renderTemplate}}(\$route[\textcolor{stringliteral}{'template'}],\ \$data);}
-\DoxyCodeLine{00588\ \ \ \ \ \}}
-\DoxyCodeLine{00589\ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00590\ \ \ \ \ \textcolor{comment}{//\ 2.\ Intentar\ coincidencia\ con\ patrones}}
-\DoxyCodeLine{00591\ \ \ \ \ \$patternMatched\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00592\ \ \ \ \ }
-\DoxyCodeLine{00593\ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}\ as\ \$pattern\ =>\ \$route)\ \{}
-\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ patrón\ contiene\ caracteres\ especiales\ como\ paréntesis\ (indicando\ expresión\ regular)}}
-\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$pattern,\ \textcolor{charliteral}{'('})\ !==\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'\#\string^'}\ .\ \$pattern\ .\ \textcolor{stringliteral}{'\$\#'},\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}},\ \$matches))\ \{}
-\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ autenticación\ para\ esta\ ruta}}
-\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'auth\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'auth\_required'}]\ \&\&\ !\$session-\/>isLoggedIn())\ \{}
-\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login'});}
-\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ rol\ de\ administrador}}
-\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'admin\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'admin\_required'}]\ \&\&\ !\$session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ la\ vista\ usando\ el\ manejador\ personalizado}}
-\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ =\ isset(\$route[\textcolor{stringliteral}{'handler'}])\ ?\ \$route[\textcolor{stringliteral}{'handler'}](\$twig,\ \$db,\ \$session,\ \$authController\ ??\ \textcolor{keyword}{null})\ :\ [];}
-\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ datos\ pero\ hay\ título,\ usar\ el\ título\ como\ datos}}
-\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$data)\ \&\&\ isset(\$route[\textcolor{stringliteral}{'title'}]))\ \{}
-\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ =\ [\textcolor{stringliteral}{'title'}\ =>\ \$route[\textcolor{stringliteral}{'title'}]];}
-\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Renderizar\ la\ plantilla}}
-\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'template'}])\ \&\&\ \$route[\textcolor{stringliteral}{'template'}]\ !==\ \textcolor{keyword}{null})\ \{}
-\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6c204a36e81bc356bb38645948b15f75}{renderTemplate}}(\$route[\textcolor{stringliteral}{'template'}],\ \$data);}
-\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$patternMatched\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00626\ \ \ \ \ \}}
-\DoxyCodeLine{00627\ \ \ \ \ }
-\DoxyCodeLine{00628\ \ \ \ \ \textcolor{comment}{//\ 3.\ Si\ no\ se\ encontró\ ninguna\ coincidencia,\ mostrar\ 404}}
-\DoxyCodeLine{00629\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$patternMatched)\ \{}
-\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'HTTP/1.1\ 404\ Not\ Found'});}
-\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ la\ página\ 404}}
-\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \$data\ =\ isset(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/404'}][\textcolor{stringliteral}{'handler'}])\ }
-\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/404'}][\textcolor{stringliteral}{'handler'}](\$twig,\ \$db,\ \$session,\ \$authController\ ??\ \textcolor{keyword}{null})\ }
-\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ :\ [\textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Página\ no\ encontrada'})];}
-\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Renderizar\ la\ plantilla\ 404}}
-\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6c204a36e81bc356bb38645948b15f75}{renderTemplate}}(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/404'}][\textcolor{stringliteral}{'template'}],\ \$data);}
-\DoxyCodeLine{00639\ \ \ \ \ \}}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$apiDocs)\ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ hay\ un\ error\ al\ obtener\ los\ datos,\ usar\ información\ básica}}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$apiDocs\ =\ [}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_version'}\ =>\ \textcolor{stringliteral}{'v1'},}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'available\_endpoints'}\ =>\ [}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'Error'}\ =>\ [\textcolor{stringliteral}{'GET\ /api'}\ =>\ \textcolor{stringliteral}{'No\ se\ pudo\ obtener\ la\ documentación\ de\ la\ API.\ Por\ favor,\ intente\ más\ tarde.'}]}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Documentación\ de\ la\ API'}),}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_docs'}\ =>\ \$apiDocs}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00377\ \ \ \ \ ],}
+\DoxyCodeLine{00378\ \ \ \ \ \textcolor{stringliteral}{'/fungi/(\(\backslash\)d+)'}\ =>\ [}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/fungi\_detail.twig'},}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController\ =\ \textcolor{keyword}{null})\ use\ (\mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ hongo\ desde\ la\ URL}}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/fungi/(\(\backslash\)d+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ hongo\ específico}}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusById(\$id);}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ se\ encuentra\ el\ hongo,\ redirigir\ a\ 404}}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ favorito\ si\ el\ usuario\ está\ logueado}}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$session-\/>isLoggedIn()\ \&\&\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}})\ \{}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getFungusWithLikeStatus(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Intentar\ obtener\ hongos\ similares}}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ [];}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$similarFungi\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getSimilarFungi(\$id,\ 4);}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (Exception\ \$e)\ \{}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ falla,\ simplemente\ no\ mostraremos\ hongos\ similares}}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \_(\textcolor{stringliteral}{'Detalles\ del\ Hongo'}),}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus,}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'similar\_fungi'}\ =>\ \$similarFungi,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_logged\_in'}\ =>\ \$session-\/>isLoggedIn()}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00414\ \ \ \ \ ],}
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{stringliteral}{'/change-\/language'}\ =>\ [}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{keyword}{null},}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session)\ \{}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)LangController();}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>changeLanguage();}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00422\ \ \ \ \ ],}
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{comment}{//\ Ruta\ para\ ver\ perfil\ por\ nombre\ de\ usuario}}
+\DoxyCodeLine{00424\ \ \ \ \ \textcolor{stringliteral}{'/profile/([\string^/]+)'}\ =>\ [}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'},}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Perfil\ de\ Usuario'}),}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'auth\_required'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'handler'}\ =>\ \textcolor{keyword}{function}(\$twig,\ \$db,\ \$session,\ \$authController\ =\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ nombre\ de\ usuario\ desde\ la\ URL}}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/profile/([\string^/]+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ usuario\ solicitado\ por\ nombre\ de\ usuario}}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \$profileUserData\ =\ \$db-\/>getUserByUsername(\$username);}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ se\ encuentra\ el\ usuario,\ mostrar\ mensaje\ de\ error}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$profileUserData)\ \{}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Usuario\ no\ encontrado'}),}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \_(\textcolor{stringliteral}{'El\ usuario\ solicitado\ no\ existe'}),}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_not\_found'}\ =>\ true}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ usuario\ actual\ (si\ está\ autenticado)}}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \$currentUserId\ =\ \$session-\/>isLoggedIn()\ ?\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ :\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ públicos\ del\ perfil}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \$favoriteFungi\ =\ \$db-\/>getUserFavorites(\$profileUserData[\textcolor{stringliteral}{'id'}]);}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \$contributions\ =\ \$db-\/>getUserContributions(\$profileUserData[\textcolor{stringliteral}{'id'}]);}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ sprintf(\_(\textcolor{stringliteral}{'Perfil\ de\ \%s'}),\ \$profileUserData[\textcolor{stringliteral}{'username'}]),}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$profileUserData,}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'favorite\_fungi'}\ =>\ \$favoriteFungi,}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'contributions'}\ =>\ \$contributions,}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_own\_profile'}\ =>\ (\$currentUserId\ ==\ \$profileUserData[\textcolor{stringliteral}{'id'}])}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00460\ \ \ \ \ ],}
+\DoxyCodeLine{00461\ ];}
+\DoxyCodeLine{00462\ }
+\DoxyCodeLine{00463\ \textcolor{comment}{//\ Rutas\ relacionadas\ con\ usuarios}}
+\DoxyCodeLine{00464\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/profile'}]\ =\ [\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'profileHandler'}],\ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'pages/profile.twig'}\ ];}
+\DoxyCodeLine{00465\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/admin/users'}]\ =\ [\ \textcolor{stringliteral}{'handler'}\ =>\ [\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'adminUsersHandler'}],\ \textcolor{stringliteral}{'template'}\ =>\ \textcolor{stringliteral}{'admin/users.twig'}\ ];}
+\DoxyCodeLine{00466\ }
+\DoxyCodeLine{00467\ \textcolor{comment}{//\ Manejo\ de\ rutas\ de\ API}}
+\DoxyCodeLine{00468\ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'\#\string^/api\#'},\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}))\ \{}
+\DoxyCodeLine{00469\ \ \ \ \ \textcolor{comment}{//\ IMPORTANTE:\ Asegurarse\ de\ que\ no\ hay\ salidas\ previas\ antes\ del\ JSON}}
+\DoxyCodeLine{00470\ \ \ \ \ ob\_clean();\ \textcolor{comment}{//\ Limpia\ el\ buffer\ de\ salida}}
+\DoxyCodeLine{00471\ \ \ \ \ header(\textcolor{stringliteral}{'Content-\/Type:\ application/json'});}
+\DoxyCodeLine{00472\ \ \ \ \ }
+\DoxyCodeLine{00473\ \ \ \ \ \textcolor{keywordflow}{if}\ (class\_exists(\textcolor{stringliteral}{'\(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiRequestHandler'}))\ \{}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \$db\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)DatabaseController();}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \$apiHandler\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiRequestHandler(\$db);}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \$apiHandler-\/>handleRequest();}
+\DoxyCodeLine{00477\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (class\_exists(\textcolor{stringliteral}{'\(\backslash\)App\(\backslash\)Controllers\(\backslash\)ApiController'}))\ \{}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fallback\ al\ controlador\ original\ si\ el\ nuevo\ no\ está\ disponible}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \$apiController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)ApiController(\$db);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \$apiController-\/>handleRequest();}
+\DoxyCodeLine{00481\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ echo\ json\_encode([\textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'API\ no\ implementada'}]);}
+\DoxyCodeLine{00483\ \ \ \ \ \}}
+\DoxyCodeLine{00484\ \ \ \ \ exit;}
+\DoxyCodeLine{00485\ \}}
+\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00487\ \textcolor{comment}{//\ Procesamiento\ de\ rutas}}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \textcolor{comment}{//\ 1.\ Intentar\ coincidencia\ exacta\ primero}}
+\DoxyCodeLine{00490\ \textcolor{keywordflow}{if}\ (isset(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}]))\ \{}
+\DoxyCodeLine{00491\ \ \ \ \ \$route\ =\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}}];}
+\DoxyCodeLine{00492\ \ \ \ \ }
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{comment}{//\ Si\ la\ ruta\ tiene\ una\ redirección\ configurada}}
+\DoxyCodeLine{00494\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'redirect'}]))\ \{}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ '}\ .\ \$route[\textcolor{stringliteral}{'redirect'}]);}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00497\ \ \ \ \ \}}
+\DoxyCodeLine{00498\ \ \ \ \ }
+\DoxyCodeLine{00499\ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ autenticación\ para\ esta\ ruta}}
+\DoxyCodeLine{00500\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'auth\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'auth\_required'}]\ \&\&\ !\$session-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login'});}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00503\ \ \ \ \ \}}
+\DoxyCodeLine{00504\ \ \ \ \ }
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ rol\ de\ administrador}}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'admin\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'admin\_required'}]\ \&\&\ !\$session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00509\ \ \ \ \ \}}
+\DoxyCodeLine{00510\ \ \ \ \ }
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ la\ vista\ usando\ el\ manejador\ personalizado}}
+\DoxyCodeLine{00512\ \ \ \ \ \$data\ =\ isset(\$route[\textcolor{stringliteral}{'handler'}])\ ?\ \$route[\textcolor{stringliteral}{'handler'}](\$twig,\ \$db,\ \$session,\ \$authController\ ??\ \textcolor{keyword}{null})\ :\ [];}
+\DoxyCodeLine{00513\ \ \ \ \ }
+\DoxyCodeLine{00514\ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ datos\ pero\ hay\ título,\ usar\ el\ título\ como\ datos}}
+\DoxyCodeLine{00515\ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$data)\ \&\&\ isset(\$route[\textcolor{stringliteral}{'title'}]))\ \{}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \$data\ =\ [\textcolor{stringliteral}{'title'}\ =>\ \$route[\textcolor{stringliteral}{'title'}]];}
+\DoxyCodeLine{00517\ \ \ \ \ \}}
+\DoxyCodeLine{00518\ \ \ \ \ }
+\DoxyCodeLine{00519\ \ \ \ \ \textcolor{comment}{//\ Renderizar\ la\ plantilla}}
+\DoxyCodeLine{00520\ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'template'}])\ \&\&\ \$route[\textcolor{stringliteral}{'template'}]\ !==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6c204a36e81bc356bb38645948b15f75}{renderTemplate}}(\$route[\textcolor{stringliteral}{'template'}],\ \$data);}
+\DoxyCodeLine{00522\ \ \ \ \ \}}
+\DoxyCodeLine{00523\ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{comment}{//\ 2.\ Intentar\ coincidencia\ con\ patrones}}
+\DoxyCodeLine{00525\ \ \ \ \ \$patternMatched\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00526\ \ \ \ \ }
+\DoxyCodeLine{00527\ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}\ as\ \$pattern\ =>\ \$route)\ \{}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ patrón\ contiene\ caracteres\ especiales\ como\ paréntesis\ (indicando\ expresión\ regular)}}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$pattern,\ \textcolor{charliteral}{'('})\ !==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'\#\string^'}\ .\ \$pattern\ .\ \textcolor{stringliteral}{'\$\#'},\ \mbox{\hyperlink{routes_8php_a653b5458163d338546c47271b4fb81b7}{\$uri}},\ \$matches))\ \{}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ autenticación\ para\ esta\ ruta}}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'auth\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'auth\_required'}]\ \&\&\ !\$session-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login'});}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ se\ requiere\ rol\ de\ administrador}}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'admin\_required'}])\ \&\&\ \$route[\textcolor{stringliteral}{'admin\_required'}]\ \&\&\ !\$session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ la\ vista\ usando\ el\ manejador\ personalizado}}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ =\ isset(\$route[\textcolor{stringliteral}{'handler'}])\ ?\ \$route[\textcolor{stringliteral}{'handler'}](\$twig,\ \$db,\ \$session,\ \$authController\ ??\ \textcolor{keyword}{null})\ :\ [];}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ datos\ pero\ hay\ título,\ usar\ el\ título\ como\ datos}}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$data)\ \&\&\ isset(\$route[\textcolor{stringliteral}{'title'}]))\ \{}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$data\ =\ [\textcolor{stringliteral}{'title'}\ =>\ \$route[\textcolor{stringliteral}{'title'}]];}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Renderizar\ la\ plantilla}}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$route[\textcolor{stringliteral}{'template'}])\ \&\&\ \$route[\textcolor{stringliteral}{'template'}]\ !==\ \textcolor{keyword}{null})\ \{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6c204a36e81bc356bb38645948b15f75}{renderTemplate}}(\$route[\textcolor{stringliteral}{'template'}],\ \$data);}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$patternMatched\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00560\ \ \ \ \ \}}
+\DoxyCodeLine{00561\ \ \ \ \ }
+\DoxyCodeLine{00562\ \ \ \ \ \textcolor{comment}{//\ 3.\ Si\ no\ se\ encontró\ ninguna\ coincidencia,\ mostrar\ 404}}
+\DoxyCodeLine{00563\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$patternMatched)\ \{}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'HTTP/1.1\ 404\ Not\ Found'});}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ para\ la\ página\ 404}}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \$data\ =\ isset(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/404'}][\textcolor{stringliteral}{'handler'}])\ }
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/404'}][\textcolor{stringliteral}{'handler'}](\$twig,\ \$db,\ \$session,\ \$authController\ ??\ \textcolor{keyword}{null})\ }
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ :\ [\textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Página\ no\ encontrada'})];}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Renderizar\ la\ plantilla\ 404}}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a6c204a36e81bc356bb38645948b15f75}{renderTemplate}}(\mbox{\hyperlink{routes_8php_a8f7eb04a54e0f0bfc0cedeb9899ce4a8}{\$routes}}[\textcolor{stringliteral}{'/404'}][\textcolor{stringliteral}{'template'}],\ \$data);}
+\DoxyCodeLine{00573\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -749,7 +683,7 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00128}{128}} del a
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00531}{531}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00465}{465}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a5021b3539aa41a4f3b6dd7dd0cf95df1}\label{routes_8php_a5021b3539aa41a4f3b6dd7dd0cf95df1} 
 \index{routes.php@{routes.php}!\$routes@{\$routes}}
@@ -759,7 +693,7 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00531}{531}} del a
 
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00530}{530}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00464}{464}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
 \Hypertarget{routes_8php_a653b5458163d338546c47271b4fb81b7}\label{routes_8php_a653b5458163d338546c47271b4fb81b7} 
 \index{routes.php@{routes.php}!\$uri@{\$uri}}
@@ -800,5 +734,5 @@ Definición en la línea \mbox{\hyperlink{routes_8php_source_l00124}{124}} del a
 \end{DoxyCode}
 
 
-Definición en la línea \mbox{\hyperlink{routes_8php_source_l00589}{589}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
+Definición en la línea \mbox{\hyperlink{routes_8php_source_l00523}{523}} del archivo \mbox{\hyperlink{routes_8php_source}{routes.\+php}}.
 
