@@ -1,25 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ idioma_actual }}" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - Perfil de Usuario</title>
+    <title>{{ title }}</title>
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Estilos personalizados -->
+    <!-- Estilos personalizados mínimos -->
     <link rel="stylesheet" href="/assets/styles/generic.css">
-    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
-    <link rel="stylesheet" href="/assets/styles/components/footer.css">
-    <link rel="stylesheet" href="/assets/styles/pages/profile.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Animate.css y AOS -->
-    <link rel="stylesheet" href="/assets/lib/animate.css/animate.min.css">
-    <link rel="stylesheet" href="/assets/lib/aos/aos.css">    
+    <!-- Estilos para AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Estilos inline mínimos -->
+    <style>
+        .profile-hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('/assets/images/profile-bg.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .stats-card {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            height: 100%;
+            border: none;
+        }
+        
+        .profile-tab-content {
+            padding: 2rem 0;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--bs-primary);
+        }
+        
+        .nav-pills .nav-link {
+            color: var(--bs-light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-pills .nav-link:hover:not(.active) {
+            background-color: rgba(255,255,255,0.1);
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -27,32 +70,35 @@
     </header>
 
     <main>
-        <!-- Cabecera del perfil -->
-        <section class="profile-header animate__animated animate__fadeIn">
+        <!-- Sección Hero de Perfil -->
+        <section class="profile-hero text-center text-white">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-3 col-md-4 text-center">
-                        <div class="rounded-circle overflow-hidden mx-auto mb-3" style="width: 200px; height: 200px;">
-                            <img src="{{ user.avatar_url|default('/assets/users/default-avatar.png') }}" 
-                                 alt="Avatar de {{ user.username }}" 
-                                 class="w-100 h-100 object-fit-cover">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <img src="{{ user.avatar_url|default('/assets/images/default-avatar.png') }}" 
+                             class="rounded-circle img-thumbnail mb-3" 
+                             alt="{{ user.username }}" 
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                        <h1 class="display-5 fw-bold mb-2">{{ user.username }}</h1>
+                        <p class="lead mb-3">{{ user.bio|default('Usuario micófilo') }}</p>
+                        
+                        <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                            {% if user.location %}
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                                <span>{{ user.location }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-calendar-alt text-info me-2"></i>
+                                <span>Miembro desde {{ user.created_at|date("d/m/Y") }}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-9 col-md-8">
-                        <h1 class="display-4">{{ user.username }}</h1>
-                        <p class="text-primary fs-5 mb-2">
-                            <i class="fas fa-envelope me-2"></i>{{ user.email|default('No disponible') }}
-                        </p>
-                        <p class="lead">{{ user.bio|default('Este usuario todavía no ha añadido una biografía.') }}</p>
-                        <div class="d-flex flex-wrap mb-3">
-                            <span class="badge bg-primary me-2 mb-2 p-2"><i class="fas fa-calendar-alt me-1"></i> Miembro desde {{ user.created_at|date("d/m/Y") }}</span>
-                            <span class="badge bg-success me-2 mb-2 p-2"><i class="fas fa-upload me-1"></i> {{ user.contributions|default(0) }} Contribuciones</span>
-                            <span class="badge bg-info me-2 mb-2 p-2"><i class="fas fa-map-marker-alt me-1"></i> {{ user.location|default('Sin ubicación') }}</span>
-                        </div>
+                        
                         {% if is_own_profile %}
                         <div class="mt-3">
                             <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-                                <i class="fas fa-edit me-1"></i> Editar perfil
+                                <i class="fas fa-user-edit me-2"></i> Editar perfil
                             </button>
                         </div>
                         {% endif %}
@@ -61,117 +107,116 @@
             </div>
         </section>
 
-        <!-- Contenido del perfil -->
         <div class="container py-4">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="card bg-dark text-light border-secondary">
-                        <div class="card-header">
-                            <!-- Pestañas de navegación -->
-                            <ul class="nav nav-tabs card-header-tabs" id="profileTabs" role="tablist">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm profile-card">
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills nav-fill p-3" id="profileTabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="activity-tab" data-bs-toggle="tab" 
-                                            data-bs-target="#activity" type="button" role="tab" 
-                                            aria-controls="activity" aria-selected="true">
-                                        <i class="fas fa-chart-line me-1"></i> Actividad
+                                    <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" 
+                                            data-bs-target="#overview" type="button" role="tab" 
+                                            aria-controls="overview" aria-selected="true">
+                                        <i class="fas fa-home me-2"></i> Vista general
                                     </button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="favorites-tab" data-bs-toggle="tab" 
+                                    <button class="nav-link" id="favorites-tab" data-bs-toggle="pill" 
                                             data-bs-target="#favorites" type="button" role="tab" 
                                             aria-controls="favorites" aria-selected="false">
-                                        <i class="fas fa-heart me-1"></i> Favoritos
+                                        <i class="fas fa-star me-2"></i> Favoritos
                                     </button>
                                 </li>
                                 {% if is_own_profile %}
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="settings-tab" data-bs-toggle="tab" 
+                                    <button class="nav-link" id="settings-tab" data-bs-toggle="pill" 
                                             data-bs-target="#settings" type="button" role="tab" 
                                             aria-controls="settings" aria-selected="false">
-                                        <i class="fas fa-cog me-1"></i> Configuración
+                                        <i class="fas fa-cog me-2"></i> Configuración
                                     </button>
                                 </li>
                                 {% endif %}
                             </ul>
-                        </div>
-                        <div class="card-body">
-                            <!-- Contenido de las pestañas -->
-                            <div class="tab-content profile-tabs-content" id="profileTabsContent">
-                                
-                                <!-- Pestaña de Actividad -->
-                                <div class="tab-pane fade show active profile-tab-content" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-                                    <h3 class="mb-4">Actividad reciente</h3>
-                                    
-                                    <div class="row row-cols-1 row-cols-md-2 g-4">
-                                        <div class="col">
-                                            <div class="card h-100 shadow-sm" data-aos="fade-up">
-                                                <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
-                                                    <span><i class="fas fa-trophy me-2"></i> Estadísticas</span>
-                                                </div>
-                                                <div class="card-body bg-white text-dark">
-                                                    <div class="row">
-                                                        <div class="col-6 mb-4 text-center">
-                                                            <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(13, 110, 253, 0.1);">
-                                                                <i class="fas fa-heart text-primary fa-2x"></i>
+                            
+                            <div class="tab-content profile-tab-content" id="profileTabsContent">
+                                <!-- Pestaña de Vista General -->
+                                <div class="tab-pane fade show active profile-tab-content" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+                                    <div class="container">
+                                        <div class="row g-4">
+                                            <div class="col-md-8">
+                                                <div class="card h-100 shadow-sm border-0 profile-card" data-aos="fade-up">
+                                                    <div class="card-header bg-primary text-white">
+                                                        <i class="fas fa-user-circle me-2"></i> Sobre {{ user.username }}
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <p class="lead">{{ user.bio|default('Este usuario no ha añadido una biografía.') }}</p>
+                                                        
+                                                        <!-- Separador visual -->
+                                                        <div class="position-relative py-4 my-4">
+                                                            <hr>
+                                                            <div class="position-absolute top-50 start-50 translate-middle bg-dark px-3">
+                                                                <i class="fas fa-leaf text-success"></i>
                                                             </div>
-                                                            <h3 class="text-primary">{{ user.favorites_count|default(0) }}</h3>
-                                                            <p class="text-muted">Favoritos</p>
                                                         </div>
-                                                        <div class="col-6 mb-4 text-center">
-                                                            <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(25, 135, 84, 0.1);">
-                                                                <i class="fas fa-comment text-success fa-2x"></i>
+                                                        
+                                                        <h5 class="mb-4"><i class="fas fa-chart-line text-success me-2"></i>Estadísticas</h5>
+                                                        <div class="row row-cols-2 row-cols-md-3 g-4">
+                                                            <div class="col-6 text-center">
+                                                                <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(25, 135, 84, 0.1);">
+                                                                    <i class="fas fa-comments text-success fa-2x"></i>
+                                                                </div>
+                                                                <h3 class="text-success">{{ user.comments_count|default(0) }}</h3>
+                                                                <p class="text-muted">Comentarios</p>
                                                             </div>
-                                                            <h3 class="text-success">{{ user.comments_count|default(0) }}</h3>
-                                                            <p class="text-muted">Comentarios</p>
-                                                        </div>
-                                                        <div class="col-6 text-center">
-                                                            <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(13, 202, 240, 0.1);">
-                                                                <i class="fas fa-thumbs-up text-info fa-2x"></i>
+                                                            <div class="col-6 text-center">
+                                                                <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(13, 202, 240, 0.1);">
+                                                                    <i class="fas fa-thumbs-up text-info fa-2x"></i>
+                                                                </div>
+                                                                <h3 class="text-info">{{ user.likes_count|default(0) }}</h3>
+                                                                <p class="text-muted">Me gusta</p>
                                                             </div>
-                                                            <h3 class="text-info">{{ user.likes_count|default(0) }}</h3>
-                                                            <p class="text-muted">Me gusta</p>
-                                                        </div>
-                                                        <div class="col-6 text-center">
-                                                            <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(255, 193, 7, 0.1);">
-                                                                <i class="fas fa-upload text-warning fa-2x"></i>
+                                                            <div class="col-6 text-center">
+                                                                <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(255, 193, 7, 0.1);">
+                                                                    <i class="fas fa-upload text-warning fa-2x"></i>
+                                                                </div>
+                                                                <h3 class="text-warning">{{ user.contributions|default(0) }}</h3>
+                                                                <p class="text-muted">Contribuciones</p>
                                                             </div>
-                                                            <h3 class="text-warning">{{ user.contributions|default(0) }}</h3>
-                                                            <p class="text-muted">Contribuciones</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="col">
-                                            <div class="card h-100 shadow-sm" data-aos="fade-up" data-aos-delay="100">
-                                                <div class="card-header d-flex justify-content-between align-items-center bg-info text-white">
-                                                    <span><i class="fas fa-lightbulb me-2"></i> ¿Sabías que...?</span>
-                                                </div>
-                                                <div class="card-body p-0 bg-white">
-                                                    <div class="p-4">
-                                                        <p id="dato-curioso" class="lead mb-3 fst-italic text-center">
-                                                            <!-- Aquí se mostrará un dato curioso aleatorio sobre hongos -->
-                                                        </p>
-                                                        <div class="text-center">
-                                                            <button onclick="mostrarDatoAleatorio()" class="btn btn-sm btn-outline-info">
-                                                                <i class="fas fa-sync-alt me-1"></i> Otro dato curioso
-                                                            </button>
-                                                        </div>
+                                            
+                                            <div class="col-md-4">
+                                                <div class="card h-100 shadow-sm border-0 profile-card" data-aos="fade-up" data-aos-delay="100">
+                                                    <div class="card-header bg-info text-white">
+                                                        <i class="fas fa-lightbulb me-2"></i> ¿Sabías que...?
                                                     </div>
-                                                    
-                                                    <hr class="my-2">
-                                                    
-                                                    <div class="p-4">
-                                                        <h5 class="mb-3"><i class="fas fa-book-reader text-primary me-2"></i>Frases micológicas</h5>
-                                                        <blockquote class="blockquote text-center">
-                                                            <p id="frase-micologica" class="mb-0"></p>
-                                                            <footer class="blockquote-footer mt-2" id="autor-frase">Autor</footer>
-                                                        </blockquote>
-                                                        <div class="text-center mt-3">
-                                                            <button onclick="mostrarFraseAleatoria()" class="btn btn-sm btn-outline-primary">
-                                                                <i class="fas fa-quote-right me-1"></i> Otra frase
-                                                            </button>
+                                                    <div class="card-body p-0">
+                                                        <div class="p-4">
+                                                            <p id="dato-curioso" class="lead mb-3 fst-italic text-center">
+                                                                <!-- Aquí se mostrará un dato curioso aleatorio sobre hongos -->
+                                                            </p>
+                                                            <div class="text-center">
+                                                                <button onclick="mostrarDatoAleatorio()" class="btn btn-sm btn-outline-info">
+                                                                    <i class="fas fa-sync-alt me-1"></i> Otro dato curioso
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <hr class="my-0">
+                                                        
+                                                        <div class="p-4">
+                                                            <h5 class="mb-3"><i class="fas fa-book-reader text-primary me-2"></i>Frases micológicas</h5>
+                                                            <blockquote class="blockquote text-center">
+                                                                <p id="frase-micologica" class="mb-0"></p>
+                                                                <footer class="blockquote-footer mt-2" id="autor-frase">Autor</footer>
+                                                            </blockquote>
+                                                            <div class="text-center mt-3">
+                                                                <button onclick="mostrarFraseAleatoria()" class="btn btn-sm btn-outline-primary">
+                                                                    <i class="fas fa-quote-right me-1"></i> Otra frase
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -182,42 +227,40 @@
                                 
                                 <!-- Pestaña de Favoritos -->
                                 <div class="tab-pane fade profile-tab-content" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <h3>Hongos favoritos</h3>
-                                    </div>
-                                    
-                                    <div class="row mt-4">
-                                        <div class="col-12">
-                                            <div class="card bg-dark border-light">
-                                                <div class="card-header bg-dark border-light">
-                                                    <h5 class="mb-0"><i class="fas fa-star text-warning me-2"></i> Mis hongos favoritos</h5>
-                                                </div>
-                                                <div class="card-body p-3">
-                                                    <div class="row" id="favorites-container">
-                                                        <!-- Los favoritos se cargarán aquí -->
-                                                        <div class="col-12 text-center py-5">
-                                                            <div class="spinner-border text-primary" role="status">
-                                                                <span class="visually-hidden">Cargando...</span>
+                                    <div class="container">
+                                        <div class="row g-4">
+                                            <div class="col-12">
+                                                <div class="card border-0 shadow-sm profile-card">
+                                                    <div class="card-header bg-warning text-dark">
+                                                        <h5 class="mb-0"><i class="fas fa-star me-2"></i> Mis hongos favoritos</h5>
+                                                    </div>
+                                                    <div class="card-body p-3">
+                                                        <div class="row" id="favorites-container">
+                                                            <!-- Los favoritos se cargarán aquí -->
+                                                            <div class="col-12 text-center py-5">
+                                                                <div class="spinner-border text-primary" role="status">
+                                                                    <span class="visually-hidden">Cargando...</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row mt-4">
-                                        <div class="col-12">
-                                            <div class="card bg-dark border-light">
-                                                <div class="card-header bg-dark border-light">
-                                                    <h5 class="mb-0"><i class="fas fa-heart text-danger me-2"></i> Hongos que me gustan</h5>
-                                                </div>
-                                                <div class="card-body p-3">
-                                                    <div class="row" id="likes-container">
-                                                        <!-- Los likes se cargarán aquí -->
-                                                        <div class="col-12 text-center py-5">
-                                                            <div class="spinner-border text-primary" role="status">
-                                                                <span class="visually-hidden">Cargando...</span>
+                                        <div class="row mt-4">
+                                            <div class="col-12">
+                                                <div class="card border-0 shadow-sm profile-card">
+                                                    <div class="card-header bg-danger text-white">
+                                                        <h5 class="mb-0"><i class="fas fa-heart me-2"></i> Hongos que me gustan</h5>
+                                                    </div>
+                                                    <div class="card-body p-3">
+                                                        <div class="row" id="likes-container">
+                                                            <!-- Los likes se cargarán aquí -->
+                                                            <div class="col-12 text-center py-5">
+                                                                <div class="spinner-border text-primary" role="status">
+                                                                    <span class="visually-hidden">Cargando...</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -230,18 +273,20 @@
                                 <!-- Pestaña de Configuración -->
                                 {% if is_own_profile %}
                                 <div class="tab-pane fade profile-tab-content" id="settings" role="tabpanel" aria-labelledby="settings-tab">
-                                    <h3 class="mb-4">Configuración de la cuenta</h3>
-                                    
-                                    <div class="card" data-aos="fade-up" data-aos-delay="200">
-                                        <div class="card-header profile-card-header text-danger">
-                                            <i class="fas fa-exclamation-triangle me-2"></i> Zona de peligro
-                                        </div>
-                                        <div class="card-body">
-                                            <p class="text-danger">La siguiente accion es irreversible. Procede con precaución.</p>
-                                            <div class="d-flex flex-column gap-3">
-                                                <button id="deleteAccount" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
-                                                    <i class="fas fa-user-slash me-1"></i> Eliminar mi cuenta
-                                                </button>
+                                    <div class="container">
+                                        <h3 class="mb-4">Configuración de la cuenta</h3>
+                                        
+                                        <div class="card border-0 shadow-sm profile-card" data-aos="fade-up" data-aos-delay="200">
+                                            <div class="card-header bg-danger text-white">
+                                                <i class="fas fa-exclamation-triangle me-2"></i> Zona de peligro
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="text-danger">La siguiente accion es irreversible. Procede con precaución.</p>
+                                                <div class="d-flex flex-column gap-3">
+                                                    <button id="deleteAccount" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                                        <i class="fas fa-user-slash me-1"></i> Eliminar mi cuenta
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -252,6 +297,17 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Sección CTA -->
+            <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center" data-aos="zoom-in">
+                <div class="py-4 px-3">
+                    <h2 class="display-6 mb-3">¿Quieres contribuir con tus conocimientos?</h2>
+                    <p class="lead mb-4">Explora nuestra base de datos de hongos y comparte tus observaciones con la comunidad.</p>
+                    <a href="/explore" class="btn btn-primary btn-lg px-4 py-2">
+                        <i class="fas fa-microscope me-2"></i> Explorar catálogo
+                    </a>
+                </div>
+            </section>
         </div>
     </main>
 
@@ -263,8 +319,8 @@
     {% if is_own_profile %}
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content bg-dark text-light border-secondary">
-                <div class="modal-header border-secondary">
+            <div class="modal-content bg-dark text-light border-0">
+                <div class="modal-header">
                     <h5 class="modal-title" id="editProfileModalLabel"><i class="fas fa-user-edit me-2"></i>Editar perfil</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -315,7 +371,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer border-secondary">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" id="saveProfile">
                         <i class="fas fa-save me-1"></i> Guardar cambios
@@ -328,8 +384,8 @@
     <!-- Modal de confirmación para eliminar cuenta -->
     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content bg-dark text-light border-secondary">
-                <div class="modal-header border-secondary">
+            <div class="modal-content bg-dark text-light border-0">
+                <div class="modal-header">
                     <h5 class="modal-title text-danger" id="deleteAccountModalLabel">
                         <i class="fas fa-exclamation-triangle me-2"></i>Eliminar cuenta
                     </h5>
@@ -344,7 +400,7 @@
                         <input type="text" class="form-control bg-dark text-light border-secondary" id="delete_confirmation" required>
                     </div>
                 </div>
-                <div class="modal-footer border-secondary">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-danger" id="confirmDeleteAccount" disabled>
                         <i class="fas fa-user-slash me-1"></i> Eliminar permanentemente
@@ -355,300 +411,75 @@
     </div>
     {% endif %}
 
-    <!-- Scripts -->
-    <script src="/assets/lib/jquery.min.js"></script>
-    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     
+    <!-- Scripts de la página -->
     <script>
-        // Inicializar AOS y tooltips
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-        });
-        
-        // Tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-        
-        {% if is_own_profile %}
-        // Código para usuarios autenticados
-        document.getElementById('delete_confirmation').addEventListener('input', function() {
-            const deleteBtn = document.getElementById('confirmDeleteAccount');
-            deleteBtn.disabled = this.value !== 'ELIMINAR';
-        });
-        
-        // Guardar perfil (actualizado para incluir username)
-        document.getElementById('saveProfile').addEventListener('click', function() {
-            const formData = new FormData();
-            formData.append('username', document.getElementById('username').value);
-            formData.append('email', document.getElementById('email').value);
-            formData.append('bio', document.getElementById('bio').value);
-            formData.append('location', document.getElementById('location').value);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar AOS
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
             
-            const avatarInput = document.getElementById('avatar');
-            if (avatarInput.files.length > 0) {
-                formData.append('avatar', avatarInput.files[0]);
-            }
-            
-            // Simulación (reemplazar por el código real)
-            console.log('Actualizando perfil...');
-            console.log('Nuevo username:', document.getElementById('username').value);
-            
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
-            modal.hide();
-            
-            alert('Perfil actualizado correctamente');
-        });
-        
-        // Eliminar favorito
-        document.querySelectorAll('.remove-favorite').forEach(button => {
-            button.addEventListener('click', function() {
-                const fungiId = this.getAttribute('data-id');
-                const cardElement = this.closest('.col');
+            // Datos curiosos
+            function mostrarDatoAleatorio() {
+                const datos = [
+                    "¿Sabías que los hongos son más cercanos a los animales que a las plantas?",
+                    "El micelio de algunos hongos puede extenderse por varios kilómetros bajo tierra.",
+                    "El hongo más grande del mundo es un Armillaria ostoyae en Oregon, que cubre 8.9 km².",
+                    "Algunos hongos pueden descomponer plástico y ayudar al medio ambiente.",
+                    "Las trufas pueden costar hasta 6.000€ por kilogramo.",
+                    "El 90% de las plantas dependen de asociaciones con hongos para sobrevivir.",
+                    "Existen más de 120.000 especies de hongos conocidas.",
+                    "La penicilina, primer antibiótico descubierto, proviene de un hongo.",
+                    "Algunos hongos pueden brillar en la oscuridad (bioluminiscencia).",
+                    "Los hongos han existido en la Tierra desde hace más de 1.300 millones de años."
+                ];
                 
-                // Realizar solicitud para eliminar favorito
-                fetch(`/api/user/favorites/${fungiId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'same-origin'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        // Animación de eliminación
-                        cardElement.style.transition = 'opacity 0.5s, transform 0.5s';
-                        cardElement.style.opacity = '0';
-                        cardElement.style.transform = 'scale(0.8)';
-                        
-                        setTimeout(() => {
-                            cardElement.remove();
-                            
-                            // Si no quedan favoritos, mostrar mensaje
-                            if (document.querySelectorAll('#favorites-container .col').length === 0) {
-                                const noFavoritesMsg = `
-                                    <div class="alert alert-info" role="alert">
-                                        <i class="fas fa-info-circle me-2"></i> No has marcado ningún hongo como favorito.
-                                    </div>
-                                    <a href="/" class="btn btn-primary">
-                                        <i class="fas fa-search me-1"></i> Explorar hongos
-                                    </a>
-                                `;
-                                document.querySelector('#favorites-container').innerHTML = noFavoritesMsg;
-                            }
-                        }, 500);
-                        
-                        return response.json();
-                    } else {
-                        throw new Error('Error al eliminar favorito');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('No se pudo eliminar el favorito. Inténtalo de nuevo.');
-                });
-            });
-        });
-        {% endif %}
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cargar favoritos
-            fetch('/api/user/favorites', {
-                method: 'GET',
-                credentials: 'same-origin'
-            })
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('favorites-container');
-                if (data.success && data.data.length > 0) {
-                    container.innerHTML = '';
-                    data.data.forEach(fungi => {
-                        container.innerHTML += `
-                            <div class="col-md-4 col-lg-3 mb-3">
-                                <div class="card bg-dark border-light h-100">
-                                    <img src="${fungi.image_url || '/assets/images/placeholder.jpg'}" class="card-img-top" alt="${fungi.name}" style="height: 150px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${fungi.name}</h5>
-                                        <p class="card-text small">${fungi.edibility || 'Desconocido'}</p>
-                                        <a href="/fungi/${fungi.id}" class="btn btn-sm btn-primary">Ver detalle</a>
-                                        <button class="btn btn-sm btn-outline-warning remove-favorite" data-id="${fungi.id}">
-                                            <i class="fas fa-star-slash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    // Inicializar listeners para eliminar favoritos
-                    initRemoveFavoriteButtons();
-                } else {
-                    container.innerHTML = '<div class="col-12 text-center py-4"><p class="text-muted">No tienes hongos favoritos.</p></div>';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('favorites-container').innerHTML = 
-                    '<div class="col-12 text-center py-4"><p class="text-danger">Error al cargar los favoritos. Inténtalo más tarde.</p></div>';
-            });
-            
-            // Cargar likes
-            fetch('/api/user/likes', {
-                method: 'GET',
-                credentials: 'same-origin'
-            })
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('likes-container');
-                if (data.success && data.data.length > 0) {
-                    container.innerHTML = '';
-                    data.data.forEach(fungi => {
-                        container.innerHTML += `
-                            <div class="col-md-4 col-lg-3 mb-3">
-                                <div class="card bg-dark border-light h-100">
-                                    <img src="${fungi.image_url || '/assets/images/placeholder.jpg'}" class="card-img-top" alt="${fungi.name}" style="height: 150px; object-fit: cover;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${fungi.name}</h5>
-                                        <p class="card-text small">${fungi.edibility || 'Desconocido'}</p>
-                                        <a href="/fungi/${fungi.id}" class="btn btn-sm btn-primary">Ver detalle</a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    container.innerHTML = '<div class="col-12 text-center py-4"><p class="text-muted">No has dado "me gusta" a ningún hongo.</p></div>';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('likes-container').innerHTML = 
-                    '<div class="col-12 text-center py-4"><p class="text-danger">Error al cargar los hongos que te gustan. Inténtalo más tarde.</p></div>';
-            });
-            
-            // Función para inicializar los botones de eliminar favoritos
-            function initRemoveFavoriteButtons() {
-                document.querySelectorAll('.remove-favorite').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const fungiId = this.getAttribute('data-id');
-                        const cardElement = this.closest('.col-md-4');
-                        
-                        // Animación de desvanecimiento
-                        cardElement.style.transition = 'opacity 0.5s ease';
-                        cardElement.style.opacity = '0.5';
-                        
-                        // Realizar solicitud para eliminar favorito
-                        fetch(`/api/user/favorites/${fungiId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            credentials: 'same-origin'
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                // Eliminar con animación
-                                setTimeout(() => {
-                                    cardElement.remove();
-                                    
-                                    // Si no quedan favoritos, mostrar mensaje
-                                    if (document.querySelectorAll('#favorites-container .col-md-4').length === 0) {
-                                        document.getElementById('favorites-container').innerHTML = 
-                                            '<div class="col-12 text-center py-4"><p class="text-muted">No tienes hongos favoritos.</p></div>';
-                                    }
-                                }, 500);
-                                
-                                return response.json();
-                            } else {
-                                throw new Error('Error al eliminar favorito');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            cardElement.style.opacity = '1'; // Restaurar opacidad si falla
-                            alert('No se pudo eliminar el favorito. Inténtalo de nuevo.');
-                        });
-                    });
-                });
+                const indice = Math.floor(Math.random() * datos.length);
+                const datoCurioso = document.getElementById('dato-curioso');
+                
+                // Animación de fade
+                datoCurioso.style.opacity = "0";
+                setTimeout(() => {
+                    datoCurioso.innerText = datos[indice];
+                    datoCurioso.style.opacity = "1";
+                }, 300);
             }
-        });
-
-        // Función para generar dato aleatorio
-        function mostrarDatoAleatorio() {
-            const datos = [
-                "¿Sabías que los hongos son más cercanos a los animales que a las plantas?",
-                "El micelio de algunos hongos puede extenderse por varios kilómetros bajo tierra.",
-                "El hongo más grande del mundo es un Armillaria ostoyae en Oregon, que cubre 8.9 km².",
-                "Algunos hongos pueden descomponer plástico y ayudar al medio ambiente.",
-                "Las trufas pueden costar hasta 6.000€ por kilogramo.",
-                "El 90% de las plantas dependen de asociaciones con hongos para sobrevivir.",
-                "Existen más de 120.000 especies de hongos conocidas.",
-                "La penicilina, primer antibiótico descubierto, proviene de un hongo.",
-                "Algunos hongos pueden brillar en la oscuridad (bioluminiscencia).",
-                "Los hongos han existido en la Tierra desde hace más de 1.300 millones de años.",
-                "Algunos hongos pueden sobrevivir en el espacio exterior.",
-                "El hongo más caro del mundo es el matsutake, valorado en más de 1.000€ por kilo.",
-                "Un solo portabella maduro puede liberar hasta 16 mil millones de esporas.",
-                "Los champiñones son una de las pocas fuentes vegetales naturales de vitamina D.",
-                "El micólogo Paul Stamets ha descubierto hongos que pueden limpiar derrames de petróleo."
-            ];
             
-            const indice = Math.floor(Math.random() * datos.length);
-            document.getElementById('dato-curioso').innerText = datos[indice];
-        }
-        
-        // Función para mostrar frases sobre micología
-        function mostrarFraseAleatoria() {
-            const frases = [
-                {
-                    texto: "La naturaleza nunca rompe sus propias leyes, y los hongos son parte de su código más antiguo.",
-                    autor: "Leonardo da Vinci"
-                },
-                {
-                    texto: "Los hongos representan un mundo paralelo tan fascinante como desconocido.",
-                    autor: "Paul Stamets"
-                },
-                {
-                    texto: "Los árboles y los hongos no son enemigos, sino aliados; nos enseñan cómo vivir en armonía.",
-                    autor: "Peter Wohlleben"
-                },
-                {
-                    texto: "Un bosque sin hongos es como un libro sin palabras.",
-                    autor: "Eugenia Bone"
-                },
-                {
-                    texto: "La micología me enseñó que el mundo natural está conectado de formas que apenas comenzamos a entender.",
-                    autor: "Alan Rockefeller"
-                },
-                {
-                    texto: "Los hongos son los grandes recicladores del planeta, transforman la muerte en vida nueva.",
-                    autor: "Merlin Sheldrake"
-                },
-                {
-                    texto: "Conocer los hongos es como aprender un idioma secreto de la tierra.",
-                    autor: "Anna Tsing"
-                },
-                {
-                    texto: "En el silencio del bosque, los hongos susurran historias milenarias.",
-                    autor: "Robert Macfarlane"
-                },
-                {
-                    texto: "La red micelial bajo nuestros pies es el Internet original de la Tierra.",
-                    autor: "Paul Stamets"
-                }
-            ];
+            // Frases micológicas
+            function mostrarFraseAleatoria() {
+                const frases = [
+                    { frase: "Los hongos son los grandes recicladores de la naturaleza.", autor: "Paul Stamets" },
+                    { frase: "El estudio de los hongos es un viaje a un mundo fascinante.", autor: "Terence McKenna" },
+                    { frase: "Los hongos representan un reino tan diverso como poco comprendido.", autor: "Merlin Sheldrake" },
+                    { frase: "Los hongos nos enseñan que la vida persiste incluso en condiciones extremas.", autor: "Alan Rockefeller" },
+                    { frase: "Sin los hongos, no habría bosques.", autor: "Suzanne Simard" }
+                ];
+                
+                const indice = Math.floor(Math.random() * frases.length);
+                const fraseElement = document.getElementById('frase-micologica');
+                const autorElement = document.getElementById('autor-frase');
+                
+                // Animación de fade
+                fraseElement.style.opacity = "0";
+                autorElement.style.opacity = "0";
+                
+                setTimeout(() => {
+                    fraseElement.innerText = frases[indice].frase;
+                    autorElement.innerText = frases[indice].autor;
+                    fraseElement.style.opacity = "1";
+                    autorElement.style.opacity = "1";
+                }, 300);
+            }
             
-            const indice = Math.floor(Math.random() * frases.length);
-            document.getElementById('frase-micologica').innerText = frases[indice].texto;
-            document.getElementById('autor-frase').innerText = frases[indice].autor;
-        }
-        
-        // Inicializar al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar datos curiosos y frases
             if (document.getElementById('dato-curioso')) {
                 mostrarDatoAleatorio();
             }
@@ -657,33 +488,147 @@
                 mostrarFraseAleatoria();
             }
             
-            // Inicializar AOS para animaciones
-            if (typeof AOS !== 'undefined') {
-                AOS.init({
-                    duration: 800,
-                    easing: 'ease-in-out'
+            // Cargar favoritos
+            function cargarFavoritos() {
+                const favoritesContainer = document.getElementById('favorites-container');
+                fetch('/api/user/favorites')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.data && data.data.length > 0) {
+                            favoritesContainer.innerHTML = '';
+                            renderizarHongos(data.data, favoritesContainer);
+                        } else {
+                            favoritesContainer.innerHTML = '<div class="col-12 text-center py-4"><p class="text-muted">No tienes hongos favoritos todavía.</p></div>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar favoritos:', error);
+                        favoritesContainer.innerHTML = '<div class="col-12 text-center py-4"><p class="text-danger">Error al cargar favoritos. Intenta nuevamente.</p></div>';
+                    });
+            }
+            
+            // Cargar likes
+            function cargarLikes() {
+                const likesContainer = document.getElementById('likes-container');
+                fetch('/api/user/likes')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.data && data.data.length > 0) {
+                            likesContainer.innerHTML = '';
+                            renderizarHongos(data.data, likesContainer);
+                        } else {
+                            likesContainer.innerHTML = '<div class="col-12 text-center py-4"><p class="text-muted">No has dado "me gusta" a ningún hongo todavía.</p></div>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar likes:', error);
+                        likesContainer.innerHTML = '<div class="col-12 text-center py-4"><p class="text-danger">Error al cargar likes. Intenta nuevamente.</p></div>';
+                    });
+            }
+            
+            // Renderizar hongos en un contenedor
+            function renderizarHongos(hongos, contenedor) {
+                hongos.forEach(fungi => {
+                    const imageUrls = fungi.image_urls ? fungi.image_urls.split(',') : [];
+                    const imageUrl = imageUrls.length > 0 ? imageUrls[0] : '/assets/images/placeholder.jpg';
+                    
+                    const fungiCard = document.createElement('div');
+                    fungiCard.className = 'col-md-6 col-lg-4 mb-4';
+                    fungiCard.innerHTML = `
+                        <div class="card h-100 shadow-sm profile-card border-0">
+                            <img src="${imageUrl}" class="card-img-top" alt="${fungi.name}" 
+                                 style="height: 160px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">${fungi.name.replace(/-/g, ' ')}</h5>
+                                <p class="card-text text-muted small">
+                                    <span class="badge ${getBadgeClass(fungi.edibility)}">
+                                        ${fungi.edibility ? fungi.edibility.replace(/-/g, ' ') : ''}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0">
+                                <a href="/fungi/${fungi.id}" class="btn btn-sm btn-outline-primary w-100">
+                                    Ver detalles
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    
+                    contenedor.appendChild(fungiCard);
                 });
             }
+            
+            // Devuelve la clase de badge según la comestibilidad
+            function getBadgeClass(edibility) {
+                if (!edibility) return 'bg-secondary';
+                
+                if (edibility.includes('excelente') || edibility.includes('buen-comestible'))
+                    return 'bg-success';
+                if (edibility.includes('toxica') || edibility.includes('mortal'))
+                    return 'bg-danger';
+                if (edibility.includes('precaucion'))
+                    return 'bg-warning';
+                
+                return 'bg-info';
+            }
+            
+            // Cargar datos al cambiar de pestaña
+            const favoritesTab = document.getElementById('favorites-tab');
+            if (favoritesTab) {
+                favoritesTab.addEventListener('shown.bs.tab', function (e) {
+                    cargarFavoritos();
+                    cargarLikes();
+                });
+            }
+            
+            // Manejo del formulario de perfil y eliminación de cuenta
+            {% if is_own_profile %}
+            const saveProfileBtn = document.getElementById('saveProfile');
+            if (saveProfileBtn) {
+                saveProfileBtn.addEventListener('click', function() {
+                    // Aquí iría la lógica para guardar los cambios del perfil
+                    const formData = new FormData();
+                    formData.append('username', document.getElementById('username').value);
+                    formData.append('email', document.getElementById('email').value);
+                    formData.append('bio', document.getElementById('bio').value);
+                    formData.append('location', document.getElementById('location').value);
+                    
+                    // Simulación de éxito
+                    alert('Perfil actualizado correctamente');
+                    document.querySelector('.btn-close').click();
+                });
+            }
+            
+            // Validación para eliminar cuenta
+            const deleteConfirmation = document.getElementById('delete_confirmation');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteAccount');
+            
+            if (deleteConfirmation && confirmDeleteBtn) {
+                deleteConfirmation.addEventListener('input', function() {
+                    confirmDeleteBtn.disabled = this.value !== 'ELIMINAR';
+                });
+                
+                confirmDeleteBtn.addEventListener('click', function() {
+                    if (deleteConfirmation.value === 'ELIMINAR') {
+                        // Aquí iría la lógica para eliminar la cuenta
+                        alert('Cuenta eliminada correctamente');
+                        window.location.href = '/logout';
+                    }
+                });
+            }
+            {% endif %}
+
+            // Inicializar componentes
+            window.addEventListener('load', function() {
+                if (document.getElementById('dato-curioso')) {
+                    mostrarDatoAleatorio();
+                }
+                
+                if (document.getElementById('frase-micologica')) {
+                    mostrarFraseAleatoria();
+                }
+            });
         });
     </script>
 </body>
 </html>
-
-<style>
-    .profile-header {
-        background: linear-gradient(135deg, #2c3e50, #4a5568);
-        padding: 2rem 0;
-        margin-bottom: 2rem;
-        border-radius: 0 0 15px 15px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-    }
-</style>
