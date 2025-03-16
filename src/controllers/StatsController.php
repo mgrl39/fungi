@@ -58,12 +58,13 @@ class StatsController
             return '';
         }
         
-        $interval = match($timeRange) {
-            'week' => '7 DAY',
-            'month' => '30 DAY',
-            'year' => '365 DAY',
-            default => '0 DAY'
-        };
+        $interval = '';
+        switch($timeRange) {
+            case 'week': $interval = '7 DAY'; break;
+            case 'month': $interval = '30 DAY'; break;
+            case 'year': $interval = '365 DAY'; break;
+            default: $interval = '0 DAY';
+        }
         
         return "WHERE created_at >= DATE_SUB(NOW(), INTERVAL $interval)";
     }
@@ -255,8 +256,7 @@ class StatsController
         $result = $this->db->query(
             "SELECT COUNT(*) as count 
              FROM fungi 
-             $timeCondition",
-            []
+             $timeCondition"
         )->fetch(\PDO::FETCH_ASSOC);
         
         return $result['count'] ?? 0;
@@ -278,8 +278,7 @@ class StatsController
                  FROM fungi 
                  $timeCondition
                  ORDER BY date_added DESC 
-                 LIMIT 5",
-                []
+                 LIMIT 5"
             );
             
             if ($result === false) {
@@ -302,29 +301,17 @@ class StatsController
      */
     public function getAdditionTrends($timeRange = 'year')
     {
-        $groupFormat = match($timeRange) {
-            'week' => '%Y-%m-%d',    // Diario para semana
-            'month' => '%Y-%m-%d',   // Diario para mes
-            'year' => '%Y-%m',       // Mensual para año
-            default => '%Y-%m'       // Por defecto mensual
-        };
-        
-        $interval = match($timeRange) {
-            'week' => '7 DAY',
-            'month' => '30 DAY',
-            'year' => '365 DAY',
-            default => '365 DAY'
-        };
+        $groupFormat = $timeRange === 'week' || $timeRange === 'month' ? '%Y-%m-%d' : '%Y-%m';
+        $interval = $timeRange === 'week' ? '7 DAY' : ($timeRange === 'month' ? '30 DAY' : '365 DAY');
         
         try {
             $result = $this->db->query(
-                "SELECT DATE_FORMAT(date_added, ?) as period, 
+                "SELECT DATE_FORMAT(date_added, '$groupFormat') as period, 
                  COUNT(*) as count
                  FROM fungi 
-                 WHERE date_added >= DATE_SUB(NOW(), INTERVAL ?)
+                 WHERE date_added >= DATE_SUB(NOW(), INTERVAL $interval)
                  GROUP BY period
-                 ORDER BY date_added ASC",
-                [$groupFormat, $interval]
+                 ORDER BY date_added ASC"
             );
             
             if ($result === false) {
@@ -359,8 +346,7 @@ class StatsController
                  AND t.family IS NOT NULL 
                  GROUP BY t.family 
                  ORDER BY count DESC 
-                 LIMIT ?",
-                [$limit]
+                 LIMIT $limit"
             );
             
             if ($result === false) {
@@ -389,8 +375,7 @@ class StatsController
                  FROM fungi f
                  WHERE f.view_count > 0
                  ORDER BY f.view_count DESC
-                 LIMIT ?",
-                [$limit]
+                 LIMIT $limit"
             );
             
             if ($result === false) {
@@ -420,8 +405,7 @@ class StatsController
                  JOIN user_likes ul ON f.id = ul.fungi_id
                  GROUP BY f.id
                  ORDER BY COUNT(ul.id) DESC
-                 LIMIT ?",
-                [$limit]
+                 LIMIT $limit"
             );
             
             if ($result === false) {
@@ -451,8 +435,7 @@ class StatsController
                  JOIN user_favorites uf ON f.id = uf.fungi_id
                  GROUP BY f.id
                  ORDER BY COUNT(uf.id) DESC
-                 LIMIT ?",
-                [$limit]
+                 LIMIT $limit"
             );
             
             if ($result === false) {
@@ -482,8 +465,7 @@ class StatsController
                  WHERE habitat IS NOT NULL AND habitat != ''
                  GROUP BY habitat
                  ORDER BY count DESC
-                 LIMIT ?",
-                [$limit]
+                 LIMIT $limit"
             );
             
             if ($result === false) {
@@ -496,5 +478,74 @@ class StatsController
             error_log("Error al obtener distribución por hábitat: " . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * @brief Obtiene todas las estadísticas necesarias para la página de estadísticas
+     * 
+     * @return array Todas las estadísticas formateadas para la plantilla
+     */
+    public function getAllStatsForPage()
+    {
+        // Obtener conteo total de hongos
+        $totalFungi = $this->db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0;
+        
+        // Obtener estadísticas de comestibilidad y formatearlas
+        $edibilityStats = $this->getEdibilityStats();
+        $edibilityFormatted = [
+            'edible_fungi' => 0,
+            'non_edible_fungi' => 0,
+            'toxic_fungi' => 0,
+            'unknown_edibility_fungi' => 0
+        ];
+        
+        foreach ($edibilityStats as $stat) {
+            if ($stat['edibility'] === 'edible') $edibilityFormatted['edible_fungi'] = $stat['count'];
+            if ($stat['edibility'] === 'non_edible') $edibilityFormatted['non_edible_fungi'] = $stat['count'];
+            if ($stat['edibility'] === 'toxic') $edibilityFormatted['toxic_fungi'] = $stat['count'];
+            if ($stat['edibility'] === 'unknown') $edibilityFormatted['unknown_edibility_fungi'] = $stat['count'];
+        }
+        
+        // Combinar todos los datos para la plantilla
+        return array_merge($edibilityFormatted, [
+            'total_fungi' => $totalFungi,
+            'total_users' => $this->db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
+            'top_families' => $this->getTopFamilies(10),
+            'most_viewed' => $this->getMostViewedFungi(5),
+            'top_favorites' => $this->getTopFavorites(5),
+            'top_liked' => $this->getTopLiked(5),
+            'trends' => $this->getAdditionTrends(),
+            'habitats' => $this->getHabitatDistribution()
+        ]);
+    }
+
+    /**
+     * @brief Obtiene todas las estadísticas necesarias para el panel de administración
+     * 
+     * @return array Datos del dashboard formateados para la plantilla
+     */
+    public function getDashboardStats()
+    {
+        // Obtener actividad reciente de usuarios desde la base de datos
+        $queryResult = $this->db->query(
+            "SELECT u.username, a.action, a.item, a.access_time as date 
+             FROM access_logs a
+             JOIN users u ON a.user_id = u.id
+             ORDER BY a.access_time DESC
+             LIMIT 10"
+        );
+        $recentActivity = $queryResult ? $queryResult->fetchAll(\PDO::FETCH_ASSOC) : [];
+        
+        // Obtener estadísticas generales
+        $fungiStats = $this->getFungiStats('all');
+        
+        return [
+            'total_fungi' => $this->db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
+            'total_users' => $this->db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
+            'recent_activity' => $recentActivity,
+            'popular_fungi' => $fungiStats['popular'] ?? [],
+            'edibility_stats' => $fungiStats['edibility'] ?? [],
+            'family_stats' => $fungiStats['families'] ?? []
+        ];
     }
 } 

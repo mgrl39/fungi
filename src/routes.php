@@ -243,15 +243,16 @@ $routes = [
             
             // Añadir descripciones a las acciones
             foreach ($actions as &$action) {
-                $action['description'] = match($action['action']) {
-                    'login' => 'Inicio de sesión',
-                    'logout' => 'Cierre de sesión',
-                    'view_fungi' => 'Visualización de hongo',
-                    'like_fungi' => 'Me gusta en hongo',
-                    'favorite_fungi' => 'Añadido a favoritos',
-                    'edit_fungi' => 'Edición de hongo',
-                    default => 'Acción no reconocida'
-                };
+                // Reemplazar match con switch tradicional
+                switch($action['action']) {
+                    case 'login': $action['description'] = 'Inicio de sesión'; break;
+                    case 'logout': $action['description'] = 'Cierre de sesión'; break;
+                    case 'view_fungi': $action['description'] = 'Visualización de hongo'; break;
+                    case 'like_fungi': $action['description'] = 'Me gusta en hongo'; break;
+                    case 'favorite_fungi': $action['description'] = 'Añadido a favoritos'; break;
+                    case 'edit_fungi': $action['description'] = 'Edición de hongo'; break;
+                    default: $action['description'] = 'Acción no reconocida';
+                }
                 $action['date'] = date('d/m/Y H:i', strtotime($action['access_time']));
             }
             
@@ -285,54 +286,9 @@ $routes = [
         'title' => _('Estadísticas'),
         'handler' => function($twig, $db, $session) {
             $statsController = new \App\Controllers\StatsController($db);
-            
-            // Obtener conteo total de hongos
-            $totalFungi = $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0;
-            
-            // Obtener estadísticas de comestibilidad
-            $edibilityStats = $statsController->getEdibilityStats();
-            
-            // Mapear las estadísticas de comestibilidad al formato esperado por la plantilla
-            $edibilityFormatted = [
-                'edible_fungi' => 0,
-                'non_edible_fungi' => 0,
-                'toxic_fungi' => 0,
-                'unknown_edibility_fungi' => 0
-            ];
-            
-            foreach ($edibilityStats as $stat) {
-                if ($stat['edibility'] === 'edible') {
-                    $edibilityFormatted['edible_fungi'] = $stat['count'];
-                } else if ($stat['edibility'] === 'non_edible') {
-                    $edibilityFormatted['non_edible_fungi'] = $stat['count'];
-                } else if ($stat['edibility'] === 'toxic') {
-                    $edibilityFormatted['toxic_fungi'] = $stat['count'];
-                } else {
-                    $edibilityFormatted['unknown_edibility_fungi'] = $stat['count'];
-                }
-            }
-            
-            // Obtener datos para las demás secciones
-            $topFamilies = $statsController->getTopFamilies(10);
-            $mostViewed = $statsController->getMostViewedFungi(5);
-            $topFavorites = $statsController->getTopFavorites(5);
-            $topLiked = $statsController->getTopLiked(5);
-            $trends = $statsController->getAdditionTrends();
-            $habitats = $statsController->getHabitatDistribution();
-            
-            // Combinar todos los datos para la plantilla
             return [
                 'title' => _('Estadísticas'),
-                'stats' => array_merge($edibilityFormatted, [
-                    'total_fungi' => $totalFungi,
-                    'total_users' => $db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
-                    'top_families' => $topFamilies,
-                    'most_viewed' => $mostViewed,
-                    'top_favorites' => $topFavorites,
-                    'top_liked' => $topLiked,
-                    'trends' => $trends,
-                    'habitats' => $habitats
-                ])
+                'stats' => $statsController->getAllStatsForPage()
             ];
         }
     ],
@@ -377,32 +333,10 @@ $routes = [
                 exit;
             }
             
-            // Crear instancia del controlador de estadísticas
             $statsController = new \App\Controllers\StatsController($db);
-            
-            // Obtener actividad reciente de usuarios desde la base de datos
-            $queryResult = $db->query(
-                "SELECT u.username, a.action, a.item, a.access_time as date 
-                 FROM access_logs a
-                 JOIN users u ON a.user_id = u.id
-                 ORDER BY a.access_time DESC
-                 LIMIT 10"
-            );
-            $recentActivity = $queryResult ? $queryResult->fetchAll(\PDO::FETCH_ASSOC) : [];
-            
-            // Obtener estadísticas generales
-            $fungiStats = $statsController->getFungiStats('all');
-            
             return [
                 'title' => _('Panel de Administración'),
-                'stats' => [
-                    'total_fungi' => $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
-                    'total_users' => $db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
-                    'recent_activity' => $recentActivity,
-                    'popular_fungi' => $fungiStats['popular'] ?? [],
-                    'edibility_stats' => $fungiStats['edibility'] ?? [],
-                    'family_stats' => $fungiStats['families'] ?? []
-                ]
+                'stats' => $statsController->getDashboardStats()
             ];
         }
     ],
