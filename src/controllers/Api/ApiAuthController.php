@@ -47,7 +47,6 @@ class ApiAuthController
             unset($user['password_hash']); // No devolver el hash de la contraseña
             return $user;
         }
-
         return null;
     }
 
@@ -56,37 +55,39 @@ class ApiAuthController
      * 
      * @param array $user Datos del usuario
      * @return string Token JWT generado
+     * 
+     * El token JWT generado contiene:
+     * - Header: typ=JWT, alg=HS256
+     * - Payload:
+     *   - iat: Timestamp de emisión
+     *   - exp: Timestamp de expiración (1 hora)
+     *   - sub: ID del usuario
+     *   - username: Nombre de usuario
+     *   - role: Rol del usuario
+     * - Firma: HMAC SHA256 del header y payload codificados
      */
     public function generateJwtToken(array $user): string
     {
         $secretKey = (defined('\JWT_SECRET') ? \JWT_SECRET : getenv('JWT_SECRET')) ?? 'default_jwt_secret_key';
         
-        // Datos para el JWT
-        $header = [
-            'typ' => 'JWT',
-            'alg' => 'HS256'
-        ];
-        
+        $header = [ 'typ' => 'JWT', 'alg' => 'HS256' ];
         $issuedAt = time();
-        $expire = $issuedAt + 3600; // Token válido por 1 hora
+        $expire = $issuedAt + 3600;
         
         $payload = [
-            'iat' => $issuedAt,     // Tiempo en que fue emitido el token
-            'exp' => $expire,       // Tiempo de expiración
-            'sub' => $user['id'],   // ID del usuario como subject
+            'iat' => $issuedAt,
+            'exp' => $expire,
+            'sub' => $user['id'],
             'username' => $user['username'],
             'role' => $user['role']
         ];
         
-        // Codificar header y payload
         $headerEncoded = $this->base64URLEncode(json_encode($header));
         $payloadEncoded = $this->base64URLEncode(json_encode($payload));
         
-        // Crear firma
         $signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
         $signatureEncoded = $this->base64URLEncode($signature);
         
-        // Crear JWT
         return "$headerEncoded.$payloadEncoded.$signatureEncoded";
     }
 
@@ -149,105 +150,5 @@ class ApiAuthController
             $data .= str_repeat('=', $padding);
         }
         return base64_decode(strtr($data, '-_', '+/'));
-    }
-    
-    /**
-     * Valida los campos requeridos en una solicitud
-     * 
-     * @param array $data Datos a validar
-     * @param array $requiredFields Campos requeridos
-     * @return bool True si todos los campos existen y no están vacíos
-     */
-    public function validateRequiredFields(array $data, array $requiredFields): bool
-    {
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field]) || empty($data[$field])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Obtiene el usuario autenticado de la solicitud actual
-     * 
-     * Verifica todas las fuentes posibles de autenticación:
-     * - Encabezado Authorization con token Bearer
-     * - Sesión PHP activa
-     * - Cookies de autenticación
-     *
-     * @return array|null Datos del usuario si está autenticado, null en caso contrario
-     */
-    public function getUserFromRequest(): ?array
-    {
-        // Verificar token Bearer en el encabezado HTTP
-        $authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
-        $user = null;
-        
-        // Verificar token JWT en encabezado Authorization
-        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-            $token = $matches[1];
-            $payload = $this->verifyJwtToken($token);
-            if ($payload) {
-                $user = [
-                    'id' => $payload['sub'],
-                    'username' => $payload['username'],
-                    'role' => $payload['role']
-                ];
-                return $user;
-            }
-        }
-        
-        // Verificar sesión PHP activa
-        if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['user_id'])) {
-            $user = [
-                'id' => $_SESSION['user_id'],
-                'username' => $_SESSION['username'] ?? 'Usuario',
-                'role' => $_SESSION['role'] ?? 'user'
-            ];
-            return $user;
-        }
-        
-        // Iniciar sesión si no está activa para verificar cookies
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        // Verificar cookies (JWT o token de sesión)
-        if (isset($_COOKIE['jwt'])) {
-            $token = $_COOKIE['jwt'];
-            $payload = $this->verifyJwtToken($token);
-            if ($payload) {
-                $user = [
-                    'id' => $payload['sub'],
-                    'username' => $payload['username'],
-                    'role' => $payload['role'] ?? 'user'
-                ];
-                return $user;
-            }
-        }
-        
-        return null;
-    }
-
-    /**
-     * Verifica si el usuario tiene acceso a un recurso y responde con error 401 si no
-     *
-     * @return array|null Datos del usuario si está autenticado, responde con error 401 y termina ejecución si no
-     */
-    public function requireAuth(): ?array
-    {
-        $user = $this->getUserFromRequest();
-        
-        if (!$user) {
-            http_response_code(401);
-            echo json_encode([
-                'success' => false,
-                'error' => ErrorMessages::AUTH_REQUIRED
-            ]);
-            exit;
-        }
-        
-        return $user;
     }
 } 
