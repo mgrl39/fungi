@@ -52,7 +52,7 @@ class AdminController
     {
         // Verificar si el usuario es administrador
         if (!$session->isAdmin()) {
-            header('Location: /');
+            header('Location: /404');
             exit;
         }
 
