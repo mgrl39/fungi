@@ -51,46 +51,40 @@ $components = [
  * @param string $templatePath Ruta de la plantilla
  * @param array $data Datos para pasar a la plantilla
  * @return void
+ * 
+ * @details Determina el dominio de traducción según la plantilla.
+ * Asegura que los componentes estén disponibles.
+ * Agrega información de sesión si está disponible.
+ * Añade la ruta actual para marcar elementos activos.
+ * Asegura que se pase el idioma actual.
+ * Renderiza la plantilla y maneja errores.
  */
 function renderTemplate($templatePath, $data = []) {
     global $twig, $uri, $components, $session, $langController;
     
-    // NUEVO: Determinar qué dominio usar según la plantilla
     $originalDomain = textdomain(NULL);
     
     if (strpos($templatePath, 'navbar') !== false) textdomain('navbar');
     else if (strpos($templatePath, 'about') !== false) textdomain('about');
     else textdomain('messages');
     
-    // Aseguramos que los componentes estén disponibles en todas las plantillas
     $data['components'] = $components;
     
-    // Agregamos información sobre la sesión actual si está disponible
     if (isset($session)) {
         $data['is_logged_in'] = $session->isLoggedIn();
         if ($session->isLoggedIn()) $data['user'] = $session->getUserData();
     } else $data['is_logged_in'] = false;
     
-    // Añadimos la ruta actual para poder marcar elementos activos en el menú
     $data['current_route'] = $uri;
-    
-    // NUEVO: Asegurar que se pase el idioma actual a todas las plantillas
     $data['idioma_actual'] = $_SESSION['idioma'] ?? 'es';
     
-    // Renderizamos la plantilla
     try {
         $result = $twig->render($templatePath, $data);
-        
-        // Restaurar el dominio original
         textdomain($originalDomain);
-        
         echo $result;
     } catch (Exception $e) {
-        // Si hay un error al renderizar, mostramos un mensaje de error
         echo "<h1>Error al renderizar la plantilla</h1>";
         echo "<p>{$e->getMessage()}</p>";
-        
-        // En modo desarrollo, mostramos información detallada del error
         if (defined('DEBUG_MODE') && DEBUG_MODE) {
             echo "<pre>";
             print_r($e);
