@@ -94,42 +94,43 @@ class LangController
      * @param string $lang Código del idioma a configurar
      * 
      * @return void
+     * 
+     * @details
+     * - Si el idioma no está soportado, usa español por defecto
+     * - Obtiene el locale del sistema operativo correspondiente
+     * - Configura las variables de entorno y locale para gettext
+     * - Configura el dominio de mensajes principal
+     * - Carga dominios adicionales predeterminados (navbar, about, home, profile)
      */
     public function configureLocale($lang)
     {
-        if (!$this->isLanguageSupported($lang)) {
-            $lang = 'es'; // Idioma por defecto si el solicitado no está soportado
-        }
-        
-        // Obtener el locale del sistema operativo correspondiente
+        if (!$this->isLanguageSupported($lang)) $lang = 'es';
         $locale = ($this->localeMap[$lang] ?? 'es_ES') . '.UTF-8';
-        
-        // Configurar gettext
+
         putenv("LANG=$locale");
         putenv("LANGUAGE=$locale");
         putenv("LC_ALL=$locale");
         setlocale(LC_ALL, $locale);
         
-        // Configurar dominio de mensajes principal
         bindtextdomain("messages", $this->localeDir);
         bind_textdomain_codeset("messages", "UTF-8");
         textdomain("messages");
         
-        // NUEVO: Cargar dominios adicionales de forma predeterminada
         $default_domains = ['navbar', 'about', 'home', 'profile'];
         foreach ($default_domains as $domain) $this->loadTextDomain($domain);
     }
     
     /**
      * @brief Carga un dominio de texto adicional para gettext
+     * Verificar si el archivo de traducción existe
+     * NO cambiar el dominio activo, solo registrarlo
+     * Usar dgettext() para obtener traducciones de dominios específicos
      * 
      * @param string $domain Nombre del dominio de texto
-     * 
      * @return bool Éxito de la operación
      */
     public function loadTextDomain($domain)
     {
-        // Verificar si el archivo de traducción existe
         $moFile = $this->localeDir . '/' . $this->localeMap[$_SESSION['idioma'] ?? 'es'] . '/LC_MESSAGES/' . $domain . '.mo';
         
         if (!file_exists($moFile)) {
@@ -139,9 +140,6 @@ class LangController
         
         bindtextdomain($domain, $this->localeDir);
         bind_textdomain_codeset($domain, "UTF-8");
-        
-        // NO cambiar el dominio activo, solo registrarlo
-        // Usar dgettext() para obtener traducciones de dominios específicos
         
         return true;
     }
@@ -159,12 +157,10 @@ class LangController
         $traduccion = dgettext($domain, $text);
         if ($traduccion === $text && $domain !== 'messages') {
             error_log("Error de traducción: '$text' no encontrado en dominio '$domain'");
-            // Intenta buscar en el dominio messages como último recurso
             $traduccion = dgettext('messages', $text);
         }
         return $traduccion;
     }
-    
     /**
      * @brief Cambia el idioma de la aplicación
      * 
