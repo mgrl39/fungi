@@ -71,17 +71,11 @@ class RouteController {
             header('Location: /');
             exit;
         }
-
         $data = isset($route['handler']) ? $route['handler']($this->twig, $this->db, $this->session, $this->authController ?? null) : [];
-
-        if (empty($data) && isset($route['title'])) {
-            $data = ['title' => $route['title']];
-        }
-
+        if (empty($data) && isset($route['title'])) $data = ['title' => $route['title']];
         if (isset($route['template']) && $route['template'] !== null) {
             renderTemplate($route['template'], $data);
         }
-
         return true;
     }
     
