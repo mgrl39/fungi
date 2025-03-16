@@ -50,12 +50,12 @@ bash -c "$(wget -qO- doncom.me/fungi/init.sh)"
 ## 📊 Ecosistema Fungi
 
 El proyecto Fungi se compone de tres repositorios principales que trabajan juntos:
-c
 | Repositorio | Descripción | Estado |
 |-------------|-------------|--------|
 | [🍄 **Fungi**](https://github.com/mgrl39/fungi) | Aplicación web principal | [![Status](https://img.shields.io/badge/status-active-success.svg)]() |
 | [🤖 **Fungi Scraping**](https://github.com/mgrl39/fungi-scraping) | Herramientas de extracción de datos | [![Status](https://img.shields.io/badge/status-active-success.svg)]() |
 | [⚙️ **Fungi Installer**](https://github.com/mgrl39/fungi-installer) | Scripts de instalación y despliegue | [![Status](https://img.shields.io/badge/status-active-success.svg)]() |
+| [📸 **Fungi Content**](https://github.com/mgrl39/fungi-content) | Contenido escrapeado | [![Status](https://img.shields.io/badge/status-active-success.svg)]() |
 
 ## 🏗️ Arquitectura del Proyecto
 
