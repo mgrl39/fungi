@@ -3,7 +3,7 @@
 // IMPORTANTE: Detectar si es una solicitud API y evitar imprimir HTML
 $isApiRequest = preg_match('#^/api#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-// IMPORTANTE: Inicializar el controlador de idiomas ANTES de definir las rutas
+// Inicializar el controlador de idiomas ANTES de definir las rutas
 $langController = new \App\Controllers\LangController();
 $currentLanguage = $langController->initializeLanguage();
 
@@ -15,13 +15,16 @@ $langController->loadTextDomain('admin');
 $langController->loadTextDomain('user');
 $langController->loadTextDomain('api');
 
-// Obtenemos la URI desde la solicitud
+// Obtenemos la URI desde la solicitud, si la URI está vacía, la tratamos como la raíz
 $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-// Si la URI está vacía, la tratamos como la raíz
 $uri = $uri === '' ? '/' : $uri;
+
+// Detectar si es una solicitud API y evitar imprimir HTML
+$isApiRequest = preg_match('#^/api#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 if (!$isApiRequest) (new \App\Controllers\DebugController())->mostrarDebugTraducciones();
 
-function getBaseUrl() {
+function getBaseUrl()
+{
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
     $host = $_SERVER['HTTP_HOST'];
     return $protocol . $host;
@@ -32,9 +35,7 @@ $components = [
     'footer' => 'components/footer.twig',
     'header' => 'components/header.twig',
     'navbar' => 'components/navbar.twig',
-    'sidebar' => 'components/sidebar.twig',
-    'fungi/card' => 'components/fungi/card.twig',
-    'fungi/form' => 'components/fungi/form.twig'
+    'sidebar' => 'components/sidebar.twig'
 ];
 
 /**
@@ -51,25 +52,26 @@ $components = [
  * Asegura que se pase el idioma actual.
  * Renderiza la plantilla y maneja errores.
  */
-function renderTemplate($templatePath, $data = []) {
+function renderTemplate($templatePath, $data = [])
+{
     global $twig, $uri, $components, $session, $langController;
-    
+
     $originalDomain = textdomain(NULL);
-    
+
     if (strpos($templatePath, 'navbar') !== false) textdomain('navbar');
     else if (strpos($templatePath, 'about') !== false) textdomain('about');
     else textdomain('messages');
-    
+
     $data['components'] = $components;
-    
+
     if (isset($session)) {
         $data['is_logged_in'] = $session->isLoggedIn();
         if ($session->isLoggedIn()) $data['user'] = $session->getUserData();
     } else $data['is_logged_in'] = false;
-    
+
     $data['current_route'] = $uri;
     $data['idioma_actual'] = $_SESSION['idioma'] ?? 'es';
-    
+
     try {
         $result = $twig->render($templatePath, $data);
         textdomain($originalDomain);
@@ -94,6 +96,7 @@ $fungiController = new \App\Controllers\FungiController($db);
 $statsController = new \App\Controllers\StatsController($db);
 $docsController = new \App\Controllers\DocsController($db, $session);
 $homeController = new \App\Controllers\HomeController($db);
+$adminController = new \App\Controllers\AdminController($db, $session, $statsController);
 
 // Crear el controlador de rutas
 $routeController = new \App\Controllers\RouteController($twig, $db, $session, [
@@ -111,7 +114,7 @@ $routes = [
     '/about' => ['template' => 'pages/about.twig', 'title' => _('Acerca de'), 'auth_required' => false],
     '/404' => ['template' => 'pages/404.twig', 'title' => _('Página no encontrada'), 'auth_required' => false],
     '/random' => ['template' => null, 'redirect' => '/fungi/random'],
-    '/profile/([^/]+)' => [ 'redirect' => '/profile' ],
+    '/profile/([^/]+)' => ['redirect' => '/profile'],
     '/profile' => ['template' => 'pages/profile.twig', 'auth_required' => true, 'handler' => [$userController, 'profileHandler']],
     '/docs/api' => ['template' => 'pages/api/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
     '/change-language' => ['handler' => [$langController, 'changeLanguage']],
@@ -119,54 +122,9 @@ $routes = [
     '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/statistics' => ['template' => 'pages/statistics.twig', 'title' => _('Estadísticas'), 'handler' => [$statsController, 'statisticsPageHandler']],
     '/fungi/random' => ['template' => 'pages/fungi_detail.twig', 'title' => _('Hongo aleatorio'), 'auth_required' => false, 'handler' => [$fungiController, 'randomFungusHandler']],
+    '/login' => ['template' => 'components/auth/login_form.twig', 'title' => _('Iniciar Sesión'), 'auth_required' => false, 'handler' => [$authController, 'loginHandler']],
     '/' => ['template' => 'pages/home.twig', 'title' => _('Hongos'), 'auth_required' => false, 'handler' => [$homeController, 'indexHandler']],
-    '/login' => [
-        'template' => 'components/auth/login_form.twig',
-        'title' => _('Iniciar Sesión'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $authController) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $result = $authController->login(
-                    $_POST['username'] ?? '',
-                    $_POST['password'] ?? ''
-                );
-                
-                if ($result['success']) {
-                    header('Location: /');
-                    exit;
-                } else {
-                    return [
-                        'title' => _('Iniciar Sesión'),
-                        'error' => $result['message']
-                    ];
-                }
-            } else {
-                $registered = isset($_GET['registered']) ? true : false;
-                return [
-                    'title' => _('Iniciar Sesión'),
-                    'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
-                ];
-            }
-        }
-    ],
-    '/dashboard' => [
-        'template' => 'pages/admin.twig',
-        'title' => _('Administración'),
-        'auth_required' => true,
-        'admin_required' => true,
-        'handler' => function($twig, $db, $session) {
-            // Verificar si el usuario es administrador
-            if (!$session->isAdmin()) {
-                header('Location: /');
-                exit;
-            }
-            
-            return [
-                'title' => _('Panel de Administración'),
-                'stats' => $statsController->getDashboardStats()
-            ];
-        }
-    ],
+    '/dashboard' => ['template' => 'pages/admin.twig', 'title' => _('Administración'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'dashboardHandler']],
     '/fungi/(\d+)' => ['template' => 'pages/fungi_detail.twig', 'auth_required' => false, 'handler' => [$fungiController, 'detailFungusHandler']],
     '/admin/users' => ['template' => 'admin/users.twig', 'auth_required' => true, 'admin_required' => true, 'handler' => [$userController, 'adminUsersHandler']],
 ];

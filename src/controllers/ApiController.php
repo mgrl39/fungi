@@ -203,6 +203,7 @@ class ApiController
 	{
 		// Crea una instancia del controlador de POST
 		$apiPostController = new \App\Controllers\Api\ApiPostController($this->pdo, $this->db);
+		$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
 		
 		// Datos de la solicitud
 		$data = json_decode(file_get_contents('php://input'), true);
@@ -218,7 +219,7 @@ class ApiController
 			// Verificar token de sesión o JWT
 			if (preg_match('/Bearer\s(\S+)/', $authHeader, $tokenMatches)) {
 				$token = $tokenMatches[1];
-				$payload = $this->verifyJwtToken($token);
+				$payload = $apiAuthController->verifyJwtToken($token);
 				if ($payload) {
 					$user = [
 						'id' => $payload['sub'],
@@ -265,8 +266,8 @@ class ApiController
 		elseif ($endpoint === 'auth/login') {
 			$result = $apiPostController->handleLogin(
 				$data,
-				[$this, 'login'],
-				[$this, 'generateJwtToken']
+				[$apiAuthController, 'login'],
+				[$apiAuthController, 'generateJwtToken']
 			);
 		}
 		else {

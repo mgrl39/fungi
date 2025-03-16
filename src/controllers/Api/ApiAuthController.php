@@ -167,4 +167,87 @@ class ApiAuthController
         }
         return true;
     }
+
+    /**
+     * Obtiene el usuario autenticado de la solicitud actual
+     * 
+     * Verifica todas las fuentes posibles de autenticación:
+     * - Encabezado Authorization con token Bearer
+     * - Sesión PHP activa
+     * - Cookies de autenticación
+     *
+     * @return array|null Datos del usuario si está autenticado, null en caso contrario
+     */
+    public function getUserFromRequest(): ?array
+    {
+        // Verificar token Bearer en el encabezado HTTP
+        $authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+        $user = null;
+        
+        // Verificar token JWT en encabezado Authorization
+        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            $token = $matches[1];
+            $payload = $this->verifyJwtToken($token);
+            if ($payload) {
+                $user = [
+                    'id' => $payload['sub'],
+                    'username' => $payload['username'],
+                    'role' => $payload['role']
+                ];
+                return $user;
+            }
+        }
+        
+        // Verificar sesión PHP activa
+        if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['user_id'])) {
+            $user = [
+                'id' => $_SESSION['user_id'],
+                'username' => $_SESSION['username'] ?? 'Usuario',
+                'role' => $_SESSION['role'] ?? 'user'
+            ];
+            return $user;
+        }
+        
+        // Iniciar sesión si no está activa para verificar cookies
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        // Verificar cookies (JWT o token de sesión)
+        if (isset($_COOKIE['jwt'])) {
+            $token = $_COOKIE['jwt'];
+            $payload = $this->verifyJwtToken($token);
+            if ($payload) {
+                $user = [
+                    'id' => $payload['sub'],
+                    'username' => $payload['username'],
+                    'role' => $payload['role'] ?? 'user'
+                ];
+                return $user;
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * Verifica si el usuario tiene acceso a un recurso y responde con error 401 si no
+     *
+     * @return array|null Datos del usuario si está autenticado, responde con error 401 y termina ejecución si no
+     */
+    public function requireAuth(): ?array
+    {
+        $user = $this->getUserFromRequest();
+        
+        if (!$user) {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'error' => ErrorMessages::AUTH_REQUIRED
+            ]);
+            exit;
+        }
+        
+        return $user;
+    }
 } 

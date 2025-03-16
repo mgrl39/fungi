@@ -487,4 +487,42 @@ class AuthController {
             ];
         }
     }
+
+    /**
+     * @brief Maneja la solicitud de inicio de sesión
+     * 
+     * Procesa el formulario de inicio de sesión cuando se envía por POST
+     * o prepara la vista del formulario cuando se accede por GET.
+     * Compatible con el sistema de rutas de la aplicación.
+     * 
+     * @param object $twig Instancia de Twig
+     * @param object $db Instancia de la base de datos
+     * @param object $session Controlador de sesión
+     * @return array Datos para la plantilla
+     */
+    public function loginHandler($twig, $db, $session)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = $this->login(
+                $_POST['username'] ?? '',
+                $_POST['password'] ?? ''
+            );
+            
+            if ($result['success']) {
+                header('Location: /');
+                exit;
+            } else {
+                return [
+                    'title' => _('Iniciar Sesión'),
+                    'error' => $result['message']
+                ];
+            }
+        } else {
+            $registered = isset($_GET['registered']) ? true : false;
+            return [
+                'title' => _('Iniciar Sesión'),
+                'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
+            ];
+        }
+    }
 }
