@@ -130,6 +130,7 @@ $routes = [
     '/register' => ['template' => 'components/auth/register_form.twig', 'auth_required' => false, 'handler' => [$authController, 'registerHandler']],
     '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/statistics' => ['template' => 'pages/statistics.twig', 'title' => _('Estadísticas'), 'handler' => [$statsController, 'statisticsPageHandler']],
+    '/profile/([^/]+)' => [ 'redirect' => '/profile' ],
     '/' => [
         'template' => 'pages/home.twig',
         'title' => _('Hongos'),
@@ -262,44 +263,6 @@ $routes = [
                 'fungi' => $fungus,
                 'similar_fungi' => $similarFungi,
                 'is_logged_in' => $session->isLoggedIn()
-            ];
-        }
-    ],
-    // Ruta para ver perfil por nombre de usuario
-    '/profile/([^/]+)' => [
-        'template' => 'pages/profile.twig',
-        'title' => _('Perfil de Usuario'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $authController = null) {
-            // Obtener el nombre de usuario desde la URL
-            preg_match('#^/profile/([^/]+)$#', $_SERVER['REQUEST_URI'], $matches);
-            $username = $matches[1] ?? null;
-            
-            // Obtener datos del usuario solicitado por nombre de usuario
-            $profileUserData = $db->getUserByUsername($username);
-            
-            // Si no se encuentra el usuario, mostrar mensaje de error
-            if (!$profileUserData) {
-                return [
-                    'title' => _('Usuario no encontrado'),
-                    'error' => _('El usuario solicitado no existe'),
-                    'user_not_found' => true
-                ];
-            }
-            
-            // Obtener el ID del usuario actual (si está autenticado)
-            $currentUserId = $session->isLoggedIn() ? $_SESSION['user_id'] : null;
-            
-            // Obtener datos públicos del perfil
-            $favoriteFungi = $db->getUserFavorites($profileUserData['id']);
-            $contributions = $db->getUserContributions($profileUserData['id']);
-            
-            return [
-                'title' => sprintf(_('Perfil de %s'), $profileUserData['username']),
-                'user' => $profileUserData,
-                'favorite_fungi' => $favoriteFungi,
-                'contributions' => $contributions,
-                'is_own_profile' => ($currentUserId == $profileUserData['id'])
             ];
         }
     ],
