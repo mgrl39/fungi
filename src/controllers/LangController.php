@@ -169,35 +169,29 @@ class LangController
      * @brief Cambia el idioma de la aplicación
      * 
      * @details Guarda la preferencia de idioma en sesión y cookie
-     * y maneja tanto peticiones AJAX como redirecciones normales
+     * y maneja tanto peticiones AJAX como redirecciones normales.
+     * Obtiene el idioma seleccionado del POST, lo valida contra los soportados,
+     * guarda en sesión y cookie por 30 días. Maneja respuestas diferentes
+     * para peticiones AJAX (JSON) y normales (redirección).
      * 
      * @return array|void Respuesta JSON para AJAX o redirección para peticiones normales
      */
     public function changeLanguage()
     {
-        // Obtener el idioma seleccionado
         $lang = $_POST['lang'] ?? 'es';
-        
-        // Validar que el idioma esté entre los soportados
         if ($this->isLanguageSupported($lang)) {
-            // Guardar el idioma en la sesión
             $_SESSION['idioma'] = $lang;
-            
-            // Guardar en cookie para recordar preferencia
-            setcookie('idioma', $lang, time() + (86400 * 30), "/"); // Cookie válida por 30 días
+            setcookie('idioma', $lang, time() + (86400 * 30), "/");
         }
         
-        // Verificar si es una solicitud AJAX
         $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                   strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
         
         if ($isAjax) {
-            // Si es AJAX, devolvemos un JSON con estado de éxito
             header('Content-Type: application/json');
             echo json_encode(['success' => true, 'language' => $lang]);
             exit;
         } else {
-            // Si no es AJAX, redirigir a la página anterior o principal
             $redirect = $_POST['redirect'] ?? '/';
             header('Location: ' . $redirect);
             exit;
