@@ -267,4 +267,49 @@ class FungiController
             'fungi' => $fungus
         ];
     }
+
+    /**
+     * @brief Manejador para la ruta de detalles del hongo
+     * 
+     * @param object $twig Instancia de Twig
+     * @param object $db Instancia de la base de datos
+     * @param object $session Controlador de sesión
+     * @param array $params Parámetros de la ruta
+     * @return array Datos para la plantilla
+     */
+    public function detailFungusHandler($twig, $db, $session, $params = [])
+    {
+        // Primero asegúrate de obtener el ID correctamente del parámetro
+        $id = null;
+        
+        // Verificar si hay parámetros en el array numérico
+        if (is_array($params) && !empty($params)) {
+            $id = $params[0] ?? null;
+        }
+        
+        // Si no hay ID aún, intenta obtenerlo de la URL
+        if (empty($id) && isset($_SERVER['REQUEST_URI'])) {
+            preg_match('#^/fungi/(\d+)$#', $_SERVER['REQUEST_URI'], $matches);
+            $id = $matches[1] ?? null;
+        }
+        
+        error_log("FungiController::detailFungusHandler - ID: " . ($id ?? 'no ID'));
+        
+        // El resto de tu lógica...
+        $fungus = $this->getFungusById($id);
+        
+        if (!$fungus) {
+            header('Location: /404');
+            exit;
+        }
+        
+        // ... resto del código ...
+        
+        return [
+            'title' => $fungus['name'] ?? _('Detalles del Hongo'),
+            'fungi' => $fungus,
+            'similar_fungi' => $similarFungi ?? [],
+            'is_logged_in' => $session->isLoggedIn()
+        ];
+    }
 } 

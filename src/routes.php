@@ -134,7 +134,9 @@ $routes = [
     '/statistics' => ['template' => 'pages/statistics.twig', 'title' => _('Estadísticas'), 'handler' => [$statsController, 'statisticsPageHandler']],
     '/fungi/random' => ['template' => 'pages/fungi_detail.twig', 'title' => _('Hongo aleatorio'), 'auth_required' => false, 'handler' => [$fungiController, 'randomFungusHandler']],
     '/' => ['template' => 'pages/home.twig', 'title' => _('Hongos'), 'auth_required' => false, 'handler' => [$homeController, 'indexHandler']],
-    '/login' => ['template' => 'components/auth/login_form.twig', 'title' => _('Iniciar Sesión'), 'auth_required' => false, 'handler' => function($twig, $db, $session, $authController) {
+    '/login' => [
+        'template' => 'components/auth/login_form.twig',
+        'title' => _('Iniciar Sesión'),
         'auth_required' => false,
         'handler' => function($twig, $db, $session, $authController) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -179,49 +181,8 @@ $routes = [
             ];
         }
     ],
-    '/fungi/(\d+)' => [
-        'template' => 'pages/fungi_detail.twig',
-        'handler' => function($twig, $db, $session, $authController = null) use ($fungiController) {
-            // Obtener el ID del hongo desde la URL
-            preg_match('#^/fungi/(\d+)$#', $_SERVER['REQUEST_URI'], $matches);
-            $id = $matches[1] ?? null;
-            
-            // Obtener datos del hongo específico
-            $fungus = $fungiController->getFungusById($id);
-            
-            // Si no se encuentra el hongo, redirigir a 404
-            if (!$fungus) {
-                header('Location: /404');
-                exit;
-            }
-            
-            // Añadir información de favorito si el usuario está logueado
-            if ($session->isLoggedIn() && $fungiController) {
-                $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
-            }
-            
-            // Intentar obtener hongos similares
-            $similarFungi = [];
-            try {
-                $similarFungi = $fungiController->getSimilarFungi($id, 4);
-            } catch (Exception $e) {
-                // Si falla, simplemente no mostraremos hongos similares
-            }
-            
-            return [
-                'title' => $fungus['name'] ?? _('Detalles del Hongo'),
-                'fungi' => $fungus,
-                'similar_fungi' => $similarFungi,
-                'is_logged_in' => $session->isLoggedIn()
-            ];
-        }
-    ],
-    '/admin/users' => [
-        'template' => 'admin/users.twig',
-        'auth_required' => true,
-        'admin_required' => true,
-        'handler' => [$userController, 'adminUsersHandler']
-    ],
+    '/fungi/(\d+)' => ['template' => 'pages/fungi_detail.twig', 'auth_required' => false, 'handler' => [$fungiController, 'detailFungusHandler']],
+    '/admin/users' => ['template' => 'admin/users.twig', 'auth_required' => true, 'admin_required' => true, 'handler' => [$userController, 'adminUsersHandler']],
 ];
 
 // Añadir rutas al controlador
