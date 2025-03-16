@@ -281,4 +281,160 @@ class FungiController
             'is_logged_in' => $session->isLoggedIn()
         ];
     }
+
+    /**
+     * @brief Actualiza la información de un hongo
+     * 
+     * @param int $fungiId ID del hongo a actualizar
+     * @param array $data Nuevos datos del hongo
+     * @param array $user Usuario que realiza la operación
+     * @return array Resultado de la operación
+     */
+    public function updateFungi($fungiId, $data, $user = null)
+    {
+        // Verificar permisos de administrador si se proporciona usuario
+        if ($user && (!isset($user['role']) || $user['role'] !== 'admin')) {
+            return [
+                'success' => false,
+                'error' => 'No tienes permisos para realizar esta operación'
+            ];
+        }
+        
+        // Verificar que el hongo exista
+        $checkResult = $this->db->query("SELECT id FROM fungi WHERE id = ?", [$fungiId]);
+        if (!$checkResult || ($checkResult instanceof \PDOStatement && !$checkResult->fetch())) {
+            return [
+                'success' => false,
+                'error' => 'El hongo especificado no existe'
+            ];
+        }
+        
+        // Construir consulta dinámica
+        $fields = [];
+        $values = [];
+        
+        foreach ($data as $field => $value) {
+            // Solo permitir campos válidos
+            if (in_array($field, ['name', 'edibility', 'habitat', 'observations', 'common_name', 'synonym', 'title'])) {
+                $fields[] = "$field = ?";
+                $values[] = $value;
+            }
+        }
+        
+        if (empty($fields)) {
+            return [
+                'success' => false,
+                'error' => 'No se proporcionaron campos válidos para actualizar'
+            ];
+        }
+        
+        // Agregar ID para la cláusula WHERE
+        $values[] = $fungiId;
+        
+        try {
+            $sql = "UPDATE fungi SET " . implode(', ', $fields) . " WHERE id = ?";
+            $result = $this->db->query($sql, $values);
+            
+            if ($result) {
+                return [
+                    'success' => true,
+                    'message' => 'Hongo actualizado correctamente'
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'error' => 'Error al actualizar el hongo en la base de datos'
+                ];
+            }
+        } catch (\Exception $e) {
+            error_log("Error actualizando hongo: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Error interno del servidor: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * @brief Añade un nuevo hongo a la base de datos
+     * 
+     * @param array $data Datos del nuevo hongo
+     * @param array $user Usuario que realiza la operación
+     * @return array Resultado de la operación
+     */
+    public function addFungi($data, $user = null)
+    {
+        // Verificar permisos de administrador si se proporciona usuario
+        if ($user && (!isset($user['role']) || $user['role'] !== 'admin')) {
+            return [
+                'success' => false,
+                'error' => 'No tienes permisos para crear nuevos hongos'
+            ];
+        }
+        
+        // Validar campos obligatorios
+        $requiredFields = ['name'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field]) || empty($data[$field])) {
+                return [
+                    'success' => false,
+                    'error' => "El campo '{$field}' es obligatorio"
+                ];
+            }
+        }
+        
+        // Preparar campos y valores para la inserción
+        $allowedFields = ['name', 'edibility', 'habitat', 'observations', 'common_name', 'synonym', 'title'];
+        $fields = [];
+        $values = [];
+        $placeholders = [];
+        
+        foreach ($data as $field => $value) {
+            if (in_array($field, $allowedFields)) {
+                $fields[] = $field;
+                $values[] = $value;
+                $placeholders[] = '?';
+            }
+        }
+        
+        if (empty($fields)) {
+            return [
+                'success' => false,
+                'error' => 'No se proporcionaron campos válidos para crear el hongo'
+            ];
+        }
+        
+        try {
+            $sql = "INSERT INTO fungi (" . implode(', ', $fields) . ") VALUES (" . implode(', ', $placeholders) . ")";
+            $result = $this->db->query($sql, $values);
+            
+            if ($result) {
+                // Obtener el ID del nuevo hongo insertado
+                $newFungiId = $this->db->lastInsertId();
+                
+                // Inicializar registro en fungi_popularity
+                $this->db->query(
+                    "INSERT INTO fungi_popularity (fungi_id, views, likes) VALUES (?, 0, 0)",
+                    [$newFungiId]
+                );
+                
+                return [
+                    'success' => true,
+                    'message' => 'Hongo creado correctamente',
+                    'id' => $newFungiId
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'error' => 'Error al crear el hongo en la base de datos'
+                ];
+            }
+        } catch (\Exception $e) {
+            error_log("Error creando hongo: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Error interno del servidor: ' . $e->getMessage()
+            ];
+        }
+    }
 } 

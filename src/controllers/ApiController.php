@@ -6,7 +6,6 @@ use PDO;
 use PDOException;
 use App\Config\ErrorMessages;
 use App\Controllers\Api\ApiInfoController;
-use App\Controllers\Api\ApiPutController;
 use App\Controllers\Api\ApiAuthController;
 use App\Controllers\Api\ApiPostController;
 
@@ -289,8 +288,8 @@ class ApiController
 	 */
 	private function handlePut($endpoint)
 	{
-		// Crear instancia del controlador PUT
-		$apiPutController = new ApiPutController($this->pdo, $this->db);
+		// Instanciar el controlador de hongos
+		$fungiController = new \App\Controllers\FungiController($this->db);
 		
 		// Verificar autenticación
 		$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
@@ -300,12 +299,37 @@ class ApiController
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
 			$payload = $apiAuthController->verifyJwtToken($token);
+			
+			// Añadir logging para depuración
+			error_log("API PUT - Payload del token: " . json_encode($payload));
+			
 			if ($payload) {
+				// Ajustar para que funcione con 'user_id' o 'sub'
+				$userId = $payload['user_id'] ?? $payload['sub'] ?? null;
+				$username = $payload['username'] ?? 'Usuario';
+				
+				// Si no hay role en el payload, consultar la base de datos
+				if (!isset($payload['role'])) {
+					$userResult = $this->db->query("SELECT role FROM users WHERE id = ?", [$userId]);
+					$userRole = null;
+					
+					if ($userResult instanceof \PDOStatement) {
+						$userData = $userResult->fetch(\PDO::FETCH_ASSOC);
+						$userRole = $userData['role'] ?? 'user';
+					} else if (is_array($userResult) && !empty($userResult)) {
+						$userRole = $userResult[0]['role'] ?? 'user';
+					}
+				} else {
+					$userRole = $payload['role'];
+				}
+				
 				$user = [
-					'id' => $payload['sub'],
-					'username' => $payload['username'],
-					'role' => $payload['role']
+					'id' => $userId,
+					'username' => $username,
+					'role' => $userRole
 				];
+				
+				error_log("API PUT - Usuario autenticado: " . json_encode($user));
 			}
 		} else if (isset($_SESSION['user_id'])) {
 			// Usar sesión PHP si existe
@@ -314,6 +338,7 @@ class ApiController
 				'username' => $_SESSION['username'] ?? 'Usuario',
 				'role' => $_SESSION['role'] ?? 'user'
 			];
+			error_log("API PUT - Usuario por sesión: " . json_encode($user));
 		}
 		
 		// Datos de la solicitud
@@ -330,7 +355,20 @@ class ApiController
 					'error' => ErrorMessages::AUTH_REQUIRED
 				];
 			} else {
-				$result = $apiPutController->updateFungi($fungiId, $data, $user);
+				$result = $fungiController->updateFungi($fungiId, $data, $user);
+				
+				// Establecer código de estado HTTP basado en el resultado
+				if (!$result['success']) {
+					if (strpos($result['error'], 'permisos') !== false) {
+						http_response_code(403);
+					} else if (strpos($result['error'], 'no existe') !== false) {
+						http_response_code(404);
+					} else if (strpos($result['error'], 'no se proporcionaron campos') !== false) {
+						http_response_code(400);
+					} else {
+						http_response_code(500);
+					}
+				}
 			}
 		} else {
 			http_response_code(404);
