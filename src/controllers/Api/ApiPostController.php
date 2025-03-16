@@ -29,34 +29,6 @@ class ApiPostController
     }
 
     /**
-     * Maneja la creación de un nuevo hongo
-     * 
-     * @param array $data Datos del hongo a crear
-     * @return array Respuesta con ID del hongo creado
-     */
-    public function createFungi($data)
-    {
-        $requiredFields = ['name', 'edibility', 'habitat'];
-        if (!$this->validateRequiredFields($data, $requiredFields)) {
-            http_response_code(400);
-            return ['error' => ErrorMessages::format(ErrorMessages::VALIDATION_REQUIRED_FIELD, 'name, edibility, habitat')];
-        }
-
-        $stmt = $this->pdo->prepare("INSERT INTO fungi (name, edibility, habitat, observations, common_name, synonym, title) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([
-            $data['name'],
-            $data['edibility'],
-            $data['habitat'],
-            $data['observations'] ?? null,
-            $data['common_name'] ?? null,
-            $data['synonym'] ?? null,
-            $data['title'] ?? null
-        ]);
-
-        return ['id' => $this->pdo->lastInsertId()];
-    }
-
-    /**
      * Maneja el registro de un nuevo usuario
      * 
      * @param array $data Datos del usuario a registrar

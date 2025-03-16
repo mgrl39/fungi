@@ -372,8 +372,8 @@ class FungiController
             ];
         }
         
-        // Validar campos obligatorios
-        $requiredFields = ['name'];
+        // Validar campos obligatorios (actualizados para coincidir con createFungi)
+        $requiredFields = ['name', 'edibility', 'habitat'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field]) || empty($data[$field])) {
                 return [

@@ -8,6 +8,7 @@ use App\Config\ErrorMessages;
 use App\Controllers\Api\ApiInfoController;
 use App\Controllers\Api\ApiAuthController;
 use App\Controllers\Api\ApiPostController;
+use App\Controllers\DocsController;
 
 /**
  * @class ApiController
@@ -67,7 +68,7 @@ class ApiController
 		if (substr($endpoint, 0, 1) !== '/') $endpoint = '/' . $endpoint;
 		$endpoint = ltrim($endpoint, '/');
 
-		if ($endpoint === '/' || $endpoint === '') return ApiInfoController::show();
+		if ($endpoint === '/' || $endpoint === '') return DocsController::show();
 		try {
 			switch ($method) {
 			case 'GET':
@@ -259,7 +260,51 @@ class ApiController
 			echo json_encode($result);
 			return;
 		}
-		if ($endpoint === 'fungi') $result = $apiPostController->createFungi($data);
+		
+		// Para el endpoint de creación de hongos, usar FungiController
+		if ($endpoint === 'fungi') {
+			// Instanciar el controlador de hongos
+			$fungiController = new \App\Controllers\FungiController($this->db);
+			
+			// Verificar autenticación
+			$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+			$token = null;
+			$user = null;
+			
+			// Verificar token de sesión o JWT
+			if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+				$token = $matches[1];
+				$payload = $apiAuthController->verifyJwtToken($token);
+				if ($payload) {
+					$user = [
+						'id' => $payload['sub'] ?? $payload['user_id'],
+						'username' => $payload['username'],
+						'role' => $payload['role']
+					];
+				}
+			} else if (isset($_SESSION['user_id'])) {
+				// Usar sesión PHP si existe
+				$user = [
+					'id' => $_SESSION['user_id'],
+					'username' => $_SESSION['username'] ?? 'Usuario',
+					'role' => $_SESSION['role'] ?? 'user'
+				];
+			}
+			
+			// Llamar a addFungi con los datos y el usuario
+			$result = $fungiController->addFungi($data, $user);
+			
+			// Establecer código de estado HTTP basado en el resultado
+			if (!$result['success']) {
+				if (strpos($result['error'], 'permisos') !== false) {
+					http_response_code(403);
+				} else if (strpos($result['error'], 'obligatorio') !== false) {
+					http_response_code(400);
+				} else {
+					http_response_code(500);
+				}
+			}
+		}
 		elseif ($endpoint === 'users') $result = $apiPostController->registerUser($data);
 		elseif ($endpoint === 'auth/logout') $result = $apiPostController->handleLogout();
 		elseif ($endpoint === 'auth/login') {
