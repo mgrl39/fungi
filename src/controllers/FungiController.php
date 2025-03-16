@@ -35,10 +35,7 @@ class FungiController
      */
     public function likeFungi($userId, $fungiId)
     {
-        return $this->db->query(
-            "INSERT INTO user_likes (user_id, fungi_id) VALUES (?, ?)",
-            [$userId, $fungiId]
-        );
+        return $this->db->query("INSERT INTO user_likes (user_id, fungi_id) VALUES (?, ?)", [$userId, $fungiId]);
     }
 
     /**
@@ -51,10 +48,7 @@ class FungiController
      */
     public function unlikeFungi($userId, $fungiId)
     {
-        return $this->db->query(
-            "DELETE FROM user_likes WHERE user_id = ? AND fungi_id = ?",
-            [$userId, $fungiId]
-        );
+        return $this->db->query("DELETE FROM user_likes WHERE user_id = ? AND fungi_id = ?", [$userId, $fungiId]);
     }
 
     /**
@@ -67,10 +61,7 @@ class FungiController
      */
     private function updateFungiLikes($fungiId, $increment)
     {
-        return $this->db->query(
-            "UPDATE fungi_popularity SET likes = likes + ? WHERE fungi_id = ?",
-            [$increment, $fungiId]
-        );
+        return $this->db->query("UPDATE fungi_popularity SET likes = likes + ? WHERE fungi_id = ?", [$increment, $fungiId]);
     }
 
     /**
@@ -82,12 +73,7 @@ class FungiController
      */
     public function incrementFungiViews($fungiId)
     {
-        return $this->db->query(
-            "INSERT INTO fungi_popularity (fungi_id, views, likes) 
-             VALUES (?, 1, 0) 
-             ON DUPLICATE KEY UPDATE views = views + 1",
-            [$fungiId]
-        );
+        return $this->db->query("INSERT INTO fungi_popularity (fungi_id, views, likes) VALUES (?, 1, 0) ON DUPLICATE KEY UPDATE views = views + 1", [$fungiId]);
     }
 
     /**
@@ -100,10 +86,7 @@ class FungiController
      */
     public function hasUserLikedFungi($userId, $fungiId)
     {
-        $result = $this->db->query(
-            "SELECT 1 FROM user_likes WHERE user_id = ? AND fungi_id = ?",
-            [$userId, $fungiId]
-        );
+        $result = $this->db->query("SELECT 1 FROM user_likes WHERE user_id = ? AND fungi_id = ?", [$userId, $fungiId]);
         return !empty($result);
     }
 
@@ -117,9 +100,7 @@ class FungiController
      */
     public function getFungusWithLikeStatus($fungus, $userId)
     {
-        if ($fungus && $userId) {
-            $fungus['is_liked'] = $this->hasUserLikedFungi($userId, $fungus['id']);
-        }
+        if ($fungus && $userId) $fungus['is_liked'] = $this->hasUserLikedFungi($userId, $fungus['id']);
         return $fungus;
     }
     
@@ -131,29 +112,14 @@ class FungiController
      */
     public function getFungusById($id)
     {
-        $result = $this->db->query(
-            "SELECT * FROM fungi WHERE id = ? LIMIT 1",
-            [$id]
-        );
+        $result = $this->db->query("SELECT * FROM fungi WHERE id = ? LIMIT 1", [$id]);
         
-        // Si el resultado es un objeto PDOStatement, convertirlo a array
-        if ($result instanceof \PDOStatement) {
-            $fungus = $result->fetch(\PDO::FETCH_ASSOC) ?: null;
-        } else {
-            // Si ya es un array con índices numéricos (múltiples filas)
-            if (is_array($result) && !empty($result) && isset($result[0])) {
-                $fungus = $result[0];
-            } else {
-                // Si ya es un array asociativo simple o está vacío
-                $fungus = $result ?: null;
-            }
+        if ($result instanceof \PDOStatement) $fungus = $result->fetch(\PDO::FETCH_ASSOC) ?: null;
+        else {
+            if (is_array($result) && !empty($result) && isset($result[0])) $fungus = $result[0];
+            else $fungus = $result;
         }
-        
-        // Obtener las imágenes relacionadas
-        if ($fungus) {
-            $fungus = $this->loadFungusImages($fungus);
-        }
-        
+        if ($fungus) $fungus = $this->loadFungusImages($fungus);
         return $fungus;
     }
 
@@ -168,14 +134,9 @@ class FungiController
         $randomResult = $this->db->query($query);
         
         // Procesar el resultado según el tipo de retorno de la DB
-        if ($randomResult instanceof \PDOStatement) {
-            $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
-        } else if (is_array($randomResult) && !empty($randomResult)) {
-            // Si ya es un array (quizás el método query ya procesa el resultado)
-            $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
-        } else {
-            $fungus = null;
-        }
+        if ($randomResult instanceof \PDOStatement) $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
+        else if (is_array($randomResult) && !empty($randomResult)) $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
+        else $fungus = null;
         
         if ($fungus) {
             // Incrementar el contador de vistas para este hongo
@@ -212,11 +173,8 @@ class FungiController
         
         // Si hay resultados, procesarlos
         if ($imagesResult) {
-            if ($imagesResult instanceof \PDOStatement) {
-                $images = $imagesResult->fetchAll(\PDO::FETCH_ASSOC);
-            } else {
-                $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];
-            }
+            if ($imagesResult instanceof \PDOStatement) $images = $imagesResult->fetchAll(\PDO::FETCH_ASSOC);
+            else $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];
             
             foreach ($images as $image) {
                 // Construir la URL completa de la imagen basada en la config_key

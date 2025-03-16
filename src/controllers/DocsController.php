@@ -2,6 +2,13 @@
 
 namespace App\Controllers;
 
+/**
+ * @brief Controlador de documentación de la API
+ * 
+ * Maneja la solicitud de documentación de la API
+ * 
+ * @author mgrl39
+ */
 class DocsController
 {
     protected $db;
@@ -21,43 +28,26 @@ class DocsController
 
     /**
      * Maneja la solicitud de documentación de la API
+     * Obtener la documentación de la API directamente desde el endpoint /api
+     * Configurar opciones para la petición con timeout de 3 segundos
+     * Si hay un error al obtener los datos, usar información básica
      * 
      * @return array Datos para la plantilla
      */
     public function apiDocsHandler()
     {
-        // Obtener la documentación de la API directamente desde el endpoint /api
         $apiUrl = $this->getBaseUrl() . '/api';
-        
-        // Configurar opciones para la petición
-        $context = stream_context_create([
-            'http' => [
-                'timeout' => 3, // Timeout de 3 segundos
-                'ignore_errors' => true
-            ]
-        ]);
-        
+        $context = stream_context_create(['http' => ['timeout' => 3, 'ignore_errors' => true]]);
         $apiResponse = @file_get_contents($apiUrl, false, $context);
         $apiDocs = json_decode($apiResponse, true);
-
-        // Si hay un error al obtener los datos, usar información básica
         if (!$apiDocs) {
-            $apiDocs = [
-                'api_version' => 'v1',
-                'available_endpoints' => [
-                    'Error' => ['GET /api' => 'No se pudo obtener la documentación de la API. Por favor, intente más tarde.']
-                ]
-            ];
+            $apiDocs = [ 'api_version' => 'v1', 'available_endpoints' => [ 'Error' => ['GET /api' => 'No se pudo obtener la documentación de la API. Por favor, intente más tarde.'] ] ];
         }
-        
-        return [
-            'title' => _('Documentación de la API'),
-            'api_docs' => $apiDocs
-        ];
+        return [ 'title' => _('Documentación de la API'), 'api_docs' => $apiDocs ];
     }
 
     /**
-     * Obtiene la URL base del sitio
+     * Obtiene la URL base del sitio construyendo la URL a partir del protocolo y host
      * 
      * @return string URL base
      */
