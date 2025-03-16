@@ -183,6 +183,7 @@ class SessionController {
         $signature = hash_hmac('sha256', "$headerEncoded.$payloadEncoded", $secretKey, true);
         $signatureCheck = $this->base64URLEncode($signature);
         if ($signatureCheck !== $signatureEncoded) return false;
+        
         // Verificar expiración
         $payload = json_decode($this->base64URLDecode($payloadEncoded), true);
         if (!$payload || !isset($payload['exp'])) return false;
@@ -213,25 +214,12 @@ class SessionController {
      * @return array|null Datos del usuario o null si no hay sesión
      */
     public function getUserData() {
-        if (!$this->isLoggedIn()) {
-            return null;
-        }
-        
+        if (!$this->isLoggedIn()) return null;
         try {
-            $sql = "SELECT id, username, email, role, created_at 
-                    FROM users 
-                    WHERE id = :user_id";
-            
+            $sql = "SELECT id, username, email, role, created_at FROM users WHERE id = :user_id";
             $stmt = $this->db->query($sql, [':user_id' => $_SESSION['user_id']]);
-            
-            // Verificar si la consulta fue exitosa
-            if ($stmt === false) {
-                throw new \PDOException("La consulta falló");
-            }
-            
+            if ($stmt === false) throw new \PDOException("La consulta falló");
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
-            // Si no se encontró el usuario, devolver información básica de la sesión
             if (!$user && isset($_SESSION['user_id'])) {
                 return [
                     'id' => $_SESSION['user_id'],
