@@ -119,13 +119,13 @@ $routeController = new \App\Controllers\RouteController($twig, $db, $session, [
 
 // Definir rutas
 $routes = [
+    '/home' => ['template' => null, 'redirect' => '/'],
     '/index' => ['template' => 'pages/home.twig', 'redirect' => '/'],
     '/about' => ['template' => 'pages/about.twig', 'title' => _('Acerca de'), 'auth_required' => false],
     '/404' => ['template' => 'pages/404.twig', 'title' => _('Página no encontrada'), 'auth_required' => false],
     '/random' => ['template' => null, 'redirect' => '/fungi/random'],
     '/profile/([^/]+)' => [ 'redirect' => '/profile' ],
     '/profile' => ['template' => 'pages/profile.twig', 'auth_required' => true, 'handler' => [$userController, 'profileHandler']],
-    '/home' => ['template' => null, 'redirect' => '/'],
     '/docs/api' => ['template' => 'pages/api/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
     '/change-language' => ['handler' => [$langController, 'changeLanguage']],
     '/register' => ['template' => 'components/auth/register_form.twig', 'auth_required' => false, 'handler' => [$authController, 'registerHandler']],
@@ -246,16 +246,11 @@ if (preg_match('#^/api#', $uri)) {
     ob_clean(); // Limpia el buffer de salida
     header('Content-Type: application/json');
     
-    if (class_exists('\App\Controllers\Api\ApiRequestHandler')) {
-        $db = new \App\Controllers\DatabaseController();
-        $apiHandler = new \App\Controllers\Api\ApiRequestHandler($db);
-        $apiHandler->handleRequest();
-    } else if (class_exists('\App\Controllers\ApiController')) {
-        // Fallback al controlador original si el nuevo no está disponible
-        $apiController = new \App\Controllers\ApiController($db);
-        $apiController->handleRequest();
-    } else {
-        echo json_encode(['error' => 'API no implementada']);
-    }
+    // Usar directamente el ApiController existente
+    $apiController = new \App\Controllers\ApiController($db);
+    $apiController->handleRequest();
     exit;
-} else $routeController->handleRequest($uri);
+} else {
+    // Procesar la ruta actual
+    $routeController->handleRequest($uri);
+}
