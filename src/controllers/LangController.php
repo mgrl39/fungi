@@ -2,15 +2,24 @@
 
 namespace App\Controllers;
 
+/**
+ * @brief Controlador para la gestión de idiomas de la aplicación
+ * 
+ * @details Esta clase maneja todos los aspectos relacionados con la 
+ * localización e internacionalización, incluyendo la detección de idioma,
+ * configuración de locales y carga de dominios de traducción.
+ */
 class LangController
 {
     /**
-     * Lista de idiomas soportados por la aplicación
+     * @brief Lista de idiomas soportados por la aplicación
+     * @var array
      */
     private $supportedLanguages = ['es', 'en', 'ca'];
     
     /**
-     * Mapeo de códigos de idioma a locales de sistema
+     * @brief Mapeo de códigos de idioma a locales de sistema
+     * @var array
      */
     private $localeMap = [
         'es' => 'es_ES',
@@ -19,12 +28,15 @@ class LangController
     ];
     
     /**
-     * Directorio donde se almacenan las traducciones
+     * @brief Directorio donde se almacenan las traducciones
+     * @var string
      */
     private $localeDir;
     
     /**
-     * Constructor del controlador de idioma
+     * @brief Constructor del controlador de idioma
+     * 
+     * @details Inicializa el directorio de traducciones
      */
     public function __construct()
     {
@@ -32,7 +44,7 @@ class LangController
     }
     
     /**
-     * Obtiene la lista de idiomas soportados
+     * @brief Obtiene la lista de idiomas soportados
      * 
      * @return array Lista de idiomas soportados
      */
@@ -42,10 +54,11 @@ class LangController
     }
     
     /**
-     * Verifica si un idioma está soportado
+     * @brief Verifica si un idioma está soportado
      * 
      * @param string $lang Código del idioma a verificar
-     * @return bool True si el idioma está soportado, false en caso contrario
+     * 
+     * @return bool TRUE si el idioma está soportado, FALSE en caso contrario
      */
     public function isLanguageSupported($lang)
     {
@@ -53,8 +66,9 @@ class LangController
     }
     
     /**
-     * Inicializa el idioma de la aplicación
-     * Detecta y configura el idioma actual según prioridad:
+     * @brief Inicializa el idioma de la aplicación
+     * 
+     * @details Detecta y configura el idioma actual según prioridad:
      * 1. Parámetro GET 'lang'
      * 2. Sesión
      * 3. Cookie
@@ -75,9 +89,10 @@ class LangController
     }
     
     /**
-     * Configura el entorno local (gettext) para el idioma seleccionado
+     * @brief Configura el entorno local (gettext) para el idioma seleccionado
      * 
      * @param string $lang Código del idioma a configurar
+     * 
      * @return void
      */
     public function configureLocale($lang)
@@ -106,9 +121,10 @@ class LangController
     }
     
     /**
-     * Carga un dominio de texto adicional para gettext
+     * @brief Carga un dominio de texto adicional para gettext
      * 
      * @param string $domain Nombre del dominio de texto
+     * 
      * @return bool Éxito de la operación
      */
     public function loadTextDomain($domain)
@@ -131,10 +147,11 @@ class LangController
     }
     
     /**
-     * Obtiene un texto traducido de un dominio específico
+     * @brief Obtiene un texto traducido de un dominio específico
      * 
      * @param string $text Texto a traducir
-     * @param string $domain Dominio de texto
+     * @param string $domain Dominio de texto (predeterminado='messages')
+     * 
      * @return string Texto traducido
      */
     public function gettext($text, $domain = 'messages')
@@ -149,9 +166,12 @@ class LangController
     }
     
     /**
-     * Cambia el idioma de la aplicación
+     * @brief Cambia el idioma de la aplicación
      * 
-     * @return array Respuesta con el resultado del cambio de idioma
+     * @details Guarda la preferencia de idioma en sesión y cookie
+     * y maneja tanto peticiones AJAX como redirecciones normales
+     * 
+     * @return array|void Respuesta JSON para AJAX o redirección para peticiones normales
      */
     public function changeLanguage()
     {

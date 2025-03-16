@@ -1,15 +1,36 @@
 <?php
 namespace App\Controllers;
 
+/**
+ * @brief Controlador para la gestión de sesiones de usuario
+ * 
+ * @details Esta clase maneja la autenticación y estado de sesión de los usuarios,
+ * incluyendo la verificación mediante sesiones PHP, cookies regulares y tokens JWT.
+ */
 class SessionController {
+    /**
+     * @var DatabaseController $db Instancia del controlador de base de datos
+     */
     private $db;
 
+    /**
+     * @brief Constructor del controlador de sesiones
+     * 
+     * @param DatabaseController $db Instancia del controlador de base de datos
+     */
     public function __construct(DatabaseController $db) {
         $this->db = $db;
     }
 
     /**
-     * Verifica si el usuario tiene sesión activa
+     * @brief Verifica si el usuario tiene sesión activa
+     * 
+     * @details Comprueba el estado de la sesión del usuario utilizando diferentes métodos:
+     * - Sesión PHP activa
+     * - Token en cookie
+     * - JWT en cookie
+     * 
+     * @return bool TRUE si el usuario está autenticado, FALSE en caso contrario
      */
     public function isLoggedIn() {
         if (session_status() === PHP_SESSION_NONE) {
@@ -25,19 +46,39 @@ class SessionController {
     }
 
     /**
-     * Codifica en Base64 URL seguro
+     * @brief Codifica en Base64 URL seguro
+     * 
+     * @details Transforma un string codificado en Base64 para que sea seguro en URLs
+     * reemplazando los caracteres '+' por '-', '/' por '_' y eliminando '='
+     * 
+     * @param string $data Datos a codificar
+     * 
+     * @return string Datos codificados en Base64 URL seguro
      */
     private function base64URLEncode($data) {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
     /**
-     * Obtiene la clave secreta para JWT
+     * @brief Obtiene la clave secreta para JWT
+     * 
+     * @details Recupera la clave secreta de las variables de entorno o devuelve
+     * una clave por defecto si no está configurada
+     * 
+     * @return string Clave secreta para firmar/verificar tokens JWT
      */
     private function getSecretKey() {
         return $_ENV['JWT_SECRET'] ?? 'mi_clave_secreta_por_defecto';
     }
 
+    /**
+     * @brief Verifica la autenticación mediante cookie de token
+     * 
+     * @details Comprueba si existe una cookie de token válida y autentica al usuario
+     * utilizando los datos almacenados en la base de datos
+     * 
+     * @return bool TRUE si la autenticación fue exitosa, FALSE en caso contrario
+     */
     public function verifyTokenCookie() {
         if (!isset($_COOKIE['token'])) {
             return false;
@@ -74,6 +115,14 @@ class SessionController {
         }
     }
 
+    /**
+     * @brief Verifica la autenticación mediante cookie JWT
+     * 
+     * @details Comprueba si existe una cookie JWT válida, verifica su firma, expiración
+     * y autentica al usuario utilizando los datos almacenados en la base de datos
+     * 
+     * @return bool TRUE si la autenticación fue exitosa, FALSE en caso contrario
+     */
     public function verifyJWTCookie() {
         if (!isset($_COOKIE['jwt'])) {
             return false;
@@ -120,6 +169,16 @@ class SessionController {
         }
     }
 
+    /**
+     * @brief Verifica la validez de un token JWT
+     * 
+     * @details Comprueba la estructura, firma y expiración de un token JWT
+     * 
+     * @param string $jwt Token JWT a verificar
+     * @param string $secretKey Clave secreta para verificar la firma
+     * 
+     * @return bool TRUE si el token es válido, FALSE en caso contrario
+     */
     public function verifyJWT($jwt, $secretKey) {
         $tokenParts = explode('.', $jwt);
         
@@ -151,12 +210,26 @@ class SessionController {
         return true;
     }
 
+    /**
+     * @brief Decodifica un string en Base64 URL seguro
+     * 
+     * @details Transforma un string en Base64 URL seguro a Base64 estándar
+     * y lo decodifica
+     * 
+     * @param string $data Datos codificados en Base64 URL seguro
+     * 
+     * @return string Datos decodificados
+     */
     private function base64URLDecode($data) {
         return base64_decode(strtr($data, '-_', '+/'));
     }
 
     /**
-     * Obtiene los datos del usuario actual de la sesión
+     * @brief Obtiene los datos del usuario actual de la sesión
+     * 
+     * @details Recupera la información completa del usuario desde la base de datos
+     * utilizando el ID almacenado en la sesión
+     * 
      * @return array|null Datos del usuario o null si no hay sesión
      */
     public function getUserData() {
@@ -205,9 +278,12 @@ class SessionController {
     }
 
     /**
-     * Verifica si el usuario actual tiene permisos de administrador
+     * @brief Verifica si el usuario actual tiene permisos de administrador
      * 
-     * @return bool True si el usuario es administrador, false en caso contrario
+     * @details Comprueba si el rol del usuario en sesión o en la base de datos
+     * corresponde a un administrador
+     * 
+     * @return bool TRUE si el usuario es administrador, FALSE en caso contrario
      */
     public function isAdmin() {
         if (!$this->isLoggedIn()) {

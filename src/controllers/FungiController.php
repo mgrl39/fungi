@@ -4,15 +4,35 @@ namespace App\Controllers;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+/**
+ * @brief Controlador para la gestión de hongos (fungi) en la aplicación
+ * 
+ * @details Esta clase maneja las operaciones relacionadas con los hongos,
+ * incluyendo likes, vistas y consultas de información
+ */
 class FungiController
 {
+    /** @var object $db Instancia del controlador de base de datos */
     private $db;
 
+    /**
+     * @brief Constructor de la clase FungiController
+     * 
+     * @param object $db Instancia del controlador de base de datos
+     */
     public function __construct($db)
     {
         $this->db = $db;
     }
 
+    /**
+     * @brief Registra que un usuario ha dado like a un hongo
+     * 
+     * @param int $userId ID del usuario
+     * @param int $fungiId ID del hongo
+     * 
+     * @return mixed Resultado de la consulta a la base de datos
+     */
     public function likeFungi($userId, $fungiId)
     {
         return $this->db->query(
@@ -21,6 +41,14 @@ class FungiController
         );
     }
 
+    /**
+     * @brief Elimina el like de un usuario a un hongo
+     * 
+     * @param int $userId ID del usuario
+     * @param int $fungiId ID del hongo
+     * 
+     * @return mixed Resultado de la consulta a la base de datos
+     */
     public function unlikeFungi($userId, $fungiId)
     {
         return $this->db->query(
@@ -29,6 +57,14 @@ class FungiController
         );
     }
 
+    /**
+     * @brief Actualiza el contador de likes de un hongo
+     * 
+     * @param int $fungiId ID del hongo
+     * @param int $increment Valor de incremento (positivo) o decremento (negativo)
+     * 
+     * @return mixed Resultado de la consulta a la base de datos
+     */
     private function updateFungiLikes($fungiId, $increment)
     {
         return $this->db->query(
@@ -37,6 +73,13 @@ class FungiController
         );
     }
 
+    /**
+     * @brief Incrementa el contador de vistas de un hongo
+     * 
+     * @param int $fungiId ID del hongo
+     * 
+     * @return mixed Resultado de la consulta a la base de datos
+     */
     public function incrementFungiViews($fungiId)
     {
         return $this->db->query(
@@ -47,6 +90,14 @@ class FungiController
         );
     }
 
+    /**
+     * @brief Verifica si un usuario ha dado like a un hongo
+     * 
+     * @param int $userId ID del usuario
+     * @param int $fungiId ID del hongo
+     * 
+     * @return bool TRUE si el usuario ha dado like, FALSE en caso contrario
+     */
     public function hasUserLikedFungi($userId, $fungiId)
     {
         $result = $this->db->query(
@@ -56,6 +107,14 @@ class FungiController
         return !empty($result);
     }
 
+    /**
+     * @brief Añade el estado de like de un usuario a la información de un hongo
+     * 
+     * @param array $fungus Datos del hongo
+     * @param int $userId ID del usuario
+     * 
+     * @return array Datos del hongo con el estado de like añadido
+     */
     public function getFungusWithLikeStatus($fungus, $userId)
     {
         if ($fungus && $userId) {

@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Config\ErrorMessages;
+
 /**
  * @class UserController
  * @brief Controlador para gestionar operaciones relacionadas con usuarios
@@ -10,12 +12,19 @@ namespace App\Controllers;
  * incluyendo perfiles, preferencias y administración de usuarios.
  */
 class UserController {
+    /**
+     * @var DatabaseController $db Instancia del controlador de base de datos
+     */
     private $db;
+    
+    /**
+     * @var SessionController $session Instancia del controlador de sesiones
+     */
     private $session;
     private $auth;
     
     /**
-     * Constructor del controlador de usuarios
+     * @brief Constructor del controlador de usuarios
      * 
      * @param DatabaseController $db Instancia del controlador de base de datos
      * @param SessionController $session Instancia del controlador de sesiones
@@ -28,7 +37,9 @@ class UserController {
     }
     
     /**
-     * Maneja la visualización y edición del perfil del usuario
+     * @brief Maneja la visualización y edición del perfil del usuario
+     * 
+     * @details Permite al usuario modificar datos como nombre, biografía, imagen, etc.
      * 
      * @param array $params Parámetros de la solicitud
      * @return array Datos para la plantilla
@@ -65,7 +76,9 @@ class UserController {
     }
     
     /**
-     * Valida los datos de actualización de perfil
+     * @brief Valida los datos de actualización de perfil
+     * 
+     * @details Verifica que los datos ingresados sean válidos para actualizar el perfil del usuario.
      * 
      * @param array $data Datos del formulario
      * @return array Errores de validación encontrados
@@ -85,7 +98,9 @@ class UserController {
     }
     
     /**
-     * Actualiza el perfil del usuario en la base de datos
+     * @brief Actualiza el perfil del usuario en la base de datos
+     * 
+     * @details Actualiza los datos del usuario en la base de datos según los datos proporcionados.
      * 
      * @param int $userId ID del usuario
      * @param array $data Datos a actualizar
@@ -122,7 +137,7 @@ class UserController {
     }
     
     /**
-     * Maneja la página de administración de usuarios
+     * @brief Maneja la página de administración de usuarios
      * 
      * @return array Datos para la plantilla
      */
@@ -143,7 +158,7 @@ class UserController {
     }
     
     /**
-     * Obtiene todos los usuarios de la base de datos
+     * @brief Obtiene todos los usuarios de la base de datos
      * 
      * @return array Lista de usuarios
      */
@@ -156,5 +171,113 @@ class UserController {
             error_log("Error al obtener usuarios: " . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * @brief Registra un nuevo usuario en el sistema
+     * 
+     * @details Valida los datos de entrada, verifica que el email y username no existan,
+     * y crea un nuevo registro de usuario con la contraseña hasheada.
+     * 
+     * @param string $username Nombre de usuario
+     * @param string $email Correo electrónico
+     * @param string $password Contraseña en texto plano
+     * @param string $confirmPassword Confirmación de contraseña
+     * 
+     * @return array Resultado de la operación con estado y mensaje
+     */
+    public function register($username, $email, $password, $confirmPassword) {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Autentica a un usuario en el sistema
+     * 
+     * @details Verifica las credenciales del usuario contra la base de datos,
+     * e inicia sesión si son correctas.
+     * 
+     * @param string $email Correo electrónico
+     * @param string $password Contraseña
+     * @param bool $remember Indica si se debe mantener la sesión (cookie persistente)
+     * 
+     * @return array Resultado de la operación con estado y mensaje
+     */
+    public function login($email, $password, $remember = false) {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Cierra la sesión del usuario actual
+     * 
+     * @details Elimina todos los datos de sesión y cookies relacionadas con la autenticación
+     * 
+     * @return bool TRUE si la operación fue exitosa
+     */
+    public function logout() {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Actualiza la información del perfil de usuario
+     * 
+     * @details Permite al usuario modificar datos como nombre, biografía, imagen, etc.
+     * 
+     * @param int $userId ID del usuario
+     * @param array $data Datos a actualizar en formato clave-valor
+     * 
+     * @return array Resultado de la operación con estado y mensaje
+     */
+    public function updateProfile($userId, $data) {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Cambia la contraseña de un usuario
+     * 
+     * @details Verifica la contraseña actual y actualiza a la nueva contraseña
+     * 
+     * @param int $userId ID del usuario
+     * @param string $currentPassword Contraseña actual
+     * @param string $newPassword Nueva contraseña
+     * @param string $confirmPassword Confirmación de nueva contraseña
+     * 
+     * @return array Resultado de la operación con estado y mensaje
+     */
+    public function changePassword($userId, $currentPassword, $newPassword, $confirmPassword) {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Obtiene la información de un usuario por ID
+     * 
+     * @param int $userId ID del usuario
+     * @param bool $includePrivate Indica si se deben incluir datos privados
+     * 
+     * @return array|null Datos del usuario o null si no existe
+     */
+    public function getUserById($userId, $includePrivate = false) {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Verifica si un email ya está registrado
+     * 
+     * @param string $email Correo electrónico a verificar
+     * 
+     * @return bool TRUE si el email existe, FALSE en caso contrario
+     */
+    public function emailExists($email) {
+        // ... existing code ...
+    }
+
+    /**
+     * @brief Verifica si un nombre de usuario ya está registrado
+     * 
+     * @param string $username Nombre de usuario a verificar
+     * 
+     * @return bool TRUE si el username existe, FALSE en caso contrario
+     */
+    public function usernameExists($username) {
+        // ... existing code ...
     }
 } 
