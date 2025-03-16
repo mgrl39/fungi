@@ -138,16 +138,23 @@ class FungiController
         
         // Si el resultado es un objeto PDOStatement, convertirlo a array
         if ($result instanceof \PDOStatement) {
-            return $result->fetch(\PDO::FETCH_ASSOC) ?: null;
+            $fungus = $result->fetch(\PDO::FETCH_ASSOC) ?: null;
+        } else {
+            // Si ya es un array con índices numéricos (múltiples filas)
+            if (is_array($result) && !empty($result) && isset($result[0])) {
+                $fungus = $result[0];
+            } else {
+                // Si ya es un array asociativo simple o está vacío
+                $fungus = $result ?: null;
+            }
         }
         
-        // Si el resultado es un array con índices numéricos (múltiples filas)
-        if (is_array($result) && !empty($result) && isset($result[0])) {
-            return $result[0];
+        // Obtener las imágenes relacionadas
+        if ($fungus) {
+            $fungus = $this->loadFungusImages($fungus);
         }
         
-        // Si ya es un array asociativo simple o está vacío
-        return $result ?: null;
+        return $fungus;
     }
 
     /**
@@ -174,11 +181,82 @@ class FungiController
             // Incrementar el contador de vistas para este hongo
             $this->incrementFungiViews($fungus['id']);
             
+            // Cargar las imágenes relacionadas
+            $fungus = $this->loadFungusImages($fungus);
+            
             // Registrar para depuración
             error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
         }
         
         return $fungus;
+    }
+    
+    /**
+     * @brief Carga las imágenes relacionadas con un hongo desde la tabla de relaciones
+     * 
+     * @param array $fungus Datos del hongo
+     * @return array Datos del hongo con las URLs de imágenes añadidas
+     */
+    private function loadFungusImages($fungus)
+    {
+        // Consultar las imágenes relacionadas a través de la tabla de relación
+        $imagesResult = $this->db->query(
+            "SELECT i.filename, i.config_key 
+             FROM images i 
+             JOIN fungi_images fi ON i.id = fi.image_id 
+             WHERE fi.fungi_id = ?",
+            [$fungus['id']]
+        );
+        
+        $imageUrls = [];
+        
+        // Si hay resultados, procesarlos
+        if ($imagesResult) {
+            if ($imagesResult instanceof \PDOStatement) {
+                $images = $imagesResult->fetchAll(\PDO::FETCH_ASSOC);
+            } else {
+                $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];
+            }
+            
+            foreach ($images as $image) {
+                // Construir la URL completa de la imagen basada en la config_key
+                $basePath = $this->getImageBasePath($image['config_key']);
+                $imageUrls[] = $basePath . '/' . $image['filename'];
+            }
+        }
+        
+        // Si no hay imágenes, usar una por defecto
+        if (empty($imageUrls)) {
+            $imageUrls[] = '/assets/images/placeholder.jpg';
+            error_log("No se encontraron imágenes para el hongo ID: " . $fungus['id']);
+        }
+        
+        // Guardar las URLs como una cadena separada por comas (para mantener compatibilidad)
+        $fungus['image_urls'] = implode(',', $imageUrls);
+        
+        // Para depuración
+        error_log("URLs de imágenes para hongo ID " . $fungus['id'] . ": " . $fungus['image_urls']);
+        
+        return $fungus;
+    }
+    
+    /**
+     * @brief Obtiene la ruta base para las imágenes según la clave de configuración
+     * 
+     * @param string $configKey Clave de configuración
+     * @return string Ruta base para las imágenes
+     */
+    private function getImageBasePath($configKey)
+    {
+        // Mapeo de claves de configuración a rutas base
+        $pathMap = [
+            'fungi_upload_path' => '/assets/images',
+            'user_upload_path' => '/assets/images/users',
+            'system_images' => '/assets/images/system'
+        ];
+        
+        // Devolver la ruta correspondiente o una ruta predeterminada
+        return $pathMap[$configKey] ?? '/assets/images';
     }
     
     /**
