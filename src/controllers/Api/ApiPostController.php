@@ -22,12 +22,10 @@ class ApiPostController
      * Constructor del controlador
      * 
      * @param \PDO $pdo Conexión PDO a la base de datos
-     * @param \App\Models\DatabaseModel $db Modelo de base de datos
      */
-    public function __construct($pdo, $db)
+    public function __construct($pdo)
     {
         $this->pdo = $pdo;
-        $this->db = $db;
     }
 
     /**

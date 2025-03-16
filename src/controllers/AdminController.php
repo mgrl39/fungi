@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 /**
  * @class AdminController
  * @brief Controlador para funciones administrativas

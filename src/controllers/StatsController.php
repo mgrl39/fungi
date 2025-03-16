@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 /**
  * @class StatsController
  * @brief Controlador para generar estadísticas de hongos
@@ -85,8 +83,7 @@ class StatsController
                  FROM fungi
                  $timeCondition
                  GROUP BY edibility
-                 ORDER BY count DESC",
-                []
+                 ORDER BY count DESC"
             );
             
             if ($result === false) {
@@ -118,8 +115,7 @@ class StatsController
              WHERE t.family IS NOT NULL 
              GROUP BY t.family 
              ORDER BY count DESC 
-             LIMIT 10",
-            []
+             LIMIT 10"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -138,8 +134,7 @@ class StatsController
              JOIN fungi_popularity fp ON f.id = fp.fungi_id 
              $timeCondition
              ORDER BY fp.views DESC 
-             LIMIT 10",
-            []
+             LIMIT 10"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -157,8 +152,7 @@ class StatsController
              FROM taxonomy 
              WHERE division IS NOT NULL 
              GROUP BY division 
-             ORDER BY count DESC",
-            []
+             ORDER BY count DESC"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -177,8 +171,7 @@ class StatsController
              WHERE class IS NOT NULL 
              GROUP BY class 
              ORDER BY count DESC 
-             LIMIT 10",
-            []
+             LIMIT 10"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -197,8 +190,7 @@ class StatsController
              WHERE ordo IS NOT NULL 
              GROUP BY ordo 
              ORDER BY count DESC 
-             LIMIT 10",
-            []
+             LIMIT 10"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 
@@ -223,8 +215,7 @@ class StatsController
              FROM access_logs
              WHERE access_time >= DATE_SUB(NOW(), INTERVAL $interval)
              GROUP BY action, date
-             ORDER BY date ASC",
-            []
+             ORDER BY date ASC"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 

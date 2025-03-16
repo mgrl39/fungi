@@ -115,7 +115,7 @@ class ApiController
 		// Verificar si hay un token Bearer en el encabezado
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
-			$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+			$apiAuthController = new ApiAuthController($this->pdo, $this->db);
 			$user = $apiGetController->verifyAuthToken($token, [$apiAuthController, 'verifyJwtToken']);
 		}
 		
@@ -202,8 +202,8 @@ class ApiController
 	private function handlePost($endpoint)
 	{
 		// Crea una instancia del controlador de POST
-		$apiPostController = new \App\Controllers\Api\ApiPostController($this->pdo, $this->db);
-		$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+		$apiPostController = new ApiPostController($this->pdo, $this->db);
+		$apiAuthController = new ApiAuthController($this->pdo, $this->db);
 		
 		// Datos de la solicitud
 		$data = json_decode(file_get_contents('php://input'), true);
@@ -290,13 +290,13 @@ class ApiController
 	private function handlePut($endpoint)
 	{
 		// Crear instancia del controlador PUT
-		$apiPutController = new \App\Controllers\Api\ApiPutController($this->pdo, $this->db);
+		$apiPutController = new ApiPutController($this->pdo, $this->db);
 		
 		// Verificar autenticación
 		$authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
 		$token = null;
 		$user = null;
-		$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+		$apiAuthController = new ApiAuthController($this->pdo, $this->db);
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
 			$payload = $apiAuthController->verifyJwtToken($token);
@@ -364,7 +364,7 @@ class ApiController
 		// Verificar token de sesión o JWT
 		if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
 			$token = $matches[1];
-			$apiAuthController = new \App\Controllers\Api\ApiAuthController($this->pdo, $this->db);
+			$apiAuthController = new ApiAuthController($this->pdo, $this->db);
 			$payload = $apiAuthController->verifyJwtToken($token);
 			if ($payload) {
 				$user = [
