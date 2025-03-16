@@ -51,9 +51,34 @@ class UserController {
             exit;
         }
         
+        $userId = $_SESSION['user_id'];
         $userData = $this->session->getUserData();
         $errors = [];
         $success = false;
+        
+        // Obtener estadísticas del usuario
+        $stats = $this->db->query("
+            SELECT 
+                (SELECT COUNT(*) FROM user_likes WHERE user_id = ?) as likes_count,
+                (SELECT COUNT(*) FROM user_favorites WHERE user_id = ?) as favorites_count,
+                (SELECT COUNT(*) FROM comments WHERE user_id = ?) as comments_count,
+                (SELECT COUNT(*) FROM contributions WHERE user_id = ?) as contributions_count
+        ", [$userId, $userId, $userId, $userId])[0] ?? [];
+        
+        // Actualizar el usuario con los contadores
+        $userData['likes_count'] = $stats['likes_count'] ?? 0;
+        $userData['favorites_count'] = $stats['favorites_count'] ?? 0;
+        $userData['comments_count'] = $stats['comments_count'] ?? 0;
+        $userData['contributions_count'] = $stats['contributions_count'] ?? 0;
+        
+        // Obtener acciones recientes del usuario
+        $actions = $this->db->query("
+            SELECT a.*, 'check' as icon, 'primary' as color
+            FROM access_logs a
+            WHERE a.user_id = ?
+            ORDER BY a.access_time DESC
+            LIMIT 5
+        ", [$userId]);
         
         // Procesar formulario de actualización de perfil
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
@@ -68,10 +93,12 @@ class UserController {
         }
         
         return [
-            'title' => _('Mi Perfil'),
+            'title' => 'Perfil de ' . $userData['username'],
             'user' => $userData,
+            'user_actions' => $actions,
             'errors' => $errors,
-            'success' => $success
+            'success' => $success,
+            'is_own_profile' => true  // Variable crucial para mostrar opciones de configuración
         ];
     }
     
