@@ -2,6 +2,8 @@
 
 // Añadir en la parte superior del archivo
 require_once __DIR__ . '/controllers/StatsController.php';
+require_once __DIR__ . '/controllers/DebugController.php';
+require_once __DIR__ . '/controllers/DocsController.php';
 
 // O asegúrate de que el autoloader está configurado correctamente
 // require_once __DIR__ . '/../vendor/autoload.php';
@@ -25,30 +27,7 @@ $langController->loadTextDomain('api');
 $uri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 // Si la URI está vacía, la tratamos como la raíz
 $uri = $uri === '' ? '/' : $uri;
-
-// SOLO mostrar depuración si NO es una solicitud API
-if (!$isApiRequest) {
-    // Al inicio del archivo, después de las primeras líneas
-    // Depuración de archivos de traducción
-    $idioma_actual = $_SESSION['idioma'] ?? 'ca';
-    $dominios = ['messages', 'navbar', 'about'];
-    echo "<!-- DEBUG TRADUCCIONES: -->\n";
-    echo "<!-- Idioma actual: $idioma_actual -->\n";
-
-    foreach ($dominios as $dominio) {
-        $ruta_po = __DIR__ . "/../locales/{$idioma_actual}_ES/LC_MESSAGES/{$dominio}.po";
-        $ruta_mo = __DIR__ . "/../locales/{$idioma_actual}_ES/LC_MESSAGES/{$dominio}.mo";
-        
-        echo "<!-- Dominio $dominio: -->\n";
-        echo "<!--   $dominio.po: " . (file_exists($ruta_po) ? "EXISTE" : "NO EXISTE") . " -->\n";
-        echo "<!--   $dominio.mo: " . (file_exists($ruta_mo) ? "EXISTE" : "NO EXISTE") . " -->\n";
-        
-        if (file_exists($ruta_mo)) {
-            // Prueba la traducción
-            echo "<!--   Prueba: " . dgettext($dominio, $dominio === 'navbar' ? 'Inicio' : 'Acerca de Nosotros') . " -->\n";
-        }
-    }
-}
+if (!$isApiRequest) (new \App\Controllers\DebugController())->mostrarDebugTraducciones();
 
 function getBaseUrl() {
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
@@ -127,9 +106,17 @@ $authController = new \App\Controllers\AuthController($db, $session);
 $userController = new \App\Controllers\UserController($db, $session);
 $fungiController = new \App\Controllers\FungiController($db);
 $statsController = new \App\Controllers\StatsController($db);
+$docsController = new \App\Controllers\DocsController($db, $session);
 
 // Definir rutas
 $routes = [
+    '/index' => ['template' => 'pages/home.twig', 'redirect' => '/'],
+    '/about' => ['template' => 'pages/about.twig', 'title' => _('Acerca de'), 'auth_required' => false],
+    '/404' => ['template' => 'pages/404.twig', 'title' => _('Página no encontrada'), 'auth_required' => false],
+    '/random' => ['template' => null, 'redirect' => '/fungi/random'],
+    '/profile' => ['template' => 'pages/profile.twig', 'auth_required' => true, 'handler' => [$userController, 'profileHandler']],
+    '/home' => ['template' => null, 'redirect' => '/'],
+    '/docs/api' => ['template' => 'pages/api/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
     '/' => [
         'template' => 'pages/home.twig',
         'title' => _('Hongos'),
@@ -143,11 +130,6 @@ $routes = [
             ];
         }
     ],
-    '/index' => ['template' => 'pages/home.twig', 'redirect' => '/'],
-    '/about' => ['template' => 'pages/about.twig', 'title' => _('Acerca de'), 'auth_required' => false],
-    '/404' => ['template' => 'pages/404.twig', 'title' => _('Página no encontrada'), 'auth_required' => false],
-    '/random' => ['template' => null, 'redirect' => '/fungi/random'],
-    '/home' => ['template' => null, 'redirect' => '/'],
     '/login' => [
         'template' => 'components/auth/login_form.twig',
         'title' => _('Iniciar Sesión'),
@@ -207,11 +189,6 @@ $routes = [
         }
     ],
     
-    '/profile' => [
-        'template' => 'pages/profile.twig',
-        'auth_required' => true,
-        'handler' => [$userController, 'profileHandler']
-    ],
     '/logout' => [
         'template' => null,
         'auth_required' => false,
@@ -286,41 +263,6 @@ $routes = [
             return [
                 'title' => _('Panel de Administración'),
                 'stats' => $statsController->getDashboardStats()
-            ];
-        }
-    ],
-    '/docs/api' => [
-        'template' => 'pages/api/api_docs.twig',
-        'title' => _('Documentación de la API'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session) {
-            // Obtener la documentación de la API directamente desde el endpoint /api
-            $apiUrl = getBaseUrl() . '/api';
-            
-            // Configurar opciones para la petición
-            $context = stream_context_create([
-                'http' => [
-                    'timeout' => 3, // Timeout de 3 segundos
-                    'ignore_errors' => true
-                ]
-            ]);
-            
-            $apiResponse = @file_get_contents($apiUrl, false, $context);
-            $apiDocs = json_decode($apiResponse, true);
-            
-            if (!$apiDocs) {
-                // Si hay un error al obtener los datos, usar información básica
-                $apiDocs = [
-                    'api_version' => 'v1',
-                    'available_endpoints' => [
-                        'Error' => ['GET /api' => 'No se pudo obtener la documentación de la API. Por favor, intente más tarde.']
-                    ]
-                ];
-            }
-            
-            return [
-                'title' => _('Documentación de la API'),
-                'api_docs' => $apiDocs
             ];
         }
     ],
