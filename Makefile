@@ -24,7 +24,7 @@ endif
 SERVER_HOST := localhost
 PORT := 8080
 SERVER_URL := http://$(SERVER_HOST):$(PORT)
-ROUTES_TO_CHECK := / /index /login /register /about /contact /terms /faq /profile /favorites /statistics /admin /fungus /random /docs/api
+ROUTES_TO_CHECK := / /index /login /register /about /contact /faq /profile /statistics /admin /fungus /random /docs/api
 TIMEOUT := 3
 
 # Variables para gettext
@@ -37,7 +37,7 @@ PO_FILES := $(wildcard $(LOCALES_DIR)/*/$(LC_MESSAGES)/*.po)
 # Generar nombres de archivos .mo correspondientes
 MO_FILES := $(patsubst %.po,%.mo,$(PO_FILES))
 
-.PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations test-api clean-mo
+.PHONY: help init save-db install clean test log status check-routes check-routes-port translations test-api clean-mo
 
 help:
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
@@ -45,7 +45,6 @@ help:
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 	@echo "$(YELLOW)make init$(RESET)      - Inicializa el entorno de desarrollo (requiere sudo)"
 	@echo "$(YELLOW)make save-db$(RESET)   - Guarda la estructura actual de la base de datos"
-	@echo "$(YELLOW)make repos$(RESET)     - Abre los repositorios de GitHub del usuario"
 	@echo "$(YELLOW)make install$(RESET)   - Instala las dependencias del proyecto"
 	@echo "$(YELLOW)make status$(RESET)    - Muestra el estado actual del proyecto"
 	@echo "$(YELLOW)make check-routes$(RESET) - Verifica rutas (pregunta por el puerto)"
@@ -73,12 +72,9 @@ save-db:
 		echo "$(RED)This command must be executed as root (sudo make save-db)$(RESET)"; \
 		exit 1; \
 	fi
-	@./tools/bd_saver.sh
-	@echo "$(GREEN)Base de datos guardada correctamente.$(RESET)"
-
-github:
-	@echo "$(GREEN)Abriendo Github de $(GITHUB_USER)...$(RESET)"
-	@$(OPEN) $(GITHUB_URL)
+	@TIMESTAMP=$$(date +"%Y%m%d_%H%M%S"); \
+	./tools/bd_saver.sh $$TIMESTAMP; \
+	echo "$(GREEN)Base de datos guardada correctamente con timestamp: $$TIMESTAMP$(RESET)"
 
 # Instala dependencias
 install:

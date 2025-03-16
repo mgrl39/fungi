@@ -51,6 +51,10 @@ print_logo() {
 
 print_logo
 
+# Obtener el timestamp del primer argumento o generar uno si no se proporciona
+TIMESTAMP=${1:-$(date +"%Y%m%d_%H%M%S")}
+FILENAME="data-dump_${TIMESTAMP}.sql"
+
 # check if mysqldump is installed
 if ! command -v mysqldump &> /dev/null; then
     echo -e "${RED}mysqldump could not be found. Please install it and try again.${RESET}"
@@ -60,22 +64,22 @@ fi
 # Verificar si existe el directorio src/db
 if [ -d src/db ]; then
     # El directorio existe, crear el dump dentro de src/db
-    mysqldump --user=root --password='Root@1234' fungidb > src/db/data-dump.sql
+    mysqldump --user=root --password='Root@1234' fungidb > "src/db/${FILENAME}"
     
     # Verificar si el archivo fue creado
-    if [ ! -f src/db/data-dump.sql ]; then
-        echo -e "${RED}The file src/db/data-dump.sql was not created.${RESET}"
+    if [ ! -f "src/db/${FILENAME}" ]; then
+        echo -e "${RED}The file src/db/${FILENAME} was not created.${RESET}"
         exit 1
     fi
 else
     # El directorio no existe, crear el dump en el directorio actual
-    mysqldump --user=root --password='Root@1234' fungidb > data-dump.sql
+    mysqldump --user=root --password='Root@1234' fungidb > "${FILENAME}"
     
     # Verificar si el archivo fue creado
-    if [ ! -f data-dump.sql ]; then
-        echo -e "${RED}El archivo data-dump.sql no se ha creado.${RESET}"
+    if [ ! -f "${FILENAME}" ]; then
+        echo -e "${RED}El archivo ${FILENAME} no se ha creado.${RESET}"
         exit 1
     fi
 fi
 
-echo -e "${GREEN}The database has been exported successfully.${RESET}"
+echo -e "${GREEN}The database has been exported successfully as ${FILENAME}.${RESET}"
