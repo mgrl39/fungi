@@ -15,8 +15,6 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Datab
 \item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ad13ac3423d5797dd6f7757acb009b512}{\+\_\+\+\_\+construct}} ()
 \item 
-\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}{create\+User}} (\$username, \$email, \$password\+\_\+hash)
-\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{query}} (\$sql, \$params=\mbox{[}$\,$\mbox{]})
 \begin{DoxyCompactList}\small\item\em Ejecuta una consulta SQL preparada en la base de datos. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos privados}
@@ -64,36 +62,6 @@ Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00013}
 
 
 \doxysubsection{Documentación de funciones miembro}
-\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be}\label{classApp_1_1Controllers_1_1DatabaseController_ae55b2f1ea6758fbc4f82fe3eff4e28be} 
-\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!createUser@{createUser}}
-\index{createUser@{createUser}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
-\doxysubsubsection{\texorpdfstring{createUser()}{createUser()}}
-{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::create\+User (\begin{DoxyParamCaption}\item[{}]{\$username,  }\item[{}]{\$email,  }\item[{}]{\$password\+\_\+hash }\end{DoxyParamCaption})}
-
-
-
-Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00027}{27}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\textcolor{stringliteral}{"{}}}
-\DoxyCodeLine{00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ INSERT\ INTO\ users\ (username,\ email,\ password\_hash)}}
-\DoxyCodeLine{00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)}}
-\DoxyCodeLine{00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ "{}});}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':username'},\ \$username);}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':email'},\ \$email);}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>bindParam(\textcolor{stringliteral}{':password\_hash'},\ \$password\_hash);}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt-\/>execute();}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00042\ \ \ \ \ \}}
-
-\end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}\label{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496} 
 \index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!query@{query}}
 \index{query@{query}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
@@ -121,20 +89,20 @@ array & {\em \$params} & Parámetros para vincular a la consulta \mbox{[}opciona
 \end{DoxyExceptions}
 PDOException Las excepciones son capturadas internamente y registradas 
 
-Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00054}{54}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00036}{36}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute(\$params);}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt;}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute(\$params);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$stmt;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (PDOException\ \$e)\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\$e-\/>getMessage());}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

@@ -5,13 +5,12 @@ var searchData=
   ['sessioncontroller_2',['SessionController',['../classApp_1_1Controllers_1_1SessionController.html',1,'App::Controllers']]],
   ['sessioncontroller_2ephp_3',['SessionController.php',['../SessionController_8php.html',1,'']]],
   ['show_4',['show',['../classApp_1_1Controllers_1_1Api_1_1ApiInfoController.html#a6f0396bbb1893cc0976fb804a48faa59',1,'App::Controllers::Api::ApiInfoController']]],
-  ['sidebar_2ecss_5',['sidebar.css',['../sidebar_8css.html',1,'']]],
-  ['sitio_20web_3a_20a_20href_20https_3a_20mgrl39_20github_20io_20fungi_20mgrl39_20github_20io_20fungi_20a_6',['- 🌐 Sitio web: &lt;a href=&quot;https://mgrl39.github.io/fungi&quot; &gt;mgrl39.github.io/fungi&lt;/a&gt;',['../index.html#autotoc_md13',1,'']]],
-  ['stack_20tecnológico_7',['🔧 Stack Tecnológico',['../index.html#autotoc_md3',1,'']]],
-  ['statisticspagehandler_8',['statisticsPageHandler',['../classApp_1_1Controllers_1_1StatsController.html#a13a0ac992567acd018968d78f7a2201c',1,'App::Controllers::StatsController']]],
-  ['statscontroller_9',['StatsController',['../classApp_1_1Controllers_1_1StatsController.html',1,'App::Controllers']]],
-  ['statscontroller_2ephp_10',['StatsController.php',['../StatsController_8php.html',1,'']]],
-  ['system_5fdependency_5ferror_11',['SYSTEM_DEPENDENCY_ERROR',['../classApp_1_1Config_1_1ErrorMessages.html#ab3ff5b284c081326f60ceb5f19aa35c3',1,'App::Config::ErrorMessages']]],
-  ['system_5finitialization_5ferror_12',['SYSTEM_INITIALIZATION_ERROR',['../classApp_1_1Config_1_1ErrorMessages.html#af75cd90e819d1cba3083f0caf23297b1',1,'App::Config::ErrorMessages']]],
-  ['system_5fmaintenance_5fmode_13',['SYSTEM_MAINTENANCE_MODE',['../classApp_1_1Config_1_1ErrorMessages.html#a7b7de46db6068ea5f7e90ea5580357c8',1,'App::Config::ErrorMessages']]]
+  ['sitio_20web_3a_20a_20href_20https_3a_20mgrl39_20github_20io_20fungi_20mgrl39_20github_20io_20fungi_20a_5',['- 🌐 Sitio web: &lt;a href=&quot;https://mgrl39.github.io/fungi&quot; &gt;mgrl39.github.io/fungi&lt;/a&gt;',['../index.html#autotoc_md13',1,'']]],
+  ['stack_20tecnológico_6',['🔧 Stack Tecnológico',['../index.html#autotoc_md3',1,'']]],
+  ['statisticspagehandler_7',['statisticsPageHandler',['../classApp_1_1Controllers_1_1StatsController.html#a13a0ac992567acd018968d78f7a2201c',1,'App::Controllers::StatsController']]],
+  ['statscontroller_8',['StatsController',['../classApp_1_1Controllers_1_1StatsController.html',1,'App::Controllers']]],
+  ['statscontroller_2ephp_9',['StatsController.php',['../StatsController_8php.html',1,'']]],
+  ['system_5fdependency_5ferror_10',['SYSTEM_DEPENDENCY_ERROR',['../classApp_1_1Config_1_1ErrorMessages.html#ab3ff5b284c081326f60ceb5f19aa35c3',1,'App::Config::ErrorMessages']]],
+  ['system_5finitialization_5ferror_11',['SYSTEM_INITIALIZATION_ERROR',['../classApp_1_1Config_1_1ErrorMessages.html#af75cd90e819d1cba3083f0caf23297b1',1,'App::Config::ErrorMessages']]],
+  ['system_5fmaintenance_5fmode_12',['SYSTEM_MAINTENANCE_MODE',['../classApp_1_1Config_1_1ErrorMessages.html#a7b7de46db6068ea5f7e90ea5580357c8',1,'App::Config::ErrorMessages']]]
 ];

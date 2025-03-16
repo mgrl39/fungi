@@ -5,5 +5,5 @@ var searchData=
   ['createfungi_2',['createFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a649bfb16350464cb89f78d85b108f741',1,'App::Controllers::Api::ApiPostController']]],
   ['createjwt_3',['createJWT',['../classApp_1_1Controllers_1_1AuthController.html#acbdad71780d5fdd8b8245739664aba6b',1,'App::Controllers::AuthController']]],
   ['createsecurecookie_4',['createSecureCookie',['../classApp_1_1Controllers_1_1AuthController.html#a722aae18417e35bad00c945dd381da08',1,'App::Controllers::AuthController']]],
-  ['createuser_5',['createuser',['../classApp_1_1Controllers_1_1DatabaseController.html#ae55b2f1ea6758fbc4f82fe3eff4e28be',1,'App\Controllers\DatabaseController\createUser()'],['../classApp_1_1Controllers_1_1UserController.html#a1ad879cf3dc470ba88a784758870d4eb',1,'App\Controllers\UserController\createUser()']]]
+  ['createuser_5',['createUser',['../classApp_1_1Controllers_1_1UserController.html#a1ad879cf3dc470ba88a784758870d4eb',1,'App::Controllers::UserController']]]
 ];
