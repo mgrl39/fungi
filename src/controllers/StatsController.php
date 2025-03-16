@@ -52,10 +52,7 @@ class StatsController
      */
     private function getTimeRangeCondition($timeRange)
     {
-        if ($timeRange === 'all') {
-            return '';
-        }
-        
+        if ($timeRange === 'all') return '';
         $interval = '';
         switch($timeRange) {
             case 'week': $interval = '7 DAY'; break;
@@ -63,7 +60,6 @@ class StatsController
             case 'year': $interval = '365 DAY'; break;
             default: $interval = '0 DAY';
         }
-        
         return "WHERE created_at >= DATE_SUB(NOW(), INTERVAL $interval)";
     }
 

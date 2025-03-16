@@ -282,34 +282,28 @@ class SessionController {
      * 
      * @details Comprueba si el rol del usuario en sesión o en la base de datos
      * corresponde a un administrador
+     * Comprueba si el usuario está autenticado y si el rol es administrador
+     * Si no está autenticado, devuelve false
+     * Si está autenticado, pero no es administrador, lo actualiza en la sesión
+     * Si esta autenticado y es administrador, devuelve true
      * 
      * @return bool TRUE si el usuario es administrador, FALSE en caso contrario
      */
     public function isAdmin() {
-        if (!$this->isLoggedIn()) {
-            return false;
-        }
-        
-        // Verificar si el rol está en la sesión
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-            return true;
-        }
-        
-        // Verificar en la base de datos si no está en sesión
+        if (!$this->isLoggedIn()) return false;
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') return true;        
         try {
             $sql = "SELECT role FROM users WHERE id = :user_id";
             $result = $this->db->query($sql, [':user_id' => $_SESSION['user_id']]);
             $userData = $result->fetch(\PDO::FETCH_ASSOC);
             
             if ($userData && $userData['role'] === 'admin') {
-                // Actualizar la sesión con el rol correcto
                 $_SESSION['role'] = 'admin';
                 return true;
             }
         } catch(\Exception $e) {
             error_log("Error verificando permisos de administrador: " . $e->getMessage());
         }
-        
         return false;
     }
 }
