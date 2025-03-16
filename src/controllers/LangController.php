@@ -102,9 +102,7 @@ class LangController
         
         // NUEVO: Cargar dominios adicionales de forma predeterminada
         $default_domains = ['navbar', 'about', 'home'];
-        foreach ($default_domains as $domain) {
-            $this->loadTextDomain($domain);
-        }
+        foreach ($default_domains as $domain) $this->loadTextDomain($domain);
     }
     
     /**

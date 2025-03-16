@@ -286,9 +286,33 @@ $routes = [
         'handler' => function($twig, $db, $session) {
             $statsController = new \App\Controllers\StatsController($db);
             
-            // Obtener datos para cada sección de estadísticas
-            $generalStats = $statsController->getGeneralStats();
+            // Obtener conteo total de hongos
+            $totalFungi = $db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0;
+            
+            // Obtener estadísticas de comestibilidad
             $edibilityStats = $statsController->getEdibilityStats();
+            
+            // Mapear las estadísticas de comestibilidad al formato esperado por la plantilla
+            $edibilityFormatted = [
+                'edible_fungi' => 0,
+                'non_edible_fungi' => 0,
+                'toxic_fungi' => 0,
+                'unknown_edibility_fungi' => 0
+            ];
+            
+            foreach ($edibilityStats as $stat) {
+                if ($stat['edibility'] === 'edible') {
+                    $edibilityFormatted['edible_fungi'] = $stat['count'];
+                } else if ($stat['edibility'] === 'non_edible') {
+                    $edibilityFormatted['non_edible_fungi'] = $stat['count'];
+                } else if ($stat['edibility'] === 'toxic') {
+                    $edibilityFormatted['toxic_fungi'] = $stat['count'];
+                } else {
+                    $edibilityFormatted['unknown_edibility_fungi'] = $stat['count'];
+                }
+            }
+            
+            // Obtener datos para las demás secciones
             $topFamilies = $statsController->getTopFamilies(10);
             $mostViewed = $statsController->getMostViewedFungi(5);
             $topFavorites = $statsController->getTopFavorites(5);
@@ -299,20 +323,16 @@ $routes = [
             // Combinar todos los datos para la plantilla
             return [
                 'title' => _('Estadísticas'),
-                'stats' => [
-                    'total_fungi' => $generalStats['total_fungi'],
-                    'edible_fungi' => $edibilityStats['edible'],
-                    'non_edible_fungi' => $edibilityStats['non_edible'],
-                    'toxic_fungi' => $edibilityStats['toxic'],
-                    'unknown_edibility_fungi' => $edibilityStats['unknown'],
-                    'total_users' => $generalStats['total_users'],
+                'stats' => array_merge($edibilityFormatted, [
+                    'total_fungi' => $totalFungi,
+                    'total_users' => $db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
                     'top_families' => $topFamilies,
                     'most_viewed' => $mostViewed,
                     'top_favorites' => $topFavorites,
                     'top_liked' => $topLiked,
                     'trends' => $trends,
                     'habitats' => $habitats
-                ]
+                ])
             ];
         }
     ],
