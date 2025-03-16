@@ -340,14 +340,25 @@ $routes = [
         'template' => 'pages/fungi_detail.twig',
         'title' => _('Hongo aleatorio'),
         'auth_required' => false,
-        'handler' => function($twig, $db, $session, $fungiController = null) {
-            $fungus = $db->getRandomFungus();
-            if ($session->isLoggedIn() && method_exists($fungiController, 'getFungusWithLikeStatus')) {
+        'handler' => function($twig, $db, $session, $authController = null) use ($fungiController) {
+            // Obtener un hongo aleatorio
+            $query = "SELECT * FROM fungi ORDER BY RAND() LIMIT 1";
+            $randomResult = $db->query($query);
+            $fungus = !empty($randomResult) ? ($randomResult[0] ?? $randomResult) : null;
+            
+            if (!$fungus) {
+                header('Location: /404');
+                exit;
+            }
+            
+            // Añadir información de like si el usuario está logueado
+            if ($session->isLoggedIn()) {
                 $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
             }
+            
             // Añadir esta línea para depuración
             error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
-            // print_r($fungus);
+            
             return [
                 'title' => _('Hongo aleatorio'),
                 'fungi' => $fungus
@@ -438,7 +449,7 @@ $routes = [
             $id = $matches[1] ?? null;
             
             // Obtener datos del hongo específico
-            $fungus = $db->getFungusById($id);
+            $fungus = $fungiController->getFungusById($id);
             
             // Si no se encuentra el hongo, redirigir a 404
             if (!$fungus) {
@@ -454,7 +465,7 @@ $routes = [
             // Intentar obtener hongos similares
             $similarFungi = [];
             try {
-                $similarFungi = $db->getSimilarFungi($id, 4);
+                $similarFungi = $fungiController->getSimilarFungi($id, 4);
             } catch (Exception $e) {
                 // Si falla, simplemente no mostraremos hongos similares
             }

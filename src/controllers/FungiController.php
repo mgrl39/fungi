@@ -63,4 +63,89 @@ class FungiController
         }
         return $fungus;
     }
+    
+    /**
+     * @brief Obtiene un hongo por su ID
+     * 
+     * @param int $id ID del hongo a buscar
+     * @return array|null Datos del hongo o null si no se encuentra
+     */
+    public function getFungusById($id)
+    {
+        $result = $this->db->query(
+            "SELECT * FROM fungi WHERE id = ? LIMIT 1",
+            [$id]
+        );
+        
+        // Si el resultado es un objeto PDOStatement, convertirlo a array
+        if ($result instanceof \PDOStatement) {
+            return $result->fetch(\PDO::FETCH_ASSOC) ?: null;
+        }
+        
+        // Si el resultado es un array con índices numéricos (múltiples filas)
+        if (is_array($result) && !empty($result) && isset($result[0])) {
+            return $result[0];
+        }
+        
+        // Si ya es un array asociativo simple o está vacío
+        return $result ?: null;
+    }
+    
+    /**
+     * @brief Busca hongos similares al hongo especificado
+     * 
+     * @param int $id ID del hongo para el que buscar similares
+     * @param int $limit Número máximo de hongos similares a devolver (por defecto 4)
+     * @return array Lista de hongos similares
+     */
+    public function getSimilarFungi($id, $limit = 4)
+    {
+        // Primero obtenemos los datos del hongo para el que queremos buscar similares
+        $fungi = $this->getFungusById($id);
+        
+        if (empty($fungi) || !is_array($fungi)) {
+            return [];
+        }
+        
+        // Buscar hongos con características similares
+        $query = "SELECT f.* FROM fungi f 
+                  WHERE f.id != ? 
+                  AND (f.family = ? OR f.genus = ? OR f.habitat LIKE ?)
+                  ORDER BY RAND() 
+                  LIMIT ?";
+                  
+        $habitat = isset($fungi['habitat']) ? $fungi['habitat'] : '';
+        $family = isset($fungi['family']) ? $fungi['family'] : '';
+        $genus = isset($fungi['genus']) ? $fungi['genus'] : '';
+        
+        $similarFungi = $this->db->query(
+            $query,
+            [$id, $family, $genus, "%$habitat%", $limit]
+        );
+        
+        // Si el resultado es un objeto PDOStatement, convertirlo a array
+        if ($similarFungi && is_object($similarFungi) && method_exists($similarFungi, 'fetchAll')) {
+            $similarFungi = $similarFungi->fetchAll(\PDO::FETCH_ASSOC);
+        }
+        
+        // Si no hay resultados, intentamos una búsqueda más amplia
+        if (empty($similarFungi)) {
+            $query = "SELECT f.* FROM fungi f 
+                      WHERE f.id != ? 
+                      ORDER BY RAND() 
+                      LIMIT ?";
+                      
+            $similarFungi = $this->db->query(
+                $query,
+                [$id, $limit]
+            );
+            
+            // Si el resultado es un objeto PDOStatement, convertirlo a array
+            if ($similarFungi && is_object($similarFungi) && method_exists($similarFungi, 'fetchAll')) {
+                $similarFungi = $similarFungi->fetchAll(\PDO::FETCH_ASSOC);
+            }
+        }
+        
+        return $similarFungi ?: [];
+    }
 } 
