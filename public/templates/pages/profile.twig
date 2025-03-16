@@ -145,36 +145,35 @@
                                         
                                         <div class="col">
                                             <div class="card h-100 shadow-sm" data-aos="fade-up" data-aos-delay="100">
-                                                <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
-                                                    <span><i class="fas fa-history me-2"></i> Últimas acciones</span>
+                                                <div class="card-header d-flex justify-content-between align-items-center bg-info text-white">
+                                                    <span><i class="fas fa-lightbulb me-2"></i> ¿Sabías que...?</span>
                                                 </div>
                                                 <div class="card-body p-0 bg-white">
-                                                    <ul class="list-group list-group-flush">
-                                                        {% if user_actions is defined and user_actions|length > 0 %}
-                                                            {% for action in user_actions %}
-                                                            <li class="list-group-item border-bottom d-flex align-items-center">
-                                                                <div class="me-3">
-                                                                    <span class="badge rounded-pill bg-{{ action.color|default('primary') }} p-2">
-                                                                        <i class="fas fa-{{ action.icon|default('check') }}"></i>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="flex-grow-1">
-                                                                    <div>{{ action.description }}</div>
-                                                                    <small class="text-muted">{{ action.date }}</small>
-                                                                </div>
-                                                            </li>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                        <li class="list-group-item d-flex align-items-center">
-                                                            <div class="me-3">
-                                                                <span class="badge rounded-pill bg-secondary p-2">
-                                                                    <i class="fas fa-info-circle"></i>
-                                                                </span>
-                                                            </div>
-                                                            <div>No hay acciones recientes.</div>
-                                                        </li>
-                                                        {% endif %}
-                                                    </ul>
+                                                    <div class="p-4">
+                                                        <p id="dato-curioso" class="lead mb-3 fst-italic text-center">
+                                                            <!-- Aquí se mostrará un dato curioso aleatorio sobre hongos -->
+                                                        </p>
+                                                        <div class="text-center">
+                                                            <button onclick="mostrarDatoAleatorio()" class="btn btn-sm btn-outline-info">
+                                                                <i class="fas fa-sync-alt me-1"></i> Otro dato curioso
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <hr class="my-2">
+                                                    
+                                                    <div class="p-4">
+                                                        <h5 class="mb-3"><i class="fas fa-book-reader text-primary me-2"></i>Frases micológicas</h5>
+                                                        <blockquote class="blockquote text-center">
+                                                            <p id="frase-micologica" class="mb-0"></p>
+                                                            <footer class="blockquote-footer mt-2" id="autor-frase">Autor</footer>
+                                                        </blockquote>
+                                                        <div class="text-center mt-3">
+                                                            <button onclick="mostrarFraseAleatoria()" class="btn btn-sm btn-outline-primary">
+                                                                <i class="fas fa-quote-right me-1"></i> Otra frase
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -598,6 +597,95 @@
                             alert('No se pudo eliminar el favorito. Inténtalo de nuevo.');
                         });
                     });
+                });
+            }
+        });
+
+        // Función para generar dato aleatorio
+        function mostrarDatoAleatorio() {
+            const datos = [
+                "¿Sabías que los hongos son más cercanos a los animales que a las plantas?",
+                "El micelio de algunos hongos puede extenderse por varios kilómetros bajo tierra.",
+                "El hongo más grande del mundo es un Armillaria ostoyae en Oregon, que cubre 8.9 km².",
+                "Algunos hongos pueden descomponer plástico y ayudar al medio ambiente.",
+                "Las trufas pueden costar hasta 6.000€ por kilogramo.",
+                "El 90% de las plantas dependen de asociaciones con hongos para sobrevivir.",
+                "Existen más de 120.000 especies de hongos conocidas.",
+                "La penicilina, primer antibiótico descubierto, proviene de un hongo.",
+                "Algunos hongos pueden brillar en la oscuridad (bioluminiscencia).",
+                "Los hongos han existido en la Tierra desde hace más de 1.300 millones de años.",
+                "Algunos hongos pueden sobrevivir en el espacio exterior.",
+                "El hongo más caro del mundo es el matsutake, valorado en más de 1.000€ por kilo.",
+                "Un solo portabella maduro puede liberar hasta 16 mil millones de esporas.",
+                "Los champiñones son una de las pocas fuentes vegetales naturales de vitamina D.",
+                "El micólogo Paul Stamets ha descubierto hongos que pueden limpiar derrames de petróleo."
+            ];
+            
+            const indice = Math.floor(Math.random() * datos.length);
+            document.getElementById('dato-curioso').innerText = datos[indice];
+        }
+        
+        // Función para mostrar frases sobre micología
+        function mostrarFraseAleatoria() {
+            const frases = [
+                {
+                    texto: "La naturaleza nunca rompe sus propias leyes, y los hongos son parte de su código más antiguo.",
+                    autor: "Leonardo da Vinci"
+                },
+                {
+                    texto: "Los hongos representan un mundo paralelo tan fascinante como desconocido.",
+                    autor: "Paul Stamets"
+                },
+                {
+                    texto: "Los árboles y los hongos no son enemigos, sino aliados; nos enseñan cómo vivir en armonía.",
+                    autor: "Peter Wohlleben"
+                },
+                {
+                    texto: "Un bosque sin hongos es como un libro sin palabras.",
+                    autor: "Eugenia Bone"
+                },
+                {
+                    texto: "La micología me enseñó que el mundo natural está conectado de formas que apenas comenzamos a entender.",
+                    autor: "Alan Rockefeller"
+                },
+                {
+                    texto: "Los hongos son los grandes recicladores del planeta, transforman la muerte en vida nueva.",
+                    autor: "Merlin Sheldrake"
+                },
+                {
+                    texto: "Conocer los hongos es como aprender un idioma secreto de la tierra.",
+                    autor: "Anna Tsing"
+                },
+                {
+                    texto: "En el silencio del bosque, los hongos susurran historias milenarias.",
+                    autor: "Robert Macfarlane"
+                },
+                {
+                    texto: "La red micelial bajo nuestros pies es el Internet original de la Tierra.",
+                    autor: "Paul Stamets"
+                }
+            ];
+            
+            const indice = Math.floor(Math.random() * frases.length);
+            document.getElementById('frase-micologica').innerText = frases[indice].texto;
+            document.getElementById('autor-frase').innerText = frases[indice].autor;
+        }
+        
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('dato-curioso')) {
+                mostrarDatoAleatorio();
+            }
+            
+            if (document.getElementById('frase-micologica')) {
+                mostrarFraseAleatoria();
+            }
+            
+            // Inicializar AOS para animaciones
+            if (typeof AOS !== 'undefined') {
+                AOS.init({
+                    duration: 800,
+                    easing: 'ease-in-out'
                 });
             }
         });
