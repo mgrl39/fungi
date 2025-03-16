@@ -239,18 +239,24 @@ $routes = [
 
 // Añadir rutas al controlador
 $routeController->addRoutes($routes);
-
-// Manejo de rutas de API
+/**
+ * @brief Manejo de rutas de la API y rutas normales
+ * 
+ * @details Este código maneja dos tipos de rutas:
+ * 1. Rutas de API que comienzan con /api - Estas son manejadas por ApiController
+ * 2. Rutas normales - Manejadas por RouteController
+ * 
+ * Para las rutas de API:
+ * - Limpia cualquier salida previa
+ * - Establece el header de Content-Type a JSON
+ * - Instancia ApiController y delega el manejo
+ * 
+ * Para rutas normales:
+ * - Delega al RouteController para procesar la ruta
+ */
 if (preg_match('#^/api#', $uri)) {
-    // IMPORTANTE: Asegurarse de que no hay salidas previas antes del JSON
-    ob_clean(); // Limpia el buffer de salida
+    ob_clean();
     header('Content-Type: application/json');
-    
-    // Usar directamente el ApiController existente
-    $apiController = new \App\Controllers\ApiController($db);
-    $apiController->handleRequest();
+    (new \App\Controllers\ApiController($db))->handleRequest();
     exit;
-} else {
-    // Procesar la ruta actual
-    $routeController->handleRequest($uri);
-}
+} else $routeController->handleRequest($uri);
