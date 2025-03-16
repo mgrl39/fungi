@@ -7,7 +7,7 @@ class LangController
     /**
      * Lista de idiomas soportados por la aplicación
      */
-    private $supportedLanguages = ['es', 'en', 'ca', 'fr', 'de'];
+    private $supportedLanguages = ['es', 'en', 'ca'];
     
     /**
      * Mapeo de códigos de idioma a locales de sistema
@@ -15,9 +15,7 @@ class LangController
     private $localeMap = [
         'es' => 'es_ES',
         'en' => 'en_US',
-        'ca' => 'ca_ES',
-        'fr' => 'fr_FR',
-        'de' => 'de_DE',
+        'ca' => 'ca_ES'
     ];
     
     /**
@@ -67,26 +65,12 @@ class LangController
      */
     public function initializeLanguage()
     {
-        // Detectar idioma desde la URL (para cambios de idioma)
-        if (isset($_GET['lang']) && $this->isLanguageSupported($_GET['lang'])) {
-            $_SESSION['idioma'] = $_GET['lang'];
-        }
+        if (isset($_GET['lang']) && $this->isLanguageSupported($_GET['lang'])) $_SESSION['idioma'] = $_GET['lang'];
+        $idioma = $_SESSION['idioma'] ?? $_COOKIE['idioma'] ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'es', 0, 2);
         
-        // Detectar idioma desde la sesión, cookie, navegador o asignar uno predeterminado
-        $idioma = $_SESSION['idioma'] 
-            ?? $_COOKIE['idioma'] 
-            ?? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'es', 0, 2);
-        
-        if (!$this->isLanguageSupported($idioma)) {
-            $idioma = 'es'; // Idioma por defecto
-        }
-        
-        // Almacenar el idioma en sesión para futuras peticiones
+        if (!$this->isLanguageSupported($idioma)) $idioma = 'es';
         $_SESSION['idioma'] = $idioma;
-        
-        // Configurar gettext con el idioma seleccionado
         $this->configureLocale($idioma);
-        
         return $idioma;
     }
     
@@ -121,52 +105,6 @@ class LangController
         foreach ($default_domains as $domain) {
             $this->loadTextDomain($domain);
         }
-    }
-    
-    /**
-     * Cambia el idioma de la aplicación
-     * 
-     * @return array Respuesta con el resultado del cambio de idioma
-     */
-    public function changeLanguage()
-    {
-        // Obtener el idioma seleccionado
-        $lang = $_POST['lang'] ?? 'es';
-        
-        // Validar que el idioma esté entre los soportados
-        if ($this->isLanguageSupported($lang)) {
-            // Guardar el idioma en la sesión
-            $_SESSION['idioma'] = $lang;
-            
-            // Guardar en cookie para recordar preferencia
-            setcookie('idioma', $lang, time() + (86400 * 30), "/"); // Cookie válida por 30 días
-        }
-        
-        // Verificar si es una solicitud AJAX
-        $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-                  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-        
-        if ($isAjax) {
-            // Si es AJAX, devolvemos un JSON con estado de éxito
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'language' => $lang]);
-            exit;
-        } else {
-            // Si no es AJAX, redirigir a la página anterior o principal
-            $redirect = $_POST['redirect'] ?? '/';
-            header('Location: ' . $redirect);
-            exit;
-        }
-    }
-    
-    /**
-     * Obtiene el idioma actual de la aplicación
-     * 
-     * @return string Código del idioma actual
-     */
-    public function getCurrentLanguage()
-    {
-        return $_SESSION['idioma'] ?? 'es';
     }
     
     /**

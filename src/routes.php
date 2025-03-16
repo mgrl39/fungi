@@ -79,13 +79,9 @@ function renderTemplate($templatePath, $data = []) {
     // NUEVO: Determinar qué dominio usar según la plantilla
     $originalDomain = textdomain(NULL);
     
-    if (strpos($templatePath, 'navbar') !== false) {
-        textdomain('navbar');
-    } else if (strpos($templatePath, 'about') !== false) {
-        textdomain('about');
-    } else {
-        textdomain('messages');
-    }
+    if (strpos($templatePath, 'navbar') !== false) textdomain('navbar');
+    else if (strpos($templatePath, 'about') !== false) textdomain('about');
+    else textdomain('messages');
     
     // Aseguramos que los componentes estén disponibles en todas las plantillas
     $data['components'] = $components;
@@ -93,12 +89,8 @@ function renderTemplate($templatePath, $data = []) {
     // Agregamos información sobre la sesión actual si está disponible
     if (isset($session)) {
         $data['is_logged_in'] = $session->isLoggedIn();
-        if ($session->isLoggedIn()) {
-            $data['user'] = $session->getUserData();
-        }
-    } else {
-        $data['is_logged_in'] = false;
-    }
+        if ($session->isLoggedIn()) $data['user'] = $session->getUserData();
+    } else $data['is_logged_in'] = false;
     
     // Añadimos la ruta actual para poder marcar elementos activos en el menú
     $data['current_route'] = $uri;
