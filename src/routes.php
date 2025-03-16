@@ -189,17 +189,7 @@ $routes = [
         }
     ],
     
-    '/logout' => [
-        'template' => null,
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $authController) {
-            session_start();
-            session_destroy();
-            setcookie("token", "", time() - 3600, "/");
-            header('Location: /');
-            exit;
-        }
-    ],
+    '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/statistics' => [
         'template' => 'pages/statistics.twig',
         'title' => _('Estadísticas'),

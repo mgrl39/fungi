@@ -142,27 +142,105 @@ class AuthController {
     /**
      * @brief Cierra la sesión del usuario
      * 
-     * @return array Resultado de la operación
+     * Elimina todas las cookies de sesión, tokens y destruye la sesión actual.
+     * Utiliza los tokens disponibles para una identificación más precisa.
+     * 
+     * @return void
      */
     public function logout() {
-        session_start();
-        
-        // Revocar token si existe
-        if (isset($_SESSION['user_id'])) {
-            $this->db->query(
-                "UPDATE users SET token = NULL, jwt = NULL WHERE id = ?", 
-                [$_SESSION['user_id']]
-            );
+        // Iniciar sesión si no está iniciada
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
         }
         
-        // Eliminar cookies
-        setcookie("token", "", time() - 3600, "/");
-        setcookie("jwt", "", time() - 3600, "/");
+        // Recopilar todos los identificadores disponibles
+        $identifiers = [];
         
-        // Destruir sesión
+        // ID de usuario en sesión
+        if (isset($_SESSION['user_id'])) {
+            $identifiers['user_id'] = $_SESSION['user_id'];
+        }
+        
+        // Token de sesión en cookie
+        if (isset($_COOKIE['token'])) {
+            $identifiers['token'] = $_COOKIE['token'];
+        }
+        
+        // JWT en cookie
+        if (isset($_COOKIE['jwt'])) {
+            $identifiers['jwt'] = $_COOKIE['jwt'];
+        }
+        
+        // Limpiar tokens en la base de datos usando todos los identificadores disponibles
+        if (!empty($identifiers)) {
+            try {
+                if (isset($identifiers['user_id'])) {
+                    $this->db->query(
+                        "UPDATE users SET token = NULL, jwt = NULL WHERE id = ?",
+                        [$identifiers['user_id']]
+                    );
+                }
+                
+                if (isset($identifiers['token'])) {
+                    $this->db->query(
+                        "UPDATE users SET token = NULL WHERE token = ?",
+                        [$identifiers['token']]
+                    );
+                }
+                
+                if (isset($identifiers['jwt'])) {
+                    $this->db->query(
+                        "UPDATE users SET jwt = NULL WHERE jwt = ?",
+                        [$identifiers['jwt']]
+                    );
+                }
+            } catch (\Exception $e) {
+                // Registrar error pero continuar con el proceso de logout
+                error_log("Error al limpiar tokens: " . $e->getMessage());
+            }
+        }
+        
+        // Eliminar cookies relacionadas con la autenticación
+        $this->removeAuthCookies();
+        
+        // Destruir la sesión
         session_destroy();
+    }
+    
+    /**
+     * @brief Elimina todas las cookies relacionadas con la autenticación
+     * 
+     * @return void
+     */
+    private function removeAuthCookies() {
+        // Eliminar cookie de token
+        if (isset($_COOKIE['token'])) {
+            setcookie("token", "", time() - 3600, "/");
+        }
         
-        return ['success' => true, 'message' => 'Sesión cerrada correctamente'];
+        // Eliminar cookie de JWT
+        if (isset($_COOKIE['jwt'])) {
+            setcookie("jwt", "", time() - 3600, "/");
+        }
+        
+        // Eliminar otras cookies de sesión que puedan existir
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), "", time() - 3600, "/");
+        }
+    }
+    
+    /**
+     * @brief Cierra la sesión del usuario y redirige a la página principal
+     * 
+     * @return void
+     */
+    public function logoutAndRedirect() {
+        // Llamar al método logout para limpiar la sesión
+        $this->logout();
+        
+        // Redirigir a la página principal
+        header('Location: /');
+        exit;
     }
     
     /**
