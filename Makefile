@@ -37,7 +37,7 @@ PO_FILES := $(wildcard $(LOCALES_DIR)/*/$(LC_MESSAGES)/*.po)
 # Generar nombres de archivos .mo correspondientes
 MO_FILES := $(patsubst %.po,%.mo,$(PO_FILES))
 
-.PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations test-api
+.PHONY: help init save-db repos install clean test log status check-routes check-routes-port translations test-api clean-mo
 
 help:
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
@@ -53,6 +53,7 @@ help:
 	@echo "$(YELLOW)make translations$(RESET) - Genera los archivos .mo de las traducciones"
 	@echo "$(YELLOW)make test-api$(RESET)  - Ejecuta el script de pruebas de la API"
 	@echo "$(YELLOW)make test-api p=XXXX$(RESET) - Ejecuta pruebas de API en puerto específico"
+	@echo "$(YELLOW)make clean-mo$(RESET)  - Elimina todos los archivos .mo"
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 
 # Inicializa el entorno
@@ -99,12 +100,14 @@ status:
 	@echo "$(YELLOW)MySQL: $(RESET)$(shell systemctl is-active mysql 2>/dev/null || echo 'no instalado')"
 	@echo "$(YELLOW)Espacio de disco: $(RESET)$(shell df -h . | grep -v Filesystem | awk '{print $$4 " disponible"}')"
 
-# Genera los archivos .mo de las traducciones
-translations:
+# Limpia archivos .mo
+clean-mo:
 	@echo "$(GREEN)Eliminando archivos .mo existentes...$(RESET)"
 	@find $(LOCALES_DIR) -name "*.mo" -type f -delete
 	@echo "$(GREEN)Archivos .mo eliminados correctamente.$(RESET)"
-	
+
+# Genera los archivos .mo de las traducciones
+translations: clean-mo
 	@echo "$(GREEN)Generando archivos de traducción .mo...$(RESET)"
 	@for po_file in $(PO_FILES); do \
 		mo_file=$${po_file%.po}.mo; \
