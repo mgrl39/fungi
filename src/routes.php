@@ -107,6 +107,7 @@ $userController = new \App\Controllers\UserController($db, $session);
 $fungiController = new \App\Controllers\FungiController($db);
 $statsController = new \App\Controllers\StatsController($db);
 $docsController = new \App\Controllers\DocsController($db, $session);
+$homeController = new \App\Controllers\HomeController($db);
 
 // Crear el controlador de rutas
 $routeController = new \App\Controllers\RouteController($twig, $db, $session, [
@@ -132,22 +133,8 @@ $routes = [
     '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/statistics' => ['template' => 'pages/statistics.twig', 'title' => _('Estadísticas'), 'handler' => [$statsController, 'statisticsPageHandler']],
     '/fungi/random' => ['template' => 'pages/fungi_detail.twig', 'title' => _('Hongo aleatorio'), 'auth_required' => false, 'handler' => [$fungiController, 'randomFungusHandler']],
-    '/' => [
-        'template' => 'pages/home.twig',
-        'title' => _('Hongos'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $fungiController = null) {
-            // Ya no obtenemos los hongos directamente, se cargarán vía AJAX
-            return [
-                'title' => _('Hongos'),
-                'api_url' => getBaseUrl() . '/api/fungi/page/1/limit/12', // URL para la solicitud AJAX
-                'use_ajax' => true  // Indicador para la plantilla
-            ];
-        }
-    ],
-    '/login' => [
-        'template' => 'components/auth/login_form.twig',
-        'title' => _('Iniciar Sesión'),
+    '/' => ['template' => 'pages/home.twig', 'title' => _('Hongos'), 'auth_required' => false, 'handler' => [$homeController, 'indexHandler']],
+    '/login' => ['template' => 'components/auth/login_form.twig', 'title' => _('Iniciar Sesión'), 'auth_required' => false, 'handler' => function($twig, $db, $session, $authController) {
         'auth_required' => false,
         'handler' => function($twig, $db, $session, $authController) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
