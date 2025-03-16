@@ -126,10 +126,8 @@ class LangController
         bindtextdomain($domain, $this->localeDir);
         bind_textdomain_codeset($domain, "UTF-8");
         
-        // AÑADIR LÍNEA CLAVE: De forma temporal, activar este dominio para verificar que funciona
-        if ($domain === 'navbar' || $domain === 'about' || $domain === 'home') {
-            textdomain($domain); // Esto cambia el dominio activo para gettext()
-        }
+        // NO cambiar el dominio activo, solo registrarlo
+        // Usar dgettext() para obtener traducciones de dominios específicos
         
         return true;
     }
@@ -150,5 +148,41 @@ class LangController
             $traduccion = dgettext('messages', $text);
         }
         return $traduccion;
+    }
+    
+    /**
+     * Cambia el idioma de la aplicación
+     * 
+     * @return array Respuesta con el resultado del cambio de idioma
+     */
+    public function changeLanguage()
+    {
+        // Obtener el idioma seleccionado
+        $lang = $_POST['lang'] ?? 'es';
+        
+        // Validar que el idioma esté entre los soportados
+        if ($this->isLanguageSupported($lang)) {
+            // Guardar el idioma en la sesión
+            $_SESSION['idioma'] = $lang;
+            
+            // Guardar en cookie para recordar preferencia
+            setcookie('idioma', $lang, time() + (86400 * 30), "/"); // Cookie válida por 30 días
+        }
+        
+        // Verificar si es una solicitud AJAX
+        $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+                  strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+        
+        if ($isAjax) {
+            // Si es AJAX, devolvemos un JSON con estado de éxito
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'language' => $lang]);
+            exit;
+        } else {
+            // Si no es AJAX, redirigir a la página anterior o principal
+            $redirect = $_POST['redirect'] ?? '/';
+            header('Location: ' . $redirect);
+            exit;
+        }
     }
 }
