@@ -1,13 +1,5 @@
 <?php
 
-// Añadir en la parte superior del archivo
-require_once __DIR__ . '/controllers/StatsController.php';
-require_once __DIR__ . '/controllers/DebugController.php';
-require_once __DIR__ . '/controllers/DocsController.php';
-
-// O asegúrate de que el autoloader está configurado correctamente
-// require_once __DIR__ . '/../vendor/autoload.php';
-
 // IMPORTANTE: Detectar si es una solicitud API y evitar imprimir HTML
 $isApiRequest = preg_match('#^/api#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
