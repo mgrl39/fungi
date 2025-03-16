@@ -302,9 +302,7 @@ class FungiController
             header('Location: /404');
             exit;
         }
-        
-        // ... resto del código ...
-        
+      
         return [
             'title' => $fungus['name'] ?? _('Detalles del Hongo'),
             'fungi' => $fungus,

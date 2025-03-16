@@ -39,9 +39,9 @@ class DocsController
         
         $apiResponse = @file_get_contents($apiUrl, false, $context);
         $apiDocs = json_decode($apiResponse, true);
-        
+
+        // Si hay un error al obtener los datos, usar información básica
         if (!$apiDocs) {
-            // Si hay un error al obtener los datos, usar información básica
             $apiDocs = [
                 'api_version' => 'v1',
                 'available_endpoints' => [
