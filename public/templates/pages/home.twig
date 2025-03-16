@@ -1,21 +1,57 @@
 <!DOCTYPE html>
-<html lang="{{ idioma_actual }}">
+<html lang="{{ idioma_actual }}" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Estilos personalizados mínimos -->
     <link rel="stylesheet" href="/assets/styles/generic.css">
-    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
-    <link rel="stylesheet" href="/assets/styles/components/footer.css">
-    <link rel="stylesheet" href="/assets/styles/pages/home.css">
     
-    <!-- Font Awesome para iconos (versión local) -->
-    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilos inline mínimos -->
+    <style>
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('/assets/images/hero-bg.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 5rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .fungi-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .fungi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .category-card {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            height: 100%;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .search-section {
+            background-color: rgba(33, 37, 41, 0.03);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,119 +60,237 @@
 
     <main>
         <!-- Sección Hero -->
-        <section class="hero">
+        <section class="hero text-center text-white">
             <div class="container">
-                <h1 class="hero-title">{{ title }}</h1>
-                <p class="hero-text">{{ __d('Descubre la diversidad de hongos, aprende sobre sus características y explora su taxonomía en nuestra base de datos completa.', 'home') }}</p>
-                <div class="hero-actions">
-                    <a href="/random" class="btn btn-primary btn-lg"><i class="fas fa-random"></i> {{ __d('Hongo Aleatorio', 'home') }}</a>
-                    <a href="/statistics" class="btn btn-outline-light btn-lg"><i class="fas fa-chart-bar"></i> {{ __d('Ver Estadísticas', 'home') }}</a>
+                <h1 class="display-4 fw-bold mb-4">{{ title }}</h1>
+                <p class="lead mb-5">{{ __d('Descubre la diversidad de hongos, aprende sobre sus características y explora su taxonomía en nuestra base de datos completa.', 'home') }}</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="/random" class="btn btn-primary btn-lg">
+                        <i class="fas fa-random me-2"></i> {{ __d('Hongo Aleatorio', 'home') }}
+                    </a>
+                    <a href="/statistics" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-chart-bar me-2"></i> {{ __d('Ver Estadísticas', 'home') }}
+                    </a>
                 </div>
             </div>
         </section>
 
-        <div class="container">
+        <div class="container py-4">
             {% if error %}
-                <div class="alert alert-danger">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endif %}
 
-            <!-- Sección de Búsqueda -->
-            <section class="search-section">
-                <h2 class="section-title"><i class="fas fa-search"></i> {{ __d('Buscar Hongos', 'home') }}</h2>
+            <!-- Sección de Búsqueda con Cards de Bootstrap 5 -->
+            <section class="search-section shadow-sm mb-5">
+                <h2 class="h3 mb-4 text-center">
+                    <i class="fas fa-search me-2"></i> {{ __d('Buscar Hongos', 'home') }}
+                </h2>
                 <form class="search-form" action="/search" method="GET">
-                    <div class="search-group">
-                        <label for="search-name" class="search-label">{{ __d('Nombre', 'home') }}</label>
-                        <input type="text" id="search-name" name="name" class="form-control search-input" placeholder="{{ __d('Buscar por nombre...', 'home') }}">
-                    </div>
-                    <div class="search-group">
-                        <label for="search-edibility" class="search-label">{{ __d('Comestibilidad', 'home') }}</label>
-                        <select id="search-edibility" name="edibility" class="form-control search-input">
-                            <option value="">{{ __d('Todos', 'home') }}</option>
-                            <option value="excelente-comestible">{{ __d('Excelente comestible', 'home') }}</option>
-                            <option value="buen-comestible">{{ __d('Buen comestible', 'home') }}</option>
-                            <option value="comestible">{{ __d('Comestible', 'home') }}</option>
-                            <option value="comestible-precaucion">{{ __d('Comestible con precaución', 'home') }}</option>
-                            <option value="no-comestible">{{ __d('No comestible', 'home') }}</option>
-                            <option value="sin-valor">{{ __d('Sin valor culinario', 'home') }}</option>
-                            <option value="toxica">{{ __d('Tóxica', 'home') }}</option>
-                            <option value="mortal">{{ __d('Mortal', 'home') }}</option>
-                        </select>
-                    </div>
-                    <div class="search-group">
-                        <button type="submit" class="btn btn-primary btn-block search-button">
-                            <i class="fas fa-search"></i> {{ __d('Buscar', 'home') }}
-                        </button>
+                    <div class="row g-4">
+                        <div class="col-md-5">
+                            <div class="form-floating">
+                                <input type="text" id="search-name" name="name" class="form-control" 
+                                       placeholder="{{ __d('Buscar por nombre...', 'home') }}">
+                                <label for="search-name">{{ __d('Nombre', 'home') }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-floating">
+                                <select id="search-edibility" name="edibility" class="form-select">
+                                    <option value="">{{ __d('Todos', 'home') }}</option>
+                                    <option value="excelente-comestible">{{ __d('Excelente comestible', 'home') }}</option>
+                                    <option value="buen-comestible">{{ __d('Buen comestible', 'home') }}</option>
+                                    <option value="comestible">{{ __d('Comestible', 'home') }}</option>
+                                    <option value="comestible-precaucion">{{ __d('Comestible con precaución', 'home') }}</option>
+                                    <option value="no-comestible">{{ __d('No comestible', 'home') }}</option>
+                                    <option value="sin-valor">{{ __d('Sin valor culinario', 'home') }}</option>
+                                    <option value="toxica">{{ __d('Tóxica', 'home') }}</option>
+                                    <option value="mortal">{{ __d('Mortal', 'home') }}</option>
+                                </select>
+                                <label for="search-edibility">{{ __d('Comestibilidad', 'home') }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary h-100 w-100">
+                                <i class="fas fa-search me-2"></i> {{ __d('Buscar', 'home') }}
+                            </button>
+                        </div>
                     </div>
                 </form>
             </section>
 
             <!-- Sección de Hongos Destacados -->
-            <section class="featured-section">
-                <h2 class="section-title"><i class="fas fa-star"></i> {{ __d('Hongos Destacados', 'home') }}</h2>
-                <p class="section-subtitle">{{ __d('Explora nuestra selección de hongos más interesantes', 'home') }}</p>
-                <div id="fungi-container" class="fungi-grid">
-                    <p class="text-center w-100">{{ __d('Cargando hongos...', 'home') }}</p>
+            <section class="mb-5">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h3 mb-0">
+                        <i class="fas fa-star text-warning me-2"></i> {{ __d('Hongos Destacados', 'home') }}
+                    </h2>
+                    <span class="badge bg-primary rounded-pill">{{ __d('Recomendados', 'home') }}</span>
+                </div>
+                <p class="text-muted mb-4">{{ __d('Explora nuestra selección de hongos más interesantes', 'home') }}</p>
+                
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="fungi-container">
+                    <div class="col text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">{{ __d('Cargando hongos...', 'home') }}</span>
+                        </div>
+                        <p class="mt-2">{{ __d('Cargando hongos...', 'home') }}</p>
+                    </div>
                 </div>
             </section>
 
-            <!-- Sección de Categorías -->
-            <section class="categories-section">
-                <h2 class="section-title"><i class="fas fa-tags"></i> {{ __d('Explora por Categorías', 'home') }}</h2>
-                <div class="fungi-grid">
-                    <a href="/category/comestible" class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-utensils"></i>
+            <!-- Separador visual -->
+            <div class="position-relative py-4 my-5">
+                <hr>
+                <div class="position-absolute top-50 start-50 translate-middle bg-body px-3">
+                    <i class="fas fa-leaf text-success"></i>
+                </div>
+            </div>
+
+            <!-- Sección de Categorías con cards modernas -->
+            <section class="mb-5">
+                <h2 class="h3 mb-4 text-center">
+                    <i class="fas fa-tags me-2"></i> {{ __d('Explora por Categorías', 'home') }}
+                </h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                    <div class="col">
+                        <a href="/category/comestible" class="category-card d-block">
+                            <div class="card h-100 border-0 bg-success bg-opacity-10 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="rounded-circle bg-success bg-opacity-25 p-3 mx-auto mb-3" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-utensils fa-2x text-success"></i>
+                                    </div>
+                                    <h3 class="card-title h5">{{ __d('Comestibles', 'home') }}</h3>
+                                    <p class="card-text text-muted small">{{ __d('Explora hongos comestibles', 'home') }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="/category/medicinal" class="category-card d-block">
+                            <div class="card h-100 border-0 bg-info bg-opacity-10 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="rounded-circle bg-info bg-opacity-25 p-3 mx-auto mb-3" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-mortar-pestle fa-2x text-info"></i>
+                                    </div>
+                                    <h3 class="card-title h5">{{ __d('Medicinales', 'home') }}</h3>
+                                    <p class="card-text text-muted small">{{ __d('Propiedades curativas', 'home') }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="/category/toxic" class="category-card d-block">
+                            <div class="card h-100 border-0 bg-danger bg-opacity-10 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="rounded-circle bg-danger bg-opacity-25 p-3 mx-auto mb-3" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-skull-crossbones fa-2x text-danger"></i>
+                                    </div>
+                                    <h3 class="card-title h5">{{ __d('Tóxicos', 'home') }}</h3>
+                                    <p class="card-text text-muted small">{{ __d('Hongos peligrosos', 'home') }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="/category/rare" class="category-card d-block">
+                            <div class="card h-100 border-0 bg-warning bg-opacity-10 shadow-sm">
+                                <div class="card-body text-center p-4">
+                                    <div class="rounded-circle bg-warning bg-opacity-25 p-3 mx-auto mb-3" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-gem fa-2x text-warning"></i>
+                                    </div>
+                                    <h3 class="card-title h5">{{ __d('Raros', 'home') }}</h3>
+                                    <p class="card-text text-muted small">{{ __d('Especies poco comunes', 'home') }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seccion de datos curiosos -->
+            <section class="my-5 py-2">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="h4 mb-0">
+                            <i class="fas fa-lightbulb me-2"></i> {{ __d('¿Sabías que...?', 'home') }}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info border-0">
+                            <p id="dato-curioso" class="lead mb-0 fst-italic text-center">
+                                <!-- Aquí se mostrará un dato curioso aleatorio sobre hongos -->
+                            </p>
                         </div>
-                        <h3 class="category-title">{{ __d('Comestibles', 'home') }}</h3>
-                        <span class="category-count">{{ __d('Explora hongos comestibles', 'home') }}</span>
-                    </a>
-                    <a href="/category/medicinal" class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-mortar-pestle"></i>
+                        <div class="text-center mt-3">
+                            <button onclick="mostrarDatoAleatorio()" class="btn btn-outline-primary">
+                                <i class="fas fa-sync-alt me-2"></i> {{ __d('Otro dato curioso', 'home') }}
+                            </button>
                         </div>
-                        <h3 class="category-title">{{ __d('Medicinales', 'home') }}</h3>
-                        <span class="category-count">{{ __d('Propiedades curativas', 'home') }}</span>
-                    </a>
-                    <a href="/category/toxic" class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-skull-crossbones"></i>
-                        </div>
-                        <h3 class="category-title">{{ __d('Tóxicos', 'home') }}</h3>
-                        <span class="category-count">{{ __d('Hongos peligrosos', 'home') }}</span>
-                    </a>
-                    <a href="/category/rare" class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-gem"></i>
-                        </div>
-                        <h3 class="category-title">{{ __d('Raros', 'home') }}</h3>
-                        <span class="category-count">{{ __d('Especies poco comunes', 'home') }}</span>
-                    </a>
+                    </div>
                 </div>
             </section>
 
             <!-- Sección CTA -->
-            <section class="cta-section">
-                <h2 class="cta-title">{{ __d('¿Conoces un hongo que no está en nuestra base de datos?', 'home') }}</h2>
-                <p class="cta-text">{{ __d('Ayúdanos a expandir nuestra colección de información micológica. Regístrate y contribuye con tus conocimientos.', 'home') }}</p>
-                <a href="/register" class="btn btn-primary btn-lg">{{ __d('Únete a nuestra comunidad', 'home') }}</a>
+            <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
+                <div class="py-4 px-3">
+                    <h2 class="display-6 mb-3">{{ __d('¿Conoces un hongo que no está en nuestra base de datos?', 'home') }}</h2>
+                    <p class="lead mb-4">{{ __d('Ayúdanos a expandir nuestra colección de información micológica. Regístrate y contribuye con tus conocimientos.', 'home') }}</p>
+                    <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
+                        <i class="fas fa-user-plus me-2"></i> {{ __d('Únete a nuestra comunidad', 'home') }}
+                    </a>
+                </div>
             </section>
         </div>
     </main>
 
-    <footer>
+    <footer class="mt-auto">
         {% include 'components/footer.twig' %}
     </footer>
 
-    <script src="/assets/lib/jquery.min.js"></script>
-    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 5 JS Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    {% if use_ajax %}
+    <!-- Datos curiosos script -->
     <script>
+        // Función para generar dato aleatorio
+        function mostrarDatoAleatorio() {
+            const datos = [
+                "¿Sabías que los hongos son más cercanos a los animales que a las plantas?",
+                "El micelio de algunos hongos puede extenderse por varios kilómetros bajo tierra.",
+                "El hongo más grande del mundo es un Armillaria ostoyae en Oregon, que cubre 8.9 km².",
+                "Algunos hongos pueden descomponer plástico y ayudar al medio ambiente.",
+                "Las trufas pueden costar hasta 6.000€ por kilogramo.",
+                "El 90% de las plantas dependen de asociaciones con hongos para sobrevivir.",
+                "Existen más de 120.000 especies de hongos conocidas.",
+                "La penicilina, primer antibiótico descubierto, proviene de un hongo.",
+                "Algunos hongos pueden brillar en la oscuridad (bioluminiscencia).",
+                "Los hongos han existido en la Tierra desde hace más de 1.300 millones de años."
+            ];
+            
+            const indice = Math.floor(Math.random() * datos.length);
+            const datoCurioso = document.getElementById('dato-curioso');
+            
+            // Animación de fade
+            datoCurioso.style.opacity = "0";
+            setTimeout(() => {
+                datoCurioso.innerText = datos[indice];
+                datoCurioso.style.opacity = "1";
+            }, 300);
+        }
+        
+        // Mostrar dato curioso al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('dato-curioso')) {
+                mostrarDatoAleatorio();
+            }
+            
+            {% if use_ajax %}
             // Carga inicial de hongos
-            cargarHongos('/api/fungi/page/1/limit/12');
+            cargarHongos('/api/fungi/page/1/limit/8');
             
             // Configurar el formulario de búsqueda
             const searchForm = document.querySelector('.search-form');
@@ -154,7 +308,7 @@
                         cargarHongos('/api/fungi/search/edibility/' + encodeURIComponent(edibilitySelect.value));
                     } else {
                         // Si no hay criterios, mostrar todos
-                        cargarHongos('/api/fungi/page/1/limit/12');
+                        cargarHongos('/api/fungi/page/1/limit/8');
                     }
                 });
             }
@@ -162,7 +316,14 @@
             // Función para cargar hongos desde la API
             function cargarHongos(apiUrl) {
                 const fungiContainer = document.getElementById('fungi-container');
-                fungiContainer.innerHTML = '<p class="text-center w-100">{{ __d("Cargando hongos...", "home") }}</p>';
+                fungiContainer.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">{{ __d("Cargando hongos...", "home") }}</span>
+                        </div>
+                        <p class="mt-2">{{ __d("Cargando hongos...", "home") }}</p>
+                    </div>
+                `;
                 
                 fetch(apiUrl)
                     .then(response => response.json())
@@ -175,34 +336,56 @@
                                 const imageUrl = imageUrls.length > 0 ? imageUrls[0] : '/assets/images/placeholder.jpg';
                                 
                                 const fungiCard = document.createElement('div');
-                                fungiCard.className = 'card h-100';
+                                fungiCard.className = 'col';
                                 fungiCard.innerHTML = `
-                                    <img src="${imageUrl}" class="card-img-top" alt="${fungi.name}">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${fungi.name.replace(/-/g, ' ')}</h5>
-                                        <p class="card-text">${fungi.edibility ? fungi.edibility.replace(/-/g, ' ') : ''}</p>
-                                        <a href="/fungi/${fungi.id}" class="btn btn-primary">{{ __d("Ver detalles", "home") }}</a>
+                                    <div class="card h-100 shadow-sm fungi-card border-0">
+                                        <img src="${imageUrl}" class="card-img-top" alt="${fungi.name}" 
+                                             style="height: 180px; object-fit: cover;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${fungi.name.replace(/-/g, ' ')}</h5>
+                                            <p class="card-text text-muted small">
+                                                <span class="badge ${getBadgeClass(fungi.edibility)}">
+                                                    ${fungi.edibility ? fungi.edibility.replace(/-/g, ' ') : ''}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer bg-transparent border-0">
+                                            <a href="/fungi/${fungi.id}" class="btn btn-sm btn-outline-primary w-100">
+                                                {{ __d("Ver detalles", "home") }}
+                                            </a>
+                                        </div>
                                     </div>
                                 `;
                                 
-                                // Crear el contenedor y añadir la tarjeta
-                                const cardContainer = document.createElement('div');
-                                cardContainer.appendChild(fungiCard);
-                                fungiContainer.appendChild(cardContainer);
+                                fungiContainer.appendChild(fungiCard);
                             });
                         } else {
                             fungiContainer.innerHTML = 
-                                '<p class="text-center w-100">{{ __d("No hay hongos disponibles con los criterios seleccionados.", "home") }}</p>';
+                                '<div class="col-12 text-center py-4"><p class="text-muted">{{ __d("No hay hongos disponibles con los criterios seleccionados.", "home") }}</p></div>';
                         }
                     })
                     .catch(error => {
                         console.error('Error al cargar los hongos:', error);
                         fungiContainer.innerHTML = 
-                            '<p class="text-center w-100 text-danger">{{ __d("Error al cargar los hongos. Intente nuevamente.", "home") }}</p>';
+                            '<div class="col-12 text-center py-4"><p class="text-danger">{{ __d("Error al cargar los hongos. Intente nuevamente.", "home") }}</p></div>';
                     });
             }
+            
+            // Devuelve la clase de badge según la comestibilidad
+            function getBadgeClass(edibility) {
+                if (!edibility) return 'bg-secondary';
+                
+                if (edibility.includes('excelente') || edibility.includes('buen-comestible'))
+                    return 'bg-success';
+                if (edibility.includes('toxica') || edibility.includes('mortal'))
+                    return 'bg-danger';
+                if (edibility.includes('precaucion'))
+                    return 'bg-warning';
+                
+                return 'bg-info';
+            }
+            {% endif %}
         });
     </script>
-    {% endif %}
 </body>
 </html>
