@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Controllers;
-
-use App\Config\ErrorMessages;
-
 /**
  * @class UserController
  * @brief Controlador para gestionar operaciones relacionadas con usuarios

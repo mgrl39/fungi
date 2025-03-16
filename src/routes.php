@@ -1,5 +1,6 @@
 <?php
 
+
 // IMPORTANTE: Detectar si es una solicitud API y evitar imprimir HTML
 $isApiRequest = preg_match('#^/api#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
@@ -90,7 +91,7 @@ function renderTemplate($templatePath, $data = [])
 // Inicializar controladores
 $db = new \App\Controllers\DatabaseController();
 $session = new \App\Controllers\SessionController($db);
-$authController = new \App\Controllers\AuthController($db, $session);
+$authController = new \App\Controllers\AuthController($db);
 $userController = new \App\Controllers\UserController($db, $session);
 $fungiController = new \App\Controllers\FungiController($db);
 $statsController = new \App\Controllers\StatsController($db);
