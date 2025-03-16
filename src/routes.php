@@ -123,6 +123,7 @@ $routes = [
     '/about' => ['template' => 'pages/about.twig', 'title' => _('Acerca de'), 'auth_required' => false],
     '/404' => ['template' => 'pages/404.twig', 'title' => _('Página no encontrada'), 'auth_required' => false],
     '/random' => ['template' => null, 'redirect' => '/fungi/random'],
+    '/profile/([^/]+)' => [ 'redirect' => '/profile' ],
     '/profile' => ['template' => 'pages/profile.twig', 'auth_required' => true, 'handler' => [$userController, 'profileHandler']],
     '/home' => ['template' => null, 'redirect' => '/'],
     '/docs/api' => ['template' => 'pages/api/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
@@ -130,7 +131,7 @@ $routes = [
     '/register' => ['template' => 'components/auth/register_form.twig', 'auth_required' => false, 'handler' => [$authController, 'registerHandler']],
     '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/statistics' => ['template' => 'pages/statistics.twig', 'title' => _('Estadísticas'), 'handler' => [$statsController, 'statisticsPageHandler']],
-    '/profile/([^/]+)' => [ 'redirect' => '/profile' ],
+    '/fungi/random' => ['template' => 'pages/fungi_detail.twig', 'title' => _('Hongo aleatorio'), 'auth_required' => false, 'handler' => [$fungiController, 'randomFungusHandler']],
     '/' => [
         'template' => 'pages/home.twig',
         'title' => _('Hongos'),
@@ -171,44 +172,6 @@ $routes = [
                     'success' => $registered ? _('Usuario registrado exitosamente. Por favor inicia sesión.') : null
                 ];
             }
-        }
-    ],
-    '/fungi/random' => [
-        'template' => 'pages/fungi_detail.twig',
-        'title' => _('Hongo aleatorio'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $authController = null) use ($fungiController) {
-            // Obtener un hongo aleatorio
-            $query = "SELECT * FROM fungi ORDER BY RAND() LIMIT 1";
-            $randomResult = $db->query($query);
-            
-            // Corregir este bloque para manejar correctamente el resultado PDOStatement
-            if ($randomResult instanceof \PDOStatement) {
-                $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
-            } else if (is_array($randomResult) && !empty($randomResult)) {
-                // Si ya es un array (quizás el método query ya procesa el resultado)
-                $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
-            } else {
-                $fungus = null;
-            }
-            
-            if (!$fungus) {
-                header('Location: /404');
-                exit;
-            }
-            
-            // Añadir información de like si el usuario está logueado
-            if ($session->isLoggedIn()) {
-                $fungus = $fungiController->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
-            }
-            
-            // Añadir esta línea para depuración
-            error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
-            
-            return [
-                'title' => _('Hongo aleatorio'),
-                'fungi' => $fungus
-            ];
         }
     ],
     '/dashboard' => [

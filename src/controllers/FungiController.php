@@ -207,4 +207,64 @@ class FungiController
         
         return $similarFungi ?: [];
     }
+
+    /**
+     * @brief Obtiene un hongo aleatorio de la base de datos
+     * 
+     * @return array|null Datos del hongo aleatorio o null si no se encuentra ninguno
+     */
+    public function getRandomFungus()
+    {
+        $query = "SELECT * FROM fungi ORDER BY RAND() LIMIT 1";
+        $randomResult = $this->db->query($query);
+        
+        // Procesar el resultado según el tipo de retorno de la DB
+        if ($randomResult instanceof \PDOStatement) {
+            $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
+        } else if (is_array($randomResult) && !empty($randomResult)) {
+            // Si ya es un array (quizás el método query ya procesa el resultado)
+            $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
+        } else {
+            $fungus = null;
+        }
+        
+        if ($fungus) {
+            // Incrementar el contador de vistas para este hongo
+            $this->incrementFungiViews($fungus['id']);
+            
+            // Registrar para depuración
+            error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
+        }
+        
+        return $fungus;
+    }
+    
+    /**
+     * @brief Manejador para la ruta de hongo aleatorio
+     * 
+     * @param object $twig Instancia de Twig
+     * @param object $db Instancia de la base de datos
+     * @param object $session Controlador de sesión
+     * @return array Datos para la plantilla
+     */
+    public function randomFungusHandler($twig, $db, $session)
+    {
+        // Obtener un hongo aleatorio
+        $fungus = $this->getRandomFungus();
+        
+        if (!$fungus) {
+            header('Location: /404');
+            exit;
+        }
+        
+        // Añadir información de like si el usuario está logueado
+        if ($session->isLoggedIn()) {
+            $fungus = $this->getFungusWithLikeStatus($fungus, $_SESSION['user_id']);
+        }
+        
+        return [
+            'title' => _('Hongo aleatorio'),
+            'fungi' => $fungus
+        ];
+    }
 } 
