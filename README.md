@@ -178,5 +178,5 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 ---
 
 <p align="center">
-  Desarrollado con ❤️ por el equipo Fungi
+  Desarrollado con ❤️ por el equipo Fungi 🍄 como proyecto educativo
 </p>
