@@ -433,7 +433,6 @@ class ApiController
 				'error' => ErrorMessages::HTTP_404
 			];
 		}
-		
 		echo json_encode($result);
 	}
 

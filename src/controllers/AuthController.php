@@ -454,29 +454,37 @@ class AuthController {
     }
     
     /**
-     * @brief Procesa el formulario de registro
+     * @brief Maneja la solicitud de registro de usuario
      * 
-     * @param array $postData Datos enviados en el formulario
-     * @param Twig $twig Instancia del motor de plantillas Twig
+     * Procesa el formulario de registro cuando se envía por POST
+     * o prepara la vista del formulario cuando se accede por GET.
+     * Compatible con el sistema de rutas de la aplicación.
      * 
-     * @return void Redirige al usuario o muestra el formulario con errores
+     * @return array Datos para la plantilla
      */
-    public function handleRegistration($postData, $twig) {
-        $result = $this->register(
-            $postData['username'] ?? '',
-            $postData['email'] ?? '',
-            $postData['password'] ?? '',
-            $postData['confirm_password'] ?? ''
-        );
-        
-        if ($result['success']) {
-            header('Location: /login?registered=1');
-            exit;
+    public function registerHandler()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $result = $this->register(
+                $_POST['username'] ?? '',
+                $_POST['email'] ?? '',
+                $_POST['password'] ?? '',
+                $_POST['confirm_password'] ?? ''
+            );
+            
+            if ($result['success']) {
+                header('Location: /login?registered=1');
+                exit;
+            } else {
+                return [
+                    'title' => _('Registro'),
+                    'error' => $result['message']
+                ];
+            }
         } else {
-            echo $twig->render('register.twig', [
-                'title' => _('Registro'),
-                'error' => $result['message']
-            ]);
+            return [
+                'title' => _('Registro')
+            ];
         }
     }
 }

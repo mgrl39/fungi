@@ -108,6 +108,15 @@ $fungiController = new \App\Controllers\FungiController($db);
 $statsController = new \App\Controllers\StatsController($db);
 $docsController = new \App\Controllers\DocsController($db, $session);
 
+// Crear el controlador de rutas
+$routeController = new \App\Controllers\RouteController($twig, $db, $session, [
+    'auth' => $authController,
+    'fungi' => $fungiController,
+    'stats' => $statsController,
+    'docs' => $docsController,
+    'lang' => $langController
+]);
+
 // Definir rutas
 $routes = [
     '/index' => ['template' => 'pages/home.twig', 'redirect' => '/'],
@@ -117,6 +126,9 @@ $routes = [
     '/profile' => ['template' => 'pages/profile.twig', 'auth_required' => true, 'handler' => [$userController, 'profileHandler']],
     '/home' => ['template' => null, 'redirect' => '/'],
     '/docs/api' => ['template' => 'pages/api/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
+    '/change-language' => ['handler' => [$langController, 'changeLanguage']],
+    '/register' => ['template' => 'components/auth/register_form.twig', 'auth_required' => false, 'handler' => [$authController, 'registerHandler']],
+    '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/' => [
         'template' => 'pages/home.twig',
         'title' => _('Hongos'),
@@ -159,41 +171,10 @@ $routes = [
             }
         }
     ],
-    '/register' => [
-        'template' => 'components/auth/register_form.twig',
-        'title' => _('Registro'),
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session, $authController) {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $result = $authController->register(
-                    $_POST['username'] ?? '',
-                    $_POST['email'] ?? '',
-                    $_POST['password'] ?? '',
-                    $_POST['confirm_password'] ?? ''
-                );
-                
-                if ($result['success']) {
-                    header('Location: /login?registered=1');
-                    exit;
-                } else {
-                    return [
-                        'title' => _('Registro'),
-                        'error' => $result['message']
-                    ];
-                }
-            } else {
-                return [
-                    'title' => _('Registro')
-                ];
-            }
-        }
-    ],
-    
-    '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],
     '/statistics' => [
         'template' => 'pages/statistics.twig',
         'title' => _('Estadísticas'),
-        'handler' => function($twig, $db, $session) {
+        'handler' => function($twig, $db, $session, $authController = null) use ($statsController) {
             return [
                 'title' => _('Estadísticas'),
                 'stats' => $statsController->getAllStatsForPage()
@@ -293,14 +274,6 @@ $routes = [
             ];
         }
     ],
-    '/change-language' => [
-        'template' => null,
-        'auth_required' => false,
-        'handler' => function($twig, $db, $session) {
-            $langController = new \App\Controllers\LangController();
-            return $langController->changeLanguage();
-        }
-    ],
     // Ruta para ver perfil por nombre de usuario
     '/profile/([^/]+)' => [
         'template' => 'pages/profile.twig',
@@ -347,6 +320,9 @@ $routes = [
     ],
 ];
 
+// Añadir rutas al controlador
+$routeController->addRoutes($routes);
+
 // Manejo de rutas de API
 if (preg_match('#^/api#', $uri)) {
     // IMPORTANTE: Asegurarse de que no hay salidas previas antes del JSON
@@ -365,93 +341,4 @@ if (preg_match('#^/api#', $uri)) {
         echo json_encode(['error' => 'API no implementada']);
     }
     exit;
-}
-
-// Procesamiento de rutas
-
-// 1. Intentar coincidencia exacta primero
-if (isset($routes[$uri])) {
-    $route = $routes[$uri];
-    
-    // Si la ruta tiene una redirección configurada
-    if (isset($route['redirect'])) {
-        header('Location: ' . $route['redirect']);
-        exit;
-    }
-    
-    // Verificar si se requiere autenticación para esta ruta
-    if (isset($route['auth_required']) && $route['auth_required'] && !$session->isLoggedIn()) {
-        header('Location: /login');
-        exit;
-    }
-    
-    // Verificar si se requiere rol de administrador
-    if (isset($route['admin_required']) && $route['admin_required'] && !$session->isAdmin()) {
-        header('Location: /');
-        exit;
-    }
-    
-    // Obtener datos para la vista usando el manejador personalizado
-    $data = isset($route['handler']) ? $route['handler']($twig, $db, $session, $authController ?? null) : [];
-    
-    // Si no hay datos pero hay título, usar el título como datos
-    if (empty($data) && isset($route['title'])) {
-        $data = ['title' => $route['title']];
-    }
-    
-    // Renderizar la plantilla
-    if (isset($route['template']) && $route['template'] !== null) {
-        renderTemplate($route['template'], $data);
-    }
-} else {
-    // 2. Intentar coincidencia con patrones
-    $patternMatched = false;
-    
-    foreach ($routes as $pattern => $route) {
-        // Si el patrón contiene caracteres especiales como paréntesis (indicando expresión regular)
-        if (strpos($pattern, '(') !== false) {
-            if (preg_match('#^' . $pattern . '$#', $uri, $matches)) {
-                // Verificar si se requiere autenticación para esta ruta
-                if (isset($route['auth_required']) && $route['auth_required'] && !$session->isLoggedIn()) {
-                    header('Location: /login');
-                    exit;
-                }
-                
-                // Verificar si se requiere rol de administrador
-                if (isset($route['admin_required']) && $route['admin_required'] && !$session->isAdmin()) {
-                    header('Location: /');
-                    exit;
-                }
-                
-                // Obtener datos para la vista usando el manejador personalizado
-                $data = isset($route['handler']) ? $route['handler']($twig, $db, $session, $authController ?? null) : [];
-                
-                // Si no hay datos pero hay título, usar el título como datos
-                if (empty($data) && isset($route['title'])) {
-                    $data = ['title' => $route['title']];
-                }
-                
-                // Renderizar la plantilla
-                if (isset($route['template']) && $route['template'] !== null) {
-                    renderTemplate($route['template'], $data);
-                }
-                
-                $patternMatched = true;
-                break;
-            }
-        }
-    }
-    
-    // 3. Si no se encontró ninguna coincidencia, mostrar 404
-    if (!$patternMatched) {
-        header('HTTP/1.1 404 Not Found');
-        
-        // Obtener datos para la página 404
-        $data = isset($routes['/404']['handler']) 
-            ? $routes['/404']['handler']($twig, $db, $session, $authController ?? null) 
-            : ['title' => _('Página no encontrada')];
-            
-        // Renderizar la plantilla 404
-        renderTemplate($routes['/404']['template'], $data);
-    }
-}
+} else $routeController->handleRequest($uri);
