@@ -304,44 +304,34 @@ Gráfico de llamadas de esta función\+:
 
 Verifica si el usuario actual tiene permisos de administrador. 
 
-Comprueba si el rol del usuario en sesión o en la base de datos corresponde a un administrador
+Comprueba si el rol del usuario en sesión o en la base de datos corresponde a un administrador Comprueba si el usuario está autenticado y si el rol es administrador Si no está autenticado, devuelve false Si está autenticado, pero no es administrador, lo actualiza en la sesión Si esta autenticado y es administrador, devuelve true
 
 \begin{DoxyReturn}{Devuelve}
 bool TRUE si el usuario es administrador, FALSE en caso contrario 
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{SessionController_8php_source_l00288}{288}} del archivo \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{SessionController_8php_source_l00292}{292}} del archivo \mbox{\hyperlink{SessionController_8php_source}{Session\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a85371c29c7f51815ccc851826b8cb288}{isLoggedIn}}())\ \{}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ rol\ está\ en\ la\ sesión}}
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'role'}])\ \&\&\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ===\ \textcolor{stringliteral}{'admin'})\ \{}
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ en\ la\ base\ de\ datos\ si\ no\ está\ en\ sesión}}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ role\ FROM\ users\ WHERE\ id\ =\ :user\_id"{}};}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ [\textcolor{stringliteral}{':user\_id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]]);}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$userData\ \&\&\ \$userData[\textcolor{stringliteral}{'role'}]\ ===\ \textcolor{stringliteral}{'admin'})\ \{}
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ la\ sesión\ con\ el\ rol\ correcto}}
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ =\ \textcolor{stringliteral}{'admin'};}
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}(\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ verificando\ permisos\ de\ administrador:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00314\ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1SessionController_a85371c29c7f51815ccc851826b8cb288}{isLoggedIn}}())\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'role'}])\ \&\&\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ===\ \textcolor{stringliteral}{'admin'})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ role\ FROM\ users\ WHERE\ id\ =\ :user\_id"{}};}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ [\textcolor{stringliteral}{':user\_id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]]);}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$userData\ \&\&\ \$userData[\textcolor{stringliteral}{'role'}]\ ===\ \textcolor{stringliteral}{'admin'})\ \{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ =\ \textcolor{stringliteral}{'admin'};}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}(\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ verificando\ permisos\ de\ administrador:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00308\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -402,7 +392,7 @@ Hace referencia a \mbox{\hyperlink{SessionController_8php_source_l00126}{App\tex
 
 
 
-Referenciado por \mbox{\hyperlink{SessionController_8php_source_l00235}{App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\textbackslash{}get\+User\+Data()}} y \mbox{\hyperlink{SessionController_8php_source_l00288}{App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\textbackslash{}is\+Admin()}}.
+Referenciado por \mbox{\hyperlink{SessionController_8php_source_l00235}{App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\textbackslash{}get\+User\+Data()}} y \mbox{\hyperlink{SessionController_8php_source_l00292}{App\textbackslash{}\+Controllers\textbackslash{}\+Session\+Controller\textbackslash{}is\+Admin()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak

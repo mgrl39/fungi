@@ -1,7 +1,7 @@
 var searchData=
 [
   ['validateprofileupdate_0',['validateProfileUpdate',['../classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb',1,'App::Controllers::UserController']]],
-  ['validaterequiredfields_1',['validaterequiredfields',['../classApp_1_1Controllers_1_1Api_1_1ApiAuthController.html#aebf26ee908446e22bd84e57aae8d3826',1,'App\Controllers\Api\ApiAuthController\validateRequiredFields()'],['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a803ac21c48d07c1218e801d9e8aed1ee',1,'App\Controllers\Api\ApiPostController\validateRequiredFields()']]],
+  ['validaterequiredfields_1',['validateRequiredFields',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a803ac21c48d07c1218e801d9e8aed1ee',1,'App::Controllers::Api::ApiPostController']]],
   ['validation_5finvalid_5femail_2',['VALIDATION_INVALID_EMAIL',['../classApp_1_1Config_1_1ErrorMessages.html#afcc74c18af302f268ceb849c16076ad6',1,'App::Config::ErrorMessages']]],
   ['validation_5finvalid_5fformat_3',['VALIDATION_INVALID_FORMAT',['../classApp_1_1Config_1_1ErrorMessages.html#aac0825675dfa83cf7106e16fe7ac356c',1,'App::Config::ErrorMessages']]],
   ['validation_5fpassword_5fweak_4',['VALIDATION_PASSWORD_WEAK',['../classApp_1_1Config_1_1ErrorMessages.html#a7c74a01e4a66582f055d06680fafd7bd',1,'App::Config::ErrorMessages']]],

@@ -141,7 +141,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00354}{354}
 \DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
 \DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
 \DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
-\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ \textcolor{keyword}{new}\ ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
 \DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
 \DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
 \DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
@@ -265,7 +265,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00105}{105}
 \DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ hay\ un\ token\ Bearer\ en\ el\ encabezado}}
 \DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
 \DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ \textcolor{keyword}{new}\ ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
 \DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$apiGetController-\/>verifyAuthToken(\$token,\ [\$apiAuthController,\ \textcolor{stringliteral}{'verifyJwtToken'}]);}
 \DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ }
@@ -382,8 +382,8 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00202}{202}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00203\ \ \ \ \ \{}
 \DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crea\ una\ instancia\ del\ controlador\ de\ POST}}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \$apiPostController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiPostController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \$apiPostController\ =\ \textcolor{keyword}{new}\ ApiPostController(\$this-\/>pdo);}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ \textcolor{keyword}{new}\ ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
 \DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ de\ la\ solicitud}}
 \DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
@@ -503,13 +503,13 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00290}{290}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00291\ \ \ \ \ \{}
 \DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ PUT}}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \$apiPutController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiPutController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \$apiPutController\ =\ \textcolor{keyword}{new}\ ApiPutController(\$this-\/>pdo,\ \$this-\/>db);}
 \DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
 \DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
 \DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
 \DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ \textcolor{keyword}{new}\ ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
 \DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
 \DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
 \DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}

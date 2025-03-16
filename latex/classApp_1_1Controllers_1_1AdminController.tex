@@ -38,7 +38,7 @@ Controlador para funciones administrativas.
 
 Esta clase proporciona métodos para gestionar las páginas y funcionalidades de administración del sistema. 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00014}{14}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00012}{12}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 
@@ -55,7 +55,7 @@ Constructor del controlador de administración.
 
 
 \begin{DoxyParams}[1]{Parámetros}
-\textbackslash{}\+PDO & {\em \$db} & Instancia de la conexión a la base de datos \\
+\textbackslash{}\+App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller & {\em \$db} & Instancia del controlador de base de datos \\
 \hline
 Session\+Controller & {\em \$session} & Controlador de sesión \\
 \hline
@@ -64,20 +64,20 @@ Stats\+Controller & {\em \$stats\+Controller} & Controlador de estadísticas \\
 \end{DoxyParams}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00038}{38}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00030}{30}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00039\ \ \ \ \ \{}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a58fcd49448b51833b95e5458478cc78f}{\$db}};}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_afb44d06f307ac614afa172e41fed345d}{\$session}};}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \$this-\/>statsController\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a00acd67b242b4db0ae0cdb0719672176}{\$statsController}};}
-\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a58fcd49448b51833b95e5458478cc78f}{\$db}};}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \$this-\/>session\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_afb44d06f307ac614afa172e41fed345d}{\$session}};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \$this-\/>statsController\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a00acd67b242b4db0ae0cdb0719672176}{\$statsController}};}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AdminController_8php_source_l00019}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$db}}, \mbox{\hyperlink{AdminController_8php_source_l00024}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$session}} y \mbox{\hyperlink{AdminController_8php_source_l00029}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$stats\+Controller}}.
+Hace referencia a \mbox{\hyperlink{AdminController_8php_source_l00019}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$db}}, \mbox{\hyperlink{AdminController_8php_source_l00020}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$session}} y \mbox{\hyperlink{AdminController_8php_source_l00021}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$stats\+Controller}}.
 
 
 
@@ -91,6 +91,8 @@ Hace referencia a \mbox{\hyperlink{AdminController_8php_source_l00019}{App\textb
 
 
 Manejador para la página del panel de administración. 
+
+Este método actúa como handler para la ruta dashboard. Verifica que el usuario sea administrador y devuelve los datos necesarios para renderizar el panel.
 
 
 \begin{DoxyParams}[1]{Parámetros}
@@ -106,27 +108,22 @@ array Datos para la plantilla del dashboard
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00053}{53}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00049}{49}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00054\ \ \ \ \ \{}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ es\ administrador}}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_afb44d06f307ac614afa172e41fed345d}{\$session}}-\/>isAdmin())\ \{}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$this-\/>statsController-\/>getDashboardStats()}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_afb44d06f307ac614afa172e41fed345d}{\$session}}-\/>isAdmin())\ header(\textcolor{stringliteral}{'Location:\ /'})\ \&\&\ exit;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$this-\/>statsController-\/>getDashboardStats()}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AdminController_8php_source_l00024}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$session}}.
+Hace referencia a \mbox{\hyperlink{AdminController_8php_source_l00020}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\$session}}.
 
 
 
@@ -143,7 +140,7 @@ Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00019}{19
 
 
 
-Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00038}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00030}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
 
 \Hypertarget{classApp_1_1Controllers_1_1AdminController_afb44d06f307ac614afa172e41fed345d}\label{classApp_1_1Controllers_1_1AdminController_afb44d06f307ac614afa172e41fed345d} 
 \index{App\textbackslash{}Controllers\textbackslash{}AdminController@{App\textbackslash{}Controllers\textbackslash{}AdminController}!\$session@{\$session}}
@@ -153,11 +150,11 @@ Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00038}{App\textba
 
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00024}{24}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00020}{20}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00038}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\+\_\+\+\_\+construct()}} y \mbox{\hyperlink{AdminController_8php_source_l00053}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}dashboard\+Handler()}}.
+Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00030}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\+\_\+\+\_\+construct()}} y \mbox{\hyperlink{AdminController_8php_source_l00049}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}dashboard\+Handler()}}.
 
 \Hypertarget{classApp_1_1Controllers_1_1AdminController_a00acd67b242b4db0ae0cdb0719672176}\label{classApp_1_1Controllers_1_1AdminController_a00acd67b242b4db0ae0cdb0719672176} 
 \index{App\textbackslash{}Controllers\textbackslash{}AdminController@{App\textbackslash{}Controllers\textbackslash{}AdminController}!\$statsController@{\$statsController}}
@@ -167,11 +164,11 @@ Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00038}{App\textba
 
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00029}{29}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00021}{21}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00038}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
+Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00030}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}\+\_\+\+\_\+construct()}}.
 
 
 

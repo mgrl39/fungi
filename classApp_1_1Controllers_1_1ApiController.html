@@ -246,7 +246,7 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  364</span>        <span class="comment">// Verificar token de sesión o JWT</span></div>
 <div class="line"><span class="lineno">  365</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/Bearer\s(\S+)/&#39;</span>, $authHeader, $matches)) {</div>
 <div class="line"><span class="lineno">  366</span>            $token = $matches[1];</div>
-<div class="line"><span class="lineno">  367</span>            $apiAuthController = new \App\Controllers\Api\ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  367</span>            $apiAuthController = <span class="keyword">new</span> ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
 <div class="line"><span class="lineno">  368</span>            $payload = $apiAuthController-&gt;verifyJwtToken($token);</div>
 <div class="line"><span class="lineno">  369</span>            <span class="keywordflow">if</span> ($payload) {</div>
 <div class="line"><span class="lineno">  370</span>                $user = [</div>
@@ -377,7 +377,7 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  115</span>        <span class="comment">// Verificar si hay un token Bearer en el encabezado</span></div>
 <div class="line"><span class="lineno">  116</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/Bearer\s(\S+)/&#39;</span>, $authHeader, $matches)) {</div>
 <div class="line"><span class="lineno">  117</span>            $token = $matches[1];</div>
-<div class="line"><span class="lineno">  118</span>            $apiAuthController = new \App\Controllers\Api\ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  118</span>            $apiAuthController = <span class="keyword">new</span> ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
 <div class="line"><span class="lineno">  119</span>            $user = $apiGetController-&gt;verifyAuthToken($token, [$apiAuthController, <span class="stringliteral">&#39;verifyJwtToken&#39;</span>]);</div>
 <div class="line"><span class="lineno">  120</span>        }</div>
 <div class="line"><span class="lineno">  121</span>        </div>
@@ -501,8 +501,8 @@ Atributos privados</h2></td></tr>
 <p class="definition">Definición en la línea <a class="el" href="ApiController_8php_source.html#l00202">202</a> del archivo <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  203</span>    {</div>
 <div class="line"><span class="lineno">  204</span>        <span class="comment">// Crea una instancia del controlador de POST</span></div>
-<div class="line"><span class="lineno">  205</span>        $apiPostController = new \App\Controllers\Api\ApiPostController($this-&gt;pdo, $this-&gt;db);</div>
-<div class="line"><span class="lineno">  206</span>        $apiAuthController = new \App\Controllers\Api\ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  205</span>        $apiPostController = <span class="keyword">new</span> ApiPostController($this-&gt;pdo);</div>
+<div class="line"><span class="lineno">  206</span>        $apiAuthController = <span class="keyword">new</span> ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
 <div class="line"><span class="lineno">  207</span>        </div>
 <div class="line"><span class="lineno">  208</span>        <span class="comment">// Datos de la solicitud</span></div>
 <div class="line"><span class="lineno">  209</span>        $data = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
@@ -630,13 +630,13 @@ Atributos privados</h2></td></tr>
 <p class="definition">Definición en la línea <a class="el" href="ApiController_8php_source.html#l00290">290</a> del archivo <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  291</span>    {</div>
 <div class="line"><span class="lineno">  292</span>        <span class="comment">// Crear instancia del controlador PUT</span></div>
-<div class="line"><span class="lineno">  293</span>        $apiPutController = new \App\Controllers\Api\ApiPutController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  293</span>        $apiPutController = <span class="keyword">new</span> ApiPutController($this-&gt;pdo, $this-&gt;db);</div>
 <div class="line"><span class="lineno">  294</span>        </div>
 <div class="line"><span class="lineno">  295</span>        <span class="comment">// Verificar autenticación</span></div>
 <div class="line"><span class="lineno">  296</span>        $authHeader = isset($_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>]) ? $_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>] : <span class="stringliteral">&#39;&#39;</span>;</div>
 <div class="line"><span class="lineno">  297</span>        $token = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  298</span>        $user = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  299</span>        $apiAuthController = new \App\Controllers\Api\ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  299</span>        $apiAuthController = <span class="keyword">new</span> ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
 <div class="line"><span class="lineno">  300</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/Bearer\s(\S+)/&#39;</span>, $authHeader, $matches)) {</div>
 <div class="line"><span class="lineno">  301</span>            $token = $matches[1];</div>
 <div class="line"><span class="lineno">  302</span>            $payload = $apiAuthController-&gt;verifyJwtToken($token);</div>
@@ -833,7 +833,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1ApiController.html">ApiController</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 14:16:18 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 17:05:53 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

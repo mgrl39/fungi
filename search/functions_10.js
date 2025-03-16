@@ -1,7 +1,7 @@
 var searchData=
 [
   ['validateprofileupdate_0',['validateProfileUpdate',['../classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb',1,'App::Controllers::UserController']]],
-  ['validaterequiredfields_1',['validaterequiredfields',['../classApp_1_1Controllers_1_1Api_1_1ApiAuthController.html#aebf26ee908446e22bd84e57aae8d3826',1,'App\Controllers\Api\ApiAuthController\validateRequiredFields()'],['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a803ac21c48d07c1218e801d9e8aed1ee',1,'App\Controllers\Api\ApiPostController\validateRequiredFields()']]],
+  ['validaterequiredfields_1',['validateRequiredFields',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a803ac21c48d07c1218e801d9e8aed1ee',1,'App::Controllers::Api::ApiPostController']]],
   ['verifyauth_2',['verifyAuth',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ad38efdd58e10c822fccb780ac688c4ea',1,'App::Controllers::Api::ApiGetController']]],
   ['verifyauthtoken_3',['verifyAuthToken',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ad271f1b46463a2ef68b3ff1d15df9b31',1,'App::Controllers::Api::ApiGetController']]],
   ['verifyjwt_4',['verifyJWT',['../classApp_1_1Controllers_1_1SessionController.html#aeb485b5bb6111a9a69831bf477f5e2a7',1,'App::Controllers::SessionController']]],

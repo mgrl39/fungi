@@ -427,37 +427,27 @@ Atributos privados</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Verifica si el usuario actual tiene permisos de administrador. </p>
-<p>Comprueba si el rol del usuario en sesión o en la base de datos corresponde a un administrador</p>
+<p>Comprueba si el rol del usuario en sesión o en la base de datos corresponde a un administrador Comprueba si el usuario está autenticado y si el rol es administrador Si no está autenticado, devuelve false Si está autenticado, pero no es administrador, lo actualiza en la sesión Si esta autenticado y es administrador, devuelve true</p>
 <dl class="section return"><dt>Devuelve</dt><dd>bool TRUE si el usuario es administrador, FALSE en caso contrario </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="SessionController_8php_source.html#l00288">288</a> del archivo <a class="el" href="SessionController_8php_source.html">SessionController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  288</span>                              {</div>
-<div class="line"><span class="lineno">  289</span>        <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288">isLoggedIn</a>()) {</div>
-<div class="line"><span class="lineno">  290</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  291</span>        }</div>
-<div class="line"><span class="lineno">  292</span>        </div>
-<div class="line"><span class="lineno">  293</span>        <span class="comment">// Verificar si el rol está en la sesión</span></div>
-<div class="line"><span class="lineno">  294</span>        <span class="keywordflow">if</span> (isset($_SESSION[<span class="stringliteral">&#39;role&#39;</span>]) &amp;&amp; $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] === <span class="stringliteral">&#39;admin&#39;</span>) {</div>
-<div class="line"><span class="lineno">  295</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  296</span>        }</div>
-<div class="line"><span class="lineno">  297</span>        </div>
-<div class="line"><span class="lineno">  298</span>        <span class="comment">// Verificar en la base de datos si no está en sesión</span></div>
-<div class="line"><span class="lineno">  299</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  300</span>            $sql = <span class="stringliteral">&quot;SELECT role FROM users WHERE id = :user_id&quot;</span>;</div>
-<div class="line"><span class="lineno">  301</span>            $result = $this-&gt;db-&gt;query($sql, [<span class="stringliteral">&#39;:user_id&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]]);</div>
-<div class="line"><span class="lineno">  302</span>            $userData = $result-&gt;fetch(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  303</span>            </div>
-<div class="line"><span class="lineno">  304</span>            <span class="keywordflow">if</span> ($userData &amp;&amp; $userData[<span class="stringliteral">&#39;role&#39;</span>] === <span class="stringliteral">&#39;admin&#39;</span>) {</div>
-<div class="line"><span class="lineno">  305</span>                <span class="comment">// Actualizar la sesión con el rol correcto</span></div>
-<div class="line"><span class="lineno">  306</span>                $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] = <span class="stringliteral">&#39;admin&#39;</span>;</div>
-<div class="line"><span class="lineno">  307</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  308</span>            }</div>
-<div class="line"><span class="lineno">  309</span>        } <span class="keywordflow">catch</span>(\Exception $e) {</div>
-<div class="line"><span class="lineno">  310</span>            error_log(<span class="stringliteral">&quot;Error verificando permisos de administrador: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  311</span>        }</div>
-<div class="line"><span class="lineno">  312</span>        </div>
-<div class="line"><span class="lineno">  313</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  314</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="SessionController_8php_source.html#l00292">292</a> del archivo <a class="el" href="SessionController_8php_source.html">SessionController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  292</span>                              {</div>
+<div class="line"><span class="lineno">  293</span>        <span class="keywordflow">if</span> (!$this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1SessionController.html#a85371c29c7f51815ccc851826b8cb288">isLoggedIn</a>()) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  294</span>        <span class="keywordflow">if</span> (isset($_SESSION[<span class="stringliteral">&#39;role&#39;</span>]) &amp;&amp; $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] === <span class="stringliteral">&#39;admin&#39;</span>) <span class="keywordflow">return</span> <span class="keyword">true</span>;        </div>
+<div class="line"><span class="lineno">  295</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  296</span>            $sql = <span class="stringliteral">&quot;SELECT role FROM users WHERE id = :user_id&quot;</span>;</div>
+<div class="line"><span class="lineno">  297</span>            $result = $this-&gt;db-&gt;query($sql, [<span class="stringliteral">&#39;:user_id&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]]);</div>
+<div class="line"><span class="lineno">  298</span>            $userData = $result-&gt;fetch(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  299</span>            </div>
+<div class="line"><span class="lineno">  300</span>            <span class="keywordflow">if</span> ($userData &amp;&amp; $userData[<span class="stringliteral">&#39;role&#39;</span>] === <span class="stringliteral">&#39;admin&#39;</span>) {</div>
+<div class="line"><span class="lineno">  301</span>                $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] = <span class="stringliteral">&#39;admin&#39;</span>;</div>
+<div class="line"><span class="lineno">  302</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  303</span>            }</div>
+<div class="line"><span class="lineno">  304</span>        } <span class="keywordflow">catch</span>(\Exception $e) {</div>
+<div class="line"><span class="lineno">  305</span>            error_log(<span class="stringliteral">&quot;Error verificando permisos de administrador: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  306</span>        }</div>
+<div class="line"><span class="lineno">  307</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  308</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="SessionController_8php_source.html#l00035">App\Controllers\SessionController\isLoggedIn()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -511,7 +501,7 @@ Atributos privados</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="SessionController_8php_source.html#l00126">App\Controllers\SessionController\verifyJWTCookie()</a> y <a class="el" href="SessionController_8php_source.html#l00082">App\Controllers\SessionController\verifyTokenCookie()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="SessionController_8php_source.html#l00235">App\Controllers\SessionController\getUserData()</a> y <a class="el" href="SessionController_8php_source.html#l00288">App\Controllers\SessionController\isAdmin()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="SessionController_8php_source.html#l00235">App\Controllers\SessionController\getUserData()</a> y <a class="el" href="SessionController_8php_source.html#l00292">App\Controllers\SessionController\isAdmin()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -811,7 +801,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1SessionController.html">SessionController</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 14:16:18 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 17:05:53 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

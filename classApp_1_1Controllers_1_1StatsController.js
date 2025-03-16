@@ -20,7 +20,6 @@ var classApp_1_1Controllers_1_1StatsController =
     [ "getTopFavorites", "classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308", null ],
     [ "getTopLiked", "classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690", null ],
     [ "getTotalFungiCount", "classApp_1_1Controllers_1_1StatsController.html#aa6d98d1284d05b3772442f189f643a88", null ],
-    [ "getUserActivityStats", "classApp_1_1Controllers_1_1StatsController.html#a35b229bcab9985c40a2c2b2a26d8b774", null ],
     [ "statisticsPageHandler", "classApp_1_1Controllers_1_1StatsController.html#a13a0ac992567acd018968d78f7a2201c", null ],
     [ "$db", "classApp_1_1Controllers_1_1StatsController.html#acd274f9dac4bd8fb0b90261c3d971abd", null ]
 ];
