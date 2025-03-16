@@ -101,7 +101,7 @@ class LangController
         textdomain("messages");
         
         // NUEVO: Cargar dominios adicionales de forma predeterminada
-        $default_domains = ['navbar', 'about', 'home'];
+        $default_domains = ['navbar', 'about', 'home', 'profile'];
         foreach ($default_domains as $domain) $this->loadTextDomain($domain);
     }
     
