@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['a_20href_20https_3a_20doncom_20me_20fungi_20fungi_20project_20com_20a_0',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]],
+  ['a_20href_20https_3a_20mgrl39_20github_20io_20fungi_20mgrl39_20github_20io_20fungi_20a_0',['- 🌐 Sitio web: &lt;a href=&quot;https://mgrl39.github.io/fungi&quot; &gt;mgrl39.github.io/fungi&lt;/a&gt;',['../index.html#autotoc_md13',1,'']]],
   ['addfavorite_1',['addFavorite',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#aead3d9c7c87cd02937893d1ddd880ce8',1,'App::Controllers::Api::ApiPostController']]],
   ['addroute_2',['addRoute',['../classApp_1_1Controllers_1_1RouteController.html#a128a19ae296fabd123e0d80bb99e3950',1,'App::Controllers::RouteController']]],
   ['addroutes_3',['addRoutes',['../classApp_1_1Controllers_1_1RouteController.html#abd91fd7ba4cfa9bad43d8792d7f4135e',1,'App::Controllers::RouteController']]],

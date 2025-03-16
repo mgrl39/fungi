@@ -7,7 +7,7 @@ var searchData=
   ['form_2ecss_4',['form.css',['../form_8css.html',1,'']]],
   ['format_5',['format',['../classApp_1_1Config_1_1ErrorMessages.html#a32031f3bbb0319bcf6b7686faabdb1f5',1,'App::Config::ErrorMessages']]],
   ['fungi_6',['fungi',['../index.html',1,'🍄 Fungi'],['../index.html#autotoc_md4',1,'📊 Ecosistema Fungi']]],
-  ['fungi_20fungi_20project_20com_20a_7',['- 🌐 Sitio web: &lt;a href=&quot;https://doncom.me/fungi&quot; &gt;fungi-project.com&lt;/a&gt;',['../index.html#autotoc_md15',1,'']]],
+  ['fungi_20mgrl39_20github_20io_20fungi_20a_7',['- 🌐 Sitio web: &lt;a href=&quot;https://mgrl39.github.io/fungi&quot; &gt;mgrl39.github.io/fungi&lt;/a&gt;',['../index.html#autotoc_md13',1,'']]],
   ['fungicontroller_8',['FungiController',['../classApp_1_1Controllers_1_1FungiController.html',1,'App::Controllers']]],
   ['fungicontroller_2ephp_9',['FungiController.php',['../FungiController_8php.html',1,'']]]
 ];

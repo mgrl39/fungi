@@ -54,7 +54,7 @@ var NAVTREEINDEX =
 [
 "AdminController_8php.html",
 "classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#ac4e4df2c4136c12c53fa8f06bb1d8904",
-"classApp_1_1Controllers_1_1UserController.html#a306a90e334b0318afd0b65af792eb3a7"
+"classApp_1_1Controllers_1_1UserController.html"
 ];
 
 var SYNCONMSG = 'pulsar para deshabilitar sincronización';

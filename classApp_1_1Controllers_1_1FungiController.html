@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('classApp_1_1Controllers_1_1FungiContro
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController__coll__graph.svg" width="228" height="276"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController__coll__graph.svg" width="228" height="316"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -144,6 +144,12 @@ Métodos públicos</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Métodos privados</h2></td></tr>
+<tr class="memitem:a7f868fa3d67eefa14cd17d62e80b3d3d" id="r_a7f868fa3d67eefa14cd17d62e80b3d3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">getImageBasePath</a> ($configKey)</td></tr>
+<tr class="memdesc:a7f868fa3d67eefa14cd17d62e80b3d3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene la ruta base para las imágenes según la clave de configuración.  <br /></td></tr>
+<tr class="separator:a7f868fa3d67eefa14cd17d62e80b3d3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ba801a8491aa101cefc5928144e616" id="r_a69ba801a8491aa101cefc5928144e616"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a> ($fungus)</td></tr>
+<tr class="memdesc:a69ba801a8491aa101cefc5928144e616"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carga las imágenes relacionadas con un hongo desde la tabla de relaciones.  <br /></td></tr>
+<tr class="separator:a69ba801a8491aa101cefc5928144e616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af994c3d12f7062ddd44a40c3505bff3d" id="r_af994c3d12f7062ddd44a40c3505bff3d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d">updateFungiLikes</a> ($fungiId, $increment)</td></tr>
 <tr class="memdesc:af994c3d12f7062ddd44a40c3505bff3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actualiza el contador de likes de un hongo.  <br /></td></tr>
 <tr class="separator:af994c3d12f7062ddd44a40c3505bff3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,33 +250,33 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00221">221</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  222</span>    {</div>
-<div class="line"><span class="lineno">  223</span>        $id = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  224</span>        </div>
-<div class="line"><span class="lineno">  225</span>        <span class="keywordflow">if</span> (is_array($params) &amp;&amp; !empty($params)) {</div>
-<div class="line"><span class="lineno">  226</span>            $id = $params[0] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  227</span>        }</div>
-<div class="line"><span class="lineno">  228</span>        </div>
-<div class="line"><span class="lineno">  229</span>        <span class="keywordflow">if</span> (empty($id) &amp;&amp; isset($_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  230</span>            preg_match(<span class="stringliteral">&#39;#^/fungi/(\d+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
-<div class="line"><span class="lineno">  231</span>            $id = $matches[1] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  232</span>        }</div>
-<div class="line"><span class="lineno">  233</span>        </div>
-<div class="line"><span class="lineno">  234</span>        error_log(<span class="stringliteral">&quot;FungiController::detailFungusHandler - ID: &quot;</span> . ($id ?? <span class="stringliteral">&#39;no ID&#39;</span>));       </div>
-<div class="line"><span class="lineno">  235</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c">getFungusById</a>($id);</div>
-<div class="line"><span class="lineno">  236</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
-<div class="line"><span class="lineno">  237</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
-<div class="line"><span class="lineno">  238</span>            exit;</div>
-<div class="line"><span class="lineno">  239</span>        }</div>
-<div class="line"><span class="lineno">  240</span>      </div>
-<div class="line"><span class="lineno">  241</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  242</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; $fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? _(<span class="stringliteral">&#39;Detalles del Hongo&#39;</span>),</div>
-<div class="line"><span class="lineno">  243</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus,</div>
-<div class="line"><span class="lineno">  244</span>            <span class="stringliteral">&#39;similar_fungi&#39;</span> =&gt; $similarFungi ?? [],</div>
-<div class="line"><span class="lineno">  245</span>            <span class="stringliteral">&#39;is_logged_in&#39;</span> =&gt; <a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()</div>
-<div class="line"><span class="lineno">  246</span>        ];</div>
-<div class="line"><span class="lineno">  247</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00299">299</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  300</span>    {</div>
+<div class="line"><span class="lineno">  301</span>        $id = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  302</span>        </div>
+<div class="line"><span class="lineno">  303</span>        <span class="keywordflow">if</span> (is_array($params) &amp;&amp; !empty($params)) {</div>
+<div class="line"><span class="lineno">  304</span>            $id = $params[0] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  305</span>        }</div>
+<div class="line"><span class="lineno">  306</span>        </div>
+<div class="line"><span class="lineno">  307</span>        <span class="keywordflow">if</span> (empty($id) &amp;&amp; isset($_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  308</span>            preg_match(<span class="stringliteral">&#39;#^/fungi/(\d+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
+<div class="line"><span class="lineno">  309</span>            $id = $matches[1] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  310</span>        }</div>
+<div class="line"><span class="lineno">  311</span>        </div>
+<div class="line"><span class="lineno">  312</span>        error_log(<span class="stringliteral">&quot;FungiController::detailFungusHandler - ID: &quot;</span> . ($id ?? <span class="stringliteral">&#39;no ID&#39;</span>));       </div>
+<div class="line"><span class="lineno">  313</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c">getFungusById</a>($id);</div>
+<div class="line"><span class="lineno">  314</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
+<div class="line"><span class="lineno">  315</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
+<div class="line"><span class="lineno">  316</span>            exit;</div>
+<div class="line"><span class="lineno">  317</span>        }</div>
+<div class="line"><span class="lineno">  318</span>      </div>
+<div class="line"><span class="lineno">  319</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  320</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; $fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? _(<span class="stringliteral">&#39;Detalles del Hongo&#39;</span>),</div>
+<div class="line"><span class="lineno">  321</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus,</div>
+<div class="line"><span class="lineno">  322</span>            <span class="stringliteral">&#39;similar_fungi&#39;</span> =&gt; $similarFungi ?? [],</div>
+<div class="line"><span class="lineno">  323</span>            <span class="stringliteral">&#39;is_logged_in&#39;</span> =&gt; <a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()</div>
+<div class="line"><span class="lineno">  324</span>        ];</div>
+<div class="line"><span class="lineno">  325</span>    }</div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a0bb355407938be2032959dd234e0b13c"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c">App\Controllers\FungiController\getFungusById</a></div><div class="ttdeci">getFungusById($id)</div><div class="ttdoc">Obtiene un hongo por su ID.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00132">FungiController.php:132</a></div></div>
 <div class="ttc" id="aroutes_8php_html_abefb3c26429d514777313e9a63d7cbac"><div class="ttname"><a href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a></div><div class="ttdeci">$session</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00093">routes.php:93</a></div></div>
 </div><!-- fragment -->
@@ -280,7 +286,7 @@ Atributos privados</h2></td></tr>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a9d16717512fc95fa89a23c45ad840b7b_cgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a9d16717512fc95fa89a23c45ad840b7b_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -319,24 +325,41 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  138</span>        </div>
 <div class="line"><span class="lineno">  139</span>        <span class="comment">// Si el resultado es un objeto PDOStatement, convertirlo a array</span></div>
 <div class="line"><span class="lineno">  140</span>        <span class="keywordflow">if</span> ($result instanceof \PDOStatement) {</div>
-<div class="line"><span class="lineno">  141</span>            <span class="keywordflow">return</span> $result-&gt;fetch(\PDO::FETCH_ASSOC) ?: <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  142</span>        }</div>
-<div class="line"><span class="lineno">  143</span>        </div>
-<div class="line"><span class="lineno">  144</span>        <span class="comment">// Si el resultado es un array con índices numéricos (múltiples filas)</span></div>
-<div class="line"><span class="lineno">  145</span>        <span class="keywordflow">if</span> (is_array($result) &amp;&amp; !empty($result) &amp;&amp; isset($result[0])) {</div>
-<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">return</span> $result[0];</div>
-<div class="line"><span class="lineno">  147</span>        }</div>
-<div class="line"><span class="lineno">  148</span>        </div>
-<div class="line"><span class="lineno">  149</span>        <span class="comment">// Si ya es un array asociativo simple o está vacío</span></div>
-<div class="line"><span class="lineno">  150</span>        <span class="keywordflow">return</span> $result ?: <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  151</span>    }</div>
+<div class="line"><span class="lineno">  141</span>            $fungus = $result-&gt;fetch(\PDO::FETCH_ASSOC) ?: <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  142</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  143</span>            <span class="comment">// Si ya es un array con índices numéricos (múltiples filas)</span></div>
+<div class="line"><span class="lineno">  144</span>            <span class="keywordflow">if</span> (is_array($result) &amp;&amp; !empty($result) &amp;&amp; isset($result[0])) {</div>
+<div class="line"><span class="lineno">  145</span>                $fungus = $result[0];</div>
+<div class="line"><span class="lineno">  146</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  147</span>                <span class="comment">// Si ya es un array asociativo simple o está vacío</span></div>
+<div class="line"><span class="lineno">  148</span>                $fungus = $result ?: <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  149</span>            }</div>
+<div class="line"><span class="lineno">  150</span>        }</div>
+<div class="line"><span class="lineno">  151</span>        </div>
+<div class="line"><span class="lineno">  152</span>        <span class="comment">// Obtener las imágenes relacionadas</span></div>
+<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">if</span> ($fungus) {</div>
+<div class="line"><span class="lineno">  154</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a>($fungus);</div>
+<div class="line"><span class="lineno">  155</span>        }</div>
+<div class="line"><span class="lineno">  156</span>        </div>
+<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">return</span> $fungus;</div>
+<div class="line"><span class="lineno">  158</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a69ba801a8491aa101cefc5928144e616"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">App\Controllers\FungiController\loadFungusImages</a></div><div class="ttdeci">loadFungusImages($fungus)</div><div class="ttdoc">Carga las imágenes relacionadas con un hongo desde la tabla de relaciones.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00200">FungiController.php:200</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00221">App\Controllers\FungiController\detailFungusHandler()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00200">App\Controllers\FungiController\loadFungusImages()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00299">App\Controllers\FungiController\detailFungusHandler()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c_icgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -389,20 +412,77 @@ Atributos privados</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00101">App\Controllers\FungiController\hasUserLikedFungi()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00192">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
-<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451_cgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00270">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451_cgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451_icgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a7f868fa3d67eefa14cd17d62e80b3d3d" name="a7f868fa3d67eefa14cd17d62e80b3d3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f868fa3d67eefa14cd17d62e80b3d3d">&#9670;&#160;</a></span>getImageBasePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Controllers\FungiController::getImageBasePath </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$configKey</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Obtiene la ruta base para las imágenes según la clave de configuración. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">string</td><td class="paramname">$configKey</td><td>Clave de configuración </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>string Ruta base para las imágenes </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00249">249</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  250</span>    {</div>
+<div class="line"><span class="lineno">  251</span>        <span class="comment">// Mapeo de claves de configuración a rutas base</span></div>
+<div class="line"><span class="lineno">  252</span>        $pathMap = [</div>
+<div class="line"><span class="lineno">  253</span>            <span class="stringliteral">&#39;fungi_upload_path&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images&#39;</span>,</div>
+<div class="line"><span class="lineno">  254</span>            <span class="stringliteral">&#39;user_upload_path&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images/users&#39;</span>,</div>
+<div class="line"><span class="lineno">  255</span>            <span class="stringliteral">&#39;system_images&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images/system&#39;</span></div>
+<div class="line"><span class="lineno">  256</span>        ];</div>
+<div class="line"><span class="lineno">  257</span>        </div>
+<div class="line"><span class="lineno">  258</span>        <span class="comment">// Devolver la ruta correspondiente o una ruta predeterminada</span></div>
+<div class="line"><span class="lineno">  259</span>        <span class="keywordflow">return</span> $pathMap[$configKey] ?? <span class="stringliteral">&#39;/assets/images&#39;</span>;</div>
+<div class="line"><span class="lineno">  260</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00200">App\Controllers\FungiController\loadFungusImages()</a>.</p>
+<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a7f868fa3d67eefa14cd17d62e80b3d3d_icgraph.svg" width="100%" height="386"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -425,48 +505,51 @@ Atributos privados</h2></td></tr>
 <p>Obtiene un hongo aleatorio de la base de datos. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array|null Datos del hongo aleatorio o null si no se encuentra ninguno </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00158">158</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  159</span>    {</div>
-<div class="line"><span class="lineno">  160</span>        $query = <span class="stringliteral">&quot;SELECT * FROM fungi ORDER BY RAND() LIMIT 1&quot;</span>;</div>
-<div class="line"><span class="lineno">  161</span>        $randomResult = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  162</span>        </div>
-<div class="line"><span class="lineno">  163</span>        <span class="comment">// Procesar el resultado según el tipo de retorno de la DB</span></div>
-<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">if</span> ($randomResult instanceof \PDOStatement) {</div>
-<div class="line"><span class="lineno">  165</span>            $fungus = $randomResult-&gt;fetch(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  166</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (is_array($randomResult) &amp;&amp; !empty($randomResult)) {</div>
-<div class="line"><span class="lineno">  167</span>            <span class="comment">// Si ya es un array (quizás el método query ya procesa el resultado)</span></div>
-<div class="line"><span class="lineno">  168</span>            $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;</div>
-<div class="line"><span class="lineno">  169</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  170</span>            $fungus = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  171</span>        }</div>
-<div class="line"><span class="lineno">  172</span>        </div>
-<div class="line"><span class="lineno">  173</span>        <span class="keywordflow">if</span> ($fungus) {</div>
-<div class="line"><span class="lineno">  174</span>            <span class="comment">// Incrementar el contador de vistas para este hongo</span></div>
-<div class="line"><span class="lineno">  175</span>            $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  176</span>            </div>
-<div class="line"><span class="lineno">  177</span>            <span class="comment">// Registrar para depuración</span></div>
-<div class="line"><span class="lineno">  178</span>            error_log(<span class="stringliteral">&quot;Cargando hongo aleatorio: &quot;</span> . json_encode($fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? <span class="stringliteral">&#39;No encontrado&#39;</span>));</div>
-<div class="line"><span class="lineno">  179</span>        }</div>
-<div class="line"><span class="lineno">  180</span>        </div>
-<div class="line"><span class="lineno">  181</span>        <span class="keywordflow">return</span> $fungus;</div>
-<div class="line"><span class="lineno">  182</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00165">165</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>    {</div>
+<div class="line"><span class="lineno">  167</span>        $query = <span class="stringliteral">&quot;SELECT * FROM fungi ORDER BY RAND() LIMIT 1&quot;</span>;</div>
+<div class="line"><span class="lineno">  168</span>        $randomResult = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  169</span>        </div>
+<div class="line"><span class="lineno">  170</span>        <span class="comment">// Procesar el resultado según el tipo de retorno de la DB</span></div>
+<div class="line"><span class="lineno">  171</span>        <span class="keywordflow">if</span> ($randomResult instanceof \PDOStatement) {</div>
+<div class="line"><span class="lineno">  172</span>            $fungus = $randomResult-&gt;fetch(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  173</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (is_array($randomResult) &amp;&amp; !empty($randomResult)) {</div>
+<div class="line"><span class="lineno">  174</span>            <span class="comment">// Si ya es un array (quizás el método query ya procesa el resultado)</span></div>
+<div class="line"><span class="lineno">  175</span>            $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;</div>
+<div class="line"><span class="lineno">  176</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  177</span>            $fungus = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  178</span>        }</div>
+<div class="line"><span class="lineno">  179</span>        </div>
+<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">if</span> ($fungus) {</div>
+<div class="line"><span class="lineno">  181</span>            <span class="comment">// Incrementar el contador de vistas para este hongo</span></div>
+<div class="line"><span class="lineno">  182</span>            $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  183</span>            </div>
+<div class="line"><span class="lineno">  184</span>            <span class="comment">// Cargar las imágenes relacionadas</span></div>
+<div class="line"><span class="lineno">  185</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a>($fungus);</div>
+<div class="line"><span class="lineno">  186</span>            </div>
+<div class="line"><span class="lineno">  187</span>            <span class="comment">// Registrar para depuración</span></div>
+<div class="line"><span class="lineno">  188</span>            error_log(<span class="stringliteral">&quot;Cargando hongo aleatorio: &quot;</span> . json_encode($fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? <span class="stringliteral">&#39;No encontrado&#39;</span>));</div>
+<div class="line"><span class="lineno">  189</span>        }</div>
+<div class="line"><span class="lineno">  190</span>        </div>
+<div class="line"><span class="lineno">  191</span>        <span class="keywordflow">return</span> $fungus;</div>
+<div class="line"><span class="lineno">  192</span>    }</div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a4e795756d06c8d0ff755c20645eddb12"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">App\Controllers\FungiController\incrementFungiViews</a></div><div class="ttdeci">incrementFungiViews($fungiId)</div><div class="ttdoc">Incrementa el contador de vistas de un hongo.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00083">FungiController.php:83</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00083">App\Controllers\FungiController\incrementFungiViews()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00083">App\Controllers\FungiController\incrementFungiViews()</a> y <a class="el" href="FungiController_8php_source.html#l00200">App\Controllers\FungiController\loadFungusImages()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00192">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00270">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d_cgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d_cgraph.svg" width="100%" height="386"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
-<div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-6-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div id="dynsection-8-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d_icgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -518,11 +601,11 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  108</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00118">App\Controllers\FungiController\getFungusWithLikeStatus()</a>.</p>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a35fbbcc5cad471348611c0e1cfafebd7_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -563,12 +646,12 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   90</span>        );</div>
 <div class="line"><span class="lineno">   91</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00158">App\Controllers\FungiController\getRandomFungus()</a>.</p>
-<div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-8-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00165">App\Controllers\FungiController\getRandomFungus()</a>.</p>
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a4e795756d06c8d0ff755c20645eddb12_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -620,6 +703,103 @@ Atributos privados</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a69ba801a8491aa101cefc5928144e616" name="a69ba801a8491aa101cefc5928144e616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69ba801a8491aa101cefc5928144e616">&#9670;&#160;</a></span>loadFungusImages()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Controllers\FungiController::loadFungusImages </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$fungus</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Carga las imágenes relacionadas con un hongo desde la tabla de relaciones. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">array</td><td class="paramname">$fungus</td><td>Datos del hongo </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>array Datos del hongo con las URLs de imágenes añadidas </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00200">200</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  201</span>    {</div>
+<div class="line"><span class="lineno">  202</span>        <span class="comment">// Consultar las imágenes relacionadas a través de la tabla de relación</span></div>
+<div class="line"><span class="lineno">  203</span>        $imagesResult = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">  204</span>            <span class="stringliteral">&quot;SELECT i.filename, i.config_key </span></div>
+<div class="line"><span class="lineno">  205</span><span class="stringliteral">             FROM images i </span></div>
+<div class="line"><span class="lineno">  206</span><span class="stringliteral">             JOIN fungi_images fi ON i.id = fi.image_id </span></div>
+<div class="line"><span class="lineno">  207</span><span class="stringliteral">             WHERE fi.fungi_id = ?&quot;</span>,</div>
+<div class="line"><span class="lineno">  208</span>            [$fungus[<span class="stringliteral">&#39;id&#39;</span>]]</div>
+<div class="line"><span class="lineno">  209</span>        );</div>
+<div class="line"><span class="lineno">  210</span>        </div>
+<div class="line"><span class="lineno">  211</span>        $imageUrls = [];</div>
+<div class="line"><span class="lineno">  212</span>        </div>
+<div class="line"><span class="lineno">  213</span>        <span class="comment">// Si hay resultados, procesarlos</span></div>
+<div class="line"><span class="lineno">  214</span>        <span class="keywordflow">if</span> ($imagesResult) {</div>
+<div class="line"><span class="lineno">  215</span>            <span class="keywordflow">if</span> ($imagesResult instanceof \PDOStatement) {</div>
+<div class="line"><span class="lineno">  216</span>                $images = $imagesResult-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  217</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  218</span>                $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];</div>
+<div class="line"><span class="lineno">  219</span>            }</div>
+<div class="line"><span class="lineno">  220</span>            </div>
+<div class="line"><span class="lineno">  221</span>            <span class="keywordflow">foreach</span> ($images as $image) {</div>
+<div class="line"><span class="lineno">  222</span>                <span class="comment">// Construir la URL completa de la imagen basada en la config_key</span></div>
+<div class="line"><span class="lineno">  223</span>                $basePath = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">getImageBasePath</a>($image[<span class="stringliteral">&#39;config_key&#39;</span>]);</div>
+<div class="line"><span class="lineno">  224</span>                $imageUrls[] = $basePath . <span class="charliteral">&#39;/&#39;</span> . $image[<span class="stringliteral">&#39;filename&#39;</span>];</div>
+<div class="line"><span class="lineno">  225</span>            }</div>
+<div class="line"><span class="lineno">  226</span>        }</div>
+<div class="line"><span class="lineno">  227</span>        </div>
+<div class="line"><span class="lineno">  228</span>        <span class="comment">// Si no hay imágenes, usar una por defecto</span></div>
+<div class="line"><span class="lineno">  229</span>        <span class="keywordflow">if</span> (empty($imageUrls)) {</div>
+<div class="line"><span class="lineno">  230</span>            $imageUrls[] = <span class="stringliteral">&#39;/assets/images/placeholder.jpg&#39;</span>;</div>
+<div class="line"><span class="lineno">  231</span>            error_log(<span class="stringliteral">&quot;No se encontraron imágenes para el hongo ID: &quot;</span> . $fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  232</span>        }</div>
+<div class="line"><span class="lineno">  233</span>        </div>
+<div class="line"><span class="lineno">  234</span>        <span class="comment">// Guardar las URLs como una cadena separada por comas (para mantener compatibilidad)</span></div>
+<div class="line"><span class="lineno">  235</span>        $fungus[<span class="stringliteral">&#39;image_urls&#39;</span>] = implode(<span class="charliteral">&#39;,&#39;</span>, $imageUrls);</div>
+<div class="line"><span class="lineno">  236</span>        </div>
+<div class="line"><span class="lineno">  237</span>        <span class="comment">// Para depuración</span></div>
+<div class="line"><span class="lineno">  238</span>        error_log(<span class="stringliteral">&quot;URLs de imágenes para hongo ID &quot;</span> . $fungus[<span class="stringliteral">&#39;id&#39;</span>] . <span class="stringliteral">&quot;: &quot;</span> . $fungus[<span class="stringliteral">&#39;image_urls&#39;</span>]);</div>
+<div class="line"><span class="lineno">  239</span>        </div>
+<div class="line"><span class="lineno">  240</span>        <span class="keywordflow">return</span> $fungus;</div>
+<div class="line"><span class="lineno">  241</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a7f868fa3d67eefa14cd17d62e80b3d3d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">App\Controllers\FungiController\getImageBasePath</a></div><div class="ttdeci">getImageBasePath($configKey)</div><div class="ttdoc">Obtiene la ruta base para las imágenes según la clave de configuración.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00249">FungiController.php:249</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00249">App\Controllers\FungiController\getImageBasePath()</a>.</p>
+
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00132">App\Controllers\FungiController\getFungusById()</a> y <a class="el" href="FungiController_8php_source.html#l00165">App\Controllers\FungiController\getRandomFungus()</a>.</p>
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616_cgraph.svg" width="510" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616_icgraph.svg" width="100%" height="386"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
+</div>
+</div>
 <a id="ade6fc0ad20f30ba8d2ba5efcf3d7064c" name="ade6fc0ad20f30ba8d2ba5efcf3d7064c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ade6fc0ad20f30ba8d2ba5efcf3d7064c">&#9670;&#160;</a></span>randomFungusHandler()</h2>
 
@@ -663,36 +843,36 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00192">192</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  193</span>    {</div>
-<div class="line"><span class="lineno">  194</span>        <span class="comment">// Obtener un hongo aleatorio</span></div>
-<div class="line"><span class="lineno">  195</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">getRandomFungus</a>();</div>
-<div class="line"><span class="lineno">  196</span>        </div>
-<div class="line"><span class="lineno">  197</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
-<div class="line"><span class="lineno">  198</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
-<div class="line"><span class="lineno">  199</span>            exit;</div>
-<div class="line"><span class="lineno">  200</span>        }</div>
-<div class="line"><span class="lineno">  201</span>        </div>
-<div class="line"><span class="lineno">  202</span>        <span class="comment">// Añadir información de like si el usuario está logueado</span></div>
-<div class="line"><span class="lineno">  203</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()) {</div>
-<div class="line"><span class="lineno">  204</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  205</span>        }</div>
-<div class="line"><span class="lineno">  206</span>        </div>
-<div class="line"><span class="lineno">  207</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  208</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
-<div class="line"><span class="lineno">  209</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus</div>
-<div class="line"><span class="lineno">  210</span>        ];</div>
-<div class="line"><span class="lineno">  211</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a3a07c5dd018b701663a2a46a52f74a6d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">App\Controllers\FungiController\getRandomFungus</a></div><div class="ttdeci">getRandomFungus()</div><div class="ttdoc">Obtiene un hongo aleatorio de la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00158">FungiController.php:158</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00270">270</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  271</span>    {</div>
+<div class="line"><span class="lineno">  272</span>        <span class="comment">// Obtener un hongo aleatorio</span></div>
+<div class="line"><span class="lineno">  273</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">getRandomFungus</a>();</div>
+<div class="line"><span class="lineno">  274</span>        </div>
+<div class="line"><span class="lineno">  275</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
+<div class="line"><span class="lineno">  276</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
+<div class="line"><span class="lineno">  277</span>            exit;</div>
+<div class="line"><span class="lineno">  278</span>        }</div>
+<div class="line"><span class="lineno">  279</span>        </div>
+<div class="line"><span class="lineno">  280</span>        <span class="comment">// Añadir información de like si el usuario está logueado</span></div>
+<div class="line"><span class="lineno">  281</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()) {</div>
+<div class="line"><span class="lineno">  282</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  283</span>        }</div>
+<div class="line"><span class="lineno">  284</span>        </div>
+<div class="line"><span class="lineno">  285</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  286</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
+<div class="line"><span class="lineno">  287</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus</div>
+<div class="line"><span class="lineno">  288</span>        ];</div>
+<div class="line"><span class="lineno">  289</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a3a07c5dd018b701663a2a46a52f74a6d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">App\Controllers\FungiController\getRandomFungus</a></div><div class="ttdeci">getRandomFungus()</div><div class="ttdoc">Obtiene un hongo aleatorio de la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00165">FungiController.php:165</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_add0b456287a79c088c78a9fe8c469451"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">App\Controllers\FungiController\getFungusWithLikeStatus</a></div><div class="ttdeci">getFungusWithLikeStatus($fungus, $userId)</div><div class="ttdoc">Añade el estado de like de un usuario a la información de un hongo.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00118">FungiController.php:118</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00093">$session</a>, <a class="el" href="FungiController_8php_source.html#l00118">App\Controllers\FungiController\getFungusWithLikeStatus()</a> y <a class="el" href="FungiController_8php_source.html#l00158">App\Controllers\FungiController\getRandomFungus()</a>.</p>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00093">$session</a>, <a class="el" href="FungiController_8php_source.html#l00118">App\Controllers\FungiController\getFungusWithLikeStatus()</a> y <a class="el" href="FungiController_8php_source.html#l00165">App\Controllers\FungiController\getRandomFungus()</a>.</p>
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_ade6fc0ad20f30ba8d2ba5efcf3d7064c_cgraph.svg" width="100%" height="386"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1FungiController_ade6fc0ad20f30ba8d2ba5efcf3d7064c_cgraph.svg" width="100%" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -833,7 +1013,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1FungiController.html">FungiController</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 17:05:53 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Domingo, 16 de marzo de 2025 19:16:04 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

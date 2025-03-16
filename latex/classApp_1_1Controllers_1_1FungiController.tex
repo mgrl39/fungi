@@ -41,6 +41,10 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Fungi
 \doxysubsubsection*{Métodos privados}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a7f868fa3d67eefa14cd17d62e80b3d3d}{get\+Image\+Base\+Path}} (\$config\+Key)
+\begin{DoxyCompactList}\small\item\em Obtiene la ruta base para las imágenes según la clave de configuración. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616}{load\+Fungus\+Images}} (\$fungus)
+\begin{DoxyCompactList}\small\item\em Carga las imágenes relacionadas con un hongo desde la tabla de relaciones. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_af994c3d12f7062ddd44a40c3505bff3d}{update\+Fungi\+Likes}} (\$fungi\+Id, \$increment)
 \begin{DoxyCompactList}\small\item\em Actualiza el contador de likes de un hongo. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos privados}
@@ -119,36 +123,36 @@ array Datos para la plantilla
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00221}{221}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00299}{299}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00222\ \ \ \ \ \{}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \$id\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$params)\ \&\&\ !empty(\$params))\ \{}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$params[0]\ ??\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$id)\ \&\&\ isset(\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}]))\ \{}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/fungi/(\(\backslash\)d+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}FungiController::detailFungusHandler\ -\/\ ID:\ "{}}\ .\ (\$id\ ??\ \textcolor{stringliteral}{'no\ ID'}));\ \ \ \ \ \ \ }
-\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c}{getFungusById}}(\$id);}
-\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
-\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
-\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00240\ \ \ \ \ \ \ }
-\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \_(\textcolor{stringliteral}{'Detalles\ del\ Hongo'}),}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus,}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'similar\_fungi'}\ =>\ \$similarFungi\ ??\ [],}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_logged\_in'}\ =>\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn()}
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00247\ \ \ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \ \ \{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \$id\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$params)\ \&\&\ !empty(\$params))\ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$params[0]\ ??\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$id)\ \&\&\ isset(\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}]))\ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ preg\_match(\textcolor{stringliteral}{'\#\string^/fungi/(\(\backslash\)d+)\$\#'},\ \$\_SERVER[\textcolor{stringliteral}{'REQUEST\_URI'}],\ \$matches);}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \$id\ =\ \$matches[1]\ ??\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}FungiController::detailFungusHandler\ -\/\ ID:\ "{}}\ .\ (\$id\ ??\ \textcolor{stringliteral}{'no\ ID'}));\ \ \ \ \ \ \ }
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c}{getFungusById}}(\$id);}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ }
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \_(\textcolor{stringliteral}{'Detalles\ del\ Hongo'}),}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus,}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'similar\_fungi'}\ =>\ \$similarFungi\ ??\ [],}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'is\_logged\_in'}\ =>\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn()}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00325\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -195,23 +199,42 @@ Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00132}{13
 \DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ }
 \DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ resultado\ es\ un\ objeto\ PDOStatement,\ convertirlo\ a\ array}}
 \DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ instanceof\ \(\backslash\)PDOStatement)\ \{}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ el\ resultado\ es\ un\ array\ con\ índices\ numéricos\ (múltiples\ filas)}}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$result)\ \&\&\ !empty(\$result)\ \&\&\ isset(\$result[0]))\ \{}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result[0];}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ asociativo\ simple\ o\ está\ vacío}}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result\ ?:\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00151\ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ con\ índices\ numéricos\ (múltiples\ filas)}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$result)\ \&\&\ !empty(\$result)\ \&\&\ isset(\$result[0]))\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$result[0];}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ asociativo\ simple\ o\ está\ vacío}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$result\ ?:\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ las\ imágenes\ relacionadas}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$fungus)\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616}{loadFungusImages}}(\$fungus);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$fungus;}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00221}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}detail\+Fungus\+Handler()}}.
+Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00200}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}load\+Fungus\+Images()}}.
 
+
+
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00299}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}detail\+Fungus\+Handler()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_a0bb355407938be2032959dd234e0b13c_cgraph}
+\end{center}
+\end{figure}
 Gráfico de llamadas a esta función\+:
 \nopagebreak
 \begin{figure}[H]
@@ -260,7 +283,7 @@ Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00101}{App\textb
 
 
 
-Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00192}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}random\+Fungus\+Handler()}}.
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00270}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}random\+Fungus\+Handler()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -278,6 +301,55 @@ Gráfico de llamadas a esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451_icgraph}
 \end{center}
 \end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1FungiController_a7f868fa3d67eefa14cd17d62e80b3d3d}\label{classApp_1_1Controllers_1_1FungiController_a7f868fa3d67eefa14cd17d62e80b3d3d} 
+\index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!getImageBasePath@{getImageBasePath}}
+\index{getImageBasePath@{getImageBasePath}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
+\doxysubsubsection{\texorpdfstring{getImageBasePath()}{getImageBasePath()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\+::get\+Image\+Base\+Path (\begin{DoxyParamCaption}\item[{}]{\$config\+Key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Obtiene la ruta base para las imágenes según la clave de configuración. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+string & {\em \$config\+Key} & Clave de configuración \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+string Ruta base para las imágenes 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00249}{249}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00250\ \ \ \ \ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Mapeo\ de\ claves\ de\ configuración\ a\ rutas\ base}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \$pathMap\ =\ [}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi\_upload\_path'}\ =>\ \textcolor{stringliteral}{'/assets/images'},}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_upload\_path'}\ =>\ \textcolor{stringliteral}{'/assets/images/users'},}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'system\_images'}\ =>\ \textcolor{stringliteral}{'/assets/images/system'}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Devolver\ la\ ruta\ correspondiente\ o\ una\ ruta\ predeterminada}}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$pathMap[\$configKey]\ ??\ \textcolor{stringliteral}{'/assets/images'};}
+\DoxyCodeLine{00260\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00200}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}load\+Fungus\+Images()}}.
+
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_a7f868fa3d67eefa14cd17d62e80b3d3d_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d}\label{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d} 
 \index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!getRandomFungus@{getRandomFungus}}
 \index{getRandomFungus@{getRandomFungus}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
@@ -293,43 +365,46 @@ array\texorpdfstring{$\vert$}{|}null Datos del hongo aleatorio o null si no se e
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00158}{158}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00165}{165}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00159\ \ \ \ \ \{}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ ORDER\ BY\ RAND()\ LIMIT\ 1"{}};}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \$randomResult\ =\ \$this-\/>db-\/>query(\$query);}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ el\ resultado\ según\ el\ tipo\ de\ retorno\ de\ la\ DB}}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$randomResult\ instanceof\ \(\backslash\)PDOStatement)\ \{}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$randomResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (is\_array(\$randomResult)\ \&\&\ !empty(\$randomResult))\ \{}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ (quizás\ el\ método\ query\ ya\ procesa\ el\ resultado)}}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ isset(\$randomResult[0])\ ?\ \$randomResult[0]\ :\ \$randomResult;}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$fungus)\ \{}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Incrementar\ el\ contador\ de\ vistas\ para\ este\ hongo}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a4e795756d06c8d0ff755c20645eddb12}{incrementFungiViews}}(\$fungus[\textcolor{stringliteral}{'id'}]);}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Registrar\ para\ depuración}}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Cargando\ hongo\ aleatorio:\ "{}}\ .\ json\_encode(\$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{'No\ encontrado'}));}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$fungus;}
-\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ \ \ \ \ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ ORDER\ BY\ RAND()\ LIMIT\ 1"{}};}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \$randomResult\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ el\ resultado\ según\ el\ tipo\ de\ retorno\ de\ la\ DB}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$randomResult\ instanceof\ \(\backslash\)PDOStatement)\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$randomResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (is\_array(\$randomResult)\ \&\&\ !empty(\$randomResult))\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ ya\ es\ un\ array\ (quizás\ el\ método\ query\ ya\ procesa\ el\ resultado)}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ isset(\$randomResult[0])\ ?\ \$randomResult[0]\ :\ \$randomResult;}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$fungus)\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Incrementar\ el\ contador\ de\ vistas\ para\ este\ hongo}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a4e795756d06c8d0ff755c20645eddb12}{incrementFungiViews}}(\$fungus[\textcolor{stringliteral}{'id'}]);}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ las\ imágenes\ relacionadas}}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616}{loadFungusImages}}(\$fungus);}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Registrar\ para\ depuración}}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Cargando\ hongo\ aleatorio:\ "{}}\ .\ json\_encode(\$fungus[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{'No\ encontrado'}));}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$fungus;}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00083}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}increment\+Fungi\+Views()}}.
+Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00083}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}increment\+Fungi\+Views()}} y \mbox{\hyperlink{FungiController_8php_source_l00200}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}load\+Fungus\+Images()}}.
 
 
 
-Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00192}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}random\+Fungus\+Handler()}}.
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00270}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}random\+Fungus\+Handler()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -430,7 +505,7 @@ Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00083}{83
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00158}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Random\+Fungus()}}.
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00165}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Random\+Fungus()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -474,6 +549,97 @@ Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00036}{36
 \DoxyCodeLine{00042\ \ \ \ \ \}}
 
 \end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616}\label{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616} 
+\index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!loadFungusImages@{loadFungusImages}}
+\index{loadFungusImages@{loadFungusImages}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
+\doxysubsubsection{\texorpdfstring{loadFungusImages()}{loadFungusImages()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\+::load\+Fungus\+Images (\begin{DoxyParamCaption}\item[{}]{\$fungus }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Carga las imágenes relacionadas con un hongo desde la tabla de relaciones. 
+
+
+\begin{DoxyParams}[1]{Parámetros}
+array & {\em \$fungus} & Datos del hongo \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+array Datos del hongo con las URLs de imágenes añadidas 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00200}{200}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00201\ \ \ \ \ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consultar\ las\ imágenes\ relacionadas\ a\ través\ de\ la\ tabla\ de\ relación}}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \$imagesResult\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ i.filename,\ i.config\_key\ }}
+\DoxyCodeLine{00205\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ images\ i\ }}
+\DoxyCodeLine{00206\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\_images\ fi\ ON\ i.id\ =\ fi.image\_id\ }}
+\DoxyCodeLine{00207\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ fi.fungi\_id\ =\ ?"{}},}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungus[\textcolor{stringliteral}{'id'}]]}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \$imageUrls\ =\ [];}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ hay\ resultados,\ procesarlos}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$imagesResult)\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$imagesResult\ instanceof\ \(\backslash\)PDOStatement)\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$imagesResult-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ is\_array(\$imagesResult)\ ?\ \$imagesResult\ :\ [\$imagesResult];}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$images\ as\ \$image)\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ la\ URL\ completa\ de\ la\ imagen\ basada\ en\ la\ config\_key}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$basePath\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a7f868fa3d67eefa14cd17d62e80b3d3d}{getImageBasePath}}(\$image[\textcolor{stringliteral}{'config\_key'}]);}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageUrls[]\ =\ \$basePath\ .\ \textcolor{charliteral}{'/'}\ .\ \$image[\textcolor{stringliteral}{'filename'}];}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ imágenes,\ usar\ una\ por\ defecto}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$imageUrls))\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \$imageUrls[]\ =\ \textcolor{stringliteral}{'/assets/images/placeholder.jpg'};}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}No\ se\ encontraron\ imágenes\ para\ el\ hongo\ ID:\ "{}}\ .\ \$fungus[\textcolor{stringliteral}{'id'}]);}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ las\ URLs\ como\ una\ cadena\ separada\ por\ comas\ (para\ mantener\ compatibilidad)}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \$fungus[\textcolor{stringliteral}{'image\_urls'}]\ =\ implode(\textcolor{charliteral}{','},\ \$imageUrls);}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Para\ depuración}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}URLs\ de\ imágenes\ para\ hongo\ ID\ "{}}\ .\ \$fungus[\textcolor{stringliteral}{'id'}]\ .\ \textcolor{stringliteral}{"{}:\ "{}}\ .\ \$fungus[\textcolor{stringliteral}{'image\_urls'}]);}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$fungus;}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Hace referencia a \mbox{\hyperlink{FungiController_8php_source_l00249}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Image\+Base\+Path()}}.
+
+
+
+Referenciado por \mbox{\hyperlink{FungiController_8php_source_l00132}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Fungus\+By\+Id()}} y \mbox{\hyperlink{FungiController_8php_source_l00165}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Random\+Fungus()}}.
+
+Gráfico de llamadas de esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616_cgraph}
+\end{center}
+\end{figure}
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1FungiController_a69ba801a8491aa101cefc5928144e616_icgraph}
+\end{center}
+\end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1FungiController_ade6fc0ad20f30ba8d2ba5efcf3d7064c}\label{classApp_1_1Controllers_1_1FungiController_ade6fc0ad20f30ba8d2ba5efcf3d7064c} 
 \index{App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}!randomFungusHandler@{randomFungusHandler}}
 \index{randomFungusHandler@{randomFungusHandler}!App\textbackslash{}Controllers\textbackslash{}FungiController@{App\textbackslash{}Controllers\textbackslash{}FungiController}}
@@ -498,34 +664,34 @@ array Datos para la plantilla
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00192}{192}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{FungiController_8php_source_l00270}{270}} del archivo \mbox{\hyperlink{FungiController_8php_source}{Fungi\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00193\ \ \ \ \ \{}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ un\ hongo\ aleatorio}}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d}{getRandomFungus}}();}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ like\ si\ el\ usuario\ está\ logueado}}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn())\ \{}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451}{getFungusWithLikeStatus}}(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00211\ \ \ \ \ \}}
+\DoxyCodeLine{00271\ \ \ \ \ \{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ un\ hongo\ aleatorio}}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_a3a07c5dd018b701663a2a46a52f74a6d}{getRandomFungus}}();}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /404'});}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ información\ de\ like\ si\ el\ usuario\ está\ logueado}}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}-\/>isLoggedIn())\ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungus\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1FungiController_add0b456287a79c088c78a9fe8c469451}{getFungusWithLikeStatus}}(\$fungus,\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]);}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Hongo\ aleatorio'}),}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungus}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00289\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00093}{\$session}}, \mbox{\hyperlink{FungiController_8php_source_l00118}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Fungus\+With\+Like\+Status()}} y \mbox{\hyperlink{FungiController_8php_source_l00158}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Random\+Fungus()}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00093}{\$session}}, \mbox{\hyperlink{FungiController_8php_source_l00118}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Fungus\+With\+Like\+Status()}} y \mbox{\hyperlink{FungiController_8php_source_l00165}{App\textbackslash{}\+Controllers\textbackslash{}\+Fungi\+Controller\textbackslash{}get\+Random\+Fungus()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak

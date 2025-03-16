@@ -21,7 +21,7 @@ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongo
 \begin{DoxyItemize}
 \item 🔍 {\bfseries{Exploración de datos micológicos}} -\/ Navega por una extensa colección de especies de hongos
 \item 🔐 {\bfseries{Sistema de autenticación}} con JWT para proteger recursos sensibles
-\item 🌍 {\bfseries{Multilingüe}} con soporte para español, inglés y catalán
+\item 🌍 {\bfseries{Multilingüe}} con soporte para español, inglés y catalán (aunque los datos están en español)
 \item 📱 {\bfseries{Diseño responsive}} optimizado para todos los dispositivos
 \item ⚙️ {\bfseries{Panel de administración}} para gestión de datos y usuarios
 \item 🤖 {\bfseries{Integración con scraping}} para obtener datos actualizados de fuentes confiables
@@ -31,10 +31,8 @@ Una aplicación web dinámica para gestionar, visualizar y editar datos de hongo
 
 {\bfseries{Backend\+:}} PHP 8+ \texorpdfstring{$\vert$}{|} {\bfseries{Base de datos\+:}} My\+SQL \texorpdfstring{$\vert$}{|} {\bfseries{Frontend\+:}} Bootstrap 5, Java\+Script \texorpdfstring{$\vert$}{|} {\bfseries{Plantillas\+:}} Twig 
 
-{\bfseries{Herramientas adicionales\+:}} Selenium + Python (scraping) \texorpdfstring{$\vert$}{|} JWT \texorpdfstring{$\vert$}{|} Gettext (i18n) \texorpdfstring{$\vert$}{|} Docker \hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{📊 Ecosistema Fungi}{📊 Ecosistema Fungi}}\label{index_autotoc_md4}
-El proyecto Fungi se compone de tres repositorios principales que trabajan juntos\+:
-
-\tabulinesep=1mm
+{\bfseries{Herramientas adicionales\+:}} Selenium + Python (scraping) \texorpdfstring{$\vert$}{|} JWT \texorpdfstring{$\vert$}{|} Gettext (i18n) \hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{📊 Ecosistema Fungi}{📊 Ecosistema Fungi}}\label{index_autotoc_md4}
+El proyecto Fungi se compone de tres repositorios principales que trabajan juntos\+: c \tabulinesep=1mm
 \begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
 \hline
 \PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Repositorio   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Descripción   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Estado    }\\\cline{1-3}
@@ -51,20 +49,54 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 \hypertarget{index_autotoc_md5}{}\doxysection{\texorpdfstring{🏗️ Arquitectura del Proyecto}{🏗️ Arquitectura del Proyecto}}\label{index_autotoc_md5}
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{fungi/}
-\DoxyCodeLine{├──\ 📁\ composer.json\ \ \ \ \ \ \ \ \#\ Dependencias\ PHP}
-\DoxyCodeLine{├──\ 📁\ docker-\/compose.yml\ \ \ \#\ Configuración\ para\ despliegue\ con\ Docker}
-\DoxyCodeLine{├──\ 📁\ locales/\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Archivos\ de\ traducción\ (es\_ES,\ en\_US,\ ca\_ES)}
-\DoxyCodeLine{├──\ 📁\ public/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Archivos\ públicos\ y\ punto\ de\ entrada}
-\DoxyCodeLine{│\ \ \ ├──\ 📁\ assets/\ \ \ \ \ \ \ \ \ \ \#\ CSS,\ JavaScript,\ imágenes}
-\DoxyCodeLine{│\ \ \ ├──\ 📁\ templates/\ \ \ \ \ \ \ \#\ Plantillas\ Twig\ para\ todas\ las\ vistas}
-\DoxyCodeLine{│\ \ \ └──\ 📄\ index.php\ \ \ \ \ \ \ \ \#\ Punto\ de\ entrada\ principal}
-\DoxyCodeLine{├──\ 📁\ src/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Código\ fuente\ principal}
-\DoxyCodeLine{│\ \ \ ├──\ 📁\ controllers/\ \ \ \ \ \#\ Controladores\ de\ la\ aplicación}
-\DoxyCodeLine{│\ \ \ ├──\ 📁\ models/\ \ \ \ \ \ \ \ \ \ \#\ Modelos\ de\ datos}
-\DoxyCodeLine{│\ \ \ ├──\ 📁\ services/\ \ \ \ \ \ \ \ \#\ Servicios\ y\ lógica\ de\ negocio}
-\DoxyCodeLine{│\ \ \ └──\ 📁\ db/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Esquemas\ y\ migraciones\ de\ la\ base\ de\ datos}
-\DoxyCodeLine{└──\ 📁\ tests/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Tests\ unitarios\ y\ de\ integración}
+\DoxyCodeLine{├──\ locales}
+\DoxyCodeLine{│\ \ \ ├──\ ca\_ES}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ LC\_MESSAGES}
+\DoxyCodeLine{│\ \ \ ├──\ en\_US}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ LC\_MESSAGES}
+\DoxyCodeLine{│\ \ \ └──\ es\_ES}
+\DoxyCodeLine{│\ \ \ \ \ \ \ └──\ LC\_MESSAGES}
+\DoxyCodeLine{├──\ public}
+\DoxyCodeLine{│\ \ \ ├──\ assets}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ images}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ └──\ avatars}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ lib}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ animatecss}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ aos}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ fontawesome}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ └──\ fontawesome-\/free-\/6.4.0-\/web}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ css}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ js}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ less}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ metadata}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ scss}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ sprites}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ ├──\ svgs}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ │\ \ \ ├──\ brands}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ │\ \ \ ├──\ regular}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ │\ \ \ └──\ solid}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ \ \ \ \ └──\ webfonts}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ └──\ twbs\ -\/>\ ../../../vendor/twbs}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ logos}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ scripts}
+\DoxyCodeLine{│\ \ \ │\ \ \ ├──\ styles}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ ├──\ components}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ ├──\ admin}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ │\ \ \ └──\ fungi}
+\DoxyCodeLine{│\ \ \ │\ \ \ │\ \ \ └──\ pages}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ users}
+\DoxyCodeLine{│\ \ \ └──\ templates}
+\DoxyCodeLine{│\ \ \ \ \ \ \ ├──\ components}
+\DoxyCodeLine{│\ \ \ \ \ \ \ │\ \ \ └──\ auth}
+\DoxyCodeLine{│\ \ \ \ \ \ \ └──\ pages}
+\DoxyCodeLine{│\ \ \ \ \ \ \ \ \ \ \ └──\ api}
+\DoxyCodeLine{│\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ └──\ endpoints}
+\DoxyCodeLine{├──\ src}
+\DoxyCodeLine{│\ \ \ ├──\ config}
+\DoxyCodeLine{│\ \ \ ├──\ controllers}
+\DoxyCodeLine{│\ \ \ │\ \ \ └──\ Api}
+\DoxyCodeLine{│\ \ \ └──\ db}
+\DoxyCodeLine{└──\ tools}
 
 \end{DoxyCode}
 \hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{🚀 Guía de Inicio Rápido}{🚀 Guía de Inicio Rápido}}\label{index_autotoc_md6}
@@ -74,7 +106,6 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 \item PHP 8.\+0+
 \item My\+SQL 5.\+7+
 \item Composer
-\item Node.\+js y npm (opcional, para desarrollo frontend)
 \end{DoxyItemize}\hypertarget{index_autotoc_md8}{}\doxysubsection{\texorpdfstring{Instalación manual}{Instalación manual}}\label{index_autotoc_md8}
 
 \begin{DoxyEnumerate}
@@ -111,30 +142,26 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 
 \end{DoxyCode}
 
-\end{DoxyEnumerate}\hypertarget{index_autotoc_md9}{}\doxysubsection{\texorpdfstring{Instalación con Docker}{Instalación con Docker}}\label{index_autotoc_md9}
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\#\ Iniciar\ todos\ los\ servicios}
-\DoxyCodeLine{docker-\/compose\ up\ -\/d}
-\DoxyCodeLine{}
-\DoxyCodeLine{\#\ La\ aplicación\ estará\ disponible\ en\ http://localhost:8080}
-
-\end{DoxyCode}
-\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{👥 Casos de Uso}{👥 Casos de Uso}}\label{index_autotoc_md10}
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md9}{}\doxysection{\texorpdfstring{👥 Casos de Uso}{👥 Casos de Uso}}\label{index_autotoc_md9}
 
 \begin{DoxyItemize}
 \item 🔍 {\bfseries{Usuarios no registrados\+:}} Pueden explorar el catálogo de hongos y buscar por características
 \item 🔐 {\bfseries{Usuarios registrados\+:}} Pueden guardar favoritos, crear colecciones y contribuir con imágenes
 \item 👑 {\bfseries{Administradores\+:}} Acceso completo al panel de administración para gestionar todo el contenido
-\end{DoxyItemize}\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{📸 Capturas de Pantalla}{📸 Capturas de Pantalla}}\label{index_autotoc_md11}
-  
-
-  \hypertarget{index_autotoc_md12}{}\doxysection{\texorpdfstring{🌱 Roadmap}{🌱 Roadmap}}\label{index_autotoc_md12}
+\end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysection{\texorpdfstring{🌱 Roadmap}{🌱 Roadmap}}\label{index_autotoc_md10}
 
 \begin{DoxyItemize}
-\item \mbox{[} \mbox{]} Implementación de API REST completa
-\item \mbox{[} \mbox{]} Ampliación a más idiomas
-\end{DoxyItemize}\hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{📄 Licencia}{📄 Licencia}}\label{index_autotoc_md13}
-Este proyecto está licenciado bajo la Licencia MIT -\/ ver el archivo \mbox{[}LICENSE\mbox{]}(LICENSE) para más detalles.\hypertarget{index_autotoc_md14}{}\doxysection{\texorpdfstring{📧 Contacto}{📧 Contacto}}\label{index_autotoc_md14}
-¿\+Preguntas? ¿\+Sugerencias? ¿\+Encontraste un error? \hypertarget{index_autotoc_md15}{}\doxysection{\texorpdfstring{-\/ 🌐 Sitio web\+: $<$a href="{}https\+://doncom.\+me/fungi"{} $>$fungi-\/project.\+com$<$/a$>$}{- 🌐 Sitio web: <a href="https://doncom.me/fungi" >fungi-project.com</a>}}\label{index_autotoc_md15}
-Desarrollado con ❤️ por el equipo Fungi 
+\item \mbox{[}X\mbox{]} Sistema de scraping con Selenium
+\item \mbox{[}x\mbox{]} Internacionalización de la interfaz (ES, EN, FR)
+\item \mbox{[}X\mbox{]} Optimización del modelo de datos y relaciones
+\item \mbox{[}X\mbox{]} Documentación del código generado con Doxygen
+\item \mbox{[}X\mbox{]} Integración de librería gráfica para estadísticas
+\item \mbox{[}X\mbox{]} Refactorización del código para mejorar la modularidad y la legibilidad
+\item \mbox{[}X\mbox{]} Diseño responsive y experiencia de usuario con Bootstrap 5
+\item \mbox{[} \mbox{]} Implementación de API REST completa con autenticación JWT
+\item \mbox{[} \mbox{]} Mejoras en el panel de administración y gestión de usuarios
+\item \mbox{[} \mbox{]} Implementación de pruebas unitarias y de integración
+\end{DoxyItemize}\hypertarget{index_autotoc_md11}{}\doxysection{\texorpdfstring{📄 Licencia}{📄 Licencia}}\label{index_autotoc_md11}
+Este proyecto está licenciado bajo la Licencia MIT -\/ ver el archivo \mbox{[}LICENSE\mbox{]}(LICENSE) para más detalles.\hypertarget{index_autotoc_md12}{}\doxysection{\texorpdfstring{📧 Contacto}{📧 Contacto}}\label{index_autotoc_md12}
+¿\+Preguntas? ¿\+Sugerencias? ¿\+Encontraste un error? \hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{-\/ 🌐 Sitio web\+: $<$a href="{}https\+://mgrl39.\+github.\+io/fungi"{} $>$mgrl39.\+github.\+io/fungi$<$/a$>$}{- 🌐 Sitio web: <a href="https://mgrl39.github.io/fungi" >mgrl39.github.io/fungi</a>}}\label{index_autotoc_md13}
+Desarrollado con ❤️ por el equipo Fungi 🍄 como proyecto educativo 
