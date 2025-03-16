@@ -1,7 +1,7 @@
 # 🍄 Fungi
 
 <p align="center">
-  <img src="public/assets/img/fungi_logo.png" width="200" alt="Fungi Logo">
+  <img src="public/assets/logos/logofungi.png" width="200" alt="Fungi Logo">
 </p>
 
 > Una aplicación web dinámica para gestionar, visualizar y editar datos de hongos extraídos mediante técnicas de web scraping, con autenticación JWT, panel de administración y soporte para internacionalización.
