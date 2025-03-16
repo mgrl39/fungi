@@ -44,14 +44,11 @@ class AppInitializer
         }
 
         // Cargar configuración desde defaults.inc.php
-        require_once __DIR__ . '/defaults.inc.php';
-
         // Iniciar la sesión si aún no está activa
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        // Usar LangController en lugar de configuración directa
+        require_once __DIR__ . '/defaults.inc.php';
+        if (session_status() === PHP_SESSION_NONE) session_start();
 
-        // IMPORTANTE: Usar LangController en lugar de configuración directa
         $langController = new LangController();
         $currentLanguage = $langController->initializeLanguage();
         
@@ -99,20 +96,14 @@ class AppInitializer
             return gettext($string);
         }));
         
-        // IMPORTANTE: Agregar la función para traducciones con dominio específico
+        // Agregar la función para traducciones con dominio específico
         $twig->addFunction(new \Twig\TwigFunction('__d', function ($text, $domain = 'messages') use ($langController) {
             $traduccion = $langController->gettext($text, $domain);
-            if ($traduccion === $text && $domain !== 'messages') {
-                // Si la traducción es igual al texto original, puede ser un problema
-                error_log("Falla traducción [$domain]: $text");
-            }
+            if ($traduccion === $text && $domain !== 'messages') error_log("Falla traducción [$domain]: $text");
             return $traduccion;
         }));
-        
-        // Agregar variables globales para el sistema de plantillas
         $twig->addGlobal('idioma_actual', $currentLanguage);
         $twig->addGlobal('idiomas_soportados', $langController->getSupportedLanguages());
-
         return [$db, $authController, $session, $twig, $langController];
     }
 } 
