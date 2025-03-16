@@ -33,56 +33,69 @@ class RouteController {
     public function addRoutes($routes) {
         $this->routes = array_merge($this->routes, $routes);
     }
-    
+    /**
+     * Maneja la solicitud de ruta actual
+     * 
+     * 1. Intenta coincidencia exacta primero
+     * 2. Si no hay coincidencia exacta, intenta coincidencia con patrones
+     *
+     * @param string $uri URI de la solicitud actual
+     * @return bool True si se procesó correctamente la ruta
+     */
     public function handleRequest($uri) {
-        // 1. Intentar coincidencia exacta primero
         if (isset($this->routes[$uri])) {
             return $this->processRoute($this->routes[$uri]);
-        } 
-        // 2. Intentar coincidencia con patrones
-        else {
+        } else {
             return $this->processPatternRoutes($uri);
         }
     }
     
+    /**
+     * Procesa una ruta específica y maneja las redirecciones, autenticación y renderizado
+     *
+     * @param array $route Configuración de la ruta a procesar
+     * @return bool True si la ruta se procesó correctamente
+     */
     private function processRoute($route) {
-        // Si la ruta tiene una redirección configurada
         if (isset($route['redirect'])) {
             header('Location: ' . $route['redirect']);
             exit;
         }
-        
-        // Verificar si se requiere autenticación para esta ruta
+
         if (isset($route['auth_required']) && $route['auth_required'] && !$this->session->isLoggedIn()) {
             header('Location: /login');
             exit;
         }
-        
-        // Verificar si se requiere rol de administrador
+
         if (isset($route['admin_required']) && $route['admin_required'] && !$this->session->isAdmin()) {
             header('Location: /');
             exit;
         }
-        
-        // Obtener datos para la vista usando el manejador personalizado
+
         $data = isset($route['handler']) ? $route['handler']($this->twig, $this->db, $this->session, $this->authController ?? null) : [];
-        
-        // Si no hay datos pero hay título, usar el título como datos
+
         if (empty($data) && isset($route['title'])) {
             $data = ['title' => $route['title']];
         }
-        
-        // Renderizar la plantilla
+
         if (isset($route['template']) && $route['template'] !== null) {
             renderTemplate($route['template'], $data);
         }
-        
+
         return true;
     }
     
+    /**
+     * Procesa rutas que coinciden con patrones de expresiones regulares
+     * 
+     * Itera sobre las rutas buscando coincidencias con patrones que contengan
+     * expresiones regulares. Si no encuentra coincidencia, muestra la página 404.
+     *
+     * @param string $uri URI de la solicitud actual
+     * @return bool True si se encontró y procesó una ruta, False si se mostró 404
+     */
     private function processPatternRoutes($uri) {
         foreach ($this->routes as $pattern => $route) {
-            // Si el patrón contiene caracteres especiales como paréntesis (indicando expresión regular)
             if (strpos($pattern, '(') !== false) {
                 if (preg_match('#^' . $pattern . '$#', $uri, $matches)) {
                     return $this->processRoute($route);
@@ -90,15 +103,12 @@ class RouteController {
             }
         }
         
-        // Si no se encontró ninguna coincidencia, mostrar 404
         header('HTTP/1.1 404 Not Found');
         
-        // Obtener datos para la página 404
         $data = isset($this->routes['/404']['handler']) 
             ? $this->routes['/404']['handler']($this->twig, $this->db, $this->session, $this->authController ?? null) 
             : ['title' => _('Página no encontrada')];
             
-        // Renderizar la plantilla 404
         renderTemplate($this->routes['/404']['template'], $data);
         
         return false;
