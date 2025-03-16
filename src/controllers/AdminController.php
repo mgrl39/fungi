@@ -12,7 +12,7 @@ namespace App\Controllers;
 class AdminController
 {
     /**
-     * @var \PDO $db Conexión a la base de datos
+     * @var \App\Controllers\DatabaseController $db Controlador de base de datos
      */
     private $db;
     
@@ -29,7 +29,7 @@ class AdminController
     /**
      * @brief Constructor del controlador de administración
      * 
-     * @param \PDO $db Instancia de la conexión a la base de datos
+     * @param \App\Controllers\DatabaseController $db Instancia del controlador de base de datos
      * @param SessionController $session Controlador de sesión
      * @param StatsController $statsController Controlador de estadísticas
      */
@@ -50,12 +50,10 @@ class AdminController
      */
     public function dashboardHandler($twig, $db, $session)
     {
-        // Verificar si el usuario es administrador
         if (!$session->isAdmin()) {
             header('Location: /404');
             exit;
         }
-
         return [
             'title' => _('Panel de Administración'),
             'stats' => $this->statsController->getDashboardStats()

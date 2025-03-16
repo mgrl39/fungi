@@ -12,14 +12,14 @@ namespace App\Controllers;
 class StatsController
 {
     /**
-     * @var \PDO $db Conexión a la base de datos
+     * @var \App\Controllers\DatabaseController $db Instancia del controlador de base de datos
      */
     private $db;
 
     /**
      * @brief Constructor del controlador de estadísticas
      * 
-     * @param \PDO $db Instancia de la conexión a la base de datos
+     * @param \App\Controllers\DatabaseController $db Instancia de la conexión a la base de datos
      */
     public function __construct($db)
     {
@@ -191,31 +191,6 @@ class StatsController
              GROUP BY ordo 
              ORDER BY count DESC 
              LIMIT 10"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @brief Obtiene estadísticas sobre la actividad de los usuarios
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Datos de actividad de usuario agrupados por acción y fecha
-     */
-    private function getUserActivityStats($timeRange)
-    {
-        $interval = match($timeRange) {
-            'week' => '7 DAY',
-            'month' => '30 DAY',
-            'year' => '365 DAY',
-            default => '30 DAY'
-        };
-
-        return $this->db->query(
-            "SELECT action, COUNT(*) as count,
-             DATE_FORMAT(access_time, '%Y-%m-%d') as date
-             FROM access_logs
-             WHERE access_time >= DATE_SUB(NOW(), INTERVAL $interval)
-             GROUP BY action, date
-             ORDER BY date ASC"
         )->fetchAll(\PDO::FETCH_ASSOC);
     }
 

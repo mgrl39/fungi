@@ -202,7 +202,7 @@ class ApiController
 	private function handlePost($endpoint)
 	{
 		// Crea una instancia del controlador de POST
-		$apiPostController = new ApiPostController($this->pdo, $this->db);
+		$apiPostController = new ApiPostController($this->pdo);
 		$apiAuthController = new ApiAuthController($this->pdo, $this->db);
 		
 		// Datos de la solicitud
