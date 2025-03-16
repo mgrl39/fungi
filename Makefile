@@ -37,7 +37,7 @@ PO_FILES := $(wildcard $(LOCALES_DIR)/*/$(LC_MESSAGES)/*.po)
 # Generar nombres de archivos .mo correspondientes
 MO_FILES := $(patsubst %.po,%.mo,$(PO_FILES))
 
-.PHONY: help init save-db install clean test log status check-routes check-routes-port translations test-api clean-mo
+.PHONY: help init save-db install clean test log status check-routes translations test-api clean-mo
 
 help:
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
@@ -48,10 +48,8 @@ help:
 	@echo "$(YELLOW)make install$(RESET)   - Instala las dependencias del proyecto"
 	@echo "$(YELLOW)make status$(RESET)    - Muestra el estado actual del proyecto"
 	@echo "$(YELLOW)make check-routes$(RESET) - Verifica rutas (pregunta por el puerto)"
-	@echo "$(YELLOW)make check-routes-port p=XXXX$(RESET) - Verifica rutas en puerto específico"
 	@echo "$(YELLOW)make translations$(RESET) - Genera los archivos .mo de las traducciones"
 	@echo "$(YELLOW)make test-api$(RESET)  - Ejecuta el script de pruebas de la API"
-	@echo "$(YELLOW)make test-api p=XXXX$(RESET) - Ejecuta pruebas de API en puerto específico"
 	@echo "$(YELLOW)make clean-mo$(RESET)  - Elimina todos los archivos .mo"
 	@echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)"
 
@@ -134,29 +132,6 @@ check-routes:
 	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
 	echo "$(GREEN)Verificación de rutas completada.$(RESET)"
 
-# También puedes especificar el puerto directamente al ejecutar el comando
-check-routes-port:
-	@if [ -z "$(p)" ]; then \
-		echo "$(RED)Debes especificar un puerto. Ejemplo: make check-routes-port p=8000$(RESET)"; \
-		exit 1; \
-	fi; \
-	SERVER_URL_FINAL="http://$(SERVER_HOST):$(p)" && \
-	echo "$(GREEN)Verificando rutas en $$SERVER_URL_FINAL ...$(RESET)" && \
-	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
-	echo "$(YELLOW)RUTA$(RESET)                      $(YELLOW)ESTADO$(RESET)        $(YELLOW)TIEMPO$(RESET)         $(YELLOW)RESULTADO$(RESET)" && \
-	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
-	for route in $(ROUTES_TO_CHECK); do \
-		HTTP_CODE=$$(curl -o /dev/null -s -w "%{http_code}" --max-time $(TIMEOUT) $$SERVER_URL_FINAL$$route); \
-		TIME=$$(curl -o /dev/null -s -w "%{time_total}" --max-time $(TIMEOUT) $$SERVER_URL_FINAL$$route); \
-		if [ $$HTTP_CODE -eq 200 ]; then \
-			printf "$(YELLOW)%-25s$(RESET) $(GREEN)%-10s$(RESET) $(CYAN)%-10s$(RESET) $(GREEN)✓ OK$(RESET)\n" $$route $$HTTP_CODE $$TIME; \
-		else \
-			printf "$(YELLOW)%-25s$(RESET) $(RED)%-10s$(RESET) $(CYAN)%-10s$(RESET) $(RED)✗ ERROR$(RESET)\n" $$route $$HTTP_CODE $$TIME; \
-		fi \
-	done && \
-	echo "$(CYAN)════════════════════════════════════════════════════════════════════$(RESET)" && \
-	echo "$(GREEN)Verificación de rutas completada.$(RESET)"
-
 # Ejecuta pruebas de la API
 test-api:
 	@echo "$(GREEN)Ejecutando pruebas de la API...$(RESET)"
@@ -168,10 +143,6 @@ test-api:
 		echo "$(YELLOW)Haciendo ejecutable el script de prueba...$(RESET)"; \
 		chmod +x ./$(API_TEST_SCRIPT); \
 	fi
-	@if [ -z "$(p)" ]; then \
-		echo "$(YELLOW)¿En qué puerto está ejecutándose la aplicación? [$(PORT)]: $(RESET)" && read input_port && \
-		PORT_TO_USE=$${input_port:-$(PORT)}; \
-		./$(API_TEST_SCRIPT) $$PORT_TO_USE; \
-	else \
-		./$(API_TEST_SCRIPT) $(p); \
-	fi
+	@echo "$(YELLOW)¿En qué puerto está ejecutándose la aplicación? [$(PORT)]: $(RESET)" && read input_port && \
+	PORT_TO_USE=$${input_port:-$(PORT)}; \
+	./$(API_TEST_SCRIPT) $$PORT_TO_USE;
