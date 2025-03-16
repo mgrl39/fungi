@@ -1,33 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <!-- Bootstrap CSS -->
-    <link rel="preload" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css" as="style">
-    <link rel="preload" href="/assets/styles/components/navbar.css" as="style">
     
-    <!-- Cargar CSS de manera óptima -->
-    <link rel="stylesheet" href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/styles/components/navbar.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Estilos personalizados mínimos -->
+    <link rel="stylesheet" href="/assets/styles/generic.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Animaciones -->
-    <link rel="stylesheet" href="/assets/lib/animatecss/animate.min.css">
-    <link rel="stylesheet" href="/assets/lib/aos/aos.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="/assets/styles/pages/api_docs.css">
-    <link rel="stylesheet" href="/assets/styles/generic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <!-- Estilos para la documentación de la API -->
     <style>
         :root {
             --sidebar-width: 280px;
             --header-height: 60px;
-            --primary-color: #0e7490;
-            --primary-light: #0e749020;
-            --border-color: #e2e8f0;
+            --primary-color: #0d6efd;
+            --primary-light: #0d6efd20;
+            --border-color: #2d3748;
             --code-bg: #1e293b;
             --method-get: #22c55e;
             --method-post: #3b82f6;
@@ -36,13 +34,20 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            color: #334155;
+            color: #e2e8f0;
+        }
+        
+        .hero-api {
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('/assets/images/api-bg.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
         }
         
         .api-docs-container {
             display: flex;
-            min-height: calc(100vh - var(--header-height));
+            min-height: calc(100vh - var(--header-height) - 300px);
         }
         
         .api-sidebar {
@@ -50,9 +55,11 @@
             border-right: 1px solid var(--border-color);
             overflow-y: auto;
             position: fixed;
-            top: var(--header-height);
+            top: calc(var(--header-height) + 300px);
             bottom: 0;
             z-index: 100;
+            background-color: rgba(33, 37, 41, 0.95);
+            transition: all 0.3s ease;
         }
         
         .api-content {
@@ -65,7 +72,7 @@
             font-size: 0.875rem;
             text-transform: uppercase;
             font-weight: 600;
-            color: #64748b;
+            color: #9ca3af;
             margin: 1.5rem 0 0.5rem 1rem;
         }
         
@@ -79,7 +86,7 @@
             display: flex;
             align-items: center;
             padding: 0.5rem 1rem;
-            color: #475569;
+            color: #e2e8f0;
             text-decoration: none;
             border-left: 3px solid transparent;
             transition: background-color 0.2s, color 0.2s, border-color 0.2s;
@@ -88,6 +95,7 @@
         .api-sidebar-nav a:hover {
             background-color: var(--primary-light);
             color: var(--primary-color);
+            transform: translateY(-2px);
         }
         
         .api-sidebar-nav a.active {
@@ -115,11 +123,18 @@
         .method-delete { background-color: var(--method-delete); }
         
         .endpoint-card {
-            background-color: #fff;
+            background-color: rgba(33, 37, 41, 0.5);
             border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             margin-bottom: 2rem;
             overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .endpoint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
         
         .endpoint-header {
@@ -127,6 +142,7 @@
             align-items: center;
             padding: 1rem;
             border-bottom: 1px solid var(--border-color);
+            background-color: rgba(33, 37, 41, 0.8);
         }
         
         .endpoint-method {
@@ -145,6 +161,7 @@
             font-family: monospace;
             font-size: 1rem;
             font-weight: 600;
+            color: #e2e8f0;
         }
         
         .endpoint-content {
@@ -153,6 +170,7 @@
         
         .endpoint-description {
             margin-bottom: 1.5rem;
+            color: #e2e8f0;
         }
         
         .endpoint-parameters, .endpoint-responses {
@@ -162,6 +180,7 @@
         .parameter-name, .response-code {
             font-family: monospace;
             font-weight: 600;
+            color: #a5f3fc;
         }
         
         .code-block {
@@ -172,6 +191,7 @@
             font-family: monospace;
             margin: 1rem 0;
             overflow-x: auto;
+            border-left: 4px solid var(--primary-color);
         }
         
         .param-required {
@@ -183,7 +203,7 @@
         .response-wrapper {
             max-height: 300px;
             overflow-y: auto;
-            background-color: #f8fafc;
+            background-color: #1a202c;
             border-radius: 0.375rem;
             border: 1px solid var(--border-color);
         }
@@ -201,6 +221,7 @@
             padding: 0.5rem 1rem;
             cursor: pointer;
             border-bottom: 2px solid transparent;
+            color: #e2e8f0;
         }
         
         .tab.active {
@@ -211,7 +232,7 @@
         
         /* Estilos para áreas de prueba de endpoint */
         .try-api {
-            background-color: #f8fafc;
+            background-color: rgba(33, 37, 41, 0.4);
             border-radius: 0.375rem;
             padding: 1rem;
             margin-top: 1.5rem;
@@ -224,6 +245,26 @@
         
         .error-response {
             border-left: 4px solid var(--method-delete);
+        }
+        
+        /* Separador visual como en home.twig */
+        .separator {
+            position: relative;
+            padding: 2rem 0;
+            margin: 2rem 0;
+        }
+        
+        .separator hr {
+            border-color: var(--border-color);
+        }
+        
+        .separator-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #212529;
+            padding: 0 1rem;
         }
         
         @media (max-width: 768px) {
@@ -248,124 +289,172 @@
         {% include 'components/navbar.twig' %}
     </header>
 
-    <div class="api-docs-container">
-        <!-- Barra lateral de navegación -->
-        <aside class="api-sidebar">
-            <div class="p-3">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Buscar endpoint..." id="apiSearchInput">
-                </form>
+    <!-- Sección Hero -->
+    <section class="hero-api text-center text-white">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">{{ title }}</h1>
+            <p class="lead mb-4">Documentación oficial de nuestra API RESTful. Explora todos los endpoints disponibles y pruébalos directamente desde esta interfaz.</p>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="https://github.com/mgrl39/fungi/blob/main/docs/API.md" target="_blank" class="btn btn-outline-light">
+                    <i class="fab fa-github me-2"></i> Ver en GitHub
+                </a>
+                <a href="#" class="btn btn-primary" id="get-token-btn">
+                    <i class="fas fa-key me-2"></i> Obtener Token JWT
+                </a>
             </div>
-            
-            <h3 class="api-group-title">Fungi</h3>
-            <ul class="api-sidebar-nav" id="fungiEndpoints">
-                <li>
-                    <a href="#" class="endpoint-link active" data-endpoint="fungi-get-all">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/fungi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-get-id">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/fungi/{id}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-get-paginated">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-get-random">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/fungi/random</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-search">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/fungi/search/{param}/{value}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-post">
-                        <span class="api-sidebar-method method-post">POST</span>
-                        <span class="endpoint-label">/fungi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-put">
-                        <span class="api-sidebar-method method-put">PUT</span>
-                        <span class="endpoint-label">/fungi/{id}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="fungi-delete">
-                        <span class="api-sidebar-method method-delete">DELETE</span>
-                        <span class="endpoint-label">/fungi/{id}</span>
-                    </a>
-                </li>
-            </ul>
+        </div>
+    </section>
 
-            
-            <h3 class="api-group-title">Users</h3>
-            <ul class="api-sidebar-nav" id="usersEndpoints">
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="users-get-all">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/users</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="users-post">
-                        <span class="api-sidebar-method method-post">POST</span>
-                        <span class="endpoint-label">/users</span>
-                    </a>
-                </li>
-            </ul>
-            
-            <h3 class="api-group-title">Authentication</h3>
-            <ul class="api-sidebar-nav" id="authEndpoints">
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="auth-login">
-                        <span class="api-sidebar-method method-post">POST</span>
-                        <span class="endpoint-label">/auth/login</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="auth-logout">
-                        <span class="api-sidebar-method method-post">POST</span>
-                        <span class="endpoint-label">/auth/logout</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="endpoint-link" data-endpoint="auth-verify">
-                        <span class="api-sidebar-method method-get">GET</span>
-                        <span class="endpoint-label">/auth/verify</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
-        
-        <!-- Contenido principal -->
-        <main class="api-content">
-            <section class="mb-5">
-                <h1>{{ title }}</h1>
-                <p class="lead">Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code>/api</code>.</p>
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-2"></i> Puedes probar los endpoints directamente desde esta documentación.
+    <div class="container py-4">
+        <div class="api-docs-container">
+            <!-- Barra lateral de navegación -->
+            <aside class="api-sidebar">
+                <div class="p-3">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Buscar endpoint..." id="apiSearchInput">
+                    </form>
                 </div>
-            </section>
+                
+                <h3 class="api-group-title">Fungi</h3>
+                <ul class="api-sidebar-nav" id="fungiEndpoints">
+                    <li>
+                        <a href="#" class="endpoint-link active" data-endpoint="fungi-get-all">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/fungi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-get-id">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/fungi/{id}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-get-paginated">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-get-random">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/fungi/random</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-search">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/fungi/search/{param}/{value}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-post">
+                            <span class="api-sidebar-method method-post">POST</span>
+                            <span class="endpoint-label">/fungi</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-put">
+                            <span class="api-sidebar-method method-put">PUT</span>
+                            <span class="endpoint-label">/fungi/{id}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="fungi-delete">
+                            <span class="api-sidebar-method method-delete">DELETE</span>
+                            <span class="endpoint-label">/fungi/{id}</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <h3 class="api-group-title">Users</h3>
+                <ul class="api-sidebar-nav" id="usersEndpoints">
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="users-get-all">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/users</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="users-post">
+                            <span class="api-sidebar-method method-post">POST</span>
+                            <span class="endpoint-label">/users</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <h3 class="api-group-title">Authentication</h3>
+                <ul class="api-sidebar-nav" id="authEndpoints">
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="auth-login">
+                            <span class="api-sidebar-method method-post">POST</span>
+                            <span class="endpoint-label">/auth/login</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="auth-logout">
+                            <span class="api-sidebar-method method-post">POST</span>
+                            <span class="endpoint-label">/auth/logout</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="endpoint-link" data-endpoint="auth-verify">
+                            <span class="api-sidebar-method method-get">GET</span>
+                            <span class="endpoint-label">/auth/verify</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
             
-            <!-- Área de contenido del endpoint -->
-            <div id="endpointContent">
-                <!-- El contenido se cargará dinámicamente por JavaScript -->
-            </div>
-        </main>
+            <!-- Contenido principal -->
+            <main class="api-content">
+                <section class="mb-5">
+                    <div class="card border-0 bg-primary bg-opacity-10 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h3 mb-3">
+                                <i class="fas fa-code me-2"></i> Documentación de API
+                            </h2>
+                            <p class="lead mb-0">Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code class="bg-dark text-light px-2 py-1 rounded">/api</code>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-primary border-0 mt-4 d-flex align-items-center">
+                        <i class="fas fa-info-circle fa-lg me-3"></i>
+                        <div>Puedes probar los endpoints directamente desde esta documentación. Utiliza el botón "Obtener Token JWT" para autenticarte.</div>
+                    </div>
+                </section>
+                
+                <!-- Separador visual -->
+                <div class="position-relative py-2 my-4">
+                    <hr>
+                    <div class="position-absolute top-50 start-50 translate-middle bg-dark px-3">
+                        <i class="fas fa-exchange-alt text-primary"></i>
+                    </div>
+                </div>
+                
+                <!-- Área de contenido del endpoint -->
+                <div id="endpointContent" class="mb-5">
+                    <!-- El contenido se cargará dinámicamente por JavaScript -->
+                </div>
+                
+                <!-- Sección CTA -->
+                <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
+                    <div class="py-4 px-3">
+                        <h2 class="display-6 mb-3">¿Quieres integrar nuestra API en tu proyecto?</h2>
+                        <p class="lead mb-4">Regístrate para obtener acceso completo y comenzar a utilizar todos los endpoints disponibles.</p>
+                        <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
+                            <i class="fas fa-user-plus me-2"></i> Crear cuenta
+                        </a>
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
-    
+
+    <footer class="mt-auto">
+        {% include 'components/footer.twig' %}
+    </footer>
+
     <!-- Plantillas para endpoints dinámicos -->
     <div style="display:none">
         <template id="template-fungi-get-all">
@@ -421,60 +510,167 @@
         </template>
     </div>
     
+    <!-- Bootstrap 5 JS Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <!-- Script de carga optimizada -->
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          // Cargar endpoint predeterminado al inicio
-          const defaultTemplate = document.getElementById('template-fungi-get-all');
-          if (defaultTemplate) {
-              document.getElementById('endpointContent').innerHTML = defaultTemplate.innerHTML;
-              initializeTestButtons();
-          }
-          
-          // Cargar endpoints de manera perezosa
-          const endpointLinks = document.querySelectorAll('.endpoint-link');
-          const endpointContent = document.getElementById('endpointContent');
-          
-          endpointLinks.forEach(link => {
-              link.addEventListener('click', function(e) {
-                  e.preventDefault();
-                  
-                  const endpointId = this.getAttribute('data-endpoint');
-                  
-                  // Actualizar clase active
-                  document.querySelector('.endpoint-link.active')?.classList.remove('active');
-                  this.classList.add('active');
-                  
-                  // Verificar si ya existe el template en el DOM
-                  const templateElement = document.getElementById(`template-${endpointId}`);
-                  
-                  if (templateElement) {
-                      // Usar template existente
-                      endpointContent.innerHTML = templateElement.innerHTML;
-                      initializeTestButtons();
-                  } else {
-                      // Cargar template de manera dinámica mediante fetch
-                      endpointContent.innerHTML = '<div class="text-center p-5"><div class="spinner-border" role="status"></div><p class="mt-3">Cargando documentación...</p></div>';
-                      
-                      fetch(`/api/docs/endpoint/${endpointId}`)
-                          .then(response => response.text())
-                          .then(html => {
-                              endpointContent.innerHTML = html;
-                              initializeTestButtons();
-                          })
-                          .catch(error => {
-                              endpointContent.innerHTML = `<div class="alert alert-danger">Error al cargar la documentación: ${error.message}</div>`;
-                          });
-                  }
-              });
-          });
-      });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar AOS
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Cargar endpoint predeterminado al inicio
+            const defaultTemplate = document.getElementById('template-fungi-get-all');
+            if (defaultTemplate) {
+                document.getElementById('endpointContent').innerHTML = defaultTemplate.innerHTML;
+                initializeTestButtons();
+            }
+            
+            // Cargar endpoints de manera perezosa
+            const endpointLinks = document.querySelectorAll('.endpoint-link');
+            const endpointContent = document.getElementById('endpointContent');
+            
+            endpointLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const endpointId = this.getAttribute('data-endpoint');
+                    
+                    // Actualizar clase active
+                    document.querySelector('.endpoint-link.active')?.classList.remove('active');
+                    this.classList.add('active');
+                    
+                    // Verificar si ya existe el template en el DOM
+                    const templateElement = document.getElementById(`template-${endpointId}`);
+                    
+                    if (templateElement) {
+                        // Usar template existente
+                        endpointContent.innerHTML = templateElement.innerHTML;
+                        initializeTestButtons();
+                    } else {
+                        // Cargar template de manera dinámica mediante fetch
+                        endpointContent.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-3">Cargando documentación...</p></div>';
+                        
+                        fetch(`/api/docs/endpoint/${endpointId}`)
+                            .then(response => response.text())
+                            .then(html => {
+                                endpointContent.innerHTML = html;
+                                initializeTestButtons();
+                            })
+                            .catch(error => {
+                                endpointContent.innerHTML = `<div class="alert alert-danger">Error al cargar la documentación: ${error.message}</div>`;
+                            });
+                    }
+                });
+            });
+            
+            // Funcionalidad de búsqueda
+            const searchInput = document.getElementById('apiSearchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const endpoints = document.querySelectorAll('.endpoint-link');
+                    
+                    endpoints.forEach(endpoint => {
+                        const endpointText = endpoint.querySelector('.endpoint-label').textContent.toLowerCase();
+                        const method = endpoint.querySelector('.api-sidebar-method').textContent.toLowerCase();
+                        
+                        if (endpointText.includes(searchTerm) || method.includes(searchTerm)) {
+                            endpoint.parentElement.style.display = '';
+                        } else {
+                            endpoint.parentElement.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            
+            // Función para inicializar botones de prueba
+            function initializeTestButtons() {
+                const tryButtons = document.querySelectorAll('.try-endpoint-btn');
+                tryButtons.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const endpointId = this.getAttribute('data-endpoint');
+                        const tryApiSection = document.querySelector(`#try-${endpointId}`);
+                        
+                        if (tryApiSection) {
+                            tryApiSection.classList.toggle('d-none');
+                        }
+                    });
+                });
+            }
+            
+            // Botón para obtener token JWT
+            const getTokenBtn = document.getElementById('get-token-btn');
+            if (getTokenBtn) {
+                getTokenBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Modal para login y obtener token
+                    const modal = new bootstrap.Modal(document.getElementById('jwtModal'));
+                    if (modal) {
+                        modal.show();
+                    } else {
+                        // Crear modal si no existe
+                        const modalHTML = `
+                            <div class="modal fade" id="jwtModal" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark text-light">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Obtener Token JWT</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="loginForm">
+                                                <div class="mb-3">
+                                                    <label for="username" class="form-label">Usuario</label>
+                                                    <input type="text" class="form-control" id="username" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password" class="form-label">Contraseña</label>
+                                                    <input type="password" class="form-control" id="password" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                                            </form>
+                                            <div id="tokenResult" class="mt-3 d-none">
+                                                <div class="alert alert-success">
+                                                    <strong>Token obtenido correctamente!</strong>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Tu token JWT:</label>
+                                                    <textarea id="jwtToken" class="form-control" readonly rows="3"></textarea>
+                                                </div>
+                                                <button class="btn btn-sm btn-secondary mt-2" onclick="navigator.clipboard.writeText(document.getElementById('jwtToken').value)">Copiar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        document.body.insertAdjacentHTML('beforeend', modalHTML);
+                        const newModal = new bootstrap.Modal(document.getElementById('jwtModal'));
+                        newModal.show();
+                        
+                        document.getElementById('loginForm').addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            // Simular obtención de token
+                            document.getElementById('tokenResult').classList.remove('d-none');
+                            document.getElementById('jwtToken').value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlVzdWFyaW8gZGUgcHJ1ZWJhIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o';
+                        });
+                    }
+                });
+            }
+        });
     </script>
     
-    <!-- Cargar JS de manera óptima -->
-    <script src="/assets/lib/jquery.min.js" defer></script>
-    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
-    <script src="/assets/lib/aos/aos.js" defer></script>
+    <!-- Scripts adicionales -->
     <script src="/assets/scripts/api_docs.js"></script>
 </body>
-</html> 
+</html>
