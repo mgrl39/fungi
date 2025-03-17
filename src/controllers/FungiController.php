@@ -69,11 +69,16 @@ class FungiController
      * 
      * @param int $fungiId ID del hongo
      * 
-     * @return mixed Resultado de la consulta a la base de datos
+     * @return bool Resultado de la operación
      */
     public function incrementFungiViews($fungiId)
     {
-        return $this->db->query("INSERT INTO fungi_popularity (fungi_id, views, likes) VALUES (?, 1, 0) ON DUPLICATE KEY UPDATE views = views + 1", [$fungiId]);
+        try {
+            return $this->db->query("INSERT INTO fungi_popularity (fungi_id, views, likes) VALUES (?, 1, 0) ON DUPLICATE KEY UPDATE views = views + 1", [$fungiId]);
+        } catch (\Exception $e) {
+            error_log("Error incrementando vistas: " . $e->getMessage());
+            return false;
+        }
     }
 
     /**
@@ -436,5 +441,253 @@ class FungiController
                 'error' => 'Error interno del servidor: ' . $e->getMessage()
             ];
         }
+    }
+
+    /**
+     * Obtiene hongos con paginación
+     * 
+     * @param int $page Número de página
+     * @param int $limit Límite de registros por página
+     * @return array Resultados paginados
+     */
+    public function getFungiPaginated($page, $limit)
+    {
+        $offset = ($page - 1) * $limit;
+        
+        // Registrar lo que estamos haciendo
+        error_log("getFungiPaginated: Buscando página $page con límite $limit (offset $offset)");
+        
+        // Consulta para obtener los hongos con sus imágenes - usar query en lugar de prepare
+        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, '/', i.filename)) as image_urls 
+                FROM fungi f LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                LEFT JOIN images i ON fi.image_id = i.id LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                GROUP BY f.id LIMIT ?, ?";
+        $fungi = $this->db->query($sql, [$offset, $limit]);
+        // Registrar lo que obtuvimos
+        error_log("getFungiPaginated: Encontrados " . (is_array($fungi) ? count($fungi) : 'no') . " hongos");
+        if (is_array($fungi) && count($fungi) > 0) {
+            error_log("Primer hongo: " . json_encode($fungi[0]));
+        }
+        
+        // Asegurarnos de que $fungi sea un array
+        $fungi = is_array($fungi) ? $fungi : [];
+        
+        // Consulta para contar el total de hongos
+        $totalCount = $this->db->query("SELECT COUNT(*) as total FROM fungi");
+        if (is_array($totalCount) && !empty($totalCount)) $totalCount = $totalCount[0]['total'] ?? count($totalCount);
+        else $totalCount = 0;
+        error_log("getFungiPaginated: Total de hongos: $totalCount");
+        
+        // Calcular la información de paginación
+        $totalPages = ceil($totalCount / $limit);
+        
+        return [
+            'success' => true, 
+            'data' => $fungi,
+            'pagination' => [
+                'current_page' => (int)$page,
+                'total_pages' => (int)$totalPages,
+                'records_per_page' => (int)$limit,
+                'total_records' => (int)$totalCount
+            ]
+        ];
+    }
+
+    /**
+     * Obtiene todos los hongos de la base de datos
+     * @return array Lista de todos los hongos
+     */
+    public function getAllFungi() 
+    {
+        // Consulta para obtener todos los hongos con sus imágenes
+        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, '/', i.filename)) as image_urls 
+                FROM fungi f 
+                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                LEFT JOIN images i ON fi.image_id = i.id 
+                LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                GROUP BY f.id";
+        
+        $result = $this->db->query($sql);
+        
+        // Asegurarse de que tenemos un array como resultado
+        if (!is_array($result)) {
+            return [];
+        }
+        
+        // Registrar para depuración
+        error_log("getAllFungi: Obtenidos " . count($result) . " hongos");
+        
+        return $result;
+    }
+
+    /**
+     * Busca hongos por parámetro y valor
+     * 
+     * @param string $param Parámetro de búsqueda
+     * @param string $value Valor a buscar
+     * @return array Resultados de la búsqueda
+     */
+    public function searchFungi($param, $value)
+    {
+        $allowedParams = ['name', 'edibility', 'habitat', 'common_name'];
+        
+        if (!in_array($param, $allowedParams)) {
+            return [
+                'success' => false,
+                'error' => 'Parámetro de búsqueda no válido. Parámetros permitidos: ' . implode(', ', $allowedParams)
+            ];
+        }
+        
+        try {
+            // Construir la consulta de búsqueda segura
+            $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+                    FROM fungi f 
+                    LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                    LEFT JOIN images i ON fi.image_id = i.id 
+                    LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                    WHERE f.{$param} LIKE ?
+                    GROUP BY f.id
+                    LIMIT 50";
+            
+            $results = $this->db->query($sql, ['%' . $value . '%']);
+            
+            return [
+                'success' => true,
+                'count' => count($results),
+                'data' => $results
+            ];
+        } catch (\Exception $e) {
+            error_log("Error en búsqueda de hongos: " . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Error en la búsqueda: ' . $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Obtiene un hongo aleatorio
+     * 
+     * @param int|null $userId ID del usuario actual (para likes)
+     * @return array Datos del hongo aleatorio
+     */
+    public function getRandomFungusWithDetails($userId = null)
+    {
+        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+                FROM fungi f 
+                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                LEFT JOIN images i ON fi.image_id = i.id 
+                LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                GROUP BY f.id
+                ORDER BY RAND() 
+                LIMIT 1";
+        
+        $fungus = $this->db->query($sql);
+        
+        if (empty($fungus)) {
+            return [
+                'success' => false, 
+                'error' => 'No hay hongos disponibles'
+            ];
+        }
+        
+        // Convertir resultado a un solo hongo
+        if (is_array($fungus) && !empty($fungus)) {
+            $fungus = $fungus[0];
+        }
+        
+        // Incrementar contador de vistas
+        $this->incrementFungiViews($fungus['id']);
+        
+        // Si hay un usuario autenticado, verificar si le dio like
+        if ($userId) {
+            $fungus = $this->getFungusWithLikeStatus($fungus, $userId);
+        }
+        
+        return [
+            'success' => true,
+            'data' => $fungus
+        ];
+    }
+
+    /**
+     * Obtiene hongos filtrados por comestibilidad
+     * 
+     * @param string $edibility Tipo de comestibilidad
+     * @return array Lista de hongos filtrados
+     */
+    public function getFungiByEdibility($edibility)
+    {
+        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+                FROM fungi f 
+                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                LEFT JOIN images i ON fi.image_id = i.id 
+                LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                WHERE f.edibility LIKE ?
+                GROUP BY f.id
+                LIMIT 50";
+        
+        $fungi = $this->db->query($sql, ['%' . $edibility . '%']);
+        
+        return [
+            'success' => true,
+            'data' => $fungi
+        ];
+    }
+
+    /**
+     * Obtiene detalles completos de un hongo específico, incluyendo estadísticas
+     * 
+     * @param int $id ID del hongo
+     * @param int|null $userId ID del usuario actual (para likes)
+     * @return array Detalles del hongo
+     */
+    public function getDetailedFungusById($id, $userId = null)
+    {
+        // Consulta para obtener datos básicos del hongo con imágenes
+        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+                FROM fungi f 
+                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                LEFT JOIN images i ON fi.image_id = i.id 
+                LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                WHERE f.id = ?
+                GROUP BY f.id";
+        
+        $fungi = $this->db->query($sql, [$id]);
+        
+        // Procesar resultado según el tipo de retorno de la DB
+        if (is_array($fungi) && !empty($fungi)) {
+            $fungus = $fungi[0];
+        } else {
+            return [
+                'success' => false, 
+                'error' => 'Registro no encontrado'
+            ];
+        }
+        
+        // Obtener estadísticas: vistas y likes
+        $statsSql = "SELECT views, likes FROM fungi_popularity WHERE fungi_id = ?";
+        $stats = $this->db->query($statsSql, [$id]);
+        
+        if (!empty($stats)) {
+            $fungus['views'] = $stats[0]['views'] ?? 0;
+            $fungus['likes'] = $stats[0]['likes'] ?? 0;
+        } else {
+            $fungus['views'] = 0;
+            $fungus['likes'] = 0;
+        }
+        
+        // Si hay un usuario autenticado, verificar si le dio like
+        if ($userId) {
+            $fungus = $this->getFungusWithLikeStatus($fungus, $userId);
+        }
+        
+        // Incrementar contador de vistas
+        $this->incrementFungiViews($id);
+        
+        return [
+            'success' => true,
+            'data' => $fungus
+        ];
     }
 } 

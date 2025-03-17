@@ -454,12 +454,12 @@ class StatsController
         
         // Utilizamos el endpoint de hongos para obtener datos reales
         $fungiController = new \App\Controllers\FungiController($this->db);
-        $allFungi = $fungiController->getAllFungi();
+        $fungi = $fungiController->getAllFungi();
         
         // Obtenemos estadísticas de edibilidad basadas en datos reales
         $edibilityStats = [];
-        if (isset($allFungi['data']) && is_array($allFungi['data'])) {
-            foreach ($allFungi['data'] as $fungi) {
+        if (isset($fungi['data']) && is_array($fungi['data'])) {
+            foreach ($fungi['data'] as $fungi) {
                 $edibility = $fungi['edibility'] ?? 'unknown';
                 if (!isset($edibilityStats[$edibility])) {
                     $edibilityStats[$edibility] = 0;
@@ -479,7 +479,7 @@ class StatsController
         
         // Devolvemos solo datos reales, sin porcentajes inventados
         return [
-            'total_fungi' => count($allFungi['data'] ?? []),
+            'total_fungi' => count($fungi['data'] ?? []),
             'popular_fungi' => $popularFungi,
             'edibility_stats' => $edibilityStats
         ];

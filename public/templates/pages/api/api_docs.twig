@@ -16,58 +16,54 @@
     
     <!-- Animaciones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Estilos para la documentación de la API -->
+    <!-- Estilos inline para documentación API -->
     <style>
-        :root {
-            --sidebar-width: 280px;
-            --header-height: 60px;
-            --primary-color: #0d6efd;
-            --primary-light: #0d6efd20;
-            --border-color: #2d3748;
-            --code-bg: #1e293b;
-            --method-get: #22c55e;
-            --method-post: #3b82f6;
-            --method-put: #f59e0b;
-            --method-delete: #ef4444;
-        }
-        
-        body {
-            color: #e2e8f0;
-        }
-        
+        /* Estilos generales */
         .hero-api {
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('/assets/images/api-bg.jpg') no-repeat center center;
             background-size: cover;
-            padding: 4rem 0;
+            padding: 5rem 0;
             margin-bottom: 2rem;
         }
         
-        .api-docs-container {
-            display: flex;
-            min-height: calc(100vh - var(--header-height) - 300px);
+        /* Cards y elementos interactivos */
+        .endpoint-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: rgba(33, 37, 41, 0.5);
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
+        .endpoint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* Barra lateral */
         .api-sidebar {
-            width: var(--sidebar-width);
-            border-right: 1px solid var(--border-color);
+            width: 280px;
+            height: calc(100vh - 120px);
+            position: sticky;
+            top: 80px;
             overflow-y: auto;
-            position: fixed;
-            top: calc(var(--header-height) + 300px);
-            bottom: 0;
-            z-index: 100;
+            padding: 0;
+            border-radius: 0.5rem;
             background-color: rgba(33, 37, 41, 0.95);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .api-content {
             flex: 1;
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
+            margin-left: 2rem;
         }
         
+        /* Navegación */
         .api-group-title {
             font-size: 0.875rem;
             text-transform: uppercase;
@@ -82,29 +78,34 @@
             margin: 0;
         }
         
+        .api-sidebar-nav li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
         .api-sidebar-nav a {
             display: flex;
             align-items: center;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1rem;
             color: #e2e8f0;
             text-decoration: none;
             border-left: 3px solid transparent;
-            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+            transition: all 0.2s ease;
         }
         
         .api-sidebar-nav a:hover {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-            transform: translateY(-2px);
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            transform: translateY(-1px);
         }
         
         .api-sidebar-nav a.active {
-            border-left-color: var(--primary-color);
-            background-color: var(--primary-light);
-            color: var(--primary-color);
+            border-left-color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
             font-weight: 500;
         }
         
+        /* Etiquetas de métodos */
         .api-sidebar-method {
             display: inline-block;
             width: 50px;
@@ -117,169 +118,69 @@
             color: white;
         }
         
-        .method-get { background-color: var(--method-get); }
-        .method-post { background-color: var(--method-post); }
-        .method-put { background-color: var(--method-put); }
-        .method-delete { background-color: var(--method-delete); }
+        .method-get { background-color: #22c55e; }
+        .method-post { background-color: #3b82f6; }
+        .method-put { background-color: #f59e0b; }
+        .method-delete { background-color: #ef4444; }
         
-        .endpoint-card {
-            background-color: rgba(33, 37, 41, 0.5);
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            margin-bottom: 2rem;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-        
-        .endpoint-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
+        /* Contenido de endpoint */
         .endpoint-header {
+            padding: 1rem;
+            background-color: rgba(33, 37, 41, 0.8);
             display: flex;
             align-items: center;
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            background-color: rgba(33, 37, 41, 0.8);
-        }
-        
-        .endpoint-method {
-            display: inline-block;
-            width: 80px;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-align: center;
-            border-radius: 0.25rem;
-            color: white;
-            margin-right: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .endpoint-path {
             font-family: monospace;
             font-size: 1rem;
-            font-weight: 600;
-            color: #e2e8f0;
+            margin-left: 0.5rem;
+            font-weight: 500;
         }
         
         .endpoint-content {
             padding: 1.5rem;
         }
         
-        .endpoint-description {
-            margin-bottom: 1.5rem;
-            color: #e2e8f0;
-        }
-        
-        .endpoint-parameters, .endpoint-responses {
-            margin-top: 1.5rem;
-        }
-        
-        .parameter-name, .response-code {
-            font-family: monospace;
-            font-weight: 600;
-            color: #a5f3fc;
-        }
-        
+        /* Código y ejemplos */
         .code-block {
-            background-color: var(--code-bg);
-            color: #f1f5f9;
-            border-radius: 0.375rem;
+            background-color: #1e293b;
             padding: 1rem;
+            border-radius: 0.375rem;
             font-family: monospace;
             margin: 1rem 0;
             overflow-x: auto;
-            border-left: 4px solid var(--primary-color);
+            white-space: pre;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .param-required {
-            color: var(--method-delete);
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .response-wrapper {
-            max-height: 300px;
-            overflow-y: auto;
-            background-color: #1a202c;
-            border-radius: 0.375rem;
-            border: 1px solid var(--border-color);
-        }
-        
-        .tab-content {
+        /* Búsqueda */
+        #apiSearchWrapper {
             padding: 1rem;
+            position: sticky;
+            top: 0;
+            background-color: rgba(33, 37, 41, 0.95);
+            z-index: 101;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .tab {
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            color: #e2e8f0;
-        }
-        
-        .tab.active {
-            border-bottom-color: var(--primary-color);
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-        
-        /* Estilos para áreas de prueba de endpoint */
-        .try-api {
-            background-color: rgba(33, 37, 41, 0.4);
-            border-radius: 0.375rem;
-            padding: 1rem;
-            margin-top: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-        
-        .success-response {
-            border-left: 4px solid var(--method-get);
-        }
-        
-        .error-response {
-            border-left: 4px solid var(--method-delete);
-        }
-        
-        /* Separador visual como en home.twig */
-        .separator {
-            position: relative;
-            padding: 2rem 0;
-            margin: 2rem 0;
-        }
-        
-        .separator hr {
-            border-color: var(--border-color);
-        }
-        
-        .separator-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #212529;
-            padding: 0 1rem;
-        }
-        
+        /* Responsive */
         @media (max-width: 768px) {
+            .api-docs-container {
+                flex-direction: column;
+            }
+            
             .api-sidebar {
                 width: 100%;
+                height: auto;
+                max-height: 300px;
                 position: relative;
-                top: 0;
+                margin-bottom: 2rem;
             }
             
             .api-content {
                 margin-left: 0;
-            }
-            
-            .api-docs-container {
-                flex-direction: column;
             }
         }
     </style>
@@ -289,169 +190,195 @@
         {% include 'components/navbar.twig' %}
     </header>
 
-    <!-- Sección Hero -->
-    <section class="hero-api text-center text-white">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-4">{{ title }}</h1>
-            <p class="lead mb-4">Documentación oficial de nuestra API RESTful. Explora todos los endpoints disponibles y pruébalos directamente desde esta interfaz.</p>
-            <div class="d-flex gap-3 justify-content-center">
-                <a href="https://github.com/mgrl39/fungi/blob/main/docs/API.md" target="_blank" class="btn btn-outline-light">
-                    <i class="fab fa-github me-2"></i> Ver en GitHub
-                </a>
-                <a href="#" class="btn btn-primary" id="get-token-btn">
-                    <i class="fas fa-key me-2"></i> Obtener Token JWT
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <div class="container py-4">
-        <div class="api-docs-container">
-            <!-- Barra lateral de navegación -->
-            <aside class="api-sidebar">
-                <div class="p-3">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Buscar endpoint..." id="apiSearchInput">
-                    </form>
+    <main>
+        <!-- Sección Hero -->
+        <section class="hero-api text-center text-white">
+            <div class="container">
+                <h1 class="display-4 fw-bold mb-4">{{ title }}</h1>
+                <p class="lead mb-4">Documentación oficial de nuestra API RESTful. Explora todos los endpoints disponibles y pruébalos directamente desde esta interfaz.</p>
+                <div class="d-flex gap-3 justify-content-center">
+                    <a href="https://github.com/mgrl39/fungi/blob/main/docs/API.md" target="_blank" class="btn btn-outline-light">
+                        <i class="fab fa-github me-2"></i> Ver en GitHub
+                    </a>
                 </div>
-                
-                <h3 class="api-group-title">Fungi</h3>
-                <ul class="api-sidebar-nav" id="fungiEndpoints">
-                    <li>
-                        <a href="#" class="endpoint-link active" data-endpoint="fungi-get-all">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/fungi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-get-id">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/fungi/{id}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-get-paginated">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-get-random">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/fungi/random</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-search">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/fungi/search/{param}/{value}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-post">
-                            <span class="api-sidebar-method method-post">POST</span>
-                            <span class="endpoint-label">/fungi</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-put">
-                            <span class="api-sidebar-method method-put">PUT</span>
-                            <span class="endpoint-label">/fungi/{id}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="fungi-delete">
-                            <span class="api-sidebar-method method-delete">DELETE</span>
-                            <span class="endpoint-label">/fungi/{id}</span>
-                        </a>
-                    </li>
-                </ul>
-                
-                <h3 class="api-group-title">Users</h3>
-                <ul class="api-sidebar-nav" id="usersEndpoints">
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="users-get-all">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/users</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="users-post">
-                            <span class="api-sidebar-method method-post">POST</span>
-                            <span class="endpoint-label">/users</span>
-                        </a>
-                    </li>
-                </ul>
-                
-                <h3 class="api-group-title">Authentication</h3>
-                <ul class="api-sidebar-nav" id="authEndpoints">
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="auth-login">
-                            <span class="api-sidebar-method method-post">POST</span>
-                            <span class="endpoint-label">/auth/login</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="auth-logout">
-                            <span class="api-sidebar-method method-post">POST</span>
-                            <span class="endpoint-label">/auth/logout</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="endpoint-link" data-endpoint="auth-verify">
-                            <span class="api-sidebar-method method-get">GET</span>
-                            <span class="endpoint-label">/auth/verify</span>
-                        </a>
-                    </li>
-                </ul>
-            </aside>
-            
-            <!-- Contenido principal -->
-            <main class="api-content">
-                <section class="mb-5">
-                    <div class="card border-0 bg-primary bg-opacity-10 shadow-sm">
-                        <div class="card-body p-4">
-                            <h2 class="h3 mb-3">
-                                <i class="fas fa-code me-2"></i> Documentación de API
-                            </h2>
-                            <p class="lead mb-0">Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code class="bg-dark text-light px-2 py-1 rounded">/api</code>.</p>
+            </div>
+        </section>
+
+        <div class="container py-4">
+            <!-- Tarjeta de introducción -->
+            <div class="card border-0 bg-primary bg-opacity-10 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h2 class="h3 mb-3">
+                        <i class="fas fa-code me-2"></i> Documentación de API
+                    </h2>
+                    <p class="lead mb-0">Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code class="bg-dark text-light px-2 py-1 rounded">/api</code>.</p>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row api-docs-container">
+                <!-- Barra lateral de navegación -->
+                <aside class="api-sidebar">
+                    <div id="apiSearchWrapper">
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary">
+                                <i class="fas fa-search text-muted"></i>
+                            </span>
+                            <input type="text" id="apiSearchInput" class="form-control bg-dark border-secondary text-light" placeholder="Buscar endpoints...">
                         </div>
                     </div>
                     
-                    <div class="alert alert-primary border-0 mt-4 d-flex align-items-center">
-                        <i class="fas fa-info-circle fa-lg me-3"></i>
-                        <div>Puedes probar los endpoints directamente desde esta documentación. Utiliza el botón "Obtener Token JWT" para autenticarte.</div>
-                    </div>
-                </section>
+                    <div class="api-group-title">Autenticación</div>
+                    <ul class="api-sidebar-nav" id="authEndpoints">
+                        <li>
+                            <a href="#auth-login" class="endpoint-link">
+                                <span class="api-sidebar-method method-post">POST</span>
+                                <span class="endpoint-label">/auth/login</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#auth-logout" class="endpoint-link">
+                                <span class="api-sidebar-method method-post">POST</span>
+                                <span class="endpoint-label">/auth/logout</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#auth-verify" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/auth/verify</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="api-group-title">Fungi</div>
+                    <ul class="api-sidebar-nav" id="fungiEndpoints">
+                        <li>
+                            <a href="#fungi-get-all" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/fungi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-get-id" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/fungi/{id}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-get-paginated" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-get-random" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/fungi/random</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-search" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/fungi/search/{param}/{value}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-post" class="endpoint-link">
+                                <span class="api-sidebar-method method-post">POST</span>
+                                <span class="endpoint-label">/fungi</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-put" class="endpoint-link">
+                                <span class="api-sidebar-method method-put">PUT</span>
+                                <span class="endpoint-label">/fungi/{id}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#fungi-delete" class="endpoint-link">
+                                <span class="api-sidebar-method method-delete">DELETE</span>
+                                <span class="endpoint-label">/fungi/{id}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="api-group-title">Usuarios</div>
+                    <ul class="api-sidebar-nav" id="usersEndpoints">
+                        <li>
+                            <a href="#users-get-all" class="endpoint-link">
+                                <span class="api-sidebar-method method-get">GET</span>
+                                <span class="endpoint-label">/users</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#users-post" class="endpoint-link">
+                                <span class="api-sidebar-method method-post">POST</span>
+                                <span class="endpoint-label">/users</span>
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
                 
-                <!-- Separador visual -->
-                <div class="position-relative py-2 my-4">
-                    <hr>
-                    <div class="position-absolute top-50 start-50 translate-middle bg-dark px-3">
-                        <i class="fas fa-exchange-alt text-primary"></i>
+                <!-- Contenido principal -->
+                <main class="api-content">
+                    <!-- Área de contenido del endpoint -->
+                    <div id="endpointContent" class="mb-5">
+                        <!-- Mensaje inicial -->
+                        <div class="text-center my-5">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-4 mx-auto mb-4" style="width: 100px; height: 100px;">
+                                <i class="fas fa-code fa-3x text-primary"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Documentación de la API</h3>
+                            <p class="text-muted mb-4">Selecciona un endpoint en el menú lateral para ver su documentación.</p>
+                            <div class="d-flex justify-content-center flex-wrap gap-3">
+                                <div class="d-flex align-items-center me-3">
+                                    <span class="api-sidebar-method method-get me-2">GET</span>
+                                    <span>Obtener datos</span>
+                                </div>
+                                <div class="d-flex align-items-center me-3">
+                                    <span class="api-sidebar-method method-post me-2">POST</span>
+                                    <span>Crear datos</span>
+                                </div>
+                                <div class="d-flex align-items-center me-3">
+                                    <span class="api-sidebar-method method-put me-2">PUT</span>
+                                    <span>Actualizar datos</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <span class="api-sidebar-method method-delete me-2">DELETE</span>
+                                    <span>Eliminar datos</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Aquí se cargarán los endpoints -->
+                        {% for endpoint in endpoints %}
+                            {% include 'pages/api/endpoints/' ~ endpoint ~ '.twig' %}
+                        {% endfor %}
                     </div>
-                </div>
-                
-                <!-- Área de contenido del endpoint -->
-                <div id="endpointContent" class="mb-5">
-                    <!-- El contenido se cargará dinámicamente por JavaScript -->
-                </div>
-                
-                <!-- Sección CTA -->
-                <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
-                    <div class="py-4 px-3">
-                        <h2 class="display-6 mb-3">¿Quieres integrar nuestra API en tu proyecto?</h2>
-                        <p class="lead mb-4">Regístrate para obtener acceso completo y comenzar a utilizar todos los endpoints disponibles.</p>
-                        <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
-                            <i class="fas fa-user-plus me-2"></i> Crear cuenta
-                        </a>
+                    
+                    <!-- Separador visual -->
+                    <div class="position-relative py-4 my-5">
+                        <hr>
+                        <div class="position-absolute top-50 start-50 translate-middle bg-body px-3">
+                            <i class="fas fa-exchange-alt text-primary"></i>
+                        </div>
                     </div>
-                </section>
-            </main>
+                    
+                    <!-- Sección CTA -->
+                    <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
+                        <div class="py-4 px-3">
+                            <h2 class="display-6 mb-3">¿Quieres integrar nuestra API en tu proyecto?</h2>
+                            <p class="lead mb-4">Regístrate para obtener acceso completo y comenzar a utilizar todos los endpoints disponibles.</p>
+                            <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
+                                <i class="fas fa-user-plus me-2"></i> Crear cuenta
+                            </a>
+                        </div>
+                    </section>
+                </main>
+            </div>
         </div>
-    </div>
+    </main>
 
-    <footer class="mt-auto">
+    <footer>
         {% include 'components/footer.twig' %}
     </footer>
 
@@ -513,27 +440,17 @@
     <!-- Bootstrap 5 JS Bundle con Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- AOS Script -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- Script de carga optimizada -->
+    <!-- Script para funcionalidad de API -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar AOS
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true
-            });
-            
             // Cargar endpoint predeterminado al inicio
             const defaultTemplate = document.getElementById('template-fungi-get-all');
             if (defaultTemplate) {
                 document.getElementById('endpointContent').innerHTML = defaultTemplate.innerHTML;
-                initializeTestButtons();
+                initializeEndpoint();
             }
             
-            // Cargar endpoints de manera perezosa
+            // Navegación de endpoints
             const endpointLinks = document.querySelectorAll('.endpoint-link');
             const endpointContent = document.getElementById('endpointContent');
             
@@ -541,32 +458,21 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    const endpointId = this.getAttribute('data-endpoint');
-                    
                     // Actualizar clase active
                     document.querySelector('.endpoint-link.active')?.classList.remove('active');
                     this.classList.add('active');
                     
-                    // Verificar si ya existe el template en el DOM
+                    // Obtener el ID del endpoint
+                    const endpointId = this.getAttribute('href').substring(1);
+                    
+                    // Verificar si ya existe el template
                     const templateElement = document.getElementById(`template-${endpointId}`);
                     
                     if (templateElement) {
-                        // Usar template existente
                         endpointContent.innerHTML = templateElement.innerHTML;
-                        initializeTestButtons();
+                        initializeEndpoint();
                     } else {
-                        // Cargar template de manera dinámica mediante fetch
                         endpointContent.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-3">Cargando documentación...</p></div>';
-                        
-                        fetch(`/api/docs/endpoint/${endpointId}`)
-                            .then(response => response.text())
-                            .then(html => {
-                                endpointContent.innerHTML = html;
-                                initializeTestButtons();
-                            })
-                            .catch(error => {
-                                endpointContent.innerHTML = `<div class="alert alert-danger">Error al cargar la documentación: ${error.message}</div>`;
-                            });
                     }
                 });
             });
@@ -576,101 +482,157 @@
             if (searchInput) {
                 searchInput.addEventListener('input', function() {
                     const searchTerm = this.value.toLowerCase();
-                    const endpoints = document.querySelectorAll('.endpoint-link');
+                    const endpointItems = document.querySelectorAll('.api-sidebar-nav li');
                     
-                    endpoints.forEach(endpoint => {
-                        const endpointText = endpoint.querySelector('.endpoint-label').textContent.toLowerCase();
-                        const method = endpoint.querySelector('.api-sidebar-method').textContent.toLowerCase();
-                        
-                        if (endpointText.includes(searchTerm) || method.includes(searchTerm)) {
-                            endpoint.parentElement.style.display = '';
+                    endpointItems.forEach(item => {
+                        const endpointText = item.textContent.toLowerCase();
+                        if (endpointText.includes(searchTerm)) {
+                            item.style.display = '';
                         } else {
-                            endpoint.parentElement.style.display = 'none';
+                            item.style.display = 'none';
                         }
                     });
                 });
             }
             
-            // Función para inicializar botones de prueba
-            function initializeTestButtons() {
-                const tryButtons = document.querySelectorAll('.try-endpoint-btn');
-                tryButtons.forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const endpointId = this.getAttribute('data-endpoint');
-                        const tryApiSection = document.querySelector(`#try-${endpointId}`);
+            // Inicializar funcionalidad de endpoint
+            function initializeEndpoint() {
+                console.log("Inicializando endpoint");
+                
+                // Tabs para ejemplos
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const tabGroup = this.closest('.tabs');
+                        tabGroup.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
                         
-                        if (tryApiSection) {
-                            tryApiSection.classList.toggle('d-none');
-                        }
-                    });
-                });
-            }
-            
-            // Botón para obtener token JWT
-            const getTokenBtn = document.getElementById('get-token-btn');
-            if (getTokenBtn) {
-                getTokenBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Modal para login y obtener token
-                    const modal = new bootstrap.Modal(document.getElementById('jwtModal'));
-                    if (modal) {
-                        modal.show();
-                    } else {
-                        // Crear modal si no existe
-                        const modalHTML = `
-                            <div class="modal fade" id="jwtModal" tabindex="-1" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content bg-dark text-light">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Obtener Token JWT</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="loginForm">
-                                                <div class="mb-3">
-                                                    <label for="username" class="form-label">Usuario</label>
-                                                    <input type="text" class="form-control" id="username" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="password" class="form-label">Contraseña</label>
-                                                    <input type="password" class="form-control" id="password" required>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                                            </form>
-                                            <div id="tokenResult" class="mt-3 d-none">
-                                                <div class="alert alert-success">
-                                                    <strong>Token obtenido correctamente!</strong>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Tu token JWT:</label>
-                                                    <textarea id="jwtToken" class="form-control" readonly rows="3"></textarea>
-                                                </div>
-                                                <button class="btn btn-sm btn-secondary mt-2" onclick="navigator.clipboard.writeText(document.getElementById('jwtToken').value)">Copiar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                        const targetId = this.getAttribute('data-target');
+                        const tabContents = this.closest('.tab-container').querySelectorAll('.tab-content');
                         
-                        document.body.insertAdjacentHTML('beforeend', modalHTML);
-                        const newModal = new bootstrap.Modal(document.getElementById('jwtModal'));
-                        newModal.show();
-                        
-                        document.getElementById('loginForm').addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            // Simular obtención de token
-                            document.getElementById('tokenResult').classList.remove('d-none');
-                            document.getElementById('jwtToken').value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlVzdWFyaW8gZGUgcHJ1ZWJhIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o';
+                        tabContents.forEach(content => {
+                            content.style.display = 'none';
                         });
-                    }
+                        
+                        document.getElementById(targetId).style.display = 'block';
+                    });
+                });
+                
+                // Inicializar formularios de prueba
+                const testForms = document.querySelectorAll('.api-test-form');
+                console.log("Formularios encontrados:", testForms.length);
+                
+                testForms.forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        console.log("Formulario enviado");
+                        
+                        const method = this.getAttribute('data-method');
+                        let endpoint = this.getAttribute('data-endpoint');
+                        const responseElement = this.querySelector('.response-output');
+                        
+                        console.log("Método:", method);
+                        console.log("Endpoint original:", endpoint);
+                        
+                        // Configurar el indicador de carga
+                        responseElement.innerHTML = '<div class="text-center p-3"><div class="spinner-border text-primary spinner-border-sm" role="status"></div><span class="ms-2">Procesando solicitud...</span></div>';
+                        responseElement.classList.remove('d-none');
+                        
+                        // Reemplazar parámetros de ruta
+                        const urlParams = endpoint.match(/{([^}]+)}/g);
+                        if (urlParams) {
+                            console.log("Parámetros encontrados:", urlParams);
+                            for (const param of urlParams) {
+                                const paramName = param.replace('{', '').replace('}', '');
+                                const inputElement = this.querySelector(`[name="${paramName}"]`);
+                                
+                                if (inputElement && inputElement.value) {
+                                    console.log(`Reemplazando ${param} con ${inputElement.value}`);
+                                    endpoint = endpoint.replace(param, inputElement.value);
+                                }
+                            }
+                        }
+                        
+                        console.log("Endpoint final:", endpoint);
+                        
+                        // Preparar opciones de fetch
+                        const options = {
+                            method: method,
+                            headers: {
+                                'Accept': 'application/json'
+                            }
+                        };
+                        
+                        // Agregar cuerpo para métodos POST/PUT
+                        if (method === 'POST' || method === 'PUT') {
+                            const formData = new FormData(this);
+                            const jsonData = {};
+                            
+                            for (const [key, value] of formData.entries()) {
+                                if (!key.startsWith('_') && key !== 'submit' && !key.includes('param-id')) {
+                                    console.log(`Añadiendo al cuerpo: ${key}=${value}`);
+                                    jsonData[key] = value;
+                                }
+                            }
+                            
+                            console.log("JSON data:", jsonData);
+                            options.body = JSON.stringify(jsonData);
+                            options.headers['Content-Type'] = 'application/json';
+                        }
+                        
+                        // Ejecutar solicitud
+                        const apiUrl = `/api${endpoint}`;
+                        console.log("URL final:", apiUrl);
+                        console.log("Opciones:", options);
+                        
+                        fetch(apiUrl, options)
+                            .then(response => {
+                                // Guardar el estado HTTP para mostrar después
+                                const status = response.status;
+                                return response.json().then(data => ({ status, data }));
+                            })
+                            .then(result => {
+                                console.log("Respuesta:", result);
+                                // Mostrar respuesta formateada
+                                const statusClass = result.status >= 200 && result.status < 300 ? 'text-success' : 'text-danger';
+                                
+                                responseElement.innerHTML = `
+                                    <div class="mb-2">
+                                        <span class="badge ${statusClass}">Status: ${result.status}</span>
+                                    </div>
+                                    <pre class="code-block">${JSON.stringify(result.data, null, 2)}</pre>
+                                `;
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                responseElement.innerHTML = `
+                                    <div class="alert alert-danger">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Error: ${error.message}
+                                    </div>
+                                `;
+                            });
+                    });
+                });
+                
+                // Activar botones "Probar" directamente
+                const tryButtons = document.querySelectorAll('.try-endpoint-btn');
+                tryButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const tryApiSection = this.closest('.endpoint-card').querySelector('.try-api');
+                        if (tryApiSection) {
+                            if (tryApiSection.classList.contains('d-none')) {
+                                tryApiSection.classList.remove('d-none');
+                                this.textContent = 'Ocultar';
+                            } else {
+                                tryApiSection.classList.add('d-none');
+                                this.textContent = 'Probar';
+                            }
+                        }
+                    });
                 });
             }
         });
     </script>
-    
-    <!-- Scripts adicionales -->
-    <script src="/assets/scripts/api_docs.js"></script>
 </body>
 </html>

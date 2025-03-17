@@ -1,50 +1,48 @@
-<div class="endpoint-card" id="fungi-get-all">
+<div class="endpoint-card">
     <div class="endpoint-header">
-        <span class="endpoint-method method-get">GET</span>
-        <span class="endpoint-path">/api/fungi</span>
+        <span class="api-sidebar-method method-get">GET</span>
+        <span class="endpoint-path">/fungi</span>
     </div>
     <div class="endpoint-content">
-        <div class="endpoint-description">
-            <h3>Obtiene la lista completa de hongos</h3>
-            <p>Este endpoint devuelve todos los hongos disponibles en la base de datos.</p>
-        </div>
+        <h3 class="mb-3">Obtener todos los hongos</h3>
+        <p>Este endpoint devuelve una lista de todos los hongos registrados en la base de datos.</p>
         
-        <div class="try-api">
-            <h4><i class="fas fa-flask me-2"></i> Probar endpoint</h4>
-            <button class="btn btn-primary mt-2 test-api-btn" data-method="GET" data-endpoint="/api/fungi">
-                Ejecutar solicitud
-            </button>
-            
-            <div class="response-wrapper mt-3 d-none">
-                <div class="tabs">
-                    <div class="tab active" data-tab="response">Respuesta</div>
-                    <div class="tab" data-tab="headers">Cabeceras</div>
-                </div>
-                <div class="tab-content">
-                    <pre class="response-content"></pre>
-                </div>
-            </div>
-        </div>
-        
-        <div class="endpoint-responses mt-4">
-            <h4>Respuestas</h4>
-            
-            <div class="response-code">200 - OK</div>
-            <p>La solicitud se completó correctamente.</p>
-            <div class="code-block">
-{
+        <h4 class="mt-4 mb-3">Respuesta</h4>
+        <pre class="code-block">{
   "success": true,
   "data": [
     {
       "id": 1,
       "name": "amanita-muscaria",
-      "edibility": "tóxico",
-      "habitat": "Bosques de coníferas y abedules",
-      "observations": "Seta llamativa de color rojo con manchas blancas"
+      "scientific_name": "Amanita muscaria",
+      "family": "Amanitaceae",
+      "description": "Hongo distintivo con sombrero rojo y manchas blancas",
+      "habitat": "Bosques de coníferas",
+      "season": "otoño",
+      "edibility": "tóxica",
+      "image_urls": "/uploads/fungi/amanita_muscaria.jpg"
     },
-    // ...más hongos
+    // ... más hongos
   ]
-}
+}</pre>
+
+        <div class="mt-4">
+            <button class="btn btn-primary try-endpoint-btn">
+                <i class="fas fa-play-circle me-2"></i> Probar
+            </button>
+            
+            <div class="try-api mt-3 d-none">
+                <div class="card card-body bg-dark border border-secondary">
+                    <h5 class="card-title">Prueba el endpoint</h5>
+                    
+                    <form class="api-test-form" data-method="GET" data-endpoint="/fungi">
+                        <button type="submit" class="btn btn-success mt-3">
+                            <i class="fas fa-paper-plane me-2"></i> Enviar solicitud
+                        </button>
+                        
+                        <div class="response-output mt-4 d-none"></div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
