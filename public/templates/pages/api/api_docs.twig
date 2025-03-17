@@ -114,6 +114,105 @@
     </style>
 </head>
 <body>
+    {% set endpoints = [
+        {
+            'method': 'GET',
+            'path': '/api/users',
+            'requires_auth': true,
+            'requires_admin': true,
+            'parameters': [],
+            'curl': 'curl -X GET "http://localhost:8080/api/users" \\\n  -H "Authorization: Bearer YOUR_TOKEN" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'GET',
+            'path': '/api/users/:id',
+            'requires_auth': true,
+            'requires_admin': false,
+            'parameters': [],
+            'curl': 'curl -X GET "http://localhost:8080/api/users/1" \\\n  -H "Authorization: Bearer YOUR_TOKEN" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'POST',
+            'path': '/api/users',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': ['username', 'email', 'password'],
+            'curl': 'curl -X POST "http://localhost:8080/api/users" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"username": "value", "email": "value", "password": "value"}\''
+        },
+        {
+            'method': 'PUT',
+            'path': '/api/users/:id',
+            'requires_auth': true,
+            'requires_admin': true,
+            'parameters': ['username', 'email', 'role', 'bio', 'name', 'location'],
+            'curl': 'curl -X PUT "http://localhost:8080/api/users/1" \\\n  -H "Authorization: Bearer YOUR_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"username": "value", "email": "value", "role": "admin"}\''
+        },
+        {
+            'method': 'DELETE',
+            'path': '/api/users/:id',
+            'requires_auth': true,
+            'requires_admin': true,
+            'parameters': [],
+            'curl': 'curl -X DELETE "http://localhost:8080/api/users/1" \\\n  -H "Authorization: Bearer YOUR_TOKEN" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'GET',
+            'path': '/api/fungi',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': [],
+            'curl': 'curl -X GET "http://localhost:8080/api/fungi" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'GET',
+            'path': '/api/fungi/:id',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': [],
+            'curl': 'curl -X GET "http://localhost:8080/api/fungi/1" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'GET',
+            'path': '/api/fungi/page/:page/limit/:limit',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': ['page', 'limit'],
+            'curl': 'curl -X GET "http://localhost:8080/api/fungi/page/1/limit/8" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'GET',
+            'path': '/api/fungi/search/name/:name',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': ['name'],
+            'curl': 'curl -X GET "http://localhost:8080/api/fungi/search/name/amanita" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'GET',
+            'path': '/api/fungi/search/edibility/:edibility',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': ['edibility'],
+            'curl': 'curl -X GET "http://localhost:8080/api/fungi/search/edibility/excelente-comestible" \\\n  -H "Content-Type: application/json"'
+        },
+        {
+            'method': 'POST',
+            'path': '/api/auth/login',
+            'requires_auth': false,
+            'requires_admin': false,
+            'parameters': ['username', 'password'],
+            'curl': 'curl -X POST "http://localhost:8080/api/auth/login" \\\n  -H "Content-Type: application/json" \\\n  -d \'{"username": "value", "password": "value"}\''
+        },
+        {
+            'method': 'POST',
+            'path': '/api/auth/logout',
+            'requires_auth': true,
+            'requires_admin': false,
+            'parameters': [],
+            'curl': 'curl -X POST "http://localhost:8080/api/auth/logout" \\\n  -H "Authorization: Bearer YOUR_TOKEN" \\\n  -H "Content-Type: application/json"'
+        }
+    ] %}
+
     <header>
         {% include components.navbar %}
     </header>
@@ -135,6 +234,13 @@
             <div class="row mb-5">
                 <div class="col-md-8">
                     <h2>API v1.0</h2>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input type="text" id="api-token" class="form-control" placeholder="Tu token de API">
+                        <button class="btn btn-outline-secondary" type="button" id="save-token">Guardar</button>
+                    </div>
                 </div>
             </div>
             
@@ -172,415 +278,91 @@
                 <div class="tab-content" id="httpMethodsContent">
                     <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
                         <div class="row">
-                            <!-- GET /users -->
+                            {% for endpoint in endpoints %}
                             <div class="col-md-6 mb-4">
                                 <div class="card endpoint-card h-100">
                                     <div class="card-header d-flex justify-content-between align-items-center py-2">
                                         <div>
-                                            <span class="http-method method-get">GET</span>
-                                            <span class="fw-bold">/api/users</span>
+                                            <span class="http-method method-{{ endpoint.method|lower }}">{{ endpoint.method }}</span>
+                                            <span class="fw-bold">{{ endpoint.path }}</span>
                                         </div>
                                         <div>
+                                            {% if endpoint.requires_auth %}
                                             <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="param-tags">
-                                            <span class="param-tag"><code>page</code></span>
-                                            <span class="param-tag"><code>limit</code></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-get-users">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-get-users">
-                                            <div class="code-block">
-curl -X GET "{{ app.request.schemeAndHttpHost }}/api/users?page=1&limit=20" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json"
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- GET /users/:id -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-get">GET</span>
-                                            <span class="fw-bold">/api/users/:id</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <!-- No parameters -->
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-get-user">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-get-user">
-                                            <div class="code-block">
-curl -X GET "{{ app.request.schemeAndHttpHost }}/api/users/1" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json"
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- POST /login -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-post">POST</span>
-                                            <span class="fw-bold">/api/login</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="param-tags">
-                                            <span class="param-tag"><code>username</code></span>
-                                            <span class="param-tag"><code>password</code></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-post-login">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-post-login">
-                                            <div class="code-block">
-curl -X POST "{{ app.request.schemeAndHttpHost }}/api/login" \
-  -H "Content-Type: application/json" \
-  -d '{"username": "value", "password": "value"}'
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- POST /users -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-post">POST</span>
-                                            <span class="fw-bold">/api/users</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
+                                            {% endif %}
+                                            {% if endpoint.requires_admin %}
                                             <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Admin</span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="card-body">
+                                        {% if endpoint.parameters|length > 0 %}
                                         <div class="param-tags">
-                                            <span class="param-tag"><code>name</code></span>
-                                            <span class="param-tag"><code>email</code></span>
-                                            <span class="param-tag"><code>password</code></span>
-                                            <span class="param-tag"><code>role</code></span>
+                                            {% for param in endpoint.parameters %}
+                                            <span class="param-tag"><code>{{ param }}</code></span>
+                                            {% endfor %}
                                         </div>
+                                        {% endif %}
                                     </div>
                                     <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-post-users">
+                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-{{ endpoint.method|lower }}-{{ loop.index }}">
                                             <i class="fas fa-code me-1"></i> cURL
                                         </button>
-                                        <div class="collapse mt-2" id="code-post-users">
-                                            <div class="code-block">
-curl -X POST "{{ app.request.schemeAndHttpHost }}/api/users" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "value", "email": "value", "password": "value", "role": "value"}'
-                                            </div>
+                                        <div class="collapse mt-2" id="code-{{ endpoint.method|lower }}-{{ loop.index }}">
+                                            <div class="code-block">{{ endpoint.curl|raw }}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- PUT /users/:id -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-put">PUT</span>
-                                            <span class="fw-bold">/api/users/:id</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="param-tags">
-                                            <span class="param-tag"><code>name</code></span>
-                                            <span class="param-tag"><code>email</code></span>
-                                            <span class="param-tag"><code>role</code></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-put-user">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-put-user">
-                                            <div class="code-block">
-curl -X PUT "{{ app.request.schemeAndHttpHost }}/api/users/1" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "value", "email": "value", "role": "value"}'
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- DELETE /users/:id -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-delete">DELETE</span>
-                                            <span class="fw-bold">/api/users/:id</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                            <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Admin</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <!-- No parameters -->
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-delete-user">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-delete-user">
-                                            <div class="code-block">
-curl -X DELETE "{{ app.request.schemeAndHttpHost }}/api/users/1" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json"
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     
-                    <div class="tab-pane fade" id="get" role="tabpanel" aria-labelledby="get-tab">
+                    {% for method in ['get', 'post', 'put', 'delete'] %}
+                    <div class="tab-pane fade" id="{{ method }}" role="tabpanel" aria-labelledby="{{ method }}-tab">
                         <div class="row">
-                            <!-- GET /users -->
+                            {% for endpoint in endpoints %}
+                            {% if endpoint.method|lower == method %}
                             <div class="col-md-6 mb-4">
                                 <div class="card endpoint-card h-100">
                                     <div class="card-header d-flex justify-content-between align-items-center py-2">
                                         <div>
-                                            <span class="http-method method-get">GET</span>
-                                            <span class="fw-bold">/api/users</span>
+                                            <span class="http-method method-{{ endpoint.method|lower }}">{{ endpoint.method }}</span>
+                                            <span class="fw-bold">{{ endpoint.path }}</span>
                                         </div>
                                         <div>
+                                            {% if endpoint.requires_auth %}
                                             <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="param-tags">
-                                            <span class="param-tag"><code>page</code></span>
-                                            <span class="param-tag"><code>limit</code></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-get-users-tab">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-get-users-tab">
-                                            <div class="code-block">
-curl -X GET "{{ app.request.schemeAndHttpHost }}/api/users?page=1&limit=20" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json"
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- GET /users/:id -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-get">GET</span>
-                                            <span class="fw-bold">/api/users/:id</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <!-- No parameters -->
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-get-user-tab">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-get-user-tab">
-                                            <div class="code-block">
-curl -X GET "{{ app.request.schemeAndHttpHost }}/api/users/1" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json"
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-pane fade" id="post" role="tabpanel" aria-labelledby="post-tab">
-                        <div class="row">
-                            <!-- POST /login -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-post">POST</span>
-                                            <span class="fw-bold">/api/login</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="param-tags">
-                                            <span class="param-tag"><code>username</code></span>
-                                            <span class="param-tag"><code>password</code></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-post-login-tab">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-post-login-tab">
-                                            <div class="code-block">
-curl -X POST "{{ app.request.schemeAndHttpHost }}/api/login" \
-  -H "Content-Type: application/json" \
-  -d '{"username": "value", "password": "value"}'
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- POST /users -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-post">POST</span>
-                                            <span class="fw-bold">/api/users</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
+                                            {% endif %}
+                                            {% if endpoint.requires_admin %}
                                             <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Admin</span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="card-body">
+                                        {% if endpoint.parameters|length > 0 %}
                                         <div class="param-tags">
-                                            <span class="param-tag"><code>name</code></span>
-                                            <span class="param-tag"><code>email</code></span>
-                                            <span class="param-tag"><code>password</code></span>
-                                            <span class="param-tag"><code>role</code></span>
+                                            {% for param in endpoint.parameters %}
+                                            <span class="param-tag"><code>{{ param }}</code></span>
+                                            {% endfor %}
                                         </div>
+                                        {% endif %}
                                     </div>
                                     <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-post-users-tab">
+                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-{{ endpoint.method|lower }}-{{ method }}-{{ loop.index }}">
                                             <i class="fas fa-code me-1"></i> cURL
                                         </button>
-                                        <div class="collapse mt-2" id="code-post-users-tab">
-                                            <div class="code-block">
-curl -X POST "{{ app.request.schemeAndHttpHost }}/api/users" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "value", "email": "value", "password": "value", "role": "value"}'
-                                            </div>
+                                        <div class="collapse mt-2" id="code-{{ endpoint.method|lower }}-{{ method }}-{{ loop.index }}">
+                                            <div class="code-block">{{ endpoint.curl|raw }}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-                    
-                    <div class="tab-pane fade" id="put" role="tabpanel" aria-labelledby="put-tab">
-                        <div class="row">
-                            <!-- PUT /users/:id -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-put">PUT</span>
-                                            <span class="fw-bold">/api/users/:id</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="param-tags">
-                                            <span class="param-tag"><code>name</code></span>
-                                            <span class="param-tag"><code>email</code></span>
-                                            <span class="param-tag"><code>role</code></span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-put-user-tab">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-put-user-tab">
-                                            <div class="code-block">
-curl -X PUT "{{ app.request.schemeAndHttpHost }}/api/users/1" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "value", "email": "value", "role": "value"}'
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
-                        <div class="row">
-                            <!-- DELETE /users/:id -->
-                            <div class="col-md-6 mb-4">
-                                <div class="card endpoint-card h-100">
-                                    <div class="card-header d-flex justify-content-between align-items-center py-2">
-                                        <div>
-                                            <span class="http-method method-delete">DELETE</span>
-                                            <span class="fw-bold">/api/users/:id</span>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Auth</span>
-                                            <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Admin</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <!-- No parameters -->
-                                    </div>
-                                    <div class="card-footer bg-dark">
-                                        <button class="btn btn-sm btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#code-delete-user-tab">
-                                            <i class="fas fa-code me-1"></i> cURL
-                                        </button>
-                                        <div class="collapse mt-2" id="code-delete-user-tab">
-                                            <div class="code-block">
-curl -X DELETE "{{ app.request.schemeAndHttpHost }}/api/users/1" \
-  -H "Authorization: Bearer YOUR_TOKEN" \
-  -H "Content-Type: application/json"
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -592,32 +374,113 @@ curl -X DELETE "{{ app.request.schemeAndHttpHost }}/api/users/1" \
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function copyToClipboard(button) {
-            const codeBlock = button.closest('.code-block').textContent.trim();
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar botones de copia a todos los bloques de código
+            document.querySelectorAll('.code-block').forEach(block => {
+                if (!block.querySelector('.copy-btn')) {
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'btn btn-sm btn-outline-light copy-btn';
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyBtn.addEventListener('click', function() {
+                        copyToClipboard(this);
+                    });
+                    block.appendChild(copyBtn);
+                }
+            });
             
-            navigator.clipboard.writeText(codeBlock).then(() => {
+            // Guardar token en localStorage
+            const saveTokenBtn = document.getElementById('save-token');
+            if (saveTokenBtn) {
+                saveTokenBtn.addEventListener('click', function() {
+                    const tokenValue = document.getElementById('api-token').value.trim();
+                    if (tokenValue) {
+                        localStorage.setItem('api_token', tokenValue);
+                        alert('Token guardado correctamente');
+                        
+                        // Actualizar visualización de comandos curl con el nuevo token
+                        updateCurlCommandsWithToken(tokenValue);
+                    }
+                });
+            }
+            
+            // Cargar token desde localStorage si existe y aplicarlo directamente
+            const savedToken = localStorage.getItem('api_token');
+            const tokenInput = document.getElementById('api-token');
+            if (savedToken && tokenInput) {
+                tokenInput.value = savedToken;
+                // Actualizar visualización al cargar la página
+                updateCurlCommandsWithToken(savedToken);
+            }
+            
+            // También actualizar cuando el input cambia
+            if (tokenInput) {
+                tokenInput.addEventListener('input', function() {
+                    const currentToken = this.value.trim();
+                    if (currentToken) {
+                        updateCurlCommandsWithToken(currentToken);
+                    }
+                });
+            }
+        });
+        
+        // Función para actualizar todos los comandos curl con el token actual
+        function updateCurlCommandsWithToken(token) {
+            if (!token) return;
+            console.log("Actualizando comandos con token:", token);
+            
+            document.querySelectorAll('.code-block').forEach(block => {
+                // Obtener el contenido de texto del bloque
+                const originalText = block.textContent;
+                
+                // Solo realizar reemplazo si contiene la cadena TARGET
+                if (originalText.includes('Bearer YOUR_TOKEN')) {
+                    // Crear un nuevo textNode con el contenido reemplazado
+                    const updatedText = originalText.replace(/Bearer YOUR_TOKEN/g, `Bearer ${token}`);
+                    
+                    // Limpiar el contenido actual y agregar el texto actualizado
+                    while (block.firstChild) {
+                        if (!block.firstChild.classList || !block.firstChild.classList.contains('copy-btn')) {
+                            block.removeChild(block.firstChild);
+                        } else {
+                            // Mantener el botón de copia
+                            const copyBtn = block.firstChild;
+                            block.removeChild(copyBtn);
+                            block.textContent = updatedText;
+                            block.appendChild(copyBtn);
+                            return;
+                        }
+                    }
+                    
+                    block.textContent = updatedText;
+                    
+                    // Efectos visuales para indicar que se actualizó
+                    block.style.transition = "background-color 0.3s";
+                    block.style.backgroundColor = "#2c4d2c";
+                    setTimeout(() => {
+                        block.style.backgroundColor = "#1a1a1a";
+                    }, 500);
+                }
+            });
+        }
+        
+        function copyToClipboard(button) {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock.textContent.trim();
+            
+            // Usar el API de Clipboard
+            navigator.clipboard.writeText(code).then(() => {
+                // Feedback visual
                 const originalIcon = button.innerHTML;
                 button.innerHTML = '<i class="fas fa-check"></i>';
                 
                 setTimeout(() => {
                     button.innerHTML = originalIcon;
                 }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+                alert('No se pudo copiar al portapapeles');
             });
         }
-        
-        // Función para añadir botones de copia a todos los bloques de código
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.code-block').forEach(block => {
-                // Solo agregamos el botón si no existe ya
-                if (!block.querySelector('.copy-btn')) {
-                    const copyBtn = document.createElement('button');
-                    copyBtn.className = 'btn btn-sm btn-outline-light copy-btn';
-                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-                    copyBtn.onclick = function() { copyToClipboard(this); };
-                    block.appendChild(copyBtn);
-                }
-            });
-        });
     </script>
 </body>
 </html>

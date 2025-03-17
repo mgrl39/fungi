@@ -118,40 +118,50 @@ class UserController {
     }
     
     /**
-     * @brief Actualiza el perfil del usuario en la base de datos
+     * @brief Actualiza el perfil de un usuario
      * 
-     * @details Actualiza los datos del usuario en la base de datos según los datos proporcionados.
-     * 
-     * @param int $userId ID del usuario
-     * @param array $data Datos a actualizar
+     * @param int $userId ID del usuario a actualizar
+     * @param array $data Datos a actualizar (nombre, email, rol, etc.)
      * @return bool Resultado de la operación
      */
-    private function updateUserProfile($userId, $data) {
+    public function updateUserProfile($userId, $data) {
         try {
-            $fields = [];
+            // Verificar si el usuario existe
+            $checkUser = $this->db->query("SELECT id FROM users WHERE id = ?", [$userId]);
+            $checkResult = $checkUser->fetchAll(\PDO::FETCH_ASSOC);
+            if (empty($checkResult)) {
+                return false;
+            }
+            
+            // Construir consulta dinámica para los campos que se actualizan
+            $updateFields = [];
             $params = [];
             
-            // Determinar qué campos actualizar
-            if (!empty($data['email'])) {
-                $fields[] = "email = :email";
-                $params[':email'] = $data['email'];
+            // Campos permitidos para actualización
+            $allowedFields = ['username', 'email', 'role', 'bio', 'name', 'location'];
+            
+            foreach ($data as $field => $value) {
+                if (in_array($field, $allowedFields)) {
+                    $updateFields[] = "{$field} = ?";
+                    $params[] = $value;
+                }
             }
             
-            if (!empty($data['display_name'])) {
-                $fields[] = "display_name = :display_name";
-                $params[':display_name'] = $data['display_name'];
+            // Si no hay campos para actualizar, terminar
+            if (empty($updateFields)) {
+                return false;
             }
             
-            // Solo actualizar si hay campos para actualizar
-            if (!empty($fields)) {
-                $params[':id'] = $userId;
-                $sql = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = :id";
-                return $this->db->query($sql, $params);
-            }
+            // Agregar el ID al final de los parámetros
+            $params[] = $userId;
             
-            return false;
+            // Ejecutar la consulta de actualización
+            $sql = "UPDATE users SET " . implode(", ", $updateFields) . " WHERE id = ?";
+            $result = $this->db->query($sql, $params);
+            
+            return $result !== false;
         } catch (\Exception $e) {
-            error_log("Error al actualizar perfil: " . $e->getMessage());
+            error_log("Error al actualizar usuario: " . $e->getMessage());
             return false;
         }
     }
@@ -227,6 +237,37 @@ class UserController {
             return $this->db->query($sql, $params) !== false;
         } catch (\Exception $e) {
             error_log("Error al crear usuario: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * @brief Elimina un usuario del sistema
+     * 
+     * @param int $userId ID del usuario a eliminar
+     * @return bool Resultado de la operación
+     */
+    public function deleteUser($userId) {
+        try {
+            // Verificar si el usuario existe
+            $checkUser = $this->db->query("SELECT id FROM users WHERE id = ?", [$userId]);
+            $checkResult = $checkUser->fetchAll(\PDO::FETCH_ASSOC);
+            if (empty($checkResult)) {
+                return false;
+            }
+            
+            // Eliminar registros relacionados en otras tablas
+            $this->db->query("DELETE FROM user_likes WHERE user_id = ?", [$userId]);
+            $this->db->query("DELETE FROM user_favorites WHERE user_id = ?", [$userId]);
+            $this->db->query("DELETE FROM comments WHERE user_id = ?", [$userId]);
+            $this->db->query("DELETE FROM access_logs WHERE user_id = ?", [$userId]);
+            
+            // Finalmente eliminar el usuario
+            $result = $this->db->query("DELETE FROM users WHERE id = ?", [$userId]);
+            
+            return $result !== false;
+        } catch (\Exception $e) {
+            error_log("Error al eliminar usuario: " . $e->getMessage());
             return false;
         }
     }

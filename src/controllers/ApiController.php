@@ -394,24 +394,60 @@ class ApiController
 					'username' => $username,
 					'role' => $userRole
 				];
-				
-				error_log("API PUT - Usuario autenticado: " . json_encode($user));
 			}
-		} else if (isset($_SESSION['user_id'])) {
-			// Usar sesión PHP si existe
+		} else if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['user_id'])) {
 			$user = [
 				'id' => $_SESSION['user_id'],
 				'username' => $_SESSION['username'] ?? 'Usuario',
 				'role' => $_SESSION['role'] ?? 'user'
 			];
-			error_log("API PUT - Usuario por sesión: " . json_encode($user));
 		}
 		
-		// Datos de la solicitud
+		// Datos recibidos en el body del PUT
 		$data = json_decode(file_get_contents('php://input'), true);
 		$result = null;
 		
-		if (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
+		// Manejar actualización de usuario (nuevo caso)
+		if (preg_match('/^users\/(\d+)$/', $endpoint, $matches)) {
+			$userId = $matches[1];
+			
+			if (!$user) {
+				http_response_code(401);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				];
+			} 
+			elseif ($user['role'] !== 'admin') {
+				http_response_code(403);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::HTTP_403
+				];
+			}
+			else {
+				// Instanciar controlador de usuarios
+				$userController = new \App\Controllers\UserController($this->db, new \App\Controllers\SessionController($this->db));
+				
+				// Llamar método de actualización de usuario
+				$updateResult = $userController->updateUserProfile($userId, $data);
+				
+				if ($updateResult) {
+					$result = [
+						'success' => true,
+						'message' => 'Usuario actualizado correctamente'
+					];
+				} else {
+					http_response_code(500);
+					$result = [
+						'success' => false,
+						'error' => 'Error al actualizar el usuario'
+					];
+				}
+			}
+		}
+		// Mantener el endpoint existente para hongos
+		elseif (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
 			$fungiId = $matches[1];
 			
 			if (!$user) {
@@ -489,7 +525,55 @@ class ApiController
 		// Resultado de la operación
 		$result = null;
 		
-		if (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
+		// Nuevo caso: eliminar usuario
+		if (preg_match('/^users\/(\d+)$/', $endpoint, $matches)) {
+			$targetUserId = $matches[1];
+			
+			if (!$user) {
+				http_response_code(401);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::AUTH_REQUIRED
+				];
+			} 
+			elseif ($user['role'] !== 'admin') {
+				http_response_code(403);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::HTTP_403
+				];
+			}
+			else {
+				// Instanciar el controlador de usuarios
+				$userController = new \App\Controllers\UserController($this->db, new \App\Controllers\SessionController($this->db));
+				
+				// Implementar método deleteUser en UserController si no existe
+				if (method_exists($userController, 'deleteUser')) {
+					$deleteResult = $userController->deleteUser($targetUserId);
+					
+					if ($deleteResult) {
+						$result = [
+							'success' => true,
+							'message' => 'Usuario eliminado correctamente'
+						];
+					} else {
+						http_response_code(500);
+						$result = [
+							'success' => false,
+							'error' => 'Error al eliminar el usuario'
+						];
+					}
+				} else {
+					http_response_code(501);
+					$result = [
+						'success' => false,
+						'error' => 'Funcionalidad no implementada'
+					];
+				}
+			}
+		}
+		// Mantener los endpoints existentes para hongos
+		elseif (preg_match('/^fungi\/(\d+)$/', $endpoint, $matches)) {
 			// Eliminar hongo (requiere admin)
 			$fungiId = $matches[1];
 			
@@ -503,7 +587,7 @@ class ApiController
 				$result = $apiDeleteController->deleteFungi($fungiId, $user);
 			}
 		} 
-		else if (preg_match('/^fungi\/(\d+)\/like$/', $endpoint, $matches)) {
+		elseif (preg_match('/^fungi\/(\d+)\/like$/', $endpoint, $matches)) {
 			// Quitar like a un hongo
 			$fungiId = $matches[1];
 			
@@ -517,7 +601,7 @@ class ApiController
 				$result = $apiDeleteController->unlikeFungi($user['id'], $fungiId);
 			}
 		}
-		else if (preg_match('/^user\/favorites\/(\d+)$/', $endpoint, $matches)) {
+		elseif (preg_match('/^user\/favorites\/(\d+)$/', $endpoint, $matches)) {
 			// Quitar un hongo de favoritos
 			$fungiId = $matches[1];
 			
