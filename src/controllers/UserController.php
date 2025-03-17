@@ -84,7 +84,6 @@ class UserController {
                 if ($success) $userData = $this->session->getUserData();
             }
         }
-        
         return [
             'title' => 'Perfil de ' . $userData['username'],
             'user' => $userData,
@@ -104,16 +103,10 @@ class UserController {
      * @return array Errores de validación encontrados
      */
     private function validateProfileUpdate($data) {
-        $errors = [];
-        
-        // Validar email
+        $errors = [];       
         if (isset($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = _('El formato del email no es válido');
         }
-        
-        // Otras validaciones según necesidades
-        // ...
-        
         return $errors;
     }
     
@@ -165,28 +158,7 @@ class UserController {
             return false;
         }
     }
-    
-    /**
-     * @brief Maneja la página de administración de usuarios
-     * 
-     * @return array Datos para la plantilla
-     */
-    public function adminUsersHandler() {
-        // Verificar si es administrador
-        if (!$this->session->isAdmin()) {
-            header('Location: /');
-            exit;
-        }
-        
-        // Obtener lista de usuarios
-        $users = $this->getAllUsers();
-        
-        return [
-            'title' => _('Administración de Usuarios'),
-            'users' => $users
-        ];
-    }
-    
+       
     /**
      * @brief Obtiene todos los usuarios de la base de datos
      * 

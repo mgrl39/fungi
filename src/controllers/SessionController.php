@@ -76,36 +76,22 @@ class SessionController {
      * 
      * @details Comprueba si existe una cookie de token válida y autentica al usuario
      * utilizando los datos almacenados en la base de datos
-     * 
+     * Token inválido, eliminar cookie
      * @return bool TRUE si la autenticación fue exitosa, FALSE en caso contrario
      */
     public function verifyTokenCookie() {
-        if (!isset($_COOKIE['token'])) {
-            return false;
-        }
-        
+        if (!isset($_COOKIE['token'])) return false;
         $token = $_COOKIE['token'];
-        
         try {
-            $stmt = $this->db->query(
-                "SELECT id, username, role FROM users WHERE token = :token",
-                [':token' => $token]
-            );
-            
+            $stmt = $this->db->query("SELECT id, username, role FROM users WHERE token = :token", [':token' => $token]);
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
             if ($user) {
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
-                
+                if (session_status() === PHP_SESSION_NONE) session_start();
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
-                
                 return true;
             } else {
-                // Token inválido, eliminar cookie
                 setcookie("token", "", time() - 3600, "/");
                 return false;
             }
@@ -140,14 +126,10 @@ class SessionController {
             
             // Verificar en base de datos
             $stmt = $this->db->query(
-                "SELECT u.id, u.username, u.role FROM jwt_tokens j 
-                 JOIN users u ON j.user_id = u.id 
-                 WHERE j.token = :token AND j.expires_at > NOW()",
-                [':token' => $jwt]
+                "SELECT u.id, u.username, u.role FROM jwt_tokens j JOIN users u ON j.user_id = u.id 
+                 WHERE j.token = :token AND j.expires_at > NOW()", [':token' => $jwt]
             );
-            
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
             if ($user) {
                 if (session_status() === PHP_SESSION_NONE) session_start();                
                 $_SESSION['user_id'] = $user['id'];
@@ -231,16 +213,10 @@ class SessionController {
             return $user;
         } catch(\PDOException $e) {
             error_log("Error obteniendo datos del usuario: " . $e->getMessage());
-            
             // Devolver información básica de la sesión en caso de error
             if (isset($_SESSION['user_id'])) {
-                return [
-                    'id' => $_SESSION['user_id'],
-                    'username' => $_SESSION['username'] ?? 'Usuario',
-                    'role' => $_SESSION['role'] ?? 'user'
-                ];
+                return [ 'id' => $_SESSION['user_id'], 'username' => $_SESSION['username'] ?? 'Usuario', 'role' => $_SESSION['role'] ?? 'user' ];
             }
-            
             return null;
         }
     }

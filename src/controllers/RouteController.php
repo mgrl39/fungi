@@ -89,15 +89,9 @@ class RouteController {
                 }
             }
         }
-        
         header('HTTP/1.1 404 Not Found');
-        
-        $data = isset($this->routes['/404']['handler']) 
-            ? $this->routes['/404']['handler']($this->twig, $this->db, $this->session, $this->authController ?? null) 
-            : ['title' => _('Página no encontrada')];
-            
+        $data = isset($this->routes['/404']['handler']) ? $this->routes['/404']['handler']($this->twig, $this->db, $this->session, $this->authController ?? null) : ['title' => _('Página no encontrada')];
         renderTemplate($this->routes['/404']['template'], $data);
-        
         return false;
     }
 } 

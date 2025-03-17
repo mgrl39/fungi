@@ -506,12 +506,7 @@ class AuthController {
             if ($result['success']) {
                 header('Location: /');
                 exit;
-            } else {
-                return [
-                    'title' => _('Iniciar Sesión'),
-                    'error' => $result['message']
-                ];
-            }
+            } else return [ 'title' => _('Iniciar Sesión'), 'error' => $result['message'] ];
         } else {
             $registered = isset($_GET['registered']) ? true : false;
             return [

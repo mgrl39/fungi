@@ -86,32 +86,6 @@ class StatsController
     }
 
     /**
-     * @brief Obtiene la distribución de hongos por hábitat
-     * 
-     * @param int $limit Número máximo de resultados a retornar
-     * @return array Distribución de hongos por hábitat
-     */
-    public function getHabitatDistribution($limit = 10)
-    {
-        try {
-            $result = $this->db->query(
-                "SELECT habitat as name, COUNT(*) as count FROM fungi
-                 WHERE habitat IS NOT NULL AND habitat != '' GROUP BY habitat
-                 ORDER BY count DESC LIMIT $limit" );
-            
-            if ($result === false) {
-                error_log("Error al obtener distribución por hábitat: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener distribución por hábitat: " . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
      * @brief Obtiene la distribución de hongos por familia
      * 
      * @param int $limit Número máximo de familias a retornar
@@ -160,11 +134,9 @@ class StatsController
             $totalFungiQuery = "SELECT COUNT(*) as count FROM fungi";
             $totalFungiResult = $this->db->query($totalFungiQuery);
             $totalFungi = ($totalFungiResult === false) ? 0 : $totalFungiResult->fetch(\PDO::FETCH_ASSOC)['count'];
-            
             $totalUsersQuery = "SELECT COUNT(*) as count FROM users";
             $totalUsersResult = $this->db->query($totalUsersQuery);
             $totalUsers = ($totalUsersResult === false) ? 0 : $totalUsersResult->fetch(\PDO::FETCH_ASSOC)['count'];
-            
             $edibilityQuery = "SELECT edibility, COUNT(*) as count 
                               FROM fungi 
                               WHERE edibility IS NOT NULL AND edibility != '' 
@@ -172,31 +144,19 @@ class StatsController
                               ORDER BY count DESC";
             $edibilityResult = $this->db->query($edibilityQuery);
             $edibilityStats = ($edibilityResult === false) ? [] : $edibilityResult->fetchAll(\PDO::FETCH_ASSOC);
-            
             $familiesStats = $this->getFamilyDistribution(10);
-            
             $topLiked = $this->getTopLiked();
-            
             $topFavorites = $this->getTopFavorites();
-            
             return [
-                'total_fungi' => $totalFungi,
-                'total_users' => $totalUsers,
-                'edibility' => $edibilityStats,
-                'families' => $familiesStats,
-                'popular' => $topLiked,
-                'favorites' => $topFavorites
+                'total_fungi' => $totalFungi, 'total_users' => $totalUsers, 'edibility' => $edibilityStats,
+                'families' => $familiesStats, 'popular' => $topLiked, 'favorites' => $topFavorites
             ];
             
         } catch (\Exception $e) {
             error_log("Error al obtener estadísticas: " . $e->getMessage());
             return [
-                'total_fungi' => 0,
-                'total_users' => 0,
-                'edibility' => [],
-                'families' => [],
-                'popular' => [],
-                'favorites' => []
+                'total_fungi' => 0, 'total_users' => 0, 'edibility' => [], 'families' => [],
+                'popular' => [], 'favorites' => []
             ];
         }
     }
