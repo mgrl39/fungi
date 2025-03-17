@@ -7,7 +7,6 @@
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <!-- Estilos personalizados mínimos -->
     <link rel="stylesheet" href="/assets/styles/generic.css">
     
@@ -36,239 +35,206 @@
         
         .stats-hero {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('/assets/images/stats-bg.jpg') no-repeat center center;
+                        url('/assets/images/fungi-background.jpg');
             background-size: cover;
-            padding: 5rem 0;
-            margin-bottom: 2rem;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        /* Leyendas para los gráficos */
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+        
+        /* Indicadores de tendencia */
+        .trend-up {
+            color: #28a745;
+        }
+        
+        .trend-down {
+            color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <header>
-        {% include 'components/navbar.twig' %}
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-        <section class="stats-hero text-white py-5 mb-4 animate__animated animate__fadeIn">
-            <div class="container">
-                <div class="row justify-content-center text-center">
-                    <div class="col-lg-8">
-                        <h1 class="display-4 fw-bold">{{ _('Estadísticas') }}</h1>
-                        <p class="lead mb-4">{{ _('Análisis de datos sobre hongos en nuestra base de datos') }}</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <div class="container py-5">
-            <!-- Resumen de estadísticas -->
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
-                {% set stat_cards = [
-                    {
-                        'icon': 'mushroom',
-                        'color': 'primary',
-                        'value': stats.total_fungi,
-                        'text': _('Hongos totales')
-                    },
-                    {
-                        'icon': 'utensils',
-                        'color': 'success', 
-                        'value': stats.edible_fungi,
-                        'text': _('Hongos comestibles')
-                    },
-                    {
-                        'icon': 'skull-crossbones',
-                        'color': 'danger',
-                        'value': stats.toxic_fungi,
-                        'text': _('Hongos tóxicos')
-                    },
-                    {
-                        'icon': 'users',
-                        'color': 'info',
-                        'value': stats.total_users,
-                        'text': _('Usuarios registrados')
-                    }
-                ] %}
-
-                {% for card in stat_cards %}
-                    <div class="col">
-                        <div class="card h-100 border-0 shadow-sm text-center stats-card">
-                            <div class="card-body p-4">
-                                <div class="rounded-circle bg-{{ card.color }} bg-opacity-10 p-3 d-inline-block mb-3" style="width: 80px; height: 80px;">
-                                    <i class="fas fa-{{ card.icon }} fa-2x text-{{ card.color }}"></i>
-                                </div>
-                                <h3 class="display-6 fw-bold mb-2">{{ card.value }}</h3>
-                                <p class="text-muted mb-0">{{ card.text }}</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            
-            <!-- Gráficos de estadísticas -->
-            <div class="row g-4 mb-5">
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm h-100 stats-card">
-                        <div class="card-header bg-primary bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>{{ _('Distribución por comestibilidad') }}</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="chart-container">
-                                <canvas id="edibilityChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm h-100 stats-card">
-                        <div class="card-header bg-success bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>{{ _('Principales familias') }}</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="chart-container">
-                                <canvas id="familyChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-lg-8">
-                    <div class="card border-0 shadow-sm h-100 stats-card">
-                        <div class="card-header bg-info bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>{{ _('Tendencia de adiciones') }}</h5>
-                        </div>
-                        <div class="card-body p-4">
-                            <div class="chart-container">
-                                <canvas id="trendsChart"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4">
-                    <div class="card border-0 shadow-sm h-100 stats-card">
-                        <div class="card-header bg-warning bg-gradient text-dark py-3">
-                            <h5 class="mb-0"><i class="fas fa-heart me-2"></i>{{ _('Hongos más populares') }}</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="list-group list-group-flush">
-                                {% for fungi in stats.top_favorites %}
-                                    <div class="list-group-item d-flex justify-content-between align-items-center p-3 border-0 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <span class="badge bg-primary rounded-pill me-3">{{ loop.index }}</span>
-                                            <a href="/fungi/{{ fungi.id }}" class="text-decoration-none">
-                                                {{ fungi.name|replace({'-': ' '})|title }}
-                                            </a>
-                                        </div>
-                                        <span class="badge bg-primary rounded-pill">{{ fungi.favorites }}</span>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Separador visual -->
-            <div class="position-relative py-4 my-5">
-                <hr>
-                <div class="position-absolute top-50 start-50 translate-middle bg-body px-3">
-                    <i class="fas fa-chart-network text-primary"></i>
-                </div>
-            </div>
-            
-            <!-- Nueva sección de hongos más visitados y likeados -->
-            <div class="row g-4">
-                <!-- Hongos más visitados -->
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm h-100 stats-card">
-                        <div class="card-header bg-primary bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-eye me-2"></i>{{ _('Hongos más visitados') }}</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="list-group list-group-flush">
-                                {% for fungi in stats.most_viewed %}
-                                    <div class="list-group-item d-flex justify-content-between align-items-center p-3 border-0 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <span class="badge bg-primary rounded-pill me-3">{{ loop.index }}</span>
-                                            <a href="/fungi/{{ fungi.id }}" class="text-decoration-none">
-                                                {{ fungi.name|replace({'-': ' '})|title }}
-                                            </a>
-                                        </div>
-                                        <span class="badge bg-info rounded-pill">{{ fungi.views }} visitas</span>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Hongos más likeados -->
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm h-100 stats-card">
-                        <div class="card-header bg-danger bg-gradient text-white py-3">
-                            <h5 class="mb-0"><i class="fas fa-thumbs-up me-2"></i>{{ _('Hongos más likeados') }}</h5>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="list-group list-group-flush">
-                                {% for fungi in stats.top_liked %}
-                                    <div class="list-group-item d-flex justify-content-between align-items-center p-3 border-0 bg-transparent">
-                                        <div class="d-flex align-items-center">
-                                            <span class="badge bg-danger rounded-pill me-3">{{ loop.index }}</span>
-                                            <a href="/fungi/{{ fungi.id }}" class="text-decoration-none">
-                                                {{ fungi.name|replace({'-': ' '})|title }}
-                                            </a>
-                                        </div>
-                                        <span class="badge bg-danger rounded-pill">{{ fungi.likes }} likes</span>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CTA Section -->
-            <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
-                <div class="py-4 px-3">
-                    <h2 class="display-6 mb-3">{{ _('¿Quieres conocer más sobre nuestra comunidad?') }}</h2>
-                    <p class="lead mb-4">{{ _('Explora nuestros registros de hongos y únete a nuestra creciente base de datos.') }}</p>
-                    <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
-                        <i class="fas fa-user-plus me-2"></i> {{ _('Únete a nuestra comunidad') }}
-                    </a>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <footer>
-        {% include 'components/footer.twig' %}
-    </footer>
+    <!-- Incluir el encabezado -->
+    {% include 'components/navbar.twig' %}
     
-    <!-- Bootstrap 5 JS Bundle con Popper -->
+    <!-- Hero section -->
+    <section class="stats-hero text-center text-white py-5 mb-5">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Estadísticas de MicoFinder</h1>
+            <p class="lead">Explorando los datos de nuestra comunidad micológica</p>
+        </div>
+    </section>
+    
+    <!-- Sección de métricas principales -->
+    <section class="container mb-5">
+        <div class="row g-4">
+            <!-- Total de hongos registrados -->
+            <div class="col-md-6">
+                <div class="card stats-card h-100 bg-dark bg-opacity-50 border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-mushroom fa-3x mb-3 text-warning"></i>
+                        <h2 class="card-title fs-2">{{ stats.total_fungi }}</h2>
+                        <p class="card-text text-muted">Especies de hongos registradas</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Total de usuarios -->
+            <div class="col-md-6">
+                <div class="card stats-card h-100 bg-dark bg-opacity-50 border-0">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x mb-3 text-info"></i>
+                        <h2 class="card-title fs-2">{{ stats.total_users }}</h2>
+                        <p class="card-text text-muted">Usuarios registrados</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gráficos de distribución -->
+    <section class="container mb-5">
+        <h2 class="text-center mb-4">Distribución de hongos</h2>
+        
+        <div class="row g-4">
+            <!-- Gráfico por comestibilidad -->
+            <div class="col-lg-6 mb-4">
+                <div class="card stats-card h-100 bg-dark bg-opacity-50 border-0">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="fs-5 m-0">Por comestibilidad</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="edibilityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráfico por familias -->
+            <div class="col-lg-6 mb-4">
+                <div class="card stats-card h-100 bg-dark bg-opacity-50 border-0">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="fs-5 m-0">Por familias principales</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="familyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Hongos más populares -->
+    <section class="container mb-5">
+        <h2 class="text-center mb-4">Popularidad</h2>
+        
+        <div class="row g-4">
+            <!-- Hongos más likeados -->
+            <div class="col-lg-6 mb-4">
+                <div class="card stats-card h-100 bg-dark bg-opacity-50 border-0">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="fs-5 m-0">Hongos más likeados</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="likesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hongos favoritos -->
+            <div class="col-lg-6 mb-4">
+                <div class="card stats-card h-100 bg-dark bg-opacity-50 border-0">
+                    <div class="card-header bg-transparent border-0">
+                        <h3 class="fs-5 m-0">Hongos más añadidos a favoritos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="favoritesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Incluir el pie de página -->
+    {% include 'components/footer.twig' %}
+    
+    <!-- Bootstrap JS y Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <!-- Gráficos con Chart.js -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Configuración de gráficos
+            // Configurar los colores para comestibilidad
+            const edibilityColors = {
+                'excelente-comestible': '#28a745',
+                'excelente-comestible-precaucion': '#5cb85c',
+                'buen-comestible': '#8bc34a',
+                'comestible': '#a5d6a7',
+                'comestible-precaucion': '#ffeb3b',
+                'sin-valor': '#adb5bd',
+                'no-comestible': '#6c757d',
+                'toxica': '#ffc107',
+                'mortal': '#dc3545'
+            };
+            
+            // Traducción de los valores de comestibilidad para mostrar
+            const edibilityLabels = {
+                'excelente-comestible': 'Excelente comestible',
+                'excelente-comestible-precaucion': 'Excelente (con precaución)',
+                'buen-comestible': 'Buen comestible',
+                'comestible': 'Comestible',
+                'comestible-precaucion': 'Comestible (con precaución)',
+                'sin-valor': 'Sin valor culinario',
+                'no-comestible': 'No comestible',
+                'toxica': 'Tóxica',
+                'mortal': 'Mortal'
+            };
+            
+            // Datos del backend
+            const edibilityData = {{ stats.edibility|json_encode|raw }};
+            const familyData = {{ stats.families|json_encode|raw }};
+            const likesData = {{ stats.popular|json_encode|raw }};
+            const favoritesData = {{ stats.favorites|json_encode|raw }};
             
             // Gráfico de comestibilidad
-            new Chart(document.getElementById('edibilityChart'), {
-                type: 'doughnut',
+            const edibilityCtx = document.getElementById('edibilityChart').getContext('2d');
+            new Chart(edibilityCtx, {
+                type: 'pie',
                 data: {
-                    labels: {{ stats.edibility_labels|json_encode|raw }},
+                    labels: edibilityData.map(item => edibilityLabels[item.edibility] || item.edibility),
                     datasets: [{
-                        data: {{ stats.edibility_data|json_encode|raw }},
-                        backgroundColor: [
-                            '#28a745', // verde para comestibles
-                            '#ffc107', // amarillo para precaución
-                            '#dc3545', // rojo para tóxicos
-                            '#6c757d'  // gris para otros
-                        ],
-                        borderWidth: 1
+                        data: edibilityData.map(item => item.count),
+                        backgroundColor: edibilityData.map(item => edibilityColors[item.edibility] || '#6c757d'),
+                        borderWidth: 2,
+                        borderColor: '#343a40'
                     }]
                 },
                 options: {
@@ -276,7 +242,7 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'right',
+                            position: 'bottom',
                             labels: {
                                 color: '#fff'
                             }
@@ -284,18 +250,64 @@
                     }
                 }
             });
-
+            
             // Gráfico de familias
-            new Chart(document.getElementById('familyChart'), {
+            const familyCtx = document.getElementById('familyChart').getContext('2d');
+            new Chart(familyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: familyData.map(item => item.name || item.family),
+                    datasets: [{
+                        data: familyData.map(item => item.count),
+                        backgroundColor: [
+                            '#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b',
+                            '#fd7e14', '#6f42c1', '#20c997', '#17a2b8', '#6610f2'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#343a40'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#fff',
+                                font: {
+                                    size: 11
+                                },
+                                boxWidth: 15
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.parsed || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${value} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Gráfico de likes
+            const likesCtx = document.getElementById('likesChart').getContext('2d');
+            new Chart(likesCtx, {
                 type: 'bar',
                 data: {
-                    labels: {{ stats.family_labels|json_encode|raw }},
+                    labels: likesData.map(item => item.name),
                     datasets: [{
-                        label: '{{ _("Número de especies") }}',
-                        data: {{ stats.family_data|json_encode|raw }},
-                        backgroundColor: 'rgba(23, 162, 184, 0.7)',
-                        borderColor: 'rgba(23, 162, 184, 1)',
-                        borderWidth: 1
+                        label: 'Likes',
+                        data: likesData.map(item => item.likes_count),
+                        backgroundColor: '#4e73df',
+                        borderColor: '#4e73df',
+                        tension: 0.4
                     }]
                 },
                 options: {
@@ -330,17 +342,17 @@
                 }
             });
             
-            // Gráfico de tendencias
-            new Chart(document.getElementById('trendsChart'), {
-                type: 'line',
+            // Gráfico de favoritos
+            const favoritesCtx = document.getElementById('favoritesChart').getContext('2d');
+            new Chart(favoritesCtx, {
+                type: 'bar',
                 data: {
-                    labels: {{ stats.trend_labels|json_encode|raw }},
+                    labels: favoritesData.map(item => item.name),
                     datasets: [{
-                        label: '{{ _("Nuevos hongos") }}',
-                        data: {{ stats.trend_data|json_encode|raw }},
-                        fill: false,
-                        backgroundColor: 'rgba(13, 110, 253, 0.7)',
-                        borderColor: 'rgba(13, 110, 253, 1)',
+                        label: 'Favoritos',
+                        data: favoritesData.map(item => item.favorites_count),
+                        backgroundColor: '#f6c23e',
+                        borderColor: '#f6c23e',
                         tension: 0.4
                     }]
                 },

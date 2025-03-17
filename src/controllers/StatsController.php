@@ -443,46 +443,93 @@ class StatsController
     }
 
     /**
+     * @brief Obtiene la distribución de hongos por familia
+     * 
+     * @param int $limit Número máximo de familias a retornar
+     * @return array Distribución de hongos por familia
+     */
+    public function getFamilyDistribution($limit = 10)
+    {
+        try {
+            $result = $this->db->query(
+                "SELECT family as name, COUNT(*) as count
+                 FROM fungi
+                 WHERE family IS NOT NULL AND family != ''
+                 GROUP BY family
+                 ORDER BY count DESC
+                 LIMIT $limit"
+            );
+            
+            if ($result === false) {
+                error_log("Error al obtener distribución por familia: Consulta fallida");
+                return [];
+            }
+            
+            return $result->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            error_log("Error al obtener distribución por familia: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * @brief Obtiene todas las estadísticas necesarias para la página de estadísticas
      * 
      * @return array Todas las estadísticas formateadas para la plantilla
      */
     public function getAllStatsForPage()
     {
-        // En lugar de usar datos hardcodeados o calcular porcentajes falsos,
-        // usamos endpoints de API existentes para datos reales
-        
-        // Utilizamos el endpoint de hongos para obtener datos reales
-        $fungiController = new \App\Controllers\FungiController($this->db);
-        $fungi = $fungiController->getAllFungi();
-        
-        // Obtenemos estadísticas de edibilidad basadas en datos reales
-        $edibilityStats = [];
-        if (isset($fungi['data']) && is_array($fungi['data'])) {
-            foreach ($fungi['data'] as $fungi) {
-                $edibility = $fungi['edibility'] ?? 'unknown';
-                if (!isset($edibilityStats[$edibility])) {
-                    $edibilityStats[$edibility] = 0;
-                }
-                $edibilityStats[$edibility]++;
-            }
+        try {
+            // 1. Obtenemos el total de hongos
+            $totalFungiQuery = "SELECT COUNT(*) as count FROM fungi";
+            $totalFungiResult = $this->db->query($totalFungiQuery);
+            $totalFungi = ($totalFungiResult === false) ? 0 : $totalFungiResult->fetch(\PDO::FETCH_ASSOC)['count'];
+            
+            // 2. Obtenemos el total de usuarios
+            $totalUsersQuery = "SELECT COUNT(*) as count FROM users";
+            $totalUsersResult = $this->db->query($totalUsersQuery);
+            $totalUsers = ($totalUsersResult === false) ? 0 : $totalUsersResult->fetch(\PDO::FETCH_ASSOC)['count'];
+            
+            // 3. Distribución por comestibilidad
+            $edibilityQuery = "SELECT edibility, COUNT(*) as count 
+                              FROM fungi 
+                              WHERE edibility IS NOT NULL AND edibility != '' 
+                              GROUP BY edibility 
+                              ORDER BY count DESC";
+            $edibilityResult = $this->db->query($edibilityQuery);
+            $edibilityStats = ($edibilityResult === false) ? [] : $edibilityResult->fetchAll(\PDO::FETCH_ASSOC);
+            
+            // 4. Distribución por familias principales - Usamos el método especializado
+            $familiesStats = $this->getFamilyDistribution(10);
+            
+            // 5. Hongos más likeados - Usamos el método existente
+            $topLiked = $this->getTopLiked();
+            
+            // 6. Hongos más favoritos - Usamos el método existente
+            $topFavorites = $this->getTopFavorites();
+            
+            // Devolvemos todos los datos para la plantilla
+            return [
+                'total_fungi' => $totalFungi,
+                'total_users' => $totalUsers,
+                'edibility' => $edibilityStats,
+                'families' => $familiesStats,
+                'popular' => $topLiked,
+                'favorites' => $topFavorites
+            ];
+            
+        } catch (\Exception $e) {
+            error_log("Error al obtener estadísticas: " . $e->getMessage());
+            // En caso de error, devolvemos datos vacíos pero estructurados
+            return [
+                'total_fungi' => 0,
+                'total_users' => 0,
+                'edibility' => [],
+                'families' => [],
+                'popular' => [],
+                'favorites' => []
+            ];
         }
-        
-        // Obtenemos los hongos más populares (basados en vistas reales)
-        $popularFungi = $this->db->query(
-            "SELECT f.id, f.name, fp.views 
-             FROM fungi f 
-             JOIN fungi_popularity fp ON f.id = fp.fungi_id 
-             ORDER BY fp.views DESC 
-             LIMIT 5"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-        
-        // Devolvemos solo datos reales, sin porcentajes inventados
-        return [
-            'total_fungi' => count($fungi['data'] ?? []),
-            'popular_fungi' => $popularFungi,
-            'edibility_stats' => $edibilityStats
-        ];
     }
 
     /**
