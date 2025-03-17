@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('classApp_1_1Controllers_1_1Api_1_1ApiG
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1Api_1_1ApiGetController__coll__graph.svg" width="190" height="311"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1Api_1_1ApiGetController__coll__graph.svg" width="190" height="331"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -132,6 +132,9 @@ Métodos públicos</h2></td></tr>
 <tr class="memitem:a33518bdaefac3b63c1385daee9d617c1" id="r_a33518bdaefac3b63c1385daee9d617c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a33518bdaefac3b63c1385daee9d617c1">getUserFavorites</a> ($userId)</td></tr>
 <tr class="memdesc:a33518bdaefac3b63c1385daee9d617c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene los hongos favoritos de un usuario.  <br /></td></tr>
 <tr class="separator:a33518bdaefac3b63c1385daee9d617c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa2530e28e9af86618de9b0af4fc29e1" id="r_aaa2530e28e9af86618de9b0af4fc29e1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#aaa2530e28e9af86618de9b0af4fc29e1">getUsers</a> ()</td></tr>
+<tr class="memdesc:aaa2530e28e9af86618de9b0af4fc29e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene la lista de usuarios (solo administradores)  <br /></td></tr>
+<tr class="separator:aaa2530e28e9af86618de9b0af4fc29e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9257dad15b8ca14f6183c0610d852a9" id="r_ae9257dad15b8ca14f6183c0610d852a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ae9257dad15b8ca14f6183c0610d852a9">searchFungi</a> ($param, $value)</td></tr>
 <tr class="memdesc:ae9257dad15b8ca14f6183c0610d852a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busca hongos por parámetro y valor.  <br /></td></tr>
 <tr class="separator:ae9257dad15b8ca14f6183c0610d852a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -583,6 +586,50 @@ Atributos privados</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="aaa2530e28e9af86618de9b0af4fc29e1" name="aaa2530e28e9af86618de9b0af4fc29e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa2530e28e9af86618de9b0af4fc29e1">&#9670;&#160;</a></span>getUsers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Controllers\Api\ApiGetController::getUsers </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtiene la lista de usuarios (solo administradores) </p>
+<dl class="section return"><dt>Devuelve</dt><dd>array Lista de usuarios </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="ApiGetController_8php_source.html#l00367">367</a> del archivo <a class="el" href="ApiGetController_8php_source.html">ApiGetController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  368</span>    {</div>
+<div class="line"><span class="lineno">  369</span>        <span class="comment">// Consulta básica para obtener usuarios con información limitada por seguridad</span></div>
+<div class="line"><span class="lineno">  370</span>        $sql = <span class="stringliteral">&quot;SELECT id, username, email, role, created_at, last_login </span></div>
+<div class="line"><span class="lineno">  371</span><span class="stringliteral">                FROM users </span></div>
+<div class="line"><span class="lineno">  372</span><span class="stringliteral">                ORDER BY id&quot;</span>;</div>
+<div class="line"><span class="lineno">  373</span>        </div>
+<div class="line"><span class="lineno">  374</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  375</span>            $stmt = $this-&gt;pdo-&gt;prepare($sql);</div>
+<div class="line"><span class="lineno">  376</span>            $stmt-&gt;execute();</div>
+<div class="line"><span class="lineno">  377</span>            </div>
+<div class="line"><span class="lineno">  378</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  379</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  380</span>                <span class="stringliteral">&#39;data&#39;</span> =&gt; $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC)</div>
+<div class="line"><span class="lineno">  381</span>            ];</div>
+<div class="line"><span class="lineno">  382</span>        } <span class="keywordflow">catch</span> (\PDOException $e) {</div>
+<div class="line"><span class="lineno">  383</span>            http_response_code(500);</div>
+<div class="line"><span class="lineno">  384</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  385</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  386</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::DB_QUERY_ERROR, $e-&gt;getMessage())</div>
+<div class="line"><span class="lineno">  387</span>            ];</div>
+<div class="line"><span class="lineno">  388</span>        }</div>
+<div class="line"><span class="lineno">  389</span>    }</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="abd9bc40195d1d959a10865b1d95eb9d9" name="abd9bc40195d1d959a10865b1d95eb9d9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abd9bc40195d1d959a10865b1d95eb9d9">&#9670;&#160;</a></span>incrementFungiViews()</h2>
 
@@ -876,7 +923,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers_1_1Api.html">Api</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html">ApiGetController</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 03:23:37 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 04:48:14 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

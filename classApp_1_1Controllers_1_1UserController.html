@@ -120,15 +120,15 @@ Métodos públicos</h2></td></tr>
 <tr class="memitem:a1ad879cf3dc470ba88a784758870d4eb" id="r_a1ad879cf3dc470ba88a784758870d4eb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1UserController.html#a1ad879cf3dc470ba88a784758870d4eb">createUser</a> ($username, $email, $password_hash)</td></tr>
 <tr class="memdesc:a1ad879cf3dc470ba88a784758870d4eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crea un nuevo usuario en el sistema.  <br /></td></tr>
 <tr class="separator:a1ad879cf3dc470ba88a784758870d4eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58df8b576c286304387b3f6fa8cec35b" id="r_a58df8b576c286304387b3f6fa8cec35b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b">getAllUsers</a> ()</td></tr>
+<tr class="memdesc:a58df8b576c286304387b3f6fa8cec35b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene todos los usuarios de la base de datos.  <br /></td></tr>
+<tr class="separator:a58df8b576c286304387b3f6fa8cec35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b1cee33c89323576b5df64d7d093d5b" id="r_a9b1cee33c89323576b5df64d7d093d5b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1UserController.html#a9b1cee33c89323576b5df64d7d093d5b">profileHandler</a> ($params=[])</td></tr>
 <tr class="memdesc:a9b1cee33c89323576b5df64d7d093d5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maneja la visualización y edición del perfil del usuario.  <br /></td></tr>
 <tr class="separator:a9b1cee33c89323576b5df64d7d093d5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Métodos privados</h2></td></tr>
-<tr class="memitem:a58df8b576c286304387b3f6fa8cec35b" id="r_a58df8b576c286304387b3f6fa8cec35b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b">getAllUsers</a> ()</td></tr>
-<tr class="memdesc:a58df8b576c286304387b3f6fa8cec35b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene todos los usuarios de la base de datos.  <br /></td></tr>
-<tr class="separator:a58df8b576c286304387b3f6fa8cec35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac56e6d2c7a043410095917d7ac362a78" id="r_ac56e6d2c7a043410095917d7ac362a78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78">updateUserProfile</a> ($userId, $data)</td></tr>
 <tr class="memdesc:ac56e6d2c7a043410095917d7ac362a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actualiza el perfil del usuario en la base de datos.  <br /></td></tr>
 <tr class="separator:ac56e6d2c7a043410095917d7ac362a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -299,24 +299,24 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>bool Resultado de la operación </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="UserController_8php_source.html#l00206">206</a> del archivo <a class="el" href="UserController_8php_source.html">UserController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  206</span>                                                                  {</div>
-<div class="line"><span class="lineno">  207</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  208</span>            $sql = <span class="stringliteral">&quot;INSERT INTO users (username, email, password_hash) </span></div>
-<div class="line"><span class="lineno">  209</span><span class="stringliteral">                    VALUES (:username, :email, :password_hash)&quot;</span>;</div>
-<div class="line"><span class="lineno">  210</span>            </div>
-<div class="line"><span class="lineno">  211</span>            $params = [</div>
-<div class="line"><span class="lineno">  212</span>                <span class="stringliteral">&#39;:username&#39;</span> =&gt; $username,</div>
-<div class="line"><span class="lineno">  213</span>                <span class="stringliteral">&#39;:email&#39;</span> =&gt; $email,</div>
-<div class="line"><span class="lineno">  214</span>                <span class="stringliteral">&#39;:password_hash&#39;</span> =&gt; $password_hash</div>
-<div class="line"><span class="lineno">  215</span>            ];</div>
-<div class="line"><span class="lineno">  216</span>            </div>
-<div class="line"><span class="lineno">  217</span>            <span class="keywordflow">return</span> $this-&gt;db-&gt;query($sql, $params) !== <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  218</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  219</span>            error_log(<span class="stringliteral">&quot;Error al crear usuario: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  220</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  221</span>        }</div>
-<div class="line"><span class="lineno">  222</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="UserController_8php_source.html#l00218">218</a> del archivo <a class="el" href="UserController_8php_source.html">UserController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  218</span>                                                                  {</div>
+<div class="line"><span class="lineno">  219</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  220</span>            $sql = <span class="stringliteral">&quot;INSERT INTO users (username, email, password_hash) </span></div>
+<div class="line"><span class="lineno">  221</span><span class="stringliteral">                    VALUES (:username, :email, :password_hash)&quot;</span>;</div>
+<div class="line"><span class="lineno">  222</span>            </div>
+<div class="line"><span class="lineno">  223</span>            $params = [</div>
+<div class="line"><span class="lineno">  224</span>                <span class="stringliteral">&#39;:username&#39;</span> =&gt; $username,</div>
+<div class="line"><span class="lineno">  225</span>                <span class="stringliteral">&#39;:email&#39;</span> =&gt; $email,</div>
+<div class="line"><span class="lineno">  226</span>                <span class="stringliteral">&#39;:password_hash&#39;</span> =&gt; $password_hash</div>
+<div class="line"><span class="lineno">  227</span>            ];</div>
+<div class="line"><span class="lineno">  228</span>            </div>
+<div class="line"><span class="lineno">  229</span>            <span class="keywordflow">return</span> $this-&gt;db-&gt;query($sql, $params) !== <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  230</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  231</span>            error_log(<span class="stringliteral">&quot;Error al crear usuario: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  232</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  233</span>        }</div>
+<div class="line"><span class="lineno">  234</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -325,9 +325,6 @@ Atributos privados</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">App\Controllers\UserController::getAllUsers </td>
@@ -336,27 +333,34 @@ Atributos privados</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Obtiene todos los usuarios de la base de datos. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array Lista de usuarios </dd></dl>
 
 <p class="definition">Definición en la línea <a class="el" href="UserController_8php_source.html#l00187">187</a> del archivo <a class="el" href="UserController_8php_source.html">UserController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  187</span>                                   {</div>
+<div class="fragment"><div class="line"><span class="lineno">  187</span>                                  {</div>
 <div class="line"><span class="lineno">  188</span>        <span class="keywordflow">try</span> {</div>
 <div class="line"><span class="lineno">  189</span>            $sql = <span class="stringliteral">&quot;SELECT id, username, email, role, created_at, last_login FROM users ORDER BY id DESC&quot;</span>;</div>
 <div class="line"><span class="lineno">  190</span>            $result = $this-&gt;db-&gt;query($sql);</div>
-<div class="line"><span class="lineno">  191</span>            <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  192</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  193</span>            error_log(<span class="stringliteral">&quot;Error al obtener usuarios: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  194</span>            <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">  195</span>        }</div>
-<div class="line"><span class="lineno">  196</span>    }</div>
+<div class="line"><span class="lineno">  191</span>            </div>
+<div class="line"><span class="lineno">  192</span>            <span class="comment">// Manejar diferentes tipos de retorno del método query</span></div>
+<div class="line"><span class="lineno">  193</span>            <span class="keywordflow">if</span> (is_array($result)) {</div>
+<div class="line"><span class="lineno">  194</span>                <span class="keywordflow">return</span> $result;</div>
+<div class="line"><span class="lineno">  195</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ($result instanceof \PDOStatement) {</div>
+<div class="line"><span class="lineno">  196</span>                <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  197</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  198</span>                error_log(<span class="stringliteral">&quot;La consulta de usuarios falló&quot;</span>);</div>
+<div class="line"><span class="lineno">  199</span>                <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  200</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  201</span>                error_log(<span class="stringliteral">&quot;Tipo de retorno inesperado en getAllUsers(): &quot;</span> . gettype($result));</div>
+<div class="line"><span class="lineno">  202</span>                <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  203</span>            }</div>
+<div class="line"><span class="lineno">  204</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  205</span>            error_log(<span class="stringliteral">&quot;Error al obtener usuarios: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  206</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  207</span>        }</div>
+<div class="line"><span class="lineno">  208</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenciado por <a class="el" href="UserController_8php_source.html#l00166">App\Controllers\UserController\adminUsersHandler()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -702,7 +706,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1UserController.html">UserController</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 03:23:37 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 04:48:14 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -7,6 +7,7 @@ var classApp_1_1Controllers_1_1Api_1_1ApiGetController =
     [ "getFungusById", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a67e731e7af27d93b388c233394b86269", null ],
     [ "getRandomFungus", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a7ca32a5d523b8859df919bfc0d3b3684", null ],
     [ "getUserFavorites", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a33518bdaefac3b63c1385daee9d617c1", null ],
+    [ "getUsers", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#aaa2530e28e9af86618de9b0af4fc29e1", null ],
     [ "incrementFungiViews", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#abd9bc40195d1d959a10865b1d95eb9d9", null ],
     [ "searchFungi", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ae9257dad15b8ca14f6183c0610d852a9", null ],
     [ "verifyAuth", "classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ad38efdd58e10c822fccb780ac688c4ea", null ],

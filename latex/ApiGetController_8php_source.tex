@@ -286,6 +286,30 @@
 \DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
 \DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00359}00359\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00360}00360\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00361}00361\ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00367}\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_aaa2530e28e9af86618de9b0af4fc29e1}{00367}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_aaa2530e28e9af86618de9b0af4fc29e1}{getUsers}}()}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00368}00368\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00369}00369\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ básica\ para\ obtener\ usuarios\ con\ información\ limitada\ por\ seguridad}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00370}00370\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00371}00371\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ users\ }}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00372}00372\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ id"{}};}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00373}00373\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00382}00382\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)PDOException\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::format(ErrorMessages::DB\_QUERY\_ERROR,\ \$e-\/>getMessage())}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00388}00388\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00389}00389\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ApiGetController_8php_source_l00390}00390\ \}}
 
 \end{DoxyCode}

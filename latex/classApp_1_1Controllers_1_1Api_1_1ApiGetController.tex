@@ -32,6 +32,8 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Api\t
 \begin{DoxyCompactList}\small\item\em Obtiene un hongo aleatorio. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_a33518bdaefac3b63c1385daee9d617c1}{get\+User\+Favorites}} (\$user\+Id)
 \begin{DoxyCompactList}\small\item\em Obtiene los hongos favoritos de un usuario. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_aaa2530e28e9af86618de9b0af4fc29e1}{get\+Users}} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la lista de usuarios (solo administradores) \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ae9257dad15b8ca14f6183c0610d852a9}{search\+Fungi}} (\$param, \$value)
 \begin{DoxyCompactList}\small\item\em Busca hongos por parámetro y valor. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1Api_1_1ApiGetController_ad38efdd58e10c822fccb780ac688c4ea}{verify\+Auth}} (\$user)
@@ -441,6 +443,49 @@ Definición en la línea \mbox{\hyperlink{ApiGetController_8php_source_l00320}{3
 \DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)}
 \DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ ];}
 \DoxyCodeLine{00338\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiGetController_aaa2530e28e9af86618de9b0af4fc29e1}\label{classApp_1_1Controllers_1_1Api_1_1ApiGetController_aaa2530e28e9af86618de9b0af4fc29e1} 
+\index{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiGetController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiGetController}!getUsers@{getUsers}}
+\index{getUsers@{getUsers}!App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiGetController@{App\textbackslash{}Controllers\textbackslash{}Api\textbackslash{}ApiGetController}}
+\doxysubsubsection{\texorpdfstring{getUsers()}{getUsers()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Api\textbackslash{}\+Api\+Get\+Controller\+::get\+Users (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene la lista de usuarios (solo administradores) 
+
+\begin{DoxyReturn}{Devuelve}
+array Lista de usuarios 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{ApiGetController_8php_source_l00367}{367}} del archivo \mbox{\hyperlink{ApiGetController_8php_source}{Api\+Get\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00368\ \ \ \ \ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ básica\ para\ obtener\ usuarios\ con\ información\ limitada\ por\ seguridad}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ }}
+\DoxyCodeLine{00371\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ users\ }}
+\DoxyCodeLine{00372\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ id"{}};}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>pdo-\/>prepare(\$sql);}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt-\/>execute();}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'data'}\ =>\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)PDOException\ \$e)\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::format(ErrorMessages::DB\_QUERY\_ERROR,\ \$e-\/>getMessage())}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00389\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abd9bc40195d1d959a10865b1d95eb9d9}\label{classApp_1_1Controllers_1_1Api_1_1ApiGetController_abd9bc40195d1d959a10865b1d95eb9d9} 

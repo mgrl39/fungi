@@ -405,7 +405,33 @@ $(document).ready(function(){initNavTree('ApiGetController_8php_source.html','')
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        }</div>
 <div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    }</div>
 </div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>}</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
+<div class="foldopen" id="foldopen00367" data-start="{" data-end="}">
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno"><a class="line" href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#aaa2530e28e9af86618de9b0af4fc29e1">  367</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#aaa2530e28e9af86618de9b0af4fc29e1">getUsers</a>()</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    {</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        <span class="comment">// Consulta básica para obtener usuarios con información limitada por seguridad</span></div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        $sql = <span class="stringliteral">&quot;SELECT id, username, email, role, created_at, last_login </span></div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span><span class="stringliteral">                FROM users </span></div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span><span class="stringliteral">                ORDER BY id&quot;</span>;</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>        </div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>            $stmt = $this-&gt;pdo-&gt;prepare($sql);</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>            $stmt-&gt;execute();</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>            </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>                <span class="stringliteral">&#39;data&#39;</span> =&gt; $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC)</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>            ];</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>        } <span class="keywordflow">catch</span> (\PDOException $e) {</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            http_response_code(500);</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::DB_QUERY_ERROR, $e-&gt;getMessage())</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>            ];</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>        }</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>    }</div>
+</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>}</div>
 </div>
 <div class="ttc" id="aclassApp_1_1Config_1_1ErrorMessages_html"><div class="ttname"><a href="classApp_1_1Config_1_1ErrorMessages.html">App\Config\ErrorMessages</a></div><div class="ttdef"><b>Definition</b> <a href="ErrorMessages_8php_source.html#l00010">ErrorMessages.php:11</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html">App\Controllers\Api\ApiGetController</a></div><div class="ttdoc">Controlador para manejar solicitudes GET a la API.</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00016">ApiGetController.php:17</a></div></div>
@@ -416,6 +442,7 @@ $(document).ready(function(){initNavTree('ApiGetController_8php_source.html','')
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_a67e731e7af27d93b388c233394b86269"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a67e731e7af27d93b388c233394b86269">App\Controllers\Api\ApiGetController\getFungusById</a></div><div class="ttdeci">getFungusById($id, $userId=null)</div><div class="ttdoc">Obtiene detalles de un hongo específico.</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00117">ApiGetController.php:117</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_a7ca32a5d523b8859df919bfc0d3b3684"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a7ca32a5d523b8859df919bfc0d3b3684">App\Controllers\Api\ApiGetController\getRandomFungus</a></div><div class="ttdeci">getRandomFungus($userId=null)</div><div class="ttdoc">Obtiene un hongo aleatorio.</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00231">ApiGetController.php:231</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_a9702ba600b72f8257ba5cc6bbb14405a"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a9702ba600b72f8257ba5cc6bbb14405a">App\Controllers\Api\ApiGetController\__construct</a></div><div class="ttdeci">__construct($pdo, $db)</div><div class="ttdoc">Constructor del controlador.</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00027">ApiGetController.php:27</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_aaa2530e28e9af86618de9b0af4fc29e1"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#aaa2530e28e9af86618de9b0af4fc29e1">App\Controllers\Api\ApiGetController\getUsers</a></div><div class="ttdeci">getUsers()</div><div class="ttdoc">Obtiene la lista de usuarios (solo administradores)</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00367">ApiGetController.php:367</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_abb00071b44d7a1b559b50eb9690bdc2f"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#abb00071b44d7a1b559b50eb9690bdc2f">App\Controllers\Api\ApiGetController\getAllFungi</a></div><div class="ttdeci">getAllFungi()</div><div class="ttdoc">Obtiene la lista completa de hongos.</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00057">ApiGetController.php:57</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_abd9bc40195d1d959a10865b1d95eb9d9"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#abd9bc40195d1d959a10865b1d95eb9d9">App\Controllers\Api\ApiGetController\incrementFungiViews</a></div><div class="ttdeci">incrementFungiViews($fungiId)</div><div class="ttdoc">Incrementa el contador de vistas de un hongo.</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00273">ApiGetController.php:273</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1Api_1_1ApiGetController_html_acb7364bad435a1fc74f97350f844e5c1"><div class="ttname"><a href="classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#acb7364bad435a1fc74f97350f844e5c1">App\Controllers\Api\ApiGetController\$db</a></div><div class="ttdeci">$db</div><div class="ttdef"><b>Definition</b> <a href="ApiGetController_8php_source.html#l00019">ApiGetController.php:19</a></div></div>
@@ -430,7 +457,7 @@ $(document).ready(function(){initNavTree('ApiGetController_8php_source.html','')
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_bbd6674d859f4cefaacb708974cac240.html">controllers</a></li><li class="navelem"><a class="el" href="dir_837eb9dde271431e3ca7ee186e64cce5.html">Api</a></li><li class="navelem"><a class="el" href="ApiGetController_8php.html">ApiGetController.php</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 03:23:37 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 04:48:14 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -38,5 +38,6 @@ var searchData=
   ['gettopliked_35',['getTopLiked',['../classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690',1,'App::Controllers::StatsController']]],
   ['gettotalfungicount_36',['getTotalFungiCount',['../classApp_1_1Controllers_1_1StatsController.html#aa6d98d1284d05b3772442f189f643a88',1,'App::Controllers::StatsController']]],
   ['getuserdata_37',['getUserData',['../classApp_1_1Controllers_1_1SessionController.html#a7fc8763bff5246f1b5c90bfb73d616b1',1,'App::Controllers::SessionController']]],
-  ['getuserfavorites_38',['getUserFavorites',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a33518bdaefac3b63c1385daee9d617c1',1,'App::Controllers::Api::ApiGetController']]]
+  ['getuserfavorites_38',['getUserFavorites',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#a33518bdaefac3b63c1385daee9d617c1',1,'App::Controllers::Api::ApiGetController']]],
+  ['getusers_39',['getUsers',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#aaa2530e28e9af86618de9b0af4fc29e1',1,'App::Controllers::Api::ApiGetController']]]
 ];

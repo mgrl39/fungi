@@ -134,34 +134,46 @@
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00179}00179\ \ \ \ \ \ \ \ \ ];}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00180}00180\ \ \ \ \ \}}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00181}00181\ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00187}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{00187}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}()\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00187}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{00187}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}{getAllUsers}}()\ \{}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
 \DoxyCodeLine{\Hypertarget{UserController_8php_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00192}00192\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00195}00195\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00196}00196\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00197}00197\ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00206}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a1ad879cf3dc470ba88a784758870d4eb}{00206}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a1ad879cf3dc470ba88a784758870d4eb}{createUser}}(\$username,\ \$email,\ \$password\_hash)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash)\ }}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00209}00209\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)"{}};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{':username'}\ =>\ \$username,}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{':email'}\ =>\ \$email,}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{':password\_hash'}\ =>\ \$password\_hash}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params)\ !==\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ crear\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00222}00222\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00223}00223\ \}\ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Manejar\ diferentes\ tipos\ de\ retorno\ del\ método\ query}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$result))\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result;}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\$result\ instanceof\ \(\backslash\)PDOStatement)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}La\ consulta\ de\ usuarios\ falló"{}});}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Tipo\ de\ retorno\ inesperado\ en\ getAllUsers():\ "{}}\ .\ gettype(\$result));}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00204}00204\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00208}00208\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00218}\mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a1ad879cf3dc470ba88a784758870d4eb}{00218}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1UserController_a1ad879cf3dc470ba88a784758870d4eb}{createUser}}(\$username,\ \$email,\ \$password\_hash)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash)\ }}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00221}00221\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (:username,\ :email,\ :password\_hash)"{}};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{':username'}\ =>\ \$username,}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{':email'}\ =>\ \$email,}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{':password\_hash'}\ =>\ \$password\_hash}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params)\ !==\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00230}00230\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ crear\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00233}00233\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00234}00234\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{UserController_8php_source_l00235}00235\ \}\ }
 
 \end{DoxyCode}
