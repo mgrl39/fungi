@@ -65,6 +65,7 @@ function renderTemplate($templatePath, $data = [])
     else if (strpos($templatePath, 'stats') !== false) textdomain('stats');
     else if (strpos($templatePath, 'fungi') !== false) textdomain('fungi');
     else if (strpos($templatePath, 'api') !== false) textdomain('api_docs');
+    else if (strpos($templatePath, 'admin') !== false) textdomain('admin');
     else textdomain('messages');
 
     $data['components'] = $components;

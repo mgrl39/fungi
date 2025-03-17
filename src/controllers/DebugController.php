@@ -11,7 +11,7 @@ class DebugController
      * @param array $dominios Dominios de traducción a verificar
      * @return void
      */
-    public function mostrarDebugTraducciones($idioma_actual = null, $dominios = ['messages', 'navbar', 'about', 'stats', 'api_docs'])
+    public function mostrarDebugTraducciones($idioma_actual = null, $dominios = ['messages', 'navbar', 'about', 'stats', 'api_docs', 'admin'])
     {
         if (!DEBUG_MODE) return;
         if ($idioma_actual === null) $idioma_actual = $_SESSION['idioma'] ?? 'ca';
