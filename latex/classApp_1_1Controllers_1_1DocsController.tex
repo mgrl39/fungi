@@ -21,7 +21,7 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Docs\
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_a536370ae7bec40d3335d8276b2cdd790}{\+\_\+\+\_\+construct}} (\$db, \$session)
 \begin{DoxyCompactList}\small\item\em Constructor del controlador de documentación. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_afec62a05af1d68b134d9cd4c33bef406}{api\+Docs\+Handler}} ()
-\begin{DoxyCompactList}\small\item\em Maneja la solicitud de documentación de la API Obtener la documentación de la API directamente desde el endpoint /api Configurar opciones para la petición con timeout de 3 segundos Si hay un error al obtener los datos, usar información básica. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Maneja la solicitud de documentación de la API Obtiene la documentación de la API directamente desde el método get\+Api\+Info() \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Métodos públicos estáticos}
 \begin{DoxyCompactItemize}
 \item 
@@ -37,8 +37,10 @@ static \mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_a26c7d871df293
 \doxysubsubsection*{Métodos privados}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_aa34bdcdc7a1846591ed05992287db1a4}{get\+Api\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la información de la API en formato de array. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8}{get\+Base\+Url}} ()
-\begin{DoxyCompactList}\small\item\em Obtiene la URL base del sitio construyendo la URL a partir del protocolo y host. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Obtiene la URL base del sitio. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Descripción detallada}
@@ -100,32 +102,31 @@ Hace referencia a \mbox{\hyperlink{DocsController_8php_source_l00014}{App\textba
 
 
 
-Maneja la solicitud de documentación de la API Obtener la documentación de la API directamente desde el endpoint /api Configurar opciones para la petición con timeout de 3 segundos Si hay un error al obtener los datos, usar información básica. 
+Maneja la solicitud de documentación de la API Obtiene la documentación de la API directamente desde el método get\+Api\+Info() 
 
 \begin{DoxyReturn}{Devuelve}
 array Datos para la plantilla 
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00037}{37}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00035}{35}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00038\ \ \ \ \ \{}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \$apiUrl\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8}{getBaseUrl}}()\ .\ \textcolor{stringliteral}{'/api'};}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \$context\ =\ stream\_context\_create([\textcolor{stringliteral}{'http'}\ =>\ [\textcolor{stringliteral}{'timeout'}\ =>\ 3,\ \textcolor{stringliteral}{'ignore\_errors'}\ =>\ \textcolor{keyword}{true}]]);}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \$apiResponse\ =\ @file\_get\_contents(\$apiUrl,\ \textcolor{keyword}{false},\ \$context);}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \$apiDocs\ =\ json\_decode(\$apiResponse,\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$apiDocs)\ \{}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiDocs\ =\ [\ \textcolor{stringliteral}{'api\_version'}\ =>\ \textcolor{stringliteral}{'v1'},\ \textcolor{stringliteral}{'available\_endpoints'}\ =>\ [\ \textcolor{stringliteral}{'Error'}\ =>\ [\textcolor{stringliteral}{'GET\ /api'}\ =>\ \textcolor{stringliteral}{'No\ se\ pudo\ obtener\ la\ documentación\ de\ la\ API.\ Por\ favor,\ intente\ más\ tarde.'}]\ ]\ ];}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Documentación\ de\ la\ API'}),\ \textcolor{stringliteral}{'api\_docs'}\ =>\ \$apiDocs\ ];}
-\DoxyCodeLine{00047\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ En\ lugar\ de\ hacer\ una\ petición\ HTTP,\ obtenemos\ la\ info\ directamente}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \$apiDocs\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_aa34bdcdc7a1846591ed05992287db1a4}{getApiInfo}}();}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Documentación\ de\ la\ API'}),}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_docs'}\ =>\ \$apiDocs}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00044\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{DocsController_8php_source_l00054}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\textbackslash{}get\+Base\+Url()}}.
+Hace referencia a \mbox{\hyperlink{DocsController_8php_source_l00063}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\textbackslash{}get\+Api\+Info()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -135,100 +136,65 @@ Gráfico de llamadas de esta función\+:
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1DocsController_afec62a05af1d68b134d9cd4c33bef406_cgraph}
 \end{center}
 \end{figure}
-\Hypertarget{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8}\label{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8} 
-\index{App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}!getBaseUrl@{getBaseUrl}}
-\index{getBaseUrl@{getBaseUrl}!App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}}
-\doxysubsubsection{\texorpdfstring{getBaseUrl()}{getBaseUrl()}}
-{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\+::get\+Base\+Url (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+\Hypertarget{classApp_1_1Controllers_1_1DocsController_aa34bdcdc7a1846591ed05992287db1a4}\label{classApp_1_1Controllers_1_1DocsController_aa34bdcdc7a1846591ed05992287db1a4} 
+\index{App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}!getApiInfo@{getApiInfo}}
+\index{getApiInfo@{getApiInfo}!App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}}
+\doxysubsubsection{\texorpdfstring{getApiInfo()}{getApiInfo()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\+::get\+Api\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
-Obtiene la URL base del sitio construyendo la URL a partir del protocolo y host. 
+Obtiene la información de la API en formato de array. 
 
 \begin{DoxyReturn}{Devuelve}
-string URL base 
+array Información de la API 
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00054}{54}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00063}{63}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00055\ \ \ \ \ \{}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
-\DoxyCodeLine{00059\ \ \ \ \ \}}
-
-\end{DoxyCode}
-
-
-Referenciado por \mbox{\hyperlink{DocsController_8php_source_l00037}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\textbackslash{}api\+Docs\+Handler()}}.
-
-Gráfico de llamadas a esta función\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8_icgraph}
-\end{center}
-\end{figure}
-\Hypertarget{classApp_1_1Controllers_1_1DocsController_a26c7d871df293aeea872304083487788}\label{classApp_1_1Controllers_1_1DocsController_a26c7d871df293aeea872304083487788} 
-\index{App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}!show@{show}}
-\index{show@{show}!App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}}
-\doxysubsubsection{\texorpdfstring{show()}{show()}}
-{\footnotesize\ttfamily static App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\+::show (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Muestra la documentación general de la API en formato JSON. 
-
-\begin{DoxyReturn}{Devuelve}
-void 
-\end{DoxyReturn}
-
-
-Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00066}{66}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00067\ \ \ \ \ \{}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \$apiInfo\ =\ [}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \textcolor{stringliteral}{'FungiAPI'},}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'API\ RESTful\ para\ acceder\ a\ datos\ de\ hongos\ y\ usuarios'},}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'version'}\ =>\ \textcolor{stringliteral}{'1.0.0'},}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'contact'}\ =>\ [}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \textcolor{stringliteral}{'Administrador'},}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'email'}\ =>\ \textcolor{stringliteral}{'admin@fungiapi.com'}}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'endpoints'}\ =>\ [}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi'},}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ lista\ de\ hongos\ con\ paginación\ opcional'},}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ [}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'page'}\ =>\ \textcolor{stringliteral}{'Número\ de\ página\ (por\ defecto:\ 1)'},}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'limit'}\ =>\ \textcolor{stringliteral}{'Número\ de\ registros\ por\ página\ (por\ defecto:\ 10)'},}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'search'}\ =>\ \textcolor{stringliteral}{'Término\ de\ búsqueda\ opcional'}}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}'},}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ detalles\ de\ un\ hongo\ específico\ por\ ID'}}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}/like'},}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'POST'},}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Dar\ like\ a\ un\ hongo\ (requiere\ autenticación)'},}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ true}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}/like'},}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'DELETE'},}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Quitar\ like\ de\ un\ hongo\ (requiere\ autenticación)'},}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ true}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00064\ \ \ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \textcolor{stringliteral}{'FungiAPI'},}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'API\ RESTful\ para\ acceder\ a\ datos\ de\ hongos\ y\ usuarios'},}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'version'}\ =>\ \textcolor{stringliteral}{'1.0.0'},}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'contact'}\ =>\ [}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \textcolor{stringliteral}{'Administrador'},}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'email'}\ =>\ \textcolor{stringliteral}{'admin@fungiapi.com'}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'endpoints'}\ =>\ [}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Endpoints\ de\ hongos}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi'},}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ lista\ de\ hongos\ con\ paginación\ opcional'},}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ [}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'page'}\ =>\ \textcolor{stringliteral}{'Número\ de\ página\ (por\ defecto:\ 1)'},}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'limit'}\ =>\ \textcolor{stringliteral}{'Número\ de\ registros\ por\ página\ (por\ defecto:\ 10)'},}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'search'}\ =>\ \textcolor{stringliteral}{'Término\ de\ búsqueda\ opcional'}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}'},}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ detalles\ de\ un\ hongo\ específico\ por\ ID'}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}/like'},}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'POST'},}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Dar\ like\ a\ un\ hongo\ (requiere\ autenticación)'},}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ true}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}/like'},}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'DELETE'},}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Quitar\ like\ de\ un\ hongo\ (requiere\ autenticación)'},}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ true}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Endpoints\ de\ usuario}}
 \DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
 \DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/user/favorites'},}
 \DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
@@ -253,23 +219,143 @@ Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00066}{66}
 \DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ hongos\ que\ le\ gustan\ al\ usuario\ (requiere\ autenticación)'},}
 \DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ true}
 \DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/statistics'},}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ estadísticas\ generales\ de\ la\ aplicación'}}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/statistics/user\_activity'},}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ estadísticas\ de\ actividad\ de\ usuarios\ (solo\ administradores)'},}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ true}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ http\_response\_code(200);}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$apiInfo,\ JSON\_PRETTY\_PRINT);}
-\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Endpoints\ de\ estadísticas}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/statistics'},}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ estadísticas\ generales\ de\ la\ aplicación'}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/statistics/user\_activity'},}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'GET'},}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Obtener\ estadísticas\ de\ actividad\ de\ usuarios\ (solo\ administradores)'},}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ true}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Endpoints\ adicionales\ para\ la\ gestión\ de\ hongos}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi'},}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'POST'},}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Crear\ un\ nuevo\ hongo\ (requiere\ autenticación\ de\ administrador)'},}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ [}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \textcolor{stringliteral}{'Nombre\ científico\ del\ hongo\ (obligatorio)'},}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'common\_name'}\ =>\ \textcolor{stringliteral}{'Nombre\ común\ del\ hongo'},}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edibility'}\ =>\ \textcolor{stringliteral}{'Comestibilidad\ del\ hongo\ (obligatorio)'},}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'habitat'}\ =>\ \textcolor{stringliteral}{'Hábitat\ del\ hongo\ (obligatorio)'},}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'observations'}\ =>\ \textcolor{stringliteral}{'Observaciones\ adicionales'},}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'synonym'}\ =>\ \textcolor{stringliteral}{'Sinónimos\ científicos'}}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}'},}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'PUT'},}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Actualizar\ información\ de\ un\ hongo\ existente\ (requiere\ autenticación\ de\ administrador)'},}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ true}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/fungi/\{id\}'},}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'DELETE'},}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Eliminar\ un\ hongo\ (requiere\ autenticación\ de\ administrador)'},}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ true}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Endpoints\ de\ autenticación}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/auth/login'},}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'POST'},}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Iniciar\ sesión\ de\ usuario'},}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ [}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \textcolor{stringliteral}{'Nombre\ de\ usuario\ (obligatorio)'},}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'password'}\ =>\ \textcolor{stringliteral}{'Contraseña\ (obligatorio)'}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/auth/logout'},}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'POST'},}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Cerrar\ sesión\ de\ usuario'},}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ true}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \textcolor{stringliteral}{'/api/auth/register'},}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \textcolor{stringliteral}{'POST'},}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'description'}\ =>\ \textcolor{stringliteral}{'Registrar\ nuevo\ usuario'},}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ [}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \textcolor{stringliteral}{'Nombre\ de\ usuario\ (obligatorio)'},}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'email'}\ =>\ \textcolor{stringliteral}{'Correo\ electrónico\ (obligatorio)'},}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'password'}\ =>\ \textcolor{stringliteral}{'Contraseña\ (obligatorio)'}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00198\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Referenciado por \mbox{\hyperlink{DocsController_8php_source_l00035}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\textbackslash{}api\+Docs\+Handler()}}.
+
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1DocsController_aa34bdcdc7a1846591ed05992287db1a4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8}\label{classApp_1_1Controllers_1_1DocsController_a2e7e1138a0f4b345cec4884fdf6abef8} 
+\index{App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}!getBaseUrl@{getBaseUrl}}
+\index{getBaseUrl@{getBaseUrl}!App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}}
+\doxysubsubsection{\texorpdfstring{getBaseUrl()}{getBaseUrl()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\+::get\+Base\+Url (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Obtiene la URL base del sitio. 
+
+\begin{DoxyReturn}{Devuelve}
+string URL base 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00051}{51}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1DocsController_a26c7d871df293aeea872304083487788}\label{classApp_1_1Controllers_1_1DocsController_a26c7d871df293aeea872304083487788} 
+\index{App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}!show@{show}}
+\index{show@{show}!App\textbackslash{}Controllers\textbackslash{}DocsController@{App\textbackslash{}Controllers\textbackslash{}DocsController}}
+\doxysubsubsection{\texorpdfstring{show()}{show()}}
+{\footnotesize\ttfamily static App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\+::show (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Muestra la documentación general de la API en formato JSON. 
+
+\begin{DoxyReturn}{Devuelve}
+void 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00205}{205}} del archivo \mbox{\hyperlink{DocsController_8php_source}{Docs\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00206\ \ \ \ \ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \$instance\ =\ \textcolor{keyword}{new}\ \textcolor{keyword}{self}(\textcolor{keyword}{null},\ \textcolor{keyword}{null});}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \$apiInfo\ =\ \$instance-\/>getApiInfo();}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ http\_response\_code(200);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$apiInfo,\ JSON\_PRETTY\_PRINT);}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
