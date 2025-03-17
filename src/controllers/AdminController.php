@@ -12,16 +12,32 @@ class AdminController
     private $session;
     private $userController;
     private $fungiController;
+    private $langController;
 
     /**
      * @brief Constructor del controlador de administración
      */
-    public function __construct($db, $session)
+    public function __construct($db, $session, $statsController = null)
     {
         $this->db = $db;
         $this->session = $session;
         $this->userController = new UserController($db, $session);
         $this->fungiController = new FungiController($db);
+        $this->langController = new LangController();
+        
+        // Asegurar que el dominio admin esté cargado
+        $this->langController->loadTextDomain('admin');
+    }
+
+    /**
+     * @brief Traduce un texto usando el dominio admin
+     * 
+     * @param string $text Texto a traducir
+     * @return string Texto traducido
+     */
+    private function translate($text)
+    {
+        return $this->langController->gettext($text, 'admin');
     }
 
     /**
@@ -44,7 +60,7 @@ class AdminController
         $totalFungi = $fungiData['total'] ?? 0;
         
         return [
-            'title' => _('Panel de Administración'),
+            'title' => $this->translate('Panel de Administración'),
             'totalUsers' => $totalUsers,
             'totalFungi' => $totalFungi,
             'dashboard' => true
@@ -66,13 +82,13 @@ class AdminController
         
         $message = '';
         if (isset($_GET['created']) && $_GET['created'] === 'true') {
-            $message = _('Usuario creado correctamente');
+            $message = $this->translate('Usuario creado correctamente');
         } else if (isset($_GET['deleted']) && $_GET['deleted'] === 'true') {
-            $message = _('Usuario eliminado correctamente');
+            $message = $this->translate('Usuario eliminado correctamente');
         }
         
         return [
-            'title' => _('Gestión de Usuarios'),
+            'title' => $this->translate('Gestión de Usuarios'),
             'users' => $users,
             'message' => $message
         ];
@@ -98,7 +114,7 @@ class AdminController
             $role = $_POST['role'] ?? 'user';
             
             if (empty($username) || empty($email) || empty($password)) {
-                $error = _('Todos los campos son obligatorios');
+                $error = $this->translate('Todos los campos son obligatorios');
             } else {
                 try {
                     // Verificar si el nombre de usuario o email ya existe
@@ -109,7 +125,7 @@ class AdminController
                     $result = $checkQuery->fetch(\PDO::FETCH_ASSOC);
                     
                     if ($result['total'] > 0) {
-                        $error = _('El nombre de usuario o email ya está en uso');
+                        $error = $this->translate('El nombre de usuario o email ya está en uso');
                     } else {
                         // Generar hash de contraseña usando password_hash nativo
                         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -130,7 +146,7 @@ class AdminController
         }
         
         return [
-            'title' => _('Crear Usuario'),
+            'title' => $this->translate('Crear Usuario'),
             'message' => $message,
             'error' => $error
         ];
@@ -198,15 +214,15 @@ class AdminController
         
         $message = '';
         if (isset($_GET['created']) && $_GET['created'] === 'true') {
-            $message = _('Hongo creado correctamente');
+            $message = $this->translate('Hongo creado correctamente');
         } else if (isset($_GET['deleted']) && $_GET['deleted'] === 'true') {
-            $message = _('Hongo eliminado correctamente');
+            $message = $this->translate('Hongo eliminado correctamente');
         } else if (isset($_GET['updated']) && $_GET['updated'] === 'true') {
-            $message = _('Hongo actualizado correctamente');
+            $message = $this->translate('Hongo actualizado correctamente');
         }
         
         return [
-            'title' => _('Gestión de Hongos'),
+            'title' => $this->translate('Gestión de Hongos'),
             'fungi' => $fungi,
             'message' => $message
         ];
@@ -231,7 +247,7 @@ class AdminController
             $habitat = $_POST['habitat'] ?? '';
             
             if (empty($name) || empty($edibility) || empty($habitat)) {
-                $error = _('Los campos nombre científico, comestibilidad y hábitat son obligatorios');
+                $error = $this->translate('Los campos nombre científico, comestibilidad y hábitat son obligatorios');
             } else {
                 try {
                     $this->db->beginTransaction();
@@ -256,7 +272,7 @@ class AdminController
                     $fungiId = $fungi['id'] ?? 0;
                     
                     if (!$fungiId) {
-                        throw new \Exception(_('Error al obtener el ID del hongo creado'));
+                        throw new \Exception($this->translate('Error al obtener el ID del hongo creado'));
                     }
                     
                     // Insertar características (si las hay)
@@ -346,7 +362,7 @@ class AdminController
         }
         
         return [
-            'title' => _('Crear Hongo'),
+            'title' => $this->translate('Crear Hongo'),
             'message' => $message,
             'error' => $error
         ];
@@ -403,7 +419,7 @@ class AdminController
             $habitat = $_POST['habitat'] ?? '';
             
             if (empty($name) || empty($edibility) || empty($habitat)) {
-                $error = _('Los campos nombre científico, comestibilidad y hábitat son obligatorios');
+                $error = $this->translate('Los campos nombre científico, comestibilidad y hábitat son obligatorios');
             } else {
                 try {
                     $this->db->beginTransaction();
@@ -563,7 +579,7 @@ class AdminController
         }
         
         return [
-            'title' => _('Editar Hongo'),
+            'title' => $this->translate('Editar Hongo'),
             'fungus' => $fungus,
             'taxonomy' => $taxonomy,
             'characteristics' => $characteristics,
@@ -678,7 +694,7 @@ class AdminController
             $password = $_POST['password'] ?? '';
             
             if (empty($username) || empty($email)) {
-                $error = _('Los campos nombre de usuario y email son obligatorios');
+                $error = $this->translate('Los campos nombre de usuario y email son obligatorios');
             } else {
                 // Construir los campos a actualizar
                 $updates = [
@@ -712,13 +728,13 @@ class AdminController
                     header('Location: /admin/users?updated=true');
                     exit;
                 } else {
-                    $error = _('Error al actualizar el usuario');
+                    $error = $this->translate('Error al actualizar el usuario');
                 }
             }
         }
         
         return [
-            'title' => _('Editar Usuario'),
+            'title' => $this->translate('Editar Usuario'),
             'user' => $user,
             'message' => $message,
             'error' => $error
