@@ -7,14 +7,8 @@
     
     <!-- Bootstrap 5 CSS -->
     <link href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Estilos personalizados mínimos -->
     <link rel="stylesheet" href="/assets/styles/generic.css">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
-    
-    <!-- Estilos inline mínimos -->
     <style>
         .hero-img {
             height: 400px;
@@ -159,10 +153,10 @@
                             <h3 class="h5 mb-0"><i class="fas fa-info-circle me-2"></i> Descripción</h3>
                         </div>
                         <div class="card-body">
-                            {% if fungi.description %}
-                            <p>{{ fungi.description }}</p>
+                            {% if fungi.description is defined and fungi.description %}
+                                <p>{{ fungi.description }}</p>
                             {% else %}
-                            <p class="text-muted fst-italic">No hay descripción disponible para este hongo.</p>
+                                <p class="text-muted"><i>No hay descripción disponible para este hongo.</i></p>
                             {% endif %}
                             
                             <!-- Taxonomía -->
@@ -201,87 +195,15 @@
             <div class="row g-4 mb-5">
                 <div class="col-md-6">
                     <div class="card border-0 shadow-sm h-100">
-                        <div class="card-header bg-success text-white">
+                        <div class="card-header bg-primary text-white">
                             <h3 class="h5 mb-0"><i class="fas fa-list-ul me-2"></i> Características</h3>
                         </div>
                         <div class="card-body">
                             <ul class="list-unstyled mb-0">
-                                {% if fungi.cap %}
-                                <li class="characteristics-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-circle text-success me-2"></i>
-                                        </div>
-                                        <div>
-                                            <strong>Sombrero:</strong> {{ fungi.cap }}
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endif %}
-                                
-                                {% if fungi.gills %}
-                                <li class="characteristics-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-circle text-success me-2"></i>
-                                        </div>
-                                        <div>
-                                            <strong>Láminas:</strong> {{ fungi.gills }}
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endif %}
-                                
-                                {% if fungi.stem %}
-                                <li class="characteristics-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-circle text-success me-2"></i>
-                                        </div>
-                                        <div>
-                                            <strong>Pie:</strong> {{ fungi.stem }}
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endif %}
-                                
-                                {% if fungi.veil %}
-                                <li class="characteristics-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-circle text-success me-2"></i>
-                                        </div>
-                                        <div>
-                                            <strong>Velo:</strong> {{ fungi.veil }}
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endif %}
-                                
-                                {% if fungi.flesh %}
-                                <li class="characteristics-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-circle text-success me-2"></i>
-                                        </div>
-                                        <div>
-                                            <strong>Carne:</strong> {{ fungi.flesh }}
-                                        </div>
-                                    </div>
-                                </li>
-                                {% endif %}
-                                
-                                {% if fungi.spores %}
-                                <li class="characteristics-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-circle text-success me-2"></i>
-                                        </div>
-                                        <div>
-                                            <strong>Esporas:</strong> {{ fungi.spores }}
-                                        </div>
-                                    </div>
-                                </li>
+                                {% if fungi.characteristics is defined and fungi.characteristics %}
+                                    <li class="mb-3">{{ fungi.characteristics|nl2br }}</li>
+                                {% else %}
+                                    <li class="text-muted"><i>No hay características disponibles para este hongo.</i></li>
                                 {% endif %}
                             </ul>
                         </div>

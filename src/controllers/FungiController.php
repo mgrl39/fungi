@@ -118,8 +118,10 @@ class FungiController
     public function getFungusById($id)
     {
         $result = $this->db->query("SELECT f.*, 
+                                    c.cap, c.hymenium, c.stipe, c.flesh,
                                     GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
                                     FROM fungi f 
+                                    LEFT JOIN characteristics c ON f.id = c.fungi_id
                                     LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
                                     LEFT JOIN images i ON fi.image_id = i.id 
                                     LEFT JOIN image_config ic ON i.config_key = ic.config_key
@@ -131,7 +133,20 @@ class FungiController
             if (is_array($result) && !empty($result) && isset($result[0])) $fungus = $result[0];
             else $fungus = $result;
         }
-        if ($fungus) $fungus = $this->loadFungusImages($fungus);
+        if ($fungus) {
+            $fungus = $this->loadFungusImages($fungus);
+            
+            // Formatear características para mostrar en la plantilla
+            if (isset($fungus['cap']) || isset($fungus['hymenium']) || isset($fungus['stipe']) || isset($fungus['flesh'])) {
+                $characteristics = [];
+                if (!empty($fungus['cap'])) $characteristics[] = "Sombrero: " . $fungus['cap'];
+                if (!empty($fungus['hymenium'])) $characteristics[] = "Himenio: " . $fungus['hymenium'];
+                if (!empty($fungus['stipe'])) $characteristics[] = "Pie: " . $fungus['stipe'];
+                if (!empty($fungus['flesh'])) $characteristics[] = "Carne: " . $fungus['flesh'];
+                
+                $fungus['characteristics'] = implode("\n", $characteristics);
+            }
+        }
         return $fungus;
     }
 
@@ -146,14 +161,37 @@ class FungiController
      */
     public function getRandomFungus()
     {
-        $query = "SELECT * FROM fungi ORDER BY RAND() LIMIT 1";
+        $query = "SELECT f.*, 
+                 c.cap, c.hymenium, c.stipe, c.flesh,
+                 GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+                 FROM fungi f 
+                 LEFT JOIN characteristics c ON f.id = c.fungi_id
+                 LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                 LEFT JOIN images i ON fi.image_id = i.id 
+                 LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                 GROUP BY f.id
+                 ORDER BY RAND() LIMIT 1";
+                 
         $randomResult = $this->db->query($query);
         if ($randomResult instanceof \PDOStatement) $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
         else if (is_array($randomResult) && !empty($randomResult)) $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
         else $fungus = null;
+        
         if ($fungus) {
             $this->incrementFungiViews($fungus['id']);
             $fungus = $this->loadFungusImages($fungus);
+            
+            // Formatear características para mostrar en la plantilla
+            if (isset($fungus['cap']) || isset($fungus['hymenium']) || isset($fungus['stipe']) || isset($fungus['flesh'])) {
+                $characteristics = [];
+                if (!empty($fungus['cap'])) $characteristics[] = "Sombrero: " . $fungus['cap'];
+                if (!empty($fungus['hymenium'])) $characteristics[] = "Himenio: " . $fungus['hymenium'];
+                if (!empty($fungus['stipe'])) $characteristics[] = "Pie: " . $fungus['stipe'];
+                if (!empty($fungus['flesh'])) $characteristics[] = "Carne: " . $fungus['flesh'];
+                
+                $fungus['characteristics'] = implode("\n", $characteristics);
+            }
+            
             error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
         }
         return $fungus;
@@ -622,8 +660,10 @@ class FungiController
     {
         // Consulta para obtener datos básicos del hongo
         $sql = "SELECT f.*, 
+                c.cap, c.hymenium, c.stipe, c.flesh,
                 GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
                 FROM fungi f 
+                LEFT JOIN characteristics c ON f.id = c.fungi_id
                 LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
                 LEFT JOIN images i ON fi.image_id = i.id 
                 LEFT JOIN image_config ic ON i.config_key = ic.config_key
@@ -652,6 +692,17 @@ class FungiController
         } else {
             $fungus['views'] = 0;
             $fungus['likes'] = 0;
+        }
+        
+        // Formatear características para mostrar en la plantilla
+        if (isset($fungus['cap']) || isset($fungus['hymenium']) || isset($fungus['stipe']) || isset($fungus['flesh'])) {
+            $characteristics = [];
+            if (!empty($fungus['cap'])) $characteristics[] = "Sombrero: " . $fungus['cap'];
+            if (!empty($fungus['hymenium'])) $characteristics[] = "Himenio: " . $fungus['hymenium'];
+            if (!empty($fungus['stipe'])) $characteristics[] = "Pie: " . $fungus['stipe'];
+            if (!empty($fungus['flesh'])) $characteristics[] = "Carne: " . $fungus['flesh'];
+            
+            $fungus['characteristics'] = implode("\n", $characteristics);
         }
         
         // Si hay un usuario autenticado, verificar si le dio like
