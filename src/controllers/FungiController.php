@@ -135,6 +135,10 @@ class FungiController
         return $fungus;
     }
 
+    // Procesar el resultado según el tipo de retorno de la DB
+    // Incrementar el contador de vistas para este hongo
+    // Cargar las imágenes relacionadas 
+    // Registrar para depuración
     /**
      * @brief Obtiene un hongo aleatorio de la base de datos
      * 
@@ -144,23 +148,14 @@ class FungiController
     {
         $query = "SELECT * FROM fungi ORDER BY RAND() LIMIT 1";
         $randomResult = $this->db->query($query);
-        
-        // Procesar el resultado según el tipo de retorno de la DB
         if ($randomResult instanceof \PDOStatement) $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
         else if (is_array($randomResult) && !empty($randomResult)) $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;
         else $fungus = null;
-        
         if ($fungus) {
-            // Incrementar el contador de vistas para este hongo
             $this->incrementFungiViews($fungus['id']);
-            
-            // Cargar las imágenes relacionadas
             $fungus = $this->loadFungusImages($fungus);
-            
-            // Registrar para depuración
             error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
         }
-        
         return $fungus;
     }
     
@@ -170,43 +165,34 @@ class FungiController
      * @param array $fungus Datos del hongo
      * @return array Datos del hongo con las URLs de imágenes añadidas
      */
+    // Consultar las imágenes relacionadas a través de la tabla de relación
+    // Si hay resultados, procesarlos
+    // Si no hay imágenes, usar una por defecto
+    // Registrar para depuración
+    // Si no hay imágenes, usar una por defecto
+    // Guardar las URLs como una cadena separada por comas (para mantener compatibilidad)
+    // Para depuración
     private function loadFungusImages($fungus)
     {
-        // Consultar las imágenes relacionadas a través de la tabla de relación
         $imagesResult = $this->db->query(
-            "SELECT i.filename, i.config_key 
-             FROM images i 
-             JOIN fungi_images fi ON i.id = fi.image_id 
-             WHERE fi.fungi_id = ?",
+            "SELECT i.filename, i.config_key FROM images i JOIN fungi_images fi ON i.id = fi.image_id WHERE fi.fungi_id = ?",
             [$fungus['id']]
         );
-        
         $imageUrls = [];
-        
-        // Si hay resultados, procesarlos
         if ($imagesResult) {
             if ($imagesResult instanceof \PDOStatement) $images = $imagesResult->fetchAll(\PDO::FETCH_ASSOC);
             else $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];
-            
             foreach ($images as $image) {
-                // Construir la URL completa de la imagen basada en la config_key
                 $basePath = $this->getImageBasePath($image['config_key']);
                 $imageUrls[] = $basePath . '/' . $image['filename'];
             }
         }
-        
-        // Si no hay imágenes, usar una por defecto
         if (empty($imageUrls)) {
             $imageUrls[] = '/assets/images/placeholder.jpg';
             error_log("No se encontraron imágenes para el hongo ID: " . $fungus['id']);
         }
-        
-        // Guardar las URLs como una cadena separada por comas (para mantener compatibilidad)
         $fungus['image_urls'] = implode(',', $imageUrls);
-        
-        // Para depuración
         error_log("URLs de imágenes para hongo ID " . $fungus['id'] . ": " . $fungus['image_urls']);
-        
         return $fungus;
     }
     
@@ -216,16 +202,12 @@ class FungiController
      * @param string $configKey Clave de configuración
      * @return string Ruta base para las imágenes
      */
+     // Mapeo de claves de configuración a rutas base
+     // Devolver la ruta correspondiente o una ruta predeterminada
+
     private function getImageBasePath($configKey)
     {
-        // Mapeo de claves de configuración a rutas base
-        $pathMap = [
-            'fungi_upload_path' => '/assets/images',
-            'user_upload_path' => '/assets/images/users',
-            'system_images' => '/assets/images/system'
-        ];
-        
-        // Devolver la ruta correspondiente o una ruta predeterminada
+        $pathMap = ['fungi_upload_path' => '/assets/images', 'user_upload_path' => '/assets/images/users', 'system_images' => '/assets/images/system'];
         return $pathMap[$configKey] ?? '/assets/images';
     }
     
