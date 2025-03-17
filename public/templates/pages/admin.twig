@@ -166,39 +166,32 @@
 
                     <!-- Pestaña de Usuarios -->
                     <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-                        <h3 class="mb-3">{{ _('Gestión de Usuarios') }}</h3>
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="usersTable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>{{ _('Usuario') }}</th>
-                                        <th>{{ _('Email') }}</th>
-                                        <th>{{ _('Rol') }}</th>
-                                        <th>{{ _('Fecha de registro') }}</th>
-                                        <th>{{ _('Acciones') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for user in users %}
-                                    <tr>
-                                        <td>{{ user.id }}</td>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.role }}</td>
-                                        <td>{{ user.created_at|date('d/m/Y') }}</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info edit-user" data-id="{{ user.id }}">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger delete-user" data-id="{{ user.id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3>{{ _('Gestión de Usuarios') }}</h3>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header bg-dark">
+                                <h5 class="mb-0">{{ _('Lista de Usuarios') }}</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="users-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>{{ _('Nombre de Usuario') }}</th>
+                                                <th>{{ _('Correo Electrónico') }}</th>
+                                                <th>{{ _('Rol') }}</th>
+                                                <th>{{ _('Acciones') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Se llenará dinámicamente con datos de /api/users -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -299,11 +292,149 @@
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             });
-
+            
             // Funciones para gestión de hongos
             const btnAddFungi = document.getElementById('btnAddFungi');
             const fungusModal = new bootstrap.Modal(document.getElementById('fungusModal'));
             const userModal = new bootstrap.Modal(document.getElementById('userModal'));
+            
+            // Agregar listeners para las pestañas
+            const userTab = document.getElementById('users-tab');
+            if (userTab) {
+                userTab.addEventListener('click', function() {
+                    // Cargamos los usuarios al hacer clic en la pestaña
+                    console.log('Cargando usuarios...');
+                    loadUsersFromAPI();
+                });
+            }
+            
+            // También cargar usuarios cuando se muestra la pestaña
+            document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
+                tab.addEventListener('shown.bs.tab', function(event) {
+                    if (event.target.getAttribute('id') === 'users-tab') {
+                        console.log('Pestaña de usuarios mostrada, cargando datos...');
+                        loadUsersFromAPI();
+                    }
+                });
+            });
+            
+            // Si la pestaña de usuarios está activa al cargar, cargar datos inmediatamente
+            if (document.querySelector('#users.active')) {
+                console.log('Pestaña de usuarios activa al cargar, cargando datos...');
+                loadUsersFromAPI();
+            }
+            
+            // Función para cargar usuarios desde el endpoint API
+            function loadUsersFromAPI() {
+                console.log('Ejecutando loadUsersFromAPI()');
+                // Obtener el contenedor donde mostraremos los usuarios
+                const tableBody = document.querySelector('#users-table tbody');
+                
+                if (!tableBody) {
+                    console.error('No se encontró la tabla de usuarios');
+                    return;
+                }
+                
+                // Mostrar indicador de carga
+                tableBody.innerHTML = `<tr><td colspan="5" class="text-center"><i class="fas fa-spinner fa-spin"></i> {{ _('Cargando usuarios...') }}</td></tr>`;
+                
+                // Realizar solicitud a la API
+                fetch('/api/users')
+                    .then(response => {
+                        console.log('Respuesta API:', response);
+                        if (!response.ok) {
+                            if (response.status === 401 || response.status === 403) {
+                                throw new Error('{{ _('No tienes permisos para ver esta información') }}');
+                            }
+                            throw new Error(`{{ _('Error al cargar usuarios') }} (${response.status})`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Datos recibidos:', data);
+                        if (data.success && Array.isArray(data.data)) {
+                            // Limpiar tabla
+                            tableBody.innerHTML = '';
+                            
+                            // Añadir cada usuario
+                            if (data.data.length === 0) {
+                                tableBody.innerHTML = `<tr><td colspan="5" class="text-center">{{ _('No hay usuarios registrados') }}</td></tr>`;
+                            } else {
+                                data.data.forEach(user => {
+                                    tableBody.innerHTML += `
+                                        <tr>
+                                            <td>${user.id}</td>
+                                            <td>${user.username}</td>
+                                            <td>${user.email}</td>
+                                            <td>${user.role}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info edit-user" data-id="${user.id}">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger delete-user" data-id="${user.id}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                });
+                                
+                                // Volver a agregar event listeners a los botones
+                                addUserEventListeners();
+                            }
+                        } else {
+                            tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">{{ _('Error al cargar usuarios') }}</td></tr>`;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">${error.message}</td></tr>`;
+                    });
+            }
+
+            // Función para añadir event listeners a los botones de usuarios
+            function addUserEventListeners() {
+                // Eventos para usuarios
+                document.querySelectorAll('.edit-user').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        document.getElementById('userModalTitle').textContent = '{{ _('Editar Usuario') }}';
+                        
+                        // Obtener datos del usuario de la fila actual
+                        const row = this.closest('tr');
+                        document.getElementById('user_id').value = row.cells[0].textContent;
+                        document.getElementById('username').value = row.cells[1].textContent;
+                        document.getElementById('email').value = row.cells[2].textContent;
+                        document.getElementById('role').value = row.cells[3].textContent.toLowerCase();
+                        userModal.show();
+                    });
+                });
+                
+                // Eliminar usuario
+                document.querySelectorAll('.delete-user').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (confirm('{{ _('¿Estás seguro de que deseas eliminar este usuario?') }}')) {
+                            const id = this.dataset.id;
+                            
+                            fetch(`/api/users/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('{{ _('Usuario eliminado correctamente') }}');
+                                    loadUsersFromAPI(); // Recargar lista de usuarios
+                                } else {
+                                    alert(data.error || '{{ _('Error al eliminar el usuario') }}');
+                                }
+                            });
+                        }
+                    });
+                });
+            }
             
             // Evento para abrir modal de nuevo hongo
             btnAddFungi.addEventListener('click', function() {
@@ -396,22 +527,6 @@
                 });
             });
             
-            // Eventos para usuarios
-            document.querySelectorAll('.edit-user').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    document.getElementById('userModalTitle').textContent = '{{ _('Editar Usuario') }}';
-                    
-                    // Obtener datos del usuario de la fila actual
-                    const row = this.closest('tr');
-                    document.getElementById('user_id').value = row.cells[0].textContent;
-                    document.getElementById('username').value = row.cells[1].textContent;
-                    document.getElementById('email').value = row.cells[2].textContent;
-                    document.getElementById('role').value = row.cells[3].textContent;
-                    userModal.show();
-                });
-            });
-            
             // Guardar usuario
             document.getElementById('saveUser').addEventListener('click', function() {
                 const userId = document.getElementById('user_id').value;
@@ -433,34 +548,9 @@
                     if (data.success) {
                         alert('{{ _('Usuario actualizado correctamente') }}');
                         userModal.hide();
-                        location.reload();
+                        loadUsersFromAPI(); // Recargar lista en lugar de recargar la página
                     } else {
                         alert(data.error || '{{ _('Error al actualizar el usuario') }}');
-                    }
-                });
-            });
-            
-            // Eliminar usuario
-            document.querySelectorAll('.delete-user').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (confirm('{{ _('¿Estás seguro de que deseas eliminar este usuario?') }}')) {
-                        const id = this.dataset.id;
-                        
-                        fetch(`/api/users/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('{{ _('Usuario eliminado correctamente') }}');
-                                location.reload();
-                            } else {
-                                alert(data.error || '{{ _('Error al eliminar el usuario') }}');
-                            }
-                        });
                     }
                 });
             });

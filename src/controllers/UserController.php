@@ -184,11 +184,23 @@ class UserController {
      * 
      * @return array Lista de usuarios
      */
-    private function getAllUsers() {
+    public function getAllUsers() {
         try {
             $sql = "SELECT id, username, email, role, created_at, last_login FROM users ORDER BY id DESC";
             $result = $this->db->query($sql);
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
+            
+            // Manejar diferentes tipos de retorno del método query
+            if (is_array($result)) {
+                return $result;
+            } else if ($result instanceof \PDOStatement) {
+                return $result->fetchAll(\PDO::FETCH_ASSOC);
+            } else if ($result === false) {
+                error_log("La consulta de usuarios falló");
+                return [];
+            } else {
+                error_log("Tipo de retorno inesperado en getAllUsers(): " . gettype($result));
+                return [];
+            }
         } catch (\Exception $e) {
             error_log("Error al obtener usuarios: " . $e->getMessage());
             return [];

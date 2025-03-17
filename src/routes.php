@@ -127,7 +127,6 @@ $routes = [
     '/' => ['template' => 'pages/home.twig', 'title' => _('Hongos'), 'auth_required' => false, 'handler' => [$homeController, 'indexHandler']],
     '/dashboard' => ['template' => 'pages/admin.twig', 'title' => _('Administración'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'dashboardHandler']],
     '/fungi/(\d+)' => ['template' => 'pages/fungi_detail.twig', 'auth_required' => false, 'handler' => [$fungiController, 'detailFungusHandler']],
-    '/admin/users' => ['template' => 'admin/users.twig', 'auth_required' => true, 'admin_required' => true, 'handler' => [$userController, 'adminUsersHandler']],
 ];
 
 // Añadir rutas al controlador

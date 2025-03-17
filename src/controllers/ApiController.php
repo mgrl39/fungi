@@ -183,6 +183,27 @@ class ApiController
 			}
 		}
 		
+		else if ($endpoint === 'users') {
+			// Verificar si el usuario es administrador
+			if (!$user || $user['role'] !== 'admin') {
+				http_response_code(403);
+				$result = [
+					'success' => false,
+					'error' => ErrorMessages::HTTP_403
+				];
+			} else {
+				// Obtener lista de usuarios (solo para administradores) directamente del UserController
+				$userController = new \App\Controllers\UserController($this->db, new \App\Controllers\SessionController($this->db));
+				$users = $userController->getAllUsers();
+				
+				// Formato de respuesta estándar de API
+				$result = [
+					'success' => true,
+					'data' => $users
+				];
+			}
+		}
+		
 		else {
 			http_response_code(404);
 			$result = ['error' => ErrorMessages::HTTP_404];

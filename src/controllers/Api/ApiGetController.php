@@ -358,4 +358,33 @@ class ApiGetController
             ];
         }
     }
+
+    /**
+     * Obtiene la lista de usuarios (solo administradores)
+     * 
+     * @return array Lista de usuarios
+     */
+    public function getUsers()
+    {
+        // Consulta básica para obtener usuarios con información limitada por seguridad
+        $sql = "SELECT id, username, email, role, created_at, last_login 
+                FROM users 
+                ORDER BY id";
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            
+            return [
+                'success' => true,
+                'data' => $stmt->fetchAll(\PDO::FETCH_ASSOC)
+            ];
+        } catch (\PDOException $e) {
+            http_response_code(500);
+            return [
+                'success' => false,
+                'error' => ErrorMessages::format(ErrorMessages::DB_QUERY_ERROR, $e->getMessage())
+            ];
+        }
+    }
 }
