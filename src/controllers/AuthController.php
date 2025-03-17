@@ -211,24 +211,15 @@ class AuthController {
     
     /**
      * @brief Elimina todas las cookies relacionadas con la autenticación
-     * 
+     * Eliminar cookie de token
+     * Eliminar cookie de JWT
+     * Eliminar otras cookies de sesión que puedan existir
      * @return void
      */
     private function removeAuthCookies() {
-        // Eliminar cookie de token
-        if (isset($_COOKIE['token'])) {
-            setcookie("token", "", time() - 3600, "/");
-        }
-        
-        // Eliminar cookie de JWT
-        if (isset($_COOKIE['jwt'])) {
-            setcookie("jwt", "", time() - 3600, "/");
-        }
-        
-        // Eliminar otras cookies de sesión que puedan existir
-        if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), "", time() - 3600, "/");
-        }
+        if (isset($_COOKIE['token'])) setcookie("token", "", time() - 3600, "/");
+        if (isset($_COOKIE['jwt'])) setcookie("jwt", "", time() - 3600, "/");
+        if (isset($_COOKIE[session_name()])) setcookie(session_name(), "", time() - 3600, "/");
     }
     
     /**
