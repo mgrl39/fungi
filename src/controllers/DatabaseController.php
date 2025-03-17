@@ -43,4 +43,31 @@ class DatabaseController {
             return false;
         }
     }
+    
+    /**
+     * Inicia una transacción
+     * 
+     * @return bool Devuelve true en caso de éxito o false si falla
+     */
+    public function beginTransaction() {
+        return $this->pdo->beginTransaction();
+    }
+    
+    /**
+     * Confirma una transacción
+     * 
+     * @return bool Devuelve true en caso de éxito o false si falla
+     */
+    public function commit() {
+        return $this->pdo->commit();
+    }
+    
+    /**
+     * Revierte una transacción
+     * 
+     * @return bool Devuelve true en caso de éxito o false si falla
+     */
+    public function rollBack() {
+        return $this->pdo->rollBack();
+    }
 }

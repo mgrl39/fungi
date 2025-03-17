@@ -8,815 +8,523 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Estilos personalizados mínimos -->
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/assets/styles/generic.css">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Estilos inline -->
     <style>
-        .admin-sidebar {
-            min-height: calc(100vh - 56px);
-            background-color: rgba(33, 37, 41, 0.8);
-            padding-top: 20px;
+        .admin-nav {
+            background-color: rgba(33, 37, 41, 0.95);
+            margin-bottom: 20px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .admin-sidebar .nav-link {
+        .admin-nav .nav-link {
             color: rgba(255, 255, 255, 0.75);
-            border-radius: 0;
             transition: all 0.3s ease;
+            padding: 15px 20px;
+            border-radius: 0;
         }
-        .admin-sidebar .nav-link:hover {
+        .admin-nav .nav-link:hover {
             color: rgba(255, 255, 255, 1);
-            transform: translateX(5px);
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        .admin-sidebar .nav-link.active {
+        .admin-nav .nav-link.active {
             color: white;
             background-color: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #0d6efd;
+            border-bottom: 3px solid #0d6efd;
         }
-        .admin-main {
-            padding: 20px;
-        }
-        .stats-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
+        
         .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        
+        .stat-card {
+            transition: all 0.3s ease;
         }
-        .card-header {
-            background-color: rgba(255, 255, 255, 0.1);
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
-        .table {
-            border-color: rgba(255, 255, 255, 0.1);
+        
+        .image-preview {
+            max-width: 150px;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #333;
+        }
+        
+        .actions-column {
+            width: 180px;
         }
     </style>
 </head>
 <body>
-    <header>
-        {% include 'components/navbar.twig' %}
-    </header>
-
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Contenido principal -->
-            <main class="col-md-12 ms-sm-auto px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">{{ _('Panel de administración') }}</h1>
-                </div>
-
-                <!-- Pestañas de navegación -->
-                <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab" aria-controls="stats" aria-selected="true">
-                            <i class="fas fa-chart-bar me-1"></i> {{ _('Estadísticas') }}
-                        </button>
+    <!-- Navbar superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="fas fa-mushroom me-2"></i>{{ _('Panel de Administración') }}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/" target="_blank">
+                            <i class="fas fa-external-link-alt me-1"></i>{{ _('Ver sitio') }}
+                        </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="fungi-tab" data-bs-toggle="tab" data-bs-target="#fungi" type="button" role="tab" aria-controls="fungi" aria-selected="false">
-                            <i class="fas fa-mushroom me-1"></i> {{ _('Hongos') }}
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="false">
-                            <i class="fas fa-users me-1"></i> {{ _('Usuarios') }}
-                        </button>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt me-1"></i>{{ _('Cerrar sesión') }}
+                        </a>
                     </li>
                 </ul>
-
-                <!-- Contenido de las pestañas -->
-                <div class="tab-content" id="adminTabContent">
-                    <!-- Pestaña de Estadísticas -->
-                    <div class="tab-pane fade show active" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-                        <!-- Tarjetas de estadísticas -->
-                        <div class="row mb-4">
-                            {% set stat_cards = [
-                                {title: 'Total de hongos', value: stats.total_fungi, color: 'primary'},
-                                {title: 'Total de usuarios', value: stats.total_users, color: 'success'}
-                            ] %}
-
-                            {% for card in stat_cards %}
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-body text-center">
-                                            <h5 class="card-title">{{ _(card.title) }}</h5>
-                                            <h2 class="text-{{ card.color }}">{{ card.value }}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
-                    <!-- Pestaña de Hongos -->
-                    <div class="tab-pane fade" id="fungi" role="tabpanel" aria-labelledby="fungi-tab">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h3>{{ _('Gestión de Hongos') }}</h3>
-                            <button class="btn btn-primary" id="btnAddFungi">
-                                <i class="fas fa-plus"></i> {{ _('Nuevo hongo') }}
-                            </button>
-                        </div>
-                        
-                        <!-- Control de elementos por página -->
-                        <div class="d-flex justify-content-end mb-3">
-                            <div class="form-inline">
-                                <label for="fungiItemsPerPage" class="me-2">{{ _('Mostrar') }}:</label>
-                                <select id="fungiItemsPerPage" class="form-select form-select-sm">
-                                    <option value="10">10</option>
-                                    <option value="20" selected>20</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="fungiTable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>{{ _('Nombre') }}</th>
-                                        <th>{{ _('Comestibilidad') }}</th>
-                                        <th>{{ _('Acciones') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Se llenará dinámicamente con datos de /api/fungi/page/X/limit/Y -->
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <!-- Contenedor para la paginación -->
-                        <div id="fungiPagination" class="mt-3"></div>
-                    </div>
-
-                    <!-- Pestaña de Usuarios -->
-                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h3>{{ _('Gestión de Usuarios') }}</h3>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header bg-dark">
-                                <h5 class="mb-0">{{ _('Lista de Usuarios') }}</h5>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="users-table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>{{ _('Nombre de Usuario') }}</th>
-                                                <th>{{ _('Correo Electrónico') }}</th>
-                                                <th>{{ _('Rol') }}</th>
-                                                <th>{{ _('Acciones') }}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Se llenará dinámicamente con datos de /api/users -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para Editar/Crear Hongo -->
-                <div class="modal fade" id="fungusModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="fungusModalTitle">{{ _('Editar Hongo') }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="fungusForm">
-                                    <input type="hidden" id="fungi_id">
-                                    <div class="mb-3">
-                                        <label for="fungi_name" class="form-label">{{ _('Nombre') }}</label>
-                                        <input type="text" class="form-control" id="fungi_name" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="fungi_common_name" class="form-label">{{ _('Nombre común') }}</label>
-                                        <input type="text" class="form-control" id="fungi_common_name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="fungi_edibility" class="form-label">{{ _('Comestibilidad') }}</label>
-                                        <select class="form-control" id="fungi_edibility">
-                                            <option value="buen-comestible">{{ _('Buen comestible') }}</option>
-                                            <option value="comestible">{{ _('Comestible') }}</option>
-                                            <option value="comestible-precaucion">{{ _('Comestible con precaución') }}</option>
-                                            <option value="excelente-comestible">{{ _('Excelente comestible') }}</option>
-                                            <option value="mortal">{{ _('Mortal') }}</option>
-                                            <option value="no-comestible">{{ _('No comestible') }}</option>
-                                            <option value="sin-valor">{{ _('Sin valor culinario') }}</option>
-                                            <option value="toxica">{{ _('Tóxica') }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="fungi_habitat" class="form-label">{{ _('Hábitat') }}</label>
-                                        <input type="text" class="form-control" id="fungi_habitat">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
-                                <button type="button" class="btn btn-primary" id="saveFungus">{{ _('Guardar') }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para Editar Usuario -->
-                <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="userModalTitle">{{ _('Editar Usuario') }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="userForm">
-                                    <input type="hidden" id="user_id">
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">{{ _('Nombre de usuario') }}</label>
-                                        <input type="text" class="form-control" id="username" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">{{ _('Email') }}</label>
-                                        <input type="email" class="form-control" id="email" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">{{ _('Rol') }}</label>
-                                        <select class="form-control" id="role">
-                                            <option value="user">{{ _('Usuario') }}</option>
-                                            <option value="admin">{{ _('Administrador') }}</option>
-                                        </select>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
-                                <button type="button" class="btn btn-primary" id="saveUser">{{ _('Guardar') }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
+            </div>
         </div>
+    </nav>
+
+    <!-- Menú de navegación horizontal -->
+    <div class="container-fluid admin-nav">
+        <ul class="nav nav-pills justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link {% if dashboard is defined %}active{% endif %}" href="/dashboard">
+                    <i class="fas fa-tachometer-alt me-2"></i>{{ _('Dashboard') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if users is defined %}active{% endif %}" href="/admin/users">
+                    <i class="fas fa-users me-2"></i>{{ _('Usuarios') }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if fungi is defined %}active{% endif %}" href="/admin/fungi">
+                    <i class="fas fa-mushroom me-2"></i>{{ _('Hongos') }} 🍄
+                </a>
+            </li>
+        </ul>
     </div>
 
-    <!-- Bootstrap JS y dependencias -->
-    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Contenido principal -->
+    <div class="container-fluid px-4">
+        {% if dashboard is defined %}
+            <!-- Dashboard -->
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="mb-4">{{ _('Panel de Control') }}</h2>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card text-white bg-primary stat-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ _('Usuarios') }}</h5>
+                            <h1>{{ totalUsers }}</h1>
+                            <a href="/admin/users" class="text-white">{{ _('Ver todos') }} <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card text-white bg-success stat-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ _('Hongos') }}</h5>
+                            <h1>{{ totalFungi }}</h1>
+                            <a href="/admin/fungi" class="text-white">{{ _('Ver todos') }} <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if users is defined %}
+            <!-- Gestión de Usuarios -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">{{ _('Gestión de Usuarios') }}</h5>
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createUserModal">
+                        <i class="fas fa-plus"></i> {{ _('Añadir Usuario') }}
+                    </button>
+                </div>
+                <div class="card-body">
+                    {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>{{ _('Usuario') }}</th>
+                                    <th>{{ _('Email') }}</th>
+                                    <th>{{ _('Rol') }}</th>
+                                    <th>{{ _('Fecha creación') }}</th>
+                                    <th class="actions-column">{{ _('Acciones') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <span class="badge {% if user.role == 'admin' %}bg-danger{% else %}bg-primary{% endif %}">
+                                            {{ user.role }}
+                                        </span>
+                                    </td>
+                                    <td>{{ user.created_at }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary edit-user-btn" 
+                                                data-user-id="{{ user.id }}"
+                                                data-username="{{ user.username }}"
+                                                data-email="{{ user.email }}"
+                                                data-role="{{ user.role }}"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#editUserModal">
+                                            <i class="fas fa-edit"></i> {{ _('Editar') }}
+                                        </button>
+                                        <a href="#" onclick="confirmDelete('/admin/user/delete/{{ user.id }}')" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> {{ _('Eliminar') }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Crear Usuario -->
+            <div class="modal fade" id="createUserModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ _('Crear Usuario') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" action="/admin/create-user">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">{{ _('Nombre de usuario') }}</label>
+                                    <input type="text" class="form-control" id="username" name="username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">{{ _('Email') }}</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">{{ _('Contraseña') }}</label>
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">{{ _('Rol') }}</label>
+                                    <select class="form-control" id="role" name="role">
+                                        <option value="user">{{ _('Usuario') }}</option>
+                                        <option value="admin">{{ _('Administrador') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
+                                <button type="submit" class="btn btn-success">{{ _('Crear Usuario') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Editar Usuario -->
+            <div class="modal fade" id="editUserModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ _('Editar Usuario') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" id="editUserForm" action="/admin/user/edit/">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="edit-username" class="form-label">{{ _('Nombre de usuario') }}</label>
+                                    <input type="text" class="form-control" id="edit-username" name="username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-email" class="form-label">{{ _('Email') }}</label>
+                                    <input type="email" class="form-control" id="edit-email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-password" class="form-label">{{ _('Nueva contraseña') }} <small class="text-muted">{{ _('(dejar en blanco para no cambiar)') }}</small></label>
+                                    <input type="password" class="form-control" id="edit-password" name="password">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-role" class="form-label">{{ _('Rol') }}</label>
+                                    <select class="form-control" id="edit-role" name="role">
+                                        <option value="user">{{ _('Usuario') }}</option>
+                                        <option value="admin">{{ _('Administrador') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
+                                <button type="submit" class="btn btn-primary">{{ _('Guardar cambios') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if fungi is defined %}
+            <!-- Gestión de Hongos -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">{{ _('Gestión de Hongos') }}</h5>
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createFungiModal">
+                        <i class="fas fa-plus"></i> {{ _('Añadir Hongo') }}
+                    </button>
+                </div>
+                <div class="card-body">
+                    {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                    {% endif %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>{{ _('Nombre') }}</th>
+                                    <th>{{ _('Nombre común') }}</th>
+                                    <th>{{ _('Comestibilidad') }}</th>
+                                    <th class="actions-column">{{ _('Acciones') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fungus in fungi %}
+                                <tr>
+                                    <td>{{ fungus.id }}</td>
+                                    <td>{{ fungus.name }}</td>
+                                    <td>{{ fungus.common_name }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if fungus.edibility starts with 'comestible' %}success{% elseif fungus.edibility starts with 'no-comestible' %}warning{% else %}danger{% endif %}">
+                                            {{ fungus.edibility }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="/admin/edit-fungi/{{ fungus.id }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit"></i> {{ _('Editar') }}
+                                        </a>
+                                        <a href="#" onclick="confirmDelete('/admin/fungi/delete/{{ fungus.id }}')" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i> {{ _('Eliminar') }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal Crear Hongo -->
+            <div class="modal fade" id="createFungiModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">{{ _('Crear Hongo') }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" action="/admin/create-fungi" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <ul class="nav nav-tabs" id="createFungiTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">{{ _('Información Básica') }}</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="taxonomy-tab" data-bs-toggle="tab" data-bs-target="#taxonomy" type="button" role="tab">{{ _('Taxonomía') }}</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="characteristics-tab" data-bs-toggle="tab" data-bs-target="#characteristics" type="button" role="tab">{{ _('Características') }}</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="images-tab" data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab">{{ _('Imágenes') }}</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content py-3" id="createFungiTabContent">
+                                    <div class="tab-pane fade show active" id="basic" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="name" class="form-label">{{ _('Nombre científico') }}</label>
+                                                <input type="text" class="form-control" id="name" name="name" required>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="common_name" class="form-label">{{ _('Nombre común') }}</label>
+                                                <input type="text" class="form-control" id="common_name" name="common_name">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="edibility" class="form-label">{{ _('Comestibilidad') }}</label>
+                                                <select class="form-control" id="edibility" name="edibility" required>
+                                                    <option value="buen-comestible">{{ _('Buen comestible') }}</option>
+                                                    <option value="comestible">{{ _('Comestible') }}</option>
+                                                    <option value="comestible-precaucion">{{ _('Comestible con precaución') }}</option>
+                                                    <option value="excelente-comestible">{{ _('Excelente comestible') }}</option>
+                                                    <option value="mortal">{{ _('Mortal') }}</option>
+                                                    <option value="no-comestible">{{ _('No comestible') }}</option>
+                                                    <option value="sin-valor">{{ _('Sin valor culinario') }}</option>
+                                                    <option value="toxica">{{ _('Tóxica') }}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="synonym" class="form-label">{{ _('Sinónimos') }}</label>
+                                                <input type="text" class="form-control" id="synonym" name="synonym">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="habitat" class="form-label">{{ _('Hábitat') }}</label>
+                                            <textarea class="form-control" id="habitat" name="habitat" rows="3" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="observations" class="form-label">{{ _('Observaciones') }}</label>
+                                            <textarea class="form-control" id="observations" name="observations" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="taxonomy" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="kingdom" class="form-label">{{ _('Reino') }}</label>
+                                                <input type="text" class="form-control" id="kingdom" name="taxonomy[kingdom]">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="phylum" class="form-label">{{ _('Filo') }}</label>
+                                                <input type="text" class="form-control" id="phylum" name="taxonomy[phylum]">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="class" class="form-label">{{ _('Clase') }}</label>
+                                                <input type="text" class="form-control" id="class" name="taxonomy[class]">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="order" class="form-label">{{ _('Orden') }}</label>
+                                                <input type="text" class="form-control" id="order" name="taxonomy[order]">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="family" class="form-label">{{ _('Familia') }}</label>
+                                                <input type="text" class="form-control" id="family" name="taxonomy[family]">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="genus" class="form-label">{{ _('Género') }}</label>
+                                                <input type="text" class="form-control" id="genus" name="taxonomy[genus]">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="characteristics" role="tabpanel">
+                                        <div class="mb-3">
+                                            <label for="cap" class="form-label">{{ _('Sombrero') }}</label>
+                                            <textarea class="form-control" id="cap" name="cap" rows="2"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="hymenium" class="form-label">{{ _('Himenio') }}</label>
+                                            <textarea class="form-control" id="hymenium" name="hymenium" rows="2"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="stipe" class="form-label">{{ _('Pie') }}</label>
+                                            <textarea class="form-control" id="stipe" name="stipe" rows="2"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="flesh" class="form-label">{{ _('Carne') }}</label>
+                                            <textarea class="form-control" id="flesh" name="flesh" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="images" role="tabpanel">
+                                        <div class="mb-3">
+                                            <label for="fungi_images" class="form-label">{{ _('Imágenes') }}</label>
+                                            <input type="file" class="form-control" id="fungi_images" name="fungi_images[]" multiple accept="image/*">
+                                            <div class="form-text">{{ _('Puedes seleccionar múltiples imágenes.') }}</div>
+                                        </div>
+                                        <div id="image-preview-container" class="d-flex flex-wrap gap-2 mt-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
+                                <button type="submit" class="btn btn-success">{{ _('Crear Hongo') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
+        // Función para confirmación de eliminación
+        function confirmDelete(url) {
+            if (confirm('{{ _('¿Estás seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.') }}')) {
+                window.location.href = url;
+            }
+        }
+        
+        // Función para eliminar imagen
+        function confirmDeleteImage(imageId, fungiId) {
+            if (confirm('{{ _('¿Estás seguro de que deseas eliminar esta imagen? Esta acción no se puede deshacer.') }}')) {
+                window.location.href = '/admin/delete-image?image_id=' + imageId + '&fungi_id=' + fungiId;
+            }
+        }
+        
+        // Inicializar elementos cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-            
-            // Funciones para gestión de hongos
-            const btnAddFungi = document.getElementById('btnAddFungi');
-            const fungusModal = new bootstrap.Modal(document.getElementById('fungusModal'));
-            const userModal = new bootstrap.Modal(document.getElementById('userModal'));
-            
-            // Agregar listeners para las pestañas
-            const userTab = document.getElementById('users-tab');
-            if (userTab) {
-                userTab.addEventListener('click', function() {
-                    // Cargamos los usuarios al hacer clic en la pestaña
-                    console.log('Cargando usuarios...');
-                    loadUsersFromAPI();
-                });
-            }
-            
-            // También cargar usuarios cuando se muestra la pestaña
-            document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
-                tab.addEventListener('shown.bs.tab', function(event) {
-                    if (event.target.getAttribute('id') === 'users-tab') {
-                        console.log('Pestaña de usuarios mostrada, cargando datos...');
-                        loadUsersFromAPI();
-                    }
-                });
-            });
-            
-            // Si la pestaña de usuarios está activa al cargar, cargar datos inmediatamente
-            if (document.querySelector('#users.active')) {
-                console.log('Pestaña de usuarios activa al cargar, cargando datos...');
-                loadUsersFromAPI();
-            }
-            
-            // Función para cargar usuarios desde el endpoint API
-            function loadUsersFromAPI() {
-                console.log('Ejecutando loadUsersFromAPI()');
-                // Obtener el contenedor donde mostraremos los usuarios
-                const tableBody = document.querySelector('#users-table tbody');
-                
-                if (!tableBody) {
-                    console.error('No se encontró la tabla de usuarios');
-                    return;
-                }
-                
-                // Mostrar indicador de carga
-                tableBody.innerHTML = `<tr><td colspan="5" class="text-center"><i class="fas fa-spinner fa-spin"></i> {{ _('Cargando usuarios...') }}</td></tr>`;
-                
-                // Realizar solicitud a la API
-                fetch('/api/users')
-                    .then(response => {
-                        console.log('Respuesta API:', response);
-                        if (!response.ok) {
-                            if (response.status === 401 || response.status === 403) {
-                                throw new Error('{{ _('No tienes permisos para ver esta información') }}');
-                            }
-                            throw new Error(`{{ _('Error al cargar usuarios') }} (${response.status})`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Datos recibidos:', data);
-                        if (data.success && Array.isArray(data.data)) {
-                            // Limpiar tabla
-                            tableBody.innerHTML = '';
-                            
-                            // Añadir cada usuario
-                            if (data.data.length === 0) {
-                                tableBody.innerHTML = `<tr><td colspan="5" class="text-center">{{ _('No hay usuarios registrados') }}</td></tr>`;
-                            } else {
-                                data.data.forEach(user => {
-                                    tableBody.innerHTML += `
-                                        <tr>
-                                            <td>${user.id}</td>
-                                            <td>${user.username}</td>
-                                            <td>${user.email}</td>
-                                            <td>${user.role}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info edit-user" data-id="${user.id}">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger delete-user" data-id="${user.id}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `;
-                                });
-                                
-                                // Volver a agregar event listeners a los botones
-                                addUserEventListeners();
-                            }
-                        } else {
-                            tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">{{ _('Error al cargar usuarios') }}</td></tr>`;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">${error.message}</td></tr>`;
-                    });
-            }
-
-            // Función para añadir event listeners a los botones de usuarios
-            function addUserEventListeners() {
-                // Eventos para usuarios
-                document.querySelectorAll('.edit-user').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = this.dataset.id;
-                        document.getElementById('userModalTitle').textContent = '{{ _('Editar Usuario') }}';
+            // Manejo del modal de edición de usuario
+            const editUserButtons = document.querySelectorAll('.edit-user-btn');
+            if (editUserButtons) {
+                editUserButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-user-id');
+                        const username = this.getAttribute('data-username');
+                        const email = this.getAttribute('data-email');
+                        const role = this.getAttribute('data-role');
                         
-                        // Obtener datos del usuario de la fila actual
-                        const row = this.closest('tr');
-                        document.getElementById('user_id').value = row.cells[0].textContent;
-                        document.getElementById('username').value = row.cells[1].textContent;
-                        document.getElementById('email').value = row.cells[2].textContent;
-                        document.getElementById('role').value = row.cells[3].textContent.toLowerCase();
-                        userModal.show();
-                    });
-                });
-                
-                // Eliminar usuario
-                document.querySelectorAll('.delete-user').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        if (confirm('{{ _('¿Estás seguro de que deseas eliminar este usuario?') }}')) {
-                            const id = this.dataset.id;
-                            
-                            fetch(`/api/users/${id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert('{{ _('Usuario eliminado correctamente') }}');
-                                    loadUsersFromAPI(); // Recargar lista de usuarios
-                                } else {
-                                    alert(data.error || '{{ _('Error al eliminar el usuario') }}');
-                                }
-                            });
-                        }
+                        document.getElementById('edit-username').value = username;
+                        document.getElementById('edit-email').value = email;
+                        document.getElementById('edit-role').value = role;
+                        document.getElementById('edit-password').value = '';
+                        document.getElementById('editUserForm').action = '/admin/user/edit/' + userId;
                     });
                 });
             }
             
-            // Evento para abrir modal de nuevo hongo
-            btnAddFungi.addEventListener('click', function() {
-                document.getElementById('fungusModalTitle').textContent = '{{ _('Nuevo Hongo') }}';
-                document.getElementById('fungusForm').reset();
-                document.getElementById('fungi_id').value = '';
-                fungusModal.show();
-            });
-            
-            // Evento para botones de editar hongo
-            document.querySelectorAll('.edit-fungi').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    document.getElementById('fungusModalTitle').textContent = '{{ _('Editar Hongo') }}';
+            // Previsualización de imágenes
+            const imageInput = document.getElementById('fungi_images');
+            if (imageInput) {
+                imageInput.addEventListener('change', function() {
+                    const previewContainer = document.getElementById('image-preview-container');
+                    previewContainer.innerHTML = '';
                     
-                    // Obtener datos del hongo mediante API
-                    fetch(`/api/fungi/${id}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                const fungi = data.data;
-                                document.getElementById('fungi_id').value = fungi.id;
-                                document.getElementById('fungi_name').value = fungi.name;
-                                document.getElementById('fungi_common_name').value = fungi.common_name || '';
-                                document.getElementById('fungi_edibility').value = fungi.edibility || 'sin-valor';
-                                document.getElementById('fungi_habitat').value = fungi.habitat || '';
-                                fungusModal.show();
-                            } else {
-                                alert('{{ _('Error al cargar datos del hongo') }}');
-                            }
-                        });
-                });
-            });
-            
-            // Evento para botones de borrar hongo
-            document.querySelectorAll('.delete-fungi').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (confirm('{{ _('¿Estás seguro de que deseas eliminar este hongo?') }}')) {
-                        const id = this.dataset.id;
-                        
-                        // Eliminar hongo mediante API
-                        fetch(`/api/fungi/${id}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('{{ _('Hongo eliminado correctamente') }}');
-                                location.reload();
-                            } else {
-                                alert(data.error || '{{ _('Error al eliminar el hongo') }}');
-                            }
-                        });
-                    }
-                });
-            });
-            
-            // Guardar hongo (crear/editar)
-            document.getElementById('saveFungus').addEventListener('click', function() {
-                const fungiId = document.getElementById('fungi_id').value;
-                const formData = {
-                    name: document.getElementById('fungi_name').value,
-                    common_name: document.getElementById('fungi_common_name').value,
-                    edibility: document.getElementById('fungi_edibility').value,
-                    habitat: document.getElementById('fungi_habitat').value
-                };
-                
-                const method = fungiId ? 'PUT' : 'POST';
-                const url = fungiId ? `/api/fungi/${fungiId}` : '/api/fungi';
-                
-                fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(fungiId ? '{{ _('Hongo actualizado correctamente') }}' : '{{ _('Hongo creado correctamente') }}');
-                        fungusModal.hide();
-                        location.reload();
-                    } else {
-                        alert(data.error || '{{ _('Error al guardar el hongo') }}');
-                    }
-                });
-            });
-            
-            // Guardar usuario
-            document.getElementById('saveUser').addEventListener('click', function() {
-                const userId = document.getElementById('user_id').value;
-                const formData = {
-                    username: document.getElementById('username').value,
-                    email: document.getElementById('email').value,
-                    role: document.getElementById('role').value
-                };
-                
-                fetch(`/api/users/${userId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('{{ _('Usuario actualizado correctamente') }}');
-                        userModal.hide();
-                        loadUsersFromAPI(); // Recargar lista en lugar de recargar la página
-                    } else {
-                        alert(data.error || '{{ _('Error al actualizar el usuario') }}');
-                    }
-                });
-            });
-
-            // Función para cargar hongos desde el endpoint API con paginación
-            function loadFungiFromAPI(page = 1, limit = 20) {
-                console.log('Ejecutando loadFungiFromAPI(), página:', page, 'límite:', limit);
-                // Obtener el contenedor donde mostraremos los hongos
-                const tableBody = document.querySelector('#fungiTable tbody');
-                const paginationContainer = document.getElementById('fungiPagination');
-                
-                if (!tableBody) {
-                    console.error('No se encontró la tabla de hongos');
-                    return;
-                }
-                
-                // Mostrar indicador de carga
-                tableBody.innerHTML = `<tr><td colspan="4" class="text-center"><i class="fas fa-spinner fa-spin"></i> {{ _('Cargando hongos...') }}</td></tr>`;
-                
-                // Realizar solicitud a la API con paginación usando el endpoint existente
-                fetch(`/api/fungi/page/${page}/limit/${limit}`)
-                    .then(response => {
-                        console.log('Respuesta API hongos:', response);
-                        if (!response.ok) {
-                            if (response.status === 401 || response.status === 403) {
-                                throw new Error('{{ _('No tienes permisos para ver esta información') }}');
-                            }
-                            throw new Error(`{{ _('Error al cargar hongos') }} (${response.status})`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Datos de hongos recibidos:', data);
-                        if (data.success && Array.isArray(data.data)) {
-                            // Limpiar tabla
-                            tableBody.innerHTML = '';
+                    Array.from(this.files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imgWrap = document.createElement('div');
+                            imgWrap.className = 'position-relative';
                             
-                            // Añadir cada hongo
-                            if (data.data.length === 0) {
-                                tableBody.innerHTML = `<tr><td colspan="4" class="text-center">{{ _('No hay hongos registrados') }}</td></tr>`;
-                            } else {
-                                data.data.forEach(fungi => {
-                                    tableBody.innerHTML += `
-                                        <tr>
-                                            <td>${fungi.id}</td>
-                                            <td>${fungi.name}</td>
-                                            <td>${fungi.edibility || '-'}</td>
-                                            <td>
-                                                <button class="btn btn-sm btn-info edit-fungi" data-id="${fungi.id}">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger delete-fungi" data-id="${fungi.id}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    `;
-                                });
-                                
-                                // Crear los controles de paginación
-                                if (paginationContainer && data.pagination) {
-                                    renderPagination(paginationContainer, data.pagination, limit);
-                                }
-                            }
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.className = 'image-preview';
                             
-                            // Agregar eventos a los botones de editar
-                            document.querySelectorAll('.edit-fungi').forEach(btn => {
-                                btn.addEventListener('click', function() {
-                                    const id = this.dataset.id;
-                                    
-                                    // Cargar datos del hongo para editar
-                                    fetch(`/api/fungi/${id}`)
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                const fungi = data.data;
-                                                
-                                                // Rellenar el formulario con los datos del hongo
-                                                document.getElementById('fungi_id').value = fungi.id;
-                                                document.getElementById('fungi_name').value = fungi.name;
-                                                document.getElementById('fungi_common_name').value = fungi.common_name || '';
-                                                document.getElementById('fungi_edibility').value = fungi.edibility || 'sin-valor';
-                                                document.getElementById('fungi_habitat').value = fungi.habitat || '';
-                                                fungusModal.show();
-                                            } else {
-                                                alert('{{ _('Error al cargar datos del hongo') }}');
-                                            }
-                                        });
-                                });
-                            });
-                            
-                            // Evento para botones de borrar hongo
-                            document.querySelectorAll('.delete-fungi').forEach(btn => {
-                                btn.addEventListener('click', function() {
-                                    if (confirm('{{ _('¿Estás seguro de que deseas eliminar este hongo?') }}')) {
-                                        const id = this.dataset.id;
-                                        
-                                        // Eliminar hongo mediante API
-                                        fetch(`/api/fungi/${id}`, {
-                                            method: 'DELETE',
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            }
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                alert('{{ _('Hongo eliminado correctamente') }}');
-                                                // Recargar la página actual de hongos
-                                                const currentPage = parseInt(paginationContainer.querySelector('.active .page-link').dataset.page || 1);
-                                                loadFungiFromAPI(currentPage, limit);
-                                            } else {
-                                                alert(data.error || '{{ _('Error al eliminar el hongo') }}');
-                                            }
-                                        });
-                                    }
-                                });
-                            });
-                        } else {
-                            tableBody.innerHTML = `<tr><td colspan="4" class="text-center">{{ _('Error al cargar hongos') }}</td></tr>`;
-                            console.error('Error en datos:', data);
+                            imgWrap.appendChild(img);
+                            previewContainer.appendChild(imgWrap);
                         }
-                    })
-                    .catch(error => {
-                        tableBody.innerHTML = `<tr><td colspan="4" class="text-center">{{ _('Error') }}: ${error.message}</td></tr>`;
-                        console.error('Error cargando hongos:', error);
-                    });
-            }
-
-            // Función para renderizar los controles de paginación
-            function renderPagination(container, pagination, limit) {
-                const currentPage = pagination.current_page;
-                const totalPages = pagination.total_pages;
-                
-                // No mostrar paginación si solo hay una página
-                if (totalPages <= 1) {
-                    container.innerHTML = '';
-                    return;
-                }
-                
-                let html = `<nav aria-label="Paginación de hongos">
-                    <ul class="pagination justify-content-center">`;
-                
-                // Botón "Anterior"
-                html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${currentPage - 1}" aria-label="Anterior">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>`;
-                
-                // Determinar el rango de páginas a mostrar
-                const maxVisiblePages = 5;
-                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-                
-                // Ajustar el rango si estamos cerca del final
-                if (endPage === totalPages) {
-                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
-                }
-                
-                // Primera página si no está incluida en el rango
-                if (startPage > 1) {
-                    html += `<li class="page-item">
-                        <a class="page-link" href="#" data-page="1">1</a>
-                    </li>`;
-                    
-                    if (startPage > 2) {
-                        html += `<li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>`;
-                    }
-                }
-                
-                // Páginas del rango
-                for (let i = startPage; i <= endPage; i++) {
-                    html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a class="page-link" href="#" data-page="${i}">${i}</a>
-                    </li>`;
-                }
-                
-                // Última página si no está incluida en el rango
-                if (endPage < totalPages) {
-                    if (endPage < totalPages - 1) {
-                        html += `<li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>`;
-                    }
-                    
-                    html += `<li class="page-item">
-                        <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
-                    </li>`;
-                }
-                
-                // Botón "Siguiente"
-                html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${currentPage + 1}" aria-label="Siguiente">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>`;
-                
-                html += `</ul></nav>
-                <div class="text-center text-muted">
-                    <small>{{ _('Mostrando') }} ${pagination.records_per_page} {{ _('de') }} ${pagination.total_records} {{ _('hongos') }}</small>
-                </div>`;
-                
-                container.innerHTML = html;
-                
-                // Agregar eventos a los enlaces de paginación
-                container.querySelectorAll('.page-link').forEach(link => {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const page = parseInt(this.dataset.page);
-                        if (!isNaN(page) && page > 0) {
-                            loadFungiFromAPI(page, limit);
-                        }
+                        reader.readAsDataURL(file);
                     });
                 });
-            }
-
-            // Agregar selector de elementos por página
-            function setupLimitSelector(selector, defaultLimit = 20) {
-                const limitSelector = document.querySelector(selector);
-                if (limitSelector) {
-                    limitSelector.value = defaultLimit;
-                    limitSelector.addEventListener('change', function() {
-                        const limit = parseInt(this.value);
-                        loadFungiFromAPI(1, limit);
-                    });
-                }
-            }
-
-            // Agregar listeners para las pestañas
-            const fungiTab = document.getElementById('fungi-tab');
-            if (fungiTab) {
-                fungiTab.addEventListener('click', function() {
-                    // Cargamos los hongos al hacer clic en la pestaña
-                    console.log('Cargando hongos...');
-                    const limitSelector = document.getElementById('fungiItemsPerPage');
-                    const limit = limitSelector ? parseInt(limitSelector.value) : 20;
-                    loadFungiFromAPI(1, limit);
-                });
-            }
-            
-            // También cargar hongos cuando se muestra la pestaña
-            document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
-                tab.addEventListener('shown.bs.tab', function(event) {
-                    if (event.target.getAttribute('id') === 'fungi-tab') {
-                        console.log('Pestaña de hongos mostrada, cargando datos...');
-                        const limitSelector = document.getElementById('fungiItemsPerPage');
-                        const limit = limitSelector ? parseInt(limitSelector.value) : 20;
-                        loadFungiFromAPI(1, limit);
-                    }
-                });
-            });
-            
-            // Configurar el selector de elementos por página
-            setupLimitSelector('#fungiItemsPerPage', 20);
-            
-            // Si la pestaña de hongos está activa al cargar, cargar datos inmediatamente
-            if (document.querySelector('#fungi.active')) {
-                console.log('Pestaña de hongos activa al cargar, cargando datos...');
-                const limitSelector = document.getElementById('fungiItemsPerPage');
-                const limit = limitSelector ? parseInt(limitSelector.value) : 20;
-                loadFungiFromAPI(1, limit);
             }
         });
     </script>

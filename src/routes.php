@@ -125,8 +125,17 @@ $routes = [
     '/fungi/random' => ['template' => 'pages/fungi_detail.twig', 'title' => _('Hongo aleatorio'), 'auth_required' => false, 'handler' => [$fungiController, 'randomFungusHandler']],
     '/login' => ['template' => 'components/auth/login_form.twig', 'title' => _('Iniciar Sesión'), 'auth_required' => false, 'handler' => [$authController, 'loginHandler']],
     '/' => ['template' => 'pages/home.twig', 'title' => _('Hongos'), 'auth_required' => false, 'handler' => [$homeController, 'indexHandler']],
-    '/dashboard' => ['template' => 'pages/admin.twig', 'title' => _('Administración'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'dashboardHandler']],
+    '/dashboard' => ['template' => 'pages/admin.twig', 'title' => _('Panel de Administración'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'dashboardHandler']],
     '/fungi/(\d+)' => ['template' => 'pages/fungi_detail.twig', 'auth_required' => false, 'handler' => [$fungiController, 'detailFungusHandler']],
+    '/admin/users' => ['template' => 'pages/admin.twig', 'title' => _('Gestión de Usuarios'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'usersHandler']],
+    '/admin/create-user' => ['template' => 'pages/admin.twig', 'title' => _('Crear Usuario'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'createUserHandler']],
+    '/admin/user/edit/(\d+)' => ['template' => 'pages/admin.twig', 'title' => _('Editar Usuario'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'editUserHandler']],
+    '/admin/fungi' => ['template' => 'pages/admin.twig', 'title' => _('Gestión de Hongos'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'fungiHandler']],
+    '/admin/create-fungi' => ['template' => 'pages/admin.twig', 'title' => _('Crear Hongo'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'createFungiHandler']],
+    '/admin/edit-fungi/(\d+)' => ['template' => 'pages/admin.twig', 'title' => _('Editar Hongo'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'editFungiHandler']],
+    '/admin/fungi/delete/(\d+)' => ['handler' => [$adminController, 'deleteFungiHandler'], 'auth_required' => true, 'admin_required' => true],
+    '/admin/user/delete/(\d+)' => ['handler' => [$adminController, 'deleteUserHandler'], 'auth_required' => true, 'admin_required' => true],
+    '/admin/delete-image' => ['handler' => [$adminController, 'deleteImageHandler'], 'auth_required' => true, 'admin_required' => true],
 ];
 
 // Añadir rutas al controlador
