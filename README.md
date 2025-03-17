@@ -76,17 +76,6 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 │   │   │   ├── aos
 │   │   │   ├── fontawesome
 │   │   │   │   └── fontawesome-free-6.4.0-web
-│   │   │   │       ├── css
-│   │   │   │       ├── js
-│   │   │   │       ├── less
-│   │   │   │       ├── metadata
-│   │   │   │       ├── scss
-│   │   │   │       ├── sprites
-│   │   │   │       ├── svgs
-│   │   │   │       │   ├── brands
-│   │   │   │       │   ├── regular
-│   │   │   │       │   └── solid
-│   │   │   │       └── webfonts
 │   │   │   └── twbs -> ../../../vendor/twbs
 │   │   ├── logos
 │   │   ├── scripts
