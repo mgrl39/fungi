@@ -452,34 +452,22 @@ class ApiController
 			
 			if (!$user) {
 				http_response_code(401);
-				$result = [
-					'success' => false,
-					'error' => ErrorMessages::AUTH_REQUIRED
-				];
+				$result = [ 'success' => false, 'error' => ErrorMessages::AUTH_REQUIRED ];
 			} else {
 				$result = $fungiController->updateFungi($fungiId, $data, $user);
 				
 				// Establecer código de estado HTTP basado en el resultado
 				if (!$result['success']) {
-					if (strpos($result['error'], 'permisos') !== false) {
-						http_response_code(403);
-					} else if (strpos($result['error'], 'no existe') !== false) {
-						http_response_code(404);
-					} else if (strpos($result['error'], 'no se proporcionaron campos') !== false) {
-						http_response_code(400);
-					} else {
-						http_response_code(500);
-					}
+					if (strpos($result['error'], 'permisos') !== false) http_response_code(403);
+					else if (strpos($result['error'], 'no existe') !== false) http_response_code(404);
+					else if (strpos($result['error'], 'no se proporcionaron campos') !== false) http_response_code(400);
+					else http_response_code(500);
 				}
 			}
 		} else {
 			http_response_code(404);
-			$result = [
-				'success' => false,
-				'error' => ErrorMessages::HTTP_404
-			];
+			$result = [ 'success' => false, 'error' => ErrorMessages::HTTP_404 ];
 		}
-		
 		echo json_encode($result);
 	}
 

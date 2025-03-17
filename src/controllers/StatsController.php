@@ -95,13 +95,9 @@ class StatsController
     {
         try {
             $result = $this->db->query(
-                "SELECT habitat as name, COUNT(*) as count
-                 FROM fungi
-                 WHERE habitat IS NOT NULL AND habitat != ''
-                 GROUP BY habitat
-                 ORDER BY count DESC
-                 LIMIT $limit"
-            );
+                "SELECT habitat as name, COUNT(*) as count FROM fungi
+                 WHERE habitat IS NOT NULL AND habitat != '' GROUP BY habitat
+                 ORDER BY count DESC LIMIT $limit" );
             
             if ($result === false) {
                 error_log("Error al obtener distribución por hábitat: Consulta fallida");

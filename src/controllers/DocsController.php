@@ -34,25 +34,8 @@ class DocsController
      */
     public function apiDocsHandler()
     {
-        // En lugar de hacer una petición HTTP, obtenemos la info directamente
         $apiDocs = $this->getApiInfo();
-        
-        return [
-            'title' => _('Documentación de la API'),
-            'api_docs' => $apiDocs
-        ];
-    }
-
-    /**
-     * Obtiene la URL base del sitio
-     * 
-     * @return string URL base
-     */
-    private function getBaseUrl()
-    {
-        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
-        $host = $_SERVER['HTTP_HOST'];
-        return $protocol . $host;
+        return [ 'title' => _('Documentación de la API'), 'api_docs' => $apiDocs ];
     }
 
     /**
@@ -207,22 +190,17 @@ class DocsController
         $instance = new self(null, null);
         $apiInfo = $instance->getApiInfo();
         
-        // Extraer solo los endpoints para evitar texto que requiera internacionalización
         $endpointsOnly = [
             'name' => $apiInfo['name'],
             'version' => $apiInfo['version'],
             'endpoints' => array_map(function($endpoint) {
-                // Conservar solo datos técnicos que no requieren traducción
-                return [
-                    'path' => $endpoint['path'],
-                    'method' => $endpoint['method'],
+                return [ 'path' => $endpoint['path'], 'method' => $endpoint['method'],
                     'requires_auth' => $endpoint['requires_auth'] ?? false,
                     'requires_admin' => $endpoint['requires_admin'] ?? false,
                     'parameters' => isset($endpoint['parameters']) ? array_keys($endpoint['parameters']) : []
                 ];
             }, $apiInfo['endpoints'])
         ];
-        
         http_response_code(200);
         echo json_encode($endpointsOnly, JSON_PRETTY_PRINT);
     }
