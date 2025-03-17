@@ -183,6 +183,53 @@
                 margin-left: 0;
             }
         }
+        
+        /* Estilos para navegación horizontal de endpoints */
+        .endpoint-list {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .endpoint-list .list-group-item {
+            border-radius: 0;
+            border-top: none;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            background-color: transparent;
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+        }
+        
+        .endpoint-list .list-group-item.active {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+            border-bottom: 2px solid #0d6efd;
+        }
+        
+        #endpointTabs .nav-link {
+            color: #e2e8f0;
+            border-bottom: none;
+        }
+        
+        #endpointTabs .nav-link.active {
+            background-color: transparent;
+            border-color: rgba(255,255,255,0.1);
+            border-bottom: none;
+            color: #0d6efd;
+            font-weight: 500;
+        }
+        
+        /* Responsive para nueva navegación */
+        @media (max-width: 768px) {
+            .card-header {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+            
+            .card-header > div {
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -215,166 +262,164 @@
                 </div>
             </div>
 
-            <div class="d-flex flex-column flex-md-row api-docs-container">
-                <!-- Barra lateral de navegación -->
-                <aside class="api-sidebar">
-                    <div id="apiSearchWrapper">
-                        <div class="input-group">
-                            <span class="input-group-text bg-dark border-secondary">
-                                <i class="fas fa-search text-muted"></i>
+            <!-- Navegación horizontal de endpoints -->
+            <div class="api-endpoints-nav mb-4">
+                <div class="card border-0">
+                    <div class="card-header bg-dark d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-primary me-3">v1.0</span>
+                            <span class="badge bg-success">
+                                <i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Operativa
                             </span>
-                            <input type="text" id="apiSearchInput" class="form-control bg-dark border-secondary text-light" placeholder="Buscar endpoints...">
                         </div>
                     </div>
                     
-                    <div class="api-group-title">Autenticación</div>
-                    <ul class="api-sidebar-nav" id="authEndpoints">
-                        <li>
-                            <a href="#auth-login" class="endpoint-link">
-                                <span class="api-sidebar-method method-post">POST</span>
-                                <span class="endpoint-label">/auth/login</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#auth-logout" class="endpoint-link">
-                                <span class="api-sidebar-method method-post">POST</span>
-                                <span class="endpoint-label">/auth/logout</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#auth-verify" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/auth/verify</span>
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    <div class="api-group-title">Fungi</div>
-                    <ul class="api-sidebar-nav" id="fungiEndpoints">
-                        <li>
-                            <a href="#fungi-get-all" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/fungi</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-get-id" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/fungi/{id}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-get-paginated" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-get-random" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/fungi/random</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-search" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/fungi/search/{param}/{value}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-post" class="endpoint-link">
-                                <span class="api-sidebar-method method-post">POST</span>
-                                <span class="endpoint-label">/fungi</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-put" class="endpoint-link">
-                                <span class="api-sidebar-method method-put">PUT</span>
-                                <span class="endpoint-label">/fungi/{id}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#fungi-delete" class="endpoint-link">
-                                <span class="api-sidebar-method method-delete">DELETE</span>
-                                <span class="endpoint-label">/fungi/{id}</span>
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    <div class="api-group-title">Usuarios</div>
-                    <ul class="api-sidebar-nav" id="usersEndpoints">
-                        <li>
-                            <a href="#users-get-all" class="endpoint-link">
-                                <span class="api-sidebar-method method-get">GET</span>
-                                <span class="endpoint-label">/users</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#users-post" class="endpoint-link">
-                                <span class="api-sidebar-method method-post">POST</span>
-                                <span class="endpoint-label">/users</span>
-                            </a>
-                        </li>
-                    </ul>
-                </aside>
-                
-                <!-- Contenido principal -->
-                <main class="api-content">
-                    <!-- Área de contenido del endpoint -->
-                    <div id="endpointContent" class="mb-5">
-                        <!-- Mensaje inicial -->
-                        <div class="text-center my-5">
-                            <div class="rounded-circle bg-primary bg-opacity-10 p-4 mx-auto mb-4" style="width: 100px; height: 100px;">
-                                <i class="fas fa-code fa-3x text-primary"></i>
-                            </div>
-                            <h3 class="h4 mb-3">Documentación de la API</h3>
-                            <p class="text-muted mb-4">Selecciona un endpoint en el menú lateral para ver su documentación.</p>
-                            <div class="d-flex justify-content-center flex-wrap gap-3">
-                                <div class="d-flex align-items-center me-3">
-                                    <span class="api-sidebar-method method-get me-2">GET</span>
-                                    <span>Obtener datos</span>
-                                </div>
-                                <div class="d-flex align-items-center me-3">
-                                    <span class="api-sidebar-method method-post me-2">POST</span>
-                                    <span>Crear datos</span>
-                                </div>
-                                <div class="d-flex align-items-center me-3">
-                                    <span class="api-sidebar-method method-put me-2">PUT</span>
-                                    <span>Actualizar datos</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="api-sidebar-method method-delete me-2">DELETE</span>
-                                    <span>Eliminar datos</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-body p-0">
+                        <!-- Tabs de categorías de endpoints -->
+                        <ul class="nav nav-tabs" id="endpointTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="auth-tab" data-bs-toggle="tab" data-bs-target="#auth-endpoints-tab" type="button" role="tab">Autenticación</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="fungi-tab" data-bs-toggle="tab" data-bs-target="#fungi-endpoints-tab" type="button" role="tab">Fungi</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-endpoints-tab" type="button" role="tab">Usuarios</button>
+                            </li>
+                        </ul>
                         
-                        <!-- Aquí se cargarán los endpoints -->
-                        {% for endpoint in endpoints %}
-                            {% include 'pages/api/endpoints/' ~ endpoint ~ '.twig' %}
-                        {% endfor %}
-                    </div>
-                    
-                    <!-- Separador visual -->
-                    <div class="position-relative py-4 my-5">
-                        <hr>
-                        <div class="position-absolute top-50 start-50 translate-middle bg-body px-3">
-                            <i class="fas fa-exchange-alt text-primary"></i>
+                        <!-- Contenido de los tabs -->
+                        <div class="tab-content p-0" id="endpointTabsContent">
+                            <!-- Tab de Autenticación -->
+                            <div class="tab-pane fade show active" id="auth-endpoints-tab" role="tabpanel">
+                                <div class="list-group list-group-horizontal-md endpoint-list overflow-auto">
+                                    <a href="#auth-login" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-post me-2">POST</span>
+                                        <span class="endpoint-label">/auth/login</span>
+                                    </a>
+                                    <a href="#auth-logout" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-post me-2">POST</span>
+                                        <span class="endpoint-label">/auth/logout</span>
+                                    </a>
+                                    <a href="#auth-verify" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/auth/verify</span>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Tab de Fungi -->
+                            <div class="tab-pane fade" id="fungi-endpoints-tab" role="tabpanel">
+                                <div class="list-group list-group-horizontal-md endpoint-list overflow-auto">
+                                    <a href="#fungi-get-all" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/fungi</span>
+                                    </a>
+                                    <a href="#fungi-get-id" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/fungi/{id}</span>
+                                    </a>
+                                    <a href="#fungi-get-paginated" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
+                                    </a>
+                                    <a href="#fungi-get-random" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/fungi/random</span>
+                                    </a>
+                                    <a href="#fungi-search" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/fungi/search/{param}/{value}</span>
+                                    </a>
+                                    <a href="#fungi-post" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-post me-2">POST</span>
+                                        <span class="endpoint-label">/fungi</span>
+                                    </a>
+                                    <a href="#fungi-put" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-put me-2">PUT</span>
+                                        <span class="endpoint-label">/fungi/{id}</span>
+                                    </a>
+                                    <a href="#fungi-delete" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-delete me-2">DELETE</span>
+                                        <span class="endpoint-label">/fungi/{id}</span>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Tab de Usuarios -->
+                            <div class="tab-pane fade" id="users-endpoints-tab" role="tabpanel">
+                                <div class="list-group list-group-horizontal-md endpoint-list overflow-auto">
+                                    <a href="#users-get-all" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-get me-2">GET</span>
+                                        <span class="endpoint-label">/users</span>
+                                    </a>
+                                    <a href="#users-post" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
+                                        <span class="api-sidebar-method method-post me-2">POST</span>
+                                        <span class="endpoint-label">/users</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Sección CTA -->
-                    <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
-                        <div class="py-4 px-3">
-                            <h2 class="display-6 mb-3">¿Quieres integrar nuestra API en tu proyecto?</h2>
-                            <p class="lead mb-4">Regístrate para obtener acceso completo y comenzar a utilizar todos los endpoints disponibles.</p>
-                            <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
-                                <i class="fas fa-user-plus me-2"></i> Crear cuenta
-                            </a>
-                        </div>
-                    </section>
-                </main>
+                </div>
             </div>
+
+            <!-- Contenido principal (ahora sin barra lateral) -->
+            <main>
+                <!-- Área de contenido del endpoint -->
+                <div id="endpointContent" class="mb-5">
+                    <!-- Mensaje inicial -->
+                    <div class="text-center my-5">
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-4 mx-auto mb-4" style="width: 100px; height: 100px;">
+                            <i class="fas fa-code fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Documentación de la API</h3>
+                        <p class="text-muted mb-4">Selecciona un endpoint en el menú lateral para ver su documentación.</p>
+                        <div class="d-flex justify-content-center flex-wrap gap-3">
+                            <div class="d-flex align-items-center me-3">
+                                <span class="api-sidebar-method method-get me-2">GET</span>
+                                <span>Obtener datos</span>
+                            </div>
+                            <div class="d-flex align-items-center me-3">
+                                <span class="api-sidebar-method method-post me-2">POST</span>
+                                <span>Crear datos</span>
+                            </div>
+                            <div class="d-flex align-items-center me-3">
+                                <span class="api-sidebar-method method-put me-2">PUT</span>
+                                <span>Actualizar datos</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="api-sidebar-method method-delete me-2">DELETE</span>
+                                <span>Eliminar datos</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Aquí se cargarán los endpoints -->
+                    {% for endpoint in endpoints %}
+                        {% include 'pages/api/endpoints/' ~ endpoint ~ '.twig' %}
+                    {% endfor %}
+                </div>
+                
+                <!-- Separador visual -->
+                <div class="position-relative py-4 my-5">
+                    <hr>
+                    <div class="position-absolute top-50 start-50 translate-middle bg-body px-3">
+                        <i class="fas fa-exchange-alt text-primary"></i>
+                    </div>
+                </div>
+                
+                <!-- Sección CTA -->
+                <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
+                    <div class="py-4 px-3">
+                        <h2 class="display-6 mb-3">¿Quieres integrar nuestra API en tu proyecto?</h2>
+                        <p class="lead mb-4">Regístrate para obtener acceso completo y comenzar a utilizar todos los endpoints disponibles.</p>
+                        <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
+                            <i class="fas fa-user-plus me-2"></i> Crear cuenta
+                        </a>
+                    </div>
+                </section>
+            </main>
         </div>
     </main>
 
@@ -477,12 +522,12 @@
                 });
             });
             
-            // Funcionalidad de búsqueda
+            // Búsqueda para la nueva navegación horizontal
             const searchInput = document.getElementById('apiSearchInput');
             if (searchInput) {
                 searchInput.addEventListener('input', function() {
                     const searchTerm = this.value.toLowerCase();
-                    const endpointItems = document.querySelectorAll('.api-sidebar-nav li');
+                    const endpointItems = document.querySelectorAll('.endpoint-link');
                     
                     endpointItems.forEach(item => {
                         const endpointText = item.textContent.toLowerCase();
@@ -491,6 +536,34 @@
                         } else {
                             item.style.display = 'none';
                         }
+                    });
+                });
+            }
+            
+            // Filtros para la nueva navegación horizontal
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            if (filterButtons) {
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const filterType = this.getAttribute('data-filter');
+                        const endpointItems = document.querySelectorAll('.endpoint-link');
+                        
+                        // Resetear estado de botones
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        endpointItems.forEach(item => {
+                            if (filterType === 'all') {
+                                item.style.display = '';
+                            } else {
+                                const methodElement = item.querySelector('.api-sidebar-method');
+                                if (methodElement && methodElement.classList.contains(`method-${filterType}`)) {
+                                    item.style.display = '';
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            }
+                        });
                     });
                 });
             }
