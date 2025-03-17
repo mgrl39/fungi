@@ -260,81 +260,81 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Resultado de la operación </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00359">359</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  360</span>    {</div>
-<div class="line"><span class="lineno">  361</span>        <span class="comment">// Verificar permisos de administrador si se proporciona usuario</span></div>
-<div class="line"><span class="lineno">  362</span>        <span class="keywordflow">if</span> ($user &amp;&amp; (!isset($user[<span class="stringliteral">&#39;role&#39;</span>]) || $user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>)) {</div>
-<div class="line"><span class="lineno">  363</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  364</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  365</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No tienes permisos para crear nuevos hongos&#39;</span></div>
-<div class="line"><span class="lineno">  366</span>            ];</div>
-<div class="line"><span class="lineno">  367</span>        }</div>
-<div class="line"><span class="lineno">  368</span>        </div>
-<div class="line"><span class="lineno">  369</span>        <span class="comment">// Validar campos obligatorios (actualizados para coincidir con createFungi)</span></div>
-<div class="line"><span class="lineno">  370</span>        $requiredFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>];</div>
-<div class="line"><span class="lineno">  371</span>        <span class="keywordflow">foreach</span> ($requiredFields as $field) {</div>
-<div class="line"><span class="lineno">  372</span>            <span class="keywordflow">if</span> (!isset($data[$field]) || empty($data[$field])) {</div>
-<div class="line"><span class="lineno">  373</span>                <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  374</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  375</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&quot;El campo &#39;{$field}&#39; es obligatorio&quot;</span></div>
-<div class="line"><span class="lineno">  376</span>                ];</div>
-<div class="line"><span class="lineno">  377</span>            }</div>
-<div class="line"><span class="lineno">  378</span>        }</div>
-<div class="line"><span class="lineno">  379</span>        </div>
-<div class="line"><span class="lineno">  380</span>        <span class="comment">// Preparar campos y valores para la inserción</span></div>
-<div class="line"><span class="lineno">  381</span>        $allowedFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>, <span class="stringliteral">&#39;observations&#39;</span>, <span class="stringliteral">&#39;common_name&#39;</span>, <span class="stringliteral">&#39;synonym&#39;</span>, <span class="stringliteral">&#39;title&#39;</span>];</div>
-<div class="line"><span class="lineno">  382</span>        $fields = [];</div>
-<div class="line"><span class="lineno">  383</span>        $values = [];</div>
-<div class="line"><span class="lineno">  384</span>        $placeholders = [];</div>
-<div class="line"><span class="lineno">  385</span>        </div>
-<div class="line"><span class="lineno">  386</span>        <span class="keywordflow">foreach</span> ($data as $field =&gt; $value) {</div>
-<div class="line"><span class="lineno">  387</span>            <span class="keywordflow">if</span> (in_array($field, $allowedFields)) {</div>
-<div class="line"><span class="lineno">  388</span>                $fields[] = $field;</div>
-<div class="line"><span class="lineno">  389</span>                $values[] = $value;</div>
-<div class="line"><span class="lineno">  390</span>                $placeholders[] = <span class="charliteral">&#39;?&#39;</span>;</div>
-<div class="line"><span class="lineno">  391</span>            }</div>
-<div class="line"><span class="lineno">  392</span>        }</div>
-<div class="line"><span class="lineno">  393</span>        </div>
-<div class="line"><span class="lineno">  394</span>        <span class="keywordflow">if</span> (empty($fields)) {</div>
-<div class="line"><span class="lineno">  395</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  396</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  397</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No se proporcionaron campos válidos para crear el hongo&#39;</span></div>
-<div class="line"><span class="lineno">  398</span>            ];</div>
-<div class="line"><span class="lineno">  399</span>        }</div>
-<div class="line"><span class="lineno">  400</span>        </div>
-<div class="line"><span class="lineno">  401</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  402</span>            $sql = <span class="stringliteral">&quot;INSERT INTO fungi (&quot;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $fields) . <span class="stringliteral">&quot;) VALUES (&quot;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $placeholders) . <span class="stringliteral">&quot;)&quot;</span>;</div>
-<div class="line"><span class="lineno">  403</span>            $result = $this-&gt;db-&gt;query($sql, $values);</div>
-<div class="line"><span class="lineno">  404</span>            </div>
-<div class="line"><span class="lineno">  405</span>            <span class="keywordflow">if</span> ($result) {</div>
-<div class="line"><span class="lineno">  406</span>                <span class="comment">// Obtener el ID del nuevo hongo insertado</span></div>
-<div class="line"><span class="lineno">  407</span>                $newFungiId = $this-&gt;db-&gt;lastInsertId();</div>
-<div class="line"><span class="lineno">  408</span>                </div>
-<div class="line"><span class="lineno">  409</span>                <span class="comment">// Inicializar registro en fungi_popularity</span></div>
-<div class="line"><span class="lineno">  410</span>                $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">  411</span>                    <span class="stringliteral">&quot;INSERT INTO fungi_popularity (fungi_id, views, likes) VALUES (?, 0, 0)&quot;</span>,</div>
-<div class="line"><span class="lineno">  412</span>                    [$newFungiId]</div>
-<div class="line"><span class="lineno">  413</span>                );</div>
-<div class="line"><span class="lineno">  414</span>                </div>
-<div class="line"><span class="lineno">  415</span>                <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  416</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  417</span>                    <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Hongo creado correctamente&#39;</span>,</div>
-<div class="line"><span class="lineno">  418</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $newFungiId</div>
-<div class="line"><span class="lineno">  419</span>                ];</div>
-<div class="line"><span class="lineno">  420</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  421</span>                <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  422</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  423</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al crear el hongo en la base de datos&#39;</span></div>
-<div class="line"><span class="lineno">  424</span>                ];</div>
-<div class="line"><span class="lineno">  425</span>            }</div>
-<div class="line"><span class="lineno">  426</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  427</span>            error_log(<span class="stringliteral">&quot;Error creando hongo: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  428</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  429</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  430</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error interno del servidor: &#39;</span> . $e-&gt;getMessage()</div>
-<div class="line"><span class="lineno">  431</span>            ];</div>
-<div class="line"><span class="lineno">  432</span>        }</div>
-<div class="line"><span class="lineno">  433</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00411">411</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  412</span>    {</div>
+<div class="line"><span class="lineno">  413</span>        <span class="comment">// Verificar permisos de administrador si se proporciona usuario</span></div>
+<div class="line"><span class="lineno">  414</span>        <span class="keywordflow">if</span> ($user &amp;&amp; (!isset($user[<span class="stringliteral">&#39;role&#39;</span>]) || $user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>)) {</div>
+<div class="line"><span class="lineno">  415</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  416</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  417</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No tienes permisos para crear nuevos hongos&#39;</span></div>
+<div class="line"><span class="lineno">  418</span>            ];</div>
+<div class="line"><span class="lineno">  419</span>        }</div>
+<div class="line"><span class="lineno">  420</span>        </div>
+<div class="line"><span class="lineno">  421</span>        <span class="comment">// Validar campos obligatorios (actualizados para coincidir con createFungi)</span></div>
+<div class="line"><span class="lineno">  422</span>        $requiredFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>];</div>
+<div class="line"><span class="lineno">  423</span>        <span class="keywordflow">foreach</span> ($requiredFields as $field) {</div>
+<div class="line"><span class="lineno">  424</span>            <span class="keywordflow">if</span> (!isset($data[$field]) || empty($data[$field])) {</div>
+<div class="line"><span class="lineno">  425</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  426</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  427</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&quot;El campo &#39;{$field}&#39; es obligatorio&quot;</span></div>
+<div class="line"><span class="lineno">  428</span>                ];</div>
+<div class="line"><span class="lineno">  429</span>            }</div>
+<div class="line"><span class="lineno">  430</span>        }</div>
+<div class="line"><span class="lineno">  431</span>        </div>
+<div class="line"><span class="lineno">  432</span>        <span class="comment">// Preparar campos y valores para la inserción</span></div>
+<div class="line"><span class="lineno">  433</span>        $allowedFields = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>, <span class="stringliteral">&#39;observations&#39;</span>, <span class="stringliteral">&#39;common_name&#39;</span>, <span class="stringliteral">&#39;synonym&#39;</span>, <span class="stringliteral">&#39;title&#39;</span>];</div>
+<div class="line"><span class="lineno">  434</span>        $fields = [];</div>
+<div class="line"><span class="lineno">  435</span>        $values = [];</div>
+<div class="line"><span class="lineno">  436</span>        $placeholders = [];</div>
+<div class="line"><span class="lineno">  437</span>        </div>
+<div class="line"><span class="lineno">  438</span>        <span class="keywordflow">foreach</span> ($data as $field =&gt; $value) {</div>
+<div class="line"><span class="lineno">  439</span>            <span class="keywordflow">if</span> (in_array($field, $allowedFields)) {</div>
+<div class="line"><span class="lineno">  440</span>                $fields[] = $field;</div>
+<div class="line"><span class="lineno">  441</span>                $values[] = $value;</div>
+<div class="line"><span class="lineno">  442</span>                $placeholders[] = <span class="charliteral">&#39;?&#39;</span>;</div>
+<div class="line"><span class="lineno">  443</span>            }</div>
+<div class="line"><span class="lineno">  444</span>        }</div>
+<div class="line"><span class="lineno">  445</span>        </div>
+<div class="line"><span class="lineno">  446</span>        <span class="keywordflow">if</span> (empty($fields)) {</div>
+<div class="line"><span class="lineno">  447</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  448</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  449</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No se proporcionaron campos válidos para crear el hongo&#39;</span></div>
+<div class="line"><span class="lineno">  450</span>            ];</div>
+<div class="line"><span class="lineno">  451</span>        }</div>
+<div class="line"><span class="lineno">  452</span>        </div>
+<div class="line"><span class="lineno">  453</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  454</span>            $sql = <span class="stringliteral">&quot;INSERT INTO fungi (&quot;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $fields) . <span class="stringliteral">&quot;) VALUES (&quot;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $placeholders) . <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><span class="lineno">  455</span>            $result = $this-&gt;db-&gt;query($sql, $values);</div>
+<div class="line"><span class="lineno">  456</span>            </div>
+<div class="line"><span class="lineno">  457</span>            <span class="keywordflow">if</span> ($result) {</div>
+<div class="line"><span class="lineno">  458</span>                <span class="comment">// Obtener el ID del nuevo hongo insertado</span></div>
+<div class="line"><span class="lineno">  459</span>                $newFungiId = $this-&gt;db-&gt;lastInsertId();</div>
+<div class="line"><span class="lineno">  460</span>                </div>
+<div class="line"><span class="lineno">  461</span>                <span class="comment">// Inicializar registro en fungi_popularity</span></div>
+<div class="line"><span class="lineno">  462</span>                $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">  463</span>                    <span class="stringliteral">&quot;INSERT INTO fungi_popularity (fungi_id, views, likes) VALUES (?, 0, 0)&quot;</span>,</div>
+<div class="line"><span class="lineno">  464</span>                    [$newFungiId]</div>
+<div class="line"><span class="lineno">  465</span>                );</div>
+<div class="line"><span class="lineno">  466</span>                </div>
+<div class="line"><span class="lineno">  467</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  468</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  469</span>                    <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Hongo creado correctamente&#39;</span>,</div>
+<div class="line"><span class="lineno">  470</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $newFungiId</div>
+<div class="line"><span class="lineno">  471</span>                ];</div>
+<div class="line"><span class="lineno">  472</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  473</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  474</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  475</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al crear el hongo en la base de datos&#39;</span></div>
+<div class="line"><span class="lineno">  476</span>                ];</div>
+<div class="line"><span class="lineno">  477</span>            }</div>
+<div class="line"><span class="lineno">  478</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  479</span>            error_log(<span class="stringliteral">&quot;Error creando hongo: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  480</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  481</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  482</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error interno del servidor: &#39;</span> . $e-&gt;getMessage()</div>
+<div class="line"><span class="lineno">  483</span>            ];</div>
+<div class="line"><span class="lineno">  484</span>        }</div>
+<div class="line"><span class="lineno">  485</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -388,33 +388,33 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00251">251</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  252</span>    {</div>
-<div class="line"><span class="lineno">  253</span>        $id = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  254</span>        </div>
-<div class="line"><span class="lineno">  255</span>        <span class="keywordflow">if</span> (is_array($params) &amp;&amp; !empty($params)) {</div>
-<div class="line"><span class="lineno">  256</span>            $id = $params[0] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  257</span>        }</div>
-<div class="line"><span class="lineno">  258</span>        </div>
-<div class="line"><span class="lineno">  259</span>        <span class="keywordflow">if</span> (empty($id) &amp;&amp; isset($_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  260</span>            preg_match(<span class="stringliteral">&#39;#^/fungi/(\d+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
-<div class="line"><span class="lineno">  261</span>            $id = $matches[1] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  262</span>        }</div>
-<div class="line"><span class="lineno">  263</span>        </div>
-<div class="line"><span class="lineno">  264</span>        error_log(<span class="stringliteral">&quot;FungiController::detailFungusHandler - ID: &quot;</span> . ($id ?? <span class="stringliteral">&#39;no ID&#39;</span>));       </div>
-<div class="line"><span class="lineno">  265</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c">getFungusById</a>($id);</div>
-<div class="line"><span class="lineno">  266</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
-<div class="line"><span class="lineno">  267</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
-<div class="line"><span class="lineno">  268</span>            exit;</div>
-<div class="line"><span class="lineno">  269</span>        }</div>
-<div class="line"><span class="lineno">  270</span>      </div>
-<div class="line"><span class="lineno">  271</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  272</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; $fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? _(<span class="stringliteral">&#39;Detalles del Hongo&#39;</span>),</div>
-<div class="line"><span class="lineno">  273</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus,</div>
-<div class="line"><span class="lineno">  274</span>            <span class="stringliteral">&#39;similar_fungi&#39;</span> =&gt; $similarFungi ?? [],</div>
-<div class="line"><span class="lineno">  275</span>            <span class="stringliteral">&#39;is_logged_in&#39;</span> =&gt; <a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()</div>
-<div class="line"><span class="lineno">  276</span>        ];</div>
-<div class="line"><span class="lineno">  277</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00303">303</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  304</span>    {</div>
+<div class="line"><span class="lineno">  305</span>        $id = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  306</span>        </div>
+<div class="line"><span class="lineno">  307</span>        <span class="keywordflow">if</span> (is_array($params) &amp;&amp; !empty($params)) {</div>
+<div class="line"><span class="lineno">  308</span>            $id = $params[0] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  309</span>        }</div>
+<div class="line"><span class="lineno">  310</span>        </div>
+<div class="line"><span class="lineno">  311</span>        <span class="keywordflow">if</span> (empty($id) &amp;&amp; isset($_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  312</span>            preg_match(<span class="stringliteral">&#39;#^/fungi/(\d+)$#&#39;</span>, $_SERVER[<span class="stringliteral">&#39;REQUEST_URI&#39;</span>], $matches);</div>
+<div class="line"><span class="lineno">  313</span>            $id = $matches[1] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  314</span>        }</div>
+<div class="line"><span class="lineno">  315</span>        </div>
+<div class="line"><span class="lineno">  316</span>        error_log(<span class="stringliteral">&quot;FungiController::detailFungusHandler - ID: &quot;</span> . ($id ?? <span class="stringliteral">&#39;no ID&#39;</span>));       </div>
+<div class="line"><span class="lineno">  317</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c">getFungusById</a>($id);</div>
+<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
+<div class="line"><span class="lineno">  319</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
+<div class="line"><span class="lineno">  320</span>            exit;</div>
+<div class="line"><span class="lineno">  321</span>        }</div>
+<div class="line"><span class="lineno">  322</span>      </div>
+<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  324</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; $fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? _(<span class="stringliteral">&#39;Detalles del Hongo&#39;</span>),</div>
+<div class="line"><span class="lineno">  325</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus,</div>
+<div class="line"><span class="lineno">  326</span>            <span class="stringliteral">&#39;similar_fungi&#39;</span> =&gt; $similarFungi ?? [],</div>
+<div class="line"><span class="lineno">  327</span>            <span class="stringliteral">&#39;is_logged_in&#39;</span> =&gt; <a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()</div>
+<div class="line"><span class="lineno">  328</span>        ];</div>
+<div class="line"><span class="lineno">  329</span>    }</div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a0bb355407938be2032959dd234e0b13c"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a0bb355407938be2032959dd234e0b13c">App\Controllers\FungiController\getFungusById</a></div><div class="ttdeci">getFungusById($id)</div><div class="ttdoc">Obtiene un hongo por su ID.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00118">FungiController.php:118</a></div></div>
 <div class="ttc" id="aroutes_8php_html_abefb3c26429d514777313e9a63d7cbac"><div class="ttname"><a href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a></div><div class="ttdeci">$session</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00094">routes.php:94</a></div></div>
 </div><!-- fragment -->
@@ -447,14 +447,14 @@ Atributos privados</h2></td></tr>
 <p>Obtiene la lista completa de hongos. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array Lista de hongos </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00490">490</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  491</span>    {</div>
-<div class="line"><span class="lineno">  492</span>        $fungi = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT * FROM fungi&quot;</span>);</div>
-<div class="line"><span class="lineno">  493</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  494</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, </div>
-<div class="line"><span class="lineno">  495</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungi</div>
-<div class="line"><span class="lineno">  496</span>        ];</div>
-<div class="line"><span class="lineno">  497</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00542">542</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  543</span>    {</div>
+<div class="line"><span class="lineno">  544</span>        $fungi = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT * FROM fungi&quot;</span>);</div>
+<div class="line"><span class="lineno">  545</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  546</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, </div>
+<div class="line"><span class="lineno">  547</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungi</div>
+<div class="line"><span class="lineno">  548</span>        ];</div>
+<div class="line"><span class="lineno">  549</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -494,55 +494,68 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Detalles del hongo </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00621">621</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  622</span>    {</div>
-<div class="line"><span class="lineno">  623</span>        <span class="comment">// Consulta para obtener datos básicos del hongo</span></div>
-<div class="line"><span class="lineno">  624</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, </span></div>
-<div class="line"><span class="lineno">  625</span><span class="stringliteral">                GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  626</span><span class="stringliteral">                FROM fungi f </span></div>
-<div class="line"><span class="lineno">  627</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  628</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
-<div class="line"><span class="lineno">  629</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  630</span><span class="stringliteral">                WHERE f.id = :id</span></div>
-<div class="line"><span class="lineno">  631</span><span class="stringliteral">                GROUP BY f.id&quot;</span>;</div>
-<div class="line"><span class="lineno">  632</span>        </div>
-<div class="line"><span class="lineno">  633</span>        $fungi = $this-&gt;db-&gt;query($sql, [<span class="stringliteral">&#39;id&#39;</span> =&gt; $id]);</div>
-<div class="line"><span class="lineno">  634</span>        </div>
-<div class="line"><span class="lineno">  635</span>        <span class="comment">// Procesar resultado según el tipo de retorno de la DB</span></div>
-<div class="line"><span class="lineno">  636</span>        <span class="keywordflow">if</span> (is_array($fungi) &amp;&amp; !empty($fungi)) {</div>
-<div class="line"><span class="lineno">  637</span>            $fungus = $fungi[0];</div>
-<div class="line"><span class="lineno">  638</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  639</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  640</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
-<div class="line"><span class="lineno">  641</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Registro no encontrado&#39;</span></div>
-<div class="line"><span class="lineno">  642</span>            ];</div>
-<div class="line"><span class="lineno">  643</span>        }</div>
-<div class="line"><span class="lineno">  644</span>        </div>
-<div class="line"><span class="lineno">  645</span>        <span class="comment">// Obtener estadísticas: vistas y likes</span></div>
-<div class="line"><span class="lineno">  646</span>        $statsSql = <span class="stringliteral">&quot;SELECT views, likes FROM fungi_popularity WHERE fungi_id = ?&quot;</span>;</div>
-<div class="line"><span class="lineno">  647</span>        $stats = $this-&gt;db-&gt;query($statsSql, [$id]);</div>
-<div class="line"><span class="lineno">  648</span>        </div>
-<div class="line"><span class="lineno">  649</span>        <span class="keywordflow">if</span> (!empty($stats)) {</div>
-<div class="line"><span class="lineno">  650</span>            $fungus[<span class="stringliteral">&#39;views&#39;</span>] = $stats[0][<span class="stringliteral">&#39;views&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  651</span>            $fungus[<span class="stringliteral">&#39;likes&#39;</span>] = $stats[0][<span class="stringliteral">&#39;likes&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  652</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  653</span>            $fungus[<span class="stringliteral">&#39;views&#39;</span>] = 0;</div>
-<div class="line"><span class="lineno">  654</span>            $fungus[<span class="stringliteral">&#39;likes&#39;</span>] = 0;</div>
-<div class="line"><span class="lineno">  655</span>        }</div>
-<div class="line"><span class="lineno">  656</span>        </div>
-<div class="line"><span class="lineno">  657</span>        <span class="comment">// Si hay un usuario autenticado, verificar si le dio like</span></div>
-<div class="line"><span class="lineno">  658</span>        <span class="keywordflow">if</span> ($userId) {</div>
-<div class="line"><span class="lineno">  659</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $userId);</div>
-<div class="line"><span class="lineno">  660</span>        }</div>
-<div class="line"><span class="lineno">  661</span>        </div>
-<div class="line"><span class="lineno">  662</span>        <span class="comment">// Incrementar contador de vistas</span></div>
-<div class="line"><span class="lineno">  663</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($id);</div>
-<div class="line"><span class="lineno">  664</span>        </div>
-<div class="line"><span class="lineno">  665</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  666</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  667</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungus</div>
-<div class="line"><span class="lineno">  668</span>        ];</div>
-<div class="line"><span class="lineno">  669</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00673">673</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  674</span>    {</div>
+<div class="line"><span class="lineno">  675</span>        <span class="comment">// Consulta para obtener datos básicos del hongo</span></div>
+<div class="line"><span class="lineno">  676</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, </span></div>
+<div class="line"><span class="lineno">  677</span><span class="stringliteral">                c.cap, c.hymenium, c.stipe, c.flesh,</span></div>
+<div class="line"><span class="lineno">  678</span><span class="stringliteral">                GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  679</span><span class="stringliteral">                FROM fungi f </span></div>
+<div class="line"><span class="lineno">  680</span><span class="stringliteral">                LEFT JOIN characteristics c ON f.id = c.fungi_id</span></div>
+<div class="line"><span class="lineno">  681</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  682</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  683</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  684</span><span class="stringliteral">                WHERE f.id = :id</span></div>
+<div class="line"><span class="lineno">  685</span><span class="stringliteral">                GROUP BY f.id&quot;</span>;</div>
+<div class="line"><span class="lineno">  686</span>        </div>
+<div class="line"><span class="lineno">  687</span>        $fungi = $this-&gt;db-&gt;query($sql, [<span class="stringliteral">&#39;id&#39;</span> =&gt; $id]);</div>
+<div class="line"><span class="lineno">  688</span>        </div>
+<div class="line"><span class="lineno">  689</span>        <span class="comment">// Procesar resultado según el tipo de retorno de la DB</span></div>
+<div class="line"><span class="lineno">  690</span>        <span class="keywordflow">if</span> (is_array($fungi) &amp;&amp; !empty($fungi)) {</div>
+<div class="line"><span class="lineno">  691</span>            $fungus = $fungi[0];</div>
+<div class="line"><span class="lineno">  692</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  693</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  694</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
+<div class="line"><span class="lineno">  695</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Registro no encontrado&#39;</span></div>
+<div class="line"><span class="lineno">  696</span>            ];</div>
+<div class="line"><span class="lineno">  697</span>        }</div>
+<div class="line"><span class="lineno">  698</span>        </div>
+<div class="line"><span class="lineno">  699</span>        <span class="comment">// Obtener estadísticas: vistas y likes</span></div>
+<div class="line"><span class="lineno">  700</span>        $statsSql = <span class="stringliteral">&quot;SELECT views, likes FROM fungi_popularity WHERE fungi_id = ?&quot;</span>;</div>
+<div class="line"><span class="lineno">  701</span>        $stats = $this-&gt;db-&gt;query($statsSql, [$id]);</div>
+<div class="line"><span class="lineno">  702</span>        </div>
+<div class="line"><span class="lineno">  703</span>        <span class="keywordflow">if</span> (!empty($stats)) {</div>
+<div class="line"><span class="lineno">  704</span>            $fungus[<span class="stringliteral">&#39;views&#39;</span>] = $stats[0][<span class="stringliteral">&#39;views&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  705</span>            $fungus[<span class="stringliteral">&#39;likes&#39;</span>] = $stats[0][<span class="stringliteral">&#39;likes&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  706</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  707</span>            $fungus[<span class="stringliteral">&#39;views&#39;</span>] = 0;</div>
+<div class="line"><span class="lineno">  708</span>            $fungus[<span class="stringliteral">&#39;likes&#39;</span>] = 0;</div>
+<div class="line"><span class="lineno">  709</span>        }</div>
+<div class="line"><span class="lineno">  710</span>        </div>
+<div class="line"><span class="lineno">  711</span>        <span class="comment">// Formatear características para mostrar en la plantilla</span></div>
+<div class="line"><span class="lineno">  712</span>        <span class="keywordflow">if</span> (isset($fungus[<span class="stringliteral">&#39;cap&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;hymenium&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;stipe&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;flesh&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  713</span>            $characteristics = [];</div>
+<div class="line"><span class="lineno">  714</span>            <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;cap&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Sombrero: &quot;</span> . $fungus[<span class="stringliteral">&#39;cap&#39;</span>];</div>
+<div class="line"><span class="lineno">  715</span>            <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;hymenium&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Himenio: &quot;</span> . $fungus[<span class="stringliteral">&#39;hymenium&#39;</span>];</div>
+<div class="line"><span class="lineno">  716</span>            <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;stipe&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Pie: &quot;</span> . $fungus[<span class="stringliteral">&#39;stipe&#39;</span>];</div>
+<div class="line"><span class="lineno">  717</span>            <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;flesh&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Carne: &quot;</span> . $fungus[<span class="stringliteral">&#39;flesh&#39;</span>];</div>
+<div class="line"><span class="lineno">  718</span>            </div>
+<div class="line"><span class="lineno">  719</span>            $fungus[<span class="stringliteral">&#39;characteristics&#39;</span>] = implode(<span class="stringliteral">&quot;\n&quot;</span>, $characteristics);</div>
+<div class="line"><span class="lineno">  720</span>        }</div>
+<div class="line"><span class="lineno">  721</span>        </div>
+<div class="line"><span class="lineno">  722</span>        <span class="comment">// Si hay un usuario autenticado, verificar si le dio like</span></div>
+<div class="line"><span class="lineno">  723</span>        <span class="keywordflow">if</span> ($userId) {</div>
+<div class="line"><span class="lineno">  724</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $userId);</div>
+<div class="line"><span class="lineno">  725</span>        }</div>
+<div class="line"><span class="lineno">  726</span>        </div>
+<div class="line"><span class="lineno">  727</span>        <span class="comment">// Incrementar contador de vistas</span></div>
+<div class="line"><span class="lineno">  728</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($id);</div>
+<div class="line"><span class="lineno">  729</span>        </div>
+<div class="line"><span class="lineno">  730</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  731</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  732</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungus</div>
+<div class="line"><span class="lineno">  733</span>        ];</div>
+<div class="line"><span class="lineno">  734</span>    }</div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a4e795756d06c8d0ff755c20645eddb12"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">App\Controllers\FungiController\incrementFungiViews</a></div><div class="ttdeci">incrementFungiViews($fungiId)</div><div class="ttdoc">Incrementa el contador de vistas de un hongo.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00074">FungiController.php:74</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_add0b456287a79c088c78a9fe8c469451"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">App\Controllers\FungiController\getFungusWithLikeStatus</a></div><div class="ttdeci">getFungusWithLikeStatus($fungus, $userId)</div><div class="ttdoc">Añade el estado de like de un usuario a la información de un hongo.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00106">FungiController.php:106</a></div></div>
 </div><!-- fragment -->
@@ -582,24 +595,24 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Lista de hongos filtrados </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00595">595</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  596</span>    {</div>
-<div class="line"><span class="lineno">  597</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  598</span><span class="stringliteral">                FROM fungi f </span></div>
-<div class="line"><span class="lineno">  599</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  600</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
-<div class="line"><span class="lineno">  601</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  602</span><span class="stringliteral">                WHERE f.edibility LIKE ?</span></div>
-<div class="line"><span class="lineno">  603</span><span class="stringliteral">                GROUP BY f.id</span></div>
-<div class="line"><span class="lineno">  604</span><span class="stringliteral">                LIMIT 50&quot;</span>;</div>
-<div class="line"><span class="lineno">  605</span>        </div>
-<div class="line"><span class="lineno">  606</span>        $fungi = $this-&gt;db-&gt;query($sql, [<span class="charliteral">&#39;%&#39;</span> . $edibility . <span class="charliteral">&#39;%&#39;</span>]);</div>
-<div class="line"><span class="lineno">  607</span>        </div>
-<div class="line"><span class="lineno">  608</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  609</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  610</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungi</div>
-<div class="line"><span class="lineno">  611</span>        ];</div>
-<div class="line"><span class="lineno">  612</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00647">647</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  648</span>    {</div>
+<div class="line"><span class="lineno">  649</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  650</span><span class="stringliteral">                FROM fungi f </span></div>
+<div class="line"><span class="lineno">  651</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  652</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  653</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  654</span><span class="stringliteral">                WHERE f.edibility LIKE ?</span></div>
+<div class="line"><span class="lineno">  655</span><span class="stringliteral">                GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">  656</span><span class="stringliteral">                LIMIT 50&quot;</span>;</div>
+<div class="line"><span class="lineno">  657</span>        </div>
+<div class="line"><span class="lineno">  658</span>        $fungi = $this-&gt;db-&gt;query($sql, [<span class="charliteral">&#39;%&#39;</span> . $edibility . <span class="charliteral">&#39;%&#39;</span>]);</div>
+<div class="line"><span class="lineno">  659</span>        </div>
+<div class="line"><span class="lineno">  660</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  661</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  662</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungi</div>
+<div class="line"><span class="lineno">  663</span>        ];</div>
+<div class="line"><span class="lineno">  664</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -639,48 +652,48 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Resultados paginados </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00442">442</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  443</span>    {</div>
-<div class="line"><span class="lineno">  444</span>        $offset = ($page - 1) * $limit;</div>
-<div class="line"><span class="lineno">  445</span>        </div>
-<div class="line"><span class="lineno">  446</span>        <span class="comment">// Registrar lo que estamos haciendo</span></div>
-<div class="line"><span class="lineno">  447</span>        error_log(<span class="stringliteral">&quot;getFungiPaginated: Buscando página $page con límite $limit (offset $offset)&quot;</span>);</div>
-<div class="line"><span class="lineno">  448</span>        </div>
-<div class="line"><span class="lineno">  449</span>        <span class="comment">// Consulta para obtener los hongos con sus imágenes - usar query en lugar de prepare</span></div>
-<div class="line"><span class="lineno">  450</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, &#39;/&#39;, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  451</span><span class="stringliteral">                FROM fungi f LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  452</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  453</span><span class="stringliteral">                GROUP BY f.id LIMIT ?, ?&quot;</span>;</div>
-<div class="line"><span class="lineno">  454</span>        $fungi = $this-&gt;db-&gt;query($sql, [$offset, $limit]);</div>
-<div class="line"><span class="lineno">  455</span>        <span class="comment">// Registrar lo que obtuvimos</span></div>
-<div class="line"><span class="lineno">  456</span>        error_log(<span class="stringliteral">&quot;getFungiPaginated: Encontrados &quot;</span> . (is_array($fungi) ? count($fungi) : <span class="stringliteral">&#39;no&#39;</span>) . <span class="stringliteral">&quot; hongos&quot;</span>);</div>
-<div class="line"><span class="lineno">  457</span>        <span class="keywordflow">if</span> (is_array($fungi) &amp;&amp; count($fungi) &gt; 0) {</div>
-<div class="line"><span class="lineno">  458</span>            error_log(<span class="stringliteral">&quot;Primer hongo: &quot;</span> . json_encode($fungi[0]));</div>
-<div class="line"><span class="lineno">  459</span>        }</div>
-<div class="line"><span class="lineno">  460</span>        </div>
-<div class="line"><span class="lineno">  461</span>        <span class="comment">// Asegurarnos de que $fungi sea un array</span></div>
-<div class="line"><span class="lineno">  462</span>        $fungi = is_array($fungi) ? $fungi : [];</div>
-<div class="line"><span class="lineno">  463</span>        </div>
-<div class="line"><span class="lineno">  464</span>        <span class="comment">// Consulta para contar el total de hongos</span></div>
-<div class="line"><span class="lineno">  465</span>        $totalCount = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM fungi&quot;</span>);</div>
-<div class="line"><span class="lineno">  466</span>        <span class="keywordflow">if</span> (is_array($totalCount) &amp;&amp; !empty($totalCount)) $totalCount = $totalCount[0][<span class="stringliteral">&#39;total&#39;</span>] ?? count($totalCount);</div>
-<div class="line"><span class="lineno">  467</span>        <span class="keywordflow">else</span> $totalCount = 0;</div>
-<div class="line"><span class="lineno">  468</span>        error_log(<span class="stringliteral">&quot;getFungiPaginated: Total de hongos: $totalCount&quot;</span>);</div>
-<div class="line"><span class="lineno">  469</span>        </div>
-<div class="line"><span class="lineno">  470</span>        <span class="comment">// Calcular la información de paginación</span></div>
-<div class="line"><span class="lineno">  471</span>        $totalPages = ceil($totalCount / $limit);</div>
-<div class="line"><span class="lineno">  472</span>        </div>
-<div class="line"><span class="lineno">  473</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  474</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, </div>
-<div class="line"><span class="lineno">  475</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungi,</div>
-<div class="line"><span class="lineno">  476</span>            <span class="stringliteral">&#39;pagination&#39;</span> =&gt; [</div>
-<div class="line"><span class="lineno">  477</span>                <span class="stringliteral">&#39;current_page&#39;</span> =&gt; (int)$page,</div>
-<div class="line"><span class="lineno">  478</span>                <span class="stringliteral">&#39;total_pages&#39;</span> =&gt; (<span class="keywordtype">int</span>)$totalPages,</div>
-<div class="line"><span class="lineno">  479</span>                <span class="stringliteral">&#39;records_per_page&#39;</span> =&gt; (int)$limit,</div>
-<div class="line"><span class="lineno">  480</span>                <span class="stringliteral">&#39;total_records&#39;</span> =&gt; (<span class="keywordtype">int</span>)$totalCount</div>
-<div class="line"><span class="lineno">  481</span>            ]</div>
-<div class="line"><span class="lineno">  482</span>        ];</div>
-<div class="line"><span class="lineno">  483</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00494">494</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  495</span>    {</div>
+<div class="line"><span class="lineno">  496</span>        $offset = ($page - 1) * $limit;</div>
+<div class="line"><span class="lineno">  497</span>        </div>
+<div class="line"><span class="lineno">  498</span>        <span class="comment">// Registrar lo que estamos haciendo</span></div>
+<div class="line"><span class="lineno">  499</span>        error_log(<span class="stringliteral">&quot;getFungiPaginated: Buscando página $page con límite $limit (offset $offset)&quot;</span>);</div>
+<div class="line"><span class="lineno">  500</span>        </div>
+<div class="line"><span class="lineno">  501</span>        <span class="comment">// Consulta para obtener los hongos con sus imágenes - usar query en lugar de prepare</span></div>
+<div class="line"><span class="lineno">  502</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, &#39;/&#39;, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  503</span><span class="stringliteral">                FROM fungi f LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  504</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  505</span><span class="stringliteral">                GROUP BY f.id LIMIT ?, ?&quot;</span>;</div>
+<div class="line"><span class="lineno">  506</span>        $fungi = $this-&gt;db-&gt;query($sql, [$offset, $limit]);</div>
+<div class="line"><span class="lineno">  507</span>        <span class="comment">// Registrar lo que obtuvimos</span></div>
+<div class="line"><span class="lineno">  508</span>        error_log(<span class="stringliteral">&quot;getFungiPaginated: Encontrados &quot;</span> . (is_array($fungi) ? count($fungi) : <span class="stringliteral">&#39;no&#39;</span>) . <span class="stringliteral">&quot; hongos&quot;</span>);</div>
+<div class="line"><span class="lineno">  509</span>        <span class="keywordflow">if</span> (is_array($fungi) &amp;&amp; count($fungi) &gt; 0) {</div>
+<div class="line"><span class="lineno">  510</span>            error_log(<span class="stringliteral">&quot;Primer hongo: &quot;</span> . json_encode($fungi[0]));</div>
+<div class="line"><span class="lineno">  511</span>        }</div>
+<div class="line"><span class="lineno">  512</span>        </div>
+<div class="line"><span class="lineno">  513</span>        <span class="comment">// Asegurarnos de que $fungi sea un array</span></div>
+<div class="line"><span class="lineno">  514</span>        $fungi = is_array($fungi) ? $fungi : [];</div>
+<div class="line"><span class="lineno">  515</span>        </div>
+<div class="line"><span class="lineno">  516</span>        <span class="comment">// Consulta para contar el total de hongos</span></div>
+<div class="line"><span class="lineno">  517</span>        $totalCount = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM fungi&quot;</span>);</div>
+<div class="line"><span class="lineno">  518</span>        <span class="keywordflow">if</span> (is_array($totalCount) &amp;&amp; !empty($totalCount)) $totalCount = $totalCount[0][<span class="stringliteral">&#39;total&#39;</span>] ?? count($totalCount);</div>
+<div class="line"><span class="lineno">  519</span>        <span class="keywordflow">else</span> $totalCount = 0;</div>
+<div class="line"><span class="lineno">  520</span>        error_log(<span class="stringliteral">&quot;getFungiPaginated: Total de hongos: $totalCount&quot;</span>);</div>
+<div class="line"><span class="lineno">  521</span>        </div>
+<div class="line"><span class="lineno">  522</span>        <span class="comment">// Calcular la información de paginación</span></div>
+<div class="line"><span class="lineno">  523</span>        $totalPages = ceil($totalCount / $limit);</div>
+<div class="line"><span class="lineno">  524</span>        </div>
+<div class="line"><span class="lineno">  525</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  526</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>, </div>
+<div class="line"><span class="lineno">  527</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungi,</div>
+<div class="line"><span class="lineno">  528</span>            <span class="stringliteral">&#39;pagination&#39;</span> =&gt; [</div>
+<div class="line"><span class="lineno">  529</span>                <span class="stringliteral">&#39;current_page&#39;</span> =&gt; (int)$page,</div>
+<div class="line"><span class="lineno">  530</span>                <span class="stringliteral">&#39;total_pages&#39;</span> =&gt; (<span class="keywordtype">int</span>)$totalPages,</div>
+<div class="line"><span class="lineno">  531</span>                <span class="stringliteral">&#39;records_per_page&#39;</span> =&gt; (int)$limit,</div>
+<div class="line"><span class="lineno">  532</span>                <span class="stringliteral">&#39;total_records&#39;</span> =&gt; (<span class="keywordtype">int</span>)$totalCount</div>
+<div class="line"><span class="lineno">  533</span>            ]</div>
+<div class="line"><span class="lineno">  534</span>        ];</div>
+<div class="line"><span class="lineno">  535</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -712,27 +725,49 @@ Atributos privados</h2></td></tr>
 <p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00118">118</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  119</span>    {</div>
 <div class="line"><span class="lineno">  120</span>        $result = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT f.*, </span></div>
-<div class="line"><span class="lineno">  121</span><span class="stringliteral">                                    GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  122</span><span class="stringliteral">                                    FROM fungi f </span></div>
-<div class="line"><span class="lineno">  123</span><span class="stringliteral">                                    LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  124</span><span class="stringliteral">                                    LEFT JOIN images i ON fi.image_id = i.id </span></div>
-<div class="line"><span class="lineno">  125</span><span class="stringliteral">                                    LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  126</span><span class="stringliteral">                                    WHERE f.id = :id</span></div>
-<div class="line"><span class="lineno">  127</span><span class="stringliteral">                                    GROUP BY f.id&quot;</span>, [<span class="stringliteral">&#39;id&#39;</span> =&gt; $id]);</div>
-<div class="line"><span class="lineno">  128</span>        </div>
-<div class="line"><span class="lineno">  129</span>        <span class="keywordflow">if</span> ($result instanceof \PDOStatement) $fungus = $result-&gt;fetch(\PDO::FETCH_ASSOC) ?: <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  131</span>            <span class="keywordflow">if</span> (is_array($result) &amp;&amp; !empty($result) &amp;&amp; isset($result[0])) $fungus = $result[0];</div>
-<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">else</span> $fungus = $result;</div>
-<div class="line"><span class="lineno">  133</span>        }</div>
-<div class="line"><span class="lineno">  134</span>        <span class="keywordflow">if</span> ($fungus) $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a>($fungus);</div>
-<div class="line"><span class="lineno">  135</span>        <span class="keywordflow">return</span> $fungus;</div>
-<div class="line"><span class="lineno">  136</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a69ba801a8491aa101cefc5928144e616"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">App\Controllers\FungiController\loadFungusImages</a></div><div class="ttdeci">loadFungusImages($fungus)</div><div class="ttdoc">Carga las imágenes relacionadas con un hongo desde la tabla de relaciones.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00175">FungiController.php:175</a></div></div>
+<div class="line"><span class="lineno">  121</span><span class="stringliteral">                                    c.cap, c.hymenium, c.stipe, c.flesh,</span></div>
+<div class="line"><span class="lineno">  122</span><span class="stringliteral">                                    t.division, t.subdivision, t.class, t.subclass, t.ordo as order_name, t.family,</span></div>
+<div class="line"><span class="lineno">  123</span><span class="stringliteral">                                    GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  124</span><span class="stringliteral">                                    FROM fungi f </span></div>
+<div class="line"><span class="lineno">  125</span><span class="stringliteral">                                    LEFT JOIN characteristics c ON f.id = c.fungi_id</span></div>
+<div class="line"><span class="lineno">  126</span><span class="stringliteral">                                    LEFT JOIN taxonomy t ON f.id = t.fungi_id</span></div>
+<div class="line"><span class="lineno">  127</span><span class="stringliteral">                                    LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  128</span><span class="stringliteral">                                    LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  129</span><span class="stringliteral">                                    LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  130</span><span class="stringliteral">                                    WHERE f.id = :id</span></div>
+<div class="line"><span class="lineno">  131</span><span class="stringliteral">                                    GROUP BY f.id&quot;</span>, [<span class="stringliteral">&#39;id&#39;</span> =&gt; $id]);</div>
+<div class="line"><span class="lineno">  132</span>        </div>
+<div class="line"><span class="lineno">  133</span>        <span class="keywordflow">if</span> ($result instanceof \PDOStatement) $fungus = $result-&gt;fetch(\PDO::FETCH_ASSOC) ?: <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  134</span>        <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">if</span> (is_array($result) &amp;&amp; !empty($result) &amp;&amp; isset($result[0])) $fungus = $result[0];</div>
+<div class="line"><span class="lineno">  136</span>            <span class="keywordflow">else</span> $fungus = $result;</div>
+<div class="line"><span class="lineno">  137</span>        }</div>
+<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">if</span> ($fungus) {</div>
+<div class="line"><span class="lineno">  139</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a>($fungus);</div>
+<div class="line"><span class="lineno">  140</span>            </div>
+<div class="line"><span class="lineno">  141</span>            <span class="comment">// Formatear características para mostrar en la plantilla</span></div>
+<div class="line"><span class="lineno">  142</span>            <span class="keywordflow">if</span> (isset($fungus[<span class="stringliteral">&#39;cap&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;hymenium&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;stipe&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;flesh&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  143</span>                $characteristics = [];</div>
+<div class="line"><span class="lineno">  144</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;cap&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Sombrero: &quot;</span> . $fungus[<span class="stringliteral">&#39;cap&#39;</span>];</div>
+<div class="line"><span class="lineno">  145</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;hymenium&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Himenio: &quot;</span> . $fungus[<span class="stringliteral">&#39;hymenium&#39;</span>];</div>
+<div class="line"><span class="lineno">  146</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;stipe&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Pie: &quot;</span> . $fungus[<span class="stringliteral">&#39;stipe&#39;</span>];</div>
+<div class="line"><span class="lineno">  147</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;flesh&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Carne: &quot;</span> . $fungus[<span class="stringliteral">&#39;flesh&#39;</span>];</div>
+<div class="line"><span class="lineno">  148</span>                </div>
+<div class="line"><span class="lineno">  149</span>                $fungus[<span class="stringliteral">&#39;characteristics&#39;</span>] = implode(<span class="stringliteral">&quot;\n&quot;</span>, $characteristics);</div>
+<div class="line"><span class="lineno">  150</span>            }</div>
+<div class="line"><span class="lineno">  151</span>            </div>
+<div class="line"><span class="lineno">  152</span>            <span class="comment">// Para la descripción, usar el campo observations</span></div>
+<div class="line"><span class="lineno">  153</span>            <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;observations&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  154</span>                $fungus[<span class="stringliteral">&#39;description&#39;</span>] = $fungus[<span class="stringliteral">&#39;observations&#39;</span>];</div>
+<div class="line"><span class="lineno">  155</span>            }</div>
+<div class="line"><span class="lineno">  156</span>        }</div>
+<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">return</span> $fungus;</div>
+<div class="line"><span class="lineno">  158</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a69ba801a8491aa101cefc5928144e616"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">App\Controllers\FungiController\loadFungusImages</a></div><div class="ttdeci">loadFungusImages($fungus)</div><div class="ttdoc">Carga las imágenes relacionadas con un hongo desde la tabla de relaciones.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00227">FungiController.php:227</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00175">App\Controllers\FungiController\loadFungusImages()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00227">App\Controllers\FungiController\loadFungusImages()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00251">App\Controllers\FungiController\detailFungusHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00303">App\Controllers\FungiController\detailFungusHandler()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -795,7 +830,7 @@ Atributos privados</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00092">App\Controllers\FungiController\hasUserLikedFungi()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00621">App\Controllers\FungiController\getDetailedFungusById()</a>, <a class="el" href="FungiController_8php_source.html#l00550">App\Controllers\FungiController\getRandomFungusWithDetails()</a> y <a class="el" href="FungiController_8php_source.html#l00222">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00673">App\Controllers\FungiController\getDetailedFungusById()</a>, <a class="el" href="FungiController_8php_source.html#l00602">App\Controllers\FungiController\getRandomFungusWithDetails()</a> y <a class="el" href="FungiController_8php_source.html#l00274">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -846,13 +881,13 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>string Ruta base para las imágenes </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00208">208</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  209</span>    {</div>
-<div class="line"><span class="lineno">  210</span>        $pathMap = [<span class="stringliteral">&#39;fungi_upload_path&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images&#39;</span>, <span class="stringliteral">&#39;user_upload_path&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images/users&#39;</span>, <span class="stringliteral">&#39;system_images&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images/system&#39;</span>];</div>
-<div class="line"><span class="lineno">  211</span>        <span class="keywordflow">return</span> $pathMap[$configKey] ?? <span class="stringliteral">&#39;/assets/images&#39;</span>;</div>
-<div class="line"><span class="lineno">  212</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00260">260</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  261</span>    {</div>
+<div class="line"><span class="lineno">  262</span>        $pathMap = [<span class="stringliteral">&#39;fungi_upload_path&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images&#39;</span>, <span class="stringliteral">&#39;user_upload_path&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images/users&#39;</span>, <span class="stringliteral">&#39;system_images&#39;</span> =&gt; <span class="stringliteral">&#39;/assets/images/system&#39;</span>];</div>
+<div class="line"><span class="lineno">  263</span>        <span class="keywordflow">return</span> $pathMap[$configKey] ?? <span class="stringliteral">&#39;/assets/images&#39;</span>;</div>
+<div class="line"><span class="lineno">  264</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00175">App\Controllers\FungiController\loadFungusImages()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00227">App\Controllers\FungiController\loadFungusImages()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
@@ -881,24 +916,54 @@ Atributos privados</h2></td></tr>
 <p>Obtiene un hongo aleatorio de la base de datos. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array|null Datos del hongo aleatorio o null si no se encuentra ninguno </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00147">147</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  148</span>    {</div>
-<div class="line"><span class="lineno">  149</span>        $query = <span class="stringliteral">&quot;SELECT * FROM fungi ORDER BY RAND() LIMIT 1&quot;</span>;</div>
-<div class="line"><span class="lineno">  150</span>        $randomResult = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  151</span>        <span class="keywordflow">if</span> ($randomResult instanceof \PDOStatement) $fungus = $randomResult-&gt;fetch(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  152</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (is_array($randomResult) &amp;&amp; !empty($randomResult)) $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">else</span> $fungus = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">if</span> ($fungus) {</div>
-<div class="line"><span class="lineno">  155</span>            $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  156</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a>($fungus);</div>
-<div class="line"><span class="lineno">  157</span>            error_log(<span class="stringliteral">&quot;Cargando hongo aleatorio: &quot;</span> . json_encode($fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? <span class="stringliteral">&#39;No encontrado&#39;</span>));</div>
-<div class="line"><span class="lineno">  158</span>        }</div>
-<div class="line"><span class="lineno">  159</span>        <span class="keywordflow">return</span> $fungus;</div>
-<div class="line"><span class="lineno">  160</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00169">169</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>    {</div>
+<div class="line"><span class="lineno">  171</span>        $query = <span class="stringliteral">&quot;SELECT f.*, </span></div>
+<div class="line"><span class="lineno">  172</span><span class="stringliteral">                 c.cap, c.hymenium, c.stipe, c.flesh,</span></div>
+<div class="line"><span class="lineno">  173</span><span class="stringliteral">                 t.division, t.subdivision, t.class, t.subclass, t.ordo as order_name, t.family,</span></div>
+<div class="line"><span class="lineno">  174</span><span class="stringliteral">                 GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  175</span><span class="stringliteral">                 FROM fungi f </span></div>
+<div class="line"><span class="lineno">  176</span><span class="stringliteral">                 LEFT JOIN characteristics c ON f.id = c.fungi_id</span></div>
+<div class="line"><span class="lineno">  177</span><span class="stringliteral">                 LEFT JOIN taxonomy t ON f.id = t.fungi_id</span></div>
+<div class="line"><span class="lineno">  178</span><span class="stringliteral">                 LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  179</span><span class="stringliteral">                 LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  180</span><span class="stringliteral">                 LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  181</span><span class="stringliteral">                 GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">  182</span><span class="stringliteral">                 ORDER BY RAND() LIMIT 1&quot;</span>;</div>
+<div class="line"><span class="lineno">  183</span>                 </div>
+<div class="line"><span class="lineno">  184</span>        $randomResult = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  185</span>        <span class="keywordflow">if</span> ($randomResult instanceof \PDOStatement) $fungus = $randomResult-&gt;fetch(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  186</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (is_array($randomResult) &amp;&amp; !empty($randomResult)) $fungus = isset($randomResult[0]) ? $randomResult[0] : $randomResult;</div>
+<div class="line"><span class="lineno">  187</span>        <span class="keywordflow">else</span> $fungus = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  188</span>        </div>
+<div class="line"><span class="lineno">  189</span>        <span class="keywordflow">if</span> ($fungus) {</div>
+<div class="line"><span class="lineno">  190</span>            $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  191</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616">loadFungusImages</a>($fungus);</div>
+<div class="line"><span class="lineno">  192</span>            </div>
+<div class="line"><span class="lineno">  193</span>            <span class="comment">// Formatear características para mostrar en la plantilla</span></div>
+<div class="line"><span class="lineno">  194</span>            <span class="keywordflow">if</span> (isset($fungus[<span class="stringliteral">&#39;cap&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;hymenium&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;stipe&#39;</span>]) || isset($fungus[<span class="stringliteral">&#39;flesh&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  195</span>                $characteristics = [];</div>
+<div class="line"><span class="lineno">  196</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;cap&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Sombrero: &quot;</span> . $fungus[<span class="stringliteral">&#39;cap&#39;</span>];</div>
+<div class="line"><span class="lineno">  197</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;hymenium&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Himenio: &quot;</span> . $fungus[<span class="stringliteral">&#39;hymenium&#39;</span>];</div>
+<div class="line"><span class="lineno">  198</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;stipe&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Pie: &quot;</span> . $fungus[<span class="stringliteral">&#39;stipe&#39;</span>];</div>
+<div class="line"><span class="lineno">  199</span>                <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;flesh&#39;</span>])) $characteristics[] = <span class="stringliteral">&quot;Carne: &quot;</span> . $fungus[<span class="stringliteral">&#39;flesh&#39;</span>];</div>
+<div class="line"><span class="lineno">  200</span>                </div>
+<div class="line"><span class="lineno">  201</span>                $fungus[<span class="stringliteral">&#39;characteristics&#39;</span>] = implode(<span class="stringliteral">&quot;\n&quot;</span>, $characteristics);</div>
+<div class="line"><span class="lineno">  202</span>            }</div>
+<div class="line"><span class="lineno">  203</span>            </div>
+<div class="line"><span class="lineno">  204</span>            <span class="comment">// Para la descripción, usar el campo observations</span></div>
+<div class="line"><span class="lineno">  205</span>            <span class="keywordflow">if</span> (!empty($fungus[<span class="stringliteral">&#39;observations&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  206</span>                $fungus[<span class="stringliteral">&#39;description&#39;</span>] = $fungus[<span class="stringliteral">&#39;observations&#39;</span>];</div>
+<div class="line"><span class="lineno">  207</span>            }</div>
+<div class="line"><span class="lineno">  208</span>            </div>
+<div class="line"><span class="lineno">  209</span>            error_log(<span class="stringliteral">&quot;Cargando hongo aleatorio: &quot;</span> . json_encode($fungus[<span class="stringliteral">&#39;name&#39;</span>] ?? <span class="stringliteral">&#39;No encontrado&#39;</span>));</div>
+<div class="line"><span class="lineno">  210</span>        }</div>
+<div class="line"><span class="lineno">  211</span>        <span class="keywordflow">return</span> $fungus;</div>
+<div class="line"><span class="lineno">  212</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00074">App\Controllers\FungiController\incrementFungiViews()</a> y <a class="el" href="FungiController_8php_source.html#l00175">App\Controllers\FungiController\loadFungusImages()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00074">App\Controllers\FungiController\incrementFungiViews()</a> y <a class="el" href="FungiController_8php_source.html#l00227">App\Controllers\FungiController\loadFungusImages()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00222">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00274">App\Controllers\FungiController\randomFungusHandler()</a>.</p>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
@@ -941,44 +1006,44 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos del hongo aleatorio </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00550">550</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  551</span>    {</div>
-<div class="line"><span class="lineno">  552</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  553</span><span class="stringliteral">                FROM fungi f </span></div>
-<div class="line"><span class="lineno">  554</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  555</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
-<div class="line"><span class="lineno">  556</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  557</span><span class="stringliteral">                GROUP BY f.id</span></div>
-<div class="line"><span class="lineno">  558</span><span class="stringliteral">                ORDER BY RAND() </span></div>
-<div class="line"><span class="lineno">  559</span><span class="stringliteral">                LIMIT 1&quot;</span>;</div>
-<div class="line"><span class="lineno">  560</span>        </div>
-<div class="line"><span class="lineno">  561</span>        $fungus = $this-&gt;db-&gt;query($sql);</div>
-<div class="line"><span class="lineno">  562</span>        </div>
-<div class="line"><span class="lineno">  563</span>        <span class="keywordflow">if</span> (empty($fungus)) {</div>
-<div class="line"><span class="lineno">  564</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  565</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
-<div class="line"><span class="lineno">  566</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No hay hongos disponibles&#39;</span></div>
-<div class="line"><span class="lineno">  567</span>            ];</div>
-<div class="line"><span class="lineno">  568</span>        }</div>
-<div class="line"><span class="lineno">  569</span>        </div>
-<div class="line"><span class="lineno">  570</span>        <span class="comment">// Convertir resultado a un solo hongo</span></div>
-<div class="line"><span class="lineno">  571</span>        <span class="keywordflow">if</span> (is_array($fungus) &amp;&amp; !empty($fungus)) {</div>
-<div class="line"><span class="lineno">  572</span>            $fungus = $fungus[0];</div>
-<div class="line"><span class="lineno">  573</span>        }</div>
-<div class="line"><span class="lineno">  574</span>        </div>
-<div class="line"><span class="lineno">  575</span>        <span class="comment">// Incrementar contador de vistas</span></div>
-<div class="line"><span class="lineno">  576</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  577</span>        </div>
-<div class="line"><span class="lineno">  578</span>        <span class="comment">// Si hay un usuario autenticado, verificar si le dio like</span></div>
-<div class="line"><span class="lineno">  579</span>        <span class="keywordflow">if</span> ($userId) {</div>
-<div class="line"><span class="lineno">  580</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $userId);</div>
-<div class="line"><span class="lineno">  581</span>        }</div>
-<div class="line"><span class="lineno">  582</span>        </div>
-<div class="line"><span class="lineno">  583</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  584</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  585</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungus</div>
-<div class="line"><span class="lineno">  586</span>        ];</div>
-<div class="line"><span class="lineno">  587</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00602">602</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  603</span>    {</div>
+<div class="line"><span class="lineno">  604</span>        $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  605</span><span class="stringliteral">                FROM fungi f </span></div>
+<div class="line"><span class="lineno">  606</span><span class="stringliteral">                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  607</span><span class="stringliteral">                LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  608</span><span class="stringliteral">                LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  609</span><span class="stringliteral">                GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">  610</span><span class="stringliteral">                ORDER BY RAND() </span></div>
+<div class="line"><span class="lineno">  611</span><span class="stringliteral">                LIMIT 1&quot;</span>;</div>
+<div class="line"><span class="lineno">  612</span>        </div>
+<div class="line"><span class="lineno">  613</span>        $fungus = $this-&gt;db-&gt;query($sql);</div>
+<div class="line"><span class="lineno">  614</span>        </div>
+<div class="line"><span class="lineno">  615</span>        <span class="keywordflow">if</span> (empty($fungus)) {</div>
+<div class="line"><span class="lineno">  616</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  617</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, </div>
+<div class="line"><span class="lineno">  618</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No hay hongos disponibles&#39;</span></div>
+<div class="line"><span class="lineno">  619</span>            ];</div>
+<div class="line"><span class="lineno">  620</span>        }</div>
+<div class="line"><span class="lineno">  621</span>        </div>
+<div class="line"><span class="lineno">  622</span>        <span class="comment">// Convertir resultado a un solo hongo</span></div>
+<div class="line"><span class="lineno">  623</span>        <span class="keywordflow">if</span> (is_array($fungus) &amp;&amp; !empty($fungus)) {</div>
+<div class="line"><span class="lineno">  624</span>            $fungus = $fungus[0];</div>
+<div class="line"><span class="lineno">  625</span>        }</div>
+<div class="line"><span class="lineno">  626</span>        </div>
+<div class="line"><span class="lineno">  627</span>        <span class="comment">// Incrementar contador de vistas</span></div>
+<div class="line"><span class="lineno">  628</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a4e795756d06c8d0ff755c20645eddb12">incrementFungiViews</a>($fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  629</span>        </div>
+<div class="line"><span class="lineno">  630</span>        <span class="comment">// Si hay un usuario autenticado, verificar si le dio like</span></div>
+<div class="line"><span class="lineno">  631</span>        <span class="keywordflow">if</span> ($userId) {</div>
+<div class="line"><span class="lineno">  632</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $userId);</div>
+<div class="line"><span class="lineno">  633</span>        }</div>
+<div class="line"><span class="lineno">  634</span>        </div>
+<div class="line"><span class="lineno">  635</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  636</span>            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  637</span>            <span class="stringliteral">&#39;data&#39;</span> =&gt; $fungus</div>
+<div class="line"><span class="lineno">  638</span>        ];</div>
+<div class="line"><span class="lineno">  639</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00106">App\Controllers\FungiController\getFungusWithLikeStatus()</a> y <a class="el" href="FungiController_8php_source.html#l00074">App\Controllers\FungiController\incrementFungiViews()</a>.</p>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -1079,7 +1144,7 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   81</span>        }</div>
 <div class="line"><span class="lineno">   82</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00621">App\Controllers\FungiController\getDetailedFungusById()</a>, <a class="el" href="FungiController_8php_source.html#l00147">App\Controllers\FungiController\getRandomFungus()</a> y <a class="el" href="FungiController_8php_source.html#l00550">App\Controllers\FungiController\getRandomFungusWithDetails()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00673">App\Controllers\FungiController\getDetailedFungusById()</a>, <a class="el" href="FungiController_8php_source.html#l00169">App\Controllers\FungiController\getRandomFungus()</a> y <a class="el" href="FungiController_8php_source.html#l00602">App\Controllers\FungiController\getRandomFungusWithDetails()</a>.</p>
 <div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-12-summary" class="dynsummary" style="display:block;">
@@ -1166,34 +1231,34 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos del hongo con las URLs de imágenes añadidas </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00175">175</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  176</span>    {</div>
-<div class="line"><span class="lineno">  177</span>        $imagesResult = $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">  178</span>            <span class="stringliteral">&quot;SELECT i.filename, i.config_key FROM images i JOIN fungi_images fi ON i.id = fi.image_id WHERE fi.fungi_id = ?&quot;</span>,</div>
-<div class="line"><span class="lineno">  179</span>            [$fungus[<span class="stringliteral">&#39;id&#39;</span>]]</div>
-<div class="line"><span class="lineno">  180</span>        );</div>
-<div class="line"><span class="lineno">  181</span>        $imageUrls = [];</div>
-<div class="line"><span class="lineno">  182</span>        <span class="keywordflow">if</span> ($imagesResult) {</div>
-<div class="line"><span class="lineno">  183</span>            <span class="keywordflow">if</span> ($imagesResult instanceof \PDOStatement) $images = $imagesResult-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">else</span> $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];</div>
-<div class="line"><span class="lineno">  185</span>            <span class="keywordflow">foreach</span> ($images as $image) {</div>
-<div class="line"><span class="lineno">  186</span>                $basePath = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">getImageBasePath</a>($image[<span class="stringliteral">&#39;config_key&#39;</span>]);</div>
-<div class="line"><span class="lineno">  187</span>                $imageUrls[] = $basePath . <span class="charliteral">&#39;/&#39;</span> . $image[<span class="stringliteral">&#39;filename&#39;</span>];</div>
-<div class="line"><span class="lineno">  188</span>            }</div>
-<div class="line"><span class="lineno">  189</span>        }</div>
-<div class="line"><span class="lineno">  190</span>        <span class="keywordflow">if</span> (empty($imageUrls)) {</div>
-<div class="line"><span class="lineno">  191</span>            $imageUrls[] = <span class="stringliteral">&#39;/assets/images/placeholder.jpg&#39;</span>;</div>
-<div class="line"><span class="lineno">  192</span>            error_log(<span class="stringliteral">&quot;No se encontraron imágenes para el hongo ID: &quot;</span> . $fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  193</span>        }</div>
-<div class="line"><span class="lineno">  194</span>        $fungus[<span class="stringliteral">&#39;image_urls&#39;</span>] = implode(<span class="charliteral">&#39;,&#39;</span>, $imageUrls);</div>
-<div class="line"><span class="lineno">  195</span>        error_log(<span class="stringliteral">&quot;URLs de imágenes para hongo ID &quot;</span> . $fungus[<span class="stringliteral">&#39;id&#39;</span>] . <span class="stringliteral">&quot;: &quot;</span> . $fungus[<span class="stringliteral">&#39;image_urls&#39;</span>]);</div>
-<div class="line"><span class="lineno">  196</span>        <span class="keywordflow">return</span> $fungus;</div>
-<div class="line"><span class="lineno">  197</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a7f868fa3d67eefa14cd17d62e80b3d3d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">App\Controllers\FungiController\getImageBasePath</a></div><div class="ttdeci">getImageBasePath($configKey)</div><div class="ttdoc">Obtiene la ruta base para las imágenes según la clave de configuración.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00208">FungiController.php:208</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00227">227</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  228</span>    {</div>
+<div class="line"><span class="lineno">  229</span>        $imagesResult = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">  230</span>            <span class="stringliteral">&quot;SELECT i.filename, i.config_key FROM images i JOIN fungi_images fi ON i.id = fi.image_id WHERE fi.fungi_id = ?&quot;</span>,</div>
+<div class="line"><span class="lineno">  231</span>            [$fungus[<span class="stringliteral">&#39;id&#39;</span>]]</div>
+<div class="line"><span class="lineno">  232</span>        );</div>
+<div class="line"><span class="lineno">  233</span>        $imageUrls = [];</div>
+<div class="line"><span class="lineno">  234</span>        <span class="keywordflow">if</span> ($imagesResult) {</div>
+<div class="line"><span class="lineno">  235</span>            <span class="keywordflow">if</span> ($imagesResult instanceof \PDOStatement) $images = $imagesResult-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  236</span>            <span class="keywordflow">else</span> $images = is_array($imagesResult) ? $imagesResult : [$imagesResult];</div>
+<div class="line"><span class="lineno">  237</span>            <span class="keywordflow">foreach</span> ($images as $image) {</div>
+<div class="line"><span class="lineno">  238</span>                $basePath = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">getImageBasePath</a>($image[<span class="stringliteral">&#39;config_key&#39;</span>]);</div>
+<div class="line"><span class="lineno">  239</span>                $imageUrls[] = $basePath . <span class="charliteral">&#39;/&#39;</span> . $image[<span class="stringliteral">&#39;filename&#39;</span>];</div>
+<div class="line"><span class="lineno">  240</span>            }</div>
+<div class="line"><span class="lineno">  241</span>        }</div>
+<div class="line"><span class="lineno">  242</span>        <span class="keywordflow">if</span> (empty($imageUrls)) {</div>
+<div class="line"><span class="lineno">  243</span>            $imageUrls[] = <span class="stringliteral">&#39;/assets/images/placeholder.jpg&#39;</span>;</div>
+<div class="line"><span class="lineno">  244</span>            error_log(<span class="stringliteral">&quot;No se encontraron imágenes para el hongo ID: &quot;</span> . $fungus[<span class="stringliteral">&#39;id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  245</span>        }</div>
+<div class="line"><span class="lineno">  246</span>        $fungus[<span class="stringliteral">&#39;image_urls&#39;</span>] = implode(<span class="charliteral">&#39;,&#39;</span>, $imageUrls);</div>
+<div class="line"><span class="lineno">  247</span>        error_log(<span class="stringliteral">&quot;URLs de imágenes para hongo ID &quot;</span> . $fungus[<span class="stringliteral">&#39;id&#39;</span>] . <span class="stringliteral">&quot;: &quot;</span> . $fungus[<span class="stringliteral">&#39;image_urls&#39;</span>]);</div>
+<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">return</span> $fungus;</div>
+<div class="line"><span class="lineno">  249</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a7f868fa3d67eefa14cd17d62e80b3d3d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a7f868fa3d67eefa14cd17d62e80b3d3d">App\Controllers\FungiController\getImageBasePath</a></div><div class="ttdeci">getImageBasePath($configKey)</div><div class="ttdoc">Obtiene la ruta base para las imágenes según la clave de configuración.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00260">FungiController.php:260</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00208">App\Controllers\FungiController\getImageBasePath()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="FungiController_8php_source.html#l00260">App\Controllers\FungiController\getImageBasePath()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00118">App\Controllers\FungiController\getFungusById()</a> y <a class="el" href="FungiController_8php_source.html#l00147">App\Controllers\FungiController\getRandomFungus()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="FungiController_8php_source.html#l00118">App\Controllers\FungiController\getFungusById()</a> y <a class="el" href="FungiController_8php_source.html#l00169">App\Controllers\FungiController\getRandomFungus()</a>.</p>
 <div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-13-summary" class="dynsummary" style="display:block;">
@@ -1254,29 +1319,29 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00222">222</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  223</span>    {</div>
-<div class="line"><span class="lineno">  224</span>        <span class="comment">// Obtener un hongo aleatorio</span></div>
-<div class="line"><span class="lineno">  225</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">getRandomFungus</a>();</div>
-<div class="line"><span class="lineno">  226</span>        </div>
-<div class="line"><span class="lineno">  227</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
-<div class="line"><span class="lineno">  228</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
-<div class="line"><span class="lineno">  229</span>            exit;</div>
-<div class="line"><span class="lineno">  230</span>        }</div>
-<div class="line"><span class="lineno">  231</span>        </div>
-<div class="line"><span class="lineno">  232</span>        <span class="comment">// Añadir información de like si el usuario está logueado</span></div>
-<div class="line"><span class="lineno">  233</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()) {</div>
-<div class="line"><span class="lineno">  234</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
-<div class="line"><span class="lineno">  235</span>        }</div>
-<div class="line"><span class="lineno">  236</span>        </div>
-<div class="line"><span class="lineno">  237</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  238</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
-<div class="line"><span class="lineno">  239</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus</div>
-<div class="line"><span class="lineno">  240</span>        ];</div>
-<div class="line"><span class="lineno">  241</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a3a07c5dd018b701663a2a46a52f74a6d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">App\Controllers\FungiController\getRandomFungus</a></div><div class="ttdeci">getRandomFungus()</div><div class="ttdoc">Obtiene un hongo aleatorio de la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00147">FungiController.php:147</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00274">274</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  275</span>    {</div>
+<div class="line"><span class="lineno">  276</span>        <span class="comment">// Obtener un hongo aleatorio</span></div>
+<div class="line"><span class="lineno">  277</span>        $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">getRandomFungus</a>();</div>
+<div class="line"><span class="lineno">  278</span>        </div>
+<div class="line"><span class="lineno">  279</span>        <span class="keywordflow">if</span> (!$fungus) {</div>
+<div class="line"><span class="lineno">  280</span>            header(<span class="stringliteral">&#39;Location: /404&#39;</span>);</div>
+<div class="line"><span class="lineno">  281</span>            exit;</div>
+<div class="line"><span class="lineno">  282</span>        }</div>
+<div class="line"><span class="lineno">  283</span>        </div>
+<div class="line"><span class="lineno">  284</span>        <span class="comment">// Añadir información de like si el usuario está logueado</span></div>
+<div class="line"><span class="lineno">  285</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="routes_8php.html#abefb3c26429d514777313e9a63d7cbac">$session</a>-&gt;isLoggedIn()) {</div>
+<div class="line"><span class="lineno">  286</span>            $fungus = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1FungiController.html#add0b456287a79c088c78a9fe8c469451">getFungusWithLikeStatus</a>($fungus, $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>]);</div>
+<div class="line"><span class="lineno">  287</span>        }</div>
+<div class="line"><span class="lineno">  288</span>        </div>
+<div class="line"><span class="lineno">  289</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  290</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Hongo aleatorio&#39;</span>),</div>
+<div class="line"><span class="lineno">  291</span>            <span class="stringliteral">&#39;fungi&#39;</span> =&gt; $fungus</div>
+<div class="line"><span class="lineno">  292</span>        ];</div>
+<div class="line"><span class="lineno">  293</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1FungiController_html_a3a07c5dd018b701663a2a46a52f74a6d"><div class="ttname"><a href="classApp_1_1Controllers_1_1FungiController.html#a3a07c5dd018b701663a2a46a52f74a6d">App\Controllers\FungiController\getRandomFungus</a></div><div class="ttdeci">getRandomFungus()</div><div class="ttdoc">Obtiene un hongo aleatorio de la base de datos.</div><div class="ttdef"><b>Definition</b> <a href="FungiController_8php_source.html#l00169">FungiController.php:169</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00094">$session</a>, <a class="el" href="FungiController_8php_source.html#l00106">App\Controllers\FungiController\getFungusWithLikeStatus()</a> y <a class="el" href="FungiController_8php_source.html#l00147">App\Controllers\FungiController\getRandomFungus()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00094">$session</a>, <a class="el" href="FungiController_8php_source.html#l00106">App\Controllers\FungiController\getFungusWithLikeStatus()</a> y <a class="el" href="FungiController_8php_source.html#l00169">App\Controllers\FungiController\getRandomFungus()</a>.</p>
 <div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-15-summary" class="dynsummary" style="display:block;">
@@ -1323,43 +1388,43 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Resultados de la búsqueda </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00506">506</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  507</span>    {</div>
-<div class="line"><span class="lineno">  508</span>        $allowedParams = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>, <span class="stringliteral">&#39;common_name&#39;</span>];</div>
-<div class="line"><span class="lineno">  509</span>        </div>
-<div class="line"><span class="lineno">  510</span>        <span class="keywordflow">if</span> (!in_array($param, $allowedParams)) {</div>
-<div class="line"><span class="lineno">  511</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  512</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  513</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Parámetro de búsqueda no válido. Parámetros permitidos: &#39;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $allowedParams)</div>
-<div class="line"><span class="lineno">  514</span>            ];</div>
-<div class="line"><span class="lineno">  515</span>        }</div>
-<div class="line"><span class="lineno">  516</span>        </div>
-<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  518</span>            <span class="comment">// Construir la consulta de búsqueda segura</span></div>
-<div class="line"><span class="lineno">  519</span>            $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
-<div class="line"><span class="lineno">  520</span><span class="stringliteral">                    FROM fungi f </span></div>
-<div class="line"><span class="lineno">  521</span><span class="stringliteral">                    LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
-<div class="line"><span class="lineno">  522</span><span class="stringliteral">                    LEFT JOIN images i ON fi.image_id = i.id </span></div>
-<div class="line"><span class="lineno">  523</span><span class="stringliteral">                    LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
-<div class="line"><span class="lineno">  524</span><span class="stringliteral">                    WHERE f.{$param} LIKE ?</span></div>
-<div class="line"><span class="lineno">  525</span><span class="stringliteral">                    GROUP BY f.id</span></div>
-<div class="line"><span class="lineno">  526</span><span class="stringliteral">                    LIMIT 50&quot;</span>;</div>
-<div class="line"><span class="lineno">  527</span>            </div>
-<div class="line"><span class="lineno">  528</span>            $results = $this-&gt;db-&gt;query($sql, [<span class="charliteral">&#39;%&#39;</span> . $value . <span class="charliteral">&#39;%&#39;</span>]);</div>
-<div class="line"><span class="lineno">  529</span>            </div>
-<div class="line"><span class="lineno">  530</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  531</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  532</span>                <span class="stringliteral">&#39;count&#39;</span> =&gt; count($results),</div>
-<div class="line"><span class="lineno">  533</span>                <span class="stringliteral">&#39;data&#39;</span> =&gt; $results</div>
-<div class="line"><span class="lineno">  534</span>            ];</div>
-<div class="line"><span class="lineno">  535</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  536</span>            error_log(<span class="stringliteral">&quot;Error en búsqueda de hongos: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  537</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  538</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  539</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error en la búsqueda: &#39;</span> . $e-&gt;getMessage()</div>
-<div class="line"><span class="lineno">  540</span>            ];</div>
-<div class="line"><span class="lineno">  541</span>        }</div>
-<div class="line"><span class="lineno">  542</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00558">558</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  559</span>    {</div>
+<div class="line"><span class="lineno">  560</span>        $allowedParams = [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>, <span class="stringliteral">&#39;common_name&#39;</span>];</div>
+<div class="line"><span class="lineno">  561</span>        </div>
+<div class="line"><span class="lineno">  562</span>        <span class="keywordflow">if</span> (!in_array($param, $allowedParams)) {</div>
+<div class="line"><span class="lineno">  563</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  564</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  565</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Parámetro de búsqueda no válido. Parámetros permitidos: &#39;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $allowedParams)</div>
+<div class="line"><span class="lineno">  566</span>            ];</div>
+<div class="line"><span class="lineno">  567</span>        }</div>
+<div class="line"><span class="lineno">  568</span>        </div>
+<div class="line"><span class="lineno">  569</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  570</span>            <span class="comment">// Construir la consulta de búsqueda segura</span></div>
+<div class="line"><span class="lineno">  571</span>            $sql = <span class="stringliteral">&quot;SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls </span></div>
+<div class="line"><span class="lineno">  572</span><span class="stringliteral">                    FROM fungi f </span></div>
+<div class="line"><span class="lineno">  573</span><span class="stringliteral">                    LEFT JOIN fungi_images fi ON f.id = fi.fungi_id </span></div>
+<div class="line"><span class="lineno">  574</span><span class="stringliteral">                    LEFT JOIN images i ON fi.image_id = i.id </span></div>
+<div class="line"><span class="lineno">  575</span><span class="stringliteral">                    LEFT JOIN image_config ic ON i.config_key = ic.config_key</span></div>
+<div class="line"><span class="lineno">  576</span><span class="stringliteral">                    WHERE f.{$param} LIKE ?</span></div>
+<div class="line"><span class="lineno">  577</span><span class="stringliteral">                    GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">  578</span><span class="stringliteral">                    LIMIT 50&quot;</span>;</div>
+<div class="line"><span class="lineno">  579</span>            </div>
+<div class="line"><span class="lineno">  580</span>            $results = $this-&gt;db-&gt;query($sql, [<span class="charliteral">&#39;%&#39;</span> . $value . <span class="charliteral">&#39;%&#39;</span>]);</div>
+<div class="line"><span class="lineno">  581</span>            </div>
+<div class="line"><span class="lineno">  582</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  583</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  584</span>                <span class="stringliteral">&#39;count&#39;</span> =&gt; count($results),</div>
+<div class="line"><span class="lineno">  585</span>                <span class="stringliteral">&#39;data&#39;</span> =&gt; $results</div>
+<div class="line"><span class="lineno">  586</span>            ];</div>
+<div class="line"><span class="lineno">  587</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  588</span>            error_log(<span class="stringliteral">&quot;Error en búsqueda de hongos: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  589</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  590</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  591</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error en la búsqueda: &#39;</span> . $e-&gt;getMessage()</div>
+<div class="line"><span class="lineno">  592</span>            ];</div>
+<div class="line"><span class="lineno">  593</span>        }</div>
+<div class="line"><span class="lineno">  594</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1449,70 +1514,70 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Resultado de la operación </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00287">287</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  288</span>    {</div>
-<div class="line"><span class="lineno">  289</span>        <span class="comment">// Verificar permisos de administrador si se proporciona usuario</span></div>
-<div class="line"><span class="lineno">  290</span>        <span class="keywordflow">if</span> ($user &amp;&amp; (!isset($user[<span class="stringliteral">&#39;role&#39;</span>]) || $user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>)) {</div>
-<div class="line"><span class="lineno">  291</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  292</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  293</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No tienes permisos para realizar esta operación&#39;</span></div>
-<div class="line"><span class="lineno">  294</span>            ];</div>
-<div class="line"><span class="lineno">  295</span>        }</div>
-<div class="line"><span class="lineno">  296</span>        </div>
-<div class="line"><span class="lineno">  297</span>        <span class="comment">// Verificar que el hongo exista</span></div>
-<div class="line"><span class="lineno">  298</span>        $checkResult = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT id FROM fungi WHERE id = ?&quot;</span>, [$fungiId]);</div>
-<div class="line"><span class="lineno">  299</span>        <span class="keywordflow">if</span> (!$checkResult || ($checkResult instanceof \PDOStatement &amp;&amp; !$checkResult-&gt;fetch())) {</div>
-<div class="line"><span class="lineno">  300</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  301</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  302</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;El hongo especificado no existe&#39;</span></div>
-<div class="line"><span class="lineno">  303</span>            ];</div>
-<div class="line"><span class="lineno">  304</span>        }</div>
-<div class="line"><span class="lineno">  305</span>        </div>
-<div class="line"><span class="lineno">  306</span>        <span class="comment">// Construir consulta dinámica</span></div>
-<div class="line"><span class="lineno">  307</span>        $fields = [];</div>
-<div class="line"><span class="lineno">  308</span>        $values = [];</div>
-<div class="line"><span class="lineno">  309</span>        </div>
-<div class="line"><span class="lineno">  310</span>        <span class="keywordflow">foreach</span> ($data as $field =&gt; $value) {</div>
-<div class="line"><span class="lineno">  311</span>            <span class="comment">// Solo permitir campos válidos</span></div>
-<div class="line"><span class="lineno">  312</span>            <span class="keywordflow">if</span> (in_array($field, [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>, <span class="stringliteral">&#39;observations&#39;</span>, <span class="stringliteral">&#39;common_name&#39;</span>, <span class="stringliteral">&#39;synonym&#39;</span>, <span class="stringliteral">&#39;title&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  313</span>                $fields[] = <span class="stringliteral">&quot;$field = ?&quot;</span>;</div>
-<div class="line"><span class="lineno">  314</span>                $values[] = $value;</div>
-<div class="line"><span class="lineno">  315</span>            }</div>
-<div class="line"><span class="lineno">  316</span>        }</div>
-<div class="line"><span class="lineno">  317</span>        </div>
-<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">if</span> (empty($fields)) {</div>
-<div class="line"><span class="lineno">  319</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  320</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  321</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No se proporcionaron campos válidos para actualizar&#39;</span></div>
-<div class="line"><span class="lineno">  322</span>            ];</div>
-<div class="line"><span class="lineno">  323</span>        }</div>
-<div class="line"><span class="lineno">  324</span>        </div>
-<div class="line"><span class="lineno">  325</span>        <span class="comment">// Agregar ID para la cláusula WHERE</span></div>
-<div class="line"><span class="lineno">  326</span>        $values[] = $fungiId;</div>
-<div class="line"><span class="lineno">  327</span>        </div>
-<div class="line"><span class="lineno">  328</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  329</span>            $sql = <span class="stringliteral">&quot;UPDATE fungi SET &quot;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $fields) . <span class="stringliteral">&quot; WHERE id = ?&quot;</span>;</div>
-<div class="line"><span class="lineno">  330</span>            $result = $this-&gt;db-&gt;query($sql, $values);</div>
-<div class="line"><span class="lineno">  331</span>            </div>
-<div class="line"><span class="lineno">  332</span>            <span class="keywordflow">if</span> ($result) {</div>
-<div class="line"><span class="lineno">  333</span>                <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  334</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  335</span>                    <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Hongo actualizado correctamente&#39;</span></div>
-<div class="line"><span class="lineno">  336</span>                ];</div>
-<div class="line"><span class="lineno">  337</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  338</span>                <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  339</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  340</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al actualizar el hongo en la base de datos&#39;</span></div>
-<div class="line"><span class="lineno">  341</span>                ];</div>
-<div class="line"><span class="lineno">  342</span>            }</div>
-<div class="line"><span class="lineno">  343</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  344</span>            error_log(<span class="stringliteral">&quot;Error actualizando hongo: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  345</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  346</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  347</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error interno del servidor: &#39;</span> . $e-&gt;getMessage()</div>
-<div class="line"><span class="lineno">  348</span>            ];</div>
-<div class="line"><span class="lineno">  349</span>        }</div>
-<div class="line"><span class="lineno">  350</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="FungiController_8php_source.html#l00339">339</a> del archivo <a class="el" href="FungiController_8php_source.html">FungiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  340</span>    {</div>
+<div class="line"><span class="lineno">  341</span>        <span class="comment">// Verificar permisos de administrador si se proporciona usuario</span></div>
+<div class="line"><span class="lineno">  342</span>        <span class="keywordflow">if</span> ($user &amp;&amp; (!isset($user[<span class="stringliteral">&#39;role&#39;</span>]) || $user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>)) {</div>
+<div class="line"><span class="lineno">  343</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  344</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  345</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No tienes permisos para realizar esta operación&#39;</span></div>
+<div class="line"><span class="lineno">  346</span>            ];</div>
+<div class="line"><span class="lineno">  347</span>        }</div>
+<div class="line"><span class="lineno">  348</span>        </div>
+<div class="line"><span class="lineno">  349</span>        <span class="comment">// Verificar que el hongo exista</span></div>
+<div class="line"><span class="lineno">  350</span>        $checkResult = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT id FROM fungi WHERE id = ?&quot;</span>, [$fungiId]);</div>
+<div class="line"><span class="lineno">  351</span>        <span class="keywordflow">if</span> (!$checkResult || ($checkResult instanceof \PDOStatement &amp;&amp; !$checkResult-&gt;fetch())) {</div>
+<div class="line"><span class="lineno">  352</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  353</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  354</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;El hongo especificado no existe&#39;</span></div>
+<div class="line"><span class="lineno">  355</span>            ];</div>
+<div class="line"><span class="lineno">  356</span>        }</div>
+<div class="line"><span class="lineno">  357</span>        </div>
+<div class="line"><span class="lineno">  358</span>        <span class="comment">// Construir consulta dinámica</span></div>
+<div class="line"><span class="lineno">  359</span>        $fields = [];</div>
+<div class="line"><span class="lineno">  360</span>        $values = [];</div>
+<div class="line"><span class="lineno">  361</span>        </div>
+<div class="line"><span class="lineno">  362</span>        <span class="keywordflow">foreach</span> ($data as $field =&gt; $value) {</div>
+<div class="line"><span class="lineno">  363</span>            <span class="comment">// Solo permitir campos válidos</span></div>
+<div class="line"><span class="lineno">  364</span>            <span class="keywordflow">if</span> (in_array($field, [<span class="stringliteral">&#39;name&#39;</span>, <span class="stringliteral">&#39;edibility&#39;</span>, <span class="stringliteral">&#39;habitat&#39;</span>, <span class="stringliteral">&#39;observations&#39;</span>, <span class="stringliteral">&#39;common_name&#39;</span>, <span class="stringliteral">&#39;synonym&#39;</span>, <span class="stringliteral">&#39;title&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  365</span>                $fields[] = <span class="stringliteral">&quot;$field = ?&quot;</span>;</div>
+<div class="line"><span class="lineno">  366</span>                $values[] = $value;</div>
+<div class="line"><span class="lineno">  367</span>            }</div>
+<div class="line"><span class="lineno">  368</span>        }</div>
+<div class="line"><span class="lineno">  369</span>        </div>
+<div class="line"><span class="lineno">  370</span>        <span class="keywordflow">if</span> (empty($fields)) {</div>
+<div class="line"><span class="lineno">  371</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  372</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  373</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;No se proporcionaron campos válidos para actualizar&#39;</span></div>
+<div class="line"><span class="lineno">  374</span>            ];</div>
+<div class="line"><span class="lineno">  375</span>        }</div>
+<div class="line"><span class="lineno">  376</span>        </div>
+<div class="line"><span class="lineno">  377</span>        <span class="comment">// Agregar ID para la cláusula WHERE</span></div>
+<div class="line"><span class="lineno">  378</span>        $values[] = $fungiId;</div>
+<div class="line"><span class="lineno">  379</span>        </div>
+<div class="line"><span class="lineno">  380</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  381</span>            $sql = <span class="stringliteral">&quot;UPDATE fungi SET &quot;</span> . implode(<span class="stringliteral">&#39;, &#39;</span>, $fields) . <span class="stringliteral">&quot; WHERE id = ?&quot;</span>;</div>
+<div class="line"><span class="lineno">  382</span>            $result = $this-&gt;db-&gt;query($sql, $values);</div>
+<div class="line"><span class="lineno">  383</span>            </div>
+<div class="line"><span class="lineno">  384</span>            <span class="keywordflow">if</span> ($result) {</div>
+<div class="line"><span class="lineno">  385</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  386</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  387</span>                    <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Hongo actualizado correctamente&#39;</span></div>
+<div class="line"><span class="lineno">  388</span>                ];</div>
+<div class="line"><span class="lineno">  389</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  390</span>                <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  391</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  392</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al actualizar el hongo en la base de datos&#39;</span></div>
+<div class="line"><span class="lineno">  393</span>                ];</div>
+<div class="line"><span class="lineno">  394</span>            }</div>
+<div class="line"><span class="lineno">  395</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  396</span>            error_log(<span class="stringliteral">&quot;Error actualizando hongo: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  397</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  398</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  399</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error interno del servidor: &#39;</span> . $e-&gt;getMessage()</div>
+<div class="line"><span class="lineno">  400</span>            ];</div>
+<div class="line"><span class="lineno">  401</span>        }</div>
+<div class="line"><span class="lineno">  402</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1603,7 +1668,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1FungiController.html">FungiController</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 12:52:08 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 14:32:26 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

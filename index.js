@@ -10,7 +10,7 @@ var index =
       [ "Instalación manual", "index.html#autotoc_md8", null ]
     ] ],
     [ "👥 Casos de Uso", "index.html#autotoc_md9", null ],
-    [ "🌱 Roadmap", "index.html#autotoc_md10", null ],
+    [ "🌱 Pequeño roadmap", "index.html#autotoc_md10", null ],
     [ "📄 Licencia", "index.html#autotoc_md11", null ],
     [ "📧 Contacto", "index.html#autotoc_md12", null ],
     [ "- 🌐 Sitio web: <a href=\"https://mgrl39.github.io/fungi\" >mgrl39.github.io/fungi</a>", "index.html#autotoc_md13", null ]
