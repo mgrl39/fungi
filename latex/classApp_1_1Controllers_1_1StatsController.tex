@@ -25,7 +25,7 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Stats
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{get\+All\+Stats\+For\+Page}} ()
 \begin{DoxyCompactList}\small\item\em Obtiene todas las estadísticas necesarias para la página de estadísticas. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a23b681a8cc748f3cfeff24da0e6d8e34}{get\+Dashboard\+Stats}} ()
-\begin{DoxyCompactList}\small\item\em Obtiene todas las estadísticas necesarias para el panel de administración. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Obtiene estadísticas para el dashboard de administración. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8}{get\+Edibility\+Stats}} (\$time\+Range=\textquotesingle{}all\textquotesingle{})
 \begin{DoxyCompactList}\small\item\em Obtiene estadísticas de comestibilidad de hongos. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358}{get\+Fungi\+Stats}} (\$time\+Range=\textquotesingle{}all\textquotesingle{})
@@ -47,6 +47,8 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Stats
 \doxysubsubsection*{Métodos privados}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{get\+Base\+Url}} ()
+\begin{DoxyCompactList}\small\item\em Obtiene la URL base del sitio. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8}{get\+Class\+Stats}} (\$time\+Range)
 \begin{DoxyCompactList}\small\item\em Obtiene estadísticas sobre las clases taxonómicas de hongos. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a}{get\+Division\+Stats}} (\$time\+Range)
@@ -184,61 +186,95 @@ Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00450}{45
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00451\ \ \ \ \ \{}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ conteo\ total\ de\ hongos}}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \$totalFungi\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ fungi"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0;}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ En\ lugar\ de\ usar\ datos\ hardcodeados\ o\ calcular\ porcentajes\ falsos,}}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ usamos\ endpoints\ de\ API\ existentes\ para\ datos\ reales}}
 \DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas\ de\ comestibilidad\ y\ formatearlas}}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \$edibilityStats\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8}{getEdibilityStats}}();}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \$edibilityFormatted\ =\ [}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edible\_fungi'}\ =>\ 0,}
-\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'non\_edible\_fungi'}\ =>\ 0,}
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'toxic\_fungi'}\ =>\ 0,}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'unknown\_edibility\_fungi'}\ =>\ 0}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$edibilityStats\ as\ \$stat)\ \{}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'edible'})\ \$edibilityFormatted[\textcolor{stringliteral}{'edible\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'non\_edible'})\ \$edibilityFormatted[\textcolor{stringliteral}{'non\_edible\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'toxic'})\ \$edibilityFormatted[\textcolor{stringliteral}{'toxic\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stat[\textcolor{stringliteral}{'edibility'}]\ ===\ \textcolor{stringliteral}{'unknown'})\ \$edibilityFormatted[\textcolor{stringliteral}{'unknown\_edibility\_fungi'}]\ =\ \$stat[\textcolor{stringliteral}{'count'}];}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Utilizamos\ el\ endpoint\ de\ hongos\ para\ obtener\ datos\ reales}}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)FungiController(\$this-\/>db);}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \$allFungi\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>getAllFungi();}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ estadísticas\ de\ edibilidad\ basadas\ en\ datos\ reales}}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \$edibilityStats\ =\ [];}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$allFungi[\textcolor{stringliteral}{'data'}])\ \&\&\ is\_array(\$allFungi[\textcolor{stringliteral}{'data'}]))\ \{}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$allFungi[\textcolor{stringliteral}{'data'}]\ as\ \$fungi)\ \{}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility\ =\ \$fungi[\textcolor{stringliteral}{'edibility'}]\ ??\ \textcolor{stringliteral}{'unknown'};}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$edibilityStats[\$edibility]))\ \{}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityStats[\$edibility]\ =\ 0;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityStats[\$edibility]++;}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Combinar\ todos\ los\ datos\ para\ la\ plantilla}}
-\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ array\_merge(\$edibilityFormatted,\ [}
-\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$totalFungi,}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_users'}\ =>\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0,}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'top\_families'}\ =>\ \$this-\/>getTopFamilies(10),}
-\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'most\_viewed'}\ =>\ \$this-\/>getMostViewedFungi(5),}
-\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'top\_favorites'}\ =>\ \$this-\/>getTopFavorites(5),}
-\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'top\_liked'}\ =>\ \$this-\/>getTopLiked(5),}
-\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'trends'}\ =>\ \$this-\/>getAdditionTrends(),}
-\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'habitats'}\ =>\ \$this-\/>getHabitatDistribution()}
-\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ ]);}
-\DoxyCodeLine{00482\ \ \ \ \ \}}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ los\ hongos\ más\ populares\ (basados\ en\ vistas\ reales)}}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \$popularFungi\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ fp.views\ }}
+\DoxyCodeLine{00474\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{00475\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\_popularity\ fp\ ON\ f.id\ =\ fp.fungi\_id\ }}
+\DoxyCodeLine{00476\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ fp.views\ DESC\ }}
+\DoxyCodeLine{00477\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 5"{}}}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ )-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Devolvemos\ solo\ datos\ reales,\ sin\ porcentajes\ inventados}}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ count(\$allFungi[\textcolor{stringliteral}{'data'}]\ ??\ []),}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular\_fungi'}\ =>\ \$popularFungi,}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edibility\_stats'}\ =>\ \$edibilityStats}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00486\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00072}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Edibility\+Stats()}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00096}{\$fungi\+Controller}}.
 
 
 
-Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00525}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}statistics\+Page\+Handler()}}.
+Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00499}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}statistics\+Page\+Handler()}}.
 
-Gráfico de llamadas de esta función\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_cgraph}
-\end{center}
-\end{figure}
 Gráfico de llamadas a esta función\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}\label{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6} 
+\index{App\textbackslash{}Controllers\textbackslash{}StatsController@{App\textbackslash{}Controllers\textbackslash{}StatsController}!getBaseUrl@{getBaseUrl}}
+\index{getBaseUrl@{getBaseUrl}!App\textbackslash{}Controllers\textbackslash{}StatsController@{App\textbackslash{}Controllers\textbackslash{}StatsController}}
+\doxysubsubsection{\texorpdfstring{getBaseUrl()}{getBaseUrl()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\+::get\+Base\+Url (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Obtiene la URL base del sitio. 
+
+\begin{DoxyReturn}{Devuelve}
+string URL base del sitio 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00513}{513}} del archivo \mbox{\hyperlink{StatsController_8php_source}{Stats\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00514\ \ \ \ \ \{}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
+\DoxyCodeLine{00518\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00499}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}statistics\+Page\+Handler()}}.
+
+Gráfico de llamadas a esta función\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8}\label{classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8} 
@@ -310,54 +346,101 @@ Gráfico de llamadas a esta función\+:
 
 
 
-Obtiene todas las estadísticas necesarias para el panel de administración. 
+Obtiene estadísticas para el dashboard de administración. 
 
 \begin{DoxyReturn}{Devuelve}
-array Datos del dashboard formateados para la plantilla 
+array Datos estadísticos para el panel de administración 
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00489}{489}} del archivo \mbox{\hyperlink{StatsController_8php_source}{Stats\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00525}{525}} del archivo \mbox{\hyperlink{StatsController_8php_source}{Stats\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00490\ \ \ \ \ \{}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ actividad\ reciente\ de\ usuarios\ desde\ la\ base\ de\ datos}}
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \$queryResult\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ u.username,\ a.action,\ a.item,\ a.access\_time\ as\ date\ }}
-\DoxyCodeLine{00494\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ access\_logs\ a}}
-\DoxyCodeLine{00495\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ users\ u\ ON\ a.user\_id\ =\ u.id}}
-\DoxyCodeLine{00496\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ a.access\_time\ DESC}}
-\DoxyCodeLine{00497\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 10"{}}}
-\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \$recentActivity\ =\ \$queryResult\ ?\ \$queryResult-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)\ :\ [];}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ estadísticas\ generales}}
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \$fungiStats\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358}{getFungiStats}}(\textcolor{stringliteral}{'all'});}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ fungi"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0,}
-\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_users'}\ =>\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users"{}})-\/>fetch()[\textcolor{stringliteral}{'total'}]\ ??\ 0,}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'recent\_activity'}\ =>\ \$recentActivity,}
-\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular\_fungi'}\ =>\ \$fungiStats[\textcolor{stringliteral}{'popular'}]\ ??\ [],}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edibility\_stats'}\ =>\ \$fungiStats[\textcolor{stringliteral}{'edibility'}]\ ??\ [],}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'family\_stats'}\ =>\ \$fungiStats[\textcolor{stringliteral}{'families'}]\ ??\ []}
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00512\ \ \ \ \ \}}
+\DoxyCodeLine{00526\ \ \ \ \ \{}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ el\ total\ de\ hongos}}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ fungi"{}};}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ en\ consulta:\ \$query"{}});}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungi\ =\ 0;}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungi\ =\ \$stmt-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}]\ ??\ 0;}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ el\ total\ de\ usuarios}}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ users"{}};}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ en\ consulta:\ \$query"{}});}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsers\ =\ 0;}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsers\ =\ \$stmt-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}]\ ??\ 0;}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ los\ hongos\ añadidos\ recientemente}}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usando\ date\_added\ en\ lugar\ de\ created\_at}}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ name,\ scientific\_name,\ edibility,\ date\_added\ }}
+\DoxyCodeLine{00551\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ }}
+\DoxyCodeLine{00552\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ date\_added\ DESC\ }}
+\DoxyCodeLine{00553\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 5"{}};}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ en\ consulta:\ \$query"{}});}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$recentFungi\ =\ [];}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$recentFungi\ =\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ usuarios\ recientes}}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ created\_at\ }}
+\DoxyCodeLine{00564\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ users\ }}
+\DoxyCodeLine{00565\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ created\_at\ DESC\ }}
+\DoxyCodeLine{00566\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 5"{}};}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ en\ consulta:\ \$query"{}});}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$recentUsers\ =\ [];}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$recentUsers\ =\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtenemos\ hongos\ más\ populares}}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \$query\ =\ \textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ COUNT(fp.fungi\_id)\ as\ views\ }}
+\DoxyCodeLine{00577\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FROM\ fungi\ f\ }}
+\DoxyCodeLine{00578\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LEFT\ JOIN\ fungi\_popularity\ fp\ ON\ f.id\ =\ fp.fungi\_id\ }}
+\DoxyCodeLine{00579\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ f.id}}
+\DoxyCodeLine{00580\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ views\ DESC\ }}
+\DoxyCodeLine{00581\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LIMIT\ 5"{}};}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \$stmt\ =\ \$this-\/>db-\/>query(\$query);}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$stmt\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ en\ consulta:\ \$query"{}});}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$popularFungi\ =\ [];}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$popularFungi\ =\ \$stmt-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$totalFungi,}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_users'}\ =>\ \$totalUsers,}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'recent\_fungi'}\ =>\ \$recentFungi,}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'recent\_users'}\ =>\ \$recentUsers,}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular\_fungi'}\ =>\ \$popularFungi}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ estadísticas\ del\ dashboard:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ 0,}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_users'}\ =>\ 0,}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'recent\_fungi'}\ =>\ [],}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'recent\_users'}\ =>\ [],}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular\_fungi'}\ =>\ []}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00607\ \ \ \ \ \}}
 
 \end{DoxyCode}
-
-
-Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00035}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Fungi\+Stats()}}.
-
-Gráfico de llamadas de esta función\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_a23b681a8cc748f3cfeff24da0e6d8e34_cgraph}
-\end{center}
-\end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a}\label{classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a} 
 \index{App\textbackslash{}Controllers\textbackslash{}StatsController@{App\textbackslash{}Controllers\textbackslash{}StatsController}!getDivisionStats@{getDivisionStats}}
 \index{getDivisionStats@{getDivisionStats}!App\textbackslash{}Controllers\textbackslash{}StatsController@{App\textbackslash{}Controllers\textbackslash{}StatsController}}
@@ -473,7 +556,7 @@ Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00053}{App\textb
 
 
 
-Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00450}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+All\+Stats\+For\+Page()}}, \mbox{\hyperlink{StatsController_8php_source_l00035}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Fungi\+Stats()}} y \mbox{\hyperlink{StatsController_8php_source_l00199}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+General\+Stats()}}.
+Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00035}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Fungi\+Stats()}} y \mbox{\hyperlink{StatsController_8php_source_l00199}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+General\+Stats()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -594,24 +677,12 @@ Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00035}{35
 
 Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00161}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Class\+Stats()}}, \mbox{\hyperlink{StatsController_8php_source_l00143}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Division\+Stats()}}, \mbox{\hyperlink{StatsController_8php_source_l00072}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Edibility\+Stats()}}, \mbox{\hyperlink{StatsController_8php_source_l00103}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Family\+Stats()}}, \mbox{\hyperlink{StatsController_8php_source_l00180}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Order\+Stats()}} y \mbox{\hyperlink{StatsController_8php_source_l00124}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Popular\+Fungi()}}.
 
-
-
-Referenciado por \mbox{\hyperlink{StatsController_8php_source_l00489}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Dashboard\+Stats()}}.
-
 Gráfico de llamadas de esta función\+:
 \nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358_cgraph}
-\end{center}
-\end{figure}
-Gráfico de llamadas a esta función\+:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358_icgraph}
 \end{center}
 \end{figure}
 \Hypertarget{classApp_1_1Controllers_1_1StatsController_a6c42f9fa6d2e3d47cd1910b324b710a3}\label{classApp_1_1Controllers_1_1StatsController_a6c42f9fa6d2e3d47cd1910b324b710a3} 
@@ -1247,21 +1318,22 @@ array Datos para la plantilla de estadísticas
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00525}{525}} del archivo \mbox{\hyperlink{StatsController_8php_source}{Stats\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{StatsController_8php_source_l00499}{499}} del archivo \mbox{\hyperlink{StatsController_8php_source}{Stats\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00526\ \ \ \ \ \{}
-\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
-\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}()}
-\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00531\ \ \ \ \ \}}
+\DoxyCodeLine{00500\ \ \ \ \ \{}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'stats'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}(),}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_url'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{getBaseUrl}}()}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00506\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00450}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+All\+Stats\+For\+Page()}}.
+Hace referencia a \mbox{\hyperlink{StatsController_8php_source_l00450}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+All\+Stats\+For\+Page()}} y \mbox{\hyperlink{StatsController_8php_source_l00513}{App\textbackslash{}\+Controllers\textbackslash{}\+Stats\+Controller\textbackslash{}get\+Base\+Url()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak

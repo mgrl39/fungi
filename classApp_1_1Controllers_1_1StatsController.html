@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('classApp_1_1Controllers_1_1StatsContro
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController__coll__graph.svg" width="226" height="476"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController__coll__graph.svg" width="226" height="496"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -121,7 +121,7 @@ Métodos públicos</h2></td></tr>
 <tr class="memdesc:af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene todas las estadísticas necesarias para la página de estadísticas.  <br /></td></tr>
 <tr class="separator:af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23b681a8cc748f3cfeff24da0e6d8e34" id="r_a23b681a8cc748f3cfeff24da0e6d8e34"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#a23b681a8cc748f3cfeff24da0e6d8e34">getDashboardStats</a> ()</td></tr>
-<tr class="memdesc:a23b681a8cc748f3cfeff24da0e6d8e34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene todas las estadísticas necesarias para el panel de administración.  <br /></td></tr>
+<tr class="memdesc:a23b681a8cc748f3cfeff24da0e6d8e34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene estadísticas para el dashboard de administración.  <br /></td></tr>
 <tr class="separator:a23b681a8cc748f3cfeff24da0e6d8e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a339d384906766d15e008dbfda50a2ca8" id="r_a339d384906766d15e008dbfda50a2ca8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#a339d384906766d15e008dbfda50a2ca8">getEdibilityStats</a> ($timeRange='all')</td></tr>
 <tr class="memdesc:a339d384906766d15e008dbfda50a2ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene estadísticas de comestibilidad de hongos.  <br /></td></tr>
@@ -153,6 +153,9 @@ Métodos públicos</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Métodos privados</h2></td></tr>
+<tr class="memitem:a54135d721d270bd3dec13083d4051dc6" id="r_a54135d721d270bd3dec13083d4051dc6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">getBaseUrl</a> ()</td></tr>
+<tr class="memdesc:a54135d721d270bd3dec13083d4051dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene la URL base del sitio.  <br /></td></tr>
+<tr class="separator:a54135d721d270bd3dec13083d4051dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a19103b3b40588b307b330f1b37e408d8" id="r_a19103b3b40588b307b330f1b37e408d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#a19103b3b40588b307b330f1b37e408d8">getClassStats</a> ($timeRange)</td></tr>
 <tr class="memdesc:a19103b3b40588b307b330f1b37e408d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene estadísticas sobre las clases taxonómicas de hongos.  <br /></td></tr>
 <tr class="separator:a19103b3b40588b307b330f1b37e408d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -298,55 +301,96 @@ Atributos privados</h2></td></tr>
 
 <p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00450">450</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  451</span>    {</div>
-<div class="line"><span class="lineno">  452</span>        <span class="comment">// Obtener conteo total de hongos</span></div>
-<div class="line"><span class="lineno">  453</span>        $totalFungi = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM fungi&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  452</span>        <span class="comment">// En lugar de usar datos hardcodeados o calcular porcentajes falsos,</span></div>
+<div class="line"><span class="lineno">  453</span>        <span class="comment">// usamos endpoints de API existentes para datos reales</span></div>
 <div class="line"><span class="lineno">  454</span>        </div>
-<div class="line"><span class="lineno">  455</span>        <span class="comment">// Obtener estadísticas de comestibilidad y formatearlas</span></div>
-<div class="line"><span class="lineno">  456</span>        $edibilityStats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a339d384906766d15e008dbfda50a2ca8">getEdibilityStats</a>();</div>
-<div class="line"><span class="lineno">  457</span>        $edibilityFormatted = [</div>
-<div class="line"><span class="lineno">  458</span>            <span class="stringliteral">&#39;edible_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  459</span>            <span class="stringliteral">&#39;non_edible_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  460</span>            <span class="stringliteral">&#39;toxic_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  461</span>            <span class="stringliteral">&#39;unknown_edibility_fungi&#39;</span> =&gt; 0</div>
-<div class="line"><span class="lineno">  462</span>        ];</div>
-<div class="line"><span class="lineno">  463</span>        </div>
-<div class="line"><span class="lineno">  464</span>        <span class="keywordflow">foreach</span> ($edibilityStats as $stat) {</div>
-<div class="line"><span class="lineno">  465</span>            <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;edible&#39;</span>) $edibilityFormatted[<span class="stringliteral">&#39;edible_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  466</span>            <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;non_edible&#39;</span>) $edibilityFormatted[<span class="stringliteral">&#39;non_edible_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  467</span>            <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;toxic&#39;</span>) $edibilityFormatted[<span class="stringliteral">&#39;toxic_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  468</span>            <span class="keywordflow">if</span> ($stat[<span class="stringliteral">&#39;edibility&#39;</span>] === <span class="stringliteral">&#39;unknown&#39;</span>) $edibilityFormatted[<span class="stringliteral">&#39;unknown_edibility_fungi&#39;</span>] = $stat[<span class="stringliteral">&#39;count&#39;</span>];</div>
+<div class="line"><span class="lineno">  455</span>        <span class="comment">// Utilizamos el endpoint de hongos para obtener datos reales</span></div>
+<div class="line"><span class="lineno">  456</span>        <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a> = new \App\Controllers\FungiController($this-&gt;db);</div>
+<div class="line"><span class="lineno">  457</span>        $allFungi = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getAllFungi();</div>
+<div class="line"><span class="lineno">  458</span>        </div>
+<div class="line"><span class="lineno">  459</span>        <span class="comment">// Obtenemos estadísticas de edibilidad basadas en datos reales</span></div>
+<div class="line"><span class="lineno">  460</span>        $edibilityStats = [];</div>
+<div class="line"><span class="lineno">  461</span>        <span class="keywordflow">if</span> (isset($allFungi[<span class="stringliteral">&#39;data&#39;</span>]) &amp;&amp; is_array($allFungi[<span class="stringliteral">&#39;data&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  462</span>            <span class="keywordflow">foreach</span> ($allFungi[<span class="stringliteral">&#39;data&#39;</span>] as $fungi) {</div>
+<div class="line"><span class="lineno">  463</span>                $edibility = $fungi[<span class="stringliteral">&#39;edibility&#39;</span>] ?? <span class="stringliteral">&#39;unknown&#39;</span>;</div>
+<div class="line"><span class="lineno">  464</span>                <span class="keywordflow">if</span> (!isset($edibilityStats[$edibility])) {</div>
+<div class="line"><span class="lineno">  465</span>                    $edibilityStats[$edibility] = 0;</div>
+<div class="line"><span class="lineno">  466</span>                }</div>
+<div class="line"><span class="lineno">  467</span>                $edibilityStats[$edibility]++;</div>
+<div class="line"><span class="lineno">  468</span>            }</div>
 <div class="line"><span class="lineno">  469</span>        }</div>
 <div class="line"><span class="lineno">  470</span>        </div>
-<div class="line"><span class="lineno">  471</span>        <span class="comment">// Combinar todos los datos para la plantilla</span></div>
-<div class="line"><span class="lineno">  472</span>        <span class="keywordflow">return</span> array_merge($edibilityFormatted, [</div>
-<div class="line"><span class="lineno">  473</span>            <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi,</div>
-<div class="line"><span class="lineno">  474</span>            <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM users&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0,</div>
-<div class="line"><span class="lineno">  475</span>            <span class="stringliteral">&#39;top_families&#39;</span> =&gt; $this-&gt;getTopFamilies(10),</div>
-<div class="line"><span class="lineno">  476</span>            <span class="stringliteral">&#39;most_viewed&#39;</span> =&gt; $this-&gt;getMostViewedFungi(5),</div>
-<div class="line"><span class="lineno">  477</span>            <span class="stringliteral">&#39;top_favorites&#39;</span> =&gt; $this-&gt;getTopFavorites(5),</div>
-<div class="line"><span class="lineno">  478</span>            <span class="stringliteral">&#39;top_liked&#39;</span> =&gt; $this-&gt;getTopLiked(5),</div>
-<div class="line"><span class="lineno">  479</span>            <span class="stringliteral">&#39;trends&#39;</span> =&gt; $this-&gt;getAdditionTrends(),</div>
-<div class="line"><span class="lineno">  480</span>            <span class="stringliteral">&#39;habitats&#39;</span> =&gt; $this-&gt;getHabitatDistribution()</div>
-<div class="line"><span class="lineno">  481</span>        ]);</div>
-<div class="line"><span class="lineno">  482</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a339d384906766d15e008dbfda50a2ca8"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a339d384906766d15e008dbfda50a2ca8">App\Controllers\StatsController\getEdibilityStats</a></div><div class="ttdeci">getEdibilityStats($timeRange='all')</div><div class="ttdoc">Obtiene estadísticas de comestibilidad de hongos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00072">StatsController.php:72</a></div></div>
+<div class="line"><span class="lineno">  471</span>        <span class="comment">// Obtenemos los hongos más populares (basados en vistas reales)</span></div>
+<div class="line"><span class="lineno">  472</span>        $popularFungi = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">  473</span>            <span class="stringliteral">&quot;SELECT f.id, f.name, fp.views </span></div>
+<div class="line"><span class="lineno">  474</span><span class="stringliteral">             FROM fungi f </span></div>
+<div class="line"><span class="lineno">  475</span><span class="stringliteral">             JOIN fungi_popularity fp ON f.id = fp.fungi_id </span></div>
+<div class="line"><span class="lineno">  476</span><span class="stringliteral">             ORDER BY fp.views DESC </span></div>
+<div class="line"><span class="lineno">  477</span><span class="stringliteral">             LIMIT 5&quot;</span></div>
+<div class="line"><span class="lineno">  478</span>        )-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  479</span>        </div>
+<div class="line"><span class="lineno">  480</span>        <span class="comment">// Devolvemos solo datos reales, sin porcentajes inventados</span></div>
+<div class="line"><span class="lineno">  481</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  482</span>            <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; count($allFungi[<span class="stringliteral">&#39;data&#39;</span>] ?? []),</div>
+<div class="line"><span class="lineno">  483</span>            <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $popularFungi,</div>
+<div class="line"><span class="lineno">  484</span>            <span class="stringliteral">&#39;edibility_stats&#39;</span> =&gt; $edibilityStats</div>
+<div class="line"><span class="lineno">  485</span>        ];</div>
+<div class="line"><span class="lineno">  486</span>    }</div>
+<div class="ttc" id="aroutes_8php_html_a0bbc1d7715d0f934d799d5556a9216bf"><div class="ttname"><a href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a></div><div class="ttdeci">$fungiController</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00096">routes.php:96</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00096">$fungiController</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00525">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00499">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="a54135d721d270bd3dec13083d4051dc6" name="a54135d721d270bd3dec13083d4051dc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54135d721d270bd3dec13083d4051dc6">&#9670;&#160;</a></span>getBaseUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Controllers\StatsController::getBaseUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Obtiene la URL base del sitio. </p>
+<dl class="section return"><dt>Devuelve</dt><dd>string URL base del sitio </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00513">513</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  514</span>    {</div>
+<div class="line"><span class="lineno">  515</span>        $protocol = isset($_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>]) &amp;&amp; $_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>] === <span class="stringliteral">&#39;on&#39;</span> ? <span class="stringliteral">&#39;https://&#39;</span> : <span class="stringliteral">&#39;http://&#39;</span>;</div>
+<div class="line"><span class="lineno">  516</span>        $host = $_SERVER[<span class="stringliteral">&#39;HTTP_HOST&#39;</span>];</div>
+<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">return</span> $protocol . $host;</div>
+<div class="line"><span class="lineno">  518</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00499">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
 <div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-2-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-2-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -413,7 +457,7 @@ Atributos privados</h2></td></tr>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -433,44 +477,93 @@ Atributos privados</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Obtiene todas las estadísticas necesarias para el panel de administración. </p>
-<dl class="section return"><dt>Devuelve</dt><dd>array Datos del dashboard formateados para la plantilla </dd></dl>
+<p>Obtiene estadísticas para el dashboard de administración. </p>
+<dl class="section return"><dt>Devuelve</dt><dd>array Datos estadísticos para el panel de administración </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00489">489</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  490</span>    {</div>
-<div class="line"><span class="lineno">  491</span>        <span class="comment">// Obtener actividad reciente de usuarios desde la base de datos</span></div>
-<div class="line"><span class="lineno">  492</span>        $queryResult = $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">  493</span>            <span class="stringliteral">&quot;SELECT u.username, a.action, a.item, a.access_time as date </span></div>
-<div class="line"><span class="lineno">  494</span><span class="stringliteral">             FROM access_logs a</span></div>
-<div class="line"><span class="lineno">  495</span><span class="stringliteral">             JOIN users u ON a.user_id = u.id</span></div>
-<div class="line"><span class="lineno">  496</span><span class="stringliteral">             ORDER BY a.access_time DESC</span></div>
-<div class="line"><span class="lineno">  497</span><span class="stringliteral">             LIMIT 10&quot;</span></div>
-<div class="line"><span class="lineno">  498</span>        );</div>
-<div class="line"><span class="lineno">  499</span>        $recentActivity = $queryResult ? $queryResult-&gt;fetchAll(\PDO::FETCH_ASSOC) : [];</div>
-<div class="line"><span class="lineno">  500</span>        </div>
-<div class="line"><span class="lineno">  501</span>        <span class="comment">// Obtener estadísticas generales</span></div>
-<div class="line"><span class="lineno">  502</span>        $fungiStats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a944a68a075295dfdc85e7e403b469358">getFungiStats</a>(<span class="stringliteral">&#39;all&#39;</span>);</div>
-<div class="line"><span class="lineno">  503</span>        </div>
-<div class="line"><span class="lineno">  504</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  505</span>            <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM fungi&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0,</div>
-<div class="line"><span class="lineno">  506</span>            <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT COUNT(*) as total FROM users&quot;</span>)-&gt;fetch()[<span class="stringliteral">&#39;total&#39;</span>] ?? 0,</div>
-<div class="line"><span class="lineno">  507</span>            <span class="stringliteral">&#39;recent_activity&#39;</span> =&gt; $recentActivity,</div>
-<div class="line"><span class="lineno">  508</span>            <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $fungiStats[<span class="stringliteral">&#39;popular&#39;</span>] ?? [],</div>
-<div class="line"><span class="lineno">  509</span>            <span class="stringliteral">&#39;edibility_stats&#39;</span> =&gt; $fungiStats[<span class="stringliteral">&#39;edibility&#39;</span>] ?? [],</div>
-<div class="line"><span class="lineno">  510</span>            <span class="stringliteral">&#39;family_stats&#39;</span> =&gt; $fungiStats[<span class="stringliteral">&#39;families&#39;</span>] ?? []</div>
-<div class="line"><span class="lineno">  511</span>        ];</div>
-<div class="line"><span class="lineno">  512</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a944a68a075295dfdc85e7e403b469358"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a944a68a075295dfdc85e7e403b469358">App\Controllers\StatsController\getFungiStats</a></div><div class="ttdeci">getFungiStats($timeRange='all')</div><div class="ttdoc">Obtiene todas las estadísticas relacionadas con hongos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00035">StatsController.php:35</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00525">525</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  526</span>    {</div>
+<div class="line"><span class="lineno">  527</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  528</span>            <span class="comment">// Obtenemos el total de hongos</span></div>
+<div class="line"><span class="lineno">  529</span>            $query = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM fungi&quot;</span>;</div>
+<div class="line"><span class="lineno">  530</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  531</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  532</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  533</span>                $totalFungi = 0;</div>
+<div class="line"><span class="lineno">  534</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  535</span>                $totalFungi = $stmt-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  536</span>            }</div>
+<div class="line"><span class="lineno">  537</span>            </div>
+<div class="line"><span class="lineno">  538</span>            <span class="comment">// Obtenemos el total de usuarios</span></div>
+<div class="line"><span class="lineno">  539</span>            $query = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM users&quot;</span>;</div>
+<div class="line"><span class="lineno">  540</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  541</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  542</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  543</span>                $totalUsers = 0;</div>
+<div class="line"><span class="lineno">  544</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  545</span>                $totalUsers = $stmt-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  546</span>            }</div>
+<div class="line"><span class="lineno">  547</span>            </div>
+<div class="line"><span class="lineno">  548</span>            <span class="comment">// Obtenemos los hongos añadidos recientemente</span></div>
+<div class="line"><span class="lineno">  549</span>            <span class="comment">// Usando date_added en lugar de created_at</span></div>
+<div class="line"><span class="lineno">  550</span>            $query = <span class="stringliteral">&quot;SELECT id, name, scientific_name, edibility, date_added </span></div>
+<div class="line"><span class="lineno">  551</span><span class="stringliteral">                      FROM fungi </span></div>
+<div class="line"><span class="lineno">  552</span><span class="stringliteral">                      ORDER BY date_added DESC </span></div>
+<div class="line"><span class="lineno">  553</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
+<div class="line"><span class="lineno">  554</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  555</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  556</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  557</span>                $recentFungi = [];</div>
+<div class="line"><span class="lineno">  558</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  559</span>                $recentFungi = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  560</span>            }</div>
+<div class="line"><span class="lineno">  561</span>            </div>
+<div class="line"><span class="lineno">  562</span>            <span class="comment">// Obtenemos usuarios recientes</span></div>
+<div class="line"><span class="lineno">  563</span>            $query = <span class="stringliteral">&quot;SELECT id, username, email, created_at </span></div>
+<div class="line"><span class="lineno">  564</span><span class="stringliteral">                      FROM users </span></div>
+<div class="line"><span class="lineno">  565</span><span class="stringliteral">                      ORDER BY created_at DESC </span></div>
+<div class="line"><span class="lineno">  566</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
+<div class="line"><span class="lineno">  567</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  568</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  569</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  570</span>                $recentUsers = [];</div>
+<div class="line"><span class="lineno">  571</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  572</span>                $recentUsers = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  573</span>            }</div>
+<div class="line"><span class="lineno">  574</span>            </div>
+<div class="line"><span class="lineno">  575</span>            <span class="comment">// Obtenemos hongos más populares</span></div>
+<div class="line"><span class="lineno">  576</span>            $query = <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(fp.fungi_id) as views </span></div>
+<div class="line"><span class="lineno">  577</span><span class="stringliteral">                      FROM fungi f </span></div>
+<div class="line"><span class="lineno">  578</span><span class="stringliteral">                      LEFT JOIN fungi_popularity fp ON f.id = fp.fungi_id </span></div>
+<div class="line"><span class="lineno">  579</span><span class="stringliteral">                      GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">  580</span><span class="stringliteral">                      ORDER BY views DESC </span></div>
+<div class="line"><span class="lineno">  581</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
+<div class="line"><span class="lineno">  582</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  583</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  584</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  585</span>                $popularFungi = [];</div>
+<div class="line"><span class="lineno">  586</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  587</span>                $popularFungi = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  588</span>            }</div>
+<div class="line"><span class="lineno">  589</span>            </div>
+<div class="line"><span class="lineno">  590</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  591</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi,</div>
+<div class="line"><span class="lineno">  592</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $totalUsers,</div>
+<div class="line"><span class="lineno">  593</span>                <span class="stringliteral">&#39;recent_fungi&#39;</span> =&gt; $recentFungi,</div>
+<div class="line"><span class="lineno">  594</span>                <span class="stringliteral">&#39;recent_users&#39;</span> =&gt; $recentUsers,</div>
+<div class="line"><span class="lineno">  595</span>                <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $popularFungi</div>
+<div class="line"><span class="lineno">  596</span>            ];</div>
+<div class="line"><span class="lineno">  597</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  598</span>            error_log(<span class="stringliteral">&quot;Error al obtener estadísticas del dashboard: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  599</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  600</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; 0,</div>
+<div class="line"><span class="lineno">  601</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; 0,</div>
+<div class="line"><span class="lineno">  602</span>                <span class="stringliteral">&#39;recent_fungi&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  603</span>                <span class="stringliteral">&#39;recent_users&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  604</span>                <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; []</div>
+<div class="line"><span class="lineno">  605</span>            ];</div>
+<div class="line"><span class="lineno">  606</span>        }</div>
+<div class="line"><span class="lineno">  607</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a23b681a8cc748f3cfeff24da0e6d8e34_cgraph.svg" width="100%" height="578"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-
 </div>
 </div>
 <a id="a42b7befe748ebafdfaf9a1e1669b6a4a" name="a42b7befe748ebafdfaf9a1e1669b6a4a"></a>
@@ -521,19 +614,19 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -590,20 +683,20 @@ Atributos privados</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00450">App\Controllers\StatsController\getAllStatsForPage()</a>, <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a> y <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a> y <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-8-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_icgraph.svg" width="100%" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_icgraph.svg" width="504" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -659,19 +752,19 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e0cdd48bfd132bccade19031dca3c25_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
 <div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-10-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-10-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e0cdd48bfd132bccade19031dca3c25_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-11-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e0cdd48bfd132bccade19031dca3c25_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e0cdd48bfd132bccade19031dca3c25_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -714,26 +807,18 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   45</span>    }</div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a19103b3b40588b307b330f1b37e408d8"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a19103b3b40588b307b330f1b37e408d8">App\Controllers\StatsController\getClassStats</a></div><div class="ttdeci">getClassStats($timeRange)</div><div class="ttdoc">Obtiene estadísticas sobre las clases taxonómicas de hongos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00161">StatsController.php:161</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a2ff7db3ac8f173dbccfbbb9d61b9412f"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a2ff7db3ac8f173dbccfbbb9d61b9412f">App\Controllers\StatsController\getOrderStats</a></div><div class="ttdeci">getOrderStats($timeRange)</div><div class="ttdoc">Obtiene estadísticas sobre los órdenes taxonómicos de hongos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00180">StatsController.php:180</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a339d384906766d15e008dbfda50a2ca8"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a339d384906766d15e008dbfda50a2ca8">App\Controllers\StatsController\getEdibilityStats</a></div><div class="ttdeci">getEdibilityStats($timeRange='all')</div><div class="ttdoc">Obtiene estadísticas de comestibilidad de hongos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00072">StatsController.php:72</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a42b7befe748ebafdfaf9a1e1669b6a4a"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a42b7befe748ebafdfaf9a1e1669b6a4a">App\Controllers\StatsController\getDivisionStats</a></div><div class="ttdeci">getDivisionStats($timeRange)</div><div class="ttdoc">Obtiene estadísticas sobre las divisiones taxonómicas de hongos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00143">StatsController.php:143</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a9e0cdd48bfd132bccade19031dca3c25"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a9e0cdd48bfd132bccade19031dca3c25">App\Controllers\StatsController\getFamilyStats</a></div><div class="ttdeci">getFamilyStats($timeRange)</div><div class="ttdoc">Obtiene estadísticas sobre las familias de hongos más comunes.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00103">StatsController.php:103</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a9e81a77bff8dcf7481dbc58a4265ebe8"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a9e81a77bff8dcf7481dbc58a4265ebe8">App\Controllers\StatsController\getPopularFungi</a></div><div class="ttdeci">getPopularFungi($timeRange)</div><div class="ttdoc">Obtiene los hongos más populares basados en vistas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00124">StatsController.php:124</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00161">App\Controllers\StatsController\getClassStats()</a>, <a class="el" href="StatsController_8php_source.html#l00143">App\Controllers\StatsController\getDivisionStats()</a>, <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>, <a class="el" href="StatsController_8php_source.html#l00103">App\Controllers\StatsController\getFamilyStats()</a>, <a class="el" href="StatsController_8php_source.html#l00180">App\Controllers\StatsController\getOrderStats()</a> y <a class="el" href="StatsController_8php_source.html#l00124">App\Controllers\StatsController\getPopularFungi()</a>.</p>
-
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00489">App\Controllers\StatsController\getDashboardStats()</a>.</p>
-<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358_cgraph.svg" width="100%" height="578"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
-</div>
-<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-13-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -776,11 +861,11 @@ Atributos privados</h2></td></tr>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_acbbde5b1dcd9bfac461c687cc57236c7"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#acbbde5b1dcd9bfac461c687cc57236c7">App\Controllers\StatsController\getRecentAdditions</a></div><div class="ttdeci">getRecentAdditions($timeRange)</div><div class="ttdoc">Obtiene los hongos añadidos recientemente.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00233">StatsController.php:233</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>, <a class="el" href="StatsController_8php_source.html#l00233">App\Controllers\StatsController\getRecentAdditions()</a> y <a class="el" href="StatsController_8php_source.html#l00215">App\Controllers\StatsController\getTotalFungiCount()</a>.</p>
-<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a6c42f9fa6d2e3d47cd1910b324b710a3_cgraph.svg" width="100%" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -936,19 +1021,19 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-15-content" class="dyncontent" style="display:none;">
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a2ff7db3ac8f173dbccfbbb9d61b9412f_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-16-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a2ff7db3ac8f173dbccfbbb9d61b9412f_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a2ff7db3ac8f173dbccfbbb9d61b9412f_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1002,19 +1087,19 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-17-content" class="dyncontent" style="display:none;">
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e81a77bff8dcf7481dbc58a4265ebe8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-18-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e81a77bff8dcf7481dbc58a4265ebe8_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div id="dynsection-16-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e81a77bff8dcf7481dbc58a4265ebe8_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1080,18 +1165,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
-<div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-19-content" class="dyncontent" style="display:none;">
+<div id="dynsection-17-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_acbbde5b1dcd9bfac461c687cc57236c7_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-20-content" class="dyncontent" style="display:none;">
+<div id="dynsection-18-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_acbbde5b1dcd9bfac461c687cc57236c7_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1144,11 +1229,11 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   64</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00161">App\Controllers\StatsController\getClassStats()</a>, <a class="el" href="StatsController_8php_source.html#l00143">App\Controllers\StatsController\getDivisionStats()</a>, <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>, <a class="el" href="StatsController_8php_source.html#l00103">App\Controllers\StatsController\getFamilyStats()</a>, <a class="el" href="StatsController_8php_source.html#l00180">App\Controllers\StatsController\getOrderStats()</a>, <a class="el" href="StatsController_8php_source.html#l00124">App\Controllers\StatsController\getPopularFungi()</a>, <a class="el" href="StatsController_8php_source.html#l00233">App\Controllers\StatsController\getRecentAdditions()</a>, <a class="el" href="StatsController_8php_source.html#l00298">App\Controllers\StatsController\getTopFamilies()</a> y <a class="el" href="StatsController_8php_source.html#l00215">App\Controllers\StatsController\getTotalFungiCount()</a>.</p>
-<div id="dynsection-21" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-21-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-21-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-21-content" class="dyncontent" style="display:none;">
+<div id="dynsection-19-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_acbcc9cd24df7ea83bb72e818e3cf4ebe_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -1219,11 +1304,11 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  324</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
-<div id="dynsection-22" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-22-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-22-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-22-content" class="dyncontent" style="display:none;">
+<div id="dynsection-20-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_abaa9ec5f3cfb54693308bfb1ec304163_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1379,18 +1464,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
-<div id="dynsection-23" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-23-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-23-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-21" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-21-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-21-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-23-content" class="dyncontent" style="display:none;">
+<div id="dynsection-21-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_aa6d98d1284d05b3772442f189f643a88_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-24" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-24-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-24-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-22" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-22-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-22-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-24-content" class="dyncontent" style="display:none;">
+<div id="dynsection-22-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_aa6d98d1284d05b3772442f189f643a88_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1440,22 +1525,24 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla de estadísticas </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00525">525</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  526</span>    {</div>
-<div class="line"><span class="lineno">  527</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  528</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
-<div class="line"><span class="lineno">  529</span>            <span class="stringliteral">&#39;stats&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a>()</div>
-<div class="line"><span class="lineno">  530</span>        ];</div>
-<div class="line"><span class="lineno">  531</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00499">499</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  500</span>    {</div>
+<div class="line"><span class="lineno">  501</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  502</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
+<div class="line"><span class="lineno">  503</span>            <span class="stringliteral">&#39;stats&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a>(),</div>
+<div class="line"><span class="lineno">  504</span>            <span class="stringliteral">&#39;api_url&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">getBaseUrl</a>()</div>
+<div class="line"><span class="lineno">  505</span>        ];</div>
+<div class="line"><span class="lineno">  506</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a54135d721d270bd3dec13083d4051dc6"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">App\Controllers\StatsController\getBaseUrl</a></div><div class="ttdeci">getBaseUrl()</div><div class="ttdoc">Obtiene la URL base del sitio.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00513">StatsController.php:513</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">App\Controllers\StatsController\getAllStatsForPage</a></div><div class="ttdeci">getAllStatsForPage()</div><div class="ttdoc">Obtiene todas las estadísticas necesarias para la página de estadísticas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00450">StatsController.php:450</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00450">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
-<div id="dynsection-25" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-25-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-25-summary" class="dynsummary" style="display:block;">
+<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00450">App\Controllers\StatsController\getAllStatsForPage()</a> y <a class="el" href="StatsController_8php_source.html#l00513">App\Controllers\StatsController\getBaseUrl()</a>.</p>
+<div id="dynsection-23" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-23-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-23-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-25-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div id="dynsection-23-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c_cgraph.svg" width="504" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1496,7 +1583,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html">StatsController</a></li>
-    <li class="footer">Generado el Domingo, 16 de marzo de 2025 21:42:42 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 01:23:53 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

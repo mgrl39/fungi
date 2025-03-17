@@ -4,7 +4,7 @@ var searchData=
   ['seguridad_1',['Configuración de Seguridad',['../group__Configuraci_xC3_xB3nSeguridad.html',1,'']]],
   ['sessioncontroller_2',['SessionController',['../classApp_1_1Controllers_1_1SessionController.html',1,'App::Controllers']]],
   ['sessioncontroller_2ephp_3',['SessionController.php',['../SessionController_8php.html',1,'']]],
-  ['show_4',['show',['../classApp_1_1Controllers_1_1Api_1_1ApiInfoController.html#a6f0396bbb1893cc0976fb804a48faa59',1,'App::Controllers::Api::ApiInfoController']]],
+  ['show_4',['show',['../classApp_1_1Controllers_1_1DocsController.html#a26c7d871df293aeea872304083487788',1,'App::Controllers::DocsController']]],
   ['sitio_20web_3a_20a_20href_20https_3a_20mgrl39_20github_20io_20fungi_20mgrl39_20github_20io_20fungi_20a_5',['- 🌐 Sitio web: &lt;a href=&quot;https://mgrl39.github.io/fungi&quot; &gt;mgrl39.github.io/fungi&lt;/a&gt;',['../index.html#autotoc_md13',1,'']]],
   ['stack_20tecnológico_6',['🔧 Stack Tecnológico',['../index.html#autotoc_md3',1,'']]],
   ['statisticspagehandler_7',['statisticsPageHandler',['../classApp_1_1Controllers_1_1StatsController.html#a13a0ac992567acd018968d78f7a2201c',1,'App::Controllers::StatsController']]],

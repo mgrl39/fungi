@@ -9,10 +9,8 @@ var searchData=
   ['apicontroller_2ephp_6',['ApiController.php',['../ApiController_8php.html',1,'']]],
   ['apideletecontroller_2ephp_7',['ApiDeleteController.php',['../ApiDeleteController_8php.html',1,'']]],
   ['apigetcontroller_2ephp_8',['ApiGetController.php',['../ApiGetController_8php.html',1,'']]],
-  ['apiinfocontroller_2ephp_9',['ApiInfoController.php',['../ApiInfoController_8php.html',1,'']]],
-  ['apipostcontroller_2ephp_10',['ApiPostController.php',['../ApiPostController_8php.html',1,'']]],
-  ['apiputcontroller_2ephp_11',['ApiPutController.php',['../ApiPutController_8php.html',1,'']]],
-  ['appinitializer_2ephp_12',['AppInitializer.php',['../AppInitializer_8php.html',1,'']]],
-  ['auth_2ecss_13',['auth.css',['../auth_8css.html',1,'']]],
-  ['authcontroller_2ephp_14',['AuthController.php',['../AuthController_8php.html',1,'']]]
+  ['apipostcontroller_2ephp_9',['ApiPostController.php',['../ApiPostController_8php.html',1,'']]],
+  ['appinitializer_2ephp_10',['AppInitializer.php',['../AppInitializer_8php.html',1,'']]],
+  ['auth_2ecss_11',['auth.css',['../auth_8css.html',1,'']]],
+  ['authcontroller_2ephp_12',['AuthController.php',['../AuthController_8php.html',1,'']]]
 ];

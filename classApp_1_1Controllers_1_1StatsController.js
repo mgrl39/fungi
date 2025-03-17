@@ -3,6 +3,7 @@ var classApp_1_1Controllers_1_1StatsController =
     [ "__construct", "classApp_1_1Controllers_1_1StatsController.html#aa29167da3f341e9199c640b102e5fc97", null ],
     [ "getAdditionTrends", "classApp_1_1Controllers_1_1StatsController.html#ab34ffd8a338bf1ef2251c21a3ef00dac", null ],
     [ "getAllStatsForPage", "classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944", null ],
+    [ "getBaseUrl", "classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6", null ],
     [ "getClassStats", "classApp_1_1Controllers_1_1StatsController.html#a19103b3b40588b307b330f1b37e408d8", null ],
     [ "getDashboardStats", "classApp_1_1Controllers_1_1StatsController.html#a23b681a8cc748f3cfeff24da0e6d8e34", null ],
     [ "getDivisionStats", "classApp_1_1Controllers_1_1StatsController.html#a42b7befe748ebafdfaf9a1e1669b6a4a", null ],
