@@ -25,202 +25,6 @@ class StatsController
     {
         $this->db = $db;
     }
-
-    /**
-     * @brief Genera la condición SQL para filtrar por rango de tiempo
-     * 
-     * @param string $timeRange Rango de tiempo (all, week, month, year)
-     * @return string Condición SQL para la consulta
-     */
-    private function getTimeRangeCondition($timeRange)
-    {
-        if ($timeRange === 'all') return '';
-        $interval = '';
-        switch($timeRange) {
-            case 'week': $interval = '7 DAY'; break;
-            case 'month': $interval = '30 DAY'; break;
-            case 'year': $interval = '365 DAY'; break;
-            default: $interval = '0 DAY';
-        }
-        return "WHERE created_at >= DATE_SUB(NOW(), INTERVAL $interval)";
-    }
-
-    /**
-     * @brief Obtiene estadísticas de comestibilidad de hongos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Estadísticas de comestibilidad
-     */
-    public function getEdibilityStats($timeRange = 'all')
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        
-        try {
-            $result = $this->db->query(
-                "SELECT edibility, COUNT(*) as count
-                 FROM fungi
-                 $timeCondition
-                 GROUP BY edibility
-                 ORDER BY count DESC"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener estadísticas de comestibilidad: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener estadísticas de comestibilidad: " . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * @brief Obtiene estadísticas sobre las familias de hongos más comunes
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Las 10 familias de hongos más comunes con sus recuentos
-     */
-    private function getFamilyStats($timeRange)
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        return $this->db->query(
-            "SELECT t.family, COUNT(*) as count 
-             FROM taxonomy t
-             JOIN fungi f ON f.id = t.fungi_id
-             $timeCondition
-             WHERE t.family IS NOT NULL 
-             GROUP BY t.family 
-             ORDER BY count DESC 
-             LIMIT 10"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @brief Obtiene los hongos más populares basados en vistas
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Los 10 hongos más vistos con sus contadores de vistas
-     */
-    private function getPopularFungi($timeRange)
-    {
-        $timeCondition = str_replace('created_at', 'fp.last_view', $this->getTimeRangeCondition($timeRange));
-        return $this->db->query(
-            "SELECT f.name, fp.views 
-             FROM fungi f 
-             JOIN fungi_popularity fp ON f.id = fp.fungi_id 
-             $timeCondition
-             ORDER BY fp.views DESC 
-             LIMIT 10"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @brief Obtiene estadísticas sobre las divisiones taxonómicas de hongos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Datos de divisiones agrupados y contados
-     */
-    private function getDivisionStats($timeRange)
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        return $this->db->query(
-            "SELECT division, COUNT(*) as count 
-             FROM taxonomy 
-             WHERE division IS NOT NULL 
-             GROUP BY division 
-             ORDER BY count DESC"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @brief Obtiene estadísticas sobre las clases taxonómicas de hongos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Las 10 clases más comunes con sus recuentos
-     */
-    private function getClassStats($timeRange) 
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        return $this->db->query(
-            "SELECT class, COUNT(*) as count 
-             FROM taxonomy 
-             WHERE class IS NOT NULL 
-             GROUP BY class 
-             ORDER BY count DESC 
-             LIMIT 10"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @brief Obtiene estadísticas sobre los órdenes taxonómicos de hongos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Los 10 órdenes más comunes con sus recuentos
-     */
-    private function getOrderStats($timeRange)
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        return $this->db->query(
-            "SELECT ordo, COUNT(*) as count 
-             FROM taxonomy 
-             WHERE ordo IS NOT NULL 
-             GROUP BY ordo 
-             ORDER BY count DESC 
-             LIMIT 10"
-        )->fetchAll(\PDO::FETCH_ASSOC);
-    }
-
-    /**
-     * @brief Obtiene el número total de hongos en la base de datos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return int Número total de hongos
-     */
-    private function getTotalFungiCount($timeRange)
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        $result = $this->db->query(
-            "SELECT COUNT(*) as count 
-             FROM fungi 
-             $timeCondition"
-        )->fetch(\PDO::FETCH_ASSOC);
-        
-        return $result['count'] ?? 0;
-    }
-
-    /**
-     * @brief Obtiene los hongos añadidos recientemente
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Los 5 hongos más recientes
-     */
-    private function getRecentAdditions($timeRange)
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        
-        try {
-            $result = $this->db->query(
-                "SELECT id, name, date_added as created_at
-                 FROM fungi 
-                 $timeCondition
-                 ORDER BY date_added DESC 
-                 LIMIT 5"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener hongos recientes: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener hongos recientes: " . $e->getMessage());
-            return [];
-        }
-    }
-
     /**
      * @brief Obtiene los hongos más likeados
      * 
@@ -281,78 +85,6 @@ class StatsController
         }
     }
 
-    /**
-     * @brief Obtiene la distribución de hongos por hábitat
-     * 
-     * @param int $limit Número máximo de resultados a retornar
-     * @return array Distribución de hongos por hábitat
-     */
-    public function getHabitatDistribution($limit = 10)
-    {
-        try {
-            $result = $this->db->query(
-                "SELECT habitat as name, COUNT(*) as count
-                 FROM fungi
-                 WHERE habitat IS NOT NULL AND habitat != ''
-                 GROUP BY habitat
-                 ORDER BY count DESC
-                 LIMIT $limit"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener distribución por hábitat: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener distribución por hábitat: " . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * @brief Obtiene la distribución de hongos por familia
-     * 
-     * @param int $limit Número máximo de familias a retornar
-     * @return array Distribución de hongos por familia
-     */
-    public function getFamilyDistribution($limit = 10)
-    {
-        try {
-            // Consulta optimizada que utiliza la tabla taxonomy para obtener datos más precisos
-            $result = $this->db->query(
-                "SELECT t.family as name, COUNT(*) as count
-                 FROM taxonomy t
-                 JOIN fungi f ON t.fungi_id = f.id
-                 WHERE t.family IS NOT NULL AND t.family != '' 
-                 AND t.family NOT LIKE '%unknown%' AND t.family NOT LIKE '%sin clasificar%'
-                 GROUP BY t.family
-                 ORDER BY count DESC
-                 LIMIT $limit"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener distribución por familia: Consulta fallida");
-                return [];
-            }
-            
-            $families = $result->fetchAll(\PDO::FETCH_ASSOC);
-            
-            // Procesar nombres de familia para mejorar visualización
-            foreach ($families as &$family) {
-                // Convertir primera letra en mayúscula y resto en minúscula para uniformidad
-                if (isset($family['name'])) {
-                    $family['name'] = ucfirst(strtolower($family['name']));
-                }
-            }
-            
-            return $families;
-        } catch (\Exception $e) {
-            error_log("Error al obtener distribución por familia: " . $e->getMessage());
-            return [];
-        }
-    }
 
     /**
      * @brief Obtiene todas las estadísticas necesarias para la página de estadísticas
@@ -362,17 +94,14 @@ class StatsController
     public function getAllStatsForPage()
     {
         try {
-            // 1. Obtenemos el total de hongos
             $totalFungiQuery = "SELECT COUNT(*) as count FROM fungi";
             $totalFungiResult = $this->db->query($totalFungiQuery);
             $totalFungi = ($totalFungiResult === false) ? 0 : $totalFungiResult->fetch(\PDO::FETCH_ASSOC)['count'];
             
-            // 2. Obtenemos el total de usuarios
             $totalUsersQuery = "SELECT COUNT(*) as count FROM users";
             $totalUsersResult = $this->db->query($totalUsersQuery);
             $totalUsers = ($totalUsersResult === false) ? 0 : $totalUsersResult->fetch(\PDO::FETCH_ASSOC)['count'];
             
-            // 3. Distribución por comestibilidad
             $edibilityQuery = "SELECT edibility, COUNT(*) as count 
                               FROM fungi 
                               WHERE edibility IS NOT NULL AND edibility != '' 
@@ -381,16 +110,12 @@ class StatsController
             $edibilityResult = $this->db->query($edibilityQuery);
             $edibilityStats = ($edibilityResult === false) ? [] : $edibilityResult->fetchAll(\PDO::FETCH_ASSOC);
             
-            // 4. Distribución por familias principales - Usamos el método especializado
             $familiesStats = $this->getFamilyDistribution(10);
             
-            // 5. Hongos más likeados - Usamos el método existente
             $topLiked = $this->getTopLiked();
             
-            // 6. Hongos más favoritos - Usamos el método existente
             $topFavorites = $this->getTopFavorites();
             
-            // Devolvemos todos los datos para la plantilla
             return [
                 'total_fungi' => $totalFungi,
                 'total_users' => $totalUsers,
@@ -402,7 +127,6 @@ class StatsController
             
         } catch (\Exception $e) {
             error_log("Error al obtener estadísticas: " . $e->getMessage());
-            // En caso de error, devolvemos datos vacíos pero estructurados
             return [
                 'total_fungi' => 0,
                 'total_users' => 0,
@@ -428,18 +152,9 @@ class StatsController
     public function statisticsPageHandler($twig, $db, $session)
     {
         $stats = $this->getAllStatsForPage();
-        
-        // Verificamos si hay datos de familias, pero NO usamos datos hardcodeados
-        if (empty($stats['families'])) {
-            error_log("Advertencia: No hay datos de familias disponibles para la vista de estadísticas");
-        }
-        
-        return [
-            'title' => _('Estadísticas'),
-            'stats' => $stats,
-            'api_url' => $this->getBaseUrl(),
-            'debug_families' => !empty($stats['families']) // Variable de depuración
-        ];
+        if (empty($stats['families'])) error_log("Advertencia: No hay datos de familias disponibles para la vista de estadísticas");
+        return [ 'title' => _('Estadísticas'), 'stats' => $stats,
+            'api_url' => $this->getBaseUrl(), 'debug_families' => !empty($stats['families']) ];
     }
 
     /**
