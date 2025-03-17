@@ -159,12 +159,26 @@ class AdminController
             exit;
         }
         
-        $result = $this->userController->deleteUser($userId);
-        
-        if ($result) {
-            header('Location: /admin/users?deleted=true');
-        } else {
-            header('Location: /admin/users?error=deletefailed');
+        try {
+            // Verificar si el usuario existe
+            $checkQuery = $this->db->query("SELECT role FROM users WHERE id = ?", [$userId]);
+            $user = $checkQuery->fetch(\PDO::FETCH_ASSOC);
+            
+            if (!$user) {
+                header('Location: /admin/users?error=notfound');
+                exit;
+            }
+            
+            // Eliminar el usuario
+            $result = $this->db->query("DELETE FROM users WHERE id = ?", [$userId]);
+            
+            if ($result) {
+                header('Location: /admin/users?deleted=true');
+            } else {
+                header('Location: /admin/users?error=deletefailed');
+            }
+        } catch (\Exception $e) {
+            header('Location: /admin/users?error=' . urlencode($e->getMessage()));
         }
         exit;
     }
