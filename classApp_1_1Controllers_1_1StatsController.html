@@ -112,7 +112,6 @@ $(document).ready(function(){initNavTree('classApp_1_1Controllers_1_1StatsContro
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Métodos públicos</h2></td></tr>
 <tr class="memitem:aa29167da3f341e9199c640b102e5fc97" id="r_aa29167da3f341e9199c640b102e5fc97"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#aa29167da3f341e9199c640b102e5fc97">__construct</a> ($db)</td></tr>
-<tr class="memdesc:aa29167da3f341e9199c640b102e5fc97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor del controlador de estadísticas.  <br /></td></tr>
 <tr class="separator:aa29167da3f341e9199c640b102e5fc97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2a1c7f7fb5c2ec3ddc6a82c7c9b5944" id="r_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a> ()</td></tr>
 <tr class="memdesc:af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene todas las estadísticas necesarias para la página de estadísticas.  <br /></td></tr>
@@ -163,21 +162,13 @@ Atributos privados</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor del controlador de estadísticas. </p>
-<dl class="params"><dt>Parámetros</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">\App\Controllers\DatabaseController</td><td class="paramname">$db</td><td>Instancia de la conexión a la base de datos </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00024">24</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   25</span>    {</div>
-<div class="line"><span class="lineno">   26</span>        $this-&gt;db = <a class="code hl_variable" href="classApp_1_1Controllers_1_1StatsController.html#acd274f9dac4bd8fb0b90261c3d971abd">$db</a>;</div>
-<div class="line"><span class="lineno">   27</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_acd274f9dac4bd8fb0b90261c3d971abd"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#acd274f9dac4bd8fb0b90261c3d971abd">App\Controllers\StatsController\$db</a></div><div class="ttdeci">$db</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00017">StatsController.php:17</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00021">21</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   22</span>    {</div>
+<div class="line"><span class="lineno">   23</span>        $this-&gt;db = <a class="code hl_variable" href="classApp_1_1Controllers_1_1StatsController.html#acd274f9dac4bd8fb0b90261c3d971abd">$db</a>;</div>
+<div class="line"><span class="lineno">   24</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_acd274f9dac4bd8fb0b90261c3d971abd"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#acd274f9dac4bd8fb0b90261c3d971abd">App\Controllers\StatsController\$db</a></div><div class="ttdeci">$db</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00020">StatsController.php:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00017">App\Controllers\StatsController\$db</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00020">App\Controllers\StatsController\$db</a>.</p>
 
 </div>
 </div>
@@ -200,41 +191,41 @@ Atributos privados</h2></td></tr>
 <p>Obtiene todas las estadísticas necesarias para la página de estadísticas. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array Todas las estadísticas formateadas para la plantilla </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00116">116</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  117</span>    {</div>
-<div class="line"><span class="lineno">  118</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  119</span>            $totalFungiQuery = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM fungi&quot;</span>;</div>
-<div class="line"><span class="lineno">  120</span>            $totalFungiResult = $this-&gt;db-&gt;query($totalFungiQuery);</div>
-<div class="line"><span class="lineno">  121</span>            $totalFungi = ($totalFungiResult === <span class="keyword">false</span>) ? 0 : $totalFungiResult-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  122</span>            $totalUsersQuery = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM users&quot;</span>;</div>
-<div class="line"><span class="lineno">  123</span>            $totalUsersResult = $this-&gt;db-&gt;query($totalUsersQuery);</div>
-<div class="line"><span class="lineno">  124</span>            $totalUsers = ($totalUsersResult === <span class="keyword">false</span>) ? 0 : $totalUsersResult-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>];</div>
-<div class="line"><span class="lineno">  125</span>            $edibilityQuery = <span class="stringliteral">&quot;SELECT edibility, COUNT(*) as count FROM fungi WHERE edibility IS NOT NULL AND edibility != &#39;&#39; GROUP BY edibility ORDER BY count DESC&quot;</span>; </div>
-<div class="line"><span class="lineno">  126</span>            $edibilityResult = $this-&gt;db-&gt;query($edibilityQuery);</div>
-<div class="line"><span class="lineno">  127</span>            $edibilityStats = ($edibilityResult === <span class="keyword">false</span>) ? [] : $edibilityResult-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  128</span>            $familiesStats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">getFamilyDistribution</a>(10);</div>
-<div class="line"><span class="lineno">  129</span>            $topLiked = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690">getTopLiked</a>();</div>
-<div class="line"><span class="lineno">  130</span>            $topFavorites = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308">getTopFavorites</a>();</div>
-<div class="line"><span class="lineno">  131</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  132</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi, <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $totalUsers, <span class="stringliteral">&#39;edibility&#39;</span> =&gt; $edibilityStats,</div>
-<div class="line"><span class="lineno">  133</span>                <span class="stringliteral">&#39;families&#39;</span> =&gt; $familiesStats, <span class="stringliteral">&#39;popular&#39;</span> =&gt; $topLiked, <span class="stringliteral">&#39;favorites&#39;</span> =&gt; $topFavorites</div>
-<div class="line"><span class="lineno">  134</span>            ];</div>
-<div class="line"><span class="lineno">  135</span>            </div>
-<div class="line"><span class="lineno">  136</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  137</span>            error_log(<span class="stringliteral">&quot;Error al obtener estadísticas: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  138</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  139</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; 0, <span class="stringliteral">&#39;total_users&#39;</span> =&gt; 0, <span class="stringliteral">&#39;edibility&#39;</span> =&gt; [], <span class="stringliteral">&#39;families&#39;</span> =&gt; [],</div>
-<div class="line"><span class="lineno">  140</span>                <span class="stringliteral">&#39;popular&#39;</span> =&gt; [], <span class="stringliteral">&#39;favorites&#39;</span> =&gt; []</div>
-<div class="line"><span class="lineno">  141</span>            ];</div>
-<div class="line"><span class="lineno">  142</span>        }</div>
-<div class="line"><span class="lineno">  143</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a33d5205f64fa0acd29b3416a6b5b5308"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308">App\Controllers\StatsController\getTopFavorites</a></div><div class="ttdeci">getTopFavorites($limit=5)</div><div class="ttdoc">Obtiene los hongos más añadidos a favoritos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00060">StatsController.php:60</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_ac11f08ebb9f334bedbba480533be6e07"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">App\Controllers\StatsController\getFamilyDistribution</a></div><div class="ttdeci">getFamilyDistribution($limit=10)</div><div class="ttdoc">Obtiene la distribución de hongos por familia.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00085">StatsController.php:85</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_ac15d7095c544e0023e61febc70e6e690"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690">App\Controllers\StatsController\getTopLiked</a></div><div class="ttdeci">getTopLiked($limit=5)</div><div class="ttdoc">Obtiene los hongos más likeados.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00034">StatsController.php:34</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00113">113</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  114</span>    {</div>
+<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  116</span>            $totalFungiQuery = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM fungi&quot;</span>;</div>
+<div class="line"><span class="lineno">  117</span>            $totalFungiResult = $this-&gt;db-&gt;query($totalFungiQuery);</div>
+<div class="line"><span class="lineno">  118</span>            $totalFungi = ($totalFungiResult === <span class="keyword">false</span>) ? 0 : $totalFungiResult-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>];</div>
+<div class="line"><span class="lineno">  119</span>            $totalUsersQuery = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM users&quot;</span>;</div>
+<div class="line"><span class="lineno">  120</span>            $totalUsersResult = $this-&gt;db-&gt;query($totalUsersQuery);</div>
+<div class="line"><span class="lineno">  121</span>            $totalUsers = ($totalUsersResult === <span class="keyword">false</span>) ? 0 : $totalUsersResult-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>];</div>
+<div class="line"><span class="lineno">  122</span>            $edibilityQuery = <span class="stringliteral">&quot;SELECT edibility, COUNT(*) as count FROM fungi WHERE edibility IS NOT NULL AND edibility != &#39;&#39; GROUP BY edibility ORDER BY count DESC&quot;</span>; </div>
+<div class="line"><span class="lineno">  123</span>            $edibilityResult = $this-&gt;db-&gt;query($edibilityQuery);</div>
+<div class="line"><span class="lineno">  124</span>            $edibilityStats = ($edibilityResult === <span class="keyword">false</span>) ? [] : $edibilityResult-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  125</span>            $familiesStats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">getFamilyDistribution</a>(10);</div>
+<div class="line"><span class="lineno">  126</span>            $topLiked = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690">getTopLiked</a>();</div>
+<div class="line"><span class="lineno">  127</span>            $topFavorites = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308">getTopFavorites</a>();</div>
+<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  129</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi, <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $totalUsers, <span class="stringliteral">&#39;edibility&#39;</span> =&gt; $edibilityStats,</div>
+<div class="line"><span class="lineno">  130</span>                <span class="stringliteral">&#39;families&#39;</span> =&gt; $familiesStats, <span class="stringliteral">&#39;popular&#39;</span> =&gt; $topLiked, <span class="stringliteral">&#39;favorites&#39;</span> =&gt; $topFavorites</div>
+<div class="line"><span class="lineno">  131</span>            ];</div>
+<div class="line"><span class="lineno">  132</span>            </div>
+<div class="line"><span class="lineno">  133</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  134</span>            error_log(<span class="stringliteral">&quot;Error al obtener estadísticas: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  136</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; 0, <span class="stringliteral">&#39;total_users&#39;</span> =&gt; 0, <span class="stringliteral">&#39;edibility&#39;</span> =&gt; [], <span class="stringliteral">&#39;families&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  137</span>                <span class="stringliteral">&#39;popular&#39;</span> =&gt; [], <span class="stringliteral">&#39;favorites&#39;</span> =&gt; []</div>
+<div class="line"><span class="lineno">  138</span>            ];</div>
+<div class="line"><span class="lineno">  139</span>        }</div>
+<div class="line"><span class="lineno">  140</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a33d5205f64fa0acd29b3416a6b5b5308"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308">App\Controllers\StatsController\getTopFavorites</a></div><div class="ttdeci">getTopFavorites($limit=5)</div><div class="ttdoc">Obtiene los hongos más añadidos a favoritos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00057">StatsController.php:57</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_ac11f08ebb9f334bedbba480533be6e07"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">App\Controllers\StatsController\getFamilyDistribution</a></div><div class="ttdeci">getFamilyDistribution($limit=10)</div><div class="ttdoc">Obtiene la distribución de hongos por familia.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00082">StatsController.php:82</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_ac15d7095c544e0023e61febc70e6e690"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690">App\Controllers\StatsController\getTopLiked</a></div><div class="ttdeci">getTopLiked($limit=5)</div><div class="ttdoc">Obtiene los hongos más likeados.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00031">StatsController.php:31</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00085">App\Controllers\StatsController\getFamilyDistribution()</a>, <a class="el" href="StatsController_8php_source.html#l00060">App\Controllers\StatsController\getTopFavorites()</a> y <a class="el" href="StatsController_8php_source.html#l00034">App\Controllers\StatsController\getTopLiked()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00082">App\Controllers\StatsController\getFamilyDistribution()</a>, <a class="el" href="StatsController_8php_source.html#l00057">App\Controllers\StatsController\getTopFavorites()</a> y <a class="el" href="StatsController_8php_source.html#l00031">App\Controllers\StatsController\getTopLiked()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00156">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00153">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
@@ -278,14 +269,14 @@ Atributos privados</h2></td></tr>
 <p>Obtiene la URL base del sitio. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>string URL base del sitio </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00169">169</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  170</span>    {</div>
-<div class="line"><span class="lineno">  171</span>        $protocol = isset($_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>]) &amp;&amp; $_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>] === <span class="stringliteral">&#39;on&#39;</span> ? <span class="stringliteral">&#39;https://&#39;</span> : <span class="stringliteral">&#39;http://&#39;</span>;</div>
-<div class="line"><span class="lineno">  172</span>        $host = $_SERVER[<span class="stringliteral">&#39;HTTP_HOST&#39;</span>];</div>
-<div class="line"><span class="lineno">  173</span>        <span class="keywordflow">return</span> $protocol . $host;</div>
-<div class="line"><span class="lineno">  174</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00165">165</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  166</span>    {</div>
+<div class="line"><span class="lineno">  167</span>        $protocol = isset($_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>]) &amp;&amp; $_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>] === <span class="stringliteral">&#39;on&#39;</span> ? <span class="stringliteral">&#39;https://&#39;</span> : <span class="stringliteral">&#39;http://&#39;</span>;</div>
+<div class="line"><span class="lineno">  168</span>        $host = $_SERVER[<span class="stringliteral">&#39;HTTP_HOST&#39;</span>];</div>
+<div class="line"><span class="lineno">  169</span>        <span class="keywordflow">return</span> $protocol . $host;</div>
+<div class="line"><span class="lineno">  170</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00156">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00153">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
 <div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-3-summary" class="dynsummary" style="display:block;">
@@ -321,34 +312,34 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Distribución de hongos por familia </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00085">85</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>    {</div>
-<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   88</span>            <span class="comment">// Consulta optimizada que utiliza la tabla taxonomy para obtener datos más precisos</span></div>
-<div class="line"><span class="lineno">   89</span>            $result = $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">   90</span>                <span class="stringliteral">&quot;SELECT t.family as name, COUNT(*) as count FROM taxonomy t</span></div>
-<div class="line"><span class="lineno">   91</span><span class="stringliteral">                 JOIN fungi f ON t.fungi_id = f.id WHERE t.family IS NOT NULL AND t.family != &#39;&#39; </span></div>
-<div class="line"><span class="lineno">   92</span><span class="stringliteral">                 AND t.family NOT LIKE &#39;%unknown%&#39; AND t.family NOT LIKE &#39;%sin clasificar%&#39;</span></div>
-<div class="line"><span class="lineno">   93</span><span class="stringliteral">                 GROUP BY t.family ORDER BY count DESC LIMIT $limit&quot;</span></div>
-<div class="line"><span class="lineno">   94</span>            );</div>
-<div class="line"><span class="lineno">   95</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">   96</span>                error_log(<span class="stringliteral">&quot;Error al obtener distribución por familia: Consulta fallida&quot;</span>);</div>
-<div class="line"><span class="lineno">   97</span>                <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">   98</span>            }</div>
-<div class="line"><span class="lineno">   99</span>            $families = $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  100</span>            <span class="comment">// Procesar nombres de familia para mejorar visualización</span></div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">foreach</span> ($families as &amp;$family) {</div>
-<div class="line"><span class="lineno">  102</span>                <span class="comment">// Convertir primera letra en mayúscula y resto en minúscula para uniformidad</span></div>
-<div class="line"><span class="lineno">  103</span>                <span class="keywordflow">if</span> (isset($family[<span class="stringliteral">&#39;name&#39;</span>])) $family[<span class="stringliteral">&#39;name&#39;</span>] = ucfirst(strtolower($family[<span class="stringliteral">&#39;name&#39;</span>]));</div>
-<div class="line"><span class="lineno">  104</span>            }</div>
-<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">return</span> $families;</div>
-<div class="line"><span class="lineno">  106</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  107</span>            error_log(<span class="stringliteral">&quot;Error al obtener distribución por familia: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">  109</span>        }</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00082">82</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>    {</div>
+<div class="line"><span class="lineno">   84</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   85</span>            <span class="comment">// Consulta optimizada que utiliza la tabla taxonomy para obtener datos más precisos</span></div>
+<div class="line"><span class="lineno">   86</span>            $result = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">   87</span>                <span class="stringliteral">&quot;SELECT t.family as name, COUNT(*) as count FROM taxonomy t</span></div>
+<div class="line"><span class="lineno">   88</span><span class="stringliteral">                 JOIN fungi f ON t.fungi_id = f.id WHERE t.family IS NOT NULL AND t.family != &#39;&#39; </span></div>
+<div class="line"><span class="lineno">   89</span><span class="stringliteral">                 AND t.family NOT LIKE &#39;%unknown%&#39; AND t.family NOT LIKE &#39;%sin clasificar%&#39;</span></div>
+<div class="line"><span class="lineno">   90</span><span class="stringliteral">                 GROUP BY t.family ORDER BY count DESC LIMIT $limit&quot;</span></div>
+<div class="line"><span class="lineno">   91</span>            );</div>
+<div class="line"><span class="lineno">   92</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">   93</span>                error_log(<span class="stringliteral">&quot;Error al obtener distribución por familia: Consulta fallida&quot;</span>);</div>
+<div class="line"><span class="lineno">   94</span>                <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">   95</span>            }</div>
+<div class="line"><span class="lineno">   96</span>            $families = $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">   97</span>            <span class="comment">// Procesar nombres de familia para mejorar visualización</span></div>
+<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">foreach</span> ($families as &amp;$family) {</div>
+<div class="line"><span class="lineno">   99</span>                <span class="comment">// Convertir primera letra en mayúscula y resto en minúscula para uniformidad</span></div>
+<div class="line"><span class="lineno">  100</span>                <span class="keywordflow">if</span> (isset($family[<span class="stringliteral">&#39;name&#39;</span>])) $family[<span class="stringliteral">&#39;name&#39;</span>] = ucfirst(strtolower($family[<span class="stringliteral">&#39;name&#39;</span>]));</div>
+<div class="line"><span class="lineno">  101</span>            }</div>
+<div class="line"><span class="lineno">  102</span>            <span class="keywordflow">return</span> $families;</div>
+<div class="line"><span class="lineno">  103</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  104</span>            error_log(<span class="stringliteral">&quot;Error al obtener distribución por familia: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  106</span>        }</div>
+<div class="line"><span class="lineno">  107</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00116">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00113">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
@@ -384,26 +375,26 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Los hongos más añadidos a favoritos </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00060">60</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>    {</div>
-<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   63</span>            $result = $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">   64</span>                <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(uf.id) as favorites FROM fungi f</span></div>
-<div class="line"><span class="lineno">   65</span><span class="stringliteral">                 JOIN user_favorites uf ON f.id = uf.fungi_id GROUP BY f.id</span></div>
-<div class="line"><span class="lineno">   66</span><span class="stringliteral">                 ORDER BY COUNT(uf.id) DESC LIMIT $limit&quot;</span></div>
-<div class="line"><span class="lineno">   67</span>            );</div>
-<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">   69</span>                error_log(<span class="stringliteral">&quot;Error al obtener hongos favoritos: Consulta fallida&quot;</span>);</div>
-<div class="line"><span class="lineno">   70</span>                <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">   71</span>            }</div>
-<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">   73</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">   74</span>            error_log(<span class="stringliteral">&quot;Error al obtener hongos favoritos: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">   76</span>        }</div>
-<div class="line"><span class="lineno">   77</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00057">57</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>    {</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   60</span>            $result = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">   61</span>                <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(uf.id) as favorites FROM fungi f</span></div>
+<div class="line"><span class="lineno">   62</span><span class="stringliteral">                 JOIN user_favorites uf ON f.id = uf.fungi_id GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">   63</span><span class="stringliteral">                 ORDER BY COUNT(uf.id) DESC LIMIT $limit&quot;</span></div>
+<div class="line"><span class="lineno">   64</span>            );</div>
+<div class="line"><span class="lineno">   65</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">   66</span>                error_log(<span class="stringliteral">&quot;Error al obtener hongos favoritos: Consulta fallida&quot;</span>);</div>
+<div class="line"><span class="lineno">   67</span>                <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">   68</span>            }</div>
+<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">   70</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">   71</span>            error_log(<span class="stringliteral">&quot;Error al obtener hongos favoritos: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">   72</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">   73</span>        }</div>
+<div class="line"><span class="lineno">   74</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00116">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00113">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -439,27 +430,27 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Los hongos con más likes </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00034">34</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>    {</div>
-<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   37</span>            $result = $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">   38</span>                <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(ul.id) as likes FROM fungi f</span></div>
-<div class="line"><span class="lineno">   39</span><span class="stringliteral">                 JOIN user_likes ul ON f.id = ul.fungi_id GROUP BY f.id</span></div>
-<div class="line"><span class="lineno">   40</span><span class="stringliteral">                 ORDER BY COUNT(ul.id) DESC LIMIT $limit&quot;</span></div>
-<div class="line"><span class="lineno">   41</span>            );</div>
-<div class="line"><span class="lineno">   42</span>            </div>
-<div class="line"><span class="lineno">   43</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">   44</span>                error_log(<span class="stringliteral">&quot;Error al obtener hongos más likeados: Consulta fallida&quot;</span>);</div>
-<div class="line"><span class="lineno">   45</span>                <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">   46</span>            }</div>
-<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">   48</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">   49</span>            error_log(<span class="stringliteral">&quot;Error al obtener hongos más likeados: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">   50</span>            <span class="keywordflow">return</span> [];</div>
-<div class="line"><span class="lineno">   51</span>        }</div>
-<div class="line"><span class="lineno">   52</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00031">31</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>    {</div>
+<div class="line"><span class="lineno">   33</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">   34</span>            $result = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">   35</span>                <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(ul.id) as likes FROM fungi f</span></div>
+<div class="line"><span class="lineno">   36</span><span class="stringliteral">                 JOIN user_likes ul ON f.id = ul.fungi_id GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">   37</span><span class="stringliteral">                 ORDER BY COUNT(ul.id) DESC LIMIT $limit&quot;</span></div>
+<div class="line"><span class="lineno">   38</span>            );</div>
+<div class="line"><span class="lineno">   39</span>            </div>
+<div class="line"><span class="lineno">   40</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">   41</span>                error_log(<span class="stringliteral">&quot;Error al obtener hongos más likeados: Consulta fallida&quot;</span>);</div>
+<div class="line"><span class="lineno">   42</span>                <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">   43</span>            }</div>
+<div class="line"><span class="lineno">   44</span>            <span class="keywordflow">return</span> $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">   45</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">   46</span>            error_log(<span class="stringliteral">&quot;Error al obtener hongos más likeados: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">   47</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">   48</span>        }</div>
+<div class="line"><span class="lineno">   49</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00116">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00113">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
@@ -514,17 +505,16 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla de estadísticas </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00156">156</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  157</span>    {</div>
-<div class="line"><span class="lineno">  158</span>        $stats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a>();</div>
-<div class="line"><span class="lineno">  159</span>        <span class="keywordflow">if</span> (empty($stats[<span class="stringliteral">&#39;families&#39;</span>])) error_log(<span class="stringliteral">&quot;Advertencia: No hay datos de familias disponibles para la vista de estadísticas&quot;</span>);</div>
-<div class="line"><span class="lineno">  160</span>        <span class="keywordflow">return</span> [ <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>), <span class="stringliteral">&#39;stats&#39;</span> =&gt; $stats,</div>
-<div class="line"><span class="lineno">  161</span>            <span class="stringliteral">&#39;api_url&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">getBaseUrl</a>(), <span class="stringliteral">&#39;debug_families&#39;</span> =&gt; !empty($stats[<span class="stringliteral">&#39;families&#39;</span>]) ];</div>
-<div class="line"><span class="lineno">  162</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a54135d721d270bd3dec13083d4051dc6"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">App\Controllers\StatsController\getBaseUrl</a></div><div class="ttdeci">getBaseUrl()</div><div class="ttdoc">Obtiene la URL base del sitio.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00169">StatsController.php:169</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">App\Controllers\StatsController\getAllStatsForPage</a></div><div class="ttdeci">getAllStatsForPage()</div><div class="ttdoc">Obtiene todas las estadísticas necesarias para la página de estadísticas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00116">StatsController.php:116</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00153">153</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  154</span>    {</div>
+<div class="line"><span class="lineno">  155</span>        $stats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a>();</div>
+<div class="line"><span class="lineno">  156</span>        <span class="keywordflow">if</span> (empty($stats[<span class="stringliteral">&#39;families&#39;</span>])) error_log(<span class="stringliteral">&quot;Advertencia: No hay datos de familias disponibles para la vista de estadísticas&quot;</span>);</div>
+<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">return</span> [ <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>), <span class="stringliteral">&#39;stats&#39;</span> =&gt; $stats, <span class="stringliteral">&#39;api_url&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">getBaseUrl</a>(), <span class="stringliteral">&#39;debug_families&#39;</span> =&gt; !empty($stats[<span class="stringliteral">&#39;families&#39;</span>]) ];</div>
+<div class="line"><span class="lineno">  158</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a54135d721d270bd3dec13083d4051dc6"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">App\Controllers\StatsController\getBaseUrl</a></div><div class="ttdeci">getBaseUrl()</div><div class="ttdoc">Obtiene la URL base del sitio.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00165">StatsController.php:165</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">App\Controllers\StatsController\getAllStatsForPage</a></div><div class="ttdeci">getAllStatsForPage()</div><div class="ttdoc">Obtiene todas las estadísticas necesarias para la página de estadísticas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00113">StatsController.php:113</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00116">App\Controllers\StatsController\getAllStatsForPage()</a> y <a class="el" href="StatsController_8php_source.html#l00169">App\Controllers\StatsController\getBaseUrl()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00113">App\Controllers\StatsController\getAllStatsForPage()</a> y <a class="el" href="StatsController_8php_source.html#l00165">App\Controllers\StatsController\getBaseUrl()</a>.</p>
 <div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-7-summary" class="dynsummary" style="display:block;">
@@ -556,9 +546,9 @@ Atributos privados</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00017">17</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00020">20</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00024">App\Controllers\StatsController\__construct()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00021">App\Controllers\StatsController\__construct()</a>.</p>
 
 </div>
 </div>
@@ -571,7 +561,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html">StatsController</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 19:43:26 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 20:00:12 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

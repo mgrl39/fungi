@@ -8,120 +8,118 @@
 \DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00004}00004\ }
 \DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00012}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController}{00012}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController}{StatsController}}}
 \DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00013}00013\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00017}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{00017}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}};}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00018}00018\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00024}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_aa29167da3f341e9199c640b102e5fc97}{00024}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_aa29167da3f341e9199c640b102e5fc97}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}})}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00025}00025\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00026}00026\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}};}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00027}00027\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00034}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{00034}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{getTopLiked}}(\$limit\ =\ 5)}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00035}00035\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ COUNT(ul.id)\ as\ likes\ FROM\ fungi\ f}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ user\_likes\ ul\ ON\ f.id\ =\ ul.fungi\_id\ GROUP\ BY\ f.id}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ COUNT(ul.id)\ DESC\ LIMIT\ \$limit"{}}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ más\ likeados:\ Consulta\ fallida"{}});}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ más\ likeados:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00052}00052\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00053}00053\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00060}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{00060}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{getTopFavorites}}(\$limit\ =\ 5)}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00061}00061\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ COUNT(uf.id)\ as\ favorites\ FROM\ fungi\ f}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ user\_favorites\ uf\ ON\ f.id\ =\ uf.fungi\_id\ GROUP\ BY\ f.id}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ COUNT(uf.id)\ DESC\ LIMIT\ \$limit"{}}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ favoritos:\ Consulta\ fallida"{}});}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ favoritos:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00076}00076\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00077}00077\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00078}00078\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00085}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07}{00085}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07}{getFamilyDistribution}}(\$limit\ =\ 10)}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00086}00086\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ optimizada\ que\ utiliza\ la\ tabla\ taxonomy\ para\ obtener\ datos\ más\ precisos}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ t.family\ as\ name,\ COUNT(*)\ as\ count\ FROM\ taxonomy\ t}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00091}00091\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\ f\ ON\ t.fungi\_id\ =\ f.id\ WHERE\ t.family\ IS\ NOT\ NULL\ AND\ t.family\ !=\ ''\ }}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00092}00092\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AND\ t.family\ NOT\ LIKE\ '\%unknown\%'\ AND\ t.family\ NOT\ LIKE\ '\%sin\ clasificar\%'}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ t.family\ ORDER\ BY\ count\ DESC\ LIMIT\ \$limit"{}}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ distribución\ por\ familia:\ Consulta\ fallida"{}});}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \$families\ =\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ nombres\ de\ familia\ para\ mejorar\ visualización}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$families\ as\ \&\$family)\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convertir\ primera\ letra\ en\ mayúscula\ y\ resto\ en\ minúscula\ para\ uniformidad}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$family[\textcolor{stringliteral}{'name'}]))\ \$family[\textcolor{stringliteral}{'name'}]\ =\ ucfirst(strtolower(\$family[\textcolor{stringliteral}{'name'}]));}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$families;}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00106}00106\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ distribución\ por\ familia:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00109}00109\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00110}00110\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00116}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{00116}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}()}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00117}00117\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungiQuery\ =\ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ fungi"{}};}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungiResult\ =\ \$this-\/>db-\/>query(\$totalFungiQuery);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungi\ =\ (\$totalFungiResult\ ===\ \textcolor{keyword}{false})\ ?\ 0\ :\ \$totalFungiResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsersQuery\ =\ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ users"{}};}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsersResult\ =\ \$this-\/>db-\/>query(\$totalUsersQuery);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsers\ =\ (\$totalUsersResult\ ===\ \textcolor{keyword}{false})\ ?\ 0\ :\ \$totalUsersResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityQuery\ =\ \textcolor{stringliteral}{"{}SELECT\ edibility,\ COUNT(*)\ as\ count\ FROM\ fungi\ WHERE\ edibility\ IS\ NOT\ NULL\ AND\ edibility\ !=\ ''\ GROUP\ BY\ edibility\ ORDER\ BY\ count\ DESC"{}};\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityResult\ =\ \$this-\/>db-\/>query(\$edibilityQuery);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityStats\ =\ (\$edibilityResult\ ===\ \textcolor{keyword}{false})\ ?\ []\ :\ \$edibilityResult-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \$familiesStats\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07}{getFamilyDistribution}}(10);}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \$topLiked\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{getTopLiked}}();}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \$topFavorites\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{getTopFavorites}}();}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$totalFungi,\ \textcolor{stringliteral}{'total\_users'}\ =>\ \$totalUsers,\ \textcolor{stringliteral}{'edibility'}\ =>\ \$edibilityStats,}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'families'}\ =>\ \$familiesStats,\ \textcolor{stringliteral}{'popular'}\ =>\ \$topLiked,\ \textcolor{stringliteral}{'favorites'}\ =>\ \$topFavorites}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00136}00136\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ estadísticas:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ 0,\ \textcolor{stringliteral}{'total\_users'}\ =>\ 0,\ \textcolor{stringliteral}{'edibility'}\ =>\ [],\ \textcolor{stringliteral}{'families'}\ =>\ [],}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular'}\ =>\ [],\ \textcolor{stringliteral}{'favorites'}\ =>\ []}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00142}00142\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00143}00143\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00144}00144\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00156}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c}{00156}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c}{statisticsPageHandler}}(\$twig,\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}})}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00157}00157\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00158}00158\ \ \ \ \ \ \ \ \ \$stats\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}();}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$stats[\textcolor{stringliteral}{'families'}]))\ error\_log(\textcolor{stringliteral}{"{}Advertencia:\ No\ hay\ datos\ de\ familias\ disponibles\ para\ la\ vista\ de\ estadísticas"{}});}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),\ \textcolor{stringliteral}{'stats'}\ =>\ \$stats,}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'api\_url'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{getBaseUrl}}(),\ \textcolor{stringliteral}{'debug\_families'}\ =>\ !empty(\$stats[\textcolor{stringliteral}{'families'}])\ ];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00162}00162\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00163}00163\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00169}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{00169}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{getBaseUrl}}()\ }
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00170}00170\ \ \ \ \ \{}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00171}00171\ \ \ \ \ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00172}00172\ \ \ \ \ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00174}00174\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00175}00175\ \}\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00020}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{00020}}\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}};}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00021}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_aa29167da3f341e9199c640b102e5fc97}{00021}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_aa29167da3f341e9199c640b102e5fc97}{\_\_construct}}(\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}})}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00022}00022\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00023}00023\ \ \ \ \ \ \ \ \ \$this-\/>db\ =\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}};}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00031}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{00031}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{getTopLiked}}(\$limit\ =\ 5)}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ COUNT(ul.id)\ as\ likes\ FROM\ fungi\ f}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ user\_likes\ ul\ ON\ f.id\ =\ ul.fungi\_id\ GROUP\ BY\ f.id}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ COUNT(ul.id)\ DESC\ LIMIT\ \$limit"{}}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ más\ likeados:\ Consulta\ fallida"{}});}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00045}00045\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ más\ likeados:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00057}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{00057}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{getTopFavorites}}(\$limit\ =\ 5)}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ COUNT(uf.id)\ as\ favorites\ FROM\ fungi\ f}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ user\_favorites\ uf\ ON\ f.id\ =\ uf.fungi\_id\ GROUP\ BY\ f.id}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ORDER\ BY\ COUNT(uf.id)\ DESC\ LIMIT\ \$limit"{}}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ favoritos:\ Consulta\ fallida"{}});}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00070}00070\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ hongos\ favoritos:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00073}00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00074}00074\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00082}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07}{00082}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07}{getFamilyDistribution}}(\$limit\ =\ 10)}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00083}00083\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Consulta\ optimizada\ que\ utiliza\ la\ tabla\ taxonomy\ para\ obtener\ datos\ más\ precisos}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ t.family\ as\ name,\ COUNT(*)\ as\ count\ FROM\ taxonomy\ t}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\ f\ ON\ t.fungi\_id\ =\ f.id\ WHERE\ t.family\ IS\ NOT\ NULL\ AND\ t.family\ !=\ ''\ }}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AND\ t.family\ NOT\ LIKE\ '\%unknown\%'\ AND\ t.family\ NOT\ LIKE\ '\%sin\ clasificar\%'}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GROUP\ BY\ t.family\ ORDER\ BY\ count\ DESC\ LIMIT\ \$limit"{}}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ distribución\ por\ familia:\ Consulta\ fallida"{}});}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \$families\ =\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ nombres\ de\ familia\ para\ mejorar\ visualización}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$families\ as\ \&\$family)\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convertir\ primera\ letra\ en\ mayúscula\ y\ resto\ en\ minúscula\ para\ uniformidad}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$family[\textcolor{stringliteral}{'name'}]))\ \$family[\textcolor{stringliteral}{'name'}]\ =\ ucfirst(strtolower(\$family[\textcolor{stringliteral}{'name'}]));}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$families;}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00103}00103\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ distribución\ por\ familia:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00106}00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00107}00107\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00113}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{00113}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}()}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00114}00114\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungiQuery\ =\ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ fungi"{}};}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungiResult\ =\ \$this-\/>db-\/>query(\$totalFungiQuery);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalFungi\ =\ (\$totalFungiResult\ ===\ \textcolor{keyword}{false})\ ?\ 0\ :\ \$totalFungiResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsersQuery\ =\ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ users"{}};}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsersResult\ =\ \$this-\/>db-\/>query(\$totalUsersQuery);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \$totalUsers\ =\ (\$totalUsersResult\ ===\ \textcolor{keyword}{false})\ ?\ 0\ :\ \$totalUsersResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityQuery\ =\ \textcolor{stringliteral}{"{}SELECT\ edibility,\ COUNT(*)\ as\ count\ FROM\ fungi\ WHERE\ edibility\ IS\ NOT\ NULL\ AND\ edibility\ !=\ ''\ GROUP\ BY\ edibility\ ORDER\ BY\ count\ DESC"{}};\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityResult\ =\ \$this-\/>db-\/>query(\$edibilityQuery);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibilityStats\ =\ (\$edibilityResult\ ===\ \textcolor{keyword}{false})\ ?\ []\ :\ \$edibilityResult-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \$familiesStats\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07}{getFamilyDistribution}}(10);}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \$topLiked\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690}{getTopLiked}}();}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \$topFavorites\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308}{getTopFavorites}}();}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ \$totalFungi,\ \textcolor{stringliteral}{'total\_users'}\ =>\ \$totalUsers,\ \textcolor{stringliteral}{'edibility'}\ =>\ \$edibilityStats,}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'families'}\ =>\ \$familiesStats,\ \textcolor{stringliteral}{'popular'}\ =>\ \$topLiked,\ \textcolor{stringliteral}{'favorites'}\ =>\ \$topFavorites}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00133}00133\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ estadísticas:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'total\_fungi'}\ =>\ 0,\ \textcolor{stringliteral}{'total\_users'}\ =>\ 0,\ \textcolor{stringliteral}{'edibility'}\ =>\ [],\ \textcolor{stringliteral}{'families'}\ =>\ [],}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'popular'}\ =>\ [],\ \textcolor{stringliteral}{'favorites'}\ =>\ []}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00139}00139\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00153}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c}{00153}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c}{statisticsPageHandler}}(\$twig,\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_acd274f9dac4bd8fb0b90261c3d971abd}{\$db}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}})}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00154}00154\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00155}00155\ \ \ \ \ \ \ \ \ \$stats\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944}{getAllStatsForPage}}();}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$stats[\textcolor{stringliteral}{'families'}]))\ error\_log(\textcolor{stringliteral}{"{}Advertencia:\ No\ hay\ datos\ de\ familias\ disponibles\ para\ la\ vista\ de\ estadísticas"{}});}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Estadísticas'}),\ \textcolor{stringliteral}{'stats'}\ =>\ \$stats,\ \textcolor{stringliteral}{'api\_url'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{getBaseUrl}}(),\ \textcolor{stringliteral}{'debug\_families'}\ =>\ !empty(\$stats[\textcolor{stringliteral}{'families'}])\ ];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00158}00158\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00165}\mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{00165}}\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{function}\ \mbox{\hyperlink{classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6}{getBaseUrl}}()\ }
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00166}00166\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00167}00167\ \ \ \ \ \ \ \ \ \$protocol\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTPS'}])\ \&\&\ \$\_SERVER[\textcolor{stringliteral}{'HTTPS'}]\ ===\ \textcolor{stringliteral}{'on'}\ ?\ \textcolor{stringliteral}{'https://'}\ :\ \textcolor{stringliteral}{'http://'};}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00168}00168\ \ \ \ \ \ \ \ \ \$host\ =\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_HOST'}];}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$protocol\ .\ \$host;}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00170}00170\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{StatsController_8php_source_l00171}00171\ \}\ }
 
 \end{DoxyCode}

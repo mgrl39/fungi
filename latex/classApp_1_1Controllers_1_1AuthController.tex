@@ -52,7 +52,7 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Auth\
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a303b63d25aff7ffc1fdc5b8dfef00f73}{get\+Secret\+Key}} ()
 \begin{DoxyCompactList}\small\item\em Obtiene la clave secreta para JWT. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a3f7891576bdfc3deb4030d5d5db57bae}{remove\+Auth\+Cookies}} ()
-\begin{DoxyCompactList}\small\item\em Elimina todas las cookies relacionadas con la autenticación. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Elimina todas las cookies relacionadas con la autenticación Eliminar cookie de token Eliminar cookie de JWT Eliminar otras cookies de sesión que puedan existir. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos privados}
 \begin{DoxyCompactItemize}
 \item 
@@ -104,7 +104,7 @@ Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00025}{25}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00016}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}\$db}} y \mbox{\hyperlink{AuthController_8php_source_l00399}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}get\+Secret\+Key()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00016}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}\$db}} y \mbox{\hyperlink{AuthController_8php_source_l00366}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}get\+Secret\+Key()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -137,18 +137,18 @@ string Datos codificados
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00365}{365}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00341}{341}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str\_replace([\textcolor{charliteral}{'+'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'='}],\ [\textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'\_'},\ \textcolor{stringliteral}{''}],\ base64\_encode(\$data));}
-\DoxyCodeLine{00367\ \ \ \ \ \}}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str\_replace([\textcolor{charliteral}{'+'},\ \textcolor{charliteral}{'/'},\ \textcolor{charliteral}{'='}],\ [\textcolor{charliteral}{'-\/'},\ \textcolor{charliteral}{'\_'},\ \textcolor{stringliteral}{''}],\ base64\_encode(\$data));}
+\DoxyCodeLine{00343\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00310}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00324}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}verify\+Token()}}.
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00301}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00315}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}verify\+Token()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -183,30 +183,30 @@ Datos para el JWT\+:
 \item Se guarda en cookie y base de datos 
 \end{DoxyItemize}
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00281}{281}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00272}{272}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \$header\ =\ [\textcolor{stringliteral}{'alg'}\ =>\ \textcolor{stringliteral}{'HS256'},\ \textcolor{stringliteral}{'typ'}\ =>\ \textcolor{stringliteral}{'JWT'}];}
-\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \$payload\ =\ [}
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_id'}\ =>\ \$user[\textcolor{stringliteral}{'id'}],}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$user[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'exp'}\ =>\ time()\ +\ 86400\ *\ 30}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \$jwt\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ab06917fbe57ab9b399e1d66d81807c4f}{generateJWT}}(\$header,\ \$payload);}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\textcolor{stringliteral}{"{}jwt"{}},\ \$jwt,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ jwt\ =\ ?\ WHERE\ id\ =\ ?"{}},}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ [\$jwt,\ \$user[\textcolor{stringliteral}{'id'}]]}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$jwt;}
-\DoxyCodeLine{00295\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \$header\ =\ [\textcolor{stringliteral}{'alg'}\ =>\ \textcolor{stringliteral}{'HS256'},\ \textcolor{stringliteral}{'typ'}\ =>\ \textcolor{stringliteral}{'JWT'}];}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \$payload\ =\ [}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user\_id'}\ =>\ \$user[\textcolor{stringliteral}{'id'}],}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$user[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'exp'}\ =>\ time()\ +\ 86400\ *\ 30}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \$jwt\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ab06917fbe57ab9b399e1d66d81807c4f}{generateJWT}}(\$header,\ \$payload);}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\textcolor{stringliteral}{"{}jwt"{}},\ \$jwt,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ jwt\ =\ ?\ WHERE\ id\ =\ ?"{}},}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ [\$jwt,\ \$user[\textcolor{stringliteral}{'id'}]]}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$jwt;}
+\DoxyCodeLine{00286\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00378}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+Secure\+Cookie()}} y \mbox{\hyperlink{AuthController_8php_source_l00310}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+JWT()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00354}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+Secure\+Cookie()}} y \mbox{\hyperlink{AuthController_8php_source_l00301}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+JWT()}}.
 
 
 
@@ -254,30 +254,21 @@ bool Resultado de la operación
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00378}{378}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00354}{354}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \$domain\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \$secure\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Cambiar\ a\ true\ en\ producción\ con\ HTTPS}}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \$httponly\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ setcookie(}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \$name,}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \$value,}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \$expires,}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \$path,}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \$domain,}
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \$secure,}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \$httponly}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00392\ \ \ \ \ \}}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \$domain\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \$secure\ =\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Cambiar\ a\ true\ en\ producción\ con\ HTTPS}}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \$httponly\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ setcookie(\$name,\ \$value,\ \$expires,\ \$path,\ \$domain,\ \$secure,\ \$httponly);}
+\DoxyCodeLine{00359\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00281}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00254}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+Session\+Token()}}.
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00272}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00245}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+Session\+Token()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -315,26 +306,26 @@ string Token JWT generado
 \item Concatena las tres partes con puntos para crear el JWT 
 \end{DoxyEnumerate}
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00310}{310}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00301}{301}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \$header\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(json\_encode(\$header));}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \$payload\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(json\_encode(\$payload));}
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ \$this-\/>secretKey,\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \$signature\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\$signature);}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded.\$signature\_encoded"{}};}
-\DoxyCodeLine{00316\ \ \ \ \ \}}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \$header\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(json\_encode(\$header));}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \$payload\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(json\_encode(\$payload));}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ \$this-\/>secretKey,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \$signature\_encoded\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\$signature);}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded.\$signature\_encoded"{}};}
+\DoxyCodeLine{00307\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00365}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00341}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00281}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}}.
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00272}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -372,30 +363,30 @@ string Token generado
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00254}{254}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00245}{245}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ token\ aleatorio}}
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \$token\ =\ bin2hex(random\_bytes(16));}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ token\ aleatorio}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \$token\ =\ bin2hex(random\_bytes(16));}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ cookie}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\textcolor{stringliteral}{"{}token"{}},\ \$token,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ base\ de\ datos}}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ token\ =\ ?\ WHERE\ id\ =\ ?"{}},}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ [\$token,\ \$user[\textcolor{stringliteral}{'id'}]]}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ );}
 \DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ cookie}}
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a722aae18417e35bad00c945dd381da08}{createSecureCookie}}(\textcolor{stringliteral}{"{}token"{}},\ \$token,\ time()\ +\ (86400\ *\ 30),\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ base\ de\ datos}}
-\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ token\ =\ ?\ WHERE\ id\ =\ ?"{}},}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ [\$token,\ \$user[\textcolor{stringliteral}{'id'}]]}
-\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$token;}
-\DoxyCodeLine{00268\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$token;}
+\DoxyCodeLine{00259\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00378}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+Secure\+Cookie()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00354}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+Secure\+Cookie()}}.
 
 
 
@@ -432,18 +423,18 @@ string Clave secreta
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00399}{399}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00366}{366}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ desde\ .env\ o\ usar\ una\ clave\ predeterminada}}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (function\_exists(\textcolor{stringliteral}{'getenv'})\ \&\&\ getenv(\textcolor{stringliteral}{'JWT\_SECRET\_KEY'}))\ \{}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ getenv(\textcolor{stringliteral}{'JWT\_SECRET\_KEY'});}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Cambiar\ en\ producción}}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{'tu\_clave\_secreta\_segura\_para\_jwt'};}
-\DoxyCodeLine{00406\ \ \ \ \ \}}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cargar\ desde\ .env\ o\ usar\ una\ clave\ predeterminada}}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (function\_exists(\textcolor{stringliteral}{'getenv'})\ \&\&\ getenv(\textcolor{stringliteral}{'JWT\_SECRET\_KEY'}))\ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ getenv(\textcolor{stringliteral}{'JWT\_SECRET\_KEY'});}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ Cambiar\ en\ producción}}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{'tu\_clave\_secreta\_segura\_para\_jwt'};}
+\DoxyCodeLine{00373\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -473,52 +464,52 @@ bool Resultado de la verificación
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00413}{413}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00380}{380}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ session\_start();}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ sesión}}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ cookie}}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'token'}]))\ \{}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$\_COOKIE[\textcolor{stringliteral}{'token'}];}
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ token\ =\ ?"{}},}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$token]}
-\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user)\ \{}
-\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$user[\textcolor{stringliteral}{'id'}];}
-\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$user[\textcolor{stringliteral}{'username'}];}
-\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ JWT}}
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \{}
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \$jwt\ =\ \$\_COOKIE[\textcolor{stringliteral}{'jwt'}];}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4fd64293b9488b0ec68a243b7cdd6d0}{verifyToken}}(\$jwt);}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload\ \&\&\ isset(\$payload[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$payload[\textcolor{stringliteral}{'user\_id'}];}
-\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$payload[\textcolor{stringliteral}{'username'}];}
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00449\ \ \ \ \ \}}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ session\_start();}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ sesión}}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ cookie}}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'token'}]))\ \{}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$\_COOKIE[\textcolor{stringliteral}{'token'}];}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ token\ =\ ?"{}},}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$token]}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$user)\ \{}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$user[\textcolor{stringliteral}{'id'}];}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$user[\textcolor{stringliteral}{'username'}];}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ JWT}}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \$jwt\ =\ \$\_COOKIE[\textcolor{stringliteral}{'jwt'}];}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4fd64293b9488b0ec68a243b7cdd6d0}{verifyToken}}(\$jwt);}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload\ \&\&\ isset(\$payload[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}]\ =\ \$payload[\textcolor{stringliteral}{'user\_id'}];}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ =\ \$payload[\textcolor{stringliteral}{'username'}];}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00416\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00324}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}verify\+Token()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00315}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}verify\+Token()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -608,11 +599,11 @@ Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00093}{93}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00281}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00254}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+Session\+Token()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00272}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}create\+JWT()}} y \mbox{\hyperlink{AuthController_8php_source_l00245}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}generate\+Session\+Token()}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00498}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}login\+Handler()}}.
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00465}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}login\+Handler()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -656,29 +647,29 @@ array Datos para la plantilla
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00498}{498}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00465}{465}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00499\ \ \ \ \ \{}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{login}}(}
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''}}
-\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ [\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),\ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]\ ];}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \$registered\ =\ isset(\$\_GET[\textcolor{stringliteral}{'registered'}])\ ?\ true\ :\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
-\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$registered\ ?\ \_(\textcolor{stringliteral}{'Usuario\ registrado\ exitosamente.\ Por\ favor\ inicia\ sesión.'})\ :\ null}
-\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00517\ \ \ \ \ \}}
+\DoxyCodeLine{00466\ \ \ \ \ \{}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_af4914b619824cf44e74a5c7c625cab73}{login}}(}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''}}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{return}\ [\ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),\ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]\ ];}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \$registered\ =\ isset(\$\_GET[\textcolor{stringliteral}{'registered'}])\ ?\ true\ :\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Iniciar\ Sesión'}),}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \$registered\ ?\ \_(\textcolor{stringliteral}{'Usuario\ registrado\ exitosamente.\ Por\ favor\ inicia\ sesión.'})\ :\ null}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00484\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -777,11 +768,11 @@ Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00152}{152
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00217}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}remove\+Auth\+Cookies()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00219}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}remove\+Auth\+Cookies()}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00239}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}logout\+And\+Redirect()}}.
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00230}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}logout\+And\+Redirect()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
@@ -814,18 +805,18 @@ void
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00239}{239}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00230}{230}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Llamar\ al\ método\ logout\ para\ limpiar\ la\ sesión}}
-\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{logout}}();}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Redirigir\ a\ la\ página\ principal}}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00246\ \ \ \ \ \}}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Llamar\ al\ método\ logout\ para\ limpiar\ la\ sesión}}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_a4dcca8154953e71c03799ebd9ae20ed0}{logout}}();}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Redirigir\ a\ la\ página\ principal}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00237\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -915,7 +906,7 @@ Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00042}{42}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00096}{\$user\+Controller}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00093}{\$user\+Controller}}.
 
 \Hypertarget{classApp_1_1Controllers_1_1AuthController_ac968c9c1fcbc6ac91cc7f20c3181b94f}\label{classApp_1_1Controllers_1_1AuthController_ac968c9c1fcbc6ac91cc7f20c3181b94f} 
 \index{App\textbackslash{}Controllers\textbackslash{}AuthController@{App\textbackslash{}Controllers\textbackslash{}AuthController}!registerHandler@{registerHandler}}
@@ -934,34 +925,34 @@ array Datos para la plantilla
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00460}{460}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00427}{427}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00461\ \ \ \ \ \{}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\textcolor{keyword}{register}(}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'confirm\_password'}]\ ??\ \textcolor{stringliteral}{''}}
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?registered=1'});}
-\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Registro'}),}
-\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]}
-\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Registro'})}
-\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00484\ \ \ \ \ \}}
+\DoxyCodeLine{00428\ \ \ \ \ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>\textcolor{keyword}{register}(}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'confirm\_password'}]\ ??\ \textcolor{stringliteral}{''}}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'success'}])\ \{}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /login?registered=1'});}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Registro'}),}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$result[\textcolor{stringliteral}{'message'}]}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \_(\textcolor{stringliteral}{'Registro'})}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00451\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1AuthController_a3f7891576bdfc3deb4030d5d5db57bae}\label{classApp_1_1Controllers_1_1AuthController_a3f7891576bdfc3deb4030d5d5db57bae} 
@@ -972,33 +963,22 @@ Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00460}{460
 
 
 
-Elimina todas las cookies relacionadas con la autenticación. 
+Elimina todas las cookies relacionadas con la autenticación Eliminar cookie de token Eliminar cookie de JWT Eliminar otras cookies de sesión que puedan existir. 
 
 \begin{DoxyReturn}{Devuelve}
 void 
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00217}{217}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00219}{219}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ cookie\ de\ token}}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'token'}]))\ \{}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}token"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ cookie\ de\ JWT}}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ \{}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(\textcolor{stringliteral}{"{}jwt"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ otras\ cookies\ de\ sesión\ que\ puedan\ existir}}
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[session\_name()]))\ \{}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ setcookie(session\_name(),\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00232\ \ \ \ \ \}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'token'}]))\ setcookie(\textcolor{stringliteral}{"{}token"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[\textcolor{stringliteral}{'jwt'}]))\ setcookie(\textcolor{stringliteral}{"{}jwt"{}},\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_COOKIE[session\_name()]))\ setcookie(session\_name(),\ \textcolor{stringliteral}{"{}"{}},\ time()\ -\/\ 3600,\ \textcolor{stringliteral}{"{}/"{}});}
+\DoxyCodeLine{00223\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -1033,53 +1013,38 @@ mixed Datos decodificados o false
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00324}{324}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AuthController_8php_source_l00315}{315}} del archivo \mbox{\hyperlink{AuthController_8php_source}{Auth\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ token\ existe\ en\ la\ base\ de\ datos}}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \$tokenData\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ jwt\ =\ ?"{}},}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$jwt]}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ )-\/>fetch();}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$tokenData)\ \{}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ estructura\ del\ token}}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ list(\$header\_encoded,\ \$payload\_encoded,\ \$signature\_encoded)\ =\ explode(\textcolor{charliteral}{'.'},\ \$jwt);}
-\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ firma}}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ \$this-\/>secretKey,\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \$signature\_check\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\$signature);}
-\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$signature\_encoded\ !==\ \$signature\_check)\ \{}
-\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ expiración}}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ json\_decode(base64\_decode(\$payload\_encoded),\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$payload[\textcolor{stringliteral}{'exp'}])\ \&\&\ \$payload[\textcolor{stringliteral}{'exp'}]\ <\ time())\ \{}
-\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Expirado}}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$payload;}
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00357\ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ token\ existe\ en\ la\ base\ de\ datos}}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \$tokenData\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ jwt\ =\ ?"{}},\ [\$jwt])-\/>fetch();}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$tokenData)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ estructura\ del\ token}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ list(\$header\_encoded,\ \$payload\_encoded,\ \$signature\_encoded)\ =\ explode(\textcolor{charliteral}{'.'},\ \$jwt);}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ firma}}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \$signature\ =\ hash\_hmac(\textcolor{stringliteral}{'sha256'},\ \textcolor{stringliteral}{"{}\$header\_encoded.\$payload\_encoded"{}},\ \$this-\/>secretKey,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \$signature\_check\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AuthController_ae746c781d06673e1ce59121abf11c36c}{base64URLEncode}}(\$signature);}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$signature\_encoded\ !==\ \$signature\_check)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ expiración}}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ json\_decode(base64\_decode(\$payload\_encoded),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$payload[\textcolor{stringliteral}{'exp'}])\ \&\&\ \$payload[\textcolor{stringliteral}{'exp'}]\ <\ time())\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Expirado}}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$payload;}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00333\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00365}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
+Hace referencia a \mbox{\hyperlink{AuthController_8php_source_l00341}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}base64\+URLEncode()}}.
 
 
 
-Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00413}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}is\+Logged\+In()}}.
+Referenciado por \mbox{\hyperlink{AuthController_8php_source_l00380}{App\textbackslash{}\+Controllers\textbackslash{}\+Auth\+Controller\textbackslash{}is\+Logged\+In()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
