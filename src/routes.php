@@ -118,7 +118,7 @@ $routes = [
     '/random' => ['template' => null, 'redirect' => '/fungi/random'],
     '/profile/([^/]+)' => ['redirect' => '/profile'],
     '/profile' => ['template' => 'pages/profile.twig', 'auth_required' => true, 'handler' => [$userController, 'profileHandler']],
-    '/docs/api' => ['template' => 'pages/api/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
+    '/docs/api' => ['template' => 'pages/api_docs.twig', 'auth_required' => false, 'handler' => [$docsController, 'apiDocsHandler']],
     '/change-language' => ['handler' => [$langController, 'changeLanguage']],
     '/register' => ['template' => 'components/auth/register_form.twig', 'auth_required' => false, 'handler' => [$authController, 'registerHandler']],
     '/logout' => ['handler' => [$authController, 'logoutAndRedirect']],

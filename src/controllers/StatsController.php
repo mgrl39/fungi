@@ -35,19 +35,15 @@ class StatsController
     {
         try {
             $result = $this->db->query(
-                "SELECT f.id, f.name, COUNT(ul.id) as likes
-                 FROM fungi f
-                 JOIN user_likes ul ON f.id = ul.fungi_id
-                 GROUP BY f.id
-                 ORDER BY COUNT(ul.id) DESC
-                 LIMIT $limit"
+                "SELECT f.id, f.name, COUNT(ul.id) as likes FROM fungi f
+                 JOIN user_likes ul ON f.id = ul.fungi_id GROUP BY f.id
+                 ORDER BY COUNT(ul.id) DESC LIMIT $limit"
             );
             
             if ($result === false) {
                 error_log("Error al obtener hongos más likeados: Consulta fallida");
                 return [];
             }
-            
             return $result->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             error_log("Error al obtener hongos más likeados: " . $e->getMessage());
@@ -65,19 +61,14 @@ class StatsController
     {
         try {
             $result = $this->db->query(
-                "SELECT f.id, f.name, COUNT(uf.id) as favorites
-                 FROM fungi f
-                 JOIN user_favorites uf ON f.id = uf.fungi_id
-                 GROUP BY f.id
-                 ORDER BY COUNT(uf.id) DESC
-                 LIMIT $limit"
+                "SELECT f.id, f.name, COUNT(uf.id) as favorites FROM fungi f
+                 JOIN user_favorites uf ON f.id = uf.fungi_id GROUP BY f.id
+                 ORDER BY COUNT(uf.id) DESC LIMIT $limit"
             );
-            
             if ($result === false) {
                 error_log("Error al obtener hongos favoritos: Consulta fallida");
                 return [];
             }
-            
             return $result->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             error_log("Error al obtener hongos favoritos: " . $e->getMessage());
@@ -101,22 +92,16 @@ class StatsController
                  AND t.family NOT LIKE '%unknown%' AND t.family NOT LIKE '%sin clasificar%'
                  GROUP BY t.family ORDER BY count DESC LIMIT $limit"
             );
-            
             if ($result === false) {
                 error_log("Error al obtener distribución por familia: Consulta fallida");
                 return [];
             }
-            
             $families = $result->fetchAll(\PDO::FETCH_ASSOC);
-            
             // Procesar nombres de familia para mejorar visualización
             foreach ($families as &$family) {
                 // Convertir primera letra en mayúscula y resto en minúscula para uniformidad
-                if (isset($family['name'])) {
-                    $family['name'] = ucfirst(strtolower($family['name']));
-                }
+                if (isset($family['name'])) $family['name'] = ucfirst(strtolower($family['name']));
             }
-            
             return $families;
         } catch (\Exception $e) {
             error_log("Error al obtener distribución por familia: " . $e->getMessage());
@@ -137,11 +122,7 @@ class StatsController
             $totalUsersQuery = "SELECT COUNT(*) as count FROM users";
             $totalUsersResult = $this->db->query($totalUsersQuery);
             $totalUsers = ($totalUsersResult === false) ? 0 : $totalUsersResult->fetch(\PDO::FETCH_ASSOC)['count'];
-            $edibilityQuery = "SELECT edibility, COUNT(*) as count 
-                              FROM fungi 
-                              WHERE edibility IS NOT NULL AND edibility != '' 
-                              GROUP BY edibility 
-                              ORDER BY count DESC";
+            $edibilityQuery = "SELECT edibility, COUNT(*) as count FROM fungi WHERE edibility IS NOT NULL AND edibility != '' GROUP BY edibility ORDER BY count DESC"; 
             $edibilityResult = $this->db->query($edibilityQuery);
             $edibilityStats = ($edibilityResult === false) ? [] : $edibilityResult->fetchAll(\PDO::FETCH_ASSOC);
             $familiesStats = $this->getFamilyDistribution(10);

@@ -170,9 +170,8 @@ class UserController {
             $result = $this->db->query($sql);
             
             // Manejar diferentes tipos de retorno del método query
-            if (is_array($result)) {
-                return $result;
-            } else if ($result instanceof \PDOStatement) {
+            if (is_array($result)) return $result;
+            if ($result instanceof \PDOStatement) {
                 return $result->fetchAll(\PDO::FETCH_ASSOC);
             } else if ($result === false) {
                 error_log("La consulta de usuarios falló");
