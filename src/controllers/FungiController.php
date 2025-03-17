@@ -119,9 +119,11 @@ class FungiController
     {
         $result = $this->db->query("SELECT f.*, 
                                     c.cap, c.hymenium, c.stipe, c.flesh,
+                                    t.division, t.subdivision, t.class, t.subclass, t.ordo as order_name, t.family,
                                     GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
                                     FROM fungi f 
                                     LEFT JOIN characteristics c ON f.id = c.fungi_id
+                                    LEFT JOIN taxonomy t ON f.id = t.fungi_id
                                     LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
                                     LEFT JOIN images i ON fi.image_id = i.id 
                                     LEFT JOIN image_config ic ON i.config_key = ic.config_key
@@ -146,6 +148,11 @@ class FungiController
                 
                 $fungus['characteristics'] = implode("\n", $characteristics);
             }
+            
+            // Para la descripción, usar el campo observations
+            if (!empty($fungus['observations'])) {
+                $fungus['description'] = $fungus['observations'];
+            }
         }
         return $fungus;
     }
@@ -163,9 +170,11 @@ class FungiController
     {
         $query = "SELECT f.*, 
                  c.cap, c.hymenium, c.stipe, c.flesh,
+                 t.division, t.subdivision, t.class, t.subclass, t.ordo as order_name, t.family,
                  GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
                  FROM fungi f 
                  LEFT JOIN characteristics c ON f.id = c.fungi_id
+                 LEFT JOIN taxonomy t ON f.id = t.fungi_id
                  LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
                  LEFT JOIN images i ON fi.image_id = i.id 
                  LEFT JOIN image_config ic ON i.config_key = ic.config_key
@@ -190,6 +199,11 @@ class FungiController
                 if (!empty($fungus['flesh'])) $characteristics[] = "Carne: " . $fungus['flesh'];
                 
                 $fungus['characteristics'] = implode("\n", $characteristics);
+            }
+            
+            // Para la descripción, usar el campo observations
+            if (!empty($fungus['observations'])) {
+                $fungus['description'] = $fungus['observations'];
             }
             
             error_log("Cargando hongo aleatorio: " . json_encode($fungus['name'] ?? 'No encontrado'));
