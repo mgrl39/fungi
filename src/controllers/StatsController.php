@@ -27,24 +27,6 @@ class StatsController
     }
 
     /**
-     * @brief Obtiene todas las estadísticas relacionadas con hongos
-     * 
-     * @param string $timeRange Período de tiempo para las estadísticas ('all', 'week', 'month', 'year')
-     * @return array Conjunto completo de estadísticas organizadas por categorías
-     */
-    public function getFungiStats($timeRange = 'all')
-    {
-        return [
-            'edibility' => $this->getEdibilityStats($timeRange),
-            'families' => $this->getFamilyStats($timeRange),
-            'popular' => $this->getPopularFungi($timeRange),
-            'divisions' => $this->getDivisionStats($timeRange),
-            'classes' => $this->getClassStats($timeRange),
-            'orders' => $this->getOrderStats($timeRange),
-        ];
-    }
-
-    /**
      * @brief Genera la condición SQL para filtrar por rango de tiempo
      * 
      * @param string $timeRange Rango de tiempo (all, week, month, year)
@@ -191,22 +173,6 @@ class StatsController
     }
 
     /**
-     * @brief Obtiene estadísticas generales sobre los hongos en la base de datos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @return array Estadísticas generales sobre los hongos
-     */
-    public function getGeneralStats($timeRange = 'all')
-    {
-        // Aquí puedes agregar estadísticas adicionales que necesites
-        return [
-            'total_count' => $this->getTotalFungiCount($timeRange),
-            'edibility_summary' => $this->getEdibilityStats($timeRange),
-            'recent_additions' => $this->getRecentAdditions($timeRange),
-        ];
-    }
-
-    /**
      * @brief Obtiene el número total de hongos en la base de datos
      * 
      * @param string $timeRange Período de tiempo para filtrar los resultados
@@ -251,103 +217,6 @@ class StatsController
             return $result->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\Exception $e) {
             error_log("Error al obtener hongos recientes: " . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * @brief Obtiene las tendencias de adición de hongos en diferentes períodos
-     * 
-     * @param string $timeRange Período de tiempo para filtrar resultados
-     * @return array Datos de tendencias de adición agrupados por período
-     */
-    public function getAdditionTrends($timeRange = 'year')
-    {
-        $groupFormat = $timeRange === 'week' || $timeRange === 'month' ? '%Y-%m-%d' : '%Y-%m';
-        $interval = $timeRange === 'week' ? '7 DAY' : ($timeRange === 'month' ? '30 DAY' : '365 DAY');
-        
-        try {
-            $result = $this->db->query(
-                "SELECT DATE_FORMAT(date_added, '$groupFormat') as period, 
-                 COUNT(*) as count
-                 FROM fungi 
-                 WHERE date_added >= DATE_SUB(NOW(), INTERVAL $interval)
-                 GROUP BY period
-                 ORDER BY date_added ASC"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener tendencias de adición: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener tendencias de adición: " . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * @brief Obtiene las familias de hongos más comunes
-     * 
-     * @param string $timeRange Período de tiempo para filtrar los resultados
-     * @param int $limit Número máximo de familias a retornar
-     * @return array Las familias de hongos más comunes con sus recuentos
-     */
-    public function getTopFamilies($timeRange = 'all', $limit = 10)
-    {
-        $timeCondition = $this->getTimeRangeCondition($timeRange);
-        
-        try {
-            $result = $this->db->query(
-                "SELECT t.family, COUNT(*) as count 
-                 FROM taxonomy t
-                 JOIN fungi f ON f.id = t.fungi_id
-                 $timeCondition
-                 AND t.family IS NOT NULL 
-                 GROUP BY t.family 
-                 ORDER BY count DESC 
-                 LIMIT $limit"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener familias más comunes: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener familias más comunes: " . $e->getMessage());
-            return [];
-        }
-    }
-
-    /**
-     * @brief Obtiene los hongos más visitados
-     * 
-     * @param int $limit Número máximo de resultados a retornar
-     * @return array Los hongos más visitados con sus contadores
-     */
-    public function getMostViewedFungi($limit = 5)
-    {
-        try {
-            $result = $this->db->query(
-                "SELECT f.id, f.name, f.view_count as views
-                 FROM fungi f
-                 WHERE f.view_count > 0
-                 ORDER BY f.view_count DESC
-                 LIMIT $limit"
-            );
-            
-            if ($result === false) {
-                error_log("Error al obtener hongos más vistos: Consulta fallida");
-                return [];
-            }
-            
-            return $result->fetchAll(\PDO::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            error_log("Error al obtener hongos más vistos: " . $e->getMessage());
             return [];
         }
     }
@@ -583,94 +452,5 @@ class StatsController
         $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
         $host = $_SERVER['HTTP_HOST'];
         return $protocol . $host;
-    }
-
-    /**
-     * @brief Obtiene estadísticas para el dashboard de administración
-     * 
-     * @return array Datos estadísticos para el panel de administración
-     */
-    public function getDashboardStats()
-    {
-        try {
-            // Obtenemos el total de hongos
-            $query = "SELECT COUNT(*) as count FROM fungi";
-            $stmt = $this->db->query($query);
-            if ($stmt === false) {
-                error_log("Error en consulta: $query");
-                $totalFungi = 0;
-            } else {
-                $totalFungi = $stmt->fetch(\PDO::FETCH_ASSOC)['count'] ?? 0;
-            }
-            
-            // Obtenemos el total de usuarios
-            $query = "SELECT COUNT(*) as count FROM users";
-            $stmt = $this->db->query($query);
-            if ($stmt === false) {
-                error_log("Error en consulta: $query");
-                $totalUsers = 0;
-            } else {
-                $totalUsers = $stmt->fetch(\PDO::FETCH_ASSOC)['count'] ?? 0;
-            }
-            
-            // Obtenemos los hongos añadidos recientemente
-            // Usando date_added en lugar de created_at
-            $query = "SELECT id, name, scientific_name, edibility, date_added 
-                      FROM fungi 
-                      ORDER BY date_added DESC 
-                      LIMIT 5";
-            $stmt = $this->db->query($query);
-            if ($stmt === false) {
-                error_log("Error en consulta: $query");
-                $recentFungi = [];
-            } else {
-                $recentFungi = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            }
-            
-            // Obtenemos usuarios recientes
-            $query = "SELECT id, username, email, created_at 
-                      FROM users 
-                      ORDER BY created_at DESC 
-                      LIMIT 5";
-            $stmt = $this->db->query($query);
-            if ($stmt === false) {
-                error_log("Error en consulta: $query");
-                $recentUsers = [];
-            } else {
-                $recentUsers = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            }
-            
-            // Obtenemos hongos más populares
-            $query = "SELECT f.id, f.name, COUNT(fp.fungi_id) as views 
-                      FROM fungi f 
-                      LEFT JOIN fungi_popularity fp ON f.id = fp.fungi_id 
-                      GROUP BY f.id
-                      ORDER BY views DESC 
-                      LIMIT 5";
-            $stmt = $this->db->query($query);
-            if ($stmt === false) {
-                error_log("Error en consulta: $query");
-                $popularFungi = [];
-            } else {
-                $popularFungi = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            }
-            
-            return [
-                'total_fungi' => $totalFungi,
-                'total_users' => $totalUsers,
-                'recent_fungi' => $recentFungi,
-                'recent_users' => $recentUsers,
-                'popular_fungi' => $popularFungi
-            ];
-        } catch (\Exception $e) {
-            error_log("Error al obtener estadísticas del dashboard: " . $e->getMessage());
-            return [
-                'total_fungi' => 0,
-                'total_users' => 0,
-                'recent_fungi' => [],
-                'recent_users' => [],
-                'popular_fungi' => []
-            ];
-        }
     }
 } 
