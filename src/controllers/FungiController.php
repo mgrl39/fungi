@@ -117,7 +117,14 @@ class FungiController
      */
     public function getFungusById($id)
     {
-        $result = $this->db->query("SELECT * FROM fungi WHERE id = ? LIMIT 1", [$id]);
+        $result = $this->db->query("SELECT f.*, 
+                                    GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+                                    FROM fungi f 
+                                    LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                                    LEFT JOIN images i ON fi.image_id = i.id 
+                                    LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                                    WHERE f.id = :id
+                                    GROUP BY f.id", ['id' => $id]);
         
         if ($result instanceof \PDOStatement) $fungus = $result->fetch(\PDO::FETCH_ASSOC) ?: null;
         else {
@@ -494,30 +501,17 @@ class FungiController
     }
 
     /**
-     * Obtiene todos los hongos de la base de datos
-     * @return array Lista de todos los hongos
+     * Obtiene la lista completa de hongos
+     * 
+     * @return array Lista de hongos
      */
-    public function getAllFungi() 
+    public function getAllFungi()
     {
-        // Consulta para obtener todos los hongos con sus imágenes
-        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, '/', i.filename)) as image_urls 
-                FROM fungi f 
-                LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
-                LEFT JOIN images i ON fi.image_id = i.id 
-                LEFT JOIN image_config ic ON i.config_key = ic.config_key
-                GROUP BY f.id";
-        
-        $result = $this->db->query($sql);
-        
-        // Asegurarse de que tenemos un array como resultado
-        if (!is_array($result)) {
-            return [];
-        }
-        
-        // Registrar para depuración
-        error_log("getAllFungi: Obtenidos " . count($result) . " hongos");
-        
-        return $result;
+        $fungi = $this->db->query("SELECT * FROM fungi");
+        return [
+            'success' => true, 
+            'data' => $fungi
+        ];
     }
 
     /**
@@ -644,16 +638,17 @@ class FungiController
      */
     public function getDetailedFungusById($id, $userId = null)
     {
-        // Consulta para obtener datos básicos del hongo con imágenes
-        $sql = "SELECT f.*, GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
+        // Consulta para obtener datos básicos del hongo
+        $sql = "SELECT f.*, 
+                GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
                 FROM fungi f 
                 LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
                 LEFT JOIN images i ON fi.image_id = i.id 
                 LEFT JOIN image_config ic ON i.config_key = ic.config_key
-                WHERE f.id = ?
+                WHERE f.id = :id
                 GROUP BY f.id";
         
-        $fungi = $this->db->query($sql, [$id]);
+        $fungi = $this->db->query($sql, ['id' => $id]);
         
         // Procesar resultado según el tipo de retorno de la DB
         if (is_array($fungi) && !empty($fungi)) {
