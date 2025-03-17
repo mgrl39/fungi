@@ -449,65 +449,39 @@ class StatsController
      */
     public function getAllStatsForPage()
     {
-        // Obtener conteo total de hongos
-        $totalFungi = $this->db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0;
+        // En lugar de usar datos hardcodeados o calcular porcentajes falsos,
+        // usamos endpoints de API existentes para datos reales
         
-        // Obtener estadísticas de comestibilidad y formatearlas
-        $edibilityStats = $this->getEdibilityStats();
-        $edibilityFormatted = [
-            'edible_fungi' => 0,
-            'non_edible_fungi' => 0,
-            'toxic_fungi' => 0,
-            'unknown_edibility_fungi' => 0
-        ];
+        // Utilizamos el endpoint de hongos para obtener datos reales
+        $fungiController = new \App\Controllers\FungiController($this->db);
+        $allFungi = $fungiController->getAllFungi();
         
-        foreach ($edibilityStats as $stat) {
-            if ($stat['edibility'] === 'edible') $edibilityFormatted['edible_fungi'] = $stat['count'];
-            if ($stat['edibility'] === 'non_edible') $edibilityFormatted['non_edible_fungi'] = $stat['count'];
-            if ($stat['edibility'] === 'toxic') $edibilityFormatted['toxic_fungi'] = $stat['count'];
-            if ($stat['edibility'] === 'unknown') $edibilityFormatted['unknown_edibility_fungi'] = $stat['count'];
+        // Obtenemos estadísticas de edibilidad basadas en datos reales
+        $edibilityStats = [];
+        if (isset($allFungi['data']) && is_array($allFungi['data'])) {
+            foreach ($allFungi['data'] as $fungi) {
+                $edibility = $fungi['edibility'] ?? 'unknown';
+                if (!isset($edibilityStats[$edibility])) {
+                    $edibilityStats[$edibility] = 0;
+                }
+                $edibilityStats[$edibility]++;
+            }
         }
         
-        // Combinar todos los datos para la plantilla
-        return array_merge($edibilityFormatted, [
-            'total_fungi' => $totalFungi,
-            'total_users' => $this->db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
-            'top_families' => $this->getTopFamilies(10),
-            'most_viewed' => $this->getMostViewedFungi(5),
-            'top_favorites' => $this->getTopFavorites(5),
-            'top_liked' => $this->getTopLiked(5),
-            'trends' => $this->getAdditionTrends(),
-            'habitats' => $this->getHabitatDistribution()
-        ]);
-    }
-
-    /**
-     * @brief Obtiene todas las estadísticas necesarias para el panel de administración
-     * 
-     * @return array Datos del dashboard formateados para la plantilla
-     */
-    public function getDashboardStats()
-    {
-        // Obtener actividad reciente de usuarios desde la base de datos
-        $queryResult = $this->db->query(
-            "SELECT u.username, a.action, a.item, a.access_time as date 
-             FROM access_logs a
-             JOIN users u ON a.user_id = u.id
-             ORDER BY a.access_time DESC
-             LIMIT 10"
-        );
-        $recentActivity = $queryResult ? $queryResult->fetchAll(\PDO::FETCH_ASSOC) : [];
+        // Obtenemos los hongos más populares (basados en vistas reales)
+        $popularFungi = $this->db->query(
+            "SELECT f.id, f.name, fp.views 
+             FROM fungi f 
+             JOIN fungi_popularity fp ON f.id = fp.fungi_id 
+             ORDER BY fp.views DESC 
+             LIMIT 5"
+        )->fetchAll(\PDO::FETCH_ASSOC);
         
-        // Obtener estadísticas generales
-        $fungiStats = $this->getFungiStats('all');
-        
+        // Devolvemos solo datos reales, sin porcentajes inventados
         return [
-            'total_fungi' => $this->db->query("SELECT COUNT(*) as total FROM fungi")->fetch()['total'] ?? 0,
-            'total_users' => $this->db->query("SELECT COUNT(*) as total FROM users")->fetch()['total'] ?? 0,
-            'recent_activity' => $recentActivity,
-            'popular_fungi' => $fungiStats['popular'] ?? [],
-            'edibility_stats' => $fungiStats['edibility'] ?? [],
-            'family_stats' => $fungiStats['families'] ?? []
+            'total_fungi' => count($allFungi['data'] ?? []),
+            'popular_fungi' => $popularFungi,
+            'edibility_stats' => $edibilityStats
         ];
     }
 
@@ -526,7 +500,109 @@ class StatsController
     {
         return [
             'title' => _('Estadísticas'),
-            'stats' => $this->getAllStatsForPage()
+            'stats' => $this->getAllStatsForPage(),
+            'api_url' => $this->getBaseUrl()
         ];
+    }
+
+    /**
+     * @brief Obtiene la URL base del sitio
+     * 
+     * @return string URL base del sitio
+     */
+    private function getBaseUrl() 
+    {
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+        $host = $_SERVER['HTTP_HOST'];
+        return $protocol . $host;
+    }
+
+    /**
+     * @brief Obtiene estadísticas para el dashboard de administración
+     * 
+     * @return array Datos estadísticos para el panel de administración
+     */
+    public function getDashboardStats()
+    {
+        try {
+            // Obtenemos el total de hongos
+            $query = "SELECT COUNT(*) as count FROM fungi";
+            $stmt = $this->db->query($query);
+            if ($stmt === false) {
+                error_log("Error en consulta: $query");
+                $totalFungi = 0;
+            } else {
+                $totalFungi = $stmt->fetch(\PDO::FETCH_ASSOC)['count'] ?? 0;
+            }
+            
+            // Obtenemos el total de usuarios
+            $query = "SELECT COUNT(*) as count FROM users";
+            $stmt = $this->db->query($query);
+            if ($stmt === false) {
+                error_log("Error en consulta: $query");
+                $totalUsers = 0;
+            } else {
+                $totalUsers = $stmt->fetch(\PDO::FETCH_ASSOC)['count'] ?? 0;
+            }
+            
+            // Obtenemos los hongos añadidos recientemente
+            // Usando date_added en lugar de created_at
+            $query = "SELECT id, name, scientific_name, edibility, date_added 
+                      FROM fungi 
+                      ORDER BY date_added DESC 
+                      LIMIT 5";
+            $stmt = $this->db->query($query);
+            if ($stmt === false) {
+                error_log("Error en consulta: $query");
+                $recentFungi = [];
+            } else {
+                $recentFungi = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            }
+            
+            // Obtenemos usuarios recientes
+            $query = "SELECT id, username, email, created_at 
+                      FROM users 
+                      ORDER BY created_at DESC 
+                      LIMIT 5";
+            $stmt = $this->db->query($query);
+            if ($stmt === false) {
+                error_log("Error en consulta: $query");
+                $recentUsers = [];
+            } else {
+                $recentUsers = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            }
+            
+            // Obtenemos hongos más populares
+            $query = "SELECT f.id, f.name, COUNT(fp.fungi_id) as views 
+                      FROM fungi f 
+                      LEFT JOIN fungi_popularity fp ON f.id = fp.fungi_id 
+                      GROUP BY f.id
+                      ORDER BY views DESC 
+                      LIMIT 5";
+            $stmt = $this->db->query($query);
+            if ($stmt === false) {
+                error_log("Error en consulta: $query");
+                $popularFungi = [];
+            } else {
+                $popularFungi = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            }
+            
+            return [
+                'total_fungi' => $totalFungi,
+                'total_users' => $totalUsers,
+                'recent_fungi' => $recentFungi,
+                'recent_users' => $recentUsers,
+                'popular_fungi' => $popularFungi
+            ];
+        } catch (\Exception $e) {
+            error_log("Error al obtener estadísticas del dashboard: " . $e->getMessage());
+            return [
+                'total_fungi' => 0,
+                'total_users' => 0,
+                'recent_fungi' => [],
+                'recent_users' => [],
+                'popular_fungi' => []
+            ];
+        }
     }
 } 

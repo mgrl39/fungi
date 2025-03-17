@@ -75,145 +75,212 @@
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar de administración -->
-            <nav class="col-md-3 col-lg-2 d-md-block admin-sidebar">
-                <div class="position-sticky">
-                    <ul class="nav flex-column">
-                        {% set menu_items = [
-                            {path: '/admin', icon: 'home', text: 'Dashboard', active: true},
-                            {path: '/admin/users', icon: 'users', text: 'Usuarios'},
-                            {path: '/admin/fungi', icon: 'mushroom', text: 'Hongos'},
-                            {path: '/admin/reports', icon: 'flag', text: 'Reportes'},
-                            {path: '/admin/settings', icon: 'cog', text: 'Configuración'}
-                        ] %}
-
-                        {% for item in menu_items %}
-                            <li class="nav-item">
-                                <a class="nav-link {{ item.active ? 'active' }}" href="{{ item.path }}">
-                                    <i class="fas fa-{{ item.icon }} me-2"></i>
-                                    {{ _(item.text) }}
-                                </a>
-                            </li>
-                        {% endfor %}
-
-                        <li class="nav-item mt-4">
-                            <a class="nav-link text-danger" href="/">
-                                <i class="fas fa-arrow-left me-2"></i>
-                                {{ _('Volver al sitio') }}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            
             <!-- Contenido principal -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 admin-main">
+            <main class="col-md-12 ms-sm-auto px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">{{ _('Panel de Administración') }}</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-
-                    </div>
+                    <h1 class="h2">{{ _('Panel de administración') }}</h1>
                 </div>
-                
-                <!-- Tarjetas de estadísticas -->
-                <div class="row mb-4">
-                    {% set stat_cards = [
-                        {title: 'Total de hongos', value: stats.total_fungi, color: 'primary', trend: 12},
-                        {title: 'Total de usuarios', value: stats.total_users, color: 'success', trend: 8},
-                        {title: 'Visualizaciones', value: stats.views ?? '2,453', color: 'info', trend: 24},
-                        {title: 'Nuevos registros', value: stats.new_users ?? '38', color: 'warning', trend: -5}
-                    ] %}
 
-                    {% for card in stat_cards %}
-                        <div class="col-md-3">
-                            <div class="stats-card">
-                                <h5>{{ _(card.title) }}</h5>
-                                <h2 class="text-{{ card.color }}">{{ card.value }}</h2>
-                                <p class="text-muted small mb-0">
-                                    <i class="fas fa-arrow-{{ card.trend > 0 ? 'up text-success' : 'down text-danger' }}"></i>
-                                    {{ card.trend }}% {{ _('desde el mes pasado') }}
-                                </p>
-                            </div>
+                <!-- Pestañas de navegación -->
+                <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats" type="button" role="tab" aria-controls="stats" aria-selected="true">
+                            <i class="fas fa-chart-bar me-1"></i> {{ _('Estadísticas') }}
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="fungi-tab" data-bs-toggle="tab" data-bs-target="#fungi" type="button" role="tab" aria-controls="fungi" aria-selected="false">
+                            <i class="fas fa-mushroom me-1"></i> {{ _('Hongos') }}
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="false">
+                            <i class="fas fa-users me-1"></i> {{ _('Usuarios') }}
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Contenido de las pestañas -->
+                <div class="tab-content" id="adminTabContent">
+                    <!-- Pestaña de Estadísticas -->
+                    <div class="tab-pane fade show active" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                        <!-- Tarjetas de estadísticas -->
+                        <div class="row mb-4">
+                            {% set stat_cards = [
+                                {title: 'Total de hongos', value: stats.total_fungi, color: 'primary'},
+                                {title: 'Total de usuarios', value: stats.total_users, color: 'success'}
+                            ] %}
+
+                            {% for card in stat_cards %}
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title">{{ _(card.title) }}</h5>
+                                            <h2 class="text-{{ card.color }}">{{ card.value }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
-                </div>
-                
-                <!-- Actividad reciente -->
-                <div class="card mb-4">
-                    <div class="card-header bg-light">
-                        <i class="fas fa-history me-1"></i>
-                        {{ _('Actividad reciente') }}
                     </div>
-                    <div class="card-body">
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    {% for header in ['Usuario', 'Acción', 'Elemento', 'Fecha'] %}
-                                        <th>{{ _(header) }}</th>
-                                    {% endfor %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% set default_activity = [
-                                    {username: 'admin', action: 'Creó', item: 'Amanita caesarea', date: "now"|date("Y-m-d H:i")},
-                                    {username: 'micologia', action: 'Modificó', item: 'Boletus edulis', date: "now"|date_modify("-2 hours")|date("Y-m-d H:i")},
-                                    {username: 'user123', action: 'Se registró', item: '-', date: "now"|date_modify("-1 day")|date("Y-m-d H:i")}
-                                ] %}
-
-                                {% for activity in stats.recent_activity ?? default_activity %}
-                                    <tr>
-                                        <td>{{ activity.username }}</td>
-                                        <td>{{ _(activity.action) }}</td>
-                                        <td>{{ activity.item }}</td>
-                                        <td>{{ activity.date }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <!-- Últimos hongos añadidos -->
-                <div class="card">
-                    <div class="card-header bg-light">
-                        <i class="fas fa-mushroom me-1"></i>
-                        {{ _('Últimos hongos añadidos') }}
-                    </div>
-                    <div class="card-body">
+                    
+                    <!-- Pestaña de Hongos -->
+                    <div class="tab-pane fade" id="fungi" role="tabpanel" aria-labelledby="fungi-tab">
+                        <div class="d-flex justify-content-between mb-3">
+                            <h3>{{ _('Gestión de Hongos') }}</h3>
+                            <button class="btn btn-primary" id="btnAddFungi">
+                                <i class="fas fa-plus"></i> {{ _('Nuevo hongo') }}
+                            </button>
+                        </div>
+                        
                         <div class="table-responsive">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped" id="fungiTable">
                                 <thead>
                                     <tr>
-                                        {% for header in ['ID', 'Nombre', 'Nombre científico', 'Comestibilidad', 'Fecha', 'Acciones'] %}
-                                            <th>{{ _(header) }}</th>
-                                        {% endfor %}
+                                        <th>ID</th>
+                                        <th>{{ _('Nombre') }}</th>
+                                        <th>{{ _('Comestibilidad') }}</th>
+                                        <th>{{ _('Acciones') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% set default_fungi = [
-                                        {id: 1, name: 'Níscalo', scientific_name: 'Lactarius deliciosus', edibility: 'Comestible', created_at: "now"|date_modify("-3 days")|date("Y-m-d")},
-                                        {id: 2, name: 'Champiñón', scientific_name: 'Agaricus bisporus', edibility: 'Comestible', created_at: "now"|date_modify("-5 days")|date("Y-m-d")}
-                                    ] %}
-
-                                    {% for fungus in stats.recent_fungi ?? default_fungi %}
-                                        <tr>
-                                            <td>{{ fungus.id }}</td>
-                                            <td>{{ fungus.name }}</td>
-                                            <td><em>{{ fungus.scientific_name }}</em></td>
-                                            <td>{{ fungus.edibility }}</td>
-                                            <td>{{ fungus.created_at }}</td>
-                                            <td>
-                                                <a href="/fungi/{{ fungus.id }}" class="btn btn-sm btn-info">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="/admin/fungi/edit/{{ fungus.id }}" class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    {% for fungi in fungi_list %}
+                                    <tr>
+                                        <td>{{ fungi.id }}</td>
+                                        <td>{{ fungi.name }}</td>
+                                        <td>{{ fungi.edibility }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info edit-fungi" data-id="{{ fungi.id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger delete-fungi" data-id="{{ fungi.id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+
+                    <!-- Pestaña de Usuarios -->
+                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
+                        <h3 class="mb-3">{{ _('Gestión de Usuarios') }}</h3>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>{{ _('Usuario') }}</th>
+                                        <th>{{ _('Email') }}</th>
+                                        <th>{{ _('Rol') }}</th>
+                                        <th>{{ _('Fecha de registro') }}</th>
+                                        <th>{{ _('Acciones') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.role }}</td>
+                                        <td>{{ user.created_at|date('d/m/Y') }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info edit-user" data-id="{{ user.id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger delete-user" data-id="{{ user.id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para Editar/Crear Hongo -->
+                <div class="modal fade" id="fungusModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="fungusModalTitle">{{ _('Editar Hongo') }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="fungusForm">
+                                    <input type="hidden" id="fungi_id">
+                                    <div class="mb-3">
+                                        <label for="fungi_name" class="form-label">{{ _('Nombre') }}</label>
+                                        <input type="text" class="form-control" id="fungi_name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fungi_common_name" class="form-label">{{ _('Nombre común') }}</label>
+                                        <input type="text" class="form-control" id="fungi_common_name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fungi_edibility" class="form-label">{{ _('Comestibilidad') }}</label>
+                                        <select class="form-control" id="fungi_edibility">
+                                            <option value="buen-comestible">{{ _('Buen comestible') }}</option>
+                                            <option value="comestible">{{ _('Comestible') }}</option>
+                                            <option value="comestible-precaucion">{{ _('Comestible con precaución') }}</option>
+                                            <option value="excelente-comestible">{{ _('Excelente comestible') }}</option>
+                                            <option value="mortal">{{ _('Mortal') }}</option>
+                                            <option value="no-comestible">{{ _('No comestible') }}</option>
+                                            <option value="sin-valor">{{ _('Sin valor culinario') }}</option>
+                                            <option value="toxica">{{ _('Tóxica') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fungi_habitat" class="form-label">{{ _('Hábitat') }}</label>
+                                        <input type="text" class="form-control" id="fungi_habitat">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
+                                <button type="button" class="btn btn-primary" id="saveFungus">{{ _('Guardar') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para Editar Usuario -->
+                <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="userModalTitle">{{ _('Editar Usuario') }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="userForm">
+                                    <input type="hidden" id="user_id">
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">{{ _('Nombre de usuario') }}</label>
+                                        <input type="text" class="form-control" id="username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">{{ _('Email') }}</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">{{ _('Rol') }}</label>
+                                        <select class="form-control" id="role">
+                                            <option value="user">{{ _('Usuario') }}</option>
+                                            <option value="admin">{{ _('Administrador') }}</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Cancelar') }}</button>
+                                <button type="button" class="btn btn-primary" id="saveUser">{{ _('Guardar') }}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -227,9 +294,175 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar tooltips
             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // Funciones para gestión de hongos
+            const btnAddFungi = document.getElementById('btnAddFungi');
+            const fungusModal = new bootstrap.Modal(document.getElementById('fungusModal'));
+            const userModal = new bootstrap.Modal(document.getElementById('userModal'));
+            
+            // Evento para abrir modal de nuevo hongo
+            btnAddFungi.addEventListener('click', function() {
+                document.getElementById('fungusModalTitle').textContent = '{{ _('Nuevo Hongo') }}';
+                document.getElementById('fungusForm').reset();
+                document.getElementById('fungi_id').value = '';
+                fungusModal.show();
+            });
+            
+            // Evento para botones de editar hongo
+            document.querySelectorAll('.edit-fungi').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    document.getElementById('fungusModalTitle').textContent = '{{ _('Editar Hongo') }}';
+                    
+                    // Obtener datos del hongo mediante API
+                    fetch(`/api/fungi/${id}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const fungi = data.data;
+                                document.getElementById('fungi_id').value = fungi.id;
+                                document.getElementById('fungi_name').value = fungi.name;
+                                document.getElementById('fungi_common_name').value = fungi.common_name || '';
+                                document.getElementById('fungi_edibility').value = fungi.edibility || 'sin-valor';
+                                document.getElementById('fungi_habitat').value = fungi.habitat || '';
+                                fungusModal.show();
+                            } else {
+                                alert('{{ _('Error al cargar datos del hongo') }}');
+                            }
+                        });
+                });
+            });
+            
+            // Evento para botones de borrar hongo
+            document.querySelectorAll('.delete-fungi').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('{{ _('¿Estás seguro de que deseas eliminar este hongo?') }}')) {
+                        const id = this.dataset.id;
+                        
+                        // Eliminar hongo mediante API
+                        fetch(`/api/fungi/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('{{ _('Hongo eliminado correctamente') }}');
+                                location.reload();
+                            } else {
+                                alert(data.error || '{{ _('Error al eliminar el hongo') }}');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Guardar hongo (crear/editar)
+            document.getElementById('saveFungus').addEventListener('click', function() {
+                const fungiId = document.getElementById('fungi_id').value;
+                const formData = {
+                    name: document.getElementById('fungi_name').value,
+                    common_name: document.getElementById('fungi_common_name').value,
+                    edibility: document.getElementById('fungi_edibility').value,
+                    habitat: document.getElementById('fungi_habitat').value
+                };
+                
+                const method = fungiId ? 'PUT' : 'POST';
+                const url = fungiId ? `/api/fungi/${fungiId}` : '/api/fungi';
+                
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(fungiId ? '{{ _('Hongo actualizado correctamente') }}' : '{{ _('Hongo creado correctamente') }}');
+                        fungusModal.hide();
+                        location.reload();
+                    } else {
+                        alert(data.error || '{{ _('Error al guardar el hongo') }}');
+                    }
+                });
+            });
+            
+            // Eventos para usuarios
+            document.querySelectorAll('.edit-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    document.getElementById('userModalTitle').textContent = '{{ _('Editar Usuario') }}';
+                    
+                    // Obtener datos del usuario de la fila actual
+                    const row = this.closest('tr');
+                    document.getElementById('user_id').value = row.cells[0].textContent;
+                    document.getElementById('username').value = row.cells[1].textContent;
+                    document.getElementById('email').value = row.cells[2].textContent;
+                    document.getElementById('role').value = row.cells[3].textContent;
+                    userModal.show();
+                });
+            });
+            
+            // Guardar usuario
+            document.getElementById('saveUser').addEventListener('click', function() {
+                const userId = document.getElementById('user_id').value;
+                const formData = {
+                    username: document.getElementById('username').value,
+                    email: document.getElementById('email').value,
+                    role: document.getElementById('role').value
+                };
+                
+                fetch(`/api/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('{{ _('Usuario actualizado correctamente') }}');
+                        userModal.hide();
+                        location.reload();
+                    } else {
+                        alert(data.error || '{{ _('Error al actualizar el usuario') }}');
+                    }
+                });
+            });
+            
+            // Eliminar usuario
+            document.querySelectorAll('.delete-user').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('{{ _('¿Estás seguro de que deseas eliminar este usuario?') }}')) {
+                        const id = this.dataset.id;
+                        
+                        fetch(`/api/users/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('{{ _('Usuario eliminado correctamente') }}');
+                                location.reload();
+                            } else {
+                                alert(data.error || '{{ _('Error al eliminar el usuario') }}');
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>

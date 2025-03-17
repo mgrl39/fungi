@@ -68,9 +68,7 @@
     <header>
         {% include 'components/navbar.twig' %}
     </header>
-
-    <main>
-        <!-- Sección Hero de Perfil -->
+    <main>    <!-- Sección Hero de Perfil -->
         <section class="profile-hero text-center text-white">
             <div class="container">
                 <div class="row justify-content-center">
@@ -143,38 +141,21 @@
                                                         <i class="fas fa-user-circle me-2"></i> {{ __d('Sobre', 'profile') }} {{ user.username }}
                                                     </div>
                                                     <div class="card-body">
-                                                        <p class="lead">{{ user.bio|default(__d('Este usuario no ha añadido una biografía.', 'profile')) }}</p>
-                                                        
-                                                        <!-- Separador visual -->
-                                                        <div class="position-relative py-4 my-4">
-                                                            <hr>
-                                                            <div class="position-absolute top-50 start-50 translate-middle bg-dark px-3">
-                                                                <i class="fas fa-leaf text-success"></i>
-                                                            </div>
-                                                        </div>
-                                                        
                                                         <h5 class="mb-4"><i class="fas fa-chart-line text-success me-2"></i>{{ __d('Estadísticas', 'profile') }}</h5>
-                                                        <div class="row row-cols-2 row-cols-md-3 g-4">
-                                                            <div class="col-6 text-center">
-                                                                <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(25, 135, 84, 0.1);">
-                                                                    <i class="fas fa-comments text-success fa-2x"></i>
-                                                                </div>
-                                                                <h3 class="text-success">{{ user.comments_count|default(0) }}</h3>
-                                                                <p class="text-muted">{{ __d('Comentarios', 'profile') }}</p>
-                                                            </div>
-                                                            <div class="col-6 text-center">
+                                                        <div class="row g-4">
+                                                            <div class="col-md-6 text-center">
                                                                 <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(13, 202, 240, 0.1);">
                                                                     <i class="fas fa-thumbs-up text-info fa-2x"></i>
                                                                 </div>
                                                                 <h3 class="text-info">{{ user.likes_count|default(0) }}</h3>
                                                                 <p class="text-muted">{{ __d('Me gusta', 'profile') }}</p>
                                                             </div>
-                                                            <div class="col-6 text-center">
+                                                            <div class="col-md-6 text-center">
                                                                 <div class="p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; background-color: rgba(255, 193, 7, 0.1);">
-                                                                    <i class="fas fa-upload text-warning fa-2x"></i>
+                                                                    <i class="fas fa-heart text-danger fa-2x"></i>
                                                                 </div>
-                                                                <h3 class="text-warning">{{ user.contributions|default(0) }}</h3>
-                                                                <p class="text-muted">{{ __d('Contribuciones', 'profile') }}</p>
+                                                                <h3 class="text-danger">{{ user.favorites_count|default(0) }}</h3>
+                                                                <p class="text-muted">{{ __d('Me encanta', 'profile') }}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -275,10 +256,6 @@
                                                 <i class="fas fa-exclamation-triangle me-2"></i> {{ __d('Zona de peligro', 'profile') }}
                                             </div>
                                             <div class="card-body">
-                                                <div class="alert alert-warning mb-4">
-                                                    <i class="fas fa-lock me-2"></i> {{ __d('Todas las funciones de edición de perfil están disponibles solo con', 'profile') }} <a href="https://github.com/mgrl39" target="_blank" class="alert-link text-danger">{{ __d('cuenta premium', 'profile') }}</a>.
-                                                </div>
-                                                
                                                 <p class="text-danger">{{ __d('Para eliminar tu cuenta, por favor contacta con un administrador en correofake@mgrl39.com', 'profile') }}</p>
                                                 <p class="text-muted">{{ __d('Solo los administradores pueden eliminar cuentas por motivos de seguridad.', 'profile') }}</p>
                                             </div>
@@ -346,12 +323,6 @@
                                 <span class="input-group-text bg-dark text-light border-secondary"><i class="fas fa-envelope"></i></span>
                                 <input type="email" class="form-control bg-dark text-light border-secondary" id="email" value="{{ user.email }}" disabled>
                             </div>
-                        </div>
-                        
-                        <!-- Biografía -->
-                        <div class="mb-3">
-                            <label for="bio" class="form-label">{{ __d('Biografía', 'profile') }}</label>
-                            <textarea class="form-control bg-dark text-light border-secondary" id="bio" rows="3" disabled>{{ user.bio }}</textarea>
                         </div>
                     </form>
                 </div>
@@ -536,7 +507,6 @@
                     const formData = new FormData();
                     formData.append('username', document.getElementById('username').value);
                     formData.append('email', document.getElementById('email').value);
-                    formData.append('bio', document.getElementById('bio').value);
                     
                     // Simulación de éxito
                     alert('Perfil actualizado correctamente');
