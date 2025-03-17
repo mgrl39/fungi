@@ -177,9 +177,25 @@
 \DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00207}00207\ \ \ \ \ \ \ \ \ \$instance\ =\ \textcolor{keyword}{new}\ \textcolor{keyword}{self}(\textcolor{keyword}{null},\ \textcolor{keyword}{null});}
 \DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00208}00208\ \ \ \ \ \ \ \ \ \$apiInfo\ =\ \$instance-\/>getApiInfo();}
 \DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00209}00209\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00210}00210\ \ \ \ \ \ \ \ \ http\_response\_code(200);}
-\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00211}00211\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$apiInfo,\ JSON\_PRETTY\_PRINT);}
-\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00212}00212\ \ \ \ \ \}}
-\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00213}00213\ \}\ }
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Extraer\ solo\ los\ endpoints\ para\ evitar\ texto\ que\ requiera\ internacionalización}}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00211}00211\ \ \ \ \ \ \ \ \ \$endpointsOnly\ =\ [}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \$apiInfo[\textcolor{stringliteral}{'name'}],}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'version'}\ =>\ \$apiInfo[\textcolor{stringliteral}{'version'}],}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'endpoints'}\ =>\ array\_map(\textcolor{keyword}{function}(\$endpoint)\ \{}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Conservar\ solo\ datos\ técnicos\ que\ no\ requieren\ traducción}}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \$endpoint[\textcolor{stringliteral}{'path'}],}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \$endpoint[\textcolor{stringliteral}{'method'}],}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ \$endpoint[\textcolor{stringliteral}{'requires\_auth'}]\ ??\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ \$endpoint[\textcolor{stringliteral}{'requires\_admin'}]\ ??\ \textcolor{keyword}{false},}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ isset(\$endpoint[\textcolor{stringliteral}{'parameters'}])\ ?\ array\_keys(\$endpoint[\textcolor{stringliteral}{'parameters'}])\ :\ []}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \},\ \$apiInfo[\textcolor{stringliteral}{'endpoints'}])}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00224}00224\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00225}00225\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00226}00226\ \ \ \ \ \ \ \ \ http\_response\_code(200);}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00227}00227\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$endpointsOnly,\ JSON\_PRETTY\_PRINT);}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00228}00228\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{DocsController_8php_source_l00229}00229\ \}\ }
 
 \end{DoxyCode}

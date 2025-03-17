@@ -26,7 +26,7 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Docs\
 \begin{DoxyCompactItemize}
 \item 
 static \mbox{\hyperlink{classApp_1_1Controllers_1_1DocsController_a26c7d871df293aeea872304083487788}{show}} ()
-\begin{DoxyCompactList}\small\item\em Muestra la documentación general de la API en formato JSON. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Muestra solo los endpoints de la API en formato JSON. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos protegidos}
 \begin{DoxyCompactItemize}
 \item 
@@ -338,7 +338,7 @@ Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00051}{51}
 
 
 
-Muestra la documentación general de la API en formato JSON. 
+Muestra solo los endpoints de la API en formato JSON. 
 
 \begin{DoxyReturn}{Devuelve}
 void 
@@ -353,9 +353,25 @@ Definición en la línea \mbox{\hyperlink{DocsController_8php_source_l00205}{205
 \DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \$instance\ =\ \textcolor{keyword}{new}\ \textcolor{keyword}{self}(\textcolor{keyword}{null},\ \textcolor{keyword}{null});}
 \DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \$apiInfo\ =\ \$instance-\/>getApiInfo();}
 \DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ http\_response\_code(200);}
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$apiInfo,\ JSON\_PRETTY\_PRINT);}
-\DoxyCodeLine{00212\ \ \ \ \ \}}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Extraer\ solo\ los\ endpoints\ para\ evitar\ texto\ que\ requiera\ internacionalización}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \$endpointsOnly\ =\ [}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \$apiInfo[\textcolor{stringliteral}{'name'}],}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'version'}\ =>\ \$apiInfo[\textcolor{stringliteral}{'version'}],}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'endpoints'}\ =>\ array\_map(\textcolor{keyword}{function}(\$endpoint)\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Conservar\ solo\ datos\ técnicos\ que\ no\ requieren\ traducción}}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'path'}\ =>\ \$endpoint[\textcolor{stringliteral}{'path'}],}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'method'}\ =>\ \$endpoint[\textcolor{stringliteral}{'method'}],}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_auth'}\ =>\ \$endpoint[\textcolor{stringliteral}{'requires\_auth'}]\ ??\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'requires\_admin'}\ =>\ \$endpoint[\textcolor{stringliteral}{'requires\_admin'}]\ ??\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'parameters'}\ =>\ isset(\$endpoint[\textcolor{stringliteral}{'parameters'}])\ ?\ array\_keys(\$endpoint[\textcolor{stringliteral}{'parameters'}])\ :\ []}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \},\ \$apiInfo[\textcolor{stringliteral}{'endpoints'}])}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ http\_response\_code(200);}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$endpointsOnly,\ JSON\_PRETTY\_PRINT);}
+\DoxyCodeLine{00228\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
