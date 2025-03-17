@@ -81,9 +81,7 @@ class UserController {
             
             if (empty($errors)) {
                 $success = $this->updateUserProfile($userData['id'], $_POST);
-                if ($success) {
-                    $userData = $this->session->getUserData(); // Recargar datos actualizados
-                }
+                if ($success) $userData = $this->session->getUserData();
             }
         }
         

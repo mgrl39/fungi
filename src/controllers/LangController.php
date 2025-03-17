@@ -116,7 +116,7 @@ class LangController
         bind_textdomain_codeset("messages", "UTF-8");
         textdomain("messages");
         
-        $default_domains = ['navbar', 'about', 'home', 'profile', 'stats'];
+        $default_domains = ['navbar', 'about', 'home', 'profile', 'stats', 'fungi'];
         foreach ($default_domains as $domain) $this->loadTextDomain($domain);
     }
     

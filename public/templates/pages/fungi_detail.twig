@@ -109,10 +109,10 @@
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
                     {% if is_logged_in %}
-                    <button id="favoriteButton" onclick="toggleFavorite({{ fungi.id }})" class="btn btn-outline-warning">
+                    <button id="favoriteButton" onclick="mostrarMensajeFavorito()" class="btn btn-outline-warning">
                         <i class="fas fa-star me-1"></i> Favorito
                     </button>
-                    <button id="likeButton" onclick="toggleLike({{ fungi.id }})" class="btn btn-outline-danger">
+                    <button id="likeButton" onclick="mostrarMensajeGusta()" class="btn btn-outline-danger">
                         <i class="fas fa-heart me-1"></i> <span id="likeText">Me gusta</span>
                     </button>
                     {% else %}
@@ -380,6 +380,42 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal para función de Favoritos -->
+        <div class="modal fade" id="favoritoModal" tabindex="-1" aria-labelledby="favoritoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title" id="favoritoModalLabel"><i class="fas fa-star me-2"></i>{{ __d('Función de Favoritos', 'fungi') }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-0">{{ __d('Esta función para marcar hongos como favoritos estará disponible próximamente.', 'fungi') }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __d('Entendido', 'fungi') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para función de Me gusta -->
+        <div class="modal fade" id="gustaModal" tabindex="-1" aria-labelledby="gustaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="gustaModalLabel"><i class="fas fa-heart me-2"></i>{{ __d('Función de Me gusta', 'fungi') }}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="mb-0">{{ __d('La función de Me gusta estará disponible en la próxima actualización.', 'fungi') }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __d('Entendido', 'fungi') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer class="mt-auto">
@@ -489,6 +525,17 @@
                 mostrarDatoAleatorio();
             }
         });
+
+        // Funciones para mostrar mensajes emergentes
+        function mostrarMensajeFavorito() {
+            const modal = new bootstrap.Modal(document.getElementById('favoritoModal'));
+            modal.show();
+        }
+
+        function mostrarMensajeGusta() {
+            const modal = new bootstrap.Modal(document.getElementById('gustaModal'));
+            modal.show();
+        }
     </script>
 </body>
 </html> 
