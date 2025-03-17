@@ -225,15 +225,8 @@ class UserController {
      */
     public function createUser($username, $email, $password_hash) {
         try {
-            $sql = "INSERT INTO users (username, email, password_hash) 
-                    VALUES (:username, :email, :password_hash)";
-            
-            $params = [
-                ':username' => $username,
-                ':email' => $email,
-                ':password_hash' => $password_hash
-            ];
-            
+            $sql = "INSERT INTO users (username, email, password_hash) VALUES (:username, :email, :password_hash)";
+            $params = [ ':username' => $username, ':email' => $email, ':password_hash' => $password_hash ];
             return $this->db->query($sql, $params) !== false;
         } catch (\Exception $e) {
             error_log("Error al crear usuario: " . $e->getMessage());
@@ -252,10 +245,7 @@ class UserController {
             // Verificar si el usuario existe
             $checkUser = $this->db->query("SELECT id FROM users WHERE id = ?", [$userId]);
             $checkResult = $checkUser->fetchAll(\PDO::FETCH_ASSOC);
-            if (empty($checkResult)) {
-                return false;
-            }
-            
+            if (empty($checkResult)) return false;
             // Eliminar registros relacionados en otras tablas
             $this->db->query("DELETE FROM user_likes WHERE user_id = ?", [$userId]);
             $this->db->query("DELETE FROM user_favorites WHERE user_id = ?", [$userId]);

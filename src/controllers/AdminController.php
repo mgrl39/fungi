@@ -16,6 +16,9 @@ class AdminController
 
     /**
      * @brief Constructor del controlador de administración
+     * @param $db Conexión a la base de datos
+     * @param $session Sesión del usuario
+     * @param $statsController Controlador de estadísticas (opcional)
      */
     public function __construct($db, $session, $statsController = null)
     {
@@ -31,7 +34,6 @@ class AdminController
 
     /**
      * @brief Traduce un texto usando el dominio admin
-     * 
      * @param string $text Texto a traducir
      * @return string Texto traducido
      */
@@ -42,6 +44,7 @@ class AdminController
 
     /**
      * @brief Manejador para el dashboard
+     * @return array Datos del dashboard
      */
     public function dashboardHandler()
     {
@@ -69,6 +72,7 @@ class AdminController
 
     /**
      * @brief Manejador para gestión de usuarios
+     * @return array Datos de gestión de usuarios
      */
     public function usersHandler()
     {
@@ -96,6 +100,7 @@ class AdminController
 
     /**
      * @brief Manejador para crear un nuevo usuario
+     * @return array Datos de creación de usuario
      */
     public function createUserHandler()
     {
@@ -201,6 +206,7 @@ class AdminController
     
     /**
      * @brief Manejador para la gestión de hongos
+     * @return array Datos de gestión de hongos
      */
     public function fungiHandler()
     {
@@ -230,6 +236,7 @@ class AdminController
     
     /**
      * @brief Manejador para crear un nuevo hongo
+     * @return array Datos de creación de hongo
      */
     public function createFungiHandler()
     {
@@ -370,6 +377,7 @@ class AdminController
     
     /**
      * @brief Manejador para editar un hongo
+     * @return array Datos de edición de hongo
      */
     public function editFungiHandler()
     {
@@ -607,7 +615,7 @@ class AdminController
         }
         
         if (!$fungiId) {
-            header('Location: /admin/fungi?error=invalidid');
+            header('Location: /admin/fungi?erroar=invalidid');
             exit;
         }
         
@@ -661,6 +669,7 @@ class AdminController
 
     /**
      * @brief Manejador para editar un usuario
+     * @return array Datos de edición de usuario
      */
     public function editUserHandler()
     {
