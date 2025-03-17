@@ -54,6 +54,7 @@ class AppInitializer
         
         // Cargar dominios adicionales
         $langController->loadTextDomain('navbar');
+        $langController->loadTextDomain('stats');
         $langController->loadTextDomain('about');
         $langController->loadTextDomain('fungi');
         $langController->loadTextDomain('admin');

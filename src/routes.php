@@ -10,6 +10,7 @@ $currentLanguage = $langController->initializeLanguage();
 
 // Cargar dominios adicionales para diferentes secciones
 $langController->loadTextDomain('navbar');
+$langController->loadTextDomain('stats');
 $langController->loadTextDomain('about');
 $langController->loadTextDomain('fungi');
 $langController->loadTextDomain('admin');
@@ -61,6 +62,7 @@ function renderTemplate($templatePath, $data = [])
 
     if (strpos($templatePath, 'navbar') !== false) textdomain('navbar');
     else if (strpos($templatePath, 'about') !== false) textdomain('about');
+    else if (strpos($templatePath, 'stats') !== false) textdomain('stats');
     else textdomain('messages');
 
     $data['components'] = $components;
@@ -80,11 +82,7 @@ function renderTemplate($templatePath, $data = [])
     } catch (Exception $e) {
         echo "<h1>Error al renderizar la plantilla</h1>";
         echo "<p>{$e->getMessage()}</p>";
-        if (defined('DEBUG_MODE') && DEBUG_MODE) {
-            echo "<pre>";
-            print_r($e);
-            echo "</pre>";
-        }
+        if (defined('DEBUG_MODE') && DEBUG_MODE) echo "<pre>"; print_r($e); echo "</pre>";
     }
 }
 
