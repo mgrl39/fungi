@@ -133,6 +133,19 @@
                             </button>
                         </div>
                         
+                        <!-- Control de elementos por página -->
+                        <div class="d-flex justify-content-end mb-3">
+                            <div class="form-inline">
+                                <label for="fungiItemsPerPage" class="me-2">{{ _('Mostrar') }}:</label>
+                                <select id="fungiItemsPerPage" class="form-select form-select-sm">
+                                    <option value="10">10</option>
+                                    <option value="20" selected>20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         <div class="table-responsive">
                             <table class="table table-striped" id="fungiTable">
                                 <thead>
@@ -144,24 +157,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for fungi in fungi_list %}
-                                    <tr>
-                                        <td>{{ fungi.id }}</td>
-                                        <td>{{ fungi.name }}</td>
-                                        <td>{{ fungi.edibility }}</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-info edit-fungi" data-id="{{ fungi.id }}">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-danger delete-fungi" data-id="{{ fungi.id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                    <!-- Se llenará dinámicamente con datos de /api/fungi/page/X/limit/Y -->
                                 </tbody>
                             </table>
                         </div>
+                        
+                        <!-- Contenedor para la paginación -->
+                        <div id="fungiPagination" class="mt-3"></div>
                     </div>
 
                     <!-- Pestaña de Usuarios -->
@@ -554,6 +556,268 @@
                     }
                 });
             });
+
+            // Función para cargar hongos desde el endpoint API con paginación
+            function loadFungiFromAPI(page = 1, limit = 20) {
+                console.log('Ejecutando loadFungiFromAPI(), página:', page, 'límite:', limit);
+                // Obtener el contenedor donde mostraremos los hongos
+                const tableBody = document.querySelector('#fungiTable tbody');
+                const paginationContainer = document.getElementById('fungiPagination');
+                
+                if (!tableBody) {
+                    console.error('No se encontró la tabla de hongos');
+                    return;
+                }
+                
+                // Mostrar indicador de carga
+                tableBody.innerHTML = `<tr><td colspan="4" class="text-center"><i class="fas fa-spinner fa-spin"></i> {{ _('Cargando hongos...') }}</td></tr>`;
+                
+                // Realizar solicitud a la API con paginación usando el endpoint existente
+                fetch(`/api/fungi/page/${page}/limit/${limit}`)
+                    .then(response => {
+                        console.log('Respuesta API hongos:', response);
+                        if (!response.ok) {
+                            if (response.status === 401 || response.status === 403) {
+                                throw new Error('{{ _('No tienes permisos para ver esta información') }}');
+                            }
+                            throw new Error(`{{ _('Error al cargar hongos') }} (${response.status})`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Datos de hongos recibidos:', data);
+                        if (data.success && Array.isArray(data.data)) {
+                            // Limpiar tabla
+                            tableBody.innerHTML = '';
+                            
+                            // Añadir cada hongo
+                            if (data.data.length === 0) {
+                                tableBody.innerHTML = `<tr><td colspan="4" class="text-center">{{ _('No hay hongos registrados') }}</td></tr>`;
+                            } else {
+                                data.data.forEach(fungi => {
+                                    tableBody.innerHTML += `
+                                        <tr>
+                                            <td>${fungi.id}</td>
+                                            <td>${fungi.name}</td>
+                                            <td>${fungi.edibility || '-'}</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-info edit-fungi" data-id="${fungi.id}">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger delete-fungi" data-id="${fungi.id}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `;
+                                });
+                                
+                                // Crear los controles de paginación
+                                if (paginationContainer && data.pagination) {
+                                    renderPagination(paginationContainer, data.pagination, limit);
+                                }
+                            }
+                            
+                            // Agregar eventos a los botones de editar
+                            document.querySelectorAll('.edit-fungi').forEach(btn => {
+                                btn.addEventListener('click', function() {
+                                    const id = this.dataset.id;
+                                    
+                                    // Cargar datos del hongo para editar
+                                    fetch(`/api/fungi/${id}`)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                const fungi = data.data;
+                                                
+                                                // Rellenar el formulario con los datos del hongo
+                                                document.getElementById('fungi_id').value = fungi.id;
+                                                document.getElementById('fungi_name').value = fungi.name;
+                                                document.getElementById('fungi_common_name').value = fungi.common_name || '';
+                                                document.getElementById('fungi_edibility').value = fungi.edibility || 'sin-valor';
+                                                document.getElementById('fungi_habitat').value = fungi.habitat || '';
+                                                fungusModal.show();
+                                            } else {
+                                                alert('{{ _('Error al cargar datos del hongo') }}');
+                                            }
+                                        });
+                                });
+                            });
+                            
+                            // Evento para botones de borrar hongo
+                            document.querySelectorAll('.delete-fungi').forEach(btn => {
+                                btn.addEventListener('click', function() {
+                                    if (confirm('{{ _('¿Estás seguro de que deseas eliminar este hongo?') }}')) {
+                                        const id = this.dataset.id;
+                                        
+                                        // Eliminar hongo mediante API
+                                        fetch(`/api/fungi/${id}`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                alert('{{ _('Hongo eliminado correctamente') }}');
+                                                // Recargar la página actual de hongos
+                                                const currentPage = parseInt(paginationContainer.querySelector('.active .page-link').dataset.page || 1);
+                                                loadFungiFromAPI(currentPage, limit);
+                                            } else {
+                                                alert(data.error || '{{ _('Error al eliminar el hongo') }}');
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        } else {
+                            tableBody.innerHTML = `<tr><td colspan="4" class="text-center">{{ _('Error al cargar hongos') }}</td></tr>`;
+                            console.error('Error en datos:', data);
+                        }
+                    })
+                    .catch(error => {
+                        tableBody.innerHTML = `<tr><td colspan="4" class="text-center">{{ _('Error') }}: ${error.message}</td></tr>`;
+                        console.error('Error cargando hongos:', error);
+                    });
+            }
+
+            // Función para renderizar los controles de paginación
+            function renderPagination(container, pagination, limit) {
+                const currentPage = pagination.current_page;
+                const totalPages = pagination.total_pages;
+                
+                // No mostrar paginación si solo hay una página
+                if (totalPages <= 1) {
+                    container.innerHTML = '';
+                    return;
+                }
+                
+                let html = `<nav aria-label="Paginación de hongos">
+                    <ul class="pagination justify-content-center">`;
+                
+                // Botón "Anterior"
+                html += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage - 1}" aria-label="Anterior">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>`;
+                
+                // Determinar el rango de páginas a mostrar
+                const maxVisiblePages = 5;
+                let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                
+                // Ajustar el rango si estamos cerca del final
+                if (endPage === totalPages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+                
+                // Primera página si no está incluida en el rango
+                if (startPage > 1) {
+                    html += `<li class="page-item">
+                        <a class="page-link" href="#" data-page="1">1</a>
+                    </li>`;
+                    
+                    if (startPage > 2) {
+                        html += `<li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>`;
+                    }
+                }
+                
+                // Páginas del rango
+                for (let i = startPage; i <= endPage; i++) {
+                    html += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>`;
+                }
+                
+                // Última página si no está incluida en el rango
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        html += `<li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>`;
+                    }
+                    
+                    html += `<li class="page-item">
+                        <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
+                    </li>`;
+                }
+                
+                // Botón "Siguiente"
+                html += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${currentPage + 1}" aria-label="Siguiente">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>`;
+                
+                html += `</ul></nav>
+                <div class="text-center text-muted">
+                    <small>{{ _('Mostrando') }} ${pagination.records_per_page} {{ _('de') }} ${pagination.total_records} {{ _('hongos') }}</small>
+                </div>`;
+                
+                container.innerHTML = html;
+                
+                // Agregar eventos a los enlaces de paginación
+                container.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const page = parseInt(this.dataset.page);
+                        if (!isNaN(page) && page > 0) {
+                            loadFungiFromAPI(page, limit);
+                        }
+                    });
+                });
+            }
+
+            // Agregar selector de elementos por página
+            function setupLimitSelector(selector, defaultLimit = 20) {
+                const limitSelector = document.querySelector(selector);
+                if (limitSelector) {
+                    limitSelector.value = defaultLimit;
+                    limitSelector.addEventListener('change', function() {
+                        const limit = parseInt(this.value);
+                        loadFungiFromAPI(1, limit);
+                    });
+                }
+            }
+
+            // Agregar listeners para las pestañas
+            const fungiTab = document.getElementById('fungi-tab');
+            if (fungiTab) {
+                fungiTab.addEventListener('click', function() {
+                    // Cargamos los hongos al hacer clic en la pestaña
+                    console.log('Cargando hongos...');
+                    const limitSelector = document.getElementById('fungiItemsPerPage');
+                    const limit = limitSelector ? parseInt(limitSelector.value) : 20;
+                    loadFungiFromAPI(1, limit);
+                });
+            }
+            
+            // También cargar hongos cuando se muestra la pestaña
+            document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
+                tab.addEventListener('shown.bs.tab', function(event) {
+                    if (event.target.getAttribute('id') === 'fungi-tab') {
+                        console.log('Pestaña de hongos mostrada, cargando datos...');
+                        const limitSelector = document.getElementById('fungiItemsPerPage');
+                        const limit = limitSelector ? parseInt(limitSelector.value) : 20;
+                        loadFungiFromAPI(1, limit);
+                    }
+                });
+            });
+            
+            // Configurar el selector de elementos por página
+            setupLimitSelector('#fungiItemsPerPage', 20);
+            
+            // Si la pestaña de hongos está activa al cargar, cargar datos inmediatamente
+            if (document.querySelector('#fungi.active')) {
+                console.log('Pestaña de hongos activa al cargar, cargando datos...');
+                const limitSelector = document.getElementById('fungiItemsPerPage');
+                const limit = limitSelector ? parseInt(limitSelector.value) : 20;
+                loadFungiFromAPI(1, limit);
+            }
         });
     </script>
 </body>
