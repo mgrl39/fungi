@@ -13,12 +13,12 @@
 <body>
     <!-- Incluir el encabezado -->
     {% include 'components/navbar.twig' %}
-    
+        
     <!-- Hero section -->
     <section class="stats-hero text-center text-white py-5 mb-5">
         <div class="container">
-            <h1 class="display-4 fw-bold">Estadísticas</h1>
-            <p class="lead">Explorando los datos de nuestra comunidad micológica</p>
+            <h1 class="display-4 fw-bold">{{ __d('Estadísticas', 'stats') }}</h1>
+            <p class="lead">{{ __d('Explorando los datos de nuestra comunidad micológica', 'stats') }}</p>
         </div>
     </section>
     
@@ -31,7 +31,7 @@
                     <div class="card-body text-center">
                         <i class="fas fa-seedling fa-3x mb-3 text-warning"></i>
                         <h2 class="card-title fs-2">{{ stats.total_fungi }}</h2>
-                        <p class="card-text text-muted">Especies de hongos registradas</p>
+                        <p class="card-text text-muted">{{ __d('Especies de hongos registradas', 'stats') }}</p>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                     <div class="card-body text-center">
                         <i class="fas fa-users fa-3x mb-3 text-info"></i>
                         <h2 class="card-title fs-2">{{ stats.total_users }}</h2>
-                        <p class="card-text text-muted">Usuarios registrados</p>
+                        <p class="card-text text-muted">{{ __d('Usuarios registrados', 'stats') }}</p>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-dark text-white shadow">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Distribución por comestibilidad</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ __d('Distribución por comestibilidad', 'stats') }}</h6>
                     </div>
                     <div class="card-body" style="height: 320px;">
                         <canvas id="edibilityChart"></canvas>
@@ -68,7 +68,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card bg-dark text-white shadow">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Familias principales</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">{{ __d('Familias principales', 'stats') }}</h6>
                     </div>
                     <div class="card-body" style="height: 320px;">
                         <canvas id="familyChart"></canvas>
@@ -84,14 +84,8 @@
             </div>
         </div>
     </section>
-
-    <!-- Incluir el pie de página -->
-    {% include 'components/footer.twig' %}
-    
-    <!-- Bootstrap JS y Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Gráficos con Chart.js -->
+    {% include 'components/footer.twig' %}   
+    <script src="/assets/lib/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Configurar los colores para comestibilidad
