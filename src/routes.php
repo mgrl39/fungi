@@ -63,6 +63,7 @@ function renderTemplate($templatePath, $data = [])
     if (strpos($templatePath, 'navbar') !== false) textdomain('navbar');
     else if (strpos($templatePath, 'about') !== false) textdomain('about');
     else if (strpos($templatePath, 'stats') !== false) textdomain('stats');
+    else if (strpos($templatePath, 'fungi') !== false) textdomain('fungi');
     else textdomain('messages');
 
     $data['components'] = $components;
