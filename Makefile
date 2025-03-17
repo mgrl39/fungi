@@ -29,7 +29,7 @@ TIMEOUT := 10
 
 # Variables para gettext
 LOCALES_DIR := locales
-LANGUAGES := es_ES ca_ES en_US
+LANGUAGES := ca_ES en_US
 LC_MESSAGES := LC_MESSAGES
 
 # Usar wildcard para encontrar todos los archivos .po existentes
