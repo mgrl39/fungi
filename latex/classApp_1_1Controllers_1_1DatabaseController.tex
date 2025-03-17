@@ -15,8 +15,14 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Datab
 \item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_ad13ac3423d5797dd6f7757acb009b512}{\+\_\+\+\_\+construct}} ()
 \item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_a4b20eac18c3b7a534c7f7e61abd3672a}{begin\+Transaction}} ()
+\begin{DoxyCompactList}\small\item\em Inicia una transacción. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_af62a1750140c401e502f4343b3a9c943}{commit}} ()
+\begin{DoxyCompactList}\small\item\em Confirma una transacción. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}{query}} (\$sql, \$params=\mbox{[}$\,$\mbox{]})
-\begin{DoxyCompactList}\small\item\em Ejecuta una consulta SQL preparada en la base de datos. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Ejecuta una consulta SQL preparada en la base de datos. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classApp_1_1Controllers_1_1DatabaseController_a5b5525ac132fbb76b8ec8d2640dd9ea4}{roll\+Back}} ()
+\begin{DoxyCompactList}\small\item\em Revierte una transacción. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Atributos privados}
 \begin{DoxyCompactItemize}
 \item 
@@ -62,6 +68,54 @@ Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00013}
 
 
 \doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_a4b20eac18c3b7a534c7f7e61abd3672a}\label{classApp_1_1Controllers_1_1DatabaseController_a4b20eac18c3b7a534c7f7e61abd3672a} 
+\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!beginTransaction@{beginTransaction}}
+\index{beginTransaction@{beginTransaction}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
+\doxysubsubsection{\texorpdfstring{beginTransaction()}{beginTransaction()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::begin\+Transaction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Inicia una transacción. 
+
+\begin{DoxyReturn}{Devuelve}
+bool Devuelve true en caso de éxito o false si falla 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00052}{52}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>pdo-\/>beginTransaction();}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_af62a1750140c401e502f4343b3a9c943}\label{classApp_1_1Controllers_1_1DatabaseController_af62a1750140c401e502f4343b3a9c943} 
+\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!commit@{commit}}
+\index{commit@{commit}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
+\doxysubsubsection{\texorpdfstring{commit()}{commit()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::commit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Confirma una transacción. 
+
+\begin{DoxyReturn}{Devuelve}
+bool Devuelve true en caso de éxito o false si falla 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00061}{61}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>pdo-\/>commit();}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+
+\end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496}\label{classApp_1_1Controllers_1_1DatabaseController_aaeb06490c785957e1f89084399ca0496} 
 \index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!query@{query}}
 \index{query@{query}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
@@ -103,6 +157,30 @@ Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00036}
 \DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
 \DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
 \DoxyCodeLine{00045\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classApp_1_1Controllers_1_1DatabaseController_a5b5525ac132fbb76b8ec8d2640dd9ea4}\label{classApp_1_1Controllers_1_1DatabaseController_a5b5525ac132fbb76b8ec8d2640dd9ea4} 
+\index{App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}!rollBack@{rollBack}}
+\index{rollBack@{rollBack}!App\textbackslash{}Controllers\textbackslash{}DatabaseController@{App\textbackslash{}Controllers\textbackslash{}DatabaseController}}
+\doxysubsubsection{\texorpdfstring{rollBack()}{rollBack()}}
+{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Database\+Controller\+::roll\+Back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Revierte una transacción. 
+
+\begin{DoxyReturn}{Devuelve}
+bool Devuelve true en caso de éxito o false si falla 
+\end{DoxyReturn}
+
+
+Definición en la línea \mbox{\hyperlink{DatabaseController_8php_source_l00070}{70}} del archivo \mbox{\hyperlink{DatabaseController_8php_source}{Database\+Controller.\+php}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>pdo-\/>rollBack();}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

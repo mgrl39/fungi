@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['unlikefungi_0',['unlikefungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#abb1757866a2bd74874d124eb26254289',1,'App\Controllers\Api\ApiDeleteController\unlikeFungi()'],['../classApp_1_1Controllers_1_1FungiController.html#a087b8275e77143716ac62ea228074a20',1,'App\Controllers\FungiController\unlikeFungi($userId, $fungiId)']]],
-  ['updatefungi_1',['updateFungi',['../classApp_1_1Controllers_1_1FungiController.html#abd8eabf4c1f810b847481dc4af02691b',1,'App::Controllers::FungiController']]],
-  ['updatefungilikes_2',['updateFungiLikes',['../classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d',1,'App::Controllers::FungiController']]],
-  ['updateuserprofile_3',['updateUserProfile',['../classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78',1,'App::Controllers::UserController']]]
+  ['searchfungi_0',['searchfungi',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ae9257dad15b8ca14f6183c0610d852a9',1,'App\Controllers\Api\ApiGetController\searchFungi()'],['../classApp_1_1Controllers_1_1FungiController.html#abad44269a6c73137a0beec822ae8a627',1,'App\Controllers\FungiController\searchFungi()']]],
+  ['show_1',['show',['../classApp_1_1Controllers_1_1DocsController.html#a26c7d871df293aeea872304083487788',1,'App::Controllers::DocsController']]],
+  ['statisticspagehandler_2',['statisticsPageHandler',['../classApp_1_1Controllers_1_1StatsController.html#a13a0ac992567acd018968d78f7a2201c',1,'App::Controllers::StatsController']]]
 ];

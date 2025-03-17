@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['dashboardhandler_0',['dashboardHandler',['../classApp_1_1Controllers_1_1AdminController.html#a76e4bc07dd83fefad30c8e8f15101b4d',1,'App::Controllers::AdminController']]],
+  ['dashboardhandler_0',['dashboardHandler',['../classApp_1_1Controllers_1_1AdminController.html#a56070873896a9cb086b96abc3e8425f3',1,'App::Controllers::AdminController']]],
   ['databasecontroller_1',['DatabaseController',['../classApp_1_1Controllers_1_1DatabaseController.html',1,'App::Controllers']]],
   ['databasecontroller_2ephp_2',['DatabaseController.php',['../DatabaseController_8php.html',1,'']]],
   ['datos_3',['Configuración de la Base de Datos',['../group__Configuraci_xC3_xB3nBaseDatos.html',1,'']]],
@@ -20,7 +20,11 @@ var searchData=
   ['del_20entorno_17',['Configuración del Entorno',['../group__Configuraci_xC3_xB3nEntorno.html',1,'']]],
   ['del_20proyecto_18',['🏗️ Arquitectura del Proyecto',['../index.html#autotoc_md5',1,'']]],
   ['deletefungi_19',['deleteFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#a7cdede58dd10bb73b8aa62233d03645c',1,'App::Controllers::Api::ApiDeleteController']]],
-  ['detailfungushandler_20',['detailFungusHandler',['../classApp_1_1Controllers_1_1FungiController.html#a9d16717512fc95fa89a23c45ad840b7b',1,'App::Controllers::FungiController']]],
-  ['docscontroller_21',['DocsController',['../classApp_1_1Controllers_1_1DocsController.html',1,'App::Controllers']]],
-  ['docscontroller_2ephp_22',['DocsController.php',['../DocsController_8php.html',1,'']]]
+  ['deletefungihandler_20',['deleteFungiHandler',['../classApp_1_1Controllers_1_1AdminController.html#abe1bf9ffe4082365edaeceb053a293a4',1,'App::Controllers::AdminController']]],
+  ['deleteimagehandler_21',['deleteImageHandler',['../classApp_1_1Controllers_1_1AdminController.html#aa3f5ebc263b8aad49be63ebc3cf50faf',1,'App::Controllers::AdminController']]],
+  ['deleteuser_22',['deleteUser',['../classApp_1_1Controllers_1_1UserController.html#a92a1d60f2bdd67ef882dec9b82202a09',1,'App::Controllers::UserController']]],
+  ['deleteuserhandler_23',['deleteUserHandler',['../classApp_1_1Controllers_1_1AdminController.html#ab0c4d838fb24bec663a7c2598f94eab1',1,'App::Controllers::AdminController']]],
+  ['detailfungushandler_24',['detailFungusHandler',['../classApp_1_1Controllers_1_1FungiController.html#a9d16717512fc95fa89a23c45ad840b7b',1,'App::Controllers::FungiController']]],
+  ['docscontroller_25',['DocsController',['../classApp_1_1Controllers_1_1DocsController.html',1,'App::Controllers']]],
+  ['docscontroller_2ephp_26',['DocsController.php',['../DocsController_8php.html',1,'']]]
 ];

@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['validateprofileupdate_0',['validateProfileUpdate',['../classApp_1_1Controllers_1_1UserController.html#aafbbbe1bc02d5f9ec10780422a6d2fcb',1,'App::Controllers::UserController']]],
-  ['validaterequiredfields_1',['validateRequiredFields',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a803ac21c48d07c1218e801d9e8aed1ee',1,'App::Controllers::Api::ApiPostController']]],
-  ['verifyauth_2',['verifyAuth',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ad38efdd58e10c822fccb780ac688c4ea',1,'App::Controllers::Api::ApiGetController']]],
-  ['verifyauthtoken_3',['verifyAuthToken',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ad271f1b46463a2ef68b3ff1d15df9b31',1,'App::Controllers::Api::ApiGetController']]],
-  ['verifyjwt_4',['verifyJWT',['../classApp_1_1Controllers_1_1SessionController.html#aeb485b5bb6111a9a69831bf477f5e2a7',1,'App::Controllers::SessionController']]],
-  ['verifyjwtcookie_5',['verifyJWTCookie',['../classApp_1_1Controllers_1_1SessionController.html#ab38acc8d3f11ff8c05f466c64100d1bc',1,'App::Controllers::SessionController']]],
-  ['verifyjwttoken_6',['verifyJwtToken',['../classApp_1_1Controllers_1_1Api_1_1ApiAuthController.html#aec3b7a5727ca308724b736b9df0ba995',1,'App::Controllers::Api::ApiAuthController']]],
-  ['verifytoken_7',['verifyToken',['../classApp_1_1Controllers_1_1AuthController.html#af4fd64293b9488b0ec68a243b7cdd6d0',1,'App::Controllers::AuthController']]],
-  ['verifytokencookie_8',['verifyTokenCookie',['../classApp_1_1Controllers_1_1SessionController.html#a2bdcf6ca1f5f943eec1384cd56a13898',1,'App::Controllers::SessionController']]]
+  ['unlikefungi_0',['unlikefungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#abb1757866a2bd74874d124eb26254289',1,'App\Controllers\Api\ApiDeleteController\unlikeFungi()'],['../classApp_1_1Controllers_1_1FungiController.html#a087b8275e77143716ac62ea228074a20',1,'App\Controllers\FungiController\unlikeFungi($userId, $fungiId)']]],
+  ['updatefungi_1',['updateFungi',['../classApp_1_1Controllers_1_1FungiController.html#abd8eabf4c1f810b847481dc4af02691b',1,'App::Controllers::FungiController']]],
+  ['updatefungilikes_2',['updateFungiLikes',['../classApp_1_1Controllers_1_1FungiController.html#af994c3d12f7062ddd44a40c3505bff3d',1,'App::Controllers::FungiController']]],
+  ['updateuserprofile_3',['updateUserProfile',['../classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78',1,'App::Controllers::UserController']]],
+  ['usershandler_4',['usersHandler',['../classApp_1_1Controllers_1_1AdminController.html#a3a9361b35478b054476a4119d92c953f',1,'App::Controllers::AdminController']]]
 ];

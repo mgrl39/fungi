@@ -8,5 +8,6 @@ var searchData=
   ['fungi_5',['fungi',['../index.html',1,'🍄 Fungi'],['../index.html#autotoc_md4',1,'📊 Ecosistema Fungi']]],
   ['fungi_20mgrl39_20github_20io_20fungi_20a_6',['- 🌐 Sitio web: &lt;a href=&quot;https://mgrl39.github.io/fungi&quot; &gt;mgrl39.github.io/fungi&lt;/a&gt;',['../index.html#autotoc_md13',1,'']]],
   ['fungicontroller_7',['FungiController',['../classApp_1_1Controllers_1_1FungiController.html',1,'App::Controllers']]],
-  ['fungicontroller_2ephp_8',['FungiController.php',['../FungiController_8php.html',1,'']]]
+  ['fungicontroller_2ephp_8',['FungiController.php',['../FungiController_8php.html',1,'']]],
+  ['fungihandler_9',['fungiHandler',['../classApp_1_1Controllers_1_1AdminController.html#a94e643c8c9a1c41aa99e0c12ad023c99',1,'App::Controllers::AdminController']]]
 ];

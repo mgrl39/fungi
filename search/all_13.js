@@ -6,5 +6,6 @@ var searchData=
   ['updateuserprofile_3',['updateUserProfile',['../classApp_1_1Controllers_1_1UserController.html#ac56e6d2c7a043410095917d7ac362a78',1,'App::Controllers::UserController']]],
   ['usercontroller_4',['UserController',['../classApp_1_1Controllers_1_1UserController.html',1,'App::Controllers']]],
   ['usercontroller_2ephp_5',['UserController.php',['../UserController_8php.html',1,'']]],
-  ['uso_6',['👥 Casos de Uso',['../index.html#autotoc_md9',1,'']]]
+  ['usershandler_6',['usersHandler',['../classApp_1_1Controllers_1_1AdminController.html#a3a9361b35478b054476a4119d92c953f',1,'App::Controllers::AdminController']]],
+  ['uso_7',['👥 Casos de Uso',['../index.html#autotoc_md9',1,'']]]
 ];

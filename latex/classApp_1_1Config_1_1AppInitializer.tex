@@ -94,61 +94,62 @@ Definición en la línea \mbox{\hyperlink{AppInitializer_8php_source_l00038}{38}
 \DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'stats'});}
 \DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'about'});}
 \DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'fungi'});}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'admin'});}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'user'});}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'api'});}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verifica\ que\ DatabaseController\ existe\ antes\ de\ instanciarlo}}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!class\_exists(DatabaseController::class))\ \{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_ab3ff5b284c081326f60ceb5f19aa35c3}{ErrorMessages::SYSTEM\_DEPENDENCY\_ERROR}},\ }
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'La\ clase\ DatabaseController\ no\ se\ encuentra.\ Verifica\ que\ el\ archivo\ existe\ en\ src/Controllers/DatabaseController.php'}}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inicializar\ controladores}}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}}\ =\ \textcolor{keyword}{new}\ DatabaseController();}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}}\ =\ \textcolor{keyword}{new}\ AuthController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}\ =\ \textcolor{keyword}{new}\ SessionController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
-\DoxyCodeLine{00076\ }
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ Twig}}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \$templatesDir\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../public/templates'};}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ el\ directorio\ de\ templates\ exista}}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_dir(\$templatesDir))\ \{}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a355a53722aedfc8b66ae12dbb4696961}{ErrorMessages::FILE\_NOT\_FOUND}},\ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'El\ directorio\ de\ templates\ no\ existe:\ '}\ .\ \$templatesDir}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \$loader\ =\ \textcolor{keyword}{new}\ FilesystemLoader(\$templatesDir);}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \$twig\ =\ \textcolor{keyword}{new}\ Environment(\$loader,\ [}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'cache'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'debug'}\ =>\ DEBUG\_MODE,}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ ]);}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \$twig-\/>addExtension(\textcolor{keyword}{new}\ DebugExtension());}
-\DoxyCodeLine{00094\ }
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ de\ traducción\ usando\ gettext}}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{charliteral}{'\_'},\ \textcolor{keyword}{function}\ (\$string)\ \{}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ gettext(\$string);}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}));}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ para\ traducciones\ con\ dominio\ específico}}
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{stringliteral}{'\_\_d'},\ \textcolor{keyword}{function}\ (\$text,\ \$domain\ =\ \textcolor{stringliteral}{'messages'})\ use\ (\mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}})\ \{}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \$traduccion\ =\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>gettext(\$text,\ \$domain);}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$traduccion\ ===\ \$text\ \&\&\ \$domain\ !==\ \textcolor{stringliteral}{'messages'})\ error\_log(\textcolor{stringliteral}{"{}Falla\ traducción\ [\$domain]:\ \$text"{}});}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$traduccion;}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \}));}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idioma\_actual'},\ \mbox{\hyperlink{routes_8php_aa7753ddc64027082ab7fe80236611d00}{\$currentLanguage}});}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idiomas\_soportados'},\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>getSupportedLanguages());}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \$twig,\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}];}
-\DoxyCodeLine{00109\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'api\_docs'});}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'admin'});}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'user'});}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>loadTextDomain(\textcolor{stringliteral}{'api'});}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verifica\ que\ DatabaseController\ existe\ antes\ de\ instanciarlo}}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!class\_exists(DatabaseController::class))\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_ab3ff5b284c081326f60ceb5f19aa35c3}{ErrorMessages::SYSTEM\_DEPENDENCY\_ERROR}},\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'La\ clase\ DatabaseController\ no\ se\ encuentra.\ Verifica\ que\ el\ archivo\ existe\ en\ src/Controllers/DatabaseController.php'}}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Inicializar\ controladores}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}}\ =\ \textcolor{keyword}{new}\ DatabaseController();}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}}\ =\ \textcolor{keyword}{new}\ AuthController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}}\ =\ \textcolor{keyword}{new}\ SessionController(\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}});}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Configurar\ Twig}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \$templatesDir\ =\ \_\_DIR\_\_\ .\ \textcolor{stringliteral}{'/../../public/templates'};}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ que\ el\ directorio\ de\ templates\ exista}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_dir(\$templatesDir))\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)RuntimeException(\mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a32031f3bbb0319bcf6b7686faabdb1f5}{ErrorMessages::format}}(}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classApp_1_1Config_1_1ErrorMessages_a355a53722aedfc8b66ae12dbb4696961}{ErrorMessages::FILE\_NOT\_FOUND}},\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'El\ directorio\ de\ templates\ no\ existe:\ '}\ .\ \$templatesDir}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \$loader\ =\ \textcolor{keyword}{new}\ FilesystemLoader(\$templatesDir);}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \$twig\ =\ \textcolor{keyword}{new}\ Environment(\$loader,\ [}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'cache'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'debug'}\ =>\ DEBUG\_MODE,}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ ]);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \$twig-\/>addExtension(\textcolor{keyword}{new}\ DebugExtension());}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ de\ traducción\ usando\ gettext}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{charliteral}{'\_'},\ \textcolor{keyword}{function}\ (\$string)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ gettext(\$string);}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \}));}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ la\ función\ para\ traducciones\ con\ dominio\ específico}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \$twig-\/>addFunction(\textcolor{keyword}{new}\ \(\backslash\)Twig\(\backslash\)TwigFunction(\textcolor{stringliteral}{'\_\_d'},\ \textcolor{keyword}{function}\ (\$text,\ \$domain\ =\ \textcolor{stringliteral}{'messages'})\ use\ (\mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}})\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \$traduccion\ =\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>gettext(\$text,\ \$domain);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$traduccion\ ===\ \$text\ \&\&\ \$domain\ !==\ \textcolor{stringliteral}{'messages'})\ error\_log(\textcolor{stringliteral}{"{}Falla\ traducción\ [\$domain]:\ \$text"{}});}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$traduccion;}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}));}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idioma\_actual'},\ \mbox{\hyperlink{routes_8php_aa7753ddc64027082ab7fe80236611d00}{\$currentLanguage}});}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \$twig-\/>addGlobal(\textcolor{stringliteral}{'idiomas\_soportados'},\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}-\/>getSupportedLanguages());}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [\mbox{\hyperlink{routes_8php_a1fa3127fc82f96b1436d871ef02be319}{\$db}},\ \mbox{\hyperlink{routes_8php_a87e69fcb2a04409b4b3b5ea174ef00f7}{\$authController}},\ \mbox{\hyperlink{routes_8php_abefb3c26429d514777313e9a63d7cbac}{\$session}},\ \$twig,\ \mbox{\hyperlink{routes_8php_a99fa966d9164a3a3311554d0940ff219}{\$langController}}];}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00093}{\$auth\+Controller}}, \mbox{\hyperlink{routes_8php_source_l00009}{\$current\+Language}}, \mbox{\hyperlink{routes_8php_source_l00091}{\$db}}, \mbox{\hyperlink{routes_8php_source_l00008}{\$lang\+Controller}}, \mbox{\hyperlink{routes_8php_source_l00092}{\$session}}, \mbox{\hyperlink{ErrorMessages_8php_source_l00038}{App\textbackslash{}\+Config\textbackslash{}\+Error\+Messages\textbackslash{}\+FILE\+\_\+\+NOT\+\_\+\+FOUND}}, \mbox{\hyperlink{ErrorMessages_8php_source_l00069}{App\textbackslash{}\+Config\textbackslash{}\+Error\+Messages\textbackslash{}format()}} y \mbox{\hyperlink{ErrorMessages_8php_source_l00058}{App\textbackslash{}\+Config\textbackslash{}\+Error\+Messages\textbackslash{}\+SYSTEM\+\_\+\+DEPENDENCY\+\_\+\+ERROR}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00094}{\$auth\+Controller}}, \mbox{\hyperlink{routes_8php_source_l00009}{\$current\+Language}}, \mbox{\hyperlink{routes_8php_source_l00092}{\$db}}, \mbox{\hyperlink{routes_8php_source_l00008}{\$lang\+Controller}}, \mbox{\hyperlink{routes_8php_source_l00093}{\$session}}, \mbox{\hyperlink{ErrorMessages_8php_source_l00038}{App\textbackslash{}\+Config\textbackslash{}\+Error\+Messages\textbackslash{}\+FILE\+\_\+\+NOT\+\_\+\+FOUND}}, \mbox{\hyperlink{ErrorMessages_8php_source_l00069}{App\textbackslash{}\+Config\textbackslash{}\+Error\+Messages\textbackslash{}format()}} y \mbox{\hyperlink{ErrorMessages_8php_source_l00058}{App\textbackslash{}\+Config\textbackslash{}\+Error\+Messages\textbackslash{}\+SYSTEM\+\_\+\+DEPENDENCY\+\_\+\+ERROR}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak

@@ -1,4 +1,10 @@
 var searchData=
 [
-  ['mostrardebugtraducciones_0',['mostrarDebugTraducciones',['../classApp_1_1Controllers_1_1DebugController.html#aac2b67d53f28005f08d9ab6bccd35e44',1,'App::Controllers::DebugController']]]
+  ['likefungi_0',['likefungi',['../classApp_1_1Controllers_1_1Api_1_1ApiPostController.html#a113d04fa6ae129cff1ef322e4f200c68',1,'App\Controllers\Api\ApiPostController\likeFungi()'],['../classApp_1_1Controllers_1_1FungiController.html#a61834711a6b3748eca87a0644c08babb',1,'App\Controllers\FungiController\likeFungi($userId, $fungiId)']]],
+  ['loadfungusimages_1',['loadFungusImages',['../classApp_1_1Controllers_1_1FungiController.html#a69ba801a8491aa101cefc5928144e616',1,'App::Controllers::FungiController']]],
+  ['loadtextdomain_2',['loadTextDomain',['../classApp_1_1Controllers_1_1LangController.html#adaa8e6a1db373704ed4513c6f78b2006',1,'App::Controllers::LangController']]],
+  ['login_3',['login',['../classApp_1_1Controllers_1_1Api_1_1ApiAuthController.html#a2fa761c4080454624ba20d24522ce5bd',1,'App\Controllers\Api\ApiAuthController\login()'],['../classApp_1_1Controllers_1_1AuthController.html#af4914b619824cf44e74a5c7c625cab73',1,'App\Controllers\AuthController\login($username, $password)']]],
+  ['loginhandler_4',['loginHandler',['../classApp_1_1Controllers_1_1AuthController.html#a2898c39d96be7bc4075106d3ffa29d86',1,'App::Controllers::AuthController']]],
+  ['logout_5',['logout',['../classApp_1_1Controllers_1_1AuthController.html#a4dcca8154953e71c03799ebd9ae20ed0',1,'App::Controllers::AuthController']]],
+  ['logoutandredirect_6',['logoutAndRedirect',['../classApp_1_1Controllers_1_1AuthController.html#a9da33a37873dfc1289351f23429d2416',1,'App::Controllers::AuthController']]]
 ];
