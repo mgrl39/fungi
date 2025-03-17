@@ -132,19 +132,17 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 
 3. **Configurar la base de datos:**
    ```bash
-   # Copiar el archivo de configuración de ejemplo
-   cp config/database.example.php config/database.php
-   
    # Editar config/database.php con tus credenciales
+   vim config/defaults.inc.php
+   
    # Importar la estructura inicial
-   mysql -u usuario -p tu_base_de_datos < src/db/structure.sql
+   mysql -u usuario -p bbdd < src/db/structure.sql
    ```
 
 4. **Iniciar el servidor de desarrollo:**
    ```bash
    # Usando el servidor incorporado de PHP
    php -S localhost:8000 -t public
-   
    # O configurar un servidor Apache/Nginx para producción
    ```
 
