@@ -25,10 +25,9 @@ bash -c "$(wget -qO- doncom.me/fungi/init.sh)"
 - 🔍 **Exploración de datos micológicos** - Navega por una extensa colección de especies de hongos
 - 🔐 **Sistema de autenticación** con JWT para proteger recursos sensibles
 - 🌍 **Multilingüe** con soporte para español, inglés y catalán (aunque los datos están en español)
-- 📱 **Diseño responsive** optimizado para todos los dispositivos
-- ⚙️ **Panel de administración** para gestión de datos y usuarios
-- 🤖 **Integración con scraping** para obtener datos actualizados de fuentes confiables
-- 📊 **Visualización avanzada** para comparar especies y características
+- 📱 **Diseño responsive** optimizado para todos los dispositivos con Bootstrap 5
+- ⚙️ **Panel de administración** para gestión de datos
+- 🤖 **Creado a base de scraping** para obtener datos actualizados de fuentes confiables
 
 ## 🔧 Stack Tecnológico
 
