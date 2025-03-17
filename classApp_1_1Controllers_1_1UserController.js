@@ -1,7 +1,6 @@
 var classApp_1_1Controllers_1_1UserController =
 [
     [ "__construct", "classApp_1_1Controllers_1_1UserController.html#ac5009f95f0cef2fb58c4e6a3ba3a3fe9", null ],
-    [ "adminUsersHandler", "classApp_1_1Controllers_1_1UserController.html#a852373bef5708efdfa174376def5921c", null ],
     [ "createUser", "classApp_1_1Controllers_1_1UserController.html#a1ad879cf3dc470ba88a784758870d4eb", null ],
     [ "deleteUser", "classApp_1_1Controllers_1_1UserController.html#a92a1d60f2bdd67ef882dec9b82202a09", null ],
     [ "getAllUsers", "classApp_1_1Controllers_1_1UserController.html#a58df8b576c286304387b3f6fa8cec35b", null ],
