@@ -59,8 +59,6 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 
 ## 🏗️ Arquitectura del Proyecto
 
-<details>
-<summary>👆 Click para ver/ocultar la estructura del proyecto</summary>
 ```
 ├── locales
 │   ├── ca_ES
@@ -111,7 +109,7 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 │   └── db
 └── tools
 ```
-</details>
+
 ## 🚀 Guía de Inicio Rápido
 
 ### Requisitos previos
