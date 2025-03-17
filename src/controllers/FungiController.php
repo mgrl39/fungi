@@ -172,14 +172,10 @@ class FungiController
                  c.cap, c.hymenium, c.stipe, c.flesh,
                  t.division, t.subdivision, t.class, t.subclass, t.ordo as order_name, t.family,
                  GROUP_CONCAT(DISTINCT CONCAT(ic.path, i.filename)) as image_urls 
-                 FROM fungi f 
-                 LEFT JOIN characteristics c ON f.id = c.fungi_id
-                 LEFT JOIN taxonomy t ON f.id = t.fungi_id
-                 LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
-                 LEFT JOIN images i ON fi.image_id = i.id 
-                 LEFT JOIN image_config ic ON i.config_key = ic.config_key
-                 GROUP BY f.id
-                 ORDER BY RAND() LIMIT 1";
+                 FROM fungi f LEFT JOIN characteristics c ON f.id = c.fungi_id
+                 LEFT JOIN taxonomy t ON f.id = t.fungi_id LEFT JOIN fungi_images fi ON f.id = fi.fungi_id 
+                 LEFT JOIN images i ON fi.image_id = i.id LEFT JOIN image_config ic ON i.config_key = ic.config_key
+                 GROUP BY f.id ORDER BY RAND() LIMIT 1";
                  
         $randomResult = $this->db->query($query);
         if ($randomResult instanceof \PDOStatement) $fungus = $randomResult->fetch(\PDO::FETCH_ASSOC);
