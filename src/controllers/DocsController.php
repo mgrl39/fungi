@@ -198,7 +198,7 @@ class DocsController
     }
 
     /**
-     * Muestra la documentación general de la API en formato JSON
+     * Muestra solo los endpoints de la API en formato JSON
      * 
      * @return void
      */
@@ -207,7 +207,23 @@ class DocsController
         $instance = new self(null, null);
         $apiInfo = $instance->getApiInfo();
         
+        // Extraer solo los endpoints para evitar texto que requiera internacionalización
+        $endpointsOnly = [
+            'name' => $apiInfo['name'],
+            'version' => $apiInfo['version'],
+            'endpoints' => array_map(function($endpoint) {
+                // Conservar solo datos técnicos que no requieren traducción
+                return [
+                    'path' => $endpoint['path'],
+                    'method' => $endpoint['method'],
+                    'requires_auth' => $endpoint['requires_auth'] ?? false,
+                    'requires_admin' => $endpoint['requires_admin'] ?? false,
+                    'parameters' => isset($endpoint['parameters']) ? array_keys($endpoint['parameters']) : []
+                ];
+            }, $apiInfo['endpoints'])
+        ];
+        
         http_response_code(200);
-        echo json_encode($apiInfo, JSON_PRETTY_PRINT);
+        echo json_encode($endpointsOnly, JSON_PRETTY_PRINT);
     }
 } 

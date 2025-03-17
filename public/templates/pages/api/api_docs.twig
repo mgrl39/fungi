@@ -88,13 +88,13 @@
         <section class="hero text-center text-white">
             <div class="container">
                 <h1 class="display-4 fw-bold mb-4">{{ api_docs.name }}</h1>
-                <p class="lead mb-5">{{ api_docs.description }}</p>
+                <p class="lead mb-5">API RESTful</p>
                 <div class="d-flex gap-3 justify-content-center">
                     <a href="https://github.com/tu-usuario/fungi-api" target="_blank" class="btn btn-outline-light btn-lg">
                         <i class="fab fa-github me-2"></i> GitHub
                     </a>
                     <a href="#endpoints" class="btn btn-primary btn-lg">
-                        <i class="fas fa-book-open me-2"></i> Ver Documentación
+                        <i class="fas fa-book-open me-2"></i> API
                     </a>
                 </div>
             </div>
@@ -103,9 +103,8 @@
         <div class="container py-4">
             <div class="row mb-5">
                 <div class="col-md-8">
-                    <h2>Información General</h2>
-                    <p>Versión: <span class="badge bg-primary">{{ api_docs.version }}</span></p>
-                    <p>Contacto: {{ api_docs.contact.name }} - <a href="mailto:{{ api_docs.contact.email }}">{{ api_docs.contact.email }}</a></p>
+                    <h2>API v{{ api_docs.version }}</h2>
+                    <p>FungiAPI</p>
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-dark border-0 shadow-sm">
@@ -124,7 +123,7 @@
                 <ul class="nav nav-pills mb-4" id="httpMethodsTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab">
-                            <i class="fas fa-globe me-1"></i> Todos
+                            <i class="fas fa-globe me-1"></i> ALL
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -161,26 +160,24 @@
                                             <span class="fw-bold">{{ endpoint.path }}</span>
                                         </div>
                                         <div class="card-body">
-                                            <p>{{ endpoint.description }}</p>
-                                            
                                             {% if endpoint.requires_auth %}
                                                 <div class="mb-2">
-                                                    <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                    <span class="badge bg-info"><i class="fas fa-lock me-1"></i></span>
                                                 </div>
                                             {% endif %}
                                             
                                             {% if endpoint.requires_admin %}
                                                 <div class="mb-2">
-                                                    <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i></span>
                                                 </div>
                                             {% endif %}
                                             
                                             {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
-                                                <h6 class="mt-3">Parámetros:</h6>
+                                                <h6 class="mt-3">Params:</h6>
                                                 <ul class="list-group list-group-flush">
                                                     {% for param, desc in endpoint.parameters %}
                                                         <li class="list-group-item bg-transparent border-0 px-0 py-1">
-                                                            <code>{{ param }}</code> - {{ desc }}
+                                                            <code>{{ param }}</code>
                                                         </li>
                                                     {% endfor %}
                                                 </ul>
@@ -188,12 +185,12 @@
                                         </div>
                                         <div class="card-footer bg-dark">
                                             <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-{{ loop.index }}">
-                                                <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                <i class="fas fa-code me-1"></i> <i class="fas fa-terminal"></i>
                                             </button>
                                             
                                             <div class="collapse mt-2" id="example-{{ loop.index }}">
                                                 <div class="code-block">
-# Ejemplo curl
+# cURL
 curl -X {{ endpoint.method }} \
   "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
 {% if endpoint.requires_auth %}
@@ -221,26 +218,24 @@ curl -X {{ endpoint.method }} \
                                                 <span class="fw-bold">{{ endpoint.path }}</span>
                                             </div>
                                             <div class="card-body">
-                                                <p>{{ endpoint.description }}</p>
-                                                
                                                 {% if endpoint.requires_auth %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.requires_admin %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
-                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <h6 class="mt-3">Params:</h6>
                                                     <ul class="list-group list-group-flush">
                                                         {% for param, desc in endpoint.parameters %}
                                                             <li class="list-group-item bg-transparent border-0 px-0 py-1">
-                                                                <code>{{ param }}</code> - {{ desc }}
+                                                                <code>{{ param }}</code>
                                                             </li>
                                                         {% endfor %}
                                                     </ul>
@@ -248,12 +243,12 @@ curl -X {{ endpoint.method }} \
                                             </div>
                                             <div class="card-footer bg-dark">
                                                 <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-get-{{ loop.index }}">
-                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                    <i class="fas fa-code me-1"></i> <i class="fas fa-terminal"></i>
                                                 </button>
                                                 
                                                 <div class="collapse mt-2" id="example-get-{{ loop.index }}">
                                                     <div class="code-block">
-# Ejemplo curl
+# cURL
 curl -X GET \
   "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
 {% if endpoint.requires_auth %}
@@ -282,26 +277,24 @@ curl -X GET \
                                                 <span class="fw-bold">{{ endpoint.path }}</span>
                                             </div>
                                             <div class="card-body">
-                                                <p>{{ endpoint.description }}</p>
-                                                
                                                 {% if endpoint.requires_auth %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.requires_admin %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
-                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <h6 class="mt-3">Params:</h6>
                                                     <ul class="list-group list-group-flush">
                                                         {% for param, desc in endpoint.parameters %}
                                                             <li class="list-group-item bg-transparent border-0 px-0 py-1">
-                                                                <code>{{ param }}</code> - {{ desc }}
+                                                                <code>{{ param }}</code>
                                                             </li>
                                                         {% endfor %}
                                                     </ul>
@@ -309,12 +302,12 @@ curl -X GET \
                                             </div>
                                             <div class="card-footer bg-dark">
                                                 <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-post-{{ loop.index }}">
-                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                    <i class="fas fa-code me-1"></i> <i class="fas fa-terminal"></i>
                                                 </button>
                                                 
                                                 <div class="collapse mt-2" id="example-post-{{ loop.index }}">
                                                     <div class="code-block">
-# Ejemplo curl
+# cURL
 curl -X POST \
   "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
 {% if endpoint.requires_auth %}
@@ -323,7 +316,7 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -d '{
   {% for param, desc in endpoint.parameters %}
-    "{{ param }}": "valor"{% if not loop.last %},{% endif %}
+    "{{ param }}": "value"{% if not loop.last %},{% endif %}
   {% else %}
     "example": "data"
   {% endfor %}
@@ -350,26 +343,24 @@ curl -X POST \
                                                 <span class="fw-bold">{{ endpoint.path }}</span>
                                             </div>
                                             <div class="card-body">
-                                                <p>{{ endpoint.description }}</p>
-                                                
                                                 {% if endpoint.requires_auth %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.requires_admin %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
-                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <h6 class="mt-3">Params:</h6>
                                                     <ul class="list-group list-group-flush">
                                                         {% for param, desc in endpoint.parameters %}
                                                             <li class="list-group-item bg-transparent border-0 px-0 py-1">
-                                                                <code>{{ param }}</code> - {{ desc }}
+                                                                <code>{{ param }}</code>
                                                             </li>
                                                         {% endfor %}
                                                     </ul>
@@ -377,12 +368,12 @@ curl -X POST \
                                             </div>
                                             <div class="card-footer bg-dark">
                                                 <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-put-{{ loop.index }}">
-                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                    <i class="fas fa-code me-1"></i> <i class="fas fa-terminal"></i>
                                                 </button>
                                                 
                                                 <div class="collapse mt-2" id="example-put-{{ loop.index }}">
                                                     <div class="code-block">
-# Ejemplo curl
+# cURL
 curl -X PUT \
   "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
 {% if endpoint.requires_auth %}
@@ -391,7 +382,7 @@ curl -X PUT \
   -H "Content-Type: application/json" \
   -d '{
   {% for param, desc in endpoint.parameters %}
-    "{{ param }}": "valor"{% if not loop.last %},{% endif %}
+    "{{ param }}": "value"{% if not loop.last %},{% endif %}
   {% else %}
     "example": "data"
   {% endfor %}
@@ -418,26 +409,24 @@ curl -X PUT \
                                                 <span class="fw-bold">{{ endpoint.path }}</span>
                                             </div>
                                             <div class="card-body">
-                                                <p>{{ endpoint.description }}</p>
-                                                
                                                 {% if endpoint.requires_auth %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.requires_admin %}
                                                     <div class="mb-2">
-                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i></span>
                                                     </div>
                                                 {% endif %}
                                                 
                                                 {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
-                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <h6 class="mt-3">Params:</h6>
                                                     <ul class="list-group list-group-flush">
                                                         {% for param, desc in endpoint.parameters %}
                                                             <li class="list-group-item bg-transparent border-0 px-0 py-1">
-                                                                <code>{{ param }}</code> - {{ desc }}
+                                                                <code>{{ param }}</code>
                                                             </li>
                                                         {% endfor %}
                                                     </ul>
@@ -445,12 +434,12 @@ curl -X PUT \
                                             </div>
                                             <div class="card-footer bg-dark">
                                                 <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-delete-{{ loop.index }}">
-                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                    <i class="fas fa-code me-1"></i> <i class="fas fa-terminal"></i>
                                                 </button>
                                                 
                                                 <div class="collapse mt-2" id="example-delete-{{ loop.index }}">
                                                     <div class="code-block">
-# Ejemplo curl
+# cURL
 curl -X DELETE \
   "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
 {% if endpoint.requires_auth %}
