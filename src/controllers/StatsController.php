@@ -13,14 +13,11 @@ class StatsController
 {
     /**
      * @var \App\Controllers\DatabaseController $db Instancia del controlador de base de datos
-     */
-    private $db;
-
-    /**
      * @brief Constructor del controlador de estadísticas
      * 
      * @param \App\Controllers\DatabaseController $db Instancia de la conexión a la base de datos
      */
+    private $db;
     public function __construct($db)
     {
         $this->db = $db;
@@ -157,8 +154,7 @@ class StatsController
     {
         $stats = $this->getAllStatsForPage();
         if (empty($stats['families'])) error_log("Advertencia: No hay datos de familias disponibles para la vista de estadísticas");
-        return [ 'title' => _('Estadísticas'), 'stats' => $stats,
-            'api_url' => $this->getBaseUrl(), 'debug_families' => !empty($stats['families']) ];
+        return [ 'title' => _('Estadísticas'), 'stats' => $stats, 'api_url' => $this->getBaseUrl(), 'debug_families' => !empty($stats['families']) ];
     }
 
     /**

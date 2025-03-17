@@ -57,7 +57,6 @@ $components = [
 function renderTemplate($templatePath, $data = [])
 {
     global $twig, $uri, $components, $session, $langController;
-
     $originalDomain = textdomain(NULL);
 
     if (strpos($templatePath, 'navbar') !== false) textdomain('navbar');
@@ -67,7 +66,6 @@ function renderTemplate($templatePath, $data = [])
     else if (strpos($templatePath, 'api') !== false) textdomain('api_docs');
     else if (strpos($templatePath, 'admin') !== false) textdomain('admin');
     else textdomain('messages');
-
     $data['components'] = $components;
 
     if (isset($session)) {
@@ -77,7 +75,6 @@ function renderTemplate($templatePath, $data = [])
 
     $data['current_route'] = $uri;
     $data['idioma_actual'] = $_SESSION['idioma'] ?? 'es';
-
     try {
         $result = $twig->render($templatePath, $data);
         textdomain($originalDomain);
