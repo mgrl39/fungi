@@ -28,26 +28,23 @@ class DocsController
 
     /**
      * Maneja la solicitud de documentación de la API
-     * Obtener la documentación de la API directamente desde el endpoint /api
-     * Configurar opciones para la petición con timeout de 3 segundos
-     * Si hay un error al obtener los datos, usar información básica
+     * Obtiene la documentación de la API directamente desde el método getApiInfo()
      * 
      * @return array Datos para la plantilla
      */
     public function apiDocsHandler()
     {
-        $apiUrl = $this->getBaseUrl() . '/api';
-        $context = stream_context_create(['http' => ['timeout' => 3, 'ignore_errors' => true]]);
-        $apiResponse = @file_get_contents($apiUrl, false, $context);
-        $apiDocs = json_decode($apiResponse, true);
-        if (!$apiDocs) {
-            $apiDocs = [ 'api_version' => 'v1', 'available_endpoints' => [ 'Error' => ['GET /api' => 'No se pudo obtener la documentación de la API. Por favor, intente más tarde.'] ] ];
-        }
-        return [ 'title' => _('Documentación de la API'), 'api_docs' => $apiDocs ];
+        // En lugar de hacer una petición HTTP, obtenemos la info directamente
+        $apiDocs = $this->getApiInfo();
+        
+        return [
+            'title' => _('Documentación de la API'),
+            'api_docs' => $apiDocs
+        ];
     }
 
     /**
-     * Obtiene la URL base del sitio construyendo la URL a partir del protocolo y host
+     * Obtiene la URL base del sitio
      * 
      * @return string URL base
      */
@@ -59,13 +56,13 @@ class DocsController
     }
 
     /**
-     * Muestra la documentación general de la API en formato JSON
+     * Obtiene la información de la API en formato de array
      * 
-     * @return void
+     * @return array Información de la API
      */
-    public static function show()
+    private function getApiInfo()
     {
-        $apiInfo = [
+        return [
             'name' => 'FungiAPI',
             'description' => 'API RESTful para acceder a datos de hongos y usuarios',
             'version' => '1.0.0',
@@ -74,6 +71,7 @@ class DocsController
                 'email' => 'admin@fungiapi.com'
             ],
             'endpoints' => [
+                // Endpoints de hongos
                 [
                     'path' => '/api/fungi',
                     'method' => 'GET',
@@ -101,6 +99,8 @@ class DocsController
                     'description' => 'Quitar like de un hongo (requiere autenticación)',
                     'requires_auth' => true
                 ],
+                
+                // Endpoints de usuario
                 [
                     'path' => '/api/user/favorites',
                     'method' => 'GET',
@@ -125,6 +125,8 @@ class DocsController
                     'description' => 'Obtener hongos que le gustan al usuario (requiere autenticación)',
                     'requires_auth' => true
                 ],
+                
+                // Endpoints de estadísticas
                 [
                     'path' => '/api/statistics',
                     'method' => 'GET',
@@ -135,9 +137,75 @@ class DocsController
                     'method' => 'GET',
                     'description' => 'Obtener estadísticas de actividad de usuarios (solo administradores)',
                     'requires_admin' => true
+                ],
+                
+                // Endpoints adicionales para la gestión de hongos
+                [
+                    'path' => '/api/fungi',
+                    'method' => 'POST',
+                    'description' => 'Crear un nuevo hongo (requiere autenticación de administrador)',
+                    'requires_admin' => true,
+                    'parameters' => [
+                        'name' => 'Nombre científico del hongo (obligatorio)',
+                        'common_name' => 'Nombre común del hongo',
+                        'edibility' => 'Comestibilidad del hongo (obligatorio)',
+                        'habitat' => 'Hábitat del hongo (obligatorio)',
+                        'observations' => 'Observaciones adicionales',
+                        'synonym' => 'Sinónimos científicos'
+                    ]
+                ],
+                [
+                    'path' => '/api/fungi/{id}',
+                    'method' => 'PUT',
+                    'description' => 'Actualizar información de un hongo existente (requiere autenticación de administrador)',
+                    'requires_admin' => true
+                ],
+                [
+                    'path' => '/api/fungi/{id}',
+                    'method' => 'DELETE',
+                    'description' => 'Eliminar un hongo (requiere autenticación de administrador)',
+                    'requires_admin' => true
+                ],
+                
+                // Endpoints de autenticación
+                [
+                    'path' => '/api/auth/login',
+                    'method' => 'POST',
+                    'description' => 'Iniciar sesión de usuario',
+                    'parameters' => [
+                        'username' => 'Nombre de usuario (obligatorio)',
+                        'password' => 'Contraseña (obligatorio)'
+                    ]
+                ],
+                [
+                    'path' => '/api/auth/logout',
+                    'method' => 'POST',
+                    'description' => 'Cerrar sesión de usuario',
+                    'requires_auth' => true
+                ],
+                [
+                    'path' => '/api/auth/register',
+                    'method' => 'POST',
+                    'description' => 'Registrar nuevo usuario',
+                    'parameters' => [
+                        'username' => 'Nombre de usuario (obligatorio)',
+                        'email' => 'Correo electrónico (obligatorio)',
+                        'password' => 'Contraseña (obligatorio)'
+                    ]
                 ]
             ]
         ];
+    }
+
+    /**
+     * Muestra la documentación general de la API en formato JSON
+     * 
+     * @return void
+     */
+    public static function show()
+    {
+        $instance = new self(null, null);
+        $apiInfo = $instance->getApiInfo();
         
         http_response_code(200);
         echo json_encode($apiInfo, JSON_PRETTY_PRINT);

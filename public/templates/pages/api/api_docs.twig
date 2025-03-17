@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" data-bs-theme="dark">
+<html lang="{{ idioma_actual }}" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>{{ api_docs.name }} - {{ api_docs.version }}</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,13 +14,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Animaciones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
-    <!-- Estilos inline para documentación API -->
+    <!-- Estilos inline -->
     <style>
-        /* Estilos generales */
-        .hero-api {
+        .hero {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('/assets/images/api-bg.jpg') no-repeat center center;
             background-size: cover;
@@ -28,15 +24,8 @@
             margin-bottom: 2rem;
         }
         
-        /* Cards y elementos interactivos */
         .endpoint-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background-color: rgba(33, 37, 41, 0.5);
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .endpoint-card:hover {
@@ -44,668 +33,449 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
         
-        /* Barra lateral */
-        .api-sidebar {
-            width: 280px;
-            height: calc(100vh - 120px);
-            position: sticky;
-            top: 80px;
-            overflow-y: auto;
-            padding: 0;
-            border-radius: 0.5rem;
-            background-color: rgba(33, 37, 41, 0.95);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .method-get { 
+            background-color: #2563eb33;
+            color: #60a5fa;
+            border: 1px solid #2563eb4d;
         }
         
-        .api-content {
-            flex: 1;
-            margin-left: 2rem;
+        .method-post {
+            background-color: #16a34a33;
+            color: #4ade80;
+            border: 1px solid #16a34a4d;
         }
         
-        /* Navegación */
-        .api-group-title {
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: #9ca3af;
-            margin: 1.5rem 0 0.5rem 1rem;
+        .method-put {
+            background-color: #d9770633;
+            color: #fbbf24;
+            border: 1px solid #d9770633;
         }
         
-        .api-sidebar-nav {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .method-delete {
+            background-color: #dc262633;
+            color: #f87171;
+            border: 1px solid #dc26264d;
         }
         
-        .api-sidebar-nav li {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .api-sidebar-nav a {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            color: #e2e8f0;
-            text-decoration: none;
-            border-left: 3px solid transparent;
-            transition: all 0.2s ease;
-        }
-        
-        .api-sidebar-nav a:hover {
-            background-color: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-            transform: translateY(-1px);
-        }
-        
-        .api-sidebar-nav a.active {
-            border-left-color: #0d6efd;
-            background-color: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-            font-weight: 500;
-        }
-        
-        /* Etiquetas de métodos */
-        .api-sidebar-method {
-            display: inline-block;
-            width: 50px;
-            margin-right: 0.75rem;
-            padding: 0.125rem 0.25rem;
+        .http-method {
             font-size: 0.75rem;
-            font-weight: 600;
-            text-align: center;
+            padding: 0.125rem 0.5rem;
             border-radius: 0.25rem;
-            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-right: 0.5rem;
         }
         
-        .method-get { background-color: #22c55e; }
-        .method-post { background-color: #3b82f6; }
-        .method-put { background-color: #f59e0b; }
-        .method-delete { background-color: #ef4444; }
-        
-        /* Contenido de endpoint */
-        .endpoint-header {
-            padding: 1rem;
-            background-color: rgba(33, 37, 41, 0.8);
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .endpoint-path {
-            font-family: monospace;
-            font-size: 1rem;
-            margin-left: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .endpoint-content {
-            padding: 1.5rem;
-        }
-        
-        /* Código y ejemplos */
         .code-block {
-            background-color: #1e293b;
+            background-color: #1a1a1a;
+            color: #f8f8f2;
             padding: 1rem;
             border-radius: 0.375rem;
             font-family: monospace;
-            margin: 1rem 0;
             overflow-x: auto;
             white-space: pre;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Búsqueda */
-        #apiSearchWrapper {
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            background-color: rgba(33, 37, 41, 0.95);
-            z-index: 101;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .api-docs-container {
-                flex-direction: column;
-            }
-            
-            .api-sidebar {
-                width: 100%;
-                height: auto;
-                max-height: 300px;
-                position: relative;
-                margin-bottom: 2rem;
-            }
-            
-            .api-content {
-                margin-left: 0;
-            }
-        }
-        
-        /* Estilos para navegación horizontal de endpoints */
-        .endpoint-list {
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-        }
-        
-        .endpoint-list .list-group-item {
-            border-radius: 0;
-            border-top: none;
-            border-right: 1px solid rgba(255,255,255,0.1);
-            background-color: transparent;
-            white-space: nowrap;
-            padding: 0.5rem 1rem;
-        }
-        
-        .endpoint-list .list-group-item.active {
-            background-color: rgba(13, 110, 253, 0.1);
-            color: #0d6efd;
-            border-bottom: 2px solid #0d6efd;
-        }
-        
-        #endpointTabs .nav-link {
-            color: #e2e8f0;
-            border-bottom: none;
-        }
-        
-        #endpointTabs .nav-link.active {
-            background-color: transparent;
-            border-color: rgba(255,255,255,0.1);
-            border-bottom: none;
-            color: #0d6efd;
-            font-weight: 500;
-        }
-        
-        /* Responsive para nueva navegación */
-        @media (max-width: 768px) {
-            .card-header {
-                flex-direction: column;
-                align-items: stretch !important;
-            }
-            
-            .card-header > div {
-                margin-bottom: 0.5rem;
-            }
         }
     </style>
 </head>
 <body>
     <header>
-        {% include 'components/navbar.twig' %}
+        {% include components.navbar %}
     </header>
 
     <main>
         <!-- Sección Hero -->
-        <section class="hero-api text-center text-white">
+        <section class="hero text-center text-white">
             <div class="container">
-                <h1 class="display-4 fw-bold mb-4">{{ title }}</h1>
-                <p class="lead mb-4">Documentación oficial de nuestra API RESTful. Explora todos los endpoints disponibles y pruébalos directamente desde esta interfaz.</p>
+                <h1 class="display-4 fw-bold mb-4">{{ api_docs.name }}</h1>
+                <p class="lead mb-5">{{ api_docs.description }}</p>
                 <div class="d-flex gap-3 justify-content-center">
-                    <a href="https://github.com/mgrl39/fungi/blob/main/docs/API.md" target="_blank" class="btn btn-outline-light">
-                        <i class="fab fa-github me-2"></i> Ver en GitHub
+                    <a href="https://github.com/tu-usuario/fungi-api" target="_blank" class="btn btn-outline-light btn-lg">
+                        <i class="fab fa-github me-2"></i> GitHub
+                    </a>
+                    <a href="#endpoints" class="btn btn-primary btn-lg">
+                        <i class="fas fa-book-open me-2"></i> Ver Documentación
                     </a>
                 </div>
             </div>
         </section>
 
         <div class="container py-4">
-            <!-- Tarjeta de introducción -->
-            <div class="card border-0 bg-primary bg-opacity-10 shadow-sm mb-4">
-                <div class="card-body p-4">
-                    <h2 class="h3 mb-3">
-                        <i class="fas fa-code me-2"></i> Documentación de API
-                    </h2>
-                    <p class="lead mb-0">Esta documentación describe los endpoints disponibles en la API de hongos. Todos los endpoints comienzan con <code class="bg-dark text-light px-2 py-1 rounded">/api</code>.</p>
+            <div class="row mb-5">
+                <div class="col-md-8">
+                    <h2>Información General</h2>
+                    <p>Versión: <span class="badge bg-primary">{{ api_docs.version }}</span></p>
+                    <p>Contacto: {{ api_docs.contact.name }} - <a href="mailto:{{ api_docs.contact.email }}">{{ api_docs.contact.email }}</a></p>
                 </div>
-            </div>
-
-            <!-- Navegación horizontal de endpoints -->
-            <div class="api-endpoints-nav mb-4">
-                <div class="card border-0">
-                    <div class="card-header bg-dark d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <span class="badge bg-primary me-3">v1.0</span>
-                            <span class="badge bg-success">
-                                <i class="fas fa-circle me-1" style="font-size: 0.5rem;"></i> Operativa
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="card-body p-0">
-                        <!-- Tabs de categorías de endpoints -->
-                        <ul class="nav nav-tabs" id="endpointTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="auth-tab" data-bs-toggle="tab" data-bs-target="#auth-endpoints-tab" type="button" role="tab">Autenticación</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="fungi-tab" data-bs-toggle="tab" data-bs-target="#fungi-endpoints-tab" type="button" role="tab">Fungi</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-endpoints-tab" type="button" role="tab">Usuarios</button>
-                            </li>
-                        </ul>
-                        
-                        <!-- Contenido de los tabs -->
-                        <div class="tab-content p-0" id="endpointTabsContent">
-                            <!-- Tab de Autenticación -->
-                            <div class="tab-pane fade show active" id="auth-endpoints-tab" role="tabpanel">
-                                <div class="list-group list-group-horizontal-md endpoint-list overflow-auto">
-                                    <a href="#auth-login" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-post me-2">POST</span>
-                                        <span class="endpoint-label">/auth/login</span>
-                                    </a>
-                                    <a href="#auth-logout" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-post me-2">POST</span>
-                                        <span class="endpoint-label">/auth/logout</span>
-                                    </a>
-                                    <a href="#auth-verify" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/auth/verify</span>
-                                    </a>
-                                </div>
-                            </div>
-                            
-                            <!-- Tab de Fungi -->
-                            <div class="tab-pane fade" id="fungi-endpoints-tab" role="tabpanel">
-                                <div class="list-group list-group-horizontal-md endpoint-list overflow-auto">
-                                    <a href="#fungi-get-all" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/fungi</span>
-                                    </a>
-                                    <a href="#fungi-get-id" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/fungi/{id}</span>
-                                    </a>
-                                    <a href="#fungi-get-paginated" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/fungi/page/{page}/limit/{limit}</span>
-                                    </a>
-                                    <a href="#fungi-get-random" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/fungi/random</span>
-                                    </a>
-                                    <a href="#fungi-search" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/fungi/search/{param}/{value}</span>
-                                    </a>
-                                    <a href="#fungi-post" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-post me-2">POST</span>
-                                        <span class="endpoint-label">/fungi</span>
-                                    </a>
-                                    <a href="#fungi-put" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-put me-2">PUT</span>
-                                        <span class="endpoint-label">/fungi/{id}</span>
-                                    </a>
-                                    <a href="#fungi-delete" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-delete me-2">DELETE</span>
-                                        <span class="endpoint-label">/fungi/{id}</span>
-                                    </a>
-                                </div>
-                            </div>
-                            
-                            <!-- Tab de Usuarios -->
-                            <div class="tab-pane fade" id="users-endpoints-tab" role="tabpanel">
-                                <div class="list-group list-group-horizontal-md endpoint-list overflow-auto">
-                                    <a href="#users-get-all" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-get me-2">GET</span>
-                                        <span class="endpoint-label">/users</span>
-                                    </a>
-                                    <a href="#users-post" class="list-group-item list-group-item-action endpoint-link d-flex align-items-center">
-                                        <span class="api-sidebar-method method-post me-2">POST</span>
-                                        <span class="endpoint-label">/users</span>
-                                    </a>
-                                </div>
-                            </div>
+                <div class="col-md-4">
+                    <div class="card bg-dark border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-info-circle me-2"></i> Base URL</h5>
+                            <div class="code-block">{{ app.request.schemeAndHttpHost }}/api</div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Contenido principal (ahora sin barra lateral) -->
-            <main>
-                <!-- Área de contenido del endpoint -->
-                <div id="endpointContent" class="mb-5">
-                    <!-- Mensaje inicial -->
-                    <div class="text-center my-5">
-                        <div class="rounded-circle bg-primary bg-opacity-10 p-4 mx-auto mb-4" style="width: 100px; height: 100px;">
-                            <i class="fas fa-code fa-3x text-primary"></i>
-                        </div>
-                        <h3 class="h4 mb-3">Documentación de la API</h3>
-                        <p class="text-muted mb-4">Selecciona un endpoint en el menú lateral para ver su documentación.</p>
-                        <div class="d-flex justify-content-center flex-wrap gap-3">
-                            <div class="d-flex align-items-center me-3">
-                                <span class="api-sidebar-method method-get me-2">GET</span>
-                                <span>Obtener datos</span>
-                            </div>
-                            <div class="d-flex align-items-center me-3">
-                                <span class="api-sidebar-method method-post me-2">POST</span>
-                                <span>Crear datos</span>
-                            </div>
-                            <div class="d-flex align-items-center me-3">
-                                <span class="api-sidebar-method method-put me-2">PUT</span>
-                                <span>Actualizar datos</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="api-sidebar-method method-delete me-2">DELETE</span>
-                                <span>Eliminar datos</span>
-                            </div>
+            
+            <!-- Tabs de métodos HTTP -->
+            <div id="endpoints" class="mb-5">
+                <h2 class="mb-4"><i class="fas fa-plug me-2"></i> Endpoints</h2>
+                
+                <ul class="nav nav-pills mb-4" id="httpMethodsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab">
+                            <i class="fas fa-globe me-1"></i> Todos
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="get-tab" data-bs-toggle="pill" data-bs-target="#get" type="button" role="tab">
+                            <i class="fas fa-download me-1"></i> GET
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="post-tab" data-bs-toggle="pill" data-bs-target="#post" type="button" role="tab">
+                            <i class="fas fa-plus me-1"></i> POST
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="put-tab" data-bs-toggle="pill" data-bs-target="#put" type="button" role="tab">
+                            <i class="fas fa-pen me-1"></i> PUT
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="delete-tab" data-bs-toggle="pill" data-bs-target="#delete" type="button" role="tab">
+                            <i class="fas fa-trash me-1"></i> DELETE
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="httpMethodsContent">
+                    <!-- Todos los endpoints -->
+                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                        <div class="row">
+                            {% for endpoint in api_docs.endpoints %}
+                                <div class="col-md-6 mb-4">
+                                    <div class="card endpoint-card h-100">
+                                        <div class="card-header">
+                                            <span class="http-method method-{{ endpoint.method|lower }}">{{ endpoint.method }}</span>
+                                            <span class="fw-bold">{{ endpoint.path }}</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>{{ endpoint.description }}</p>
+                                            
+                                            {% if endpoint.requires_auth %}
+                                                <div class="mb-2">
+                                                    <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                </div>
+                                            {% endif %}
+                                            
+                                            {% if endpoint.requires_admin %}
+                                                <div class="mb-2">
+                                                    <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                </div>
+                                            {% endif %}
+                                            
+                                            {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
+                                                <h6 class="mt-3">Parámetros:</h6>
+                                                <ul class="list-group list-group-flush">
+                                                    {% for param, desc in endpoint.parameters %}
+                                                        <li class="list-group-item bg-transparent border-0 px-0 py-1">
+                                                            <code>{{ param }}</code> - {{ desc }}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                        <div class="card-footer bg-dark">
+                                            <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-{{ loop.index }}">
+                                                <i class="fas fa-code me-1"></i> Ver ejemplo
+                                            </button>
+                                            
+                                            <div class="collapse mt-2" id="example-{{ loop.index }}">
+                                                <div class="code-block">
+# Ejemplo curl
+curl -X {{ endpoint.method }} \
+  "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
+{% if endpoint.requires_auth %}
+  -H "Authorization: Bearer YOUR_TOKEN" \
+{% endif %}
+  -H "Content-Type: application/json"
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
                     
-                    <!-- Aquí se cargarán los endpoints -->
-                    {% for endpoint in endpoints %}
-                        {% include 'pages/api/endpoints/' ~ endpoint ~ '.twig' %}
-                    {% endfor %}
-                </div>
-                
-                <!-- Separador visual -->
-                <div class="position-relative py-4 my-5">
-                    <hr>
-                    <div class="position-absolute top-50 start-50 translate-middle bg-body px-3">
-                        <i class="fas fa-exchange-alt text-primary"></i>
+                    <!-- GET endpoints -->
+                    <div class="tab-pane fade" id="get" role="tabpanel" aria-labelledby="get-tab">
+                        <div class="row">
+                            {% for endpoint in api_docs.endpoints %}
+                                {% if endpoint.method == 'GET' %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card endpoint-card h-100">
+                                            <div class="card-header">
+                                                <span class="http-method method-get">GET</span>
+                                                <span class="fw-bold">{{ endpoint.path }}</span>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ endpoint.description }}</p>
+                                                
+                                                {% if endpoint.requires_auth %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.requires_admin %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
+                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <ul class="list-group list-group-flush">
+                                                        {% for param, desc in endpoint.parameters %}
+                                                            <li class="list-group-item bg-transparent border-0 px-0 py-1">
+                                                                <code>{{ param }}</code> - {{ desc }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-footer bg-dark">
+                                                <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-get-{{ loop.index }}">
+                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                </button>
+                                                
+                                                <div class="collapse mt-2" id="example-get-{{ loop.index }}">
+                                                    <div class="code-block">
+# Ejemplo curl
+curl -X GET \
+  "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
+{% if endpoint.requires_auth %}
+  -H "Authorization: Bearer YOUR_TOKEN" \
+{% endif %}
+  -H "Content-Type: application/json"
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- POST endpoints -->
+                    <div class="tab-pane fade" id="post" role="tabpanel" aria-labelledby="post-tab">
+                        <div class="row">
+                            {% for endpoint in api_docs.endpoints %}
+                                {% if endpoint.method == 'POST' %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card endpoint-card h-100">
+                                            <div class="card-header">
+                                                <span class="http-method method-post">POST</span>
+                                                <span class="fw-bold">{{ endpoint.path }}</span>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ endpoint.description }}</p>
+                                                
+                                                {% if endpoint.requires_auth %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.requires_admin %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
+                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <ul class="list-group list-group-flush">
+                                                        {% for param, desc in endpoint.parameters %}
+                                                            <li class="list-group-item bg-transparent border-0 px-0 py-1">
+                                                                <code>{{ param }}</code> - {{ desc }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-footer bg-dark">
+                                                <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-post-{{ loop.index }}">
+                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                </button>
+                                                
+                                                <div class="collapse mt-2" id="example-post-{{ loop.index }}">
+                                                    <div class="code-block">
+# Ejemplo curl
+curl -X POST \
+  "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
+{% if endpoint.requires_auth %}
+  -H "Authorization: Bearer YOUR_TOKEN" \
+{% endif %}
+  -H "Content-Type: application/json" \
+  -d '{
+  {% for param, desc in endpoint.parameters %}
+    "{{ param }}": "valor"{% if not loop.last %},{% endif %}
+  {% else %}
+    "example": "data"
+  {% endfor %}
+  }'
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- PUT endpoints -->
+                    <div class="tab-pane fade" id="put" role="tabpanel" aria-labelledby="put-tab">
+                        <div class="row">
+                            {% for endpoint in api_docs.endpoints %}
+                                {% if endpoint.method == 'PUT' %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card endpoint-card h-100">
+                                            <div class="card-header">
+                                                <span class="http-method method-put">PUT</span>
+                                                <span class="fw-bold">{{ endpoint.path }}</span>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ endpoint.description }}</p>
+                                                
+                                                {% if endpoint.requires_auth %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.requires_admin %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
+                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <ul class="list-group list-group-flush">
+                                                        {% for param, desc in endpoint.parameters %}
+                                                            <li class="list-group-item bg-transparent border-0 px-0 py-1">
+                                                                <code>{{ param }}</code> - {{ desc }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-footer bg-dark">
+                                                <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-put-{{ loop.index }}">
+                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                </button>
+                                                
+                                                <div class="collapse mt-2" id="example-put-{{ loop.index }}">
+                                                    <div class="code-block">
+# Ejemplo curl
+curl -X PUT \
+  "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
+{% if endpoint.requires_auth %}
+  -H "Authorization: Bearer YOUR_TOKEN" \
+{% endif %}
+  -H "Content-Type: application/json" \
+  -d '{
+  {% for param, desc in endpoint.parameters %}
+    "{{ param }}": "valor"{% if not loop.last %},{% endif %}
+  {% else %}
+    "example": "data"
+  {% endfor %}
+  }'
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- DELETE endpoints -->
+                    <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
+                        <div class="row">
+                            {% for endpoint in api_docs.endpoints %}
+                                {% if endpoint.method == 'DELETE' %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card endpoint-card h-100">
+                                            <div class="card-header">
+                                                <span class="http-method method-delete">DELETE</span>
+                                                <span class="fw-bold">{{ endpoint.path }}</span>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ endpoint.description }}</p>
+                                                
+                                                {% if endpoint.requires_auth %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-info"><i class="fas fa-lock me-1"></i> Requiere autenticación</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.requires_admin %}
+                                                    <div class="mb-2">
+                                                        <span class="badge bg-warning text-dark"><i class="fas fa-user-shield me-1"></i> Requiere permisos de administrador</span>
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                {% if endpoint.parameters is defined and endpoint.parameters|length > 0 %}
+                                                    <h6 class="mt-3">Parámetros:</h6>
+                                                    <ul class="list-group list-group-flush">
+                                                        {% for param, desc in endpoint.parameters %}
+                                                            <li class="list-group-item bg-transparent border-0 px-0 py-1">
+                                                                <code>{{ param }}</code> - {{ desc }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-footer bg-dark">
+                                                <button class="btn btn-sm btn-outline-light" type="button" data-bs-toggle="collapse" data-bs-target="#example-delete-{{ loop.index }}">
+                                                    <i class="fas fa-code me-1"></i> Ver ejemplo
+                                                </button>
+                                                
+                                                <div class="collapse mt-2" id="example-delete-{{ loop.index }}">
+                                                    <div class="code-block">
+# Ejemplo curl
+curl -X DELETE \
+  "{{ app.request.schemeAndHttpHost }}{{ endpoint.path }}" \
+{% if endpoint.requires_auth %}
+  -H "Authorization: Bearer YOUR_TOKEN" \
+{% endif %}
+  -H "Content-Type: application/json"
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-                
-                <!-- Sección CTA -->
-                <section class="my-5 py-5 bg-primary bg-opacity-10 rounded-3 text-center">
-                    <div class="py-4 px-3">
-                        <h2 class="display-6 mb-3">¿Quieres integrar nuestra API en tu proyecto?</h2>
-                        <p class="lead mb-4">Regístrate para obtener acceso completo y comenzar a utilizar todos los endpoints disponibles.</p>
-                        <a href="/register" class="btn btn-primary btn-lg px-4 py-2">
-                            <i class="fas fa-user-plus me-2"></i> Crear cuenta
-                        </a>
-                    </div>
-                </section>
-            </main>
+            </div>
         </div>
     </main>
 
-    <footer>
-        {% include 'components/footer.twig' %}
+    <footer class="mt-auto">
+        {% include components.footer %}
     </footer>
 
-    <!-- Plantillas para endpoints dinámicos -->
-    <div style="display:none">
-        <template id="template-fungi-get-all">
-            {% include 'pages/api/endpoints/fungi-get-all.twig' %}
-        </template>
-        
-        <template id="template-fungi-get-id">
-            {% include 'pages/api/endpoints/fungi-get-id.twig' %}
-        </template>
-        
-        <template id="template-fungi-get-paginated">
-            {% include 'pages/api/endpoints/fungi-get-paginated.twig' %}
-        </template>
-        
-        <template id="template-fungi-get-random">
-            {% include 'pages/api/endpoints/fungi-get-random.twig' %}
-        </template>
-        
-        <template id="template-fungi-search">
-            {% include 'pages/api/endpoints/fungi-search.twig' %}
-        </template>
-        
-        <template id="template-fungi-post">
-            {% include 'pages/api/endpoints/fungi-post.twig' %}
-        </template>
-        
-        <template id="template-fungi-put">
-            {% include 'pages/api/endpoints/fungi-put.twig' %}
-        </template>
-        
-        <template id="template-fungi-delete">
-            {% include 'pages/api/endpoints/fungi-delete.twig' %}
-        </template>
-        
-        <template id="template-users-get-all">
-            {% include 'pages/api/endpoints/users-get-all.twig' %}
-        </template>
-        
-        <template id="template-users-post">
-            {% include 'pages/api/endpoints/users-post.twig' %}
-        </template>
-        
-        <template id="template-auth-login">
-            {% include 'pages/api/endpoints/auth-login.twig' %}
-        </template>
-        
-        <template id="template-auth-logout">
-            {% include 'pages/api/endpoints/auth-logout.twig' %}
-        </template>
-        
-        <template id="template-auth-verify">
-            {% include 'pages/api/endpoints/auth-verify.twig' %}
-        </template>
-    </div>
-    
     <!-- Bootstrap 5 JS Bundle con Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Script para funcionalidad de API -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cargar endpoint predeterminado al inicio
-            const defaultTemplate = document.getElementById('template-fungi-get-all');
-            if (defaultTemplate) {
-                document.getElementById('endpointContent').innerHTML = defaultTemplate.innerHTML;
-                initializeEndpoint();
-            }
-            
-            // Navegación de endpoints
-            const endpointLinks = document.querySelectorAll('.endpoint-link');
-            const endpointContent = document.getElementById('endpointContent');
-            
-            endpointLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Actualizar clase active
-                    document.querySelector('.endpoint-link.active')?.classList.remove('active');
-                    this.classList.add('active');
-                    
-                    // Obtener el ID del endpoint
-                    const endpointId = this.getAttribute('href').substring(1);
-                    
-                    // Verificar si ya existe el template
-                    const templateElement = document.getElementById(`template-${endpointId}`);
-                    
-                    if (templateElement) {
-                        endpointContent.innerHTML = templateElement.innerHTML;
-                        initializeEndpoint();
-                    } else {
-                        endpointContent.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div><p class="mt-3">Cargando documentación...</p></div>';
-                    }
-                });
-            });
-            
-            // Búsqueda para la nueva navegación horizontal
-            const searchInput = document.getElementById('apiSearchInput');
-            if (searchInput) {
-                searchInput.addEventListener('input', function() {
-                    const searchTerm = this.value.toLowerCase();
-                    const endpointItems = document.querySelectorAll('.endpoint-link');
-                    
-                    endpointItems.forEach(item => {
-                        const endpointText = item.textContent.toLowerCase();
-                        if (endpointText.includes(searchTerm)) {
-                            item.style.display = '';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
-                });
-            }
-            
-            // Filtros para la nueva navegación horizontal
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            if (filterButtons) {
-                filterButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const filterType = this.getAttribute('data-filter');
-                        const endpointItems = document.querySelectorAll('.endpoint-link');
-                        
-                        // Resetear estado de botones
-                        filterButtons.forEach(btn => btn.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        endpointItems.forEach(item => {
-                            if (filterType === 'all') {
-                                item.style.display = '';
-                            } else {
-                                const methodElement = item.querySelector('.api-sidebar-method');
-                                if (methodElement && methodElement.classList.contains(`method-${filterType}`)) {
-                                    item.style.display = '';
-                                } else {
-                                    item.style.display = 'none';
-                                }
-                            }
-                        });
-                    });
-                });
-            }
-            
-            // Inicializar funcionalidad de endpoint
-            function initializeEndpoint() {
-                console.log("Inicializando endpoint");
-                
-                // Tabs para ejemplos
-                const tabs = document.querySelectorAll('.tab');
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        const tabGroup = this.closest('.tabs');
-                        tabGroup.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        const targetId = this.getAttribute('data-target');
-                        const tabContents = this.closest('.tab-container').querySelectorAll('.tab-content');
-                        
-                        tabContents.forEach(content => {
-                            content.style.display = 'none';
-                        });
-                        
-                        document.getElementById(targetId).style.display = 'block';
-                    });
-                });
-                
-                // Inicializar formularios de prueba
-                const testForms = document.querySelectorAll('.api-test-form');
-                console.log("Formularios encontrados:", testForms.length);
-                
-                testForms.forEach(form => {
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        console.log("Formulario enviado");
-                        
-                        const method = this.getAttribute('data-method');
-                        let endpoint = this.getAttribute('data-endpoint');
-                        const responseElement = this.querySelector('.response-output');
-                        
-                        console.log("Método:", method);
-                        console.log("Endpoint original:", endpoint);
-                        
-                        // Configurar el indicador de carga
-                        responseElement.innerHTML = '<div class="text-center p-3"><div class="spinner-border text-primary spinner-border-sm" role="status"></div><span class="ms-2">Procesando solicitud...</span></div>';
-                        responseElement.classList.remove('d-none');
-                        
-                        // Reemplazar parámetros de ruta
-                        const urlParams = endpoint.match(/{([^}]+)}/g);
-                        if (urlParams) {
-                            console.log("Parámetros encontrados:", urlParams);
-                            for (const param of urlParams) {
-                                const paramName = param.replace('{', '').replace('}', '');
-                                const inputElement = this.querySelector(`[name="${paramName}"]`);
-                                
-                                if (inputElement && inputElement.value) {
-                                    console.log(`Reemplazando ${param} con ${inputElement.value}`);
-                                    endpoint = endpoint.replace(param, inputElement.value);
-                                }
-                            }
-                        }
-                        
-                        console.log("Endpoint final:", endpoint);
-                        
-                        // Preparar opciones de fetch
-                        const options = {
-                            method: method,
-                            headers: {
-                                'Accept': 'application/json'
-                            }
-                        };
-                        
-                        // Agregar cuerpo para métodos POST/PUT
-                        if (method === 'POST' || method === 'PUT') {
-                            const formData = new FormData(this);
-                            const jsonData = {};
-                            
-                            for (const [key, value] of formData.entries()) {
-                                if (!key.startsWith('_') && key !== 'submit' && !key.includes('param-id')) {
-                                    console.log(`Añadiendo al cuerpo: ${key}=${value}`);
-                                    jsonData[key] = value;
-                                }
-                            }
-                            
-                            console.log("JSON data:", jsonData);
-                            options.body = JSON.stringify(jsonData);
-                            options.headers['Content-Type'] = 'application/json';
-                        }
-                        
-                        // Ejecutar solicitud
-                        const apiUrl = `/api${endpoint}`;
-                        console.log("URL final:", apiUrl);
-                        console.log("Opciones:", options);
-                        
-                        fetch(apiUrl, options)
-                            .then(response => {
-                                // Guardar el estado HTTP para mostrar después
-                                const status = response.status;
-                                return response.json().then(data => ({ status, data }));
-                            })
-                            .then(result => {
-                                console.log("Respuesta:", result);
-                                // Mostrar respuesta formateada
-                                const statusClass = result.status >= 200 && result.status < 300 ? 'text-success' : 'text-danger';
-                                
-                                responseElement.innerHTML = `
-                                    <div class="mb-2">
-                                        <span class="badge ${statusClass}">Status: ${result.status}</span>
-                                    </div>
-                                    <pre class="code-block">${JSON.stringify(result.data, null, 2)}</pre>
-                                `;
-                            })
-                            .catch(error => {
-                                console.error("Error:", error);
-                                responseElement.innerHTML = `
-                                    <div class="alert alert-danger">
-                                        <i class="fas fa-exclamation-triangle me-2"></i>
-                                        Error: ${error.message}
-                                    </div>
-                                `;
-                            });
-                    });
-                });
-                
-                // Activar botones "Probar" directamente
-                const tryButtons = document.querySelectorAll('.try-endpoint-btn');
-                tryButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const tryApiSection = this.closest('.endpoint-card').querySelector('.try-api');
-                        if (tryApiSection) {
-                            if (tryApiSection.classList.contains('d-none')) {
-                                tryApiSection.classList.remove('d-none');
-                                this.textContent = 'Ocultar';
-                            } else {
-                                tryApiSection.classList.add('d-none');
-                                this.textContent = 'Probar';
-                            }
-                        }
-                    });
-                });
-            }
-        });
-    </script>
 </body>
 </html>

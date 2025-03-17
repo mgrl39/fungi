@@ -1,0 +1,416 @@
+{
+    "info": {
+      "name": "Fungi API Collection",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Auth",
+        "item": [
+          {
+            "name": "Login",
+            "request": {
+              "method": "POST",
+              "url": {
+                "raw": "http://localhost/api/auth/login",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "login"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"username\": \"user_example\",\n  \"password\": \"password123\"\n}"
+              },
+              "description": "Autentica al usuario con nombre de usuario y contrase\u00f1a. Devuelve un token JWT en caso de \u00e9xito."
+            }
+          },
+          {
+            "name": "Logout",
+            "request": {
+              "method": "POST",
+              "url": {
+                "raw": "http://localhost/api/auth/logout",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "logout"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "description": "Cierra la sesi\u00f3n del usuario actual (invalida token/sesi\u00f3n)."
+            }
+          },
+          {
+            "name": "Verify Token",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/auth/verify",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "auth",
+                  "verify"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "description": "Verifica el estado de autenticaci\u00f3n del usuario actual (requiere token o sesi\u00f3n v\u00e1lida)."
+            }
+          }
+        ]
+      },
+      {
+        "name": "User",
+        "item": [
+          {
+            "name": "Register User",
+            "request": {
+              "method": "POST",
+              "url": {
+                "raw": "http://localhost/api/users",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "users"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"newuser@example.com\",\n  \"password\": \"pass123\"\n}"
+              },
+              "description": "Registra una nueva cuenta de usuario."
+            }
+          },
+          {
+            "name": "Get Favorites",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/user/favorites",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "user",
+                  "favorites"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "description": "Obtiene la lista de hongos marcados como favoritos por el usuario autenticado."
+            }
+          },
+          {
+            "name": "Add Favorite",
+            "request": {
+              "method": "POST",
+              "url": {
+                "raw": "http://localhost/api/user/favorites/42",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "user",
+                  "favorites",
+                  "42"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "description": "A\u00f1ade un hongo (por ID) a la lista de favoritos del usuario autenticado."
+            }
+          },
+          {
+            "name": "Remove Favorite",
+            "request": {
+              "method": "DELETE",
+              "url": {
+                "raw": "http://localhost/api/user/favorites/42",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "user",
+                  "favorites",
+                  "42"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "description": "Elimina un hongo (por ID) de la lista de favoritos del usuario autenticado."
+            }
+          }
+        ]
+      },
+      {
+        "name": "Fungi",
+        "item": [
+          {
+            "name": "Get All Fungi",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/fungi",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi"
+                ]
+              },
+              "description": "Obtiene un listado de todos los hongos en la base de datos."
+            }
+          },
+          {
+            "name": "Get All Fungi (Alias /all)",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/fungi/all",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "all"
+                ]
+              },
+              "description": "Alias de la consulta de todos los hongos. Retorna el mismo listado completo de hongos."
+            }
+          },
+          {
+            "name": "Get Fungus by ID",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/fungi/42",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "42"
+                ]
+              },
+              "description": "Obtiene la informaci\u00f3n detallada de un hongo espec\u00edfico por su ID."
+            }
+          },
+          {
+            "name": "Get Random Fungus",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/fungi/random",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "random"
+                ]
+              },
+              "description": "Obtiene un hongo aleatorio de la base de datos."
+            }
+          },
+          {
+            "name": "Search Fungi",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/fungi/search/name/Amanita",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "search",
+                  "name",
+                  "Amanita"
+                ]
+              },
+              "description": "Busca hongos por un campo espec\u00edfico y valor proporcionado (por ejemplo, nombre). En este ejemplo busca por nombre."
+            }
+          },
+          {
+            "name": "Get Fungi (Paginated)",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "http://localhost/api/fungi/page/1/limit/10",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "page",
+                  "1",
+                  "limit",
+                  "10"
+                ]
+              },
+              "description": "Obtiene hongos con paginaci\u00f3n, especificando n\u00famero de p\u00e1gina y l\u00edmite de resultados."
+            }
+          },
+          {
+            "name": "Create Fungus",
+            "request": {
+              "method": "POST",
+              "url": {
+                "raw": "http://localhost/api/fungi",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Amanita muscaria\",\n  \"common_name\": \"Matamoscas\",\n  \"edibility\": \"T\u00f3xico\",\n  \"habitat\": \"Bosque\",\n  \"observations\": \"Hongo venenoso ic\u00f3nico de sombrero rojo con manchas blancas.\",\n  \"synonym\": \"Agaricus muscarius\"\n}"
+              },
+              "description": "Crea un nuevo registro de hongo (solo administradores)."
+            }
+          },
+          {
+            "name": "Update Fungus",
+            "request": {
+              "method": "PUT",
+              "url": {
+                "raw": "http://localhost/api/fungi/42",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "42"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"name\": \"Amanita muscaria (updated)\",\n  \"habitat\": \"Bosque y pradera\"\n}"
+              },
+              "description": "Actualiza los datos de un hongo existente por ID (solo administradores)."
+            }
+          },
+          {
+            "name": "Delete Fungus",
+            "request": {
+              "method": "DELETE",
+              "url": {
+                "raw": "http://localhost/api/fungi/42",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "path": [
+                  "api",
+                  "fungi",
+                  "42"
+                ]
+              },
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer <JWT_TOKEN>"
+                }
+              ],
+              "description": "Elimina un hongo del sistema por ID (solo administradores)."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  
