@@ -16,25 +16,19 @@ function validateForm() {
 
     if (username === '') {
         usernameInput.classList.add('shake-animation', 'is-invalid');
-        setTimeout(() => {
-            usernameInput.classList.remove('shake-animation');
-        }, 500);
+        setTimeout(() => { usernameInput.classList.remove('shake-animation'); }, 500);
         return false;
     }
 
     if (email === '' || !email.includes('@')) {
         emailInput.classList.add('shake-animation', 'is-invalid');
-        setTimeout(() => {
-            emailInput.classList.remove('shake-animation');
-        }, 500);
+        setTimeout(() => { emailInput.classList.remove('shake-animation'); }, 500);
         return false;
     }
 
     if (password === '') {
         passwordInput.classList.add('shake-animation', 'is-invalid');
-        setTimeout(() => {
-            passwordInput.classList.remove('shake-animation');
-        }, 500);
+        setTimeout(() => { passwordInput.classList.remove('shake-animation'); }, 500);
         return false;
     }
 

@@ -57,6 +57,7 @@ class AppInitializer
         $langController->loadTextDomain('stats');
         $langController->loadTextDomain('about');
         $langController->loadTextDomain('fungi');
+        $langController->loadTextDomain('api_docs');
         $langController->loadTextDomain('admin');
         $langController->loadTextDomain('user');
         $langController->loadTextDomain('api');
