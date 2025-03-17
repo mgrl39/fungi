@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('classApp_1_1Controllers_1_1StatsContro
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController__coll__graph.svg" width="226" height="496"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController__coll__graph.svg" width="226" height="516"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -126,6 +126,9 @@ Métodos públicos</h2></td></tr>
 <tr class="memitem:a339d384906766d15e008dbfda50a2ca8" id="r_a339d384906766d15e008dbfda50a2ca8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#a339d384906766d15e008dbfda50a2ca8">getEdibilityStats</a> ($timeRange='all')</td></tr>
 <tr class="memdesc:a339d384906766d15e008dbfda50a2ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene estadísticas de comestibilidad de hongos.  <br /></td></tr>
 <tr class="separator:a339d384906766d15e008dbfda50a2ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac11f08ebb9f334bedbba480533be6e07" id="r_ac11f08ebb9f334bedbba480533be6e07"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">getFamilyDistribution</a> ($limit=10)</td></tr>
+<tr class="memdesc:ac11f08ebb9f334bedbba480533be6e07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene la distribución de hongos por familia.  <br /></td></tr>
+<tr class="separator:ac11f08ebb9f334bedbba480533be6e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a944a68a075295dfdc85e7e403b469358" id="r_a944a68a075295dfdc85e7e403b469358"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html#a944a68a075295dfdc85e7e403b469358">getFungiStats</a> ($timeRange='all')</td></tr>
 <tr class="memdesc:a944a68a075295dfdc85e7e403b469358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene todas las estadísticas relacionadas con hongos.  <br /></td></tr>
 <tr class="separator:a944a68a075295dfdc85e7e403b469358"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -299,53 +302,79 @@ Atributos privados</h2></td></tr>
 <p>Obtiene todas las estadísticas necesarias para la página de estadísticas. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array Todas las estadísticas formateadas para la plantilla </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00450">450</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  451</span>    {</div>
-<div class="line"><span class="lineno">  452</span>        <span class="comment">// En lugar de usar datos hardcodeados o calcular porcentajes falsos,</span></div>
-<div class="line"><span class="lineno">  453</span>        <span class="comment">// usamos endpoints de API existentes para datos reales</span></div>
-<div class="line"><span class="lineno">  454</span>        </div>
-<div class="line"><span class="lineno">  455</span>        <span class="comment">// Utilizamos el endpoint de hongos para obtener datos reales</span></div>
-<div class="line"><span class="lineno">  456</span>        <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a> = new \App\Controllers\FungiController($this-&gt;db);</div>
-<div class="line"><span class="lineno">  457</span>        $allFungi = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;getAllFungi();</div>
-<div class="line"><span class="lineno">  458</span>        </div>
-<div class="line"><span class="lineno">  459</span>        <span class="comment">// Obtenemos estadísticas de edibilidad basadas en datos reales</span></div>
-<div class="line"><span class="lineno">  460</span>        $edibilityStats = [];</div>
-<div class="line"><span class="lineno">  461</span>        <span class="keywordflow">if</span> (isset($allFungi[<span class="stringliteral">&#39;data&#39;</span>]) &amp;&amp; is_array($allFungi[<span class="stringliteral">&#39;data&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  462</span>            <span class="keywordflow">foreach</span> ($allFungi[<span class="stringliteral">&#39;data&#39;</span>] as $fungi) {</div>
-<div class="line"><span class="lineno">  463</span>                $edibility = $fungi[<span class="stringliteral">&#39;edibility&#39;</span>] ?? <span class="stringliteral">&#39;unknown&#39;</span>;</div>
-<div class="line"><span class="lineno">  464</span>                <span class="keywordflow">if</span> (!isset($edibilityStats[$edibility])) {</div>
-<div class="line"><span class="lineno">  465</span>                    $edibilityStats[$edibility] = 0;</div>
-<div class="line"><span class="lineno">  466</span>                }</div>
-<div class="line"><span class="lineno">  467</span>                $edibilityStats[$edibility]++;</div>
-<div class="line"><span class="lineno">  468</span>            }</div>
-<div class="line"><span class="lineno">  469</span>        }</div>
-<div class="line"><span class="lineno">  470</span>        </div>
-<div class="line"><span class="lineno">  471</span>        <span class="comment">// Obtenemos los hongos más populares (basados en vistas reales)</span></div>
-<div class="line"><span class="lineno">  472</span>        $popularFungi = $this-&gt;db-&gt;query(</div>
-<div class="line"><span class="lineno">  473</span>            <span class="stringliteral">&quot;SELECT f.id, f.name, fp.views </span></div>
-<div class="line"><span class="lineno">  474</span><span class="stringliteral">             FROM fungi f </span></div>
-<div class="line"><span class="lineno">  475</span><span class="stringliteral">             JOIN fungi_popularity fp ON f.id = fp.fungi_id </span></div>
-<div class="line"><span class="lineno">  476</span><span class="stringliteral">             ORDER BY fp.views DESC </span></div>
-<div class="line"><span class="lineno">  477</span><span class="stringliteral">             LIMIT 5&quot;</span></div>
-<div class="line"><span class="lineno">  478</span>        )-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  479</span>        </div>
-<div class="line"><span class="lineno">  480</span>        <span class="comment">// Devolvemos solo datos reales, sin porcentajes inventados</span></div>
-<div class="line"><span class="lineno">  481</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  482</span>            <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; count($allFungi[<span class="stringliteral">&#39;data&#39;</span>] ?? []),</div>
-<div class="line"><span class="lineno">  483</span>            <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $popularFungi,</div>
-<div class="line"><span class="lineno">  484</span>            <span class="stringliteral">&#39;edibility_stats&#39;</span> =&gt; $edibilityStats</div>
-<div class="line"><span class="lineno">  485</span>        ];</div>
-<div class="line"><span class="lineno">  486</span>    }</div>
-<div class="ttc" id="aroutes_8php_html_a0bbc1d7715d0f934d799d5556a9216bf"><div class="ttname"><a href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a></div><div class="ttdeci">$fungiController</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00096">routes.php:96</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00493">493</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  494</span>    {</div>
+<div class="line"><span class="lineno">  495</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  496</span>            <span class="comment">// 1. Obtenemos el total de hongos</span></div>
+<div class="line"><span class="lineno">  497</span>            $totalFungiQuery = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM fungi&quot;</span>;</div>
+<div class="line"><span class="lineno">  498</span>            $totalFungiResult = $this-&gt;db-&gt;query($totalFungiQuery);</div>
+<div class="line"><span class="lineno">  499</span>            $totalFungi = ($totalFungiResult === <span class="keyword">false</span>) ? 0 : $totalFungiResult-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>];</div>
+<div class="line"><span class="lineno">  500</span>            </div>
+<div class="line"><span class="lineno">  501</span>            <span class="comment">// 2. Obtenemos el total de usuarios</span></div>
+<div class="line"><span class="lineno">  502</span>            $totalUsersQuery = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM users&quot;</span>;</div>
+<div class="line"><span class="lineno">  503</span>            $totalUsersResult = $this-&gt;db-&gt;query($totalUsersQuery);</div>
+<div class="line"><span class="lineno">  504</span>            $totalUsers = ($totalUsersResult === <span class="keyword">false</span>) ? 0 : $totalUsersResult-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>];</div>
+<div class="line"><span class="lineno">  505</span>            </div>
+<div class="line"><span class="lineno">  506</span>            <span class="comment">// 3. Distribución por comestibilidad</span></div>
+<div class="line"><span class="lineno">  507</span>            $edibilityQuery = <span class="stringliteral">&quot;SELECT edibility, COUNT(*) as count </span></div>
+<div class="line"><span class="lineno">  508</span><span class="stringliteral">                              FROM fungi </span></div>
+<div class="line"><span class="lineno">  509</span><span class="stringliteral">                              WHERE edibility IS NOT NULL AND edibility != &#39;&#39; </span></div>
+<div class="line"><span class="lineno">  510</span><span class="stringliteral">                              GROUP BY edibility </span></div>
+<div class="line"><span class="lineno">  511</span><span class="stringliteral">                              ORDER BY count DESC&quot;</span>;</div>
+<div class="line"><span class="lineno">  512</span>            $edibilityResult = $this-&gt;db-&gt;query($edibilityQuery);</div>
+<div class="line"><span class="lineno">  513</span>            $edibilityStats = ($edibilityResult === <span class="keyword">false</span>) ? [] : $edibilityResult-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  514</span>            </div>
+<div class="line"><span class="lineno">  515</span>            <span class="comment">// 4. Distribución por familias principales - Usamos el método especializado</span></div>
+<div class="line"><span class="lineno">  516</span>            $familiesStats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">getFamilyDistribution</a>(10);</div>
+<div class="line"><span class="lineno">  517</span>            </div>
+<div class="line"><span class="lineno">  518</span>            <span class="comment">// 5. Hongos más likeados - Usamos el método existente</span></div>
+<div class="line"><span class="lineno">  519</span>            $topLiked = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690">getTopLiked</a>();</div>
+<div class="line"><span class="lineno">  520</span>            </div>
+<div class="line"><span class="lineno">  521</span>            <span class="comment">// 6. Hongos más favoritos - Usamos el método existente</span></div>
+<div class="line"><span class="lineno">  522</span>            $topFavorites = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308">getTopFavorites</a>();</div>
+<div class="line"><span class="lineno">  523</span>            </div>
+<div class="line"><span class="lineno">  524</span>            <span class="comment">// Devolvemos todos los datos para la plantilla</span></div>
+<div class="line"><span class="lineno">  525</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  526</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi,</div>
+<div class="line"><span class="lineno">  527</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $totalUsers,</div>
+<div class="line"><span class="lineno">  528</span>                <span class="stringliteral">&#39;edibility&#39;</span> =&gt; $edibilityStats,</div>
+<div class="line"><span class="lineno">  529</span>                <span class="stringliteral">&#39;families&#39;</span> =&gt; $familiesStats,</div>
+<div class="line"><span class="lineno">  530</span>                <span class="stringliteral">&#39;popular&#39;</span> =&gt; $topLiked,</div>
+<div class="line"><span class="lineno">  531</span>                <span class="stringliteral">&#39;favorites&#39;</span> =&gt; $topFavorites</div>
+<div class="line"><span class="lineno">  532</span>            ];</div>
+<div class="line"><span class="lineno">  533</span>            </div>
+<div class="line"><span class="lineno">  534</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  535</span>            error_log(<span class="stringliteral">&quot;Error al obtener estadísticas: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  536</span>            <span class="comment">// En caso de error, devolvemos datos vacíos pero estructurados</span></div>
+<div class="line"><span class="lineno">  537</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  538</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; 0,</div>
+<div class="line"><span class="lineno">  539</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; 0,</div>
+<div class="line"><span class="lineno">  540</span>                <span class="stringliteral">&#39;edibility&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  541</span>                <span class="stringliteral">&#39;families&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  542</span>                <span class="stringliteral">&#39;popular&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  543</span>                <span class="stringliteral">&#39;favorites&#39;</span> =&gt; []</div>
+<div class="line"><span class="lineno">  544</span>            ];</div>
+<div class="line"><span class="lineno">  545</span>        }</div>
+<div class="line"><span class="lineno">  546</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a33d5205f64fa0acd29b3416a6b5b5308"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a33d5205f64fa0acd29b3416a6b5b5308">App\Controllers\StatsController\getTopFavorites</a></div><div class="ttdeci">getTopFavorites($limit=5)</div><div class="ttdoc">Obtiene los hongos más añadidos a favoritos.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00391">StatsController.php:391</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_ac11f08ebb9f334bedbba480533be6e07"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07">App\Controllers\StatsController\getFamilyDistribution</a></div><div class="ttdeci">getFamilyDistribution($limit=10)</div><div class="ttdoc">Obtiene la distribución de hongos por familia.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00451">StatsController.php:451</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_ac15d7095c544e0023e61febc70e6e690"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#ac15d7095c544e0023e61febc70e6e690">App\Controllers\StatsController\getTopLiked</a></div><div class="ttdeci">getTopLiked($limit=5)</div><div class="ttdoc">Obtiene los hongos más likeados.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00361">StatsController.php:361</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00096">$fungiController</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00451">App\Controllers\StatsController\getFamilyDistribution()</a>, <a class="el" href="StatsController_8php_source.html#l00391">App\Controllers\StatsController\getTopFavorites()</a> y <a class="el" href="StatsController_8php_source.html#l00361">App\Controllers\StatsController\getTopLiked()</a>.</p>
 
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00499">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00559">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_cgraph.svg" width="504" height="179"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-2-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -377,19 +406,19 @@ Atributos privados</h2></td></tr>
 <p>Obtiene la URL base del sitio. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>string URL base del sitio </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00513">513</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  514</span>    {</div>
-<div class="line"><span class="lineno">  515</span>        $protocol = isset($_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>]) &amp;&amp; $_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>] === <span class="stringliteral">&#39;on&#39;</span> ? <span class="stringliteral">&#39;https://&#39;</span> : <span class="stringliteral">&#39;http://&#39;</span>;</div>
-<div class="line"><span class="lineno">  516</span>        $host = $_SERVER[<span class="stringliteral">&#39;HTTP_HOST&#39;</span>];</div>
-<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">return</span> $protocol . $host;</div>
-<div class="line"><span class="lineno">  518</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00581">581</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  582</span>    {</div>
+<div class="line"><span class="lineno">  583</span>        $protocol = isset($_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>]) &amp;&amp; $_SERVER[<span class="stringliteral">&#39;HTTPS&#39;</span>] === <span class="stringliteral">&#39;on&#39;</span> ? <span class="stringliteral">&#39;https://&#39;</span> : <span class="stringliteral">&#39;http://&#39;</span>;</div>
+<div class="line"><span class="lineno">  584</span>        $host = $_SERVER[<span class="stringliteral">&#39;HTTP_HOST&#39;</span>];</div>
+<div class="line"><span class="lineno">  585</span>        <span class="keywordflow">return</span> $protocol . $host;</div>
+<div class="line"><span class="lineno">  586</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00499">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
-<div id="dynsection-2" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-2-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-2-summary" class="dynsummary" style="display:block;">
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00559">App\Controllers\StatsController\statisticsPageHandler()</a>.</p>
+<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-2-content" class="dyncontent" style="display:none;">
+<div id="dynsection-3-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a54135d721d270bd3dec13083d4051dc6_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -445,18 +474,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-3" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-3-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-3-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-3-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 <div id="dynsection-4" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+  <img id="dynsection-4-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-4-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-4-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-5-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a19103b3b40588b307b330f1b37e408d8_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -480,89 +509,89 @@ Atributos privados</h2></td></tr>
 <p>Obtiene estadísticas para el dashboard de administración. </p>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos estadísticos para el panel de administración </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00525">525</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  526</span>    {</div>
-<div class="line"><span class="lineno">  527</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  528</span>            <span class="comment">// Obtenemos el total de hongos</span></div>
-<div class="line"><span class="lineno">  529</span>            $query = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM fungi&quot;</span>;</div>
-<div class="line"><span class="lineno">  530</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  531</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">  532</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
-<div class="line"><span class="lineno">  533</span>                $totalFungi = 0;</div>
-<div class="line"><span class="lineno">  534</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  535</span>                $totalFungi = $stmt-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  536</span>            }</div>
-<div class="line"><span class="lineno">  537</span>            </div>
-<div class="line"><span class="lineno">  538</span>            <span class="comment">// Obtenemos el total de usuarios</span></div>
-<div class="line"><span class="lineno">  539</span>            $query = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM users&quot;</span>;</div>
-<div class="line"><span class="lineno">  540</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  541</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">  542</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
-<div class="line"><span class="lineno">  543</span>                $totalUsers = 0;</div>
-<div class="line"><span class="lineno">  544</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  545</span>                $totalUsers = $stmt-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>] ?? 0;</div>
-<div class="line"><span class="lineno">  546</span>            }</div>
-<div class="line"><span class="lineno">  547</span>            </div>
-<div class="line"><span class="lineno">  548</span>            <span class="comment">// Obtenemos los hongos añadidos recientemente</span></div>
-<div class="line"><span class="lineno">  549</span>            <span class="comment">// Usando date_added en lugar de created_at</span></div>
-<div class="line"><span class="lineno">  550</span>            $query = <span class="stringliteral">&quot;SELECT id, name, scientific_name, edibility, date_added </span></div>
-<div class="line"><span class="lineno">  551</span><span class="stringliteral">                      FROM fungi </span></div>
-<div class="line"><span class="lineno">  552</span><span class="stringliteral">                      ORDER BY date_added DESC </span></div>
-<div class="line"><span class="lineno">  553</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
-<div class="line"><span class="lineno">  554</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  555</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">  556</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
-<div class="line"><span class="lineno">  557</span>                $recentFungi = [];</div>
-<div class="line"><span class="lineno">  558</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  559</span>                $recentFungi = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  560</span>            }</div>
-<div class="line"><span class="lineno">  561</span>            </div>
-<div class="line"><span class="lineno">  562</span>            <span class="comment">// Obtenemos usuarios recientes</span></div>
-<div class="line"><span class="lineno">  563</span>            $query = <span class="stringliteral">&quot;SELECT id, username, email, created_at </span></div>
-<div class="line"><span class="lineno">  564</span><span class="stringliteral">                      FROM users </span></div>
-<div class="line"><span class="lineno">  565</span><span class="stringliteral">                      ORDER BY created_at DESC </span></div>
-<div class="line"><span class="lineno">  566</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
-<div class="line"><span class="lineno">  567</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  568</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">  569</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
-<div class="line"><span class="lineno">  570</span>                $recentUsers = [];</div>
-<div class="line"><span class="lineno">  571</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  572</span>                $recentUsers = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  573</span>            }</div>
-<div class="line"><span class="lineno">  574</span>            </div>
-<div class="line"><span class="lineno">  575</span>            <span class="comment">// Obtenemos hongos más populares</span></div>
-<div class="line"><span class="lineno">  576</span>            $query = <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(fp.fungi_id) as views </span></div>
-<div class="line"><span class="lineno">  577</span><span class="stringliteral">                      FROM fungi f </span></div>
-<div class="line"><span class="lineno">  578</span><span class="stringliteral">                      LEFT JOIN fungi_popularity fp ON f.id = fp.fungi_id </span></div>
-<div class="line"><span class="lineno">  579</span><span class="stringliteral">                      GROUP BY f.id</span></div>
-<div class="line"><span class="lineno">  580</span><span class="stringliteral">                      ORDER BY views DESC </span></div>
-<div class="line"><span class="lineno">  581</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
-<div class="line"><span class="lineno">  582</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
-<div class="line"><span class="lineno">  583</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">  584</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
-<div class="line"><span class="lineno">  585</span>                $popularFungi = [];</div>
-<div class="line"><span class="lineno">  586</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  587</span>                $popularFungi = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  588</span>            }</div>
-<div class="line"><span class="lineno">  589</span>            </div>
-<div class="line"><span class="lineno">  590</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  591</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi,</div>
-<div class="line"><span class="lineno">  592</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $totalUsers,</div>
-<div class="line"><span class="lineno">  593</span>                <span class="stringliteral">&#39;recent_fungi&#39;</span> =&gt; $recentFungi,</div>
-<div class="line"><span class="lineno">  594</span>                <span class="stringliteral">&#39;recent_users&#39;</span> =&gt; $recentUsers,</div>
-<div class="line"><span class="lineno">  595</span>                <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $popularFungi</div>
-<div class="line"><span class="lineno">  596</span>            ];</div>
-<div class="line"><span class="lineno">  597</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
-<div class="line"><span class="lineno">  598</span>            error_log(<span class="stringliteral">&quot;Error al obtener estadísticas del dashboard: &quot;</span> . $e-&gt;getMessage());</div>
-<div class="line"><span class="lineno">  599</span>            <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  600</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  601</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; 0,</div>
-<div class="line"><span class="lineno">  602</span>                <span class="stringliteral">&#39;recent_fungi&#39;</span> =&gt; [],</div>
-<div class="line"><span class="lineno">  603</span>                <span class="stringliteral">&#39;recent_users&#39;</span> =&gt; [],</div>
-<div class="line"><span class="lineno">  604</span>                <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; []</div>
-<div class="line"><span class="lineno">  605</span>            ];</div>
-<div class="line"><span class="lineno">  606</span>        }</div>
-<div class="line"><span class="lineno">  607</span>    }</div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00593">593</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  594</span>    {</div>
+<div class="line"><span class="lineno">  595</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  596</span>            <span class="comment">// Obtenemos el total de hongos</span></div>
+<div class="line"><span class="lineno">  597</span>            $query = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM fungi&quot;</span>;</div>
+<div class="line"><span class="lineno">  598</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  599</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  600</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  601</span>                $totalFungi = 0;</div>
+<div class="line"><span class="lineno">  602</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  603</span>                $totalFungi = $stmt-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  604</span>            }</div>
+<div class="line"><span class="lineno">  605</span>            </div>
+<div class="line"><span class="lineno">  606</span>            <span class="comment">// Obtenemos el total de usuarios</span></div>
+<div class="line"><span class="lineno">  607</span>            $query = <span class="stringliteral">&quot;SELECT COUNT(*) as count FROM users&quot;</span>;</div>
+<div class="line"><span class="lineno">  608</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  609</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  610</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  611</span>                $totalUsers = 0;</div>
+<div class="line"><span class="lineno">  612</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  613</span>                $totalUsers = $stmt-&gt;fetch(\PDO::FETCH_ASSOC)[<span class="stringliteral">&#39;count&#39;</span>] ?? 0;</div>
+<div class="line"><span class="lineno">  614</span>            }</div>
+<div class="line"><span class="lineno">  615</span>            </div>
+<div class="line"><span class="lineno">  616</span>            <span class="comment">// Obtenemos los hongos añadidos recientemente</span></div>
+<div class="line"><span class="lineno">  617</span>            <span class="comment">// Usando date_added en lugar de created_at</span></div>
+<div class="line"><span class="lineno">  618</span>            $query = <span class="stringliteral">&quot;SELECT id, name, scientific_name, edibility, date_added </span></div>
+<div class="line"><span class="lineno">  619</span><span class="stringliteral">                      FROM fungi </span></div>
+<div class="line"><span class="lineno">  620</span><span class="stringliteral">                      ORDER BY date_added DESC </span></div>
+<div class="line"><span class="lineno">  621</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
+<div class="line"><span class="lineno">  622</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  623</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  624</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  625</span>                $recentFungi = [];</div>
+<div class="line"><span class="lineno">  626</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  627</span>                $recentFungi = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  628</span>            }</div>
+<div class="line"><span class="lineno">  629</span>            </div>
+<div class="line"><span class="lineno">  630</span>            <span class="comment">// Obtenemos usuarios recientes</span></div>
+<div class="line"><span class="lineno">  631</span>            $query = <span class="stringliteral">&quot;SELECT id, username, email, created_at </span></div>
+<div class="line"><span class="lineno">  632</span><span class="stringliteral">                      FROM users </span></div>
+<div class="line"><span class="lineno">  633</span><span class="stringliteral">                      ORDER BY created_at DESC </span></div>
+<div class="line"><span class="lineno">  634</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
+<div class="line"><span class="lineno">  635</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  636</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  637</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  638</span>                $recentUsers = [];</div>
+<div class="line"><span class="lineno">  639</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  640</span>                $recentUsers = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  641</span>            }</div>
+<div class="line"><span class="lineno">  642</span>            </div>
+<div class="line"><span class="lineno">  643</span>            <span class="comment">// Obtenemos hongos más populares</span></div>
+<div class="line"><span class="lineno">  644</span>            $query = <span class="stringliteral">&quot;SELECT f.id, f.name, COUNT(fp.fungi_id) as views </span></div>
+<div class="line"><span class="lineno">  645</span><span class="stringliteral">                      FROM fungi f </span></div>
+<div class="line"><span class="lineno">  646</span><span class="stringliteral">                      LEFT JOIN fungi_popularity fp ON f.id = fp.fungi_id </span></div>
+<div class="line"><span class="lineno">  647</span><span class="stringliteral">                      GROUP BY f.id</span></div>
+<div class="line"><span class="lineno">  648</span><span class="stringliteral">                      ORDER BY views DESC </span></div>
+<div class="line"><span class="lineno">  649</span><span class="stringliteral">                      LIMIT 5&quot;</span>;</div>
+<div class="line"><span class="lineno">  650</span>            $stmt = $this-&gt;db-&gt;query($query);</div>
+<div class="line"><span class="lineno">  651</span>            <span class="keywordflow">if</span> ($stmt === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  652</span>                error_log(<span class="stringliteral">&quot;Error en consulta: $query&quot;</span>);</div>
+<div class="line"><span class="lineno">  653</span>                $popularFungi = [];</div>
+<div class="line"><span class="lineno">  654</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  655</span>                $popularFungi = $stmt-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  656</span>            }</div>
+<div class="line"><span class="lineno">  657</span>            </div>
+<div class="line"><span class="lineno">  658</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  659</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; $totalFungi,</div>
+<div class="line"><span class="lineno">  660</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; $totalUsers,</div>
+<div class="line"><span class="lineno">  661</span>                <span class="stringliteral">&#39;recent_fungi&#39;</span> =&gt; $recentFungi,</div>
+<div class="line"><span class="lineno">  662</span>                <span class="stringliteral">&#39;recent_users&#39;</span> =&gt; $recentUsers,</div>
+<div class="line"><span class="lineno">  663</span>                <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; $popularFungi</div>
+<div class="line"><span class="lineno">  664</span>            ];</div>
+<div class="line"><span class="lineno">  665</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  666</span>            error_log(<span class="stringliteral">&quot;Error al obtener estadísticas del dashboard: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  667</span>            <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  668</span>                <span class="stringliteral">&#39;total_fungi&#39;</span> =&gt; 0,</div>
+<div class="line"><span class="lineno">  669</span>                <span class="stringliteral">&#39;total_users&#39;</span> =&gt; 0,</div>
+<div class="line"><span class="lineno">  670</span>                <span class="stringliteral">&#39;recent_fungi&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  671</span>                <span class="stringliteral">&#39;recent_users&#39;</span> =&gt; [],</div>
+<div class="line"><span class="lineno">  672</span>                <span class="stringliteral">&#39;popular_fungi&#39;</span> =&gt; []</div>
+<div class="line"><span class="lineno">  673</span>            ];</div>
+<div class="line"><span class="lineno">  674</span>        }</div>
+<div class="line"><span class="lineno">  675</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -614,18 +643,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-5-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-5-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 <div id="dynsection-6" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+  <img id="dynsection-6-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-6-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-6-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-7-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a42b7befe748ebafdfaf9a1e1669b6a4a_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -684,19 +713,92 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a> y <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
-<div id="dynsection-7" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-7-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-7-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-7-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
 <div id="dynsection-8" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+  <img id="dynsection-8-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-8-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-8-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-9-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a339d384906766d15e008dbfda50a2ca8_icgraph.svg" width="504" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac11f08ebb9f334bedbba480533be6e07" name="ac11f08ebb9f334bedbba480533be6e07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac11f08ebb9f334bedbba480533be6e07">&#9670;&#160;</a></span>getFamilyDistribution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">App\Controllers\StatsController::getFamilyDistribution </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>$limit</em> = <code>10</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtiene la distribución de hongos por familia. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$limit</td><td>Número máximo de familias a retornar </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>array Distribución de hongos por familia </dd></dl>
+
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00451">451</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  452</span>    {</div>
+<div class="line"><span class="lineno">  453</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  454</span>            <span class="comment">// Consulta optimizada que utiliza la tabla taxonomy para obtener datos más precisos</span></div>
+<div class="line"><span class="lineno">  455</span>            $result = $this-&gt;db-&gt;query(</div>
+<div class="line"><span class="lineno">  456</span>                <span class="stringliteral">&quot;SELECT t.family as name, COUNT(*) as count</span></div>
+<div class="line"><span class="lineno">  457</span><span class="stringliteral">                 FROM taxonomy t</span></div>
+<div class="line"><span class="lineno">  458</span><span class="stringliteral">                 JOIN fungi f ON t.fungi_id = f.id</span></div>
+<div class="line"><span class="lineno">  459</span><span class="stringliteral">                 WHERE t.family IS NOT NULL AND t.family != &#39;&#39; </span></div>
+<div class="line"><span class="lineno">  460</span><span class="stringliteral">                 AND t.family NOT LIKE &#39;%unknown%&#39; AND t.family NOT LIKE &#39;%sin clasificar%&#39;</span></div>
+<div class="line"><span class="lineno">  461</span><span class="stringliteral">                 GROUP BY t.family</span></div>
+<div class="line"><span class="lineno">  462</span><span class="stringliteral">                 ORDER BY count DESC</span></div>
+<div class="line"><span class="lineno">  463</span><span class="stringliteral">                 LIMIT $limit&quot;</span></div>
+<div class="line"><span class="lineno">  464</span>            );</div>
+<div class="line"><span class="lineno">  465</span>            </div>
+<div class="line"><span class="lineno">  466</span>            <span class="keywordflow">if</span> ($result === <span class="keyword">false</span>) {</div>
+<div class="line"><span class="lineno">  467</span>                error_log(<span class="stringliteral">&quot;Error al obtener distribución por familia: Consulta fallida&quot;</span>);</div>
+<div class="line"><span class="lineno">  468</span>                <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  469</span>            }</div>
+<div class="line"><span class="lineno">  470</span>            </div>
+<div class="line"><span class="lineno">  471</span>            $families = $result-&gt;fetchAll(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  472</span>            </div>
+<div class="line"><span class="lineno">  473</span>            <span class="comment">// Procesar nombres de familia para mejorar visualización</span></div>
+<div class="line"><span class="lineno">  474</span>            <span class="keywordflow">foreach</span> ($families as &amp;$family) {</div>
+<div class="line"><span class="lineno">  475</span>                <span class="comment">// Convertir primera letra en mayúscula y resto en minúscula para uniformidad</span></div>
+<div class="line"><span class="lineno">  476</span>                <span class="keywordflow">if</span> (isset($family[<span class="stringliteral">&#39;name&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  477</span>                    $family[<span class="stringliteral">&#39;name&#39;</span>] = ucfirst(strtolower($family[<span class="stringliteral">&#39;name&#39;</span>]));</div>
+<div class="line"><span class="lineno">  478</span>                }</div>
+<div class="line"><span class="lineno">  479</span>            }</div>
+<div class="line"><span class="lineno">  480</span>            </div>
+<div class="line"><span class="lineno">  481</span>            <span class="keywordflow">return</span> $families;</div>
+<div class="line"><span class="lineno">  482</span>        } <span class="keywordflow">catch</span> (\Exception $e) {</div>
+<div class="line"><span class="lineno">  483</span>            error_log(<span class="stringliteral">&quot;Error al obtener distribución por familia: &quot;</span> . $e-&gt;getMessage());</div>
+<div class="line"><span class="lineno">  484</span>            <span class="keywordflow">return</span> [];</div>
+<div class="line"><span class="lineno">  485</span>        }</div>
+<div class="line"><span class="lineno">  486</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00493">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
+<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_ac11f08ebb9f334bedbba480533be6e07_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -752,18 +854,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-9" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-9-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-9-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-9-content" class="dyncontent" style="display:none;">
+<div id="dynsection-11-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e0cdd48bfd132bccade19031dca3c25_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-10" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-10-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-10-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-10-content" class="dyncontent" style="display:none;">
+<div id="dynsection-12-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e0cdd48bfd132bccade19031dca3c25_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -813,11 +915,11 @@ Atributos privados</h2></td></tr>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a9e81a77bff8dcf7481dbc58a4265ebe8"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a9e81a77bff8dcf7481dbc58a4265ebe8">App\Controllers\StatsController\getPopularFungi</a></div><div class="ttdeci">getPopularFungi($timeRange)</div><div class="ttdoc">Obtiene los hongos más populares basados en vistas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00124">StatsController.php:124</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00161">App\Controllers\StatsController\getClassStats()</a>, <a class="el" href="StatsController_8php_source.html#l00143">App\Controllers\StatsController\getDivisionStats()</a>, <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>, <a class="el" href="StatsController_8php_source.html#l00103">App\Controllers\StatsController\getFamilyStats()</a>, <a class="el" href="StatsController_8php_source.html#l00180">App\Controllers\StatsController\getOrderStats()</a> y <a class="el" href="StatsController_8php_source.html#l00124">App\Controllers\StatsController\getPopularFungi()</a>.</p>
-<div id="dynsection-11" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-11-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-11-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-11-content" class="dyncontent" style="display:none;">
+<div id="dynsection-13-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a944a68a075295dfdc85e7e403b469358_cgraph.svg" width="100%" height="578"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -861,11 +963,11 @@ Atributos privados</h2></td></tr>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_acbbde5b1dcd9bfac461c687cc57236c7"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#acbbde5b1dcd9bfac461c687cc57236c7">App\Controllers\StatsController\getRecentAdditions</a></div><div class="ttdeci">getRecentAdditions($timeRange)</div><div class="ttdoc">Obtiene los hongos añadidos recientemente.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00233">StatsController.php:233</a></div></div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>, <a class="el" href="StatsController_8php_source.html#l00233">App\Controllers\StatsController\getRecentAdditions()</a> y <a class="el" href="StatsController_8php_source.html#l00215">App\Controllers\StatsController\getTotalFungiCount()</a>.</p>
-<div id="dynsection-12" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-12-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-12-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-12-content" class="dyncontent" style="display:none;">
+<div id="dynsection-14-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a6c42f9fa6d2e3d47cd1910b324b710a3_cgraph.svg" width="100%" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -1021,18 +1123,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-13" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-13-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-13-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-13-content" class="dyncontent" style="display:none;">
+<div id="dynsection-15-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a2ff7db3ac8f173dbccfbbb9d61b9412f_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-14" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-14-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-14-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-14-content" class="dyncontent" style="display:none;">
+<div id="dynsection-16-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a2ff7db3ac8f173dbccfbbb9d61b9412f_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1087,18 +1189,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00035">App\Controllers\StatsController\getFungiStats()</a>.</p>
-<div id="dynsection-15" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-15-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-15-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-15-content" class="dyncontent" style="display:none;">
+<div id="dynsection-17-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e81a77bff8dcf7481dbc58a4265ebe8_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-16" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-16-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-16-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-16-content" class="dyncontent" style="display:none;">
+<div id="dynsection-18-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a9e81a77bff8dcf7481dbc58a4265ebe8_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1165,18 +1267,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
-<div id="dynsection-17" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-17-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-17-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-17-content" class="dyncontent" style="display:none;">
+<div id="dynsection-19-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_acbbde5b1dcd9bfac461c687cc57236c7_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-18" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-18-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-18-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-18-content" class="dyncontent" style="display:none;">
+<div id="dynsection-20-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_acbbde5b1dcd9bfac461c687cc57236c7_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1229,11 +1331,11 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   64</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00161">App\Controllers\StatsController\getClassStats()</a>, <a class="el" href="StatsController_8php_source.html#l00143">App\Controllers\StatsController\getDivisionStats()</a>, <a class="el" href="StatsController_8php_source.html#l00072">App\Controllers\StatsController\getEdibilityStats()</a>, <a class="el" href="StatsController_8php_source.html#l00103">App\Controllers\StatsController\getFamilyStats()</a>, <a class="el" href="StatsController_8php_source.html#l00180">App\Controllers\StatsController\getOrderStats()</a>, <a class="el" href="StatsController_8php_source.html#l00124">App\Controllers\StatsController\getPopularFungi()</a>, <a class="el" href="StatsController_8php_source.html#l00233">App\Controllers\StatsController\getRecentAdditions()</a>, <a class="el" href="StatsController_8php_source.html#l00298">App\Controllers\StatsController\getTopFamilies()</a> y <a class="el" href="StatsController_8php_source.html#l00215">App\Controllers\StatsController\getTotalFungiCount()</a>.</p>
-<div id="dynsection-19" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-19-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-19-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-21" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-21-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-21-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-19-content" class="dyncontent" style="display:none;">
+<div id="dynsection-21-content" class="dyncontent" style="display:none;">
 <div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_acbcc9cd24df7ea83bb72e818e3cf4ebe_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
@@ -1304,11 +1406,11 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  324</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
-<div id="dynsection-20" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-20-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-20-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-22" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-22-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-22-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-20-content" class="dyncontent" style="display:none;">
+<div id="dynsection-22-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_abaa9ec5f3cfb54693308bfb1ec304163_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1363,6 +1465,15 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  412</span>        }</div>
 <div class="line"><span class="lineno">  413</span>    }</div>
 </div><!-- fragment -->
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00493">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
+<div id="dynsection-23" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-23-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-23-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-23-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a33d5205f64fa0acd29b3416a6b5b5308_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
 </div>
 </div>
 <a id="ac15d7095c544e0023e61febc70e6e690" name="ac15d7095c544e0023e61febc70e6e690"></a>
@@ -1414,6 +1525,15 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  382</span>        }</div>
 <div class="line"><span class="lineno">  383</span>    }</div>
 </div><!-- fragment -->
+<p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00493">App\Controllers\StatsController\getAllStatsForPage()</a>.</p>
+<div id="dynsection-24" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-24-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-24-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-24-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_ac15d7095c544e0023e61febc70e6e690_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+</div>
+
 </div>
 </div>
 <a id="aa6d98d1284d05b3772442f189f643a88" name="aa6d98d1284d05b3772442f189f643a88"></a>
@@ -1464,18 +1584,18 @@ Atributos privados</h2></td></tr>
 <p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00053">App\Controllers\StatsController\getTimeRangeCondition()</a>.</p>
 
 <p class="reference">Referenciado por <a class="el" href="StatsController_8php_source.html#l00199">App\Controllers\StatsController\getGeneralStats()</a>.</p>
-<div id="dynsection-21" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-21-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-21-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-25" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-25-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-25-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-21-content" class="dyncontent" style="display:none;">
+<div id="dynsection-25-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_aa6d98d1284d05b3772442f189f643a88_cgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
-<div id="dynsection-22" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-22-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
-<div id="dynsection-22-summary" class="dynsummary" style="display:block;">
+<div id="dynsection-26" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-26-trigger" src="closed.png" alt="+"/> Gráfico de llamadas a esta función:</div>
+<div id="dynsection-26-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-22-content" class="dyncontent" style="display:none;">
+<div id="dynsection-26-content" class="dyncontent" style="display:none;">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_aa6d98d1284d05b3772442f189f643a88_icgraph.svg" width="504" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
@@ -1525,24 +1645,32 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>array Datos para la plantilla de estadísticas </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00499">499</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  500</span>    {</div>
-<div class="line"><span class="lineno">  501</span>        <span class="keywordflow">return</span> [</div>
-<div class="line"><span class="lineno">  502</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
-<div class="line"><span class="lineno">  503</span>            <span class="stringliteral">&#39;stats&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a>(),</div>
-<div class="line"><span class="lineno">  504</span>            <span class="stringliteral">&#39;api_url&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">getBaseUrl</a>()</div>
-<div class="line"><span class="lineno">  505</span>        ];</div>
-<div class="line"><span class="lineno">  506</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a54135d721d270bd3dec13083d4051dc6"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">App\Controllers\StatsController\getBaseUrl</a></div><div class="ttdeci">getBaseUrl()</div><div class="ttdoc">Obtiene la URL base del sitio.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00513">StatsController.php:513</a></div></div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">App\Controllers\StatsController\getAllStatsForPage</a></div><div class="ttdeci">getAllStatsForPage()</div><div class="ttdoc">Obtiene todas las estadísticas necesarias para la página de estadísticas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00450">StatsController.php:450</a></div></div>
+<p class="definition">Definición en la línea <a class="el" href="StatsController_8php_source.html#l00559">559</a> del archivo <a class="el" href="StatsController_8php_source.html">StatsController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  560</span>    {</div>
+<div class="line"><span class="lineno">  561</span>        $stats = $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">getAllStatsForPage</a>();</div>
+<div class="line"><span class="lineno">  562</span>        </div>
+<div class="line"><span class="lineno">  563</span>        <span class="comment">// Verificamos si hay datos de familias, pero NO usamos datos hardcodeados</span></div>
+<div class="line"><span class="lineno">  564</span>        <span class="keywordflow">if</span> (empty($stats[<span class="stringliteral">&#39;families&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  565</span>            error_log(<span class="stringliteral">&quot;Advertencia: No hay datos de familias disponibles para la vista de estadísticas&quot;</span>);</div>
+<div class="line"><span class="lineno">  566</span>        }</div>
+<div class="line"><span class="lineno">  567</span>        </div>
+<div class="line"><span class="lineno">  568</span>        <span class="keywordflow">return</span> [</div>
+<div class="line"><span class="lineno">  569</span>            <span class="stringliteral">&#39;title&#39;</span> =&gt; _(<span class="stringliteral">&#39;Estadísticas&#39;</span>),</div>
+<div class="line"><span class="lineno">  570</span>            <span class="stringliteral">&#39;stats&#39;</span> =&gt; $stats,</div>
+<div class="line"><span class="lineno">  571</span>            <span class="stringliteral">&#39;api_url&#39;</span> =&gt; $this-&gt;<a class="code hl_function" href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">getBaseUrl</a>(),</div>
+<div class="line"><span class="lineno">  572</span>            <span class="stringliteral">&#39;debug_families&#39;</span> =&gt; !empty($stats[<span class="stringliteral">&#39;families&#39;</span>]) <span class="comment">// Variable de depuración</span></div>
+<div class="line"><span class="lineno">  573</span>        ];</div>
+<div class="line"><span class="lineno">  574</span>    }</div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_a54135d721d270bd3dec13083d4051dc6"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#a54135d721d270bd3dec13083d4051dc6">App\Controllers\StatsController\getBaseUrl</a></div><div class="ttdeci">getBaseUrl()</div><div class="ttdoc">Obtiene la URL base del sitio.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00581">StatsController.php:581</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1StatsController_html_af2a1c7f7fb5c2ec3ddc6a82c7c9b5944"><div class="ttname"><a href="classApp_1_1Controllers_1_1StatsController.html#af2a1c7f7fb5c2ec3ddc6a82c7c9b5944">App\Controllers\StatsController\getAllStatsForPage</a></div><div class="ttdeci">getAllStatsForPage()</div><div class="ttdoc">Obtiene todas las estadísticas necesarias para la página de estadísticas.</div><div class="ttdef"><b>Definition</b> <a href="StatsController_8php_source.html#l00493">StatsController.php:493</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00450">App\Controllers\StatsController\getAllStatsForPage()</a> y <a class="el" href="StatsController_8php_source.html#l00513">App\Controllers\StatsController\getBaseUrl()</a>.</p>
-<div id="dynsection-23" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-23-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
-<div id="dynsection-23-summary" class="dynsummary" style="display:block;">
+<p class="reference">Hace referencia a <a class="el" href="StatsController_8php_source.html#l00493">App\Controllers\StatsController\getAllStatsForPage()</a> y <a class="el" href="StatsController_8php_source.html#l00581">App\Controllers\StatsController\getBaseUrl()</a>.</p>
+<div id="dynsection-27" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-27-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
+<div id="dynsection-27-summary" class="dynsummary" style="display:block;">
 </div>
-<div id="dynsection-23-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c_cgraph.svg" width="504" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div id="dynsection-27-content" class="dyncontent" style="display:none;">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classApp_1_1Controllers_1_1StatsController_a13a0ac992567acd018968d78f7a2201c_cgraph.svg" width="100%" height="434"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1583,7 +1711,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1StatsController.html">StatsController</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 01:23:53 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Lunes, 17 de marzo de 2025 03:23:37 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['searchfungi_0',['searchFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ae9257dad15b8ca14f6183c0610d852a9',1,'App::Controllers::Api::ApiGetController']]],
+  ['searchfungi_0',['searchfungi',['../classApp_1_1Controllers_1_1Api_1_1ApiGetController.html#ae9257dad15b8ca14f6183c0610d852a9',1,'App\Controllers\Api\ApiGetController\searchFungi()'],['../classApp_1_1Controllers_1_1FungiController.html#abad44269a6c73137a0beec822ae8a627',1,'App\Controllers\FungiController\searchFungi()']]],
   ['seguridad_1',['Configuración de Seguridad',['../group__Configuraci_xC3_xB3nSeguridad.html',1,'']]],
   ['sessioncontroller_2',['SessionController',['../classApp_1_1Controllers_1_1SessionController.html',1,'App::Controllers']]],
   ['sessioncontroller_2ephp_3',['SessionController.php',['../SessionController_8php.html',1,'']]],

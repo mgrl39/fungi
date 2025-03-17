@@ -8,6 +8,7 @@ var classApp_1_1Controllers_1_1StatsController =
     [ "getDashboardStats", "classApp_1_1Controllers_1_1StatsController.html#a23b681a8cc748f3cfeff24da0e6d8e34", null ],
     [ "getDivisionStats", "classApp_1_1Controllers_1_1StatsController.html#a42b7befe748ebafdfaf9a1e1669b6a4a", null ],
     [ "getEdibilityStats", "classApp_1_1Controllers_1_1StatsController.html#a339d384906766d15e008dbfda50a2ca8", null ],
+    [ "getFamilyDistribution", "classApp_1_1Controllers_1_1StatsController.html#ac11f08ebb9f334bedbba480533be6e07", null ],
     [ "getFamilyStats", "classApp_1_1Controllers_1_1StatsController.html#a9e0cdd48bfd132bccade19031dca3c25", null ],
     [ "getFungiStats", "classApp_1_1Controllers_1_1StatsController.html#a944a68a075295dfdc85e7e403b469358", null ],
     [ "getGeneralStats", "classApp_1_1Controllers_1_1StatsController.html#a6c42f9fa6d2e3d47cd1910b324b710a3", null ],
