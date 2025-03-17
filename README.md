@@ -163,7 +163,7 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 - [X] Integración de librería gráfica para estadísticas
 - [X] Refactorización del código para mejorar la modularidad y la legibilidad
 - [X] Diseño responsive y experiencia de usuario con Bootstrap 5
-- [ ] Implementación de API REST completa con autenticación JWT
+- [ ] Intento de implementación de API REST con autenticación JWT
 - [ ] Mejoras en el panel de administración y gestión de usuarios
 - [ ] Implementación de pruebas unitarias y de integración
 
