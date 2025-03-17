@@ -4,15 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    {% set styles = [
-        '/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css',
-        '/assets/lib/animate.css/animate.min.css', 
-        '/assets/lib/aos/aos.css',
-        '/assets/styles/pages/auth.css'
-    ] %}
-    {% for style in styles %}
-        <link rel="stylesheet" href="{{ style }}">
-    {% endfor %}
+    {% set styles = [ '/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css', '/assets/lib/animate.css/animate.min.css', 
+        '/assets/lib/aos/aos.css', '/assets/styles/pages/auth.css' ] %}
+    {% for style in styles %} <link rel="stylesheet" href="{{ style }}"> {% endfor %}
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
@@ -26,13 +20,11 @@
                     <i class="fas fa-exclamation-circle me-2"></i> {{ error }}
                 </div>
                 {% endif %}
-
                 {% if success %}
                 <div class="alert alert-success animate__animated animate__bounceIn">
                     <i class="fas fa-check-circle me-2"></i> {{ success }}
                 </div>
                 {% endif %}
-
                 <form id="loginForm" action="/login" method="POST" data-aos="fade-up" data-aos-delay="200">
                     <div class="mb-4">
                         <label for="username" class="form-label"><i class="fas fa-user me-2"></i> {{ _('Usuario') }}</label>

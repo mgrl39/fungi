@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    
     <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
     <link href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/lib/aos/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/styles/generic.css">
-
-    <!-- Estilos inline mínimos -->
     <style>
         .profile-hero {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
@@ -58,10 +55,8 @@
     </style>
 </head>
 <body>
-    <header>
-        {% include 'components/navbar.twig' %}
-    </header>
-    <main>    <!-- Sección Hero de Perfil -->
+    <header> {% include 'components/navbar.twig' %} </header>
+    <main>
         <section class="profile-hero text-center text-white">
             <div class="container">
                 <div class="row justify-content-center">
@@ -461,14 +456,9 @@
             // Devuelve la clase de badge según la comestibilidad
             function getBadgeClass(edibility) {
                 if (!edibility) return 'bg-secondary';
-                
-                if (edibility.includes('excelente') || edibility.includes('buen-comestible'))
-                    return 'bg-success';
-                if (edibility.includes('toxica') || edibility.includes('mortal'))
-                    return 'bg-danger';
-                if (edibility.includes('precaucion'))
-                    return 'bg-warning';
-                
+                if (edibility.includes('excelente') || edibility.includes('buen-comestible')) return 'bg-success';
+                if (edibility.includes('toxica') || edibility.includes('mortal')) return 'bg-danger';
+                if (edibility.includes('precaucion')) return 'bg-warning';
                 return 'bg-info';
             }
             
@@ -500,13 +490,8 @@
 
             // Inicializar componentes
             window.addEventListener('load', function() {
-                if (document.getElementById('dato-curioso')) {
-                    mostrarDatoAleatorio();
-                }
-                
-                if (document.getElementById('frase-micologica')) {
-                    mostrarFraseAleatoria();
-                }
+                if (document.getElementById('dato-curioso')) mostrarDatoAleatorio();
+                if (document.getElementById('frase-micologica')) mostrarFraseAleatoria();
             });
         });
     </script>

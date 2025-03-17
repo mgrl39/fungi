@@ -4,55 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    
-    <!-- Bootstrap 5 CSS -->
     <link href="/assets/lib/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/lib/fontawesome/fontawesome-free-6.4.0-web/css/all.min.css">
     <link rel="stylesheet" href="/assets/styles/generic.css">
-        
-    <!-- Estilos inline mínimos -->
-    <style>
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('/assets/images/hero-bg.jpg') no-repeat center center;
-            background-size: cover;
-            padding: 5rem 0;
-            margin-bottom: 2rem;
-        }
-        
-        .fungi-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .fungi-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-        
-        .category-card {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            border-radius: 0.5rem;
-            height: 100%;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .search-section {
-            background-color: rgba(33, 37, 41, 0.03);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        {% include 'components/navbar.twig' %}
-    </header>
+    <header> {% include 'components/navbar.twig' %} </header>
 
     <main>
         <!-- Sección Hero -->
@@ -95,12 +52,17 @@
                         </div>
                         <div class="col-md-5">
                             <div class="form-floating">
+                                {% set edibility_options = {
+                                    '': 'Todos',
+                                    'excelente-comestible': 'Excelente comestible',
+                                    'sin-valor': 'Sin valor culinario', 
+                                    'toxica': 'Tóxica',
+                                    'mortal': 'Mortal'
+                                } %}
                                 <select id="search-edibility" name="edibility" class="form-select">
-                                    <option value="">{{ __d('Todos', 'home') }}</option>
-                                    <option value="excelente-comestible">{{ __d('Excelente comestible', 'home') }}</option>
-                                    <option value="sin-valor">{{ __d('Sin valor culinario', 'home') }}</option>
-                                    <option value="toxica">{{ __d('Tóxica', 'home') }}</option>
-                                    <option value="mortal">{{ __d('Mortal', 'home') }}</option>
+                                    {% for value, label in edibility_options %}
+                                        <option value="{{ value }}">{{ __d(label, 'home') }}</option>
+                                    {% endfor %}
                                 </select>
                                 <label for="search-edibility">{{ __d('Comestibilidad', 'home') }}</label>
                             </div>
