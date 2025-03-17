@@ -85,7 +85,74 @@ class StatsController
         }
     }
 
+    /**
+     * @brief Obtiene la distribución de hongos por hábitat
+     * 
+     * @param int $limit Número máximo de resultados a retornar
+     * @return array Distribución de hongos por hábitat
+     */
+    public function getHabitatDistribution($limit = 10)
+    {
+        try {
+            $result = $this->db->query(
+                "SELECT habitat as name, COUNT(*) as count
+                 FROM fungi
+                 WHERE habitat IS NOT NULL AND habitat != ''
+                 GROUP BY habitat
+                 ORDER BY count DESC
+                 LIMIT $limit"
+            );
+            
+            if ($result === false) {
+                error_log("Error al obtener distribución por hábitat: Consulta fallida");
+                return [];
+            }
+            
+            return $result->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            error_log("Error al obtener distribución por hábitat: " . $e->getMessage());
+            return [];
+        }
+    }
 
+    /**
+     * @brief Obtiene la distribución de hongos por familia
+     * 
+     * @param int $limit Número máximo de familias a retornar
+     * @return array Distribución de hongos por familia
+     */
+    public function getFamilyDistribution($limit = 10)
+    {
+        try {
+            // Consulta optimizada que utiliza la tabla taxonomy para obtener datos más precisos
+            $result = $this->db->query(
+                "SELECT t.family as name, COUNT(*) as count FROM taxonomy t
+                 JOIN fungi f ON t.fungi_id = f.id WHERE t.family IS NOT NULL AND t.family != '' 
+                 AND t.family NOT LIKE '%unknown%' AND t.family NOT LIKE '%sin clasificar%'
+                 GROUP BY t.family ORDER BY count DESC LIMIT $limit"
+            );
+            
+            if ($result === false) {
+                error_log("Error al obtener distribución por familia: Consulta fallida");
+                return [];
+            }
+            
+            $families = $result->fetchAll(\PDO::FETCH_ASSOC);
+            
+            // Procesar nombres de familia para mejorar visualización
+            foreach ($families as &$family) {
+                // Convertir primera letra en mayúscula y resto en minúscula para uniformidad
+                if (isset($family['name'])) {
+                    $family['name'] = ucfirst(strtolower($family['name']));
+                }
+            }
+            
+            return $families;
+        } catch (\Exception $e) {
+            error_log("Error al obtener distribución por familia: " . $e->getMessage());
+            return [];
+        }
+    }
     /**
      * @brief Obtiene todas las estadísticas necesarias para la página de estadísticas
      * 
