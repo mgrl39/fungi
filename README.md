@@ -140,18 +140,18 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
 - 🔐 **Usuarios registrados:** Pueden guardar favoritos, crear colecciones y contribuir con imágenes
 - 👑 **Administradores:** Acceso completo al panel de administración para gestionar todo el contenido
 
-## 🌱 Roadmap
+## 🌱 Pequeño roadmap
 
 - [X] Sistema de scraping con Selenium
 - [x] Internacionalización de la interfaz (ES, EN, FR)
-- [X] Optimización del modelo de datos y relaciones
-- [X] Documentación del código generado con Doxygen
+- [X] Optimización del modelo de datos y relaciones (con mejoras para la proxima iteración)
+- [X] Documentación automática del código con Doxygen
 - [X] Integración de librería gráfica para estadísticas
-- [X] Refactorización del código para mejorar la modularidad y la legibilidad
+- [X] Refactorización del código para mejorar la modularidad y la legibilidad (comparado con el código original)
 - [X] Diseño responsive y experiencia de usuario con Bootstrap 5
-- [ ] Intento de implementación de API REST con autenticación JWT
-- [ ] Mejoras en el panel de administración y gestión de usuarios
-- [ ] Implementación de pruebas unitarias y de integración
+- [X] Intento de implementación de API REST mas o menos funcional con autenticación JWT
+- [X] Mejoras en el panel de administración y gestión de usuarios
+- [X] Implementación de pruebas de endpoints con scripts de bash
 
 ## 📄 Licencia
 
