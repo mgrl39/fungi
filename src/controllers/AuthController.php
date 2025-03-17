@@ -324,32 +324,17 @@ class AuthController {
     public function verifyToken($jwt) {
         try {
             // Verificar si el token existe en la base de datos
-            $tokenData = $this->db->query(
-                "SELECT * FROM users WHERE jwt = ?",
-                [$jwt]
-            )->fetch();
-            
-            if (!$tokenData) {
-                return false;
-            }
-            
+            $tokenData = $this->db->query("SELECT * FROM users WHERE jwt = ?", [$jwt])->fetch();
+            if (!$tokenData) return false;
             // Verificar estructura del token
             list($header_encoded, $payload_encoded, $signature_encoded) = explode('.', $jwt);
-            
             // Verificar firma
             $signature = hash_hmac('sha256', "$header_encoded.$payload_encoded", $this->secretKey, true);
             $signature_check = $this->base64URLEncode($signature);
-            
-            if ($signature_encoded !== $signature_check) {
-                return false;
-            }
-            
+            if ($signature_encoded !== $signature_check) return false;
             // Verificar expiración
             $payload = json_decode(base64_decode($payload_encoded), true);
-            if (isset($payload['exp']) && $payload['exp'] < time()) {
-                return false; // Expirado
-            }
-            
+            if (isset($payload['exp']) && $payload['exp'] < time()) return false; // Expirado
             return $payload;
         } catch (\Exception $e) {
             return false;
@@ -379,16 +364,7 @@ class AuthController {
         $domain = '';
         $secure = false; // Cambiar a true en producción con HTTPS
         $httponly = true;
-        
-        return setcookie(
-            $name,
-            $value,
-            $expires,
-            $path,
-            $domain,
-            $secure,
-            $httponly
-        );
+        return setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
     }
     
     /**
