@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const userDropdown = document.getElementById('user-dropdown');
     const loginButton = document.getElementById('login-button');
     const registerButton = document.getElementById('register-button');
-    const adminOption = document.getElementById('admin-option');
     const usernameDisplay = document.getElementById('username-display');
     
     loadingIndicator.classList.remove('d-none');
@@ -23,11 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 userDropdown.classList.remove('d-none');
                 usernameDisplay.textContent = data.user.username;
                 
-                if (data.user.role === 'admin') {
-                    adminOption.classList.remove('d-none');
-                } else {
-                    adminOption.classList.add('d-none');
-                }
             } else {
                 loginButton.classList.remove('d-none');
                 registerButton.classList.remove('d-none');
