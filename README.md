@@ -137,12 +137,6 @@ El proyecto Fungi se compone de tres repositorios principales que trabajan junto
    # O configurar un servidor Apache/Nginx para producción
    ```
 
-## 👥 Casos de Uso
-
-- 🔍 **Usuarios no registrados:** Pueden explorar el catálogo de hongos y buscar por características
-- 🔐 **Usuarios registrados:** Pueden guardar favoritos, crear colecciones y contribuir con imágenes
-- 👑 **Administradores:** Acceso completo al panel de administración para gestionar todo el contenido
-
 ## 🌱 Pequeño roadmap
 
 - [X] Sistema de scraping con Selenium
