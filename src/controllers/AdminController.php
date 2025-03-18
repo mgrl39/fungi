@@ -57,11 +57,9 @@ class AdminController
         $userQuery = $this->db->query("SELECT COUNT(*) as total FROM users");
         $userData = $userQuery->fetch(\PDO::FETCH_ASSOC);
         $totalUsers = $userData['total'] ?? 0;
-        
         $fungiQuery = $this->db->query("SELECT COUNT(*) as total FROM fungi");
         $fungiData = $fungiQuery->fetch(\PDO::FETCH_ASSOC);
         $totalFungi = $fungiData['total'] ?? 0;
-        
         return [
             'title' => $this->translate('Panel de Administración'),
             'totalUsers' => $totalUsers,
@@ -85,12 +83,8 @@ class AdminController
         $users = $query->fetchAll(\PDO::FETCH_ASSOC);
         
         $message = '';
-        if (isset($_GET['created']) && $_GET['created'] === 'true') {
-            $message = $this->translate('Usuario creado correctamente');
-        } else if (isset($_GET['deleted']) && $_GET['deleted'] === 'true') {
-            $message = $this->translate('Usuario eliminado correctamente');
-        }
-        
+        if (isset($_GET['created']) && $_GET['created'] === 'true') $message = $this->translate('Usuario creado correctamente');
+        else if (isset($_GET['deleted']) && $_GET['deleted'] === 'true') $message = $this->translate('Usuario eliminado correctamente');
         return [
             'title' => $this->translate('Gestión de Usuarios'),
             'users' => $users,
@@ -108,19 +102,16 @@ class AdminController
             header('Location: /');
             exit;
         }
-        
         $message = '';
         $error = '';
-        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'] ?? '';
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
             $role = $_POST['role'] ?? 'user';
             
-            if (empty($username) || empty($email) || empty($password)) {
-                $error = $this->translate('Todos los campos son obligatorios');
-            } else {
+            if (empty($username) || empty($email) || empty($password)) $error = $this->translate('Todos los campos son obligatorios');
+            else {
                 try {
                     // Verificar si el nombre de usuario o email ya existe
                     $checkQuery = $this->db->query(
@@ -166,13 +157,11 @@ class AdminController
             header('Location: /');
             exit;
         }
-        
         $userId = (int) $_GET['id'] ?? 0;
         if (!$userId && !empty($_SERVER['PATH_INFO'])) {
             $parts = explode('/', trim($_SERVER['PATH_INFO'], '/'));
             $userId = (int) end($parts);
         }
-        
         // Evitar eliminar al propio administrador
         $currentUser = $this->session->getUserData();
         if ($currentUser['id'] == $userId) {
@@ -748,53 +737,5 @@ class AdminController
             'message' => $message,
             'error' => $error
         ];
-    }
-
-    /**
-     * @brief Manejador para eliminar una imagen de un hongo
-     */
-    public function deleteImageHandler()
-    {
-        if (!$this->session->isAdmin()) {
-            header('Location: /');
-            exit;
-        }
-        
-        $imageId = (int) ($_GET['image_id'] ?? 0);
-        $fungiId = (int) ($_GET['fungi_id'] ?? 0);
-        
-        if (!$imageId || !$fungiId) {
-            header('Location: /admin/fungi?error=invalidparams');
-            exit;
-        }
-        
-        try {
-            $this->db->beginTransaction();
-            
-            // Obtener información de la imagen
-            $imageQuery = $this->db->query("SELECT * FROM images WHERE id = ?", [$imageId]);
-            $image = $imageQuery->fetch(\PDO::FETCH_ASSOC);
-            
-            // Eliminar relación
-            $this->db->query("DELETE FROM fungi_images WHERE fungi_id = ? AND image_id = ?", [$fungiId, $imageId]);
-            
-            // Eliminar archivo físico si existe
-            if ($image && !empty($image['filename'])) {
-                $filePath = 'uploads/fungi/' . $image['filename'];
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
-            }
-            
-            // Eliminar registro de la imagen
-            $this->db->query("DELETE FROM images WHERE id = ?", [$imageId]);
-            
-            $this->db->commit();
-            header('Location: /admin/edit-fungi?id=' . $fungiId . '&imageDeleted=true');
-        } catch (\Exception $e) {
-            $this->db->rollBack();
-            header('Location: /admin/edit-fungi?id=' . $fungiId . '&error=' . urlencode($e->getMessage()));
-        }
-        exit;
     }
 }
