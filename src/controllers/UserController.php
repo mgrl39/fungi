@@ -122,10 +122,7 @@ class UserController {
             // Verificar si el usuario existe
             $checkUser = $this->db->query("SELECT id FROM users WHERE id = ?", [$userId]);
             $checkResult = $checkUser->fetchAll(\PDO::FETCH_ASSOC);
-            if (empty($checkResult)) {
-                return false;
-            }
-            
+            if (empty($checkResult)) return false;
             // Construir consulta dinámica para los campos que se actualizan
             $updateFields = [];
             $params = [];
@@ -141,17 +138,13 @@ class UserController {
             }
             
             // Si no hay campos para actualizar, terminar
-            if (empty($updateFields)) {
-                return false;
-            }
-            
+            if (empty($updateFields)) return false;
             // Agregar el ID al final de los parámetros
             $params[] = $userId;
-            
             // Ejecutar la consulta de actualización
             $sql = "UPDATE users SET " . implode(", ", $updateFields) . " WHERE id = ?";
             $result = $this->db->query($sql, $params);
-            
+
             return $result !== false;
         } catch (\Exception $e) {
             error_log("Error al actualizar usuario: " . $e->getMessage());
@@ -171,9 +164,8 @@ class UserController {
             
             // Manejar diferentes tipos de retorno del método query
             if (is_array($result)) return $result;
-            if ($result instanceof \PDOStatement) {
-                return $result->fetchAll(\PDO::FETCH_ASSOC);
-            } else if ($result === false) {
+            if ($result instanceof \PDOStatement) return $result->fetchAll(\PDO::FETCH_ASSOC);
+            if ($result === false) {
                 error_log("La consulta de usuarios falló");
                 return [];
             } else {

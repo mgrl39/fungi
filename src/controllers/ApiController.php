@@ -366,9 +366,6 @@ class ApiController
 			$token = $matches[1];
 			$payload = $apiAuthController->verifyJwtToken($token);
 			
-			// Añadir logging para depuración
-			error_log("API PUT - Payload del token: " . json_encode($payload));
-			
 			if ($payload) {
 				// Ajustar para que funcione con 'user_id' o 'sub'
 				$userId = $payload['user_id'] ?? $payload['sub'] ?? null;
@@ -385,10 +382,7 @@ class ApiController
 					} else if (is_array($userResult) && !empty($userResult)) {
 						$userRole = $userResult[0]['role'] ?? 'user';
 					}
-				} else {
-					$userRole = $payload['role'];
-				}
-				
+				} else $userRole = $payload['role'];
 				$user = [
 					'id' => $userId,
 					'username' => $username,

@@ -133,7 +133,6 @@ $routes = [
     '/admin/edit-fungi/(\d+)' => ['template' => 'pages/admin.twig', 'title' => _('Editar Hongo'), 'auth_required' => true, 'admin_required' => true, 'handler' => [$adminController, 'editFungiHandler']],
     '/admin/fungi/delete/(\d+)' => ['handler' => [$adminController, 'deleteFungiHandler'], 'auth_required' => true, 'admin_required' => true],
     '/admin/user/delete/(\d+)' => ['handler' => [$adminController, 'deleteUserHandler'], 'auth_required' => true, 'admin_required' => true],
-    '/admin/delete-image' => ['handler' => [$adminController, 'deleteImageHandler'], 'auth_required' => true, 'admin_required' => true],
 ];
 
 // Añadir rutas al controlador
