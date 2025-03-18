@@ -5,7 +5,6 @@ var classApp_1_1Controllers_1_1AdminController =
     [ "createUserHandler", "classApp_1_1Controllers_1_1AdminController.html#a39bd65ac3c1aeaea84fe9048dcb452b6", null ],
     [ "dashboardHandler", "classApp_1_1Controllers_1_1AdminController.html#a56070873896a9cb086b96abc3e8425f3", null ],
     [ "deleteFungiHandler", "classApp_1_1Controllers_1_1AdminController.html#abe1bf9ffe4082365edaeceb053a293a4", null ],
-    [ "deleteImageHandler", "classApp_1_1Controllers_1_1AdminController.html#aa3f5ebc263b8aad49be63ebc3cf50faf", null ],
     [ "deleteUserHandler", "classApp_1_1Controllers_1_1AdminController.html#ab0c4d838fb24bec663a7c2598f94eab1", null ],
     [ "editFungiHandler", "classApp_1_1Controllers_1_1AdminController.html#a8f7d11c870220fc9b7a6c1e1de858885", null ],
     [ "editUserHandler", "classApp_1_1Controllers_1_1AdminController.html#a2c96f0cf4bfcc3b465d6c23e5eb2a11a", null ],

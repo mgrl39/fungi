@@ -233,139 +233,139 @@ Atributos privados</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Devuelve</dt><dd>void Salida JSON directamente impresa </dd></dl>
 
-<p class="definition">Definición en la línea <a class="el" href="ApiController_8php_source.html#l00482">482</a> del archivo <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  483</span>    {</div>
-<div class="line"><span class="lineno">  484</span>        <span class="comment">// Crear instancia del controlador DELETE</span></div>
-<div class="line"><span class="lineno">  485</span>        $apiDeleteController = new \App\Controllers\Api\ApiDeleteController($this-&gt;pdo, $this-&gt;db);</div>
-<div class="line"><span class="lineno">  486</span>        </div>
-<div class="line"><span class="lineno">  487</span>        <span class="comment">// Verificar autenticación</span></div>
-<div class="line"><span class="lineno">  488</span>        $authHeader = isset($_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>]) ? $_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>] : <span class="stringliteral">&#39;&#39;</span>;</div>
-<div class="line"><span class="lineno">  489</span>        $token = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  490</span>        $user = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  491</span>        </div>
-<div class="line"><span class="lineno">  492</span>        <span class="comment">// Verificar token de sesión o JWT</span></div>
-<div class="line"><span class="lineno">  493</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/Bearer\s(\S+)/&#39;</span>, $authHeader, $matches)) {</div>
-<div class="line"><span class="lineno">  494</span>            $token = $matches[1];</div>
-<div class="line"><span class="lineno">  495</span>            $apiAuthController = <span class="keyword">new</span> ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
-<div class="line"><span class="lineno">  496</span>            $payload = $apiAuthController-&gt;verifyJwtToken($token);</div>
-<div class="line"><span class="lineno">  497</span>            <span class="keywordflow">if</span> ($payload) {</div>
-<div class="line"><span class="lineno">  498</span>                $user = [</div>
-<div class="line"><span class="lineno">  499</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;sub&#39;</span>],</div>
-<div class="line"><span class="lineno">  500</span>                    <span class="stringliteral">&#39;username&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;username&#39;</span>],</div>
-<div class="line"><span class="lineno">  501</span>                    <span class="stringliteral">&#39;role&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;role&#39;</span>]</div>
-<div class="line"><span class="lineno">  502</span>                ];</div>
-<div class="line"><span class="lineno">  503</span>            }</div>
-<div class="line"><span class="lineno">  504</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isset($_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  505</span>            <span class="comment">// Usar sesión PHP si existe</span></div>
-<div class="line"><span class="lineno">  506</span>            $user = [</div>
-<div class="line"><span class="lineno">  507</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>],</div>
-<div class="line"><span class="lineno">  508</span>                <span class="stringliteral">&#39;username&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;Usuario&#39;</span>,</div>
-<div class="line"><span class="lineno">  509</span>                <span class="stringliteral">&#39;role&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span></div>
-<div class="line"><span class="lineno">  510</span>            ];</div>
-<div class="line"><span class="lineno">  511</span>        }</div>
-<div class="line"><span class="lineno">  512</span>        </div>
-<div class="line"><span class="lineno">  513</span>        <span class="comment">// Resultado de la operación</span></div>
-<div class="line"><span class="lineno">  514</span>        $result = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  515</span>        </div>
-<div class="line"><span class="lineno">  516</span>        <span class="comment">// Nuevo caso: eliminar usuario</span></div>
-<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^users\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  518</span>            $targetUserId = $matches[1];</div>
-<div class="line"><span class="lineno">  519</span>            </div>
-<div class="line"><span class="lineno">  520</span>            <span class="keywordflow">if</span> (!$user) {</div>
-<div class="line"><span class="lineno">  521</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  522</span>                $result = [</div>
-<div class="line"><span class="lineno">  523</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  524</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
-<div class="line"><span class="lineno">  525</span>                ];</div>
-<div class="line"><span class="lineno">  526</span>            } </div>
-<div class="line"><span class="lineno">  527</span>            elseif ($user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>) {</div>
-<div class="line"><span class="lineno">  528</span>                http_response_code(403);</div>
-<div class="line"><span class="lineno">  529</span>                $result = [</div>
-<div class="line"><span class="lineno">  530</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  531</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_403</div>
-<div class="line"><span class="lineno">  532</span>                ];</div>
-<div class="line"><span class="lineno">  533</span>            }</div>
-<div class="line"><span class="lineno">  534</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  535</span>                <span class="comment">// Instanciar el controlador de usuarios</span></div>
-<div class="line"><span class="lineno">  536</span>                <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a> = new \App\Controllers\UserController($this-&gt;db, <span class="keyword">new</span> \<a class="code hl_namespace" href="namespaceApp.html">App</a>\Controllers\SessionController($this-&gt;db));</div>
-<div class="line"><span class="lineno">  537</span>                </div>
-<div class="line"><span class="lineno">  538</span>                <span class="comment">// Implementar método deleteUser en UserController si no existe</span></div>
-<div class="line"><span class="lineno">  539</span>                <span class="keywordflow">if</span> (method_exists(<a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>, <span class="stringliteral">&#39;deleteUser&#39;</span>)) {</div>
-<div class="line"><span class="lineno">  540</span>                    $deleteResult = <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>-&gt;deleteUser($targetUserId);</div>
-<div class="line"><span class="lineno">  541</span>                    </div>
-<div class="line"><span class="lineno">  542</span>                    <span class="keywordflow">if</span> ($deleteResult) {</div>
+<p class="definition">Definición en la línea <a class="el" href="ApiController_8php_source.html#l00476">476</a> del archivo <a class="el" href="ApiController_8php_source.html">ApiController.php</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  477</span>    {</div>
+<div class="line"><span class="lineno">  478</span>        <span class="comment">// Crear instancia del controlador DELETE</span></div>
+<div class="line"><span class="lineno">  479</span>        $apiDeleteController = new \App\Controllers\Api\ApiDeleteController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  480</span>        </div>
+<div class="line"><span class="lineno">  481</span>        <span class="comment">// Verificar autenticación</span></div>
+<div class="line"><span class="lineno">  482</span>        $authHeader = isset($_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>]) ? $_SERVER[<span class="stringliteral">&#39;HTTP_AUTHORIZATION&#39;</span>] : <span class="stringliteral">&#39;&#39;</span>;</div>
+<div class="line"><span class="lineno">  483</span>        $token = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  484</span>        $user = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  485</span>        </div>
+<div class="line"><span class="lineno">  486</span>        <span class="comment">// Verificar token de sesión o JWT</span></div>
+<div class="line"><span class="lineno">  487</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/Bearer\s(\S+)/&#39;</span>, $authHeader, $matches)) {</div>
+<div class="line"><span class="lineno">  488</span>            $token = $matches[1];</div>
+<div class="line"><span class="lineno">  489</span>            $apiAuthController = <span class="keyword">new</span> ApiAuthController($this-&gt;pdo, $this-&gt;db);</div>
+<div class="line"><span class="lineno">  490</span>            $payload = $apiAuthController-&gt;verifyJwtToken($token);</div>
+<div class="line"><span class="lineno">  491</span>            <span class="keywordflow">if</span> ($payload) {</div>
+<div class="line"><span class="lineno">  492</span>                $user = [</div>
+<div class="line"><span class="lineno">  493</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;sub&#39;</span>],</div>
+<div class="line"><span class="lineno">  494</span>                    <span class="stringliteral">&#39;username&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;username&#39;</span>],</div>
+<div class="line"><span class="lineno">  495</span>                    <span class="stringliteral">&#39;role&#39;</span> =&gt; $payload[<span class="stringliteral">&#39;role&#39;</span>]</div>
+<div class="line"><span class="lineno">  496</span>                ];</div>
+<div class="line"><span class="lineno">  497</span>            }</div>
+<div class="line"><span class="lineno">  498</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isset($_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  499</span>            <span class="comment">// Usar sesión PHP si existe</span></div>
+<div class="line"><span class="lineno">  500</span>            $user = [</div>
+<div class="line"><span class="lineno">  501</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>],</div>
+<div class="line"><span class="lineno">  502</span>                <span class="stringliteral">&#39;username&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;Usuario&#39;</span>,</div>
+<div class="line"><span class="lineno">  503</span>                <span class="stringliteral">&#39;role&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span></div>
+<div class="line"><span class="lineno">  504</span>            ];</div>
+<div class="line"><span class="lineno">  505</span>        }</div>
+<div class="line"><span class="lineno">  506</span>        </div>
+<div class="line"><span class="lineno">  507</span>        <span class="comment">// Resultado de la operación</span></div>
+<div class="line"><span class="lineno">  508</span>        $result = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  509</span>        </div>
+<div class="line"><span class="lineno">  510</span>        <span class="comment">// Nuevo caso: eliminar usuario</span></div>
+<div class="line"><span class="lineno">  511</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^users\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  512</span>            $targetUserId = $matches[1];</div>
+<div class="line"><span class="lineno">  513</span>            </div>
+<div class="line"><span class="lineno">  514</span>            <span class="keywordflow">if</span> (!$user) {</div>
+<div class="line"><span class="lineno">  515</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  516</span>                $result = [</div>
+<div class="line"><span class="lineno">  517</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  518</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
+<div class="line"><span class="lineno">  519</span>                ];</div>
+<div class="line"><span class="lineno">  520</span>            } </div>
+<div class="line"><span class="lineno">  521</span>            elseif ($user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>) {</div>
+<div class="line"><span class="lineno">  522</span>                http_response_code(403);</div>
+<div class="line"><span class="lineno">  523</span>                $result = [</div>
+<div class="line"><span class="lineno">  524</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  525</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_403</div>
+<div class="line"><span class="lineno">  526</span>                ];</div>
+<div class="line"><span class="lineno">  527</span>            }</div>
+<div class="line"><span class="lineno">  528</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  529</span>                <span class="comment">// Instanciar el controlador de usuarios</span></div>
+<div class="line"><span class="lineno">  530</span>                <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a> = new \App\Controllers\UserController($this-&gt;db, <span class="keyword">new</span> \<a class="code hl_namespace" href="namespaceApp.html">App</a>\Controllers\SessionController($this-&gt;db));</div>
+<div class="line"><span class="lineno">  531</span>                </div>
+<div class="line"><span class="lineno">  532</span>                <span class="comment">// Implementar método deleteUser en UserController si no existe</span></div>
+<div class="line"><span class="lineno">  533</span>                <span class="keywordflow">if</span> (method_exists(<a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>, <span class="stringliteral">&#39;deleteUser&#39;</span>)) {</div>
+<div class="line"><span class="lineno">  534</span>                    $deleteResult = <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>-&gt;deleteUser($targetUserId);</div>
+<div class="line"><span class="lineno">  535</span>                    </div>
+<div class="line"><span class="lineno">  536</span>                    <span class="keywordflow">if</span> ($deleteResult) {</div>
+<div class="line"><span class="lineno">  537</span>                        $result = [</div>
+<div class="line"><span class="lineno">  538</span>                            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  539</span>                            <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Usuario eliminado correctamente&#39;</span></div>
+<div class="line"><span class="lineno">  540</span>                        ];</div>
+<div class="line"><span class="lineno">  541</span>                    } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  542</span>                        http_response_code(500);</div>
 <div class="line"><span class="lineno">  543</span>                        $result = [</div>
-<div class="line"><span class="lineno">  544</span>                            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  545</span>                            <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Usuario eliminado correctamente&#39;</span></div>
+<div class="line"><span class="lineno">  544</span>                            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  545</span>                            <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al eliminar el usuario&#39;</span></div>
 <div class="line"><span class="lineno">  546</span>                        ];</div>
-<div class="line"><span class="lineno">  547</span>                    } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  548</span>                        http_response_code(500);</div>
-<div class="line"><span class="lineno">  549</span>                        $result = [</div>
-<div class="line"><span class="lineno">  550</span>                            <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  551</span>                            <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al eliminar el usuario&#39;</span></div>
-<div class="line"><span class="lineno">  552</span>                        ];</div>
-<div class="line"><span class="lineno">  553</span>                    }</div>
-<div class="line"><span class="lineno">  554</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  555</span>                    http_response_code(501);</div>
-<div class="line"><span class="lineno">  556</span>                    $result = [</div>
-<div class="line"><span class="lineno">  557</span>                        <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  558</span>                        <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Funcionalidad no implementada&#39;</span></div>
-<div class="line"><span class="lineno">  559</span>                    ];</div>
-<div class="line"><span class="lineno">  560</span>                }</div>
-<div class="line"><span class="lineno">  561</span>            }</div>
-<div class="line"><span class="lineno">  562</span>        }</div>
-<div class="line"><span class="lineno">  563</span>        <span class="comment">// Mantener los endpoints existentes para hongos</span></div>
-<div class="line"><span class="lineno">  564</span>        elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  565</span>            <span class="comment">// Eliminar hongo (requiere admin)</span></div>
-<div class="line"><span class="lineno">  566</span>            $fungiId = $matches[1];</div>
-<div class="line"><span class="lineno">  567</span>            </div>
-<div class="line"><span class="lineno">  568</span>            <span class="keywordflow">if</span> (!$user) {</div>
-<div class="line"><span class="lineno">  569</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  570</span>                $result = [</div>
-<div class="line"><span class="lineno">  571</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  572</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
-<div class="line"><span class="lineno">  573</span>                ];</div>
-<div class="line"><span class="lineno">  574</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  575</span>                $result = $apiDeleteController-&gt;deleteFungi($fungiId, $user);</div>
-<div class="line"><span class="lineno">  576</span>            }</div>
-<div class="line"><span class="lineno">  577</span>        } </div>
-<div class="line"><span class="lineno">  578</span>        elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)\/like$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  579</span>            <span class="comment">// Quitar like a un hongo</span></div>
-<div class="line"><span class="lineno">  580</span>            $fungiId = $matches[1];</div>
-<div class="line"><span class="lineno">  581</span>            </div>
-<div class="line"><span class="lineno">  582</span>            <span class="keywordflow">if</span> (!$user) {</div>
-<div class="line"><span class="lineno">  583</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  584</span>                $result = [</div>
-<div class="line"><span class="lineno">  585</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  586</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
-<div class="line"><span class="lineno">  587</span>                ];</div>
-<div class="line"><span class="lineno">  588</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  589</span>                $result = $apiDeleteController-&gt;unlikeFungi($user[<span class="stringliteral">&#39;id&#39;</span>], $fungiId);</div>
-<div class="line"><span class="lineno">  590</span>            }</div>
-<div class="line"><span class="lineno">  591</span>        }</div>
-<div class="line"><span class="lineno">  592</span>        elseif (preg_match(<span class="stringliteral">&#39;/^user\/favorites\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  593</span>            <span class="comment">// Quitar un hongo de favoritos</span></div>
-<div class="line"><span class="lineno">  594</span>            $fungiId = $matches[1];</div>
-<div class="line"><span class="lineno">  595</span>            </div>
-<div class="line"><span class="lineno">  596</span>            <span class="keywordflow">if</span> (!$user) {</div>
-<div class="line"><span class="lineno">  597</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  598</span>                $result = [</div>
-<div class="line"><span class="lineno">  599</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  600</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
-<div class="line"><span class="lineno">  601</span>                ];</div>
-<div class="line"><span class="lineno">  602</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  603</span>                $result = $apiDeleteController-&gt;removeFavorite($user[<span class="stringliteral">&#39;id&#39;</span>], $fungiId);</div>
-<div class="line"><span class="lineno">  604</span>            }</div>
-<div class="line"><span class="lineno">  605</span>        }</div>
-<div class="line"><span class="lineno">  606</span>        <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  607</span>            http_response_code(404);</div>
-<div class="line"><span class="lineno">  608</span>            $result = [</div>
-<div class="line"><span class="lineno">  609</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  610</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404</div>
-<div class="line"><span class="lineno">  611</span>            ];</div>
-<div class="line"><span class="lineno">  612</span>        }</div>
-<div class="line"><span class="lineno">  613</span>        echo json_encode($result);</div>
-<div class="line"><span class="lineno">  614</span>    }</div>
+<div class="line"><span class="lineno">  547</span>                    }</div>
+<div class="line"><span class="lineno">  548</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  549</span>                    http_response_code(501);</div>
+<div class="line"><span class="lineno">  550</span>                    $result = [</div>
+<div class="line"><span class="lineno">  551</span>                        <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  552</span>                        <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Funcionalidad no implementada&#39;</span></div>
+<div class="line"><span class="lineno">  553</span>                    ];</div>
+<div class="line"><span class="lineno">  554</span>                }</div>
+<div class="line"><span class="lineno">  555</span>            }</div>
+<div class="line"><span class="lineno">  556</span>        }</div>
+<div class="line"><span class="lineno">  557</span>        <span class="comment">// Mantener los endpoints existentes para hongos</span></div>
+<div class="line"><span class="lineno">  558</span>        elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  559</span>            <span class="comment">// Eliminar hongo (requiere admin)</span></div>
+<div class="line"><span class="lineno">  560</span>            $fungiId = $matches[1];</div>
+<div class="line"><span class="lineno">  561</span>            </div>
+<div class="line"><span class="lineno">  562</span>            <span class="keywordflow">if</span> (!$user) {</div>
+<div class="line"><span class="lineno">  563</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  564</span>                $result = [</div>
+<div class="line"><span class="lineno">  565</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  566</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
+<div class="line"><span class="lineno">  567</span>                ];</div>
+<div class="line"><span class="lineno">  568</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  569</span>                $result = $apiDeleteController-&gt;deleteFungi($fungiId, $user);</div>
+<div class="line"><span class="lineno">  570</span>            }</div>
+<div class="line"><span class="lineno">  571</span>        } </div>
+<div class="line"><span class="lineno">  572</span>        elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)\/like$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  573</span>            <span class="comment">// Quitar like a un hongo</span></div>
+<div class="line"><span class="lineno">  574</span>            $fungiId = $matches[1];</div>
+<div class="line"><span class="lineno">  575</span>            </div>
+<div class="line"><span class="lineno">  576</span>            <span class="keywordflow">if</span> (!$user) {</div>
+<div class="line"><span class="lineno">  577</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  578</span>                $result = [</div>
+<div class="line"><span class="lineno">  579</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  580</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
+<div class="line"><span class="lineno">  581</span>                ];</div>
+<div class="line"><span class="lineno">  582</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  583</span>                $result = $apiDeleteController-&gt;unlikeFungi($user[<span class="stringliteral">&#39;id&#39;</span>], $fungiId);</div>
+<div class="line"><span class="lineno">  584</span>            }</div>
+<div class="line"><span class="lineno">  585</span>        }</div>
+<div class="line"><span class="lineno">  586</span>        elseif (preg_match(<span class="stringliteral">&#39;/^user\/favorites\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  587</span>            <span class="comment">// Quitar un hongo de favoritos</span></div>
+<div class="line"><span class="lineno">  588</span>            $fungiId = $matches[1];</div>
+<div class="line"><span class="lineno">  589</span>            </div>
+<div class="line"><span class="lineno">  590</span>            <span class="keywordflow">if</span> (!$user) {</div>
+<div class="line"><span class="lineno">  591</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  592</span>                $result = [</div>
+<div class="line"><span class="lineno">  593</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  594</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
+<div class="line"><span class="lineno">  595</span>                ];</div>
+<div class="line"><span class="lineno">  596</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  597</span>                $result = $apiDeleteController-&gt;removeFavorite($user[<span class="stringliteral">&#39;id&#39;</span>], $fungiId);</div>
+<div class="line"><span class="lineno">  598</span>            }</div>
+<div class="line"><span class="lineno">  599</span>        }</div>
+<div class="line"><span class="lineno">  600</span>        <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  601</span>            http_response_code(404);</div>
+<div class="line"><span class="lineno">  602</span>            $result = [</div>
+<div class="line"><span class="lineno">  603</span>                <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  604</span>                <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404</div>
+<div class="line"><span class="lineno">  605</span>            ];</div>
+<div class="line"><span class="lineno">  606</span>        }</div>
+<div class="line"><span class="lineno">  607</span>        echo json_encode($result);</div>
+<div class="line"><span class="lineno">  608</span>    }</div>
 <div class="ttc" id="anamespaceApp_html"><div class="ttname"><a href="namespaceApp.html">App</a></div><div class="ttdoc">Clase que contiene mensajes de error estandarizados para la aplicación.</div></div>
 <div class="ttc" id="aroutes_8php_html_ab98c1855a5ef469dd8a4c83ed3b45a88"><div class="ttname"><a href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a></div><div class="ttdeci">$userController</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00093">routes.php:93</a></div></div>
 </div><!-- fragment -->
@@ -763,110 +763,104 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">  366</span>            $token = $matches[1];</div>
 <div class="line"><span class="lineno">  367</span>            $payload = $apiAuthController-&gt;verifyJwtToken($token);</div>
 <div class="line"><span class="lineno">  368</span>            </div>
-<div class="line"><span class="lineno">  369</span>            <span class="comment">// Añadir logging para depuración</span></div>
-<div class="line"><span class="lineno">  370</span>            error_log(<span class="stringliteral">&quot;API PUT - Payload del token: &quot;</span> . json_encode($payload));</div>
-<div class="line"><span class="lineno">  371</span>            </div>
-<div class="line"><span class="lineno">  372</span>            <span class="keywordflow">if</span> ($payload) {</div>
-<div class="line"><span class="lineno">  373</span>                <span class="comment">// Ajustar para que funcione con &#39;user_id&#39; o &#39;sub&#39;</span></div>
-<div class="line"><span class="lineno">  374</span>                $userId = $payload[<span class="stringliteral">&#39;user_id&#39;</span>] ?? $payload[<span class="stringliteral">&#39;sub&#39;</span>] ?? <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  375</span>                $username = $payload[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;Usuario&#39;</span>;</div>
-<div class="line"><span class="lineno">  376</span>                </div>
-<div class="line"><span class="lineno">  377</span>                <span class="comment">// Si no hay role en el payload, consultar la base de datos</span></div>
-<div class="line"><span class="lineno">  378</span>                <span class="keywordflow">if</span> (!isset($payload[<span class="stringliteral">&#39;role&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  379</span>                    $userResult = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT role FROM users WHERE id = ?&quot;</span>, [$userId]);</div>
-<div class="line"><span class="lineno">  380</span>                    $userRole = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  381</span>                    </div>
-<div class="line"><span class="lineno">  382</span>                    <span class="keywordflow">if</span> ($userResult instanceof \PDOStatement) {</div>
-<div class="line"><span class="lineno">  383</span>                        $userData = $userResult-&gt;fetch(\PDO::FETCH_ASSOC);</div>
-<div class="line"><span class="lineno">  384</span>                        $userRole = $userData[<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span>;</div>
-<div class="line"><span class="lineno">  385</span>                    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (is_array($userResult) &amp;&amp; !empty($userResult)) {</div>
-<div class="line"><span class="lineno">  386</span>                        $userRole = $userResult[0][<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span>;</div>
-<div class="line"><span class="lineno">  387</span>                    }</div>
-<div class="line"><span class="lineno">  388</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  389</span>                    $userRole = $payload[<span class="stringliteral">&#39;role&#39;</span>];</div>
-<div class="line"><span class="lineno">  390</span>                }</div>
-<div class="line"><span class="lineno">  391</span>                </div>
-<div class="line"><span class="lineno">  392</span>                $user = [</div>
-<div class="line"><span class="lineno">  393</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $userId,</div>
-<div class="line"><span class="lineno">  394</span>                    <span class="stringliteral">&#39;username&#39;</span> =&gt; $username,</div>
-<div class="line"><span class="lineno">  395</span>                    <span class="stringliteral">&#39;role&#39;</span> =&gt; $userRole</div>
-<div class="line"><span class="lineno">  396</span>                ];</div>
-<div class="line"><span class="lineno">  397</span>            }</div>
-<div class="line"><span class="lineno">  398</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (session_status() === PHP_SESSION_ACTIVE &amp;&amp; isset($_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>])) {</div>
-<div class="line"><span class="lineno">  399</span>            $user = [</div>
-<div class="line"><span class="lineno">  400</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>],</div>
-<div class="line"><span class="lineno">  401</span>                <span class="stringliteral">&#39;username&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;Usuario&#39;</span>,</div>
-<div class="line"><span class="lineno">  402</span>                <span class="stringliteral">&#39;role&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span></div>
-<div class="line"><span class="lineno">  403</span>            ];</div>
-<div class="line"><span class="lineno">  404</span>        }</div>
-<div class="line"><span class="lineno">  405</span>        </div>
-<div class="line"><span class="lineno">  406</span>        <span class="comment">// Datos recibidos en el body del PUT</span></div>
-<div class="line"><span class="lineno">  407</span>        $data = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
-<div class="line"><span class="lineno">  408</span>        $result = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  409</span>        </div>
-<div class="line"><span class="lineno">  410</span>        <span class="comment">// Manejar actualización de usuario (nuevo caso)</span></div>
-<div class="line"><span class="lineno">  411</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^users\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  412</span>            $userId = $matches[1];</div>
-<div class="line"><span class="lineno">  413</span>            </div>
-<div class="line"><span class="lineno">  414</span>            <span class="keywordflow">if</span> (!$user) {</div>
-<div class="line"><span class="lineno">  415</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  416</span>                $result = [</div>
-<div class="line"><span class="lineno">  417</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  418</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
-<div class="line"><span class="lineno">  419</span>                ];</div>
-<div class="line"><span class="lineno">  420</span>            } </div>
-<div class="line"><span class="lineno">  421</span>            elseif ($user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>) {</div>
-<div class="line"><span class="lineno">  422</span>                http_response_code(403);</div>
-<div class="line"><span class="lineno">  423</span>                $result = [</div>
-<div class="line"><span class="lineno">  424</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  425</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_403</div>
-<div class="line"><span class="lineno">  426</span>                ];</div>
-<div class="line"><span class="lineno">  427</span>            }</div>
-<div class="line"><span class="lineno">  428</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  429</span>                <span class="comment">// Instanciar controlador de usuarios</span></div>
-<div class="line"><span class="lineno">  430</span>                <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a> = new \App\Controllers\UserController($this-&gt;db, <span class="keyword">new</span> \<a class="code hl_namespace" href="namespaceApp.html">App</a>\Controllers\SessionController($this-&gt;db));</div>
-<div class="line"><span class="lineno">  431</span>                </div>
-<div class="line"><span class="lineno">  432</span>                <span class="comment">// Llamar método de actualización de usuario</span></div>
-<div class="line"><span class="lineno">  433</span>                $updateResult = <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>-&gt;updateUserProfile($userId, $data);</div>
-<div class="line"><span class="lineno">  434</span>                </div>
-<div class="line"><span class="lineno">  435</span>                <span class="keywordflow">if</span> ($updateResult) {</div>
+<div class="line"><span class="lineno">  369</span>            <span class="keywordflow">if</span> ($payload) {</div>
+<div class="line"><span class="lineno">  370</span>                <span class="comment">// Ajustar para que funcione con &#39;user_id&#39; o &#39;sub&#39;</span></div>
+<div class="line"><span class="lineno">  371</span>                $userId = $payload[<span class="stringliteral">&#39;user_id&#39;</span>] ?? $payload[<span class="stringliteral">&#39;sub&#39;</span>] ?? <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  372</span>                $username = $payload[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;Usuario&#39;</span>;</div>
+<div class="line"><span class="lineno">  373</span>                </div>
+<div class="line"><span class="lineno">  374</span>                <span class="comment">// Si no hay role en el payload, consultar la base de datos</span></div>
+<div class="line"><span class="lineno">  375</span>                <span class="keywordflow">if</span> (!isset($payload[<span class="stringliteral">&#39;role&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  376</span>                    $userResult = $this-&gt;db-&gt;query(<span class="stringliteral">&quot;SELECT role FROM users WHERE id = ?&quot;</span>, [$userId]);</div>
+<div class="line"><span class="lineno">  377</span>                    $userRole = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  378</span>                    </div>
+<div class="line"><span class="lineno">  379</span>                    <span class="keywordflow">if</span> ($userResult instanceof \PDOStatement) {</div>
+<div class="line"><span class="lineno">  380</span>                        $userData = $userResult-&gt;fetch(\PDO::FETCH_ASSOC);</div>
+<div class="line"><span class="lineno">  381</span>                        $userRole = $userData[<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span>;</div>
+<div class="line"><span class="lineno">  382</span>                    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (is_array($userResult) &amp;&amp; !empty($userResult)) {</div>
+<div class="line"><span class="lineno">  383</span>                        $userRole = $userResult[0][<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span>;</div>
+<div class="line"><span class="lineno">  384</span>                    }</div>
+<div class="line"><span class="lineno">  385</span>                } <span class="keywordflow">else</span> $userRole = $payload[<span class="stringliteral">&#39;role&#39;</span>];</div>
+<div class="line"><span class="lineno">  386</span>                $user = [</div>
+<div class="line"><span class="lineno">  387</span>                    <span class="stringliteral">&#39;id&#39;</span> =&gt; $userId,</div>
+<div class="line"><span class="lineno">  388</span>                    <span class="stringliteral">&#39;username&#39;</span> =&gt; $username,</div>
+<div class="line"><span class="lineno">  389</span>                    <span class="stringliteral">&#39;role&#39;</span> =&gt; $userRole</div>
+<div class="line"><span class="lineno">  390</span>                ];</div>
+<div class="line"><span class="lineno">  391</span>            }</div>
+<div class="line"><span class="lineno">  392</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (session_status() === PHP_SESSION_ACTIVE &amp;&amp; isset($_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>])) {</div>
+<div class="line"><span class="lineno">  393</span>            $user = [</div>
+<div class="line"><span class="lineno">  394</span>                <span class="stringliteral">&#39;id&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;user_id&#39;</span>],</div>
+<div class="line"><span class="lineno">  395</span>                <span class="stringliteral">&#39;username&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;username&#39;</span>] ?? <span class="stringliteral">&#39;Usuario&#39;</span>,</div>
+<div class="line"><span class="lineno">  396</span>                <span class="stringliteral">&#39;role&#39;</span> =&gt; $_SESSION[<span class="stringliteral">&#39;role&#39;</span>] ?? <span class="stringliteral">&#39;user&#39;</span></div>
+<div class="line"><span class="lineno">  397</span>            ];</div>
+<div class="line"><span class="lineno">  398</span>        }</div>
+<div class="line"><span class="lineno">  399</span>        </div>
+<div class="line"><span class="lineno">  400</span>        <span class="comment">// Datos recibidos en el body del PUT</span></div>
+<div class="line"><span class="lineno">  401</span>        $data = json_decode(file_get_contents(<span class="stringliteral">&#39;php://input&#39;</span>), <span class="keyword">true</span>);</div>
+<div class="line"><span class="lineno">  402</span>        $result = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  403</span>        </div>
+<div class="line"><span class="lineno">  404</span>        <span class="comment">// Manejar actualización de usuario (nuevo caso)</span></div>
+<div class="line"><span class="lineno">  405</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/^users\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  406</span>            $userId = $matches[1];</div>
+<div class="line"><span class="lineno">  407</span>            </div>
+<div class="line"><span class="lineno">  408</span>            <span class="keywordflow">if</span> (!$user) {</div>
+<div class="line"><span class="lineno">  409</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  410</span>                $result = [</div>
+<div class="line"><span class="lineno">  411</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  412</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED</div>
+<div class="line"><span class="lineno">  413</span>                ];</div>
+<div class="line"><span class="lineno">  414</span>            } </div>
+<div class="line"><span class="lineno">  415</span>            elseif ($user[<span class="stringliteral">&#39;role&#39;</span>] !== <span class="stringliteral">&#39;admin&#39;</span>) {</div>
+<div class="line"><span class="lineno">  416</span>                http_response_code(403);</div>
+<div class="line"><span class="lineno">  417</span>                $result = [</div>
+<div class="line"><span class="lineno">  418</span>                    <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  419</span>                    <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_403</div>
+<div class="line"><span class="lineno">  420</span>                ];</div>
+<div class="line"><span class="lineno">  421</span>            }</div>
+<div class="line"><span class="lineno">  422</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  423</span>                <span class="comment">// Instanciar controlador de usuarios</span></div>
+<div class="line"><span class="lineno">  424</span>                <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a> = new \App\Controllers\UserController($this-&gt;db, <span class="keyword">new</span> \<a class="code hl_namespace" href="namespaceApp.html">App</a>\Controllers\SessionController($this-&gt;db));</div>
+<div class="line"><span class="lineno">  425</span>                </div>
+<div class="line"><span class="lineno">  426</span>                <span class="comment">// Llamar método de actualización de usuario</span></div>
+<div class="line"><span class="lineno">  427</span>                $updateResult = <a class="code hl_variable" href="routes_8php.html#ab98c1855a5ef469dd8a4c83ed3b45a88">$userController</a>-&gt;updateUserProfile($userId, $data);</div>
+<div class="line"><span class="lineno">  428</span>                </div>
+<div class="line"><span class="lineno">  429</span>                <span class="keywordflow">if</span> ($updateResult) {</div>
+<div class="line"><span class="lineno">  430</span>                    $result = [</div>
+<div class="line"><span class="lineno">  431</span>                        <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  432</span>                        <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Usuario actualizado correctamente&#39;</span></div>
+<div class="line"><span class="lineno">  433</span>                    ];</div>
+<div class="line"><span class="lineno">  434</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  435</span>                    http_response_code(500);</div>
 <div class="line"><span class="lineno">  436</span>                    $result = [</div>
-<div class="line"><span class="lineno">  437</span>                        <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  438</span>                        <span class="stringliteral">&#39;message&#39;</span> =&gt; <span class="stringliteral">&#39;Usuario actualizado correctamente&#39;</span></div>
+<div class="line"><span class="lineno">  437</span>                        <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  438</span>                        <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al actualizar el usuario&#39;</span></div>
 <div class="line"><span class="lineno">  439</span>                    ];</div>
-<div class="line"><span class="lineno">  440</span>                } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  441</span>                    http_response_code(500);</div>
-<div class="line"><span class="lineno">  442</span>                    $result = [</div>
-<div class="line"><span class="lineno">  443</span>                        <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  444</span>                        <span class="stringliteral">&#39;error&#39;</span> =&gt; <span class="stringliteral">&#39;Error al actualizar el usuario&#39;</span></div>
-<div class="line"><span class="lineno">  445</span>                    ];</div>
-<div class="line"><span class="lineno">  446</span>                }</div>
-<div class="line"><span class="lineno">  447</span>            }</div>
-<div class="line"><span class="lineno">  448</span>        }</div>
-<div class="line"><span class="lineno">  449</span>        <span class="comment">// Mantener el endpoint existente para hongos</span></div>
-<div class="line"><span class="lineno">  450</span>        elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
-<div class="line"><span class="lineno">  451</span>            $fungiId = $matches[1];</div>
-<div class="line"><span class="lineno">  452</span>            </div>
-<div class="line"><span class="lineno">  453</span>            <span class="keywordflow">if</span> (!$user) {</div>
-<div class="line"><span class="lineno">  454</span>                http_response_code(401);</div>
-<div class="line"><span class="lineno">  455</span>                $result = [ <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED ];</div>
-<div class="line"><span class="lineno">  456</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  457</span>                $result = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;updateFungi($fungiId, $data, $user);</div>
-<div class="line"><span class="lineno">  458</span>                </div>
-<div class="line"><span class="lineno">  459</span>                <span class="comment">// Establecer código de estado HTTP basado en el resultado</span></div>
-<div class="line"><span class="lineno">  460</span>                <span class="keywordflow">if</span> (!$result[<span class="stringliteral">&#39;success&#39;</span>]) {</div>
-<div class="line"><span class="lineno">  461</span>                    <span class="keywordflow">if</span> (strpos($result[<span class="stringliteral">&#39;error&#39;</span>], <span class="stringliteral">&#39;permisos&#39;</span>) !== <span class="keyword">false</span>) http_response_code(403);</div>
-<div class="line"><span class="lineno">  462</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (strpos($result[<span class="stringliteral">&#39;error&#39;</span>], <span class="stringliteral">&#39;no existe&#39;</span>) !== <span class="keyword">false</span>) http_response_code(404);</div>
-<div class="line"><span class="lineno">  463</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (strpos($result[<span class="stringliteral">&#39;error&#39;</span>], <span class="stringliteral">&#39;no se proporcionaron campos&#39;</span>) !== <span class="keyword">false</span>) http_response_code(400);</div>
-<div class="line"><span class="lineno">  464</span>                    <span class="keywordflow">else</span> http_response_code(500);</div>
-<div class="line"><span class="lineno">  465</span>                }</div>
-<div class="line"><span class="lineno">  466</span>            }</div>
-<div class="line"><span class="lineno">  467</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno">  468</span>            http_response_code(404);</div>
-<div class="line"><span class="lineno">  469</span>            $result = [ <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404 ];</div>
-<div class="line"><span class="lineno">  470</span>        }</div>
-<div class="line"><span class="lineno">  471</span>        echo json_encode($result);</div>
-<div class="line"><span class="lineno">  472</span>    }</div>
+<div class="line"><span class="lineno">  440</span>                }</div>
+<div class="line"><span class="lineno">  441</span>            }</div>
+<div class="line"><span class="lineno">  442</span>        }</div>
+<div class="line"><span class="lineno">  443</span>        <span class="comment">// Mantener el endpoint existente para hongos</span></div>
+<div class="line"><span class="lineno">  444</span>        elseif (preg_match(<span class="stringliteral">&#39;/^fungi\/(\d+)$/&#39;</span>, $endpoint, $matches)) {</div>
+<div class="line"><span class="lineno">  445</span>            $fungiId = $matches[1];</div>
+<div class="line"><span class="lineno">  446</span>            </div>
+<div class="line"><span class="lineno">  447</span>            <span class="keywordflow">if</span> (!$user) {</div>
+<div class="line"><span class="lineno">  448</span>                http_response_code(401);</div>
+<div class="line"><span class="lineno">  449</span>                $result = [ <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::AUTH_REQUIRED ];</div>
+<div class="line"><span class="lineno">  450</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  451</span>                $result = <a class="code hl_variable" href="routes_8php.html#a0bbc1d7715d0f934d799d5556a9216bf">$fungiController</a>-&gt;updateFungi($fungiId, $data, $user);</div>
+<div class="line"><span class="lineno">  452</span>                </div>
+<div class="line"><span class="lineno">  453</span>                <span class="comment">// Establecer código de estado HTTP basado en el resultado</span></div>
+<div class="line"><span class="lineno">  454</span>                <span class="keywordflow">if</span> (!$result[<span class="stringliteral">&#39;success&#39;</span>]) {</div>
+<div class="line"><span class="lineno">  455</span>                    <span class="keywordflow">if</span> (strpos($result[<span class="stringliteral">&#39;error&#39;</span>], <span class="stringliteral">&#39;permisos&#39;</span>) !== <span class="keyword">false</span>) http_response_code(403);</div>
+<div class="line"><span class="lineno">  456</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (strpos($result[<span class="stringliteral">&#39;error&#39;</span>], <span class="stringliteral">&#39;no existe&#39;</span>) !== <span class="keyword">false</span>) http_response_code(404);</div>
+<div class="line"><span class="lineno">  457</span>                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (strpos($result[<span class="stringliteral">&#39;error&#39;</span>], <span class="stringliteral">&#39;no se proporcionaron campos&#39;</span>) !== <span class="keyword">false</span>) http_response_code(400);</div>
+<div class="line"><span class="lineno">  458</span>                    <span class="keywordflow">else</span> http_response_code(500);</div>
+<div class="line"><span class="lineno">  459</span>                }</div>
+<div class="line"><span class="lineno">  460</span>            }</div>
+<div class="line"><span class="lineno">  461</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">  462</span>            http_response_code(404);</div>
+<div class="line"><span class="lineno">  463</span>            $result = [ <span class="stringliteral">&#39;success&#39;</span> =&gt; <span class="keyword">false</span>, <span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::HTTP_404 ];</div>
+<div class="line"><span class="lineno">  464</span>        }</div>
+<div class="line"><span class="lineno">  465</span>        echo json_encode($result);</div>
+<div class="line"><span class="lineno">  466</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00094">$fungiController</a> y <a class="el" href="routes_8php_source.html#l00093">$userController</a>.</p>
 
@@ -942,14 +936,14 @@ Atributos privados</h2></td></tr>
 <div class="line"><span class="lineno">   93</span>            echo json_encode([<span class="stringliteral">&#39;error&#39;</span> =&gt; ErrorMessages::format(ErrorMessages::DB_QUERY_ERROR, $e-&gt;getMessage())]);</div>
 <div class="line"><span class="lineno">   94</span>        }</div>
 <div class="line"><span class="lineno">   95</span>    }</div>
-<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a42d236c3d92bd345648219584a384e3e"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a42d236c3d92bd345648219584a384e3e">App\Controllers\ApiController\handleDelete</a></div><div class="ttdeci">handleDelete($endpoint)</div><div class="ttdoc">Manejador de solicitudes DELETE.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00482">ApiController.php:482</a></div></div>
+<div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a42d236c3d92bd345648219584a384e3e"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a42d236c3d92bd345648219584a384e3e">App\Controllers\ApiController\handleDelete</a></div><div class="ttdeci">handleDelete($endpoint)</div><div class="ttdoc">Manejador de solicitudes DELETE.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00476">ApiController.php:476</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a44716cc151011ed147d461835bdd8c17"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a44716cc151011ed147d461835bdd8c17">App\Controllers\ApiController\handlePut</a></div><div class="ttdeci">handlePut($endpoint)</div><div class="ttdoc">Manejador de solicitudes PUT.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00355">ApiController.php:355</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_a8cd77387760dd2cc99af170a4edde2e7"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#a8cd77387760dd2cc99af170a4edde2e7">App\Controllers\ApiController\handlePost</a></div><div class="ttdeci">handlePost($endpoint)</div><div class="ttdoc">Manejador de solicitudes POST.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00223">ApiController.php:223</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1ApiController_html_ada189fa85b1c852d7deb9f5d59f16109"><div class="ttname"><a href="classApp_1_1Controllers_1_1ApiController.html#ada189fa85b1c852d7deb9f5d59f16109">App\Controllers\ApiController\handleGet</a></div><div class="ttdeci">handleGet($endpoint)</div><div class="ttdoc">Manejador de solicitudes GET.</div><div class="ttdef"><b>Definition</b> <a href="ApiController_8php_source.html#l00105">ApiController.php:105</a></div></div>
 <div class="ttc" id="aclassApp_1_1Controllers_1_1DocsController_html_a26c7d871df293aeea872304083487788"><div class="ttname"><a href="classApp_1_1Controllers_1_1DocsController.html#a26c7d871df293aeea872304083487788">App\Controllers\DocsController\show</a></div><div class="ttdeci">static show()</div><div class="ttdoc">Muestra solo los endpoints de la API en formato JSON.</div><div class="ttdef"><b>Definition</b> <a href="DocsController_8php_source.html#l00188">DocsController.php:188</a></div></div>
 <div class="ttc" id="aroutes_8php_html_a653b5458163d338546c47271b4fb81b7"><div class="ttname"><a href="routes_8php.html#a653b5458163d338546c47271b4fb81b7">$uri</a></div><div class="ttdeci">$uri</div><div class="ttdef"><b>Definition</b> <a href="routes_8php_source.html#l00021">routes.php:21</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00021">$uri</a>, <a class="el" href="ApiController_8php_source.html#l00482">App\Controllers\ApiController\handleDelete()</a>, <a class="el" href="ApiController_8php_source.html#l00105">App\Controllers\ApiController\handleGet()</a>, <a class="el" href="ApiController_8php_source.html#l00223">App\Controllers\ApiController\handlePost()</a>, <a class="el" href="ApiController_8php_source.html#l00355">App\Controllers\ApiController\handlePut()</a> y <a class="el" href="DocsController_8php_source.html#l00188">App\Controllers\DocsController\show()</a>.</p>
+<p class="reference">Hace referencia a <a class="el" href="routes_8php_source.html#l00021">$uri</a>, <a class="el" href="ApiController_8php_source.html#l00476">App\Controllers\ApiController\handleDelete()</a>, <a class="el" href="ApiController_8php_source.html#l00105">App\Controllers\ApiController\handleGet()</a>, <a class="el" href="ApiController_8php_source.html#l00223">App\Controllers\ApiController\handlePost()</a>, <a class="el" href="ApiController_8php_source.html#l00355">App\Controllers\ApiController\handlePut()</a> y <a class="el" href="DocsController_8php_source.html#l00188">App\Controllers\DocsController\show()</a>.</p>
 <div id="dynsection-5" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-5-trigger" src="closed.png" alt="+"/> Gráfico de llamadas de esta función:</div>
 <div id="dynsection-5-summary" class="dynsummary" style="display:block;">
@@ -1020,7 +1014,7 @@ Atributos privados</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceApp.html">App</a></li><li class="navelem"><a class="el" href="namespaceApp_1_1Controllers.html">Controllers</a></li><li class="navelem"><a class="el" href="classApp_1_1Controllers_1_1ApiController.html">ApiController</a></li>
-    <li class="footer">Generado el Lunes, 17 de marzo de 2025 20:00:12 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generado el Martes, 18 de marzo de 2025 14:06:05 para Fungi por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

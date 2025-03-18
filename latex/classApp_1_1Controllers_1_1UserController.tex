@@ -119,20 +119,20 @@ bool Resultado de la operación
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00197}{197}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00189}{189}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash)\ VALUES\ (:username,\ :email,\ :password\_hash)"{}};}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [\ \textcolor{stringliteral}{':username'}\ =>\ \$username,\ \textcolor{stringliteral}{':email'}\ =>\ \$email,\ \textcolor{stringliteral}{':password\_hash'}\ =>\ \$password\_hash\ ];}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params)\ !==\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ crear\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00206\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash)\ VALUES\ (:username,\ :email,\ :password\_hash)"{}};}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [\ \textcolor{stringliteral}{':username'}\ =>\ \$username,\ \textcolor{stringliteral}{':email'}\ =>\ \$email,\ \textcolor{stringliteral}{':password\_hash'}\ =>\ \$password\_hash\ ];}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$this-\/>db-\/>query(\$sql,\ \$params)\ !==\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ crear\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00198\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a92a1d60f2bdd67ef882dec9b82202a09}\label{classApp_1_1Controllers_1_1UserController_a92a1d60f2bdd67ef882dec9b82202a09} 
@@ -155,31 +155,31 @@ bool Resultado de la operación
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00214}{214}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00206}{206}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ existe}}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkUser\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkResult\ =\ \$checkUser-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$checkResult))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ registros\ relacionados\ en\ otras\ tablas}}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_likes\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_favorites\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ comments\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ access\_logs\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Finalmente\ eliminar\ el\ usuario}}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result\ !==\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ eliminar\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ existe}}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkUser\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkResult\ =\ \$checkUser-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$checkResult))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ registros\ relacionados\ en\ otras\ tablas}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_likes\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_favorites\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ comments\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ access\_logs\ WHERE\ user\_id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Finalmente\ eliminar\ el\ usuario}}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result\ !==\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ eliminar\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00226\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b}\label{classApp_1_1Controllers_1_1UserController_a58df8b576c286304387b3f6fa8cec35b} 
@@ -197,31 +197,30 @@ array Lista de usuarios
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00167}{167}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00160}{160}} del archivo \mbox{\hyperlink{UserController_8php_source}{User\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Manejar\ diferentes\ tipos\ de\ retorno\ del\ método\ query}}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$result))\ \textcolor{keywordflow}{return}\ \$result;}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ instanceof\ \(\backslash\)PDOStatement)\ \{}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}La\ consulta\ de\ usuarios\ falló"{}});}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Tipo\ de\ retorno\ inesperado\ en\ getAllUsers():\ "{}}\ .\ gettype(\$result));}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00187\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}SELECT\ id,\ username,\ email,\ role,\ created\_at,\ last\_login\ FROM\ users\ ORDER\ BY\ id\ DESC"{}};}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql);}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Manejar\ diferentes\ tipos\ de\ retorno\ del\ método\ query}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_array(\$result))\ \textcolor{keywordflow}{return}\ \$result;}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ instanceof\ \(\backslash\)PDOStatement)\ \textcolor{keywordflow}{return}\ \$result-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result\ ===\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}La\ consulta\ de\ usuarios\ falló"{}});}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Tipo\ de\ retorno\ inesperado\ en\ getAllUsers():\ "{}}\ .\ gettype(\$result));}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ obtener\ usuarios:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [];}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b}\label{classApp_1_1Controllers_1_1UserController_a9b1cee33c89323576b5df64d7d093d5b} 
@@ -349,42 +348,35 @@ Definición en la línea \mbox{\hyperlink{UserController_8php_source_l00120}{120
 \DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ existe}}
 \DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkUser\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ id\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
 \DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkResult\ =\ \$checkUser-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$checkResult))\ \{}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ consulta\ dinámica\ para\ los\ campos\ que\ se\ actualizan}}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \$updateFields\ =\ [];}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$checkResult))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ consulta\ dinámica\ para\ los\ campos\ que\ se\ actualizan}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \$updateFields\ =\ [];}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Campos\ permitidos\ para\ actualización}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \$allowedFields\ =\ [\textcolor{stringliteral}{'username'},\ \textcolor{stringliteral}{'email'},\ \textcolor{stringliteral}{'role'},\ \textcolor{stringliteral}{'bio'},\ \textcolor{stringliteral}{'name'},\ \textcolor{stringliteral}{'location'}];}
 \DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Campos\ permitidos\ para\ actualización}}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \$allowedFields\ =\ [\textcolor{stringliteral}{'username'},\ \textcolor{stringliteral}{'email'},\ \textcolor{stringliteral}{'role'},\ \textcolor{stringliteral}{'bio'},\ \textcolor{stringliteral}{'name'},\ \textcolor{stringliteral}{'location'}];}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$data\ as\ \$field\ =>\ \$value)\ \{}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in\_array(\$field,\ \$allowedFields))\ \{}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updateFields[]\ =\ \textcolor{stringliteral}{"{}\{\$field\}\ =\ ?"{}};}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$value;}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ campos\ para\ actualizar,\ terminar}}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$updateFields))\ \{}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ el\ ID\ al\ final\ de\ los\ parámetros}}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$userId;}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ejecutar\ la\ consulta\ de\ actualización}}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{"{},\ "{}},\ \$updateFields)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ ?"{}};}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ \$params);}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result\ !==\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$data\ as\ \$field\ =>\ \$value)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (in\_array(\$field,\ \$allowedFields))\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updateFields[]\ =\ \textcolor{stringliteral}{"{}\{\$field\}\ =\ ?"{}};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$value;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ campos\ para\ actualizar,\ terminar}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$updateFields))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Agregar\ el\ ID\ al\ final\ de\ los\ parámetros}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$userId;}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ejecutar\ la\ consulta\ de\ actualización}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{"{},\ "{}},\ \$updateFields)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ ?"{}};}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ \$params);}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$result\ !==\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}Error\ al\ actualizar\ usuario:\ "{}}\ .\ \$e-\/>getMessage());}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00153\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

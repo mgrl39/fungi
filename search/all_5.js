@@ -21,10 +21,9 @@ var searchData=
   ['del_20proyecto_18',['🏗️ Arquitectura del Proyecto',['../index.html#autotoc_md5',1,'']]],
   ['deletefungi_19',['deleteFungi',['../classApp_1_1Controllers_1_1Api_1_1ApiDeleteController.html#a7cdede58dd10bb73b8aa62233d03645c',1,'App::Controllers::Api::ApiDeleteController']]],
   ['deletefungihandler_20',['deleteFungiHandler',['../classApp_1_1Controllers_1_1AdminController.html#abe1bf9ffe4082365edaeceb053a293a4',1,'App::Controllers::AdminController']]],
-  ['deleteimagehandler_21',['deleteImageHandler',['../classApp_1_1Controllers_1_1AdminController.html#aa3f5ebc263b8aad49be63ebc3cf50faf',1,'App::Controllers::AdminController']]],
-  ['deleteuser_22',['deleteUser',['../classApp_1_1Controllers_1_1UserController.html#a92a1d60f2bdd67ef882dec9b82202a09',1,'App::Controllers::UserController']]],
-  ['deleteuserhandler_23',['deleteUserHandler',['../classApp_1_1Controllers_1_1AdminController.html#ab0c4d838fb24bec663a7c2598f94eab1',1,'App::Controllers::AdminController']]],
-  ['detailfungushandler_24',['detailFungusHandler',['../classApp_1_1Controllers_1_1FungiController.html#a9d16717512fc95fa89a23c45ad840b7b',1,'App::Controllers::FungiController']]],
-  ['docscontroller_25',['DocsController',['../classApp_1_1Controllers_1_1DocsController.html',1,'App::Controllers']]],
-  ['docscontroller_2ephp_26',['DocsController.php',['../DocsController_8php.html',1,'']]]
+  ['deleteuser_21',['deleteUser',['../classApp_1_1Controllers_1_1UserController.html#a92a1d60f2bdd67ef882dec9b82202a09',1,'App::Controllers::UserController']]],
+  ['deleteuserhandler_22',['deleteUserHandler',['../classApp_1_1Controllers_1_1AdminController.html#ab0c4d838fb24bec663a7c2598f94eab1',1,'App::Controllers::AdminController']]],
+  ['detailfungushandler_23',['detailFungusHandler',['../classApp_1_1Controllers_1_1FungiController.html#a9d16717512fc95fa89a23c45ad840b7b',1,'App::Controllers::FungiController']]],
+  ['docscontroller_24',['DocsController',['../classApp_1_1Controllers_1_1DocsController.html',1,'App::Controllers']]],
+  ['docscontroller_2ephp_25',['DocsController.php',['../DocsController_8php.html',1,'']]]
 ];

@@ -28,8 +28,6 @@ Diagrama de colaboración de App\textbackslash{}Controllers\textbackslash{}Admin
 \begin{DoxyCompactList}\small\item\em Manejador para el dashboard. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_abe1bf9ffe4082365edaeceb053a293a4}{delete\+Fungi\+Handler}} ()
 \begin{DoxyCompactList}\small\item\em Manejador para eliminar un hongo. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_aa3f5ebc263b8aad49be63ebc3cf50faf}{delete\+Image\+Handler}} ()
-\begin{DoxyCompactList}\small\item\em Manejador para eliminar una imagen de un hongo. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_ab0c4d838fb24bec663a7c2598f94eab1}{delete\+User\+Handler}} ()
 \begin{DoxyCompactList}\small\item\em Manejador para eliminar un usuario. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a8f7d11c870220fc9b7a6c1e1de858885}{edit\+Fungi\+Handler}} ()
@@ -127,145 +125,145 @@ array Datos de creación de hongo
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00241}{241}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00230}{230}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00242\ \ \ \ \ \{}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \$name\ =\ \$\_POST[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility\ =\ \$\_POST[\textcolor{stringliteral}{'edibility'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \$habitat\ =\ \$\_POST[\textcolor{stringliteral}{'habitat'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$name)\ ||\ empty(\$edibility)\ ||\ empty(\$habitat))\ \{}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Los\ campos\ nombre\ científico,\ comestibilidad\ y\ hábitat\ son\ obligatorios'});}
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ en\ la\ tabla\ fungi}}
-\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\ (name,\ edibility,\ habitat,\ observations,\ common\_name,\ synonym)\ }}
-\DoxyCodeLine{00265\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?,\ ?,\ ?,\ ?)"{}},}
-\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$name,}
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility,}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$habitat,}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'observations'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'common\_name'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'synonym'}]\ ??\ \textcolor{stringliteral}{''}}
-\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ hongo\ recién\ creado}}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ LAST\_INSERT\_ID()\ as\ id"{}});}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungi\ =\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$fungi[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId)\ \{}
-\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)Exception(\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Error\ al\ obtener\ el\ ID\ del\ hongo\ creado'}));}
-\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ características\ (si\ las\ hay)}}
-\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$cap\ =\ \$\_POST[\textcolor{stringliteral}{'cap'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$hymenium\ =\ \$\_POST[\textcolor{stringliteral}{'hymenium'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$stipe\ =\ \$\_POST[\textcolor{stringliteral}{'stipe'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$flesh\ =\ \$\_POST[\textcolor{stringliteral}{'flesh'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$cap)\ ||\ !empty(\$hymenium)\ ||\ !empty(\$stipe)\ ||\ !empty(\$flesh))\ \{}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ characteristics\ (fungi\_id,\ cap,\ hymenium,\ stipe,\ flesh)\ }}
-\DoxyCodeLine{00294\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?,\ ?,\ ?)"{}},}
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$cap,\ \$hymenium,\ \$stipe,\ \$flesh]}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ taxonomía\ (si\ la\ hay)}}
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$kingdom\ =\ \$\_POST[\textcolor{stringliteral}{'kingdom'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$phylum\ =\ \$\_POST[\textcolor{stringliteral}{'phylum'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$class\ =\ \$\_POST[\textcolor{stringliteral}{'class'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$order\ =\ \$\_POST[\textcolor{stringliteral}{'order'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$family\ =\ \$\_POST[\textcolor{stringliteral}{'family'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$genus\ =\ \$\_POST[\textcolor{stringliteral}{'genus'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$kingdom)\ ||\ !empty(\$phylum)\ ||\ !empty(\$class)\ ||\ }
-\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !empty(\$order)\ ||\ !empty(\$family)\ ||\ !empty(\$genus))\ \{}
-\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ taxonomy\ (fungi\_id,\ kingdom,\ phylum,\ class,\ \`{}order`,\ family,\ genus)\ }}
-\DoxyCodeLine{00311\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?,\ ?,\ ?,\ ?,\ ?)"{}},}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$kingdom,\ \$phylum,\ \$class,\ \$order,\ \$family,\ \$genus]}
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ imágenes\ (si\ las\ hay)}}
-\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}])\ \&\&\ !empty(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}][\textcolor{stringliteral}{'name'}][0]))\ \{}
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$uploadDir\ =\ \textcolor{stringliteral}{'uploads/fungi/'};}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$uploadDir))\ \{}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mkdir(\$uploadDir,\ 0777,\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ configuración\ de\ imagen}}
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ image\_config\ WHERE\ config\_key\ =\ 'upload\_path'\ LIMIT\ 1"{}});}
-\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$config\ =\ \$configResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configKey\ =\ \$config\ ?\ \$config[\textcolor{stringliteral}{'config\_key'}]\ :\ \textcolor{stringliteral}{'upload\_path'};}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ cada\ imagen}}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$\_FILES[\textcolor{stringliteral}{'fungi\_images'}];}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$count\ =\ count(\$images[\textcolor{stringliteral}{'name'}]);}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\$i\ =\ 0;\ \$i\ <\ \$count;\ \$i++)\ \{}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$images[\textcolor{stringliteral}{'error'}][\$i]\ ===\ 0)\ \{}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filename\ =\ \$fungiId\ .\ \textcolor{charliteral}{'\_'}\ .\ time()\ .\ \textcolor{charliteral}{'\_'}\ .\ \$i\ .\ \textcolor{charliteral}{'\_'}\ .\ basename(\$images[\textcolor{stringliteral}{'name'}][\$i]);}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$destination\ =\ \$uploadDir\ .\ \$filename;}
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (move\_uploaded\_file(\$images[\textcolor{stringliteral}{'tmp\_name'}][\$i],\ \$destination))\ \{}
-\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ la\ tabla\ images}}
-\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ images\ (filename,\ config\_key,\ description)\ VALUES\ (?,\ ?,\ ?)"{}},}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$filename,\ \$configKey,\ \textcolor{stringliteral}{"{}Imagen\ de\ \$name"{}}]}
-\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ de\ la\ imagen}}
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ LAST\_INSERT\_ID()\ as\ id"{}});}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$image\ =\ \$imageResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageId\ =\ \$image[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$imageId)\ \{}
-\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Relacionar\ con\ el\ hongo}}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\_images\ (fungi\_id,\ image\_id)\ VALUES\ (?,\ ?)"{}},}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$imageId]}
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?created=true'});}
-\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{'Error:\ '}\ .\ \$e-\/>getMessage();}
-\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Crear\ Hongo'}),}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
-\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00376\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ \ \ \ \ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \ \ \$name\ =\ \$\_POST[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility\ =\ \$\_POST[\textcolor{stringliteral}{'edibility'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \$habitat\ =\ \$\_POST[\textcolor{stringliteral}{'habitat'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$name)\ ||\ empty(\$edibility)\ ||\ empty(\$habitat))\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Los\ campos\ nombre\ científico,\ comestibilidad\ y\ hábitat\ son\ obligatorios'});}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ en\ la\ tabla\ fungi}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\ (name,\ edibility,\ habitat,\ observations,\ common\_name,\ synonym)\ }}
+\DoxyCodeLine{00254\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?,\ ?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$name,}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility,}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$habitat,}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'observations'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'common\_name'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\_POST[\textcolor{stringliteral}{'synonym'}]\ ??\ \textcolor{stringliteral}{''}}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ del\ hongo\ recién\ creado}}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ LAST\_INSERT\_ID()\ as\ id"{}});}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungi\ =\ \$result-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$fungi[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId)\ \{}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ new\ \(\backslash\)Exception(\$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Error\ al\ obtener\ el\ ID\ del\ hongo\ creado'}));}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ características\ (si\ las\ hay)}}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$cap\ =\ \$\_POST[\textcolor{stringliteral}{'cap'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$hymenium\ =\ \$\_POST[\textcolor{stringliteral}{'hymenium'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$stipe\ =\ \$\_POST[\textcolor{stringliteral}{'stipe'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$flesh\ =\ \$\_POST[\textcolor{stringliteral}{'flesh'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$cap)\ ||\ !empty(\$hymenium)\ ||\ !empty(\$stipe)\ ||\ !empty(\$flesh))\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ characteristics\ (fungi\_id,\ cap,\ hymenium,\ stipe,\ flesh)\ }}
+\DoxyCodeLine{00283\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$cap,\ \$hymenium,\ \$stipe,\ \$flesh]}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ taxonomía\ (si\ la\ hay)}}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$kingdom\ =\ \$\_POST[\textcolor{stringliteral}{'kingdom'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$phylum\ =\ \$\_POST[\textcolor{stringliteral}{'phylum'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$class\ =\ \$\_POST[\textcolor{stringliteral}{'class'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$order\ =\ \$\_POST[\textcolor{stringliteral}{'order'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$family\ =\ \$\_POST[\textcolor{stringliteral}{'family'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$genus\ =\ \$\_POST[\textcolor{stringliteral}{'genus'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$kingdom)\ ||\ !empty(\$phylum)\ ||\ !empty(\$class)\ ||\ }
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !empty(\$order)\ ||\ !empty(\$family)\ ||\ !empty(\$genus))\ \{}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ taxonomy\ (fungi\_id,\ kingdom,\ phylum,\ class,\ \`{}order`,\ family,\ genus)\ }}
+\DoxyCodeLine{00300\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ VALUES\ (?,\ ?,\ ?,\ ?,\ ?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$kingdom,\ \$phylum,\ \$class,\ \$order,\ \$family,\ \$genus]}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ imágenes\ (si\ las\ hay)}}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}])\ \&\&\ !empty(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}][\textcolor{stringliteral}{'name'}][0]))\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$uploadDir\ =\ \textcolor{stringliteral}{'uploads/fungi/'};}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$uploadDir))\ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mkdir(\$uploadDir,\ 0777,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ configuración\ de\ imagen}}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ image\_config\ WHERE\ config\_key\ =\ 'upload\_path'\ LIMIT\ 1"{}});}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$config\ =\ \$configResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configKey\ =\ \$config\ ?\ \$config[\textcolor{stringliteral}{'config\_key'}]\ :\ \textcolor{stringliteral}{'upload\_path'};}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ cada\ imagen}}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$\_FILES[\textcolor{stringliteral}{'fungi\_images'}];}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$count\ =\ count(\$images[\textcolor{stringliteral}{'name'}]);}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\$i\ =\ 0;\ \$i\ <\ \$count;\ \$i++)\ \{}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$images[\textcolor{stringliteral}{'error'}][\$i]\ ===\ 0)\ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filename\ =\ \$fungiId\ .\ \textcolor{charliteral}{'\_'}\ .\ time()\ .\ \textcolor{charliteral}{'\_'}\ .\ \$i\ .\ \textcolor{charliteral}{'\_'}\ .\ basename(\$images[\textcolor{stringliteral}{'name'}][\$i]);}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$destination\ =\ \$uploadDir\ .\ \$filename;}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (move\_uploaded\_file(\$images[\textcolor{stringliteral}{'tmp\_name'}][\$i],\ \$destination))\ \{}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ la\ tabla\ images}}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ images\ (filename,\ config\_key,\ description)\ VALUES\ (?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$filename,\ \$configKey,\ \textcolor{stringliteral}{"{}Imagen\ de\ \$name"{}}]}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ de\ la\ imagen}}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ LAST\_INSERT\_ID()\ as\ id"{}});}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$image\ =\ \$imageResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageId\ =\ \$image[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$imageId)\ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Relacionar\ con\ el\ hongo}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\_images\ (fungi\_id,\ image\_id)\ VALUES\ (?,\ ?)"{}},}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$imageId]}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?created=true'});}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{'Error:\ '}\ .\ \$e-\/>getMessage();}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Crear\ Hongo'}),}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00365\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -295,63 +293,60 @@ array Datos de creación de usuario
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00105}{105}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00099}{99}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00106\ \ \ \ \ \{}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \$email\ =\ \$\_POST[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \$password\ =\ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \$role\ =\ \$\_POST[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$username)\ ||\ empty(\$email)\ ||\ empty(\$password))\ \{}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Todos\ los\ campos\ son\ obligatorios'});}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ nombre\ de\ usuario\ o\ email\ ya\ existe}}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$checkQuery\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users\ WHERE\ username\ =\ ?\ OR\ email\ =\ ?"{}},}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$username,\ \$email]}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$checkQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'total'}]\ >\ 0)\ \{}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'El\ nombre\ de\ usuario\ o\ email\ ya\ está\ en\ uso'});}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ hash\ de\ contraseña\ usando\ password\_hash\ nativo}}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$hashedPassword\ =\ password\_hash(\$password,\ PASSWORD\_DEFAULT);}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ nuevo\ usuario}}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash,\ role)\ VALUES\ (?,\ ?,\ ?,\ ?)"{}},}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$username,\ \$email,\ \$hashedPassword,\ \$role]}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?created=true'});}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{'Error:\ '}\ .\ \$e-\/>getMessage();}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Crear\ Usuario'}),}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \$email\ =\ \$\_POST[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \$password\ =\ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \$role\ =\ \$\_POST[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$username)\ ||\ empty(\$email)\ ||\ empty(\$password))\ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Todos\ los\ campos\ son\ obligatorios'});}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ nombre\ de\ usuario\ o\ email\ ya\ existe}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$checkQuery\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users\ WHERE\ username\ =\ ?\ OR\ email\ =\ ?"{}},}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$username,\ \$email]}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$checkQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result[\textcolor{stringliteral}{'total'}]\ >\ 0)\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'El\ nombre\ de\ usuario\ o\ email\ ya\ está\ en\ uso'});}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generar\ hash\ de\ contraseña\ usando\ password\_hash\ nativo}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$hashedPassword\ =\ password\_hash(\$password,\ PASSWORD\_DEFAULT);}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ nuevo\ usuario}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ users\ (username,\ email,\ password\_hash,\ role)\ VALUES\ (?,\ ?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$username,\ \$email,\ \$hashedPassword,\ \$role]}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?created=true'});}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{'Error:\ '}\ .\ \$e-\/>getMessage();}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Crear\ Usuario'}),}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00149\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -395,18 +390,16 @@ Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00049}{49
 \DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \$userQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ users"{}});}
 \DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \$userData\ =\ \$userQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
 \DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \$totalUsers\ =\ \$userData[\textcolor{stringliteral}{'total'}]\ ??\ 0;}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \$fungiQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ fungi"{}});}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \$fungiData\ =\ \$fungiQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \$totalFungi\ =\ \$fungiData[\textcolor{stringliteral}{'total'}]\ ??\ 0;}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'totalUsers'}\ =>\ \$totalUsers,}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'totalFungi'}\ =>\ \$totalFungi,}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'dashboard'}\ =>\ true}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \$fungiQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ total\ FROM\ fungi"{}});}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \$fungiData\ =\ \$fungiQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \$totalFungi\ =\ \$fungiData[\textcolor{stringliteral}{'total'}]\ ??\ 0;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Panel\ de\ Administración'}),}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'totalUsers'}\ =>\ \$totalUsers,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'totalFungi'}\ =>\ \$totalFungi,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'dashboard'}\ =>\ true}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -433,136 +426,75 @@ Manejador para eliminar un hongo.
 
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00603}{603}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00592}{592}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00604\ \ \ \ \ \{}
-\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ (\$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0);}
-\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
-\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
-\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ end(\$parts);}
-\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId)\ \{}
-\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?erroar=invalidid'});}
-\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
-\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Primero\ eliminamos\ las\ relaciones\ de\ imágenes}}
-\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \$imageQuery\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ i.id,\ i.filename\ FROM\ images\ i\ }}
-\DoxyCodeLine{00628\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\_images\ fi\ ON\ i.id\ =\ fi.image\_id\ }}
-\DoxyCodeLine{00629\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ fi.fungi\_id\ =\ ?"{}},\ }
-\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId]}
-\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$imageQuery-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$images\ as\ \$image)\ \{}
-\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ el\ archivo\ físico}}
-\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filePath\ =\ \textcolor{stringliteral}{'uploads/fungi/'}\ .\ \$image[\textcolor{stringliteral}{'filename'}];}
-\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_exists(\$filePath))\ \{}
-\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unlink(\$filePath);}
-\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ relación}}
-\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ fungi\_images\ WHERE\ image\_id\ =\ ?"{}},\ [\$image[\textcolor{stringliteral}{'id'}]]);}
-\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ registro\ de\ imagen}}
-\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ images\ WHERE\ id\ =\ ?"{}},\ [\$image[\textcolor{stringliteral}{'id'}]]);}
-\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ taxonomía}}
-\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ taxonomy\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ características}}
-\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ characteristics\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ likes\ y\ favoritos}}
-\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_likes\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_favorites\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Finalmente\ eliminar\ el\ hongo}}
-\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ fungi\ WHERE\ id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
-\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?deleted=true'});}
-\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
-\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?error='}\ .\ urlencode(\$e-\/>getMessage()));}
-\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00668\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{classApp_1_1Controllers_1_1AdminController_aa3f5ebc263b8aad49be63ebc3cf50faf}\label{classApp_1_1Controllers_1_1AdminController_aa3f5ebc263b8aad49be63ebc3cf50faf} 
-\index{App\textbackslash{}Controllers\textbackslash{}AdminController@{App\textbackslash{}Controllers\textbackslash{}AdminController}!deleteImageHandler@{deleteImageHandler}}
-\index{deleteImageHandler@{deleteImageHandler}!App\textbackslash{}Controllers\textbackslash{}AdminController@{App\textbackslash{}Controllers\textbackslash{}AdminController}}
-\doxysubsubsection{\texorpdfstring{deleteImageHandler()}{deleteImageHandler()}}
-{\footnotesize\ttfamily App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\+::delete\+Image\+Handler (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Manejador para eliminar una imagen de un hongo. 
-
-
-
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00756}{756}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00757\ \ \ \ \ \{}
-\DoxyCodeLine{00758\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00759\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00760\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ \$imageId\ =\ (int)\ (\$\_GET[\textcolor{stringliteral}{'image\_id'}]\ ??\ 0);}
-\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ (\$\_GET[\textcolor{stringliteral}{'fungi\_id'}]\ ??\ 0);}
-\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$imageId\ ||\ !\$fungiId)\ \{}
-\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?error=invalidparams'});}
-\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00771\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
-\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ información\ de\ la\ imagen}}
-\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ \ \ \ \ \$imageQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ images\ WHERE\ id\ =\ ?"{}},\ [\$imageId]);}
-\DoxyCodeLine{00776\ \ \ \ \ \ \ \ \ \ \ \ \ \$image\ =\ \$imageQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00777\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00778\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ relación}}
-\DoxyCodeLine{00779\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ fungi\_images\ WHERE\ fungi\_id\ =\ ?\ AND\ image\_id\ =\ ?"{}},\ [\$fungiId,\ \$imageId]);}
-\DoxyCodeLine{00780\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ archivo\ físico\ si\ existe}}
-\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$image\ \&\&\ !empty(\$image[\textcolor{stringliteral}{'filename'}]))\ \{}
-\DoxyCodeLine{00783\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filePath\ =\ \textcolor{stringliteral}{'uploads/fungi/'}\ .\ \$image[\textcolor{stringliteral}{'filename'}];}
-\DoxyCodeLine{00784\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_exists(\$filePath))\ \{}
-\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unlink(\$filePath);}
-\DoxyCodeLine{00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00787\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00788\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00789\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ registro\ de\ la\ imagen}}
-\DoxyCodeLine{00790\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ images\ WHERE\ id\ =\ ?"{}},\ [\$imageId]);}
-\DoxyCodeLine{00791\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
-\DoxyCodeLine{00793\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/edit-\/fungi?id='}\ .\ \$fungiId\ .\ \textcolor{stringliteral}{'\&imageDeleted=true'});}
-\DoxyCodeLine{00794\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00795\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
-\DoxyCodeLine{00796\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/edit-\/fungi?id='}\ .\ \$fungiId\ .\ \textcolor{stringliteral}{'\&error='}\ .\ urlencode(\$e-\/>getMessage()));}
-\DoxyCodeLine{00797\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00798\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00799\ \ \ \ \ \}}
+\DoxyCodeLine{00593\ \ \ \ \ \{}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ (\$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0);}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ end(\$parts);}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId)\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?erroar=invalidid'});}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Primero\ eliminamos\ las\ relaciones\ de\ imágenes}}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \ \ \ \ \$imageQuery\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ i.id,\ i.filename\ FROM\ images\ i\ }}
+\DoxyCodeLine{00617\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\_images\ fi\ ON\ i.id\ =\ fi.image\_id\ }}
+\DoxyCodeLine{00618\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ fi.fungi\_id\ =\ ?"{}},\ }
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId]}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$imageQuery-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$images\ as\ \$image)\ \{}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ el\ archivo\ físico}}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filePath\ =\ \textcolor{stringliteral}{'uploads/fungi/'}\ .\ \$image[\textcolor{stringliteral}{'filename'}];}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_exists(\$filePath))\ \{}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unlink(\$filePath);}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ relación}}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ fungi\_images\ WHERE\ image\_id\ =\ ?"{}},\ [\$image[\textcolor{stringliteral}{'id'}]]);}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ registro\ de\ imagen}}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ images\ WHERE\ id\ =\ ?"{}},\ [\$image[\textcolor{stringliteral}{'id'}]]);}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ taxonomía}}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ taxonomy\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ características}}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ characteristics\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ likes\ y\ favoritos}}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_likes\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ user\_favorites\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Finalmente\ eliminar\ el\ hongo}}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ fungi\ WHERE\ id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?deleted=true'});}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?error='}\ .\ urlencode(\$e-\/>getMessage()));}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00657\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1AdminController_ab0c4d838fb24bec663a7c2598f94eab1}\label{classApp_1_1Controllers_1_1AdminController_ab0c4d838fb24bec663a7c2598f94eab1} 
@@ -577,52 +509,50 @@ Manejador para eliminar un usuario.
 
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00163}{163}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00154}{154}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00164\ \ \ \ \ \{}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ \$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$userId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ end(\$parts);}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Evitar\ eliminar\ al\ propio\ administrador}}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \$currentUser\ =\ \$this-\/>session-\/>getUserData();}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$currentUser[\textcolor{stringliteral}{'id'}]\ ==\ \$userId)\ \{}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=selfdelete'});}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ existe}}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ role\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$checkQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=notfound'});}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ el\ usuario}}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result)\ \{}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?deleted=true'});}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=deletefailed'});}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error='}\ .\ urlencode(\$e-\/>getMessage()));}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00205\ \ \ \ \ \}}
+\DoxyCodeLine{00155\ \ \ \ \ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ \$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$userId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ end(\$parts);}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Evitar\ eliminar\ al\ propio\ administrador}}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \$currentUser\ =\ \$this-\/>session-\/>getUserData();}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$currentUser[\textcolor{stringliteral}{'id'}]\ ==\ \$userId)\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=selfdelete'});}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ el\ usuario\ existe}}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \$checkQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ role\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ \$checkQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=notfound'});}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ el\ usuario}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}DELETE\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result)\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?deleted=true'});}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=deletefailed'});}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error='}\ .\ urlencode(\$e-\/>getMessage()));}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
 
 \end{DoxyCode}
 \Hypertarget{classApp_1_1Controllers_1_1AdminController_a8f7d11c870220fc9b7a6c1e1de858885}\label{classApp_1_1Controllers_1_1AdminController_a8f7d11c870220fc9b7a6c1e1de858885} 
@@ -640,226 +570,226 @@ array Datos de edición de hongo
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00382}{382}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00371}{371}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00383\ \ \ \ \ \{}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ (\$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0);}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ end(\$parts);}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ hongo}}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \$fungusQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ WHERE\ id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$fungusQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?error=notfound'});}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ taxonomía}}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \$taxonomyQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ taxonomy\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \$taxonomy\ =\ \$taxonomyQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ [];}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ características}}
-\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \$characteristicsQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ characteristics\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \$characteristics\ =\ \$characteristicsQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ [];}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ imágenes\ asociadas}}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \$imagesQuery\ =\ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ i.*\ FROM\ images\ i\ }}
-\DoxyCodeLine{00415\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\_images\ fi\ ON\ i.id\ =\ fi.image\_id\ }}
-\DoxyCodeLine{00416\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ fi.fungi\_id\ =\ ?"{}},\ }
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId]}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \$fungusImages\ =\ \$imagesQuery-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ [];}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \$name\ =\ \$\_POST[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility\ =\ \$\_POST[\textcolor{stringliteral}{'edibility'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \$habitat\ =\ \$\_POST[\textcolor{stringliteral}{'habitat'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$name)\ ||\ empty(\$edibility)\ ||\ empty(\$habitat))\ \{}
-\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Los\ campos\ nombre\ científico,\ comestibilidad\ y\ hábitat\ son\ obligatorios'});}
-\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
-\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ los\ campos\ a\ actualizar}}
-\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updates\ =\ [}
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \$name,}
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edibility'}\ =>\ \$edibility,}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'habitat'}\ =>\ \$habitat,}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'observations'}\ =>\ \$\_POST[\textcolor{stringliteral}{'observations'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'common\_name'}\ =>\ \$\_POST[\textcolor{stringliteral}{'common\_name'}]\ ??\ \textcolor{stringliteral}{''},}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'synonym'}\ =>\ \$\_POST[\textcolor{stringliteral}{'synonym'}]\ ??\ \textcolor{stringliteral}{''}}
-\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ la\ consulta\ dinámica\ para\ actualizar\ fungi}}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause\ =\ [];}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00372\ \ \ \ \ \{}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ (\$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0);}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungiId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ (int)\ end(\$parts);}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ hongo}}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \$fungusQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ fungi\ WHERE\ id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \$fungus\ =\ \$fungusQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$fungus)\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?error=notfound'});}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ taxonomía}}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \$taxonomyQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ taxonomy\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \$taxonomy\ =\ \$taxonomyQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ [];}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ características}}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \$characteristicsQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ characteristics\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \$characteristics\ =\ \$characteristicsQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ [];}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ imágenes\ asociadas}}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \$imagesQuery\ =\ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SELECT\ i.*\ FROM\ images\ i\ }}
+\DoxyCodeLine{00404\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ JOIN\ fungi\_images\ fi\ ON\ i.id\ =\ fi.image\_id\ }}
+\DoxyCodeLine{00405\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ WHERE\ fi.fungi\_id\ =\ ?"{}},\ }
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId]}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \$fungusImages\ =\ \$imagesQuery-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC)\ ?:\ [];}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \$name\ =\ \$\_POST[\textcolor{stringliteral}{'name'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \$edibility\ =\ \$\_POST[\textcolor{stringliteral}{'edibility'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \$habitat\ =\ \$\_POST[\textcolor{stringliteral}{'habitat'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$name)\ ||\ empty(\$edibility)\ ||\ empty(\$habitat))\ \{}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Los\ campos\ nombre\ científico,\ comestibilidad\ y\ hábitat\ son\ obligatorios'});}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>beginTransaction();}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ los\ campos\ a\ actualizar}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updates\ =\ [}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'name'}\ =>\ \$name,}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'edibility'}\ =>\ \$edibility,}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'habitat'}\ =>\ \$habitat,}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'observations'}\ =>\ \$\_POST[\textcolor{stringliteral}{'observations'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'common\_name'}\ =>\ \$\_POST[\textcolor{stringliteral}{'common\_name'}]\ ??\ \textcolor{stringliteral}{''},}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'synonym'}\ =>\ \$\_POST[\textcolor{stringliteral}{'synonym'}]\ ??\ \textcolor{stringliteral}{''}}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ la\ consulta\ dinámica\ para\ actualizar\ fungi}}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause\ =\ [];}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$updates\ as\ \$field\ =>\ \$value)\ \{}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$value;}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ ID\ al\ final\ de\ los\ parámetros}}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$fungiId;}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ fungi\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$setClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ ?"{}};}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ \$params);}
 \DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$updates\ as\ \$field\ =>\ \$value)\ \{}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$value;}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ ID\ al\ final\ de\ los\ parámetros}}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$fungiId;}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ fungi\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$setClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ ?"{}};}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ \$params);}
-\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ taxonomía}}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_POST[\textcolor{stringliteral}{'taxonomy'}])\ \&\&\ is\_array(\$\_POST[\textcolor{stringliteral}{'taxonomy'}]))\ \{}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyData\ =\ \$\_POST[\textcolor{stringliteral}{'taxonomy'}];}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ existe\ taxonomía\ para\ este\ hongo}}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyCheck\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ taxonomy\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyExists\ =\ \$taxonomyCheck-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}]\ >\ 0;}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$taxonomyExists)\ \{}
-\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ registro\ existente}}
-\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxSetClause\ =\ [];}
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxParams\ =\ [];}
-\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$taxonomyData\ as\ \$field\ =>\ \$value)\ \{}
-\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxSetClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
-\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxParams[]\ =\ \$value;}
-\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ fungi\_id\ al\ final\ de\ los\ parámetros}}
-\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxParams[]\ =\ \$fungiId;}
-\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxSql\ =\ \textcolor{stringliteral}{"{}UPDATE\ taxonomy\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$taxSetClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ fungi\_id\ =\ ?"{}};}
-\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\$taxSql,\ \$taxParams);}
-\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ nuevo\ registro}}
-\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyData[\textcolor{stringliteral}{'fungi\_id'}]\ =\ \$fungiId;}
-\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxFields\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_keys(\$taxonomyData));}
-\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxPlaceholders\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_fill(0,\ count(\$taxonomyData),\ \textcolor{charliteral}{'?'}));}
-\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ taxonomy\ (\$taxFields)\ VALUES\ (\$taxPlaceholders)"{}},}
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ array\_values(\$taxonomyData)}
-\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ características}}
-\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_POST[\textcolor{stringliteral}{'characteristics'}])\ \&\&\ is\_array(\$\_POST[\textcolor{stringliteral}{'characteristics'}]))\ \{}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charData\ =\ \$\_POST[\textcolor{stringliteral}{'characteristics'}];}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ existen\ características\ para\ este\ hongo}}
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charCheck\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ characteristics\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charExists\ =\ \$charCheck-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}]\ >\ 0;}
-\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$charExists)\ \{}
-\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ registro\ existente}}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charSetClause\ =\ [];}
-\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charParams\ =\ [];}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$charData\ as\ \$field\ =>\ \$value)\ \{}
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charSetClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charParams[]\ =\ \$value;}
-\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ fungi\_id\ al\ final\ de\ los\ parámetros}}
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charParams[]\ =\ \$fungiId;}
-\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charSql\ =\ \textcolor{stringliteral}{"{}UPDATE\ characteristics\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$charSetClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ fungi\_id\ =\ ?"{}};}
-\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\$charSql,\ \$charParams);}
-\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ nuevo\ registro}}
-\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charData[\textcolor{stringliteral}{'fungi\_id'}]\ =\ \$fungiId;}
-\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charFields\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_keys(\$charData));}
-\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charPlaceholders\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_fill(0,\ count(\$charData),\ \textcolor{charliteral}{'?'}));}
-\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ characteristics\ (\$charFields)\ VALUES\ (\$charPlaceholders)"{}},}
-\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ array\_values(\$charData)}
-\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ nuevas\ imágenes}}
-\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}])\ \&\&\ !empty(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}][\textcolor{stringliteral}{'name'}][0]))\ \{}
-\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$uploadDir\ =\ \textcolor{stringliteral}{'uploads/fungi/'};}
-\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$uploadDir))\ \{}
-\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mkdir(\$uploadDir,\ 0777,\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ configuración\ de\ imagen}}
-\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ image\_config\ WHERE\ config\_key\ =\ 'upload\_path'\ LIMIT\ 1"{}});}
-\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$config\ =\ \$configResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configKey\ =\ \$config\ ?\ \$config[\textcolor{stringliteral}{'config\_key'}]\ :\ \textcolor{stringliteral}{'upload\_path'};}
-\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ cada\ imagen}}
-\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$\_FILES[\textcolor{stringliteral}{'fungi\_images'}];}
-\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$count\ =\ count(\$images[\textcolor{stringliteral}{'name'}]);}
-\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\$i\ =\ 0;\ \$i\ <\ \$count;\ \$i++)\ \{}
-\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$images[\textcolor{stringliteral}{'error'}][\$i]\ ===\ 0)\ \{}
-\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filename\ =\ \$fungiId\ .\ \textcolor{charliteral}{'\_'}\ .\ time()\ .\ \textcolor{charliteral}{'\_'}\ .\ \$i\ .\ \textcolor{charliteral}{'\_'}\ .\ basename(\$images[\textcolor{stringliteral}{'name'}][\$i]);}
-\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$destination\ =\ \$uploadDir\ .\ \$filename;}
-\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (move\_uploaded\_file(\$images[\textcolor{stringliteral}{'tmp\_name'}][\$i],\ \$destination))\ \{}
-\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ la\ tabla\ images}}
-\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ images\ (filename,\ config\_key,\ description)\ VALUES\ (?,\ ?,\ ?)"{}},}
-\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$filename,\ \$configKey,\ \textcolor{stringliteral}{"{}Imagen\ de\ \$name"{}}]}
-\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ de\ la\ imagen}}
-\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ LAST\_INSERT\_ID()\ as\ id"{}});}
-\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$image\ =\ \$imageResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageId\ =\ \$image[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
-\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$imageId)\ \{}
-\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Relacionar\ con\ el\ hongo}}
-\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
-\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\_images\ (fungi\_id,\ image\_id)\ VALUES\ (?,\ ?)"{}},}
-\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$imageId]}
-\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
-\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?updated=true'});}
-\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
-\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
-\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{'Error:\ '}\ .\ \$e-\/>getMessage();}
-\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Editar\ Hongo'}),}
-\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungus'}\ =>\ \$fungus,}
-\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'taxonomy'}\ =>\ \$taxonomy,}
-\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'characteristics'}\ =>\ \$characteristics,}
-\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungusImages'}\ =>\ \$fungusImages,}
-\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
-\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
-\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00598\ \ \ \ \ \}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ taxonomía}}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_POST[\textcolor{stringliteral}{'taxonomy'}])\ \&\&\ is\_array(\$\_POST[\textcolor{stringliteral}{'taxonomy'}]))\ \{}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyData\ =\ \$\_POST[\textcolor{stringliteral}{'taxonomy'}];}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ existe\ taxonomía\ para\ este\ hongo}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyCheck\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ taxonomy\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyExists\ =\ \$taxonomyCheck-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}]\ >\ 0;}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$taxonomyExists)\ \{}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ registro\ existente}}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxSetClause\ =\ [];}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxParams\ =\ [];}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$taxonomyData\ as\ \$field\ =>\ \$value)\ \{}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxSetClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxParams[]\ =\ \$value;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ fungi\_id\ al\ final\ de\ los\ parámetros}}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxParams[]\ =\ \$fungiId;}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxSql\ =\ \textcolor{stringliteral}{"{}UPDATE\ taxonomy\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$taxSetClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ fungi\_id\ =\ ?"{}};}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\$taxSql,\ \$taxParams);}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ nuevo\ registro}}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxonomyData[\textcolor{stringliteral}{'fungi\_id'}]\ =\ \$fungiId;}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxFields\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_keys(\$taxonomyData));}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$taxPlaceholders\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_fill(0,\ count(\$taxonomyData),\ \textcolor{charliteral}{'?'}));}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ taxonomy\ (\$taxFields)\ VALUES\ (\$taxPlaceholders)"{}},}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ array\_values(\$taxonomyData)}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ características}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_POST[\textcolor{stringliteral}{'characteristics'}])\ \&\&\ is\_array(\$\_POST[\textcolor{stringliteral}{'characteristics'}]))\ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charData\ =\ \$\_POST[\textcolor{stringliteral}{'characteristics'}];}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ si\ existen\ características\ para\ este\ hongo}}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charCheck\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ COUNT(*)\ as\ count\ FROM\ characteristics\ WHERE\ fungi\_id\ =\ ?"{}},\ [\$fungiId]);}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charExists\ =\ \$charCheck-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC)[\textcolor{stringliteral}{'count'}]\ >\ 0;}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$charExists)\ \{}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Actualizar\ registro\ existente}}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charSetClause\ =\ [];}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charParams\ =\ [];}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$charData\ as\ \$field\ =>\ \$value)\ \{}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charSetClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charParams[]\ =\ \$value;}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ fungi\_id\ al\ final\ de\ los\ parámetros}}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charParams[]\ =\ \$fungiId;}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charSql\ =\ \textcolor{stringliteral}{"{}UPDATE\ characteristics\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$charSetClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ fungi\_id\ =\ ?"{}};}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(\$charSql,\ \$charParams);}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Insertar\ nuevo\ registro}}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charData[\textcolor{stringliteral}{'fungi\_id'}]\ =\ \$fungiId;}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charFields\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_keys(\$charData));}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$charPlaceholders\ =\ implode(\textcolor{stringliteral}{',\ '},\ array\_fill(0,\ count(\$charData),\ \textcolor{charliteral}{'?'}));}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ characteristics\ (\$charFields)\ VALUES\ (\$charPlaceholders)"{}},}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ array\_values(\$charData)}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ nuevas\ imágenes}}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}])\ \&\&\ !empty(\$\_FILES[\textcolor{stringliteral}{'fungi\_images'}][\textcolor{stringliteral}{'name'}][0]))\ \{}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$uploadDir\ =\ \textcolor{stringliteral}{'uploads/fungi/'};}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_exists(\$uploadDir))\ \{}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mkdir(\$uploadDir,\ 0777,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ configuración\ de\ imagen}}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ image\_config\ WHERE\ config\_key\ =\ 'upload\_path'\ LIMIT\ 1"{}});}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$config\ =\ \$configResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$configKey\ =\ \$config\ ?\ \$config[\textcolor{stringliteral}{'config\_key'}]\ :\ \textcolor{stringliteral}{'upload\_path'};}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Procesar\ cada\ imagen}}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$images\ =\ \$\_FILES[\textcolor{stringliteral}{'fungi\_images'}];}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$count\ =\ count(\$images[\textcolor{stringliteral}{'name'}]);}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\$i\ =\ 0;\ \$i\ <\ \$count;\ \$i++)\ \{}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$images[\textcolor{stringliteral}{'error'}][\$i]\ ===\ 0)\ \{}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$filename\ =\ \$fungiId\ .\ \textcolor{charliteral}{'\_'}\ .\ time()\ .\ \textcolor{charliteral}{'\_'}\ .\ \$i\ .\ \textcolor{charliteral}{'\_'}\ .\ basename(\$images[\textcolor{stringliteral}{'name'}][\$i]);}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$destination\ =\ \$uploadDir\ .\ \$filename;}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (move\_uploaded\_file(\$images[\textcolor{stringliteral}{'tmp\_name'}][\$i],\ \$destination))\ \{}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Guardar\ en\ la\ tabla\ images}}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ images\ (filename,\ config\_key,\ description)\ VALUES\ (?,\ ?,\ ?)"{}},}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$filename,\ \$configKey,\ \textcolor{stringliteral}{"{}Imagen\ de\ \$name"{}}]}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ el\ ID\ de\ la\ imagen}}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ LAST\_INSERT\_ID()\ as\ id"{}});}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$image\ =\ \$imageResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$imageId\ =\ \$image[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$imageId)\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Relacionar\ con\ el\ hongo}}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>query(}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INSERT\ INTO\ fungi\_images\ (fungi\_id,\ image\_id)\ VALUES\ (?,\ ?)"{}},}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [\$fungiId,\ \$imageId]}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>commit();}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/fungi?updated=true'});}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{catch}\ (\(\backslash\)Exception\ \$e)\ \{}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$this-\/>db-\/>rollBack();}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{'Error:\ '}\ .\ \$e-\/>getMessage();}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Editar\ Hongo'}),}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungus'}\ =>\ \$fungus,}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'taxonomy'}\ =>\ \$taxonomy,}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'characteristics'}\ =>\ \$characteristics,}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungusImages'}\ =>\ \$fungusImages,}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00587\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -889,87 +819,87 @@ array Datos de edición de usuario
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00674}{674}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00663}{663}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00675\ \ \ \ \ \{}
-\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ \$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
-\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$userId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
-\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
-\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ end(\$parts);}
-\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ usuario}}
-\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \$userQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \$user\ =\ \$userQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=notfound'});}
-\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
-\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ \$email\ =\ \$\_POST[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \ \ \ \ \$role\ =\ \$\_POST[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
-\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \ \ \ \ \$password\ =\ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$username)\ ||\ empty(\$email))\ \{}
-\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Los\ campos\ nombre\ de\ usuario\ y\ email\ son\ obligatorios'});}
-\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ los\ campos\ a\ actualizar}}
-\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updates\ =\ [}
-\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$username,}
-\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'email'}\ =>\ \$email,}
-\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$role}
-\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ se\ proporciona\ una\ nueva\ contraseña,\ actualizarla}}
-\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$password))\ \{}
-\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ password\_hash\ nativo\ en\ lugar\ de\ depender\ de\ AuthController}}
-\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updates[\textcolor{stringliteral}{'password\_hash'}]\ =\ password\_hash(\$password,\ PASSWORD\_DEFAULT);}
-\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ la\ consulta\ dinámica}}
-\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause\ =\ [];}
-\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00664\ \ \ \ \ \{}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ \$\_GET[\textcolor{stringliteral}{'id'}]\ ??\ 0;}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$userId\ \&\&\ !empty(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}]))\ \{}
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \ \ \ \ \ \ \$parts\ =\ explode(\textcolor{charliteral}{'/'},\ trim(\$\_SERVER[\textcolor{stringliteral}{'PATH\_INFO'}],\ \textcolor{charliteral}{'/'}));}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ (int)\ end(\$parts);}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Obtener\ datos\ del\ usuario}}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \$userQuery\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \$user\ =\ \$userQuery-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?error=notfound'});}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \$error\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$\_SERVER[\textcolor{stringliteral}{'REQUEST\_METHOD'}]\ ===\ \textcolor{stringliteral}{'POST'})\ \{}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$\_POST[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \ \ \ \ \$email\ =\ \$\_POST[\textcolor{stringliteral}{'email'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ \$role\ =\ \$\_POST[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ \$password\ =\ \$\_POST[\textcolor{stringliteral}{'password'}]\ ??\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (empty(\$username)\ ||\ empty(\$email))\ \{}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Los\ campos\ nombre\ de\ usuario\ y\ email\ son\ obligatorios'});}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ los\ campos\ a\ actualizar}}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updates\ =\ [}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$username,}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'email'}\ =>\ \$email,}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$role}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ se\ proporciona\ una\ nueva\ contraseña,\ actualizarla}}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!empty(\$password))\ \{}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ password\_hash\ nativo\ en\ lugar\ de\ depender\ de\ AuthController}}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updates[\textcolor{stringliteral}{'password\_hash'}]\ =\ password\_hash(\$password,\ PASSWORD\_DEFAULT);}
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construir\ la\ consulta\ dinámica}}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause\ =\ [];}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params\ =\ [];}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$updates\ as\ \$field\ =>\ \$value)\ \{}
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$value;}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ ID\ al\ final\ de\ los\ parámetros}}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$userId;}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$setClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ ?"{}};}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ \$params);}
 \DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\$updates\ as\ \$field\ =>\ \$value)\ \{}
-\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$setClause[]\ =\ \textcolor{stringliteral}{"{}\$field\ =\ ?"{}};}
-\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$value;}
-\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ el\ ID\ al\ final\ de\ los\ parámetros}}
-\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$params[]\ =\ \$userId;}
-\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$sql\ =\ \textcolor{stringliteral}{"{}UPDATE\ users\ SET\ "{}}\ .\ implode(\textcolor{stringliteral}{',\ '},\ \$setClause)\ .\ \textcolor{stringliteral}{"{}\ WHERE\ id\ =\ ?"{}};}
-\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$this-\/>db-\/>query(\$sql,\ \$params);}
-\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result)\ \{}
-\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?updated=true'});}
-\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Error\ al\ actualizar\ el\ usuario'});}
-\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00745\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Editar\ Usuario'}),}
-\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$user,}
-\DoxyCodeLine{00748\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
-\DoxyCodeLine{00749\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
-\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00751\ \ \ \ \ \}}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$result)\ \{}
+\DoxyCodeLine{00726\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /admin/users?updated=true'});}
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$error\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Error\ al\ actualizar\ el\ usuario'});}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00735\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Editar\ Usuario'}),}
+\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'user'}\ =>\ \$user,}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message,}
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \$error}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00740\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -999,34 +929,34 @@ array Datos de gestión de hongos
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00211}{211}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00200}{200}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00212\ \ \ \ \ \{}
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \$query\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ f.common\_name,\ f.edibility\ FROM\ fungi\ f\ ORDER\ BY\ f.id\ DESC"{}});}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \$fungi\ =\ \$query-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'created'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'created'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Hongo\ creado\ correctamente'});}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'deleted'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'deleted'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Hongo\ eliminado\ correctamente'});}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'updated'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'updated'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Hongo\ actualizado\ correctamente'});}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Gestión\ de\ Hongos'}),}
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungi,}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00235\ \ \ \ \ \}}
+\DoxyCodeLine{00201\ \ \ \ \ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \$query\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ f.id,\ f.name,\ f.common\_name,\ f.edibility\ FROM\ fungi\ f\ ORDER\ BY\ f.id\ DESC"{}});}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \$fungi\ =\ \$query-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'created'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'created'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Hongo\ creado\ correctamente'});}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'deleted'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'deleted'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Hongo\ eliminado\ correctamente'});}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'updated'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'updated'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Hongo\ actualizado\ correctamente'});}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Gestión\ de\ Hongos'}),}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'fungi'}\ =>\ \$fungi,}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00224\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -1072,7 +1002,7 @@ Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00040}{40
 \end{DoxyCode}
 
 
-Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00241}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}create\+Fungi\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00105}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}create\+User\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00049}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}dashboard\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00382}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}edit\+Fungi\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00674}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}edit\+User\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00211}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}fungi\+Handler()}} y \mbox{\hyperlink{AdminController_8php_source_l00077}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}users\+Handler()}}.
+Referenciado por \mbox{\hyperlink{AdminController_8php_source_l00230}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}create\+Fungi\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00099}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}create\+User\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00049}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}dashboard\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00371}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}edit\+Fungi\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00663}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}edit\+User\+Handler()}}, \mbox{\hyperlink{AdminController_8php_source_l00200}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}fungi\+Handler()}} y \mbox{\hyperlink{AdminController_8php_source_l00075}{App\textbackslash{}\+Controllers\textbackslash{}\+Admin\+Controller\textbackslash{}users\+Handler()}}.
 
 Gráfico de llamadas a esta función\+:
 \nopagebreak
@@ -1097,32 +1027,28 @@ array Datos de gestión de usuarios
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00077}{77}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{AdminController_8php_source_l00075}{75}} del archivo \mbox{\hyperlink{AdminController_8php_source}{Admin\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00078\ \ \ \ \ \{}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \$query\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ ORDER\ BY\ id\ DESC"{}});}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \$users\ =\ \$query-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'created'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'created'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Usuario\ creado\ correctamente'});}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'deleted'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'deleted'}]\ ===\ \textcolor{stringliteral}{'true'})\ \{}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Usuario\ eliminado\ correctamente'});}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Gestión\ de\ Usuarios'}),}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'users'}\ =>\ \$users,}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$this-\/>session-\/>isAdmin())\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ header(\textcolor{stringliteral}{'Location:\ /'});}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ exit;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \$query\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ *\ FROM\ users\ ORDER\ BY\ id\ DESC"{}});}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \$users\ =\ \$query-\/>fetchAll(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \$message\ =\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'created'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'created'}]\ ===\ \textcolor{stringliteral}{'true'})\ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Usuario\ creado\ correctamente'});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_GET[\textcolor{stringliteral}{'deleted'}])\ \&\&\ \$\_GET[\textcolor{stringliteral}{'deleted'}]\ ===\ \textcolor{stringliteral}{'true'})\ \$message\ =\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Usuario\ eliminado\ correctamente'});}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'title'}\ =>\ \$this-\/>\mbox{\hyperlink{classApp_1_1Controllers_1_1AdminController_a5f474ff29288092dce6b09cea6d6ed6c}{translate}}(\textcolor{stringliteral}{'Gestión\ de\ Usuarios'}),}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'users'}\ =>\ \$users,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \$message}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
 
 \end{DoxyCode}
 

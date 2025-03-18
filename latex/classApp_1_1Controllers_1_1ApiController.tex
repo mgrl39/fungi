@@ -125,142 +125,142 @@ void Salida JSON directamente impresa
 \end{DoxyReturn}
 
 
-Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00482}{482}} del archivo \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
+Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00476}{476}} del archivo \mbox{\hyperlink{ApiController_8php_source}{Api\+Controller.\+php}}.
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00483\ \ \ \ \ \{}
-\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ DELETE}}
-\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \$apiDeleteController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiDeleteController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
-\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
-\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
-\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
-\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
-\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ \textcolor{keyword}{new}\ ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
-\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
-\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
-\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
-\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
-\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
-\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
-\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
-\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
-\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
-\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Resultado\ de\ la\ operación}}
-\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Nuevo\ caso:\ eliminar\ usuario}}
-\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^users\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \$targetUserId\ =\ \$matches[1];}
-\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ elseif\ (\$user[\textcolor{stringliteral}{'role'}]\ !==\ \textcolor{stringliteral}{'admin'})\ \{}
-\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(403);}
-\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_403}
-\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Instanciar\ el\ controlador\ de\ usuarios}}
-\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)UserController(\$this-\/>db,\ \textcolor{keyword}{new}\ \(\backslash\)\mbox{\hyperlink{namespaceApp}{App}}\(\backslash\)Controllers\(\backslash\)SessionController(\$this-\/>db));}
-\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Implementar\ método\ deleteUser\ en\ UserController\ si\ no\ existe}}
-\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (method\_exists(\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'deleteUser'}))\ \{}
-\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$deleteResult\ =\ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}-\/>deleteUser(\$targetUserId);}
-\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$deleteResult)\ \{}
+\DoxyCodeLine{00477\ \ \ \ \ \{}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Crear\ instancia\ del\ controlador\ DELETE}}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \$apiDeleteController\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)Api\(\backslash\)ApiDeleteController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ autenticación}}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \$authHeader\ =\ isset(\$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}])\ ?\ \$\_SERVER[\textcolor{stringliteral}{'HTTP\_AUTHORIZATION'}]\ :\ \textcolor{stringliteral}{''};}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \$token\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \$user\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verificar\ token\ de\ sesión\ o\ JWT}}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/Bearer\(\backslash\)s(\(\backslash\)S+)/'},\ \$authHeader,\ \$matches))\ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \$apiAuthController\ =\ \textcolor{keyword}{new}\ ApiAuthController(\$this-\/>pdo,\ \$this-\/>db);}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$payload[\textcolor{stringliteral}{'sub'}],}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$payload[\textcolor{stringliteral}{'username'}],}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$payload[\textcolor{stringliteral}{'role'}]}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Usar\ sesión\ PHP\ si\ existe}}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Resultado\ de\ la\ operación}}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Nuevo\ caso:\ eliminar\ usuario}}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^users\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \$targetUserId\ =\ \$matches[1];}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ elseif\ (\$user[\textcolor{stringliteral}{'role'}]\ !==\ \textcolor{stringliteral}{'admin'})\ \{}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(403);}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_403}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Instanciar\ el\ controlador\ de\ usuarios}}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)UserController(\$this-\/>db,\ \textcolor{keyword}{new}\ \(\backslash\)\mbox{\hyperlink{namespaceApp}{App}}\(\backslash\)Controllers\(\backslash\)SessionController(\$this-\/>db));}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Implementar\ método\ deleteUser\ en\ UserController\ si\ no\ existe}}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (method\_exists(\mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}},\ \textcolor{stringliteral}{'deleteUser'}))\ \{}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$deleteResult\ =\ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}-\/>deleteUser(\$targetUserId);}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$deleteResult)\ \{}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Usuario\ eliminado\ correctamente'}}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
 \DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Usuario\ eliminado\ correctamente'}}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Error\ al\ eliminar\ el\ usuario'}}
 \DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
-\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Error\ al\ eliminar\ el\ usuario'}}
-\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(501);}
-\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Funcionalidad\ no\ implementada'}}
-\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Mantener\ los\ endpoints\ existentes\ para\ hongos}}
-\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ hongo\ (requiere\ admin)}}
-\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>deleteFungi(\$fungiId,\ \$user);}
-\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/like\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ like\ a\ un\ hongo}}
-\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>unlikeFungi(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
-\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^user\(\backslash\)/favorites\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ un\ hongo\ de\ favoritos}}
-\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>removeFavorite(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
-\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
-\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404}
-\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
-\DoxyCodeLine{00614\ \ \ \ \ \}}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(501);}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Funcionalidad\ no\ implementada'}}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Mantener\ los\ endpoints\ existentes\ para\ hongos}}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Eliminar\ hongo\ (requiere\ admin)}}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>deleteFungi(\$fungiId,\ \$user);}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\(\backslash\)/like\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ like\ a\ un\ hongo}}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>unlikeFungi(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^user\(\backslash\)/favorites\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Quitar\ un\ hongo\ de\ favoritos}}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \$apiDeleteController-\/>removeFavorite(\$user[\textcolor{stringliteral}{'id'}],\ \$fungiId);}
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
+\DoxyCodeLine{00608\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -639,110 +639,104 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00355}{355}
 \DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \$token\ =\ \$matches[1];}
 \DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \$payload\ =\ \$apiAuthController-\/>verifyJwtToken(\$token);}
 \DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Añadir\ logging\ para\ depuración}}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ error\_log(\textcolor{stringliteral}{"{}API\ PUT\ -\/\ Payload\ del\ token:\ "{}}\ .\ json\_encode(\$payload));}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ajustar\ para\ que\ funcione\ con\ 'user\_id'\ o\ 'sub'}}
-\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ \$payload[\textcolor{stringliteral}{'user\_id'}]\ ??\ \$payload[\textcolor{stringliteral}{'sub'}]\ ??\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$payload[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'};}
-\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ role\ en\ el\ payload,\ consultar\ la\ base\ de\ datos}}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$payload[\textcolor{stringliteral}{'role'}]))\ \{}
-\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ role\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$userResult\ instanceof\ \(\backslash\)PDOStatement)\ \{}
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$userResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \$userData[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (is\_array(\$userResult)\ \&\&\ !empty(\$userResult))\ \{}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \$userResult[0][\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \$payload[\textcolor{stringliteral}{'role'}];}
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$userId,}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$username,}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$userRole}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (session\_status()\ ===\ PHP\_SESSION\_ACTIVE\ \&\&\ isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
-\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ recibidos\ en\ el\ body\ del\ PUT}}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
-\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Manejar\ actualización\ de\ usuario\ (nuevo\ caso)}}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^users\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ \$matches[1];}
-\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ }
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ elseif\ (\$user[\textcolor{stringliteral}{'role'}]\ !==\ \textcolor{stringliteral}{'admin'})\ \{}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(403);}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_403}
-\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Instanciar\ controlador\ de\ usuarios}}
-\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)UserController(\$this-\/>db,\ \textcolor{keyword}{new}\ \(\backslash\)\mbox{\hyperlink{namespaceApp}{App}}\(\backslash\)Controllers\(\backslash\)SessionController(\$this-\/>db));}
-\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Llamar\ método\ de\ actualización\ de\ usuario}}
-\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updateResult\ =\ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}-\/>updateUserProfile(\$userId,\ \$data);}
-\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$updateResult)\ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$payload)\ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Ajustar\ para\ que\ funcione\ con\ 'user\_id'\ o\ 'sub'}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ \$payload[\textcolor{stringliteral}{'user\_id'}]\ ??\ \$payload[\textcolor{stringliteral}{'sub'}]\ ??\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$username\ =\ \$payload[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'};}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Si\ no\ hay\ role\ en\ el\ payload,\ consultar\ la\ base\ de\ datos}}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isset(\$payload[\textcolor{stringliteral}{'role'}]))\ \{}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userResult\ =\ \$this-\/>db-\/>query(\textcolor{stringliteral}{"{}SELECT\ role\ FROM\ users\ WHERE\ id\ =\ ?"{}},\ [\$userId]);}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$userResult\ instanceof\ \(\backslash\)PDOStatement)\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userData\ =\ \$userResult-\/>fetch(\(\backslash\)PDO::FETCH\_ASSOC);}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \$userData[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (is\_array(\$userResult)\ \&\&\ !empty(\$userResult))\ \{}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$userRole\ =\ \$userResult[0][\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'};}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \$userRole\ =\ \$payload[\textcolor{stringliteral}{'role'}];}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$userId,}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$username,}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$userRole}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (session\_status()\ ===\ PHP\_SESSION\_ACTIVE\ \&\&\ isset(\$\_SESSION[\textcolor{stringliteral}{'user\_id'}]))\ \{}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \$user\ =\ [}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'id'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'user\_id'}],}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'username'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'username'}]\ ??\ \textcolor{stringliteral}{'Usuario'},}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'role'}\ =>\ \$\_SESSION[\textcolor{stringliteral}{'role'}]\ ??\ \textcolor{stringliteral}{'user'}}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Datos\ recibidos\ en\ el\ body\ del\ PUT}}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \$data\ =\ json\_decode(file\_get\_contents(\textcolor{stringliteral}{'php://input'}),\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \$result\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Manejar\ actualización\ de\ usuario\ (nuevo\ caso)}}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (preg\_match(\textcolor{stringliteral}{'/\string^users\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \$userId\ =\ \$matches[1];}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ elseif\ (\$user[\textcolor{stringliteral}{'role'}]\ !==\ \textcolor{stringliteral}{'admin'})\ \{}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(403);}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_403}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Instanciar\ controlador\ de\ usuarios}}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}\ =\ new\ \(\backslash\)App\(\backslash\)Controllers\(\backslash\)UserController(\$this-\/>db,\ \textcolor{keyword}{new}\ \(\backslash\)\mbox{\hyperlink{namespaceApp}{App}}\(\backslash\)Controllers\(\backslash\)SessionController(\$this-\/>db));}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Llamar\ método\ de\ actualización\ de\ usuario}}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$updateResult\ =\ \mbox{\hyperlink{routes_8php_ab98c1855a5ef469dd8a4c83ed3b45a88}{\$userController}}-\/>updateUserProfile(\$userId,\ \$data);}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\$updateResult)\ \{}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Usuario\ actualizado\ correctamente'}}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
 \DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{true},}
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'message'}\ =>\ \textcolor{stringliteral}{'Usuario\ actualizado\ correctamente'}}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Error\ al\ actualizar\ el\ usuario'}}
 \DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(500);}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [}
-\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},}
-\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{'error'}\ =>\ \textcolor{stringliteral}{'Error\ al\ actualizar\ el\ usuario'}}
-\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ];}
-\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Mantener\ el\ endpoint\ existente\ para\ hongos}}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [\ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED\ ];}
-\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>updateFungi(\$fungiId,\ \$data,\ \$user);}
-\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
-\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Establecer\ código\ de\ estado\ HTTP\ basado\ en\ el\ resultado}}
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$result[\textcolor{stringliteral}{'success'}])\ \{}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$result[\textcolor{stringliteral}{'error'}],\ \textcolor{stringliteral}{'permisos'})\ !==\ \textcolor{keyword}{false})\ http\_response\_code(403);}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strpos(\$result[\textcolor{stringliteral}{'error'}],\ \textcolor{stringliteral}{'no\ existe'})\ !==\ \textcolor{keyword}{false})\ http\_response\_code(404);}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strpos(\$result[\textcolor{stringliteral}{'error'}],\ \textcolor{stringliteral}{'no\ se\ proporcionaron\ campos'})\ !==\ \textcolor{keyword}{false})\ http\_response\_code(400);}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ http\_response\_code(500);}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
-\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [\ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404\ ];}
-\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
-\DoxyCodeLine{00472\ \ \ \ \ \}}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Mantener\ el\ endpoint\ existente\ para\ hongos}}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ elseif\ (preg\_match(\textcolor{stringliteral}{'/\string^fungi\(\backslash\)/(\(\backslash\)d+)\$/'},\ \$endpoint,\ \$matches))\ \{}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \$fungiId\ =\ \$matches[1];}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$user)\ \{}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(401);}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [\ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::AUTH\_REQUIRED\ ];}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ \mbox{\hyperlink{routes_8php_a0bbc1d7715d0f934d799d5556a9216bf}{\$fungiController}}-\/>updateFungi(\$fungiId,\ \$data,\ \$user);}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Establecer\ código\ de\ estado\ HTTP\ basado\ en\ el\ resultado}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\$result[\textcolor{stringliteral}{'success'}])\ \{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strpos(\$result[\textcolor{stringliteral}{'error'}],\ \textcolor{stringliteral}{'permisos'})\ !==\ \textcolor{keyword}{false})\ http\_response\_code(403);}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strpos(\$result[\textcolor{stringliteral}{'error'}],\ \textcolor{stringliteral}{'no\ existe'})\ !==\ \textcolor{keyword}{false})\ http\_response\_code(404);}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (strpos(\$result[\textcolor{stringliteral}{'error'}],\ \textcolor{stringliteral}{'no\ se\ proporcionaron\ campos'})\ !==\ \textcolor{keyword}{false})\ http\_response\_code(400);}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ http\_response\_code(500);}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ http\_response\_code(404);}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \$result\ =\ [\ \textcolor{stringliteral}{'success'}\ =>\ \textcolor{keyword}{false},\ \textcolor{stringliteral}{'error'}\ =>\ ErrorMessages::HTTP\_404\ ];}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ echo\ json\_encode(\$result);}
+\DoxyCodeLine{00466\ \ \ \ \ \}}
 
 \end{DoxyCode}
 
@@ -826,7 +820,7 @@ Definición en la línea \mbox{\hyperlink{ApiController_8php_source_l00060}{60}}
 \end{DoxyCode}
 
 
-Hace referencia a \mbox{\hyperlink{routes_8php_source_l00021}{\$uri}}, \mbox{\hyperlink{ApiController_8php_source_l00482}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Delete()}}, \mbox{\hyperlink{ApiController_8php_source_l00105}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Get()}}, \mbox{\hyperlink{ApiController_8php_source_l00223}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Post()}}, \mbox{\hyperlink{ApiController_8php_source_l00355}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Put()}} y \mbox{\hyperlink{DocsController_8php_source_l00188}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\textbackslash{}show()}}.
+Hace referencia a \mbox{\hyperlink{routes_8php_source_l00021}{\$uri}}, \mbox{\hyperlink{ApiController_8php_source_l00476}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Delete()}}, \mbox{\hyperlink{ApiController_8php_source_l00105}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Get()}}, \mbox{\hyperlink{ApiController_8php_source_l00223}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Post()}}, \mbox{\hyperlink{ApiController_8php_source_l00355}{App\textbackslash{}\+Controllers\textbackslash{}\+Api\+Controller\textbackslash{}handle\+Put()}} y \mbox{\hyperlink{DocsController_8php_source_l00188}{App\textbackslash{}\+Controllers\textbackslash{}\+Docs\+Controller\textbackslash{}show()}}.
 
 Gráfico de llamadas de esta función\+:
 \nopagebreak
